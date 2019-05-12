@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="【原理】（1）MySQL的表的三种类型
+（2）如何创建表、删除表
+（3）如何改变表的结构、名字
+（4）如何使用mysqlshow使用程序
+
+【步骤】一、Mysql数据表的基本操作1.1 启动mysql服务1service mysqld restart
+
+1.2 进入mysql1mysql
+
+1.3 ">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Mysql数据库（六） — 数据表操作">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="【原理】（1）MySQL的表的三种类型
+（2）如何创建表、删除表
+（3）如何改变表的结构、名字
+（4）如何使用mysqlshow使用程序
+
+【步骤】一、Mysql数据表的基本操作1.1 启动mysql服务1service mysqld restart
+
+1.2 进入mysql1mysql
+
+1.3 ">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Mysql数据库（六） — 数据表操作 - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/171206/231312-1512573192ad02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Mysql数据库（六） — 数据表操作</h1>
+                    
+                    <h2 class="post-subheading">
+                        MySQL5数据库数据表操作的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-02-06
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Mysql数据库/">#Mysql数据库</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）MySQL的表的三种类型</p>
+<p>（2）如何创建表、删除表</p>
+<p>（3）如何改变表的结构、名字</p>
+<p>（4）如何使用mysqlshow使用程序</p>
+<hr>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、Mysql数据表的基本操作"><a href="#一、Mysql数据表的基本操作" class="headerlink" title="一、Mysql数据表的基本操作"></a>一、Mysql数据表的基本操作</h3><h4 id="1-1-启动mysql服务"><a href="#1-1-启动mysql服务" class="headerlink" title="1.1 启动mysql服务"></a>1.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B0/1-1.png" alt="1-1"></p>
+<h4 id="1-2-进入mysql"><a href="#1-2-进入mysql" class="headerlink" title="1.2 进入mysql"></a>1.2 进入mysql</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B0/1-2.png" alt="1-2"></p>
+<h4 id="1-3-用show-descrtbe语句显示数据表"><a href="#1-3-用show-descrtbe语句显示数据表" class="headerlink" title="1.3 用show/descrtbe语句显示数据表"></a>1.3 用show/descrtbe语句显示数据表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show table [from db_name] [like wild]</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-3.png" alt="1-3"></p>
+<h4 id="1-4-列出在一个给定表中的列"><a href="#1-4-列出在一个给定表中的列" class="headerlink" title="1.4 列出在一个给定表中的列"></a>1.4 列出在一个给定表中的列</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show columns from tbl_name [from db_name] [like wild]</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-4.png" alt="1-4"></p>
+<h4 id="1-5-列出一个表的索引"><a href="#1-5-列出一个表的索引" class="headerlink" title="1.5 列出一个表的索引"></a>1.5 列出一个表的索引</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show index from tbl_name [from db_name]</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-5.png" alt="1-5"></p>
+<h4 id="1-6-列出数据表以及表状态信息"><a href="#1-6-列出数据表以及表状态信息" class="headerlink" title="1.6 列出数据表以及表状态信息"></a>1.6 列出数据表以及表状态信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show table status [from db_name] [like wild]</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-6.png" alt="1-6"></p>
+<h4 id="1-7-用dscribe查看表的列信息"><a href="#1-7-用dscribe查看表的列信息" class="headerlink" title="1.7 用dscribe查看表的列信息"></a>1.7 用dscribe查看表的列信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;describe|desc&#125; tbl_name &#123;col_name|wild&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-7.png" alt="1-7"></p>
+<h4 id="1-8-使用mysqlshow工具得到信息，得到已有数据列的列表"><a href="#1-8-使用mysqlshow工具得到信息，得到已有数据列的列表" class="headerlink" title="1.8 使用mysqlshow工具得到信息，得到已有数据列的列表"></a>1.8 使用mysqlshow工具得到信息，得到已有数据列的列表</h4><p>先创建用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password &apos;123456789&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-8.png" alt="1-8"></p>
+<p>列出某数据库db_name中已有的表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlshow db_name</span><br></pre></td></tr></table></figure>
+<p>列出某数据表db_name.tbl_name的结构信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlshow db_name.tbl_name</span><br></pre></td></tr></table></figure>
+<p>列出一张表的索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlshow -k db_name.tbl_name</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-8-2.png" alt="1-8-2"></p>
+<h4 id="1-9-创建mytest和guestbook数据表"><a href="#1-9-创建mytest和guestbook数据表" class="headerlink" title="1.9 创建mytest和guestbook数据表"></a>1.9 创建mytest和guestbook数据表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create database mytest;</span><br><span class="line"></span><br><span class="line">use mytest;</span><br><span class="line">create table guestbook (visitor varchar(40),comment text,entrydate datetime);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-9.png" alt="1-9"></p>
+<h4 id="1-10-创建test表"><a href="#1-10-创建test表" class="headerlink" title="1.10 创建test表"></a>1.10 创建test表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table test (b int not null auto_increment,c int,key (b));</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-10.png" alt="1-10"></p>
+<h4 id="1-11-创建table1在create语句后指定一个select，mysql将为在select中的所有单元创建新字段"><a href="#1-11-创建table1在create语句后指定一个select，mysql将为在select中的所有单元创建新字段" class="headerlink" title="1.11 创建table1在create语句后指定一个select，mysql将为在select中的所有单元创建新字段"></a>1.11 创建table1在create语句后指定一个select，mysql将为在select中的所有单元创建新字段</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show columns from test from mytest;</span><br><span class="line">create table test1 (a int no null auto_increament,key(a),key(b)) select b,c from test;</span><br><span class="line">show columns from test1 from mytest;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-11.png" alt="1-11"></p>
+<h4 id="1-12-选择一个表的全部内容，拷贝一个表"><a href="#1-12-选择一个表的全部内容，拷贝一个表" class="headerlink" title="1.12 选择一个表的全部内容，拷贝一个表"></a>1.12 选择一个表的全部内容，拷贝一个表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create table test2 select * from test;</span><br><span class="line">show columns from test2 from mytest;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-12.png" alt="1-12"></p>
+<h4 id="1-13-利用一个总是失败的where子句来创建一个空表"><a href="#1-13-利用一个总是失败的where子句来创建一个空表" class="headerlink" title="1.13 利用一个总是失败的where子句来创建一个空表"></a>1.13 利用一个总是失败的where子句来创建一个空表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table test3 select * from test where 0;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-13.png" alt="1-13"></p>
+<h4 id="1-14-用alter-table语句增加列修改表的结构"><a href="#1-14-用alter-table语句增加列修改表的结构" class="headerlink" title="1.14 用alter table语句增加列修改表的结构"></a>1.14 用alter table语句增加列修改表的结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table test add d int;</span><br><span class="line">show columns from test from mytest;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-14.png" alt="1-14"></p>
+<h4 id="1-15-alter改变列语法"><a href="#1-15-alter改变列语法" class="headerlink" title="1.15 alter改变列语法"></a>1.15 alter改变列语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table test modify c char;</span><br><span class="line">desc test;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-15.png" alt="1-15"></p>
+<h4 id="1-16-利用alter更改表名"><a href="#1-16-利用alter更改表名" class="headerlink" title="1.16 利用alter更改表名"></a>1.16 利用alter更改表名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table tbl_name rename new_tbl；</span><br><span class="line">show tables;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-16.png" alt="1-16"></p>
+<h4 id="1-17-用drop-table语句删除一个或者多个表"><a href="#1-17-用drop-table语句删除一个或者多个表" class="headerlink" title="1.17 用drop table语句删除一个或者多个表"></a>1.17 用drop table语句删除一个或者多个表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop table test1;</span><br><span class="line">show tables;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/1-17.png" alt="1-17"></p>
+<hr>
+<h3 id="二、向数据表中插入数据"><a href="#二、向数据表中插入数据" class="headerlink" title="二、向数据表中插入数据"></a>二、向数据表中插入数据</h3><h4 id="2-1-使用insert语句插入新数据，先创建表"><a href="#2-1-使用insert语句插入新数据，先创建表" class="headerlink" title="2.1 使用insert语句插入新数据，先创建表"></a>2.1 使用insert语句插入新数据，先创建表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table student(name varchar(20) not null,age int not null);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/2-1.png" alt="2-1"></p>
+<h4 id="2-2-插入数据"><a href="#2-2-插入数据" class="headerlink" title="2.2 插入数据"></a>2.2 插入数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into student values (&apos;jake&apos;,21);</span><br><span class="line">insert into student values (&apos;jake&apos;,22),(&apos;tony&apos;,23);</span><br><span class="line">select * from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/2-2.png" alt="2-2"></p>
+<h4 id="2-3"><a href="#2-3" class="headerlink" title="2.3"></a>2.3</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table number (col1 int,col2 int);</span><br><span class="line">insert into number (col1,col2) values (15,col1+2);</span><br><span class="line">select * from number;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/2-3.png" alt="2-3"></p>
+<h4 id="2-4-使用insert…select语句插入从其他表选择的行"><a href="#2-4-使用insert…select语句插入从其他表选择的行" class="headerlink" title="2.4 使用insert…select语句插入从其他表选择的行"></a>2.4 使用insert…select语句插入从其他表选择的行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table number2 (col3 int,col4 int);</span><br><span class="line">insert into number2 (col3,col4) select col1,col2 from number;</span><br><span class="line">select * from number2;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/2-4.png" alt="2-4"></p>
+<hr>
+<h3 id="三、查询数据表中的记录"><a href="#三、查询数据表中的记录" class="headerlink" title="三、查询数据表中的记录"></a>三、查询数据表中的记录</h3><h4 id="3-1-select最简单的检索"><a href="#3-1-select最简单的检索" class="headerlink" title="3.1 select最简单的检索"></a>3.1 select最简单的检索</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from number;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/3-1.png" alt="3-1"></p>
+<h4 id="3-2-查询特定行"><a href="#3-2-查询特定行" class="headerlink" title="3.2 查询特定行"></a>3.2 查询特定行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name = &apos;jake&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/3-2.png" alt="3-2"></p>
+<h4 id="3-3-查询特定列"><a href="#3-3-查询特定列" class="headerlink" title="3.3 查询特定列"></a>3.3 查询特定列</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where age = &apos;22&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/3-3.png" alt="3-3"></p>
+<h4 id="3-4-条件查询"><a href="#3-4-条件查询" class="headerlink" title="3.4 条件查询"></a>3.4 条件查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where age &gt; &apos;10&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/3-4.png" alt="3-4"></p>
+<h4 id="3-5-组合条件查询"><a href="#3-5-组合条件查询" class="headerlink" title="3.5 组合条件查询"></a>3.5 组合条件查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where age &gt; &apos;21&apos; and name = &apos;jake&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/3-5.png" alt="3-5"></p>
+<h4 id="3-6-组合条件查询——or"><a href="#3-6-组合条件查询——or" class="headerlink" title="3.6 组合条件查询——or"></a>3.6 组合条件查询——or</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name = &apos;jake&apos; or age &lt; &apos;10&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/3-6.png" alt="3-6"></p>
+<h4 id="3-7-查询排序"><a href="#3-7-查询排序" class="headerlink" title="3.7 查询排序"></a>3.7 查询排序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student order by age;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/3-7.png" alt="3-7"></p>
+<h4 id="3-8-查询排序逆序排序"><a href="#3-8-查询排序逆序排序" class="headerlink" title="3.8 查询排序逆序排序"></a>3.8 查询排序逆序排序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student order by age desc;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/3-7.png" alt="3-8"></p>
+<hr>
+<h3 id="四、查询分组和行技术"><a href="#四、查询分组和行技术" class="headerlink" title="四、查询分组和行技术"></a>四、查询分组和行技术</h3><h4 id="4-1-group-by语句"><a href="#4-1-group-by语句" class="headerlink" title="4.1 group by语句"></a>4.1 group by语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student group by age;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/4-1.png" alt="4-1"></p>
+<h4 id="4-2-count-函数计数非NULL结果"><a href="#4-2-count-函数计数非NULL结果" class="headerlink" title="4.2 count()函数计数非NULL结果"></a>4.2 count()函数计数非NULL结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/4-2.png" alt="4-2"></p>
+<h4 id="4-3-计算age为非空的记录数目"><a href="#4-3-计算age为非空的记录数目" class="headerlink" title="4.3 计算age为非空的记录数目"></a>4.3 计算age为非空的记录数目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(age) from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/4-3.png" alt="4-3"></p>
+<h4 id="4-4-创建一个表并添加内容"><a href="#4-4-创建一个表并添加内容" class="headerlink" title="4.4 创建一个表并添加内容"></a>4.4 创建一个表并添加内容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">create table student (name varchar(10),teacher varchar(10),age int,sex varchar(10),sno varchar(20));</span><br><span class="line"></span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;wanglin&apos;,&apos;jake&apos;,&apos;20&apos;,&apos;woman&apos;,&apos;201902&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;liming&apos;,&apos;tony&apos;,&apos;22&apos;,&apos;man&apos;,&apos;201903&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;fang&apos;,&apos;tony&apos;,&apos;22&apos;,&apos;woman&apos;,&apos;201904&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;limeng&apos;,&apos;benny&apos;,&apos;23&apos;,&apos;women&apos;,&apos;201905&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;liuhu&apos;,&apos;benny&apos;,&apos;23&apos;,&apos;woman&apos;,&apos;201906&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;haha&apos;,&apos;benny&apos;,&apos;NULL&apos;,&apos;man&apos;,&apos;201906&apos;);</span><br><span class="line"></span><br><span class="line">select * from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/4-4.png" alt="4-4"></p>
+<h4 id="4-5-用update修改记录"><a href="#4-5-用update修改记录" class="headerlink" title="4.5 用update修改记录"></a>4.5 用update修改记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update students set sex = &apos;man&apos; where name = &apos;wanglin&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/4-5.png" alt="4-5"></p>
+<h4 id="4-6-用delete删除记录"><a href="#4-6-用delete删除记录" class="headerlink" title="4.6 用delete删除记录"></a>4.6 用delete删除记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">delete from students where name = &apos;haha&apos;;</span><br><span class="line">select * from students</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/4-6.png" alt="4-6"></p>
+<h4 id="4-7-清空整个表"><a href="#4-7-清空整个表" class="headerlink" title="4.7 清空整个表"></a>4.7 清空整个表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">delete from students;</span><br><span class="line">select * from students;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%93%8D%E4%BD%9C/4-7.png" alt="4-7"></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="【原理】（1）数据类型是为了把数据分成所需内存大小不同的数据，编程的时候需要用大数据的时候，才需要申请大内存，就可以充分利用内存。
+（2）数据类型：
+字符串：字符串是字符序列，可以是引号内的任何文本
+整数：整数不能有小数点、正负均可，可以用三种格式规定整数：十进制、十六进制（前缀为0x）或八进制（前">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="PHP语法（十八） — 数据类型">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="【原理】（1）数据类型是为了把数据分成所需内存大小不同的数据，编程的时候需要用大数据的时候，才需要申请大内存，就可以充分利用内存。
+（2）数据类型：
+字符串：字符串是字符序列，可以是引号内的任何文本
+整数：整数不能有小数点、正负均可，可以用三种格式规定整数：十进制、十六进制（前缀为0x）或八进制（前">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>PHP语法（十八） — 数据类型 - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/190213/211447-15500636875a0e.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>PHP语法（十八） — 数据类型</h1>
+                    
+                    <h2 class="post-subheading">
+                        PHP语法之数据类型的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-03-01
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/PHP语法/">#PHP语法</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）数据类型是为了把数据分成所需内存大小不同的数据，编程的时候需要用大数据的时候，才需要申请大内存，就可以充分利用内存。</p>
+<p>（2）数据类型：</p>
+<p><strong>字符串</strong>：字符串是字符序列，可以是引号内的任何文本</p>
+<p><strong>整数</strong>：整数不能有小数点、正负均可，可以用三种格式规定整数：十进制、十六进制（前缀为0x）或八进制（前缀为0）</p>
+<p><strong>浮点数</strong>：浮点数是有小数点或指数形式的数组</p>
+<p><strong>逻辑</strong>：逻辑是true或false，常用于条件判断</p>
+<p><strong>数组</strong>：数组元素是组成数组的基本单元。数组元素也是一种变量，其标识方法为数组名后跟一个下标。下标表示了元素在数组中的顺序号。数组元素的一般形式为：数组名[下标]其中的下标只能为整形常量或整形表达式</p>
+<p><strong>对象</strong>：对象是存储数据和处理数据方式的数据类型，在PHP中，必须明确的声明对象，必须声明对象的类（关键词class）。类是包含属性和方法的结构。在对象中定义数据类型，在该类的事例中使用此数据类型</p>
+<p><strong>NULL</strong>：NULL值表示变量无值，表示变量是否为空。区别空字符与空值数据库</p>
+<p>（3）<strong>var_dump()</strong>函数会返回变量的数据类型</p>
+<hr>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、字符串"><a href="#一、字符串" class="headerlink" title="一、字符串"></a>一、字符串</h3><h4 id="输入代码"><a href="#输入代码" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo &quot;Hello World!&quot;</span><br><span class="line">echo &apos;Hello World!&apos;;</span><br><span class="line">echo &quot;&apos;Hello World!&apos;&quot;;</span><br><span class="line">echo &apos;&quot;Hello World!&quot;&apos;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/1-1.png" alt="1-1"></p>
+<h4 id="查看结果"><a href="#查看结果" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/1-2.png" alt="1-2"></p>
+<hr>
+<h3 id="二、整数"><a href="#二、整数" class="headerlink" title="二、整数"></a>二、整数</h3><h4 id="输入代码-1"><a href="#输入代码-1" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">var_dump(222);	//正数</span><br><span class="line">echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">var_dump(-222);	//负数</span><br><span class="line">echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">var_dump(0x2c);	//十六进制</span><br><span class="line">echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">var_dump(021);	//八进制</span><br><span class="line">echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/2-1.png" alt="2-1"></p>
+<h4 id="查看结果-1"><a href="#查看结果-1" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/2-2.png" alt="2-2"></p>
+<hr>
+<h3 id="三、浮点数"><a href="#三、浮点数" class="headerlink" title="三、浮点数"></a>三、浮点数</h3><h4 id="输入代码-2"><a href="#输入代码-2" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">var_dump(2.1);</span><br><span class="line">echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">var_dump(2.1e3);</span><br><span class="line">echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">var_dump(2e-3);</span><br><span class="line">echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/3-1.png" alt="3-1"></p>
+<h4 id="查看结果-2"><a href="#查看结果-2" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/3-2.png" alt="3-2"></p>
+<hr>
+<h3 id="四、逻辑"><a href="#四、逻辑" class="headerlink" title="四、逻辑"></a>四、逻辑</h3><p>逻辑是<strong>true</strong>或<strong>false</strong>，常用于条件判断。后期将会用到</p>
+<hr>
+<h3 id="五、数组"><a href="#五、数组" class="headerlink" title="五、数组"></a>五、数组</h3><h4 id="输入代码-3"><a href="#输入代码-3" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = array(&quot;字符串&quot;,2.1,100);</span><br><span class="line">var_dump($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/5-1.png" alt="5-1"></p>
+<h4 id="查看结果-3"><a href="#查看结果-3" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/5-2.png" alt="5-2"></p>
+<hr>
+<h3 id="六、对象"><a href="#六、对象" class="headerlink" title="六、对象"></a>六、对象</h3><h4 id="输入代码-4"><a href="#输入代码-4" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">header(Content-type: text/html,charset=utf-8);</span><br><span class="line">//如果出现乱码，输入上面这行，将输出后的编码设置为utf-8</span><br><span class="line"></span><br><span class="line">class Student&#123;</span><br><span class="line">    function Student()&#123;</span><br><span class="line">        print &quot;上课铃响了，老师走进了教室。&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$Tom = new Student();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/6-1.png" alt="6-1"></p>
+<h4 id="查看结果-4"><a href="#查看结果-4" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/6-2.png" alt="6-2"></p>
+<hr>
+<h3 id="七、NULL"><a href="#七、NULL" class="headerlink" title="七、NULL"></a>七、NULL</h3><h4 id="输入代码-5"><a href="#输入代码-5" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = 100;</span><br><span class="line">var_dump($a);</span><br><span class="line"></span><br><span class="line">echo &quot;&lt;/br&gt;------------------我是分割线--------------------&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">$a = NULL;</span><br><span class="line">var_dump($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/7-1.png" alt="7-1"></p>
+<h4 id="查看结果-5"><a href="#查看结果-5" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/7-2.png" alt="7-2"></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

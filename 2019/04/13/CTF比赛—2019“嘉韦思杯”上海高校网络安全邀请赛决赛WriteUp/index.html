@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="各种WriteUp
+第一题（小岗村的故事）题型：misc
+题目提示图片有秘密在里面
+
+将图片下载下来，用binwalk分析，有东西，用dd命令分离出来
+
+解压时发现需要密码，放到winhex里面看一下，文件末尾有提示
+
+输入之后，成功解压下来flag.txt
+
+flag{oho_oho_oho}
+
+">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="2019“嘉韦思杯”上海高校网络安全邀请赛 — 决赛WriteUp">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="各种WriteUp
+第一题（小岗村的故事）题型：misc
+题目提示图片有秘密在里面
+
+将图片下载下来，用binwalk分析，有东西，用dd命令分离出来
+
+解压时发现需要密码，放到winhex里面看一下，文件末尾有提示
+
+输入之后，成功解压下来flag.txt
+
+flag{oho_oho_oho}
+
+">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>2019“嘉韦思杯”上海高校网络安全邀请赛 — 决赛WriteUp - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>2019“嘉韦思杯”上海高校网络安全邀请赛 — 决赛WriteUp</h1>
+                    
+                    <h2 class="post-subheading">
+                        2019“嘉韦思杯”上海高校网络安全邀请赛线上决赛WriteUp
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-04-13
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/CTF比赛/">#CTF比赛</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="各种WriteUp"><a href="#各种WriteUp" class="headerlink" title="各种WriteUp"></a>各种WriteUp</h3><hr>
+<h3 id="第一题（小岗村的故事）"><a href="#第一题（小岗村的故事）" class="headerlink" title="第一题（小岗村的故事）"></a>第一题（小岗村的故事）</h3><p><code>题型：misc</code></p>
+<p>题目提示<code>图片</code>有秘密在里面</p>
+<p><img src alt="1-1"></p>
+<p>将图片下载下来，用<code>binwalk</code>分析，有东西，用<code>dd命令</code>分离出来</p>
+<p><img src alt="1-2"></p>
+<p>解压时发现需要密码，放到<code>winhex</code>里面看一下，文件末尾有提示</p>
+<p><img src alt="1-3"></p>
+<p>输入之后，成功解压下来<code>flag.txt</code></p>
+<p><img src alt="1-4"></p>
+<p><code>flag{oho_oho_oho}</code></p>
+<hr>
+<h3 id="第二题（三农聚焦）"><a href="#第二题（三农聚焦）" class="headerlink" title="第二题（三农聚焦）"></a>第二题（三农聚焦）</h3><p><code>题型：misc</code></p>
+<p>链接进去后，下载下来<code>flag.zip</code>，尝试解压时发现要密码，用<code>winhex</code>打开，发现是<code>伪加密</code></p>
+<p><img src alt="2-1"></p>
+<p>修改完后，解压下载一张图片，拿去<code>binwalk</code>看一下有东西，用<code>foremost</code>命令分离出来</p>
+<p><img src alt="2-2"></p>
+<p>在<code>output - jpg</code>里面有另外一张图片，浏览一下，发现图片底下有<code>16进制</code></p>
+<p><img src alt="2-3"></p>
+<p>拿去<code>Notepad++</code>的<code>Hex转ASCII</code>一下，得到flag</p>
+<p><img src alt="2-4"></p>
+<p><code>flag{m1st_is_s0_34sy}</code></p>
+<hr>
+<h3 id="第三题（通信进程）"><a href="#第三题（通信进程）" class="headerlink" title="第三题（通信进程）"></a>第三题（通信进程）</h3><p><code>题型：流量分析</code></p>
+<p>下载下来一个文件：<code>capture.pcap</code>，用<code>Wireshark</code>打开</p>
+<h3 id="第四题（自主创新）"><a href="#第四题（自主创新）" class="headerlink" title="第四题（自主创新）"></a>第四题（自主创新）</h3><p><code>题型：Reverse</code></p>
+<h3 id="第五题（高铁提速）"><a href="#第五题（高铁提速）" class="headerlink" title="第五题（高铁提速）"></a>第五题（高铁提速）</h3><p><code>题型：Web</code></p>
+<p>扫描得到地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://172.20.3.35:81/3/.svn/text-base/index.php.svn-base.txt</span><br></pre></td></tr></table></figure>
+<p>链接进去后看到源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">$user = $_COOKIE[<span class="string">'user'</span>];</span><br><span class="line">$code = $_GET[<span class="string">'code'</span>]?(int)$_GET[<span class="string">'code'</span>]:<span class="string">''</span>;</span><br><span class="line"><span class="keyword">if</span>($user == <span class="string">'admin'</span> &amp;&amp; !<span class="keyword">empty</span>($code)) &#123;</span><br><span class="line">	</span><br><span class="line">	$hex = (int)$code;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(($hex ^ <span class="number">6789</span>) === <span class="number">0xCDEF</span>) &#123;</span><br><span class="line">		<span class="keyword">require</span>(<span class="string">"flag.php"</span>);</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br><span class="line">		<span class="keyword">exit</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"缺少应有的参数,你没有权限查看本内容"</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>本地写个<code>PHP</code>，得到<code>code=55146</code></p>
+<p><img src alt="5-1"></p>
+<p>传参：<code>code=55146</code>、<code>user=admin</code>，拿下flag</p>
+<p><code>flag{XUMn1ClSUL4x8u}</code></p>
+<hr>
+<p><code>$user = admin</code></p>
+<h3 id="第六题（教育改革）"><a href="#第六题（教育改革）" class="headerlink" title="第六题（教育改革）"></a>第六题（教育改革）</h3><p><code>题型：Reverse</code></p>
+<h3 id="第七题（一国两制）"><a href="#第七题（一国两制）" class="headerlink" title="第七题（一国两制）"></a>第七题（一国两制）</h3><p><code>题型：Web</code></p>
+<h3 id="第八题（两屏三带）"><a href="#第八题（两屏三带）" class="headerlink" title="第八题（两屏三带）"></a>第八题（两屏三带）</h3><p><code>题型：Reverse</code></p>
+<h3 id="第九题（发展民生）"><a href="#第九题（发展民生）" class="headerlink" title="第九题（发展民生）"></a>第九题（发展民生）</h3><p><code>题型：Web</code></p>
+<p>链接进去后得到提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">This is a secret </span><br><span class="line"></span><br><span class="line">I received a string of ciphertext that it has been encrypted via XOR and AES in CBC mode, if you decrypt it out, you will find a gift </span><br><span class="line">88044a62a6dbc963f0567e00f2934c620a41585b95a3d394690cfbde9f1b3fc76e756d62657220697320612039353237</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">AES secret key： </span><br><span class="line">balabala19731512</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">This file may be helpful to you</span><br></pre></td></tr></table></figure>
+<h3 id="第十题（未来可期）"><a href="#第十题（未来可期）" class="headerlink" title="第十题（未来可期）"></a>第十题（未来可期）</h3><p><code>题型：Reverse</code></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

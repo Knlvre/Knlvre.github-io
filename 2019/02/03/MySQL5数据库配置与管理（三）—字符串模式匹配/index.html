@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="【原理】SQL的模式匹配允许你使用“_”匹配任何单个字符，而“%”匹配任何数据字符
+
+【步骤】一、环境构建1.1 启动mysql服务1service mysqld restart
+
+1.2 进入mysql1mysql
+
+1.3 创建mytest数据库1create database mytest;
+">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Mysql数据库（三） — 字符串模式匹配">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="【原理】SQL的模式匹配允许你使用“_”匹配任何单个字符，而“%”匹配任何数据字符
+
+【步骤】一、环境构建1.1 启动mysql服务1service mysqld restart
+
+1.2 进入mysql1mysql
+
+1.3 创建mytest数据库1create database mytest;
+">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Mysql数据库（三） — 字符串模式匹配 - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/171206/231312-1512573192ad02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Mysql数据库（三） — 字符串模式匹配</h1>
+                    
+                    <h2 class="post-subheading">
+                        MySQL5数据库字符串模式匹配的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-02-03
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Mysql数据库/">#Mysql数据库</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>SQL的模式匹配允许你使用<strong>“_”</strong>匹配任何单个字符，而<strong>“%”</strong>匹配任何数据字符</p>
+<hr>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、环境构建"><a href="#一、环境构建" class="headerlink" title="一、环境构建"></a>一、环境构建</h3><h4 id="1-1-启动mysql服务"><a href="#1-1-启动mysql服务" class="headerlink" title="1.1 启动mysql服务"></a>1.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/1-1.png" alt="1-1"></p>
+<h4 id="1-2-进入mysql"><a href="#1-2-进入mysql" class="headerlink" title="1.2 进入mysql"></a>1.2 进入mysql</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/1-2.png" alt="1-2"></p>
+<h4 id="1-3-创建mytest数据库"><a href="#1-3-创建mytest数据库" class="headerlink" title="1.3 创建mytest数据库"></a>1.3 创建mytest数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database mytest;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/1-3.png" alt="1-3"></p>
+<h4 id="1-4-使用mytest"><a href="#1-4-使用mytest" class="headerlink" title="1.4 使用mytest"></a>1.4 使用mytest</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use mytest;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/1-4.png" alt="1-4"></p>
+<h4 id="1-5-建立student表创建一个表并添加内容"><a href="#1-5-建立student表创建一个表并添加内容" class="headerlink" title="1.5 建立student表创建一个表并添加内容"></a>1.5 建立student表创建一个表并添加内容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">create table student (name varchar(10),teacher varchar(10),age int,sex varchar(10),sno varchar(20));</span><br><span class="line"></span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;wanglin&apos;,&apos;jake&apos;,&apos;20&apos;,&apos;woman&apos;,&apos;201902&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;liming&apos;,&apos;tony&apos;,&apos;22&apos;,&apos;man&apos;,&apos;201903&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;fang&apos;,&apos;tony&apos;,&apos;22&apos;,&apos;woman&apos;,&apos;201904&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;limeng&apos;,&apos;benny&apos;,&apos;23&apos;,&apos;women&apos;,&apos;201905&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno) values (&apos;liuhu&apos;,&apos;benny&apos;,&apos;23&apos;,&apos;woman&apos;,&apos;201906&apos;);</span><br><span class="line"></span><br><span class="line">select * from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/1-5.png" alt="1-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/1-5-2.png" alt="1-5-2"></p>
+<hr>
+<h3 id="二、标准的SQL模式匹配"><a href="#二、标准的SQL模式匹配" class="headerlink" title="二、标准的SQL模式匹配"></a>二、标准的SQL模式匹配</h3><h4 id="2-1-在表student中，找”l”开头的名字"><a href="#2-1-在表student中，找”l”开头的名字" class="headerlink" title="2.1 在表student中，找”l”开头的名字"></a>2.1 在表student中，找”l”开头的名字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name like &quot;l%&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/2-1.png" alt="2-1"></p>
+<h4 id="2-2-找出以”u”结尾的名字"><a href="#2-2-找出以”u”结尾的名字" class="headerlink" title="2.2 找出以”u”结尾的名字"></a>2.2 找出以”u”结尾的名字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name like &quot;%u&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/2-2.png" alt="2-2"></p>
+<h4 id="2-3-找出包含一个”u”的名字"><a href="#2-3-找出包含一个”u”的名字" class="headerlink" title="2.3 找出包含一个”u”的名字"></a>2.3 找出包含一个”u”的名字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name like &quot;%u%&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/2-3.png" alt="2-3"></p>
+<h4 id="2-4-使用”-”字符，找出包含正好5个字符的名字"><a href="#2-4-使用”-”字符，找出包含正好5个字符的名字" class="headerlink" title="2.4 使用”_”字符，找出包含正好5个字符的名字"></a>2.4 使用”_”字符，找出包含正好5个字符的名字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name like &quot;_____&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/2-4.png" alt="2-4"></p>
+<hr>
+<h3 id="三、扩展正则表达式模式匹配"><a href="#三、扩展正则表达式模式匹配" class="headerlink" title="三、扩展正则表达式模式匹配"></a>三、扩展正则表达式模式匹配</h3><p><strong>“.”</strong>匹配任何单个的字符，一个字符类<strong>“[…]”</strong>匹配在方括号内的任何字符，例如，<strong>“[abc]”</strong>匹配”a”、”b”或”c”。</p>
+<p><strong>“-“</strong>为了命名字符的一个范围，<strong>“[a-z]”</strong>匹配任何小写字母，而<strong>“[0-9]”</strong>匹配任何数字</p>
+<p><strong>“*”</strong>匹配零个或多个在它前面的东西，例如<strong>“X*”</strong>匹配任何数量的”X”字符，”[0-9]*”匹配任何数量的数字</p>
+<p>而<strong>“.*”</strong>匹配任何数量的任何东西</p>
+<p>正在表达式是区分大小写的，但是如果你希望，你能使用一个字符类匹配两种写法：例如，<strong>“[a^]”</strong>匹配小写或大写的”a”而<strong>“[a z^Z]”</strong>匹配两种写法的任何字母</p>
+<p>如果它出现在被测试值得任何地方，模式就匹配（只要他们匹配整个值，SQL模式匹配）。为了定位一个模式以便它必须匹配被测试值得开始或结尾，在模式开始处使用<strong>“^”</strong>或在模式得结尾用<strong>“$”</strong></p>
+<p>为了说明扩展正则表达式如何工作，上面所示得LIKE查询在下面使用<strong>Regexp</strong>重写</p>
+<h4 id="3-1-找出”l”开头的名字"><a href="#3-1-找出”l”开头的名字" class="headerlink" title="3.1 找出”l”开头的名字"></a>3.1 找出”l”开头的名字</h4><p>使用<strong>“^”</strong>匹配名字的开始并且<strong>“[lL]”</strong>匹配小写或大写的”l”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name regexp &quot;^[lL]&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/3-1.png" alt="3-1"></p>
+<h4 id="3-2-找出以”u”结尾的名字"><a href="#3-2-找出以”u”结尾的名字" class="headerlink" title="3.2 找出以”u”结尾的名字"></a>3.2 找出以”u”结尾的名字</h4><p>使用<strong>“$”</strong>匹配名字的结尾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name regexp &quot;[u$]&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/3-2.png" alt="3-2"></p>
+<h4 id="3-3-找出包含一个”e”的名字"><a href="#3-3-找出包含一个”e”的名字" class="headerlink" title="3.3 找出包含一个”e”的名字"></a>3.3 找出包含一个”e”的名字</h4><p>使用<strong>“[eE]”</strong>匹配小写或大写的<strong>“e”</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name regexp &quot;[eE]&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/3-3.png" alt="3-3"></p>
+<h4 id="3-4-找出包含正好5个字符的名字"><a href="#3-4-找出包含正好5个字符的名字" class="headerlink" title="3.4 找出包含正好5个字符的名字"></a>3.4 找出包含正好5个字符的名字</h4><p>利用通配符进行模糊匹配，使用<strong>“^”</strong>和<strong>“$”</strong>匹配名字的开始和结尾，和5个<strong>“.”</strong>事例在两者之间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name regexp &quot;[^.....$]&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/3-4.png" alt="3-4"></p>
+<h4 id="3-5-使用”-n-”-“重复n次”操作符重写先前的查询"><a href="#3-5-使用”-n-”-“重复n次”操作符重写先前的查询" class="headerlink" title="3.5 使用”{n}”   “重复n次”操作符重写先前的查询"></a>3.5 使用”{n}”   “重复n次”操作符重写先前的查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where name regexp &quot;[^.&#123;5&#125;$]&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/3-5.png" alt="3-5"></p>
+<hr>
+<h3 id="四、列的别名"><a href="#四、列的别名" class="headerlink" title="四、列的别名"></a>四、列的别名</h3><p>精选输出的列可以用列名、列别名或列位置在order by和group by子句引用，列位置从1开始。例如，我们从student表中检索出姓名和年宁，直接引用列名</p>
+<h4 id="4-1-直接引用列名"><a href="#4-1-直接引用列名" class="headerlink" title="4.1 直接引用列名"></a>4.1 直接引用列名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">delete from student where name=&quot;wanglin&quot;;</span><br><span class="line">delete from student where name=&quot;fang&quot;;</span><br><span class="line">select name,age from student order by name,age;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/4-1.png" alt="4-1"></p>
+<h4 id="4-2-在子句中使用列的位置"><a href="#4-2-在子句中使用列的位置" class="headerlink" title="4.2 在子句中使用列的位置"></a>4.2 在子句中使用列的位置</h4><p>这句语句的输出与上面并没有不同</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select name,age from student order by 1,2;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/4-2.png" alt="4-2"></p>
+<h4 id="4-3-为列命名"><a href="#4-3-为列命名" class="headerlink" title="4.3 为列命名"></a>4.3 为列命名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select name as n,age as a from student order by n,a;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/4-3.png" alt="4-3"></p>
+<p>返回的记录顺序并无不同，但是列的名字有了变化，这一点在使用create table … select 语句创建表时是有意义的。例如，我们想从pet表生成包括其中name,owner字段的表，但是想把name和owner字段的名字重新命名为animal和child，一个很笨的方法就是创建表再录入数据，如果使用别名，则仅仅一条SQL语句就可以解决：</p>
+<h4 id="4-4-使用create-table-select"><a href="#4-4-使用create-table-select" class="headerlink" title="4.4 使用create table select"></a>4.4 使用create table select</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table newstudent select name as newname,teacher as newteacher from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/4-4.png" alt="4-4"></p>
+<h4 id="4-5-检索生成的表"><a href="#4-5-检索生成的表" class="headerlink" title="4.5 检索生成的表"></a>4.5 检索生成的表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from newstudent;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/4-5.png" alt="4-5"></p>
+<hr>
+<h3 id="五、表的别名"><a href="#五、表的别名" class="headerlink" title="五、表的别名"></a>五、表的别名</h3><p>别名不仅可以应用于列，也可以引用于表名，具体方法类似于列的别名，这里不再重复。列的别名经常用于表自身的连接中。你不必有2个不同的表来执行一个联结。如果你想要将一个表的记录与同一个表的其他记录进行比较，联结一个表到自身有时是有用的</p>
+<h4 id="5-1-联结表自身"><a href="#5-1-联结表自身" class="headerlink" title="5.1 联结表自身"></a>5.1 联结表自身</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select s1.name,s1.sex,s2.name,s2.sex,s1.teacher from student as s1,student as s2 where s1.teacher=s2.teacher and s1.sex=&quot;man&quot; and s2.sex=&quot;woman&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/5-1.png" alt="5-1"></p>
+<p>在这个查询中，我们为表名指定别名以便能引用列并且使得每一个列引用关联于哪个表实力更直观</p>
+<hr>
+<h3 id="六、取出互不相同的记录"><a href="#六、取出互不相同的记录" class="headerlink" title="六、取出互不相同的记录"></a>六、取出互不相同的记录</h3><p>有时候你可能希望取出的数据互不重复，因为重复的数据可能对你没有意义。解决的办法是使用<strong>Distinct</strong>关键字，使用这个关键字保证结果集中不包括重复的记录，也就是说，你取出的记录中，没有重复的行</p>
+<h4 id="6-1-取出student表中benny所指导的学生的记录"><a href="#6-1-取出student表中benny所指导的学生的记录" class="headerlink" title="6.1 取出student表中benny所指导的学生的记录"></a>6.1 取出student表中benny所指导的学生的记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select name,teacher,age,sex from student where teacher = &quot;benny&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/6-1.png" alt="6-1"></p>
+<p>注意上面的结果，因为我们要使用它</p>
+<h4 id="6-2-指定Distinct关键字"><a href="#6-2-指定Distinct关键字" class="headerlink" title="6.2 指定Distinct关键字"></a>6.2 指定Distinct关键字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct name,age,sex from student where teacher = &quot;benny&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/6-2.png" alt="6-2"></p>
+<h4 id="6-3-修改作比较"><a href="#6-3-修改作比较" class="headerlink" title="6.3 修改作比较"></a>6.3 修改作比较</h4><p>你可以看到有两条结果，这是因为返回的结果集中的行不同，如果我们做以下更改，只返回teacher,sex列，你可以观察变化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select teacher,sex from student where teacher = &quot;benny&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/6-3.png" alt="6-3"></p>
+<p><strong>Distinct</strong>关键字的存在，使查询只返回不同的记录行。如果一个表中，有完全相同的行，你可以使用<strong>Distinct</strong>，以去除冗余的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct * from tbl_name;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="七、NULL值的问题"><a href="#七、NULL值的问题" class="headerlink" title="七、NULL值的问题"></a>七、NULL值的问题</h3><p>概念上，NULL意味着”没有值”或”未知值”，且它被看作有点与众不同的值。为了测试NULL，你不能使用算法比较运算符例如=、&lt;或!=</p>
+<h4 id="7-1-不能使用运算符"><a href="#7-1-不能使用运算符" class="headerlink" title="7.1 不能使用运算符"></a>7.1 不能使用运算符</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1 = NULL,1 != NULL,1 &lt; NULL,1 &gt; NULL；</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-1.png" alt="7-1"></p>
+<p>很清楚，这些结果的比较中毫无意义</p>
+<h4 id="7-2-使用IS-NULL和IS-NOT-NULL操作符"><a href="#7-2-使用IS-NULL和IS-NOT-NULL操作符" class="headerlink" title="7.2 使用IS NULL和IS NOT NULL操作符"></a>7.2 使用IS NULL和IS NOT NULL操作符</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1 IS NULL,1 IS NOT NULL;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-2.png" alt="7-2"></p>
+<p>这说明在Mysql中，0意味着假而1意味着真</p>
+<h4 id="7-3-使用NULL"><a href="#7-3-使用NULL" class="headerlink" title="7.3 使用NULL"></a>7.3 使用NULL</h4><p>NULL这样特殊的处理是为什么，例如，可以只查看在学校有学号的同学</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where sno is not null;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-3.png" alt="7-3"></p>
+<h4 id="7-4-NULL值的概念"><a href="#7-4-NULL值的概念" class="headerlink" title="7.4 NULL值的概念"></a>7.4 NULL值的概念</h4><p>NULL值的概念是造成SQL的新手的混淆的普遍原因，他们经常认为NULL是和一个空字符串’’的一样的东西。但并不是这样的，例如，下列语句是完全不同的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table my_table(phone varchar(20));</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-4.png" alt="7-4"></p>
+<h4 id="7-5-插入NULL值并查看"><a href="#7-5-插入NULL值并查看" class="headerlink" title="7.5 插入NULL值并查看"></a>7.5 插入NULL值并查看</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into my_table (phone) values (NULL);</span><br><span class="line"></span><br><span class="line">select * from my_table;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-5.png" alt="7-5"></p>
+<h4 id="7-6-删除这行数据"><a href="#7-6-删除这行数据" class="headerlink" title="7.6 删除这行数据"></a>7.6 删除这行数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from my_table where phone is null;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-6.png" alt="7-6"></p>
+<h4 id="7-7-插入空字符串并查看"><a href="#7-7-插入空字符串并查看" class="headerlink" title="7.7 插入空字符串并查看"></a>7.7 插入空字符串并查看</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into my_table (phone) values (&quot;&quot;);</span><br><span class="line"></span><br><span class="line">select * from my_table</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-7.png" alt="7-7"></p>
+<p>两个语句把值插入到phone列，但是第一个插入一个<strong>NULL</strong>值而第二个插入一个<strong>空字符串</strong>。第一个的含义可以认为是”电话号码不知道”，而第二个则可意味着”她没有电话”</p>
+<h4 id="7-8-关于NULL值的比较"><a href="#7-8-关于NULL值的比较" class="headerlink" title="7.8 关于NULL值的比较"></a>7.8 关于NULL值的比较</h4><p>在SQL中，NULL值在与任何其他值甚至NULL值比较时总是假的（FALSE）。包含NULL的一个表达式总是产生一个NULL值，除非在包含在表达式中的运算符和函数的文档中指出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select NULL,1+NULL,concat(&apos;invisible&apos;,NULL);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-8.png" alt="7-8"></p>
+<h4 id="7-9-如果你想要寻找值是NULL的列，你不能使用-NULL测试"><a href="#7-9-如果你想要寻找值是NULL的列，你不能使用-NULL测试" class="headerlink" title="7.9 如果你想要寻找值是NULL的列，你不能使用=NULL测试"></a>7.9 如果你想要寻找值是NULL的列，你不能使用=NULL测试</h4><p>下面语句不返回任何行，因为对任何表达式，expr=NULL都是假的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_table where phone = NULL;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-9.png" alt="7-9"></p>
+<h4 id="7-10-想要寻找NULL值，必须使用IS-NULL测试"><a href="#7-10-想要寻找NULL值，必须使用IS-NULL测试" class="headerlink" title="7.10 想要寻找NULL值，必须使用IS NULL测试"></a>7.10 想要寻找NULL值，必须使用IS NULL测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into my_table (phone) values (NULL);</span><br><span class="line"></span><br><span class="line">select * from my_table where phone is NULL;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-10.png" alt="7-10"></p>
+<h4 id="7-11-寻找空字符串"><a href="#7-11-寻找空字符串" class="headerlink" title="7.11 寻找空字符串"></a>7.11 寻找空字符串</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_table where phone = &quot;&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/7-11.png" alt="7-11"></p>
+<p>在Mysql中，就像很多其他的SQL服务器一样，你不能索引可以有NULL值得列。你必须声明这样的列为NOT NULL，而且，你不能插入NULL到索引得列中</p>
+<p>当使用<strong>order by</strong>使，首先呈现NULL值。如果你用<strong>desc</strong>以降序排序，NULL值最后显示。当使用<strong>group by</strong>时，所有的NULL值被认为是相等的。</p>
+<p>为了有助于NULL的处理，你能使用IS NULL和IS NOT NULL运算符和IFNULL()函数</p>
+<p>对某些列类型，NULL值被特殊地处理。如果你将NULL插入表地第一个<strong>TIMESTAMP</strong>列，则插入当前的日期和时间。如果你将NULL插入一个<strong>AUTO_INCREMENT</strong>列，则插入顺序中的下一个数字</p>
+<hr>
+<h3 id="八、大小写敏感性"><a href="#八、大小写敏感性" class="headerlink" title="八、大小写敏感性"></a>八、大小写敏感性</h3><h4 id="8-1-向表中增添3组数据"><a href="#8-1-向表中增添3组数据" class="headerlink" title="8.1 向表中增添3组数据"></a>8.1 向表中增添3组数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert my_table values(&apos;13812345678&apos;);</span><br><span class="line">insert my_table values(&apos;13822334455&apos;);</span><br><span class="line">insert my_table values(&apos;13323123123&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/8-1.png" alt="8-1"></p>
+<h4 id="8-2-查询数据库语句同时使用大小写"><a href="#8-2-查询数据库语句同时使用大小写" class="headerlink" title="8.2 查询数据库语句同时使用大小写"></a>8.2 查询数据库语句同时使用大小写</h4><p>在Mysql中，数据库和表对应于在那些目录下的目录和文件，因而，内在的操作系统的敏感性决定数据库和表命名的大小写的敏感性。这意味着数据库和表名在Unix上是区分大小写的，而在Win32上忽略大小写。</p>
+<p>注意：在Win32上，尽管数据库和表名是忽略大小写的，你不应该在同一个查询中使用不同的大小写来引用一个给定的数据库和表。下列查询将不工作，因为它作为my_table和MY_TABLE引用一个表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_table where MY_TABLE.phone = &apos;13812345678&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/8-2.png" alt="8-2"></p>
+<h4 id="8-3-查询数据库语句统一使用小写"><a href="#8-3-查询数据库语句统一使用小写" class="headerlink" title="8.3 查询数据库语句统一使用小写"></a>8.3 查询数据库语句统一使用小写</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_table where my_table.phone = &apos;13812345678&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/8-3.png" alt="8-3"></p>
+<h4 id="8-4-列名：列名在所有情况下都是忽略大小写的"><a href="#8-4-列名：列名在所有情况下都是忽略大小写的" class="headerlink" title="8.4 列名：列名在所有情况下都是忽略大小写的"></a>8.4 列名：列名在所有情况下都是忽略大小写的</h4><h4 id="8-5-查询表的别名语句同时使用大小写"><a href="#8-5-查询表的别名语句同时使用大小写" class="headerlink" title="8.5 查询表的别名语句同时使用大小写"></a>8.5 查询表的别名语句同时使用大小写</h4><p>表的别名是区分大小写的，下列查询将不工作，因为它用a和A引用别名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_table as a where a.phone = &apos;13812345678&apos; or A.phone = &apos;13822334455&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/8-5.png" alt="8-5"></p>
+<h4 id="8-6-查询表的别名语句统一使用小写"><a href="#8-6-查询表的别名语句统一使用小写" class="headerlink" title="8.6 查询表的别名语句统一使用小写"></a>8.6 查询表的别名语句统一使用小写</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_table as a where a.phone = &apos;13812345678&apos; or a.phone = &apos;13822334455&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/8-6.png" alt="8-6"></p>
+<h4 id="8-7-列的别名：列的别名是忽略大小写的"><a href="#8-7-列的别名：列的别名是忽略大小写的" class="headerlink" title="8.7 列的别名：列的别名是忽略大小写的"></a>8.7 列的别名：列的别名是忽略大小写的</h4><h4 id="8-8-字符串比较和模式匹配"><a href="#8-8-字符串比较和模式匹配" class="headerlink" title="8.8 字符串比较和模式匹配"></a>8.8 字符串比较和模式匹配</h4><p>缺省地，MySQL搜索是大小写不敏感的（尽管有一些字符集从来不是忽略大小写的，例如捷克语)。这意味着，如果你用col_name LIKE ‘a%’搜寻，你将得到所有以A或a开始的列值。如果你想要使这个搜索大小写敏感，使用像INDEX(col_name,”A”)=0检查一个前缓。或如果列值必须确切是“A”，使用STRCMP(col_name,”A”)=0。</p>
+<h4 id="8-9-大小写敏感比较"><a href="#8-9-大小写敏感比较" class="headerlink" title="8.9 大小写敏感比较"></a>8.9 大小写敏感比较</h4><p>简单的比较操作(&gt;=、&gt;、=、&lt;、&lt;=、排序和聚合)是基于每个字符的“排序值”。有同样排序值的字符（E，e)被视为相同的字符！LIKE比较在每个字符的大写值上进行(“E”=”e”)。如果你想要一个列总是被当作大小写敏感的方式，声明它为BINARY</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select &quot;E&quot;=&quot;e&quot;,&quot;E&quot;=binary&quot;e&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/8-9.png" alt="8-9"></p>
+<hr>
+<h3 id="九、检索语句与多个表的连接"><a href="#九、检索语句与多个表的连接" class="headerlink" title="九、检索语句与多个表的连接"></a>九、检索语句与多个表的连接</h3><h4 id="9-1-创建first表"><a href="#9-1-创建first表" class="headerlink" title="9.1 创建first表"></a>9.1 创建first表</h4><p>SELECT语句不仅可以从单个表中检索数据，也可以通过连接多个表来检索数据。这里将介绍全连接和左连接的作用。我们创建两个表作为例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table first (id tinyint,first_name char(10));</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/9-1.png" alt="9-1"></p>
+<h4 id="9-2-录入如下数据"><a href="#9-2-录入如下数据" class="headerlink" title="9.2 录入如下数据"></a>9.2 录入如下数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">insert first values (&apos;1&apos;,&apos;Tom&apos;);</span><br><span class="line"></span><br><span class="line">insert first values (&apos;2&apos;,&apos;Marry&apos;);</span><br><span class="line"></span><br><span class="line">insert first values (&apos;2&apos;,&apos;Jarry&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/9-2.png" alt="9-2"></p>
+<h4 id="9-3-查看结果"><a href="#9-3-查看结果" class="headerlink" title="9.3 查看结果"></a>9.3 查看结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/9-3.png" alt="9-3"></p>
+<h4 id="9-4-创建表last"><a href="#9-4-创建表last" class="headerlink" title="9.4 创建表last"></a>9.4 创建表last</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table last (id tinyint,last_name char(10));</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/9-4.png" alt="9-4"></p>
+<h4 id="9-5-录入数据"><a href="#9-5-录入数据" class="headerlink" title="9.5 录入数据"></a>9.5 录入数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">insert last values (&apos;2&apos;,&apos;Stone&apos;);</span><br><span class="line"></span><br><span class="line">insert last values (&apos;3&apos;,&apos;White&apos;);</span><br><span class="line"></span><br><span class="line">insert last values (&apos;4&apos;,&apos;Donald&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/9-5.png" alt="9-5"></p>
+<h4 id="9-6-查看结果"><a href="#9-6-查看结果" class="headerlink" title="9.6 查看结果"></a>9.6 查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/9-6.png" alt="9-6"></p>
+<hr>
+<h3 id="十、全连接"><a href="#十、全连接" class="headerlink" title="十、全连接"></a>十、全连接</h3><p>全连接：在检索时指定多个表，将每个表用逗号分隔，这样每个表的数据行都和其他表的每行交叉产生所有可能的组合，这样就是一个全连接。所有可能的组和数即每个表的行数之和。</p>
+<h4 id="10-1-观察下面的检索的结果"><a href="#10-1-观察下面的检索的结果" class="headerlink" title="10.1 观察下面的检索的结果"></a>10.1 观察下面的检索的结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first,last;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/10-1.png" alt="10-1"></p>
+<p>你可以看到输出的结果集中共有<strong>3×3=9</strong>行，这就是全连接的结果</p>
+<h4 id="10-2-更换语句"><a href="#10-2-更换语句" class="headerlink" title="10.2 更换语句"></a>10.2 更换语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select first.*,last.* from first,last;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/10-2.png" alt="10-2"></p>
+<p>输出结果与上面的例子相同。记录集的输出的排序是以from子句前的表的顺序进行，既先排列位置靠前的表</p>
+<h4 id="10-3-改变记录集中列的显示顺序"><a href="#10-3-改变记录集中列的显示顺序" class="headerlink" title="10.3 改变记录集中列的显示顺序"></a>10.3 改变记录集中列的显示顺序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select last.*,first.* from first,last;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/10-3.png" alt="10-3"></p>
+<h4 id="10-4-使用where从句限制返回的记录"><a href="#10-4-使用where从句限制返回的记录" class="headerlink" title="10.4 使用where从句限制返回的记录"></a>10.4 使用where从句限制返回的记录</h4><p>上面的例子是两个非常小的表的例子，如果是几个非常大的表的全连接，例如，两个行数分别为1000的表，这样的连接可以产生非常大的结果集合1000×1000=100万行。而实际上你并不需要这么多行的<br>结果，通常你需要使用一个<strong>where</strong>从句来限制返回的记录集的行数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first,last where first.id=last.id;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/10-4.png" alt="10-4"></p>
+<hr>
+<h3 id="十一、左连接"><a href="#十一、左连接" class="headerlink" title="十一、左连接"></a>十一、左连接</h3><p>全连接给出<strong>from</strong>子句中所有表都有匹配的行。对于左连接，不仅匹配类似前面的行记录，而且还显示左边的表有而右边的表中无匹配的行。对于这样的行，从右边表选择的列均被显示为NULL。这样，每一匹配的行都从左边的表被选出，而如果右边表有一个匹配的行，则被选中，如果不匹配，行仍然被选中，不过，其中右边相应的列在结果集中均设为NULL。即，<strong>LEFT JOlN</strong>强制包含左边表的每一行，而不管右边表是否匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select from table_reference LEFT JOIN table_reference ON conditional_expr</span><br></pre></td></tr></table></figure>
+<p>其中table_reference为连接的表，<strong>ON</strong>子句后接类似<strong>where</strong>子句的条件</p>
+<p>下面我们详细讲述左连接的使用：</p>
+<h4 id="11-1-首先，返回一个全连接的结果"><a href="#11-1-首先，返回一个全连接的结果" class="headerlink" title="11.1 首先，返回一个全连接的结果"></a>11.1 首先，返回一个全连接的结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first,last;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/11-1.png" alt="11-1"></p>
+<p>注意上面的结果，下面的例子要与这个例子对照</p>
+<h4 id="11-2-给出一个限制条件的查询"><a href="#11-2-给出一个限制条件的查询" class="headerlink" title="11.2 给出一个限制条件的查询"></a>11.2 给出一个限制条件的查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first,last where first.id = last.id;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/11-2.png" alt="11-2"></p>
+<h4 id="11-3-现在我们给出一个真正的左连接的例子"><a href="#11-3-现在我们给出一个真正的左连接的例子" class="headerlink" title="11.3 现在我们给出一个真正的左连接的例子"></a>11.3 现在我们给出一个真正的左连接的例子</h4><p>你可以仔细观察它的结果，要了解检索的记录顺序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first LEFT JOIN last ON first.id=last.id;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/11-3.png" alt="11-3"></p>
+<p>上面的结果，即用左边表的每一行与右边表匹配，如果匹配，则选择到结果集中，如果没有匹配，则结果集中右边表相应的列置为NULL</p>
+<h4 id="11-4-进一步理解"><a href="#11-4-进一步理解" class="headerlink" title="11.4 进一步理解"></a>11.4 进一步理解</h4><p>为了进一步理解这一点，我们给出一个有点奇怪的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first LEFT JOIN last ON first.id=1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/11-4.png" alt="11-4"></p>
+<p>因为，在结果的最后两行似乎有你不希望的结果。记住，如果只有ON子句的条件，那么左边表的每一行都会返回，只是如果没有匹配的右边表(虽然本例没有约束右边表的列），则记录集中显示为NULL</p>
+<h4 id="11-5-加入where子句"><a href="#11-5-加入where子句" class="headerlink" title="11.5 加入where子句"></a>11.5 加入where子句</h4><p>前面只是帮助你理解左连接，下面LEFT JOIN的一些有用的技巧。LEFT JOIN最常见的是与WHERE子句共同使用。使用IS NULL或者IS NOT NULL操作符可以筛选NULL或者非NULL值的列，这是最常见的技巧。列如，选出first.id=last.id的组合，并且别除其中没有右表的匹配记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first LEFT JOIN last ON first.id=last.id where last.id is not NULL;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/11-5.png" alt="11-5"></p>
+<p>你可以看到这样子做的例子结果与下列语句输出结果是相同的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first,last where first.id=last.id;</span><br></pre></td></tr></table></figure>
+<h4 id="11-6"><a href="#11-6" class="headerlink" title="11.6"></a>11.6</h4><p>又如，检索id值只在左边表出现，而不在右边表出现的记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select first.* from first LEFT JOIN last ON first.id=last.id where last.id is NULL;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/11-6.png" alt="11-6"></p>
+<h4 id="11-7-全连接和左连接的结果集排列顺序是不同的"><a href="#11-7-全连接和左连接的结果集排列顺序是不同的" class="headerlink" title="11.7 全连接和左连接的结果集排列顺序是不同的"></a>11.7 全连接和左连接的结果集排列顺序是不同的</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first,last where first.id != last.id;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/11-7.png" alt="11-7"></p>
+<h4 id="11-8"><a href="#11-8" class="headerlink" title="11.8"></a>11.8</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from first LEFT JOIN last ON first.id != last.id;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/11-8.png" alt="11-8"></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="【原理】（1）利用create database创建数据库
+（2）利用drop database删除数据库
+【步骤】一、Mysql数据库的基本操作1.1 启动mysql服务1service mysqld restart
+
+进入mysql1mysql
+
+1.2 用create database创建数据">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Mysql数据库（七） — 数据库操作">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="【原理】（1）利用create database创建数据库
+（2）利用drop database删除数据库
+【步骤】一、Mysql数据库的基本操作1.1 启动mysql服务1service mysqld restart
+
+进入mysql1mysql
+
+1.2 用create database创建数据">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Mysql数据库（七） — 数据库操作 - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/171206/231312-1512573192ad02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Mysql数据库（七） — 数据库操作</h1>
+                    
+                    <h2 class="post-subheading">
+                        MySQL5数据库数据库操作的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-02-07
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Mysql数据库/">#Mysql数据库</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）利用<strong>create database</strong>创建数据库</p>
+<p>（2）利用<strong>drop database</strong>删除数据库</p>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、Mysql数据库的基本操作"><a href="#一、Mysql数据库的基本操作" class="headerlink" title="一、Mysql数据库的基本操作"></a>一、Mysql数据库的基本操作</h3><h4 id="1-1-启动mysql服务"><a href="#1-1-启动mysql服务" class="headerlink" title="1.1 启动mysql服务"></a>1.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B0/1-1.png" alt="1-1"></p>
+<h4 id="进入mysql"><a href="#进入mysql" class="headerlink" title="进入mysql"></a>进入mysql</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B0/1-2.png" alt="1-2"></p>
+<h4 id="1-2-用create-database创建数据库"><a href="#1-2-用create-database创建数据库" class="headerlink" title="1.2 用create database创建数据库"></a>1.2 用create database创建数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database mytest;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-2-2.png" alt="1-2-2"></p>
+<h4 id="1-3-show显示已有数据库"><a href="#1-3-show显示已有数据库" class="headerlink" title="1.3 show显示已有数据库"></a>1.3 show显示已有数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-3.png" alt="1-3"></p>
+<h4 id="1-4-添加条件"><a href="#1-4-添加条件" class="headerlink" title="1.4 添加条件"></a>1.4 添加条件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases like &apos;my%&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-4.png" alt="1-4"></p>
+<h4 id="1-5-用mysqlshow"><a href="#1-5-用mysqlshow" class="headerlink" title="1.5 用mysqlshow"></a>1.5 用mysqlshow</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlshow</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-5.png" alt="1-5"></p>
+<h4 id="1-6-创建用来删除的数据库"><a href="#1-6-创建用来删除的数据库" class="headerlink" title="1.6 创建用来删除的数据库"></a>1.6 创建用来删除的数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create database myfirst;</span><br><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-6.png" alt="1-6"></p>
+<h4 id="1-7-drop命令删除数据库"><a href="#1-7-drop命令删除数据库" class="headerlink" title="1.7 drop命令删除数据库"></a>1.7 drop命令删除数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop database myfirst;</span><br><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-7.png" alt="1-7"></p>
+<h4 id="1-8-使用mysqladmin创建数据库"><a href="#1-8-使用mysqladmin创建数据库" class="headerlink" title="1.8 使用mysqladmin创建数据库"></a>1.8 使用mysqladmin创建数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin create db1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-8.png" alt="1-8"></p>
+<h4 id="1-9-使用mysqladmin删除数据库"><a href="#1-9-使用mysqladmin删除数据库" class="headerlink" title="1.9 使用mysqladmin删除数据库"></a>1.9 使用mysqladmin删除数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin drop db1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-9.png" alt="1-9"></p>
+<h4 id="1-10-use-db-name语句切换数据库，最为随后查询的缺省数据库"><a href="#1-10-use-db-name语句切换数据库，最为随后查询的缺省数据库" class="headerlink" title="1.10 use db_name语句切换数据库，最为随后查询的缺省数据库"></a>1.10 use db_name语句切换数据库，最为随后查询的缺省数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create database db1;</span><br><span class="line">use db1;</span><br><span class="line">create table mytable (a int,b int);</span><br><span class="line">insert mytable values (&apos;1&apos;,&apos;2&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-10.png" alt="1-10"></p>
+<h4 id="1-11-数据库保持到会话结束，或发出另外一个use语句"><a href="#1-11-数据库保持到会话结束，或发出另外一个use语句" class="headerlink" title="1.11 数据库保持到会话结束，或发出另外一个use语句"></a>1.11 数据库保持到会话结束，或发出另外一个use语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use db1;</span><br><span class="line">select count(*) from mytable;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-11.png" alt="1-11"></p>
+<h4 id="1-12-连接db2数据库"><a href="#1-12-连接db2数据库" class="headerlink" title="1.12 连接db2数据库"></a>1.12 连接db2数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use db2;</span><br><span class="line">select count(*) from mytable;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-12.png" alt="1-12"></p>
+<h4 id="1-13-如果不使用use语句，那么上面语句就该改成如下"><a href="#1-13-如果不使用use语句，那么上面语句就该改成如下" class="headerlink" title="1.13 如果不使用use语句，那么上面语句就该改成如下"></a>1.13 如果不使用use语句，那么上面语句就该改成如下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from db1.mytable;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-13.png" alt="1-13"></p>
+<h4 id="1-14-同样命令"><a href="#1-14-同样命令" class="headerlink" title="1.14 同样命令"></a>1.14 同样命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from db2.mytable;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/1-14.png" alt="1-14"></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

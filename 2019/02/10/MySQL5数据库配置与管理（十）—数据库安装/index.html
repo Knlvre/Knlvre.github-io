@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="【实验原理】（1）源代码配置并编译后进行安装，缺省件安装在 “/usr/logcal” 子目录下
+
+
+
+目录
+目录的内容
+
+
+
+
+bin
+客户程序和脚本
+
+
+include/mysql
+包含（头）文件
+
+
+info
+info格式的文档
+
+
+lib/mysql
+库文件
+
+
+libexec
+mysqld">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Mysql数据库（十） — 安装">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="【实验原理】（1）源代码配置并编译后进行安装，缺省件安装在 “/usr/logcal” 子目录下
+
+
+
+目录
+目录的内容
+
+
+
+
+bin
+客户程序和脚本
+
+
+include/mysql
+包含（头）文件
+
+
+info
+info格式的文档
+
+
+lib/mysql
+库文件
+
+
+libexec
+mysqld">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Mysql数据库（十） — 安装 - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/171206/231312-1512573192ad02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Mysql数据库（十） — 安装</h1>
+                    
+                    <h2 class="post-subheading">
+                        MySQL5数据库安装的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-02-10
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Mysql数据库/">#Mysql数据库</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="【实验原理】"><a href="#【实验原理】" class="headerlink" title="【实验原理】"></a>【实验原理】</h2><p>（1）源代码配置并编译后进行安装，缺省件安装在 <strong>“/usr/logcal”</strong> 子目录下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">目录</th>
+<th style="text-align:center">目录的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">bin</td>
+<td style="text-align:center">客户程序和脚本</td>
+</tr>
+<tr>
+<td style="text-align:center">include/mysql</td>
+<td style="text-align:center">包含（头）文件</td>
+</tr>
+<tr>
+<td style="text-align:center">info</td>
+<td style="text-align:center">info格式的文档</td>
+</tr>
+<tr>
+<td style="text-align:center">lib/mysql</td>
+<td style="text-align:center">库文件</td>
+</tr>
+<tr>
+<td style="text-align:center">libexec</td>
+<td style="text-align:center">mysqld服务器</td>
+</tr>
+<tr>
+<td style="text-align:center">share/mysql</td>
+<td style="text-align:center">错误消息文件</td>
+</tr>
+<tr>
+<td style="text-align:center">sql-bench</td>
+<td style="text-align:center">基准程序和crash-me测试</td>
+</tr>
+<tr>
+<td style="text-align:center">var</td>
+<td style="text-align:center">数据库和日志文件</td>
+</tr>
+</tbody>
+</table>
+<p>（2）在一个安装目录内，源代码安装的布局在下列方面不同于二进制安装：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">mysl服务器被安装在“libexec”目录而不是“bin”目录内</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">数据目录是“var”而非“data”</td>
+</tr>
+<tr>
+<td style="text-align:left">mysqL_install_db被安装在“/usr/local/bin”目录而非“/usr/local/mysql/scripts”内</td>
+</tr>
+<tr>
+<td style="text-align:left">头文件和库目录是“include/mysql”和“lib/mysq”而非“include”和“lib”</td>
+</tr>
+</tbody>
+</table>
+<p>（3）rpm安装本质上也属于二进制分发，因此安装布局同上。将自动安装启动脚本到/etc/rc.local目录中，MySQL随系统的启动而自动启动。对于RPM分发程序、库文件、头文件和配置文件，分别安装Centos标准的目录/usr/bin、/usr/lib/mysql、/usr/include/mysqll/etc/mysql.缺省时，/var/lib/mysql</p>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、通过rpm来进行mysql-server的安装"><a href="#一、通过rpm来进行mysql-server的安装" class="headerlink" title="一、通过rpm来进行mysql-server的安装"></a>一、通过rpm来进行mysql-server的安装</h3><h4 id="1-1-查看CentOS自带mysql是否以及安装"><a href="#1-1-查看CentOS自带mysql是否以及安装" class="headerlink" title="1.1 查看CentOS自带mysql是否以及安装"></a>1.1 查看CentOS自带mysql是否以及安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep mysql</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85/1-1.png" alt="1-1"></p>
+<h4 id="1-2-安装依赖包"><a href="#1-2-安装依赖包" class="headerlink" title="1.2 安装依赖包"></a>1.2 安装依赖包</h4><p>通过输入命令安装Mysql相关依赖包及Mysql主程序</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85/1-2.png" alt="1-2"></p>
+<h4 id="1-3-通过rpm命令查看刚才装好的mysql-server版本"><a href="#1-3-通过rpm命令查看刚才装好的mysql-server版本" class="headerlink" title="1.3 通过rpm命令查看刚才装好的mysql-server版本"></a>1.3 通过rpm命令查看刚才装好的mysql-server版本</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85/1-3.png" alt="1-3"></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

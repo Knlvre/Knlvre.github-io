@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="【原理】​    备份是最简单的保护数据的方法，本文介绍多种备份方法。为了得到一个一致的备份，在相关的表上做一个lock tables，你只需要一个读锁定，当你在数据库目录中做文件的一个拷贝时，这允许其他线程继续查询该表；当你恢复数据时，需要一个写锁定，以避免冲突
+
+【步骤】一、使用SQL语句备份和">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Mysql数据库（二） — 备份和恢复">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="【原理】​    备份是最简单的保护数据的方法，本文介绍多种备份方法。为了得到一个一致的备份，在相关的表上做一个lock tables，你只需要一个读锁定，当你在数据库目录中做文件的一个拷贝时，这允许其他线程继续查询该表；当你恢复数据时，需要一个写锁定，以避免冲突
+
+【步骤】一、使用SQL语句备份和">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Mysql数据库（二） — 备份和恢复 - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/171206/231312-1512573192ad02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Mysql数据库（二） — 备份和恢复</h1>
+                    
+                    <h2 class="post-subheading">
+                        Mysql数据库关于备份和恢复数据表的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-02-02
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Mysql数据库/">#Mysql数据库</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>​    备份是最简单的保护数据的方法，本文介绍多种备份方法。为了得到一个一致的备份，在相关的表上做一个<strong>lock tables</strong>，你只需要一个读锁定，当你在数据库目录中做文件的一个拷贝时，这允许其他线程继续查询该表；当你恢复数据时，需要一个写锁定，以避免冲突</p>
+<hr>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、使用SQL语句备份和恢复"><a href="#一、使用SQL语句备份和恢复" class="headerlink" title="一、使用SQL语句备份和恢复"></a>一、使用SQL语句备份和恢复</h3><p>你可以使用<strong>select into outfile</strong>语句进行备份，并使用<strong>load data infile</strong>语句恢复数据</p>
+<p>这种方法只能导出数据的内容，不包括表的结构，如果表的结构文件损坏，你必须要先恢复原来的表的结构</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * into &#123;outfile|dumpfile&#125; &apos;file_name&apos; from table_name</span><br><span class="line"></span><br><span class="line">load data [low_priority][local] infile &apos;file_name&apos; [replace|ignore] into table table_name</span><br></pre></td></tr></table></figure>
+<p><strong>select … into outfile ‘file_name’</strong>格式的select语句将选择的行写入一个文件。文件在服务器主机上被创建，并且不能是已经存在的（这可以阻止数据库表和文件例如“/etc/passwd”被破坏）。<strong>select … into outfile</strong>是<strong>load data infile</strong>的逆操作</p>
+<p><strong>load data infile</strong>语句从一个文本文件中以很高的速度读入一个表中。如果指定<strong>local</strong>关键词，从客户主机读取文件；如果未指定<strong>local</strong>关键词，文件必须位于服务器上（local关键词在Mysql3.22.6或以后版本中可用）</p>
+<p>为了安全原因，当读取位于服务器上的文本文件时，文件必须处于数据库目录或可被所有人读取。另外，为了对服务器上文件使用load data infile，在服务器主机上必须有file的权限。使用select into outfile语句，在服务器主机上必须有file权限</p>
+<p>为了避免重复记录，在表中需要一个primary key或unique索引。当在唯一索引值上一个新纪录与一个老记录重复时，<strong>replace</strong>关键词使得老记录用一个新纪录代替。如果指定<strong>ignore</strong>，跳过有唯一索引的现有行的重复行的输入。如果不指定任何一个选项，当找到重复索引值时，出现一个错误，并且文本文件的余下部分被忽略。</p>
+<p>如果指定关键词<strong>low_priority</strong>，<strong>load data</strong>语句的执行被推知道没有其他客户读取表之后</p>
+<p>使用<strong>local</strong>将比让服务器直接存取文件慢些，因为文件的内容必须从客户主机传送到服务器主机。在另一方面，不需要file权限装载本地文件。如果使用<strong>local</strong>关键词从一个本地文件装在数据，服务器没有办法在操作的当中停止文件的传输，因此缺省的行为好像<strong>ignore</strong>被指定一样</p>
+<p>当在服务器主机上寻找文件时，服务器使用下列规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果给出一个绝对路径名，服务器使用该路径名</span><br><span class="line">如果给出一个有一个或多个前置部件的相对路径名，服务器相对服务器的数据目录搜索文件</span><br><span class="line">如果给出一个没有前置部件的一个文件名，服务器在当前数据库的数据库目录寻找文件</span><br></pre></td></tr></table></figure>
+<h4 id="1-1-启动mysql服务"><a href="#1-1-启动mysql服务" class="headerlink" title="1.1 启动mysql服务"></a>1.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-1.png" alt="1-1"></p>
+<h4 id="1-2-创建账号密码"><a href="#1-2-创建账号密码" class="headerlink" title="1.2 创建账号密码"></a>1.2 创建账号密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p password &apos;123456&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-2.png" alt="1-2"></p>
+<h4 id="1-3-进入mysql"><a href="#1-3-进入mysql" class="headerlink" title="1.3 进入mysql"></a>1.3 进入mysql</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-3.png" alt="1-3"></p>
+<h4 id="1-4-创建数据库db"><a href="#1-4-创建数据库db" class="headerlink" title="1.4 创建数据库db"></a>1.4 创建数据库db</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database db;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-4.png" alt="1-4"></p>
+<h4 id="1-5-使用数据库db"><a href="#1-5-使用数据库db" class="headerlink" title="1.5 使用数据库db"></a>1.5 使用数据库db</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use db;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-5.png" alt="1-5"></p>
+<h4 id="1-6-创建数据表"><a href="#1-6-创建数据表" class="headerlink" title="1.6 创建数据表"></a>1.6 创建数据表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table tbl_name(a int);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-6.png" alt="1-6"></p>
+<h4 id="1-7-锁定数据表，避免在备份过程中，表被更新"><a href="#1-7-锁定数据表，避免在备份过程中，表被更新" class="headerlink" title="1.7 锁定数据表，避免在备份过程中，表被更新"></a>1.7 锁定数据表，避免在备份过程中，表被更新</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lock tables tbl_name read;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-7.png" alt="1-7"></p>
+<h4 id="1-8-导出数据"><a href="#1-8-导出数据" class="headerlink" title="1.8 导出数据"></a>1.8 导出数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * into outfile &apos;tbl_name.bak&apos; from tbl_name;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-8.png" alt="1-8"></p>
+<h4 id="1-9-解锁表"><a href="#1-9-解锁表" class="headerlink" title="1.9 解锁表"></a>1.9 解锁表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlock tables;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/1-9.png" alt="1-9"></p>
+<hr>
+<h3 id="二、数据库备份的导入"><a href="#二、数据库备份的导入" class="headerlink" title="二、数据库备份的导入"></a>二、数据库备份的导入</h3><h4 id="2-1-为表增加一个锁定"><a href="#2-1-为表增加一个锁定" class="headerlink" title="2.1 为表增加一个锁定"></a>2.1 为表增加一个锁定</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lock tables tbl_name write;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/2-1.png" alt="2-1"></p>
+<h4 id="2-2-导入备份数据"><a href="#2-2-导入备份数据" class="headerlink" title="2.2 导入备份数据"></a>2.2 导入备份数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load data infile &apos;tbl_name.bak&apos; replace into table tbl_name;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/2-2.png" alt="2-2"></p>
+<h4 id="2-3-low-priority关键字"><a href="#2-3-low-priority关键字" class="headerlink" title="2.3 low_priority关键字"></a>2.3 low_priority关键字</h4><p>指定一个<strong>low_priority</strong>关键字，就不必对表锁定，因为数据的导入将被推迟到没有客户读表为止</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load data low_priority infile &apos;tbl_name.bak&apos; replace into table tbl_name;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/2-3.png" alt="2-3"></p>
+<h4 id="2-4-解锁表"><a href="#2-4-解锁表" class="headerlink" title="2.4 解锁表"></a>2.4 解锁表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlock tables;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/2-4.png" alt="2-4"></p>
+<hr>
+<h3 id="三、使用mysqlimport恢复数据"><a href="#三、使用mysqlimport恢复数据" class="headerlink" title="三、使用mysqlimport恢复数据"></a>三、使用mysqlimport恢复数据</h3><p>为了恢复数据完全没有必要在客户机中执行SQL语句，因为你可以简单的使用mysqlimport程序</p>
+<h4 id="3-1-创建db1，建表tbl1，插入三组数据"><a href="#3-1-创建db1，建表tbl1，插入三组数据" class="headerlink" title="3.1 创建db1，建表tbl1，插入三组数据"></a>3.1 创建db1，建表tbl1，插入三组数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create database db1;</span><br><span class="line">use db1;</span><br><span class="line">create table tbl1(a int);</span><br><span class="line">insert tbl1 values(1);</span><br><span class="line">insert tbl1 values(2);</span><br><span class="line">insert tbl1 values(3);</span><br><span class="line">select * from tbl1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/3-1.png" alt="3-1"></p>
+<h4 id="3-2-对表tbl1进行备份"><a href="#3-2-对表tbl1进行备份" class="headerlink" title="3.2 对表tbl1进行备份"></a>3.2 对表tbl1进行备份</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * into outfile &apos;tbl1.bak&apos; from tbl1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/3-2.png" alt="3-2"></p>
+<h4 id="3-3-删除tbl1"><a href="#3-3-删除tbl1" class="headerlink" title="3.3 删除tbl1"></a>3.3 删除tbl1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">detele from tbl1;</span><br><span class="line">select * from tbl1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/3-3.png" alt="3-3"></p>
+<h4 id="3-4-恢复tbl1并进入查看结果"><a href="#3-4-恢复tbl1并进入查看结果" class="headerlink" title="3.4 恢复tbl1并进入查看结果"></a>3.4 恢复tbl1并进入查看结果</h4><p><strong>注意</strong>：这里的<strong>-p</strong>之后没有加<strong>空格</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br><span class="line">mysqlimport -p123456 --lock-tables --replace db1 tbl1.bak</span><br><span class="line">mysqladmin -p123456</span><br><span class="line">use db1;</span><br><span class="line">select * from tbl1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/3-4.png" alt="3-4"></p>
+<h4 id="3-5-low-priority选项"><a href="#3-5-low-priority选项" class="headerlink" title="3.5 low_priority选项"></a>3.5 low_priority选项</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlimport -p123456 --low-priority --replace db1 tbl1.bak</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/3-5.png" alt="3-5"></p>
+<h4 id="3-6-如果为远程的服务器恢复数据，可以如此"><a href="#3-6-如果为远程的服务器恢复数据，可以如此" class="headerlink" title="3.6 如果为远程的服务器恢复数据，可以如此"></a>3.6 如果为远程的服务器恢复数据，可以如此</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlimport -p123456 -C --lock-tables --replace db1 tbll.bak</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/3-6.png" alt="3-6"></p>
+<hr>
+<h3 id="四、使用mysqldump备份数据"><a href="#四、使用mysqldump备份数据" class="headerlink" title="四、使用mysqldump备份数据"></a>四、使用mysqldump备份数据</h3><p>同mysqlimport一样，也存在一个工具mysqldump备份数据，但是它比SQL语句多做的工作是可以在导出的文件中包括SQL语句，因此可以备份数据库表的结构，而且可以备份一个数据库，甚至整个数据库系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysqldump [options] database [tables]</span><br><span class="line">mysqldump [options] --databases [options] DB1 [DB2 DB3 ...]</span><br><span class="line">mysqldump [options] --all-databases [options]</span><br></pre></td></tr></table></figure>
+<p>如果不给定任何表，整个数据库将被倾倒。可以执行mysqldump –help可以得到mysqldump的版本支持选项表</p>
+<h4 id="4-1-备份数据库的方法，服务器主机上备份数据库db1"><a href="#4-1-备份数据库的方法，服务器主机上备份数据库db1" class="headerlink" title="4.1 备份数据库的方法，服务器主机上备份数据库db1"></a>4.1 备份数据库的方法，服务器主机上备份数据库db1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump db1 -p123456</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/4-1.png" alt="4-1"></p>
+<h4 id="4-2-备份过程及结果"><a href="#4-2-备份过程及结果" class="headerlink" title="4.2 备份过程及结果"></a>4.2 备份过程及结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/4-2.png" alt="4-2"></p>
+<h4 id="4-3-定向标准输出"><a href="#4-3-定向标准输出" class="headerlink" title="4.3 定向标准输出"></a>4.3 定向标准输出</h4><p>mysqldump缺省时把输出定位到标准输出，需要重定向标准输出。把数据库备份到db1.bak中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u root -p123456 db1 &gt; db1.bak</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/4-3.png" alt="4-3"></p>
+<h4 id="4-4-备份数据表"><a href="#4-4-备份数据表" class="headerlink" title="4.4 备份数据表"></a>4.4 备份数据表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u root -p123456 --tables db1 tbl1 &gt; tbl1.bak</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/4-4.png" alt="4-4"></p>
+<h4 id="4-5-备份整个数据库系统"><a href="#4-5-备份整个数据库系统" class="headerlink" title="4.5 备份整个数据库系统"></a>4.5 备份整个数据库系统</h4><p>也可以备份整个数据库系统的拷贝，不过对于一个庞大的系统，这样做没什么实际的价值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u root -p123456 --all-database &gt; db.bak</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/4-5.png" alt="4-5"></p>
+<hr>
+<h3 id="五、有关生成SQL语句的优化控制"><a href="#五、有关生成SQL语句的优化控制" class="headerlink" title="五、有关生成SQL语句的优化控制"></a>五、有关生成SQL语句的优化控制</h3><p><strong>–add-locks</strong>生成的SQL语句中，在每个表数据恢复之前增加lock tables并且之后unlock tables（为了使得更快的插入到mysql）。</p>
+<p><strong>–add-drop-table</strong>生成得SQL语句中，在每个create语句之前增加一个drop table</p>
+<p><strong>-e，–extended-insert</strong>使得全新多行insert语法（给出更紧缩并且更快的插入语句）</p>
+<p><strong>-l，–lock-tables</strong>为开始导出数据前，读锁定所有涉及的表</p>
+<p><strong>-q，–quick</strong>不缓冲查询，直接倾倒至stdout</p>
+<p><strong>–opt</strong>选项，它会是上述所有选项有效</p>
+<h4 id="5-1-备份单个数据库或表"><a href="#5-1-备份单个数据库或表" class="headerlink" title="5.1 备份单个数据库或表"></a>5.1 备份单个数据库或表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create db2;</span><br><span class="line">exit;</span><br><span class="line"></span><br><span class="line">mysqldump -u root -p123456 --opt db1 &gt; db1.txt</span><br><span class="line">mysqldump -u root -p123456 --opt db1 &gt; db1.sql</span><br><span class="line">mysql db2 &lt; db1.sql -p123456</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/5-1.png" alt="5-1"></p>
+<h4 id="5-2-不必指定数据库"><a href="#5-2-不必指定数据库" class="headerlink" title="5.2 不必指定数据库"></a>5.2 不必指定数据库</h4><p>如果使用<strong>–database</strong>或者<strong>–all-database</strong>选项，由于导出文件中已经包含创建和选用数据库的语句，可以直接使用，不必指定数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u root -p123456 --database db1 &gt; db1.sql</span><br><span class="line">mysql -u root -p123456 &lt; db1.sql</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/5-2.png" alt="5-2"></p>
+<hr>
+<h2 id="【思考】"><a href="#【思考】" class="headerlink" title="【思考】"></a>【思考】</h2><p><strong>出现access denied for user ‘root‘@’localhost’ (using password:no)</strong>该错误是什么原因？</p>
+<p>答：很巧，前面我在使用mysqldump备份单个数据库时，由于密码输出，出现了如下提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access denied for user &apos;root&apos;@&apos;localhost&apos; (using password:YES)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/6.png" alt="6"></p>
+<p>这是有输入密码的，但是密码出错了。所以可以猜测题目这个报错是由于：<strong>没有输入密码</strong></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

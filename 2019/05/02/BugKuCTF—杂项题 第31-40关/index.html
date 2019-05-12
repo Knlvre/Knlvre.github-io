@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="前一部分链接：第21-30关Write-up第三十一关（convert）打开文本看到是二进制文件
+将一整串二进制转换为十六进制，发现开头是rar文件的开头
+
+直接保存成一个rar文件
+123456789import binasciis = &#34;01010010011000010111001000100">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="BugKuCTF — 杂项题(第31-40关)">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前一部分链接：第21-30关Write-up第三十一关（convert）打开文本看到是二进制文件
+将一整串二进制转换为十六进制，发现开头是rar文件的开头
+
+直接保存成一个rar文件
+123456789import binasciis = &#34;01010010011000010111001000100">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>BugKuCTF — 杂项题(第31-40关) - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/180403/222440-152276548071ca.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>BugKuCTF — 杂项题(第31-40关)</h1>
+                    
+                    <h2 class="post-subheading">
+                        BugKu杂项题第31-40关的Write-up
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-05-02
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/CTF杂项/">#CTF杂项</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="前一部分链接：第21-30关Write-up"><a href="#前一部分链接：第21-30关Write-up" class="headerlink" title="前一部分链接：第21-30关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/04/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></h3><h3 id="第三十一关（convert）"><a href="#第三十一关（convert）" class="headerlink" title="第三十一关（convert）"></a>第三十一关（convert）</h3><p>打开文本看到是<code>二进制</code>文件</p>
+<p>将一整串二进制<code>转换为十六进制</code>，发现开头是<code>rar文件的开头</code></p>
+<p><img src alt="1-1"></p>
+<p>直接保存成一个<code>rar文件</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line">s = <span class="string">"010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可"</span></span><br><span class="line"></span><br><span class="line">s = hex(int(int(s,<span class="number">2</span>)))[<span class="number">2</span>:]</span><br><span class="line">s = s.encode()</span><br><span class="line">hexvalue = binascii.a2b_hex(s)</span><br><span class="line">rar = open(<span class="string">r'1.rar'</span>,<span class="string">'wb+'</span>)</span><br><span class="line">rar.write(hexvalue)</span><br><span class="line">rar.close()</span><br></pre></td></tr></table></figure>
+<p>解压得到<code>key.txt</code>，查看属性看到一串<code>Base64密文</code></p>
+<p>解密得到flag</p>
+<p><img src alt="1-2"></p>
+<hr>
+<h3 id="第三十二关（听首音乐）"><a href="#第三十二关（听首音乐）" class="headerlink" title="第三十二关（听首音乐）"></a>第三十二关（听首音乐）</h3><p>打开音频文件，发现上面的通道有比较奇怪的信息：<code>一种长的</code>、<code>一种短的</code>，这时想到莫斯密码</p>
+<p>先将信息记录下来（<code>注意：记得每段信息之间要用空格分隔</code>）</p>
+<p><img src alt="2-1"></p>
+<p>然后拿去在线网站解密一下就得到flag（直接提交就行，不用加格式）</p>
+<p>推荐一个：  <a href="http://www.zhongguosou.com/zonghe/moErSiCodeConverter.aspx" target="_blank" rel="noopener">传送门</a></p>
+<p><img src alt="2-2"></p>
+<p><img src alt="2-3"></p>
+<hr>
+<h3 id="第三十三关（好多数值）"><a href="#第三十三关（好多数值）" class="headerlink" title="第三十三关（好多数值）"></a>第三十三关（好多数值）</h3><p>链接打开看到很多数值，类似<code>坐标</code>，将其赋值下来生成<code>1.txt</code></p>
+<p><img src alt="3-1"></p>
+<p>打开查看，每一行都是RGB值，通过后来的了解是RGB转换成图片，那我们就需要知道图片的长宽</p>
+<p>文本的行数为<code>61366</code>，那么可以分解为：<code>2×61×503</code>，有三种组合方式：<code>122×503</code>、<code>1006×61</code>、<code>2×30683</code></p>
+<p><img src alt="3-3"></p>
+<p>感觉<code>122×503</code>比较靠谱，试一下</p>
+<p>利用Python的图片库，生成一张图片</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">x = <span class="number">503</span> <span class="comment">#x坐标  通过对txt里的行数进行整数分解</span></span><br><span class="line">y = <span class="number">122</span> <span class="comment">#y坐标  x*y = 行数</span></span><br><span class="line"></span><br><span class="line">im = Image.new(<span class="string">"RGB"</span>,(x,y))<span class="comment">#创建图片</span></span><br><span class="line">file = open(<span class="string">'1.txt'</span>) <span class="comment">#打开rbg值文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#通过一个个rgb点生成图片</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,x):</span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,y):</span><br><span class="line">    line = file.readline()<span class="comment">#获取一行</span></span><br><span class="line">    rgb = line.split(<span class="string">","</span>)<span class="comment">#分离rgb</span></span><br><span class="line">    im.putpixel((i,j),(int(rgb[<span class="number">0</span>]),int(rgb[<span class="number">1</span>]),int(rgb[<span class="number">2</span>])))<span class="comment">#rgb转化为像素</span></span><br><span class="line">im.show()</span><br></pre></td></tr></table></figure>
+<p>运行完后会自动弹出图片，图片中写着flag</p>
+<p><img src alt="3-2"></p>
+<hr>
+<h3 id="第三十四关（很普通的数独）"><a href="#第三十四关（很普通的数独）" class="headerlink" title="第三十四关（很普通的数独）"></a>第三十四关（很普通的数独）</h3><p>下载下来一个叫<code>zip</code>的文件，用<code>winhex</code>查看，开头是<code>504b0304</code>，那就是<code>zip格式</code>的文件了，改一下后缀名。解压出来25张图片，是做数独的图片</p>
+<p>将25张图片以<code>5×5</code>排列，发现<code>把有数字的地方涂黑</code>，就是二维码，但是<code>1、5、21</code>这三张图片顺序有问题，如下图：</p>
+<p><img src alt="4-1"></p>
+<p>然后就可以画出一个二维码。我的方法是建立一个WPS表格，把格子涂黑，比较简单粗暴 :)</p>
+<p><img src alt="4-2"></p>
+<p>网上看了别人的WriteUp：<a href="http://www.pianshen.com/article/4746320544/" target="_blank" rel="noopener">http://www.pianshen.com/article/4746320544/</a></p>
+<p>把<code>有数字的地方作为1，没数字的地方为0</code>，提取出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">111111101010101000101000001111110000101111111</span><br><span class="line">100000101100111101010011101100011001001000001</span><br><span class="line">101110101110011111010011111101000101001011101</span><br><span class="line">101110101101100010001010000011110001101011101</span><br><span class="line">101110100011100100001111101111111011101011101</span><br><span class="line">...太多了不写</span><br></pre></td></tr></table></figure>
+<p>借用python的<code>Image</code>库，生成二维码，好像也是挺累的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">x = <span class="number">45</span></span><br><span class="line">y = <span class="number">45</span></span><br><span class="line"> </span><br><span class="line">im = Image.new(<span class="string">'RGB'</span>, (x, y))</span><br><span class="line">white = (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>)</span><br><span class="line">black = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'file.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(x):</span><br><span class="line">        ff = f.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(y):</span><br><span class="line">            <span class="keyword">if</span> ff[j] == <span class="string">'1'</span>:</span><br><span class="line">                im.putpixel((i, j), black)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                im.putpixel((i, j), white)</span><br><span class="line">im.save(<span class="string">"1.jpg"</span>)</span><br></pre></td></tr></table></figure>
+<p>扫描二维码得到Base64字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vm0xd1NtUXlWa1pPVldoVFlUSlNjRlJVVGtOamJGWnlWMjFHVlUxV1ZqTldNakZIWVcxS1IxTnNhRmhoTVZweVdWUkdXbVZHWkhOWGJGcHBWa1paZWxaclpEUmhNVXBYVW14V2FHVnFRVGs9</span><br></pre></td></tr></table></figure>
+<p>多次<code>Base64</code>解码之后，拿到flag</p>
+<p>可能我技术不到位，这道题费时间，比较累</p>
+<hr>
+<h3 id="第三十五关（PEN-AND-APPLE）"><a href="#第三十五关（PEN-AND-APPLE）" class="headerlink" title="第三十五关（PEN_AND_APPLE）"></a>第三十五关（PEN_AND_APPLE）</h3><p>链接打开是一个黑人老哥在跳<code>PEN_AND_APPLE</code>，亮瞎</p>
+<p>没有思路，参考别人的WriteUp：<a href="https://www.cnblogs.com/lomooo/p/5977067.html" target="_blank" rel="noopener">https://www.cnblogs.com/lomooo/p/5977067.html</a></p>
+<p>按照方法去尝试，但是不管怎样都不行，切换操作系统、浏览器、浏览模式下载都不行。好像是因为文件下载下来出了问题，导致隐藏的文件丢失，不做了</p>
+<hr>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

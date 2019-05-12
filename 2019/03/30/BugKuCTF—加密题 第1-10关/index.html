@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="第一关（滴答~滴）百度一下题目给的数字，发现是摩斯密码
+
+在线解密一下
+
+提交就对了
+
+
+第二关（聪明的小羊）题目提示很明显了：栅栏密码
+
+用Python写个脚本
+
+跑一下flag直接出来
+
+也可以使用网站：栅栏密码在线加密解密
+
+第三关（ok）好多的ok，那么这个就是Ook!编码
+
+找个在线解码网">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="BugKuCTF — 加密题(第1-10关)">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="第一关（滴答~滴）百度一下题目给的数字，发现是摩斯密码
+
+在线解密一下
+
+提交就对了
+
+
+第二关（聪明的小羊）题目提示很明显了：栅栏密码
+
+用Python写个脚本
+
+跑一下flag直接出来
+
+也可以使用网站：栅栏密码在线加密解密
+
+第三关（ok）好多的ok，那么这个就是Ook!编码
+
+找个在线解码网">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>BugKuCTF — 加密题(第1-10关) - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/180403/222440-152276548071ca.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>BugKuCTF — 加密题(第1-10关)</h1>
+                    
+                    <h2 class="post-subheading">
+                        BugKu加密题第1-10关的Write-up
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-03-30
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/CTF加密/">#CTF加密</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
+<p><img src alt="1-1"></p>
+<p>在线解密一下</p>
+<p><img src alt="1-2"></p>
+<p>提交就对了</p>
+<p><img src alt="1-3"></p>
+<hr>
+<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
+<p><img src alt="2-1"></p>
+<p>用Python写个脚本</p>
+<p><img src alt="2-2"></p>
+<p>跑一下flag直接出来</p>
+<p><img src alt="2-3"></p>
+<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
+<hr>
+<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
+<p><img src alt="3-1"></p>
+<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
+<p><img src alt="3-2"></p>
+<p>flag直接解出来</p>
+<p><img src alt="3-3"></p>
+<hr>
+<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
+<p><img src alt="4-1"></p>
+<p>那就能继续利用上面哪个网站破解</p>
+<p><img src alt="4-2"></p>
+<p>成功解出flag</p>
+<p><img src alt="4-3"></p>
+<hr>
+<h3 id="第五关（easy-crypto）"><a href="#第五关（easy-crypto）" class="headerlink" title="第五关（easy_crypto）"></a>第五关（easy_crypto）</h3><p>二进制密码</p>
+<p><img src alt="5-1"></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

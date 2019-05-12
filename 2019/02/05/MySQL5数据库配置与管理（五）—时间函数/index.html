@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="【原理】（1）日期和时间函数对建立一个站点是非常有用的。站点的主人往往对一个表中的数据何时被更新感兴趣。通过日期和时间函数，你可以在秒级跟踪一个表的改变。（2）日期和时间类型是DATETIME、DATE、TIMESTAIMP、TIHME和YEAR。这些的每一个都有合法值的一个范围，而“零”当你指定确">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Mysql数据库（五） — 时间函数(未补全)">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="【原理】（1）日期和时间函数对建立一个站点是非常有用的。站点的主人往往对一个表中的数据何时被更新感兴趣。通过日期和时间函数，你可以在秒级跟踪一个表的改变。（2）日期和时间类型是DATETIME、DATE、TIMESTAIMP、TIHME和YEAR。这些的每一个都有合法值的一个范围，而“零”当你指定确">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Mysql数据库（五） — 时间函数(未补全) - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/171206/231312-1512573192ad02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Mysql数据库（五） — 时间函数(未补全)</h1>
+                    
+                    <h2 class="post-subheading">
+                        MySQL5数据库时间函数的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-02-05
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Mysql数据库/">#Mysql数据库</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）日期和时间函数对建立一个站点是非常有用的。站点的主人往往对一个表中的数据何时被更新感兴趣。通过日期和时间函数，你可以在秒级跟踪一个表的改变。<br>（2）日期和时间类型是DATETIME、DATE、TIMESTAIMP、TIHME和YEAR。这些的每一个都有合法值的一个范围，而“零”当你指定确买不合法的值时被使用。</p>
+<hr>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、环境构建"><a href="#一、环境构建" class="headerlink" title="一、环境构建"></a>一、环境构建</h3><h4 id="1-1-启动mysql服务"><a href="#1-1-启动mysql服务" class="headerlink" title="1.1 启动mysql服务"></a>1.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B0/1-1.png" alt="1-1"></p>
+<h4 id="1-2-进入mysql"><a href="#1-2-进入mysql" class="headerlink" title="1.2 进入mysql"></a>1.2 进入mysql</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B0/1-2.png" alt="1-2"></p>
+<h4 id="1-3-创建mytest数据库"><a href="#1-3-创建mytest数据库" class="headerlink" title="1.3 创建mytest数据库"></a>1.3 创建mytest数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database mytest;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B0/1-3.png" alt="1-3"></p>
+<h4 id="1-4-使用mytest"><a href="#1-4-使用mytest" class="headerlink" title="1.4 使用mytest"></a>1.4 使用mytest</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use mytest;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E9%9B%86%E5%90%88%E5%87%BD%E6%95%B0/1-4.png" alt="1-4"></p>
+<h4 id="1-5-创建student表，并添加内容"><a href="#1-5-创建student表，并添加内容" class="headerlink" title="1.5 创建student表，并添加内容"></a>1.5 创建student表，并添加内容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">create table student (name varchar(10),teacher varchar(10),age int,sex varchar(10),sno varchar(20)，birth int);</span><br><span class="line"></span><br><span class="line">insert into student (name,teacher,age,sex,sno,birth) values (&apos;wanglin&apos;,&apos;jake&apos;,&apos;20&apos;,&apos;woman&apos;,&apos;201902&apos;,&apos;19940125&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno,birth) values (&apos;liming&apos;,&apos;tony&apos;,&apos;22&apos;,&apos;man&apos;,&apos;201903&apos;,&apos;19910816&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno,birth) values (&apos;fang&apos;,&apos;tony&apos;,&apos;22&apos;,&apos;woman&apos;,&apos;201904&apos;,&apos;19921021&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno,birth) values (&apos;limeng&apos;,&apos;benny&apos;,&apos;23&apos;,&apos;women&apos;,&apos;201905&apos;,&apos;19951220&apos;);</span><br><span class="line">insert into student (name,teacher,age,sex,sno,birth) values (&apos;liuhu&apos;,&apos;benny&apos;,&apos;23&apos;,&apos;woman&apos;,&apos;201906&apos;,&apos;19900202&apos;);</span><br><span class="line"></span><br><span class="line">select * from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/1-5.png" alt="1-5"></p>
+<hr>
+<h3 id="二、返回当前日期和时间"><a href="#二、返回当前日期和时间" class="headerlink" title="二、返回当前日期和时间"></a>二、返回当前日期和时间</h3><h4 id="2-1-curdate-函数，年月日，默认返回’YYYY-MM-DD’格式"><a href="#2-1-curdate-函数，年月日，默认返回’YYYY-MM-DD’格式" class="headerlink" title="2.1 curdate()函数，年月日，默认返回’YYYY-MM-DD’格式"></a>2.1 curdate()函数，年月日，默认返回’YYYY-MM-DD’格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select curdate();</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/2-1.png" alt="2-1"></p>
+<h4 id="2-2-返回’YYYYMMDD’格式"><a href="#2-2-返回’YYYYMMDD’格式" class="headerlink" title="2.2 返回’YYYYMMDD’格式"></a>2.2 返回’YYYYMMDD’格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select curdate()+0;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/2-2.png" alt="2-2"></p>
+<h4 id="2-3-curtime-函数，时分秒，默认返回’HH-MM-SS’格式"><a href="#2-3-curtime-函数，时分秒，默认返回’HH-MM-SS’格式" class="headerlink" title="2.3 curtime()函数，时分秒，默认返回’HH:MM:SS’格式"></a>2.3 curtime()函数，时分秒，默认返回’HH:MM:SS’格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select curtime();</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/2-3.png" alt="2-3"></p>
+<h4 id="2-4-返回’HHMMSS’格式"><a href="#2-4-返回’HHMMSS’格式" class="headerlink" title="2.4 返回’HHMMSS’格式"></a>2.4 返回’HHMMSS’格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select curtime()+0;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/2-4.png" alt="2-4"></p>
+<h4 id="2-5-now-函数，年月日时分秒，默认返回’YYYY-MM-DD-HH-MM-SS’"><a href="#2-5-now-函数，年月日时分秒，默认返回’YYYY-MM-DD-HH-MM-SS’" class="headerlink" title="2.5 now()函数，年月日时分秒，默认返回’YYYY-MM-DD HH:MM:SS’"></a>2.5 now()函数，年月日时分秒，默认返回’YYYY-MM-DD HH:MM:SS’</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select now();</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/2-5.png" alt="2-5"></p>
+<h4 id="2-6-返回’YYYYMMDDHHMMSS’"><a href="#2-6-返回’YYYYMMDDHHMMSS’" class="headerlink" title="2.6 返回’YYYYMMDDHHMMSS’"></a>2.6 返回’YYYYMMDDHHMMSS’</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select now()+0;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/2-6.png" alt="2-6"></p>
+<h4 id="2-7-可用来计算时间差"><a href="#2-7-可用来计算时间差" class="headerlink" title="2.7 可用来计算时间差"></a>2.7 可用来计算时间差</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select name,curdate()-birth from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/2-7.png" alt="2-7"></p>
+<hr>
+<h3 id="三、自动记录数据的改变时间"><a href="#三、自动记录数据的改变时间" class="headerlink" title="三、自动记录数据的改变时间"></a>三、自动记录数据的改变时间</h3><h4 id="3-1-创建表"><a href="#3-1-创建表" class="headerlink" title="3.1 创建表"></a>3.1 创建表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop table student;</span><br><span class="line">create table student (id int,name char(16),english tinyint,chinese tinyint,history tinyint,time timestamp);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/3-1.png" alt="3-1"></p>
+<h4 id="3-2-插入记录"><a href="#3-2-插入记录" class="headerlink" title="3.2 插入记录"></a>3.2 插入记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into student (id,name,english,chinese,history) values (11,&apos;Tom&apos;,66,93,67);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/3-2.png" alt="3-2"></p>
+<h4 id="3-3-查看插入的记录"><a href="#3-3-查看插入的记录" class="headerlink" title="3.3 查看插入的记录"></a>3.3 查看插入的记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">selecet * from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/3-3.png" alt="3-3"></p>
+<h4 id="3-4-更新该记录"><a href="#3-4-更新该记录" class="headerlink" title="3.4 更新该记录"></a>3.4 更新该记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update student set english=76 where id=11;</span><br><span class="line">select * from student;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/3-4.png" alt="3-4"></p>
+<p>可以清楚看到，<strong>time列</strong>的时间被自动更改为修改记录的时间</p>
+<h4 id="3-5-不改变其他值的情况下，更改timestamp"><a href="#3-5-不改变其他值的情况下，更改timestamp" class="headerlink" title="3.5 不改变其他值的情况下，更改timestamp"></a>3.5 不改变其他值的情况下，更改timestamp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update student set time=NULL where id=11;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/3-5.png" alt="3-5"></p>
+<h4 id="3-6"><a href="#3-6" class="headerlink" title="3.6"></a>3.6</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update student set english=66,time=time where id=11;</span><br><span class="line">select * from student where id=11;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/3-6.png" alt="3-6"></p>
+<h4 id="3-7"><a href="#3-7" class="headerlink" title="3.7"></a>3.7</h4><hr>
+<h3 id="四、返回日期和时间范围"><a href="#四、返回日期和时间范围" class="headerlink" title="四、返回日期和时间范围"></a>四、返回日期和时间范围</h3><h4 id="4-1-创建一个表"><a href="#4-1-创建一个表" class="headerlink" title="4.1 创建一个表"></a>4.1 创建一个表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table weblog (data float,entrydate datetime);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/4-1.png" alt="4-1"></p>
+<h4 id="4-2-随机增加几个数据"><a href="#4-2-随机增加几个数据" class="headerlink" title="4.2 随机增加几个数据"></a>4.2 随机增加几个数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert weblog values (rand(),now());</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/4-2.png" alt="4-2"></p>
+<h4 id="4-3-上面语句多执行几次，然后添加一个测试值"><a href="#4-3-上面语句多执行几次，然后添加一个测试值" class="headerlink" title="4.3 上面语句多执行几次，然后添加一个测试值"></a>4.3 上面语句多执行几次，然后添加一个测试值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert weblog values (rand(),&apos;2016-07-19&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/4-3.png" alt="4-3"></p>
+<h4 id="4-4-查看插入的数据"><a href="#4-4-查看插入的数据" class="headerlink" title="4.4 查看插入的数据"></a>4.4 查看插入的数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from weblog;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/4-4.png" alt="4-4"></p>
+<h4 id="4-5-查看某天数据——错误示范"><a href="#4-5-查看某天数据——错误示范" class="headerlink" title="4.5 查看某天数据——错误示范"></a>4.5 查看某天数据——错误示范</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from weblog where entrydate = &apos;2016-07-19&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/4-5.png" alt="4-5"></p>
+<h4 id="4-6-查看某天数据——正确示范"><a href="#4-6-查看某天数据——正确示范" class="headerlink" title="4.6 查看某天数据——正确示范"></a>4.6 查看某天数据——正确示范</h4><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from weblog where entrydate &gt;= &apos;2019-02-13&apos; and entrydate &lt;= &apos;2019-02-15&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/4-6.png" alt="4-6"></p>
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from weblog where entrydate like &apos;2019-02-14%&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/4-6-2.png" alt="4-6-2"></p>
+<h4 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from weblog where entrydate &gt;= &apos;2019-02-14&apos;;</span><br><span class="line">select * from weblog where entrydate &gt;= &apos;2019.02.14&apos;;</span><br><span class="line">select * from weblog where entrydate &gt;= &apos;2019 02 14&apos;;</span><br><span class="line">select * from weblog where entrydate &gt;= &apos;20190214&apos;;</span><br><span class="line">select * from weblog where entrydate &gt;= &apos;2019/02/14&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/4-6-3.png" alt="4-6-3"></p>
+<hr>
+<h4 id="五、比较日期时间"><a href="#五、比较日期时间" class="headerlink" title="五、比较日期时间"></a>五、比较日期时间</h4><h4 id="5-1-to-days-函数"><a href="#5-1-to-days-函数" class="headerlink" title="5.1 to_days()函数"></a>5.1 to_days()函数</h4><p>给出一个日期date，返回一个天数(从0年的天数)，date可以是一个数字，也可以是一个串值，当然更可以是包含日期的时间类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select to_days(960501);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/5-1.png" alt="5-1"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select to_days(&apos;1997-07-01&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/5-1-2.png" alt="5-1-2"></p>
+<h4 id="5-2-返回2个时间相差的天数"><a href="#5-2-返回2个时间相差的天数" class="headerlink" title="5.2 返回2个时间相差的天数"></a>5.2 返回2个时间相差的天数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select to_days(now())-to_days(&apos;20011010&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/5-2.png" alt="5-2"></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

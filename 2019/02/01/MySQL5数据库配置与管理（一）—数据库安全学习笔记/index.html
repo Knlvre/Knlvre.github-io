@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="【Tip】12345Grant：授予Privilege： 特权Revoke：废除Anonymous：匿名的Recurse：递归
+
+【原理】​    （1）数据库系统分为内部安全性和外部安全性。
+​    （2）内部安全性关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Mysql数据库（一） — 数据库安全">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="【Tip】12345Grant：授予Privilege： 特权Revoke：废除Anonymous：匿名的Recurse：递归
+
+【原理】​    （1）数据库系统分为内部安全性和外部安全性。
+​    （2）内部安全性关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>Mysql数据库（一） — 数据库安全 - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/171206/231312-1512573192ad02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Mysql数据库（一） — 数据库安全</h1>
+                    
+                    <h2 class="post-subheading">
+                        Mysql数据库安全的学习笔记
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-02-01
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/Mysql数据库/">#Mysql数据库</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="【Tip】"><a href="#【Tip】" class="headerlink" title="【Tip】"></a>【Tip】</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Grant：授予</span><br><span class="line">Privilege： 特权</span><br><span class="line">Revoke：废除</span><br><span class="line">Anonymous：匿名的</span><br><span class="line">Recurse：递归</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>​    （1）数据库系统分为内部安全性和外部安全性。</p>
+<p>​    （2）<strong>内部安全性</strong>关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主机有账号的人（合法或盗取的）进行攻击。如果数据目录内容的权限过分授予，使得每个人均能简单地替代对应于那些数据库表的文件，那么确保控制客户通过网络访问的授权表设置正确，对此毫无意义。</p>
+<p>​    （3）<strong>外部安全性</strong>关心的是从外部通过网络连接服务器的客户的问题，既保护Mysql服务器免受来自通过网络对服务器的连接的攻击。必须设置Mysql授权表（grant table），使得他们不允许访问服务器管理的数据库内容，除非提供有效用户名和口令。</p>
+<hr>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h3><h4 id="1-1-启动mysql服务"><a href="#1-1-启动mysql服务" class="headerlink" title="1.1 启动mysql服务"></a>1.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-1.png" alt="1"></p>
+<h4 id="1-2-进入mysql，并且创建一个新的数据库"><a href="#1-2-进入mysql，并且创建一个新的数据库" class="headerlink" title="1.2 进入mysql，并且创建一个新的数据库"></a>1.2 进入mysql，并且创建一个新的数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br><span class="line">create database HSW;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-2.png" alt="1-2"></p>
+<h4 id="1-3-创建一个新用户，命名为：student"><a href="#1-3-创建一个新用户，命名为：student" class="headerlink" title="1.3 创建一个新用户，命名为：student"></a>1.3 创建一个新用户，命名为：student</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &apos;student&apos;@&apos;localhost&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-3.png" alt="1-3"></p>
+<h4 id="1-4-并给予相应数据库的权限"><a href="#1-4-并给予相应数据库的权限" class="headerlink" title="1.4 并给予相应数据库的权限"></a>1.4 并给予相应数据库的权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on HSW.* to &apos;student&apos;@&apos;localhost&apos; with grant option;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-4.png" alt="1-4"></p>
+<h4 id="1-5-刷新权限"><a href="#1-5-刷新权限" class="headerlink" title="1.5 刷新权限"></a>1.5 刷新权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-5.png" alt="1-5"></p>
+<h4 id="1-6-显示授权"><a href="#1-6-显示授权" class="headerlink" title="1.6 显示授权"></a>1.6 显示授权</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show grants;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-6.png" alt="1-6"></p>
+<h4 id="1-7-移除授权"><a href="#1-7-移除授权" class="headerlink" title="1.7 移除授权"></a>1.7 移除授权</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">revoke delete on HSW.* from &apos;student&apos;@&apos;localhost&apos;；</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-7.png" alt="1-7"></p>
+<h4 id="1-8-为用户重命名"><a href="#1-8-为用户重命名" class="headerlink" title="1.8 为用户重命名"></a>1.8 为用户重命名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rename user &apos;student&apos;@&apos;localhost&apos; to &apos;Knlvre&apos;@&apos;localhost&apos;；</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-8.png" alt="1-8"></p>
+<h4 id="1-9-为用户设置或更改密码"><a href="#1-9-为用户设置或更改密码" class="headerlink" title="1.9 为用户设置或更改密码"></a>1.9 为用户设置或更改密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET PASSWORD FOR &apos;Knlvre&apos;@&apos;localhost&apos; = PASSWORD(&apos;666666&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-9.png" alt="1-9"></p>
+<h4 id="1-10-删除数据库"><a href="#1-10-删除数据库" class="headerlink" title="1.10 删除数据库"></a>1.10 删除数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database HSW;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-10.png" alt="1-10"></p>
+<h4 id="1-11-删除用户"><a href="#1-11-删除用户" class="headerlink" title="1.11 删除用户"></a>1.11 删除用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop user &apos;Knlvre&apos;@&apos;localhost&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-11.png" alt="1-11"></p>
+<hr>
+<h3 id="二、安全设置"><a href="#二、安全设置" class="headerlink" title="二、安全设置"></a>二、安全设置</h3><h4 id="2-1-启动mysql服务"><a href="#2-1-启动mysql服务" class="headerlink" title="2.1 启动mysql服务"></a>2.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-1.png" alt="2-1"></p>
+<h4 id="2-2-修改root用户的口令"><a href="#2-2-修改root用户的口令" class="headerlink" title="2.2 修改root用户的口令"></a>2.2 修改root用户的口令</h4><p>方法1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p password 666</span><br></pre></td></tr></table></figure>
+<p>这时，系统会提醒你输入旧密码，如果没有就直接回车（这里是没有密码的）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-2.png" alt="2-2"></p>
+<p>方法2</p>
+<p>在方法1当中并没有进入mysql而去设置密码，本方法中需要先进入mysql，需要输入刚才设置的密码’666’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+<p>设置密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password for root@localhost=password(&apos;666&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-3.png" alt="2-3"></p>
+<p>方法3</p>
+<p>最后一句<strong>flush privileges</strong>的意思是强制刷新内存授权表，否则用的还是缓存的口令，这是非法用户还可以用root用户及空口令登陆，直到重启Mysql服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">update user set password=password(&apos;666&apos;) where user=&apos;root&apos;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-4.png" alt="2-4"></p>
+<h4 id="2-3-删除默认的数据库和用户"><a href="#2-3-删除默认的数据库和用户" class="headerlink" title="2.3 删除默认的数据库和用户"></a>2.3 删除默认的数据库和用户</h4><p>我们的数据库是在本地，并且也只需要本地的php脚本对mysql进行读取。mysql初始化后会自动生成空用户和test库，这会对数据库构成威胁，我们全部删除。我们使用mysql客户端程序连接到本地的mysql服务器后出现如下提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">drop database test;</span><br><span class="line">use mysql;</span><br><span class="line">delete from db;</span><br><span class="line">delete from user where not(host=&quot;localhost&quot; and user=&quot;root&quot;);</span><br><span class="line">flush pricileges;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-5.png" alt="2-5"></p>
+<h4 id="2-4-改变默认mysql管理员的名称"><a href="#2-4-改变默认mysql管理员的名称" class="headerlink" title="2.4 改变默认mysql管理员的名称"></a>2.4 改变默认mysql管理员的名称</h4><p>这个工作是可以选择的，根据个人习惯，因为默认的mysql的管理员名称是root，所以如果能够修改的话，能够防止一些脚本小子对系统的穷举。我们可以直接修改数据库，把root用户改为“admin”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">update user set user=&quot;admin&quot; where user=&quot;root&quot;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-6.png" alt="2-6"></p>
+<h4 id="2-5-提高本地安全性"><a href="#2-5-提高本地安全性" class="headerlink" title="2.5 提高本地安全性"></a>2.5 提高本地安全性</h4><p>主要是防止mysql对本地文件的存取，比如黑客通过mysql把/etc/passwd获取了，会对系统构成威胁。mysql对本地文件的存取是通过SQL语句来实现的，主要是通过Load DATA LOCAL INFILE来实现，我们能通过禁用该功能来防止黑客通过SQL注入等获取系统核心文件。禁用该功能必须在<strong>etc文件夹</strong>下的<strong>my.cnf文件</strong>的<strong>[mysqld]</strong>部分加上一个参数，如图所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set-variable=local-infile=0</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-7.png" alt="2-7"></p>
+<h4 id="2-6-禁止远程链接mysql"><a href="#2-6-禁止远程链接mysql" class="headerlink" title="2.6 禁止远程链接mysql"></a>2.6 禁止远程链接mysql</h4><p>因为我们的mysql只需要本地的php脚本进行连接，所以我们无需开socket进行监听，那么我们完全可以关闭监听的功能，还是配置在<strong>etc文件夹</strong>下的<strong>my.cnf文件</strong>的<strong>[mysqld]</strong>部分添加内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skip-networking</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-8.png" alt="2-8"></p>
+<h4 id="2-7-控制数据库访问权限"><a href="#2-7-控制数据库访问权限" class="headerlink" title="2.7 控制数据库访问权限"></a>2.7 控制数据库访问权限</h4><p>对于使用php脚本来进行交互，最好建立一个用户只针对某个库拥有所有的操作权限，这样就很好避免了数据库用户名和密码被黑客查看后最小损失</p>
+<p>创建一个数据库为db1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database db1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-9.png" alt="2-9"></p>
+<p>然后同时建立一个口令为adminab的用户test1能够访问该数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on db1.* to &apos;test1&apos;@&apos;localhost&apos; identified by &apos;adminab&apos; with grant option;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-10.png" alt="2-10"></p>
+<p>以上SQL是创建一个数据库db1，同时增加一个test1用户，对db1库有全部的操作权限，口令是adminab，但是它只能从本地连接mysql</p>
+<h4 id="2-8-限制一般用户浏览其他数据库"><a href="#2-8-限制一般用户浏览其他数据库" class="headerlink" title="2.8 限制一般用户浏览其他数据库"></a>2.8 限制一般用户浏览其他数据库</h4><p>如果有多个数据库，每个数据库有一个用户，那么必须限制用户浏览其他数据库内容，可以在启动mysql服务器时加上<strong>–skip-show-database</strong>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart --skip-show-database</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-11.png" alt="2-11"></p>
+<hr>
+<h3 id="三、vsFTP安全设置"><a href="#三、vsFTP安全设置" class="headerlink" title="三、vsFTP安全设置"></a>三、vsFTP安全设置</h3><p><strong>vsFTPd</strong>是一款非常著名的<strong>ftp daemon</strong>程序，目前包括<strong>Redhat</strong>在内很多大公司都在使用，它是一款安全性很高的程序</p>
+<p>vsFTPd设置选项比较多，涉及方方面面，我们下面主要是针对安全方面进行设置</p>
+<p>目前我们的需求就是使用系统账户的同时也作为FTP账户来进行文件的管理，目前假设我只需要一个账户来更新我的网站，并且我不希望该账户能够登陆系统，比如网站目录是在<strong>/usr/www</strong>下面，那么我们创建一个用户<strong>ftp</strong>，它的主目录是<strong>/usr/www</strong>，并且它的shell是<strong>/usr/sbin/nologin</strong>，就是没有shell，防止该用户通过<strong>ssh</strong>等登陆到系统</p>
+<p>下面是针对vsftpd的配置文件<strong>vsftpd.conf文件</strong>的配置。</p>
+<h4 id="3-1-禁止匿名用户"><a href="#3-1-禁止匿名用户" class="headerlink" title="3.1 禁止匿名用户"></a>3.1 禁止匿名用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">anonymous_enable=NO</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-1.png" alt="3-1"></p>
+<h4 id="3-2-允许本地用户登陆"><a href="#3-2-允许本地用户登陆" class="headerlink" title="3.2 允许本地用户登陆"></a>3.2 允许本地用户登陆</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_enable=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-2.png" alt="3-2"></p>
+<h4 id="3-3-只允许系统中的ftp用户或者某些指定的用户访问ftp，打开用户文件列表功能"><a href="#3-3-只允许系统中的ftp用户或者某些指定的用户访问ftp，打开用户文件列表功能" class="headerlink" title="3.3 只允许系统中的ftp用户或者某些指定的用户访问ftp，打开用户文件列表功能"></a>3.3 只允许系统中的ftp用户或者某些指定的用户访问ftp，打开用户文件列表功能</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userlist_enable=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-3.png" alt="3-3"></p>
+<h4 id="3-4-只允许用户文件列表中的用户访问ftp-以及用户名文件列表路径"><a href="#3-4-只允许用户文件列表中的用户访问ftp-以及用户名文件列表路径" class="headerlink" title="3.4 只允许用户文件列表中的用户访问ftp:以及用户名文件列表路径"></a>3.4 只允许用户文件列表中的用户访问ftp:以及用户名文件列表路径</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">userlist_deny=NO</span><br><span class="line">userlist_file=/etc/vsftpd.user_list</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-4.png" alt="3-4"></p>
+<h4 id="3-5-对vsftpd的用户使用pam认证"><a href="#3-5-对vsftpd的用户使用pam认证" class="headerlink" title="3.5 对vsftpd的用户使用pam认证"></a>3.5 对vsftpd的用户使用pam认证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pam_service_name=vsftpd</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-5.png" alt="3-5"></p>
+<h4 id="3-6-需要指出vsftpd进行pam认证时所使用的pam配置文件名，默认值是vsftpd。把本地用户锁定在自己的主目录，防止转到其他目录"><a href="#3-6-需要指出vsftpd进行pam认证时所使用的pam配置文件名，默认值是vsftpd。把本地用户锁定在自己的主目录，防止转到其他目录" class="headerlink" title="3.6 需要指出vsftpd进行pam认证时所使用的pam配置文件名，默认值是vsftpd。把本地用户锁定在自己的主目录，防止转到其他目录"></a>3.6 需要指出vsftpd进行pam认证时所使用的pam配置文件名，默认值是vsftpd。把本地用户锁定在自己的主目录，防止转到其他目录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chroot_local_users=NO</span><br><span class="line">chroot_list_enable=YES</span><br><span class="line">chroot_list_file=/etc/vsftpd.chroot_list</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-6.png" alt="3-6"></p>
+<h4 id="3-7-然后在-etc下创建vsftpd-chroot-list文件，里面把我们要限制的本地账户加进去，一行一个，我们加上ftp，防止它登录到系统"><a href="#3-7-然后在-etc下创建vsftpd-chroot-list文件，里面把我们要限制的本地账户加进去，一行一个，我们加上ftp，防止它登录到系统" class="headerlink" title="3.7  然后在/etc下创建vsftpd.chroot_list文件，里面把我们要限制的本地账户加进去，一行一个，我们加上ftp，防止它登录到系统"></a>3.7  然后在/etc下创建vsftpd.chroot_list文件，里面把我们要限制的本地账户加进去，一行一个，我们加上ftp，防止它登录到系统</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-7.png" alt="3-7"></p>
+<h4 id="3-8-隐藏文件真实的所有用户和组信息，防止黑客拿下ftp后查看更多系统用户信息"><a href="#3-8-隐藏文件真实的所有用户和组信息，防止黑客拿下ftp后查看更多系统用户信息" class="headerlink" title="3.8 隐藏文件真实的所有用户和组信息，防止黑客拿下ftp后查看更多系统用户信息"></a>3.8 隐藏文件真实的所有用户和组信息，防止黑客拿下ftp后查看更多系统用户信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hide_ids=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-8.png" alt="3-8"></p>
+<h4 id="3-9-取消ls-R命令，节省资源，因为使用该命令，在文件列表很多的时候将浪费大量系统资源"><a href="#3-9-取消ls-R命令，节省资源，因为使用该命令，在文件列表很多的时候将浪费大量系统资源" class="headerlink" title="3.9 取消ls -R命令，节省资源，因为使用该命令，在文件列表很多的时候将浪费大量系统资源"></a>3.9 取消ls -R命令，节省资源，因为使用该命令，在文件列表很多的时候将浪费大量系统资源</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls_recurse_enable=NO</span><br><span class="line">local_umask=022</span><br><span class="line">write_enable=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-9.png" alt="3-9"></p>
+<h4 id="3-10-打开日志功能同时设置日志的目录，启用详细的日志记录格式"><a href="#3-10-打开日志功能同时设置日志的目录，启用详细的日志记录格式" class="headerlink" title="3.10 打开日志功能同时设置日志的目录，启用详细的日志记录格式"></a>3.10 打开日志功能同时设置日志的目录，启用详细的日志记录格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xferlog_enable=YES</span><br><span class="line">xferlog_file=/var/log/vsftpd.log</span><br><span class="line">xferlog_enable=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-10.png" alt="3-10"></p>
+<h4 id="3-11-如果打开虚用户功能等，那么建议关闭本地用户登录"><a href="#3-11-如果打开虚用户功能等，那么建议关闭本地用户登录" class="headerlink" title="3.11 如果打开虚用户功能等，那么建议关闭本地用户登录"></a>3.11 如果打开虚用户功能等，那么建议关闭本地用户登录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_enable=NO</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-11.png" alt="3-11"></p>
+<hr>
+<h2 id="【思考】"><a href="#【思考】" class="headerlink" title="【思考】"></a>【思考】</h2><p><strong>缺省安装额mysql有密码吗？</strong></p>
+<p>答：没有</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

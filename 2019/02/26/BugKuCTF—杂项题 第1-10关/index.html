@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="第一关（签到题）关注公众号扫描二维码就能获得flag
+
+第二关（这是一张单纯的图片）题目链接：
+1http://123.206.87.240:8002/misc/1.jpg
+打开链接发现是一张jpg图片
+
+
+看了一下图片属性，没发现什么东西
+
+使用UE（UltraEdit）打开图片看看。发现在最后几">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Huang-ShuWei(Knlvre)">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="BugKuCTF — 杂项题(第1-10关)">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="第一关（签到题）关注公众号扫描二维码就能获得flag
+
+第二关（这是一张单纯的图片）题目链接：
+1http://123.206.87.240:8002/misc/1.jpg
+打开链接发现是一张jpg图片
+
+
+看了一下图片属性，没发现什么东西
+
+使用UE（UltraEdit）打开图片看看。发现在最后几">
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Knlvre">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+        <meta name="twitter:card" content="summary_large_image">
+
+    
+
+    
+        <meta name="twitter:image" content="https://knlvre.github.io/Knlvre.github-iohttp://img.sj33.cn/uploads/allimg/200912/20091206235017574.jpg">
+    
+
+    <!-- Title -->
+    
+    <title>BugKuCTF — 杂项题(第1-10关) - Knlvre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Knlvre.github-io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Knlvre.github-io/">Knlvre</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Knlvre.github-io/">
+                            
+                                首页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Knlvre.github-io/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Knlvre/Knlvre.github-io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://pic.netbian.com/uploads/allimg/180403/222440-152276548071ca.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>BugKuCTF — 杂项题(第1-10关)</h1>
+                    
+                    <h2 class="post-subheading">
+                        BugKu杂项题第1-10关的Write-up
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Knlvre on
+                        
+                        
+                            2019-02-26
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Knlvre.github-io/tags/CTF杂项/">#CTF杂项</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="第一关（签到题）"><a href="#第一关（签到题）" class="headerlink" title="第一关（签到题）"></a>第一关（签到题）</h3><p>关注公众号扫描二维码就能获得flag</p>
+<hr>
+<h3 id="第二关（这是一张单纯的图片）"><a href="#第二关（这是一张单纯的图片）" class="headerlink" title="第二关（这是一张单纯的图片）"></a>第二关（这是一张单纯的图片）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/1.jpg</span><br></pre></td></tr></table></figure>
+<p>打开链接发现是一张<strong>jpg</strong>图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-2.png" alt="1-2"></p>
+<p>看了一下图片属性，没发现什么东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-3.png" alt="1-3"></p>
+<p>使用UE（UltraEdit）打开图片看看。发现在最后几行有着<strong>Unicode</strong>编码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-4.png" alt="1-4"></p>
+<p>复制这个Unicode编码，通过在线工具转换成<strong>ASCII</strong>编码后，Flag就出来了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-5.png" alt="1-5"></p>
+<hr>
+<h3 id="第三关（隐写）"><a href="#第三关（隐写）" class="headerlink" title="第三关（隐写）"></a>第三关（隐写）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/f8da9b5979e89e91d083c7accdea4427/2.rar</span><br></pre></td></tr></table></figure>
+<p>下载下来是一个<strong>rar</strong>文件，里面有一张<strong>png</strong>图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-1.png" alt="2-1"></p>
+<p>首先，还是先看一下图片的属性，没发现什么东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-2.png" alt="2-2"></p>
+<p>使用UE打开，旁边也没有发现可疑的编码。怀疑图片的高度或宽度被更改了，看一下果然如此</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt="2-3"></p>
+<p>这里说一下关于使用UE打开图片后，十六进制内容的含义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PNG图片固定格式：</span><br><span class="line">89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
+<p>修改一下图片的高度，改成和宽度一样，就可以看到flag了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-4.png" alt="2-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-5.png" alt="2-5"></p>
+<hr>
+<h3 id="第四关（telnet）"><a href="#第四关（telnet）" class="headerlink" title="第四关（telnet）"></a>第四关（telnet）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/telnet/1.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来一个<strong>.pcap</strong>类型的文件，是抓包的数据，可以用<strong>wireshark</strong>打开</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/4-1.png" alt="4-1"></p>
+<p>打开后，只看到一个TCP流，我们直接追踪，就可以看到flag了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/4-3.png" alt="4-3"></p>
+<p>不过这题直接用UE打开，也可以看到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/4-4.png" alt="4-4"></p>
+<hr>
+<h3 id="第五关（眼见非实ISCCCTF）"><a href="#第五关（眼见非实ISCCCTF）" class="headerlink" title="第五关（眼见非实ISCCCTF）"></a>第五关（眼见非实ISCCCTF）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/919ee4ea1658c3e3ef8b59b67f298470/zip</span><br></pre></td></tr></table></figure>
+<p>下载下来的是一个名字叫<strong>zip</strong>的文件，什么后缀都没有，我们先用UE打开</p>
+<p>看到前四个字节是这样的，那么这是一个<strong>ZIP压缩文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZIP压缩文件固定格式：</span><br><span class="line">50 4B 03 04</span><br></pre></td></tr></table></figure>
+<p>既然是ZIP压缩文件，就给它加上<strong>.zip</strong>后缀，然后解压下来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/5-1.png" alt="5-1"></p>
+<p>解压下来发现是一个<strong>.docx</strong>文件，再次用UE打开，发现前缀还是<strong>50 4B 03 04</strong>，这还是一个<strong>ZIP压缩文件</strong></p>
+<p>老样子，把后缀改正<strong>.zip</strong>，解压下来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/5-2.png" alt="5-2"></p>
+<p>这次解压下来一个文件夹，用记事本打开里面  “word-document.xml”  文件，搜索flag就找到了答案</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/5-3.png" alt="5-3"></p>
+<hr>
+<h3 id="第六关（啊哒）"><a href="#第六关（啊哒）" class="headerlink" title="第六关（啊哒）"></a>第六关（啊哒）</h3><h4 id="这道题我自己开始接触KALI的binwalk、dd、foremost工具"><a href="#这道题我自己开始接触KALI的binwalk、dd、foremost工具" class="headerlink" title="这道题我自己开始接触KALI的binwalk、dd、foremost工具"></a>这道题我自己开始接触KALI的<strong>binwalk、dd、foremost</strong>工具</h4><h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来是一个zip压缩文件，解压出一张jpg图片</p>
+<p>第一步还是先看一下属性。注意到属性中有一串突然出现的十六进制数字，不知道干嘛用的，先放着</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-1.png" alt="6-1"></p>
+<p>先用UE打开。搜索看到关于flag的线索：flag.txt</p>
+<p><strong>注意：利用UE搜索时，记得勾选”查找ASCII”选项</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-2.png" alt="6-2"></p>
+<p>既然有隐藏文件，放到KALI里面用<strong>dd</strong>或<strong>foremost</strong>进行分离</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<p>在分离出来的文件夹里，发现一个zip压缩文件，里面有flag.txt，尝试解压却要密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-4.png" alt="6-4"></p>
+<p>这是我们想到之前在属性看到的那串十六进制数字。将其转换成字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-5.png" alt="6-5"></p>
+<p>将转换后的字符串输入，果然是密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-6.png" alt="6-6"></p>
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>套路，先用binwalk看一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
+<p>利用<strong>dd</strong>或者<strong>foremost</strong>提取出其中的隐藏文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<p>剩下的步骤和方法一中的一样了</p>
+<hr>
+<h3 id="第七关（又是一张图片，还单纯吗）"><a href="#第七关（又是一张图片，还单纯吗）" class="headerlink" title="第七关（又是一张图片，还单纯吗）"></a>第七关（又是一张图片，还单纯吗）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/2.jpg</span><br></pre></td></tr></table></figure>
+<p>链接打开是一张图片，这次这道题目直接在KALI上把它下载下来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://123.206.87.240:8002/misc/2.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/7-1.png" alt="7-1"></p>
+<p>老套路，还是用Binwalk看一下里面有没有藏东西。果然有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk 2.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/7-2.png" alt="7-2"></p>
+<p>用foremost进行分离，分离出来的东西放在output文件夹内</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost 2.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/7-3.png" alt="7-3"></p>
+<p>打开output文件夹内的JPG文件夹，里面静静躺着2张图片，直接尝试了一下第2张图片里的flag，就成功了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/7-4.png" alt="7-4"></p>
+<hr>
+<h3 id="第八关（猜）"><a href="#第八关（猜）" class="headerlink" title="第八关（猜）"></a>第八关（猜）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/cai/QQ20170221-132626.png</span><br></pre></td></tr></table></figure>
+<p>下载下来一张图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/8-1.png" alt="8-1"></p>
+<p>老规矩还是用Binwalk看一下。可是没有发现有用信息，根据这道题目名字”猜”，所以应该不是考察隐写</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/8-2.png" alt="8-2"></p>
+<p>后来发现百度有个功能叫做<strong>“百度识图”</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/8-3.png" alt="8-3"></p>
+<p>识别一下这张图片，结果提示的是<strong>“刘亦菲”</strong>。那么根据题目说的，flag是某人的名字全拼</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/8-4.png" alt="8-4"></p>
+<p>试了一下<strong>key{liuyifei}</strong>，结果竟然真的是。这道题告诉我们，要善于利（给）用（百）搜（度）索（打）工（广）具（告）</p>
+<hr>
+<h3 id="第九关（宽带信息泄露）"><a href="#第九关（宽带信息泄露）" class="headerlink" title="第九关（宽带信息泄露）"></a>第九关（宽带信息泄露）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/5986768ca8b96cead45aec16a88431b5/conf.bin</span><br></pre></td></tr></table></figure>
+<p>下载下来一个后缀名是<strong>.bin</strong>的文件，一般这种文件是二进制文件，先用记事本和UE打开都没有任何的发现，是一堆乱码</p>
+<p>后来发现一个叫做<strong>RouterPassView</strong>的软件，可以用来查看bin文件。下载下来试了一下，果然可以打开并且正常显示</p>
+<p>因为题目提示：flag{宽带用户名}，所以直接ctrl+f搜索”username”，直接找到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/9-1.png" alt="9-1"></p>
+<hr>
+<h3 id="第十关（隐写2）"><a href="#第十关（隐写2）" class="headerlink" title="第十关（隐写2）"></a>第十关（隐写2）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/af49803469dfdabb80acf562f9381335/Welcome_.jpg</span><br></pre></td></tr></table></figure>
+<p>下载下来一张jpg格式图片，在Windows下查看属性没发现什么东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-1.png" alt="10-1"></p>
+<p>UE打开后，发现里面藏着flag.rar（题目写着隐写，其实可以直接binwalk，如果没有骗人的话）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-2.png" alt="10-2"></p>
+<p>赶紧放到Kali里面去用binwalk看一下，果然有藏东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-3.png" alt="10-3"></p>
+<p>赶紧用foremost分离，分离出来一个zip文件夹，里面有一个zip文件，解压出2个文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-4.png" alt="10-4"></p>
+<p>先看一下<strong>提示.jpg</strong>，只知道是<strong>QJK</strong>，其他什么都没看出来（黑人问号？？？）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-5.png" alt="10-5"></p>
+<p>先提取<strong>flag.rar</strong>看看猜密码，发现这不是rar文件，而是zip文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-6.png" alt="10-6"></p>
+<p>修改后缀名为.zip，然后直接使用<strong>fcrackzip</strong>工具暴力破解出密码是<strong>871</strong></p>
+<p>-b：代表brute-force，暴力破解；-l：表示密码长度（3-3就是3了）；-c：指定字符集合（看下面第2张图片）</p>
+<p>可以看一下这篇简单的文章：<a href="http://topspeedsnail.com/fcrackzip-crack-zip-password/" target="_blank" rel="noopener">fcrackzip简单讲解</a></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-7.png" alt="10-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-7-2.png" alt="10-7-2"></p>
+<p>后来自己想想这个<strong>871</strong>是怎么来的？看下图吧，脑洞大开</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-8.png" alt="10-8"></p>
+<p>输入密码后解压出来一张图片3.jpg</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-9.png" alt="10-9"></p>
+<p>在Windows环境下查看属性没有收获</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-10.png" alt="10-10"></p>
+<p>用UE打开。刚开始搜索flag关键字，没有找到，但是还好谨慎用眼睛找了一下，发现了f1@g字样，难怪没有找到，社会凶险，城市套路多，学到了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-11.png" alt="10-11"></p>
+<p>复制了去提交发现不对，然后看到括号里面是base64的编码，想把它解码一下再放进去提交，结果就可以了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-12.png" alt="10-12"></p>
+<hr>
+<h3 id="至此，1-10关的Write-up结束"><a href="#至此，1-10关的Write-up结束" class="headerlink" title="至此，1-10关的Write-up结束"></a>至此，1-10关的Write-up结束</h3><h3 id="后一部分链接：第11-20关Write-up"><a href="#后一部分链接：第11-20关Write-up" class="headerlink" title="后一部分链接：第11-20关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/04/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3>
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Knlvre" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2019 Huang-ShuWei(Knlvre)<br></p>
+                <p class="copyright text-muted"> Theme by <a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank"> Clean Blog </a> from <a href="http://startbootstrap.com/" target="_blank"> Start Bootstrap </a> re-Ported by <a href="https://github.com/Knlvre" target="_blank"> Knlvre </a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
