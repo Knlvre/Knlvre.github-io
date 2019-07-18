@@ -17,7 +17,7 @@
 <meta property="og:description" content="Tip 1 —— 基础知识点（1）简单的用于尝试的语句123456789or 1=1--+&amp;apos;or 1=1--+&amp;quot;or 1=1--+)or 1=1--+&amp;apos;)or 1=1--+&amp;quot;) or 1=1--+&amp;quot;))or 1=1--+ps:--+和#可以互相替换 （2）mysql命令行的简单命令1234567891011查看所有的数据库show database">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/0.png">
-<meta property="og:updated_time" content="2019-03-03T18:22:05.224Z">
+<meta property="og:updated_time" content="2019-07-18T07:35:41.600Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqli-labs Tips">
 <meta name="twitter:description" content="Tip 1 —— 基础知识点（1）简单的用于尝试的语句123456789or 1=1--+&amp;apos;or 1=1--+&amp;quot;or 1=1--+)or 1=1--+&amp;apos;)or 1=1--+&amp;quot;) or 1=1--+&amp;quot;))or 1=1--+ps:--+和#可以互相替换 （2）mysql命令行的简单命令1234567891011查看所有的数据库show database">
@@ -167,7 +167,6 @@
 <h4 id="（6）几个常用函数"><a href="#（6）几个常用函数" class="headerlink" title="（6）几个常用函数"></a>（6）几个常用函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MySQL版本：version()</span><br><span class="line">数据库用户名：user()</span><br><span class="line">数据库名：database()</span><br><span class="line">数据库路径：@@datadir</span><br><span class="line">操作系统版本：@@version_compile_os</span><br></pre></td></tr></table></figure>
 <h4 id="（7）Limit的用法"><a href="#（7）Limit的用法" class="headerlink" title="（7）Limit的用法"></a>（7）Limit的用法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">limit 0，1				//表示从第1行开始，显示1行</span><br><span class="line">limit 1，3				//表示从第2行开始，显示3行</span><br><span class="line"></span><br><span class="line">可以参考以下图片看详细用法：</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/0.png" alt="0"></p>
-<hr>
 <h2 id="Tip-2-——-关于盲注的知识点"><a href="#Tip-2-——-关于盲注的知识点" class="headerlink" title="Tip 2 —— 关于盲注的知识点"></a>Tip 2 —— 关于盲注的知识点</h2><p>什么是盲注？盲注就是在sql注入过程中，sql语句执行的选择后，选择的数据不能回显到前端页面。此时，我们需要利用一些方法进行判断或者尝试，这个过程称之为盲注。盲注的类型分为以下三种：</p>
 <ul>
 <li>基于布尔SQL盲注</li>
@@ -188,7 +187,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(expr1,expr2,expr3)	//如果expr1的值为true，则返回expr2的值，如果expr1的值为false，则返回expr3的值。</span><br><span class="line">sleep(n)		//睡眠n秒</span><br></pre></td></tr></table></figure>
 <p>举个<strong>栗子</strong>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(substr(database(),1,1))=&apos;s&apos;,0,sleep(5))	//如果数据库的名称的第一个字符是&apos;s&apos;，就直接返回结果，不然就延时5秒再返回结果</span><br></pre></td></tr></table></figure>
-<hr>
 <h2 id="Tip-3-——-导入导出文件知识点"><a href="#Tip-3-——-导入导出文件知识点" class="headerlink" title="Tip 3 —— 导入导出文件知识点"></a>Tip 3 —— 导入导出文件知识点</h2><p>1、load_file()导出文件</p>
 <p>Load_file(file_name):读取文件并返回该文件的内容作为一个字符串。</p>
 <p>使用条件：</p>
@@ -455,6 +453,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">CTFWeb</a>
               </li>
              
@@ -463,19 +465,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Mysql数据库</a>
               </li>
              
               <li class="article-tag-list-item">
