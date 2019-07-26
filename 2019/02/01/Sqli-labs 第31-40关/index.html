@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>Sqli-labs(第31-40关) | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前一部分链接：第21-30关Write-upLess-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉字">
+  <meta name="description" content="前一部分链接：第21-30关Write-up Less-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉">
 <meta name="keywords" content="Sqli-labs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sqli-labs(第31-40关)">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs 第31-40关/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前一部分链接：第21-30关Write-upLess-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉字">
+<meta property="og:description" content="前一部分链接：第21-30关Write-up Less-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/4-1.png">
-<meta property="og:updated_time" content="2019-07-26T03:39:14.283Z">
+<meta property="og:updated_time" content="2019-07-26T03:43:45.475Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqli-labs(第31-40关)">
-<meta name="twitter:description" content="前一部分链接：第21-30关Write-upLess-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉字">
+<meta name="twitter:description" content="前一部分链接：第21-30关Write-up Less-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -161,7 +161,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前一部分链接：第21-30关Write-up"><a href="#前一部分链接：第21-30关Write-up" class="headerlink" title="前一部分链接：第21-30关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></h3><h2 id="Less-31"><a href="#Less-31" class="headerlink" title="Less-31"></a>Less-31</h2><p>Less-32,33,34,35,36,37六关全部是针对<code>’</code>和<code>\</code>的过滤，所以我们放在一起来进行讨论。</p>
+        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
+<h2 id="Less-31"><a href="#Less-31" class="headerlink" title="Less-31"></a>Less-31</h2><p>Less-32,33,34,35,36,37六关全部是针对<code>’</code>和<code>\</code>的过滤，所以我们放在一起来进行讨论。</p>
 <p>对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。</p>
 <p>原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思路是将 ‘ 转换为<code>\’</code>（转换的函数或者思路会在每一关遇到的时候介绍）。<br>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路：</p>
 <p>1.%df吃掉 \   具体的原因是urlencode(‘)  = %5c%27，我们在%5c%27前面添加%df，形成%df%5c%27，而上面提到的mysql在GBK编码方式的时候会将两个字节当做一个汉字，此事%df%5c就是一个汉字，%27则作为一个单独的符号在外面，同时也就达到了我们的目的。</p>
@@ -278,11 +279,11 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          BugKuCTF — 利用Kali分离图片中的隐藏文件
+          BugKuCTF — 杂项题(第1-10关)
         
       </div>
     </a>

