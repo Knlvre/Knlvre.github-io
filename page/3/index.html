@@ -134,6 +134,106 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
+  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
+<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
+<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
+<p>像这张图片，发现隐藏着flag.txt</p>
+<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
+<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
+<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
+<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
+<p><strong>if</strong>：要提取分离的文件</p>
+<p><strong>of</strong>：输出的文件</p>
+<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
+<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+<hr>
+<p>这篇文章只做简单的介绍</p>
+<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—杂项题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -316,106 +416,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
-  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
-<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
-<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
-<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
-<p>像这张图片，发现隐藏着flag.txt</p>
-<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
-<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
-<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
-<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
-<p><strong>if</strong>：要提取分离的文件</p>
-<p><strong>of</strong>：输出的文件</p>
-<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
-<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
-<hr>
-<p>这篇文章只做简单的介绍</p>
-<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
         </p>
       
 
@@ -1688,11 +1688,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
