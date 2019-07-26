@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-2.png">
-<meta property="og:updated_time" content="2019-07-18T13:52:08.471Z">
+<meta property="og:updated_time" content="2019-07-18T14:15:24.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqli-labs(第21-30关)">
 <meta name="twitter:description" content="前一部分链接：第11-20关Write-upLess-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且使用单引号和括号进行包裹  将payload进行加密  加入到 Cookie中，注入成功  Less-22与前面关卡类似，只是对$cookee包括采用了双引号  Base64加密一下payload： 1234&amp;quot; and extractvalue(1,conc">
@@ -253,7 +253,7 @@
 <h2 id="Less-29至31"><a href="#Less-29至31" class="headerlink" title="Less-29至31"></a>Less-29至31</h2><p>这一部分训练的是HPP（HTTP Parameter Pollution），俗称HTTP参数污染。</p>
 <p>开始看这题并没有发现index.php有WAF，后来发现原来是index.jsp用了WAF，关键代码如下。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    String id = request.getParameter(<span class="string">"id"</span>);</span><br><span class="line">    String qs = request.getQueryString();</span><br><span class="line">    String rex = <span class="string">"^\\d+$"</span>;</span><br><span class="line">    Boolean match=id.matches(rex);</span><br><span class="line">    <span class="keyword">if</span>(match == <span class="keyword">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        URL sqli_labs = <span class="keyword">new</span> URL(<span class="string">"http://localhost/sqli-labs/Less-29/index.php?"</span>+ qs);</span><br><span class="line">        URLConnection sqli_labs_connection = sqli_labs.openConnection();</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="后一部分链接：第11-20关Write-up"><a href="#后一部分链接：第11-20关Write-up" class="headerlink" title="后一部分链接：第11-20关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第11-20关Write-up</a></h3>
+<h3 id="后一部分链接：第31-40关Write-up"><a href="#后一部分链接：第31-40关Write-up" class="headerlink" title="后一部分链接：第31-40关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></h3>
       
 
       
@@ -469,11 +469,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">

