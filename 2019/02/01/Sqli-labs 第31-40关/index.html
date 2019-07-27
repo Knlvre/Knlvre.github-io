@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/4-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/8-1.png">
-<meta property="og:updated_time" content="2019-07-27T05:39:26.469Z">
+<meta property="og:updated_time" content="2019-07-27T05:48:04.386Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqli-labs(第31-40关)">
 <meta name="twitter:description" content="前一部分链接：第21-30关Write-up Less-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉">
@@ -223,7 +223,8 @@
 <h2 id="Less-40"><a href="#Less-40" class="headerlink" title="Less-40"></a>Less-40</h2><p>本关与上一关区别只在于参数被<code>(&#39;&#39;)</code>包裹，payload：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;);insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
 <p>至此，31-40关的Write-up结束</p>
-<h3 id="后一部分链接：第41-50关Write-up"><a href="#后一部分链接：第41-50关Write-up" class="headerlink" title="后一部分链接：第41-50关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第41-50关Write-up</a></h3>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
+
       
 
       
@@ -439,19 +440,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
               </li>
              
               <li class="article-tag-list-item">
