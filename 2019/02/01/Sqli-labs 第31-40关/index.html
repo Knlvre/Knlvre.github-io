@@ -8,22 +8,22 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>Sqli-labs(第31-40关) | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前一部分链接：第21-30关Write-up Less-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉">
+  <meta name="description" content="前一部分链接：第21-30关Write-up Less-31Less-32本关开始，考查的是宽字节注入的利用，关于宽字节注入的知识点可以看我的文章Sqli-labs Tips的Tip 4  我们提交以下payload时，发现单引号&amp;#39;被转义了 1?id=1&amp;apos;  查看源码，发现使用了check_addslashes()函数对id进行了处理 1$id=check_addslashes(">
 <meta name="keywords" content="Sqli-labs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sqli-labs(第31-40关)">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs 第31-40关/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前一部分链接：第21-30关Write-up Less-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉">
+<meta property="og:description" content="前一部分链接：第21-30关Write-up Less-31Less-32本关开始，考查的是宽字节注入的利用，关于宽字节注入的知识点可以看我的文章Sqli-labs Tips的Tip 4  我们提交以下payload时，发现单引号&amp;#39;被转义了 1?id=1&amp;apos;  查看源码，发现使用了check_addslashes()函数对id进行了处理 1$id=check_addslashes(">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/4-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/8-1.png">
-<meta property="og:updated_time" content="2019-07-27T05:51:42.917Z">
+<meta property="og:updated_time" content="2019-07-31T03:34:59.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqli-labs(第31-40关)">
-<meta name="twitter:description" content="前一部分链接：第21-30关Write-up Less-31Less-32,33,34,35,36,37六关全部是针对’和\的过滤，所以我们放在一起来进行讨论。 对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。 原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉">
+<meta name="twitter:description" content="前一部分链接：第21-30关Write-up Less-31Less-32本关开始，考查的是宽字节注入的利用，关于宽字节注入的知识点可以看我的文章Sqli-labs Tips的Tip 4  我们提交以下payload时，发现单引号&amp;#39;被转义了 1?id=1&amp;apos;  查看源码，发现使用了check_addslashes()函数对id进行了处理 1$id=check_addslashes(">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -163,12 +163,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/31/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
-<h2 id="Less-31"><a href="#Less-31" class="headerlink" title="Less-31"></a>Less-31</h2><p>Less-32,33,34,35,36,37六关全部是针对<code>’</code>和<code>\</code>的过滤，所以我们放在一起来进行讨论。</p>
-<p>对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。</p>
-<p>原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思路是将 ‘ 转换为<code>\’</code>（转换的函数或者思路会在每一关遇到的时候介绍）。<br>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路：</p>
-<p>1.%df吃掉 \   具体的原因是urlencode(‘)  = %5c%27，我们在%5c%27前面添加%df，形成%df%5c%27，而上面提到的mysql在GBK编码方式的时候会将两个字节当做一个汉字，此事%df%5c就是一个汉字，%27则作为一个单独的符号在外面，同时也就达到了我们的目的。</p>
-<p>2.将 \’ 中的 \ 过滤掉，例如可以构造 %**%5c%5c%27的情况，后面的%5c会被前面的%5c给注释掉。这也是bypass的一种方法。</p>
-<h2 id="Less-32"><a href="#Less-32" class="headerlink" title="Less-32"></a>Less-32</h2><p>我们提交以下payload时，发现<code>单引号&#39;</code>被转义了</p>
+<h2 id="Less-31"><a href="#Less-31" class="headerlink" title="Less-31"></a>Less-31</h2><h2 id="Less-32"><a href="#Less-32" class="headerlink" title="Less-32"></a>Less-32</h2><p>本关开始，考查的是<code>宽字节注入</code>的利用，关于宽字节注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 4</code> </p>
+<p>我们提交以下payload时，发现<code>单引号&#39;</code>被转义了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-1.png" alt="2-1"></p>
 <p>查看源码，发现使用了<code>check_addslashes()</code>函数对id进行了处理</p>
@@ -206,15 +202,8 @@
 <p>Notice:<br>在使用mysql_real_escape_string()时，如何能够安全的防护这种问题，需要将mysql设置为gbk即可。<br>设置代码：Mysql_set_charset(‘gbk’,’$conn’)</p>
 <h2 id="Less-37"><a href="#Less-37" class="headerlink" title="Less-37"></a>Less-37</h2><p>与Less-34关原理差不多，只是过滤函数是<code>mysql_real_escape_string()</code>，同样使用万能钥匙登录，密码随意</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">�&apos; or 1=1#</span><br></pre></td></tr></table></figure>
-<p>从Less-38开始，考查的是堆叠注入</p>
-<p>Stacked injections:堆叠注入。从名词的含义就可以看到应该是一堆sql语句（多条）一起执行。而在真实的运用中也是这样的，我们知道在mysql中，主要是命令行中，每一条语句结尾加 ;  表示语句结束。这样我们就想到了是不是可以多句一起使用。这个叫做stacked injection。</p>
-<p>在SQL中，分号（;）是用来表示一条sql语句的结束。试想一下我们在 ; 结束一个sql语句后继续构造下一条语句，会不会一起执行？因此这个想法也就造就了堆叠注入。而union injection（联合注入）也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句类型是有限的，可以用来执行查询语句，而堆叠注入可以执行的是任意的语句。</p>
-<p>例如以下这个例子。用户输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1; DELETE FROM products</span><br></pre></td></tr></table></figure>
-<p>服务器端生成的sql语句为：（因未对输入的参数进行过滤）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select * from products where productid=1;DELETE FROM products</span><br></pre></td></tr></table></figure>
-<p>当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。</p>
-<h2 id="Less-38"><a href="#Less-38" class="headerlink" title="Less-38"></a>Less-38</h2><p>根据前面的知识，本关考查的就是堆叠注入，在发现使用单引号包括参数之后，使用以下payload：</p>
+<h2 id="Less-38"><a href="#Less-38" class="headerlink" title="Less-38"></a>Less-38</h2><p>本关开始，考查的是<code>堆叠注入</code>的利用，关于堆叠注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 5</code> </p>
+<p>在发现使用单引号包括参数之后，使用以下payload：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
 <p>去数据库查询时，已经成功插入</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/8-1.png" alt="8-1"></p>
@@ -440,11 +429,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -452,19 +441,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
               </li>
              
               <li class="article-tag-list-item">
