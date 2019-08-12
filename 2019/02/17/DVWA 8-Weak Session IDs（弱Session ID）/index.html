@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>Archives: 2019 | Knlvre</title>
+  <title>DVWA 8-Weak Session IDs（弱Session ID） | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Knlvre">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/archives/2019/page/4/index.html">
+  <meta name="description" content="源码位置1DVWA\vulnerabilities\weak_id\source\ 页面功能点击Generate，向服务器提交当前的dvwaSession值  用户访问服务器时，服务器会分配给当前用户一个Session ID，用户将这个Session ID放进Cookie内，服务器就会知道这个用户是谁，就能相应地访问该用户才能访问的内容，无需每次都进行类似输入密码或其他身份验证 Security">
+<meta name="keywords" content="DVWA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DVWA 8-Weak Session IDs（弱Session ID）">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/index.html">
 <meta property="og:site_name" content="Knlvre">
+<meta property="og:description" content="源码位置1DVWA\vulnerabilities\weak_id\source\ 页面功能点击Generate，向服务器提交当前的dvwaSession值  用户访问服务器时，服务器会分配给当前用户一个Session ID，用户将这个Session ID放进Cookie内，服务器就会知道这个用户是谁，就能相应地访问该用户才能访问的内容，无需每次都进行类似输入密码或其他身份验证 Security">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-1.png">
+<meta property="og:updated_time" content="2019-08-12T11:00:24.888Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Knlvre">
+<meta name="twitter:title" content="DVWA 8-Weak Session IDs（弱Session ID）">
+<meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\weak_id\source\ 页面功能点击Generate，向服务器提交当前的dvwaSession值  用户访问服务器时，服务器会分配给当前用户一个Session ID，用户将这个Session ID放进Cookie内，服务器就会知道这个用户是谁，就能相应地访问该用户才能访问的内容，无需每次都进行类似输入密码或其他身份验证 Security">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -132,329 +139,165 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-DVWA 8-Weak Session IDs（弱Session ID）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DVWA 8-Weak Session IDs（弱Session ID）
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" class="archive-article-date">
+  	<time datetime="2019-02-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-17</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\weak_id\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-1.png" alt="8-1"></p>
+<p>用户访问服务器时，服务器会分配给当前用户一个<code>Session ID</code>，用户将这个Session ID放进<code>Cookie</code>内，服务器就会知道这个用户是谁，就能相应地访问该用户才能访问的内容，无需每次都进行类似输入密码或其他身份验证</p>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id'</span>]++;</span><br><span class="line">	$cookie_value = $_SESSION[<span class="string">'last_session_id'</span>];</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = time();</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id_high'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id_high'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id_high'</span>]++;</span><br><span class="line">	$cookie_value = md5($_SESSION[<span class="string">'last_session_id_high'</span>]);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = sha1(mt_rand() . time() . <span class="string">"Impossible"</span>);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/Knlvre.github-io/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/02/03/Sqli-labs 第51-65关/" class="archive-article-date">
-  	<time datetime="2019-02-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/02/03/Sqli-labs 第51-65关/">Sqli-labs(第51-65关)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/02/02/Sqli-labs 第41-50关/" class="archive-article-date">
-  	<time datetime="2019-02-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-02</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          BugKuCTF — 利用Kali分离图片中的隐藏文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/Knlvre.github-io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DVWA 7-SQL Injection（SQL注入）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/02/02/Sqli-labs 第41-50关/">Sqli-labs(第41-50关)</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/02/01/Sqli-labs 第31-40关/" class="archive-article-date">
-  	<time datetime="2019-01-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/02/01/Sqli-labs 第31-40关/">Sqli-labs(第31-40关)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/01/31/Sqli-labs 第21-30关/" class="archive-article-date">
-  	<time datetime="2019-01-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/01/31/Sqli-labs 第21-30关/">Sqli-labs(第21-30关)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/01/30/Sqli-labs 第11-20关/" class="archive-article-date">
-  	<time datetime="2019-01-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/01/30/Sqli-labs 第11-20关/">Sqli-labs(第11-20关)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-01-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/">Sqli-labs(第1-10关)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/01/28/Sqli-labs Tips/" class="archive-article-date">
-  	<time datetime="2019-01-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/01/28/Sqli-labs Tips/">Sqli-labs Tips</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/01/27/hexo-+-github搭建博客/" class="archive-article-date">
-  	<time datetime="2019-01-27T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/01/27/hexo-+-github搭建博客/">hexo + github搭建博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">博客搭建</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/Knlvre.github-io/archives/2019/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/archives/2019/">1</a><a class="page-number" href="/Knlvre.github-io/archives/2019/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/archives/2019/page/3/">3</a><span class="page-number current">4</span>
-    </nav>
   
 
 
@@ -478,8 +321,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

