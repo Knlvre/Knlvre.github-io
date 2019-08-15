@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-6.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-8.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-7.png">
-<meta property="og:updated_time" content="2019-08-12T15:48:17.242Z">
+<meta property="og:updated_time" content="2019-08-12T18:44:34.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DVWA 8-Weak Session IDs（弱Session ID）">
 <meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\weak_id\source\ 页面功能点击Generate，向服务器提交当前的dvwaSession值  密码与证书等认证手段，一般仅仅用于登录(Login)的过程。当登陆完成后，用户访问网站的页面，不可能每次浏览器请求页面时,都再使用密码认证一次。因此，当认证完成后，就需要替换一个对用户透明的凭证。这个凭证就是SessionID。 当用户登陆">
@@ -186,7 +186,7 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = time();</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>从源代码中可以看出，<code>dvwaSession</code>的值变成了<code>time()</code>函数的返回结果（也就是时间戳），同样的点击<code>Generate</code>并抓包可以看到</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-4.png" alt="8-4"></p>
-<p>先抓一个包，发现<code>dvwaSession=1565621880</code>，过几秒再抓包发现<code>dvwaSession=1565621885</code>，验证了这个值的确是随着时间戳的变化而变化。我们继续用<code>B浏览器</code>发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=1565622245; security=medium; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
+<p>先抓一个包，发现<code>dvwaSession=1565621880</code>，过几秒再抓包发现<code>dvwaSession=1565621885</code>，验证了这个值的确是随着时间戳的变化而变化。我们继续用<code>B浏览器</code>发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=1565622945; security=medium; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-5.png" alt="8-5"></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id_high'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id_high'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id_high'</span>]++;</span><br><span class="line">	$cookie_value = md5($_SESSION[<span class="string">'last_session_id_high'</span>]);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -287,11 +287,11 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/02/18/DVWA 9-Stored Cross Site Scripting (XSS)（存储型跨站脚本）/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          BugKuCTF — 杂项题(第1-10关)
+          DVWA 9-DOM Based Cross Site Scripting（DOM型跨站脚本）
         
       </div>
     </a>
@@ -416,7 +416,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color2">CTFWeb</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -424,11 +424,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CTFWeb</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
