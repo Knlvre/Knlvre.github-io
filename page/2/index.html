@@ -3332,19 +3332,19 @@
 
 
   
-    <article id="post-Web渗透学习—常见PHP知识点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Web渗透学习—Dedecms v5.7 sp2后台getshell" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/28/Web渗透学习—常见PHP知识点/">Web渗透学习 — 常见的PHP知识点</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/">Web渗透学习 — Dedecms v5.7 sp2后台getshell</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/28/Web渗透学习—常见PHP知识点/" class="archive-article-date">
+        <a href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/" class="archive-article-date">
   	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
 </a>
         
@@ -3352,62 +3352,46 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="函数-—-str-replace"><a href="#函数-—-str-replace" class="headerlink" title="函数 — str_replace()"></a>函数 — str_replace()</h2><p>在线学习地址：<a href="http://www.w3school.com.cn/php/func_string_str_replace.asp" target="_blank" rel="noopener">str_replace()函数</a></p>
-<h4 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str_replace(find,replace,string,count)</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">参数</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">find</td>
-<td style="text-align:left">必需。规定要查找的值。</td>
-</tr>
-<tr>
-<td style="text-align:left">string</td>
-<td style="text-align:left">必需。规定替换 find 中的值的值。</td>
-</tr>
-<tr>
-<td style="text-align:left">string</td>
-<td style="text-align:left">必需。规定被搜索的字符串。</td>
-</tr>
-<tr>
-<td style="text-align:left">count</td>
-<td style="text-align:left">可选。对替换数进行计数的变量。</td>
-</tr>
-</tbody>
-</table>
-<h4 id="实例："><a href="#实例：" class="headerlink" title="实例："></a>实例：</h4><p>把字符串 “Hello world!” 中的字符 “world” 替换为 “Shanghai”：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo str_replace(&quot;world&quot;,&quot;Shanghai&quot;,&quot;Hello world!&quot;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+        <h2 id="【前言】"><a href="#【前言】" class="headerlink" title="【前言】"></a>【前言】</h2><p>本次学习参考这篇文章：<a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">Dedecms v5.7 sp2后台getshell</a></p>
+<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下</p>
+<p>下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
 <hr>
-<h2 id="函数-—-dir"><a href="#函数-—-dir" class="headerlink" title="函数 — dir()"></a>函数 — dir()</h2><p>在线学习地址：<a href="http://www.w3school.com.cn/php/func_directory_dir.asp" target="_blank" rel="noopener">dir()函数</a></p>
-<h3 id="语法：-1"><a href="#语法：-1" class="headerlink" title="语法："></a>语法：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir(directory,context);</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>directory</td>
-<td>必需。规定要打开的目录。</td>
-</tr>
-<tr>
-<td>context</td>
-<td>可选。</td>
-</tr>
-</tbody>
-</table>
-<p>dir() 函数返回 Directory 类的实例。该函数用于读取一个目录，包含如下：</p>
-<p>给定的要打开的目录 dir() 的 handle 和 path 两个属性是可用的 <strong>handle</strong> 和 <strong>path</strong> 属性有三个方法：<strong>read()、rewind()</strong> 和 <strong>close()</strong></p>
-<h3 id="实例：-1"><a href="#实例：-1" class="headerlink" title="实例："></a>实例：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$d = dir(getcwd());</span><br><span class="line"></span><br><span class="line">echo &quot;Handle: &quot; . $d-&gt;handle . &quot;&lt;br&gt;&quot;;</span><br><span class="line">echo &quot;Path: &quot; . $d-&gt;path . &quot;&lt;br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">while (($file = $d-&gt;read()) !== false)&#123;</span><br><span class="line">  echo &quot;filename: &quot; . $file . &quot;&lt;br&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">$d-&gt;close();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Handle: Resource id #2</span><br><span class="line">Path: /etc/php</span><br><span class="line">filename: .</span><br><span class="line">filename: ..</span><br><span class="line">filename: ajax.gif</span><br><span class="line">filename: books.xml</span><br><span class="line">filename: cdcatalog.xml</span><br><span class="line">filename: cd_catalog.xml</span><br><span class="line">filename: default.asp</span><br><span class="line">filename: demo_array.asp</span><br><span class="line">filename: demo_array.htm</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、创建文件"><a href="#一、创建文件" class="headerlink" title="一、创建文件"></a>一、创建文件</h3><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
+<hr>
+<h3 id="二、网站环境初始化"><a href="#二、网站环境初始化" class="headerlink" title="二、网站环境初始化"></a>二、网站环境初始化</h3><p>进入到这个本地网站环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
+<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
+<hr>
+<h3 id="三、上传文件到指定位置"><a href="#三、上传文件到指定位置" class="headerlink" title="三、上传文件到指定位置"></a>三、上传文件到指定位置</h3><p>进入到后台：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
+<p>默认登录的用户名和密码都是<strong>admin</strong></p>
+<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
+<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
+<hr>
+<h3 id="四、发布刚才上传的文档"><a href="#四、发布刚才上传的文档" class="headerlink" title="四、发布刚才上传的文档"></a>四、发布刚才上传的文档</h3><p>访问这个地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
+<p>看到的是 <strong>发布新图集</strong> 的界面</p>
+<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
+<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
+<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
+<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
+<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
+<hr>
+<h3 id="四、结果"><a href="#四、结果" class="headerlink" title="四、结果"></a>四、结果</h3><p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
+<p>点击这个标签，就可以看到结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
 
       
 
@@ -3431,7 +3415,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/Web渗透学习—常见PHP知识点/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/">展开全文 >></a>
         </p>
       
 

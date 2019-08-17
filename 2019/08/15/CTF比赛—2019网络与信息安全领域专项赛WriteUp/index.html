@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>2019网络与信息安全领域专项赛 — 线上赛WriteUp | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言没报名比赛，用同学的账号做一下题目 Web一共4道题目 1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可以点击，没什么作用  查看源码，其他没什么用，但是发现一个js文件（cqg.js），点击查看源代码  在末尾发现了关键代码 12345678910if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url: &apos;score.ph">
+  <meta name="description" content="前言没报名比赛，用同学的账号做一下题目 Web1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可以点击，没什么作用  查看源码，其他没什么用，但是发现一个js文件（cqg.js），点击查看源代码  在末尾发现了关键代码 12345678910if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url: &apos;score.php&apos;,">
 <meta name="keywords" content="CTF比赛">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2019网络与信息安全领域专项赛 — 线上赛WriteUp">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前言没报名比赛，用同学的账号做一下题目 Web一共4道题目 1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可以点击，没什么作用  查看源码，其他没什么用，但是发现一个js文件（cqg.js），点击查看源代码  在末尾发现了关键代码 12345678910if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url: &apos;score.ph">
+<meta property="og:description" content="前言没报名比赛，用同学的账号做一下题目 Web1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可以点击，没什么作用  查看源码，其他没什么用，但是发现一个js文件（cqg.js），点击查看源代码  在末尾发现了关键代码 12345678910if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url: &apos;score.php&apos;,">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-2.png">
@@ -37,10 +37,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-3.png">
-<meta property="og:updated_time" content="2019-08-16T07:17:26.637Z">
+<meta property="og:updated_time" content="2019-08-16T12:36:31.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019网络与信息安全领域专项赛 — 线上赛WriteUp">
-<meta name="twitter:description" content="前言没报名比赛，用同学的账号做一下题目 Web一共4道题目 1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可以点击，没什么作用  查看源码，其他没什么用，但是发现一个js文件（cqg.js），点击查看源代码  在末尾发现了关键代码 12345678910if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url: &apos;score.ph">
+<meta name="twitter:description" content="前言没报名比赛，用同学的账号做一下题目 Web1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可以点击，没什么作用  查看源码，其他没什么用，但是发现一个js文件（cqg.js），点击查看源代码  在末尾发现了关键代码 12345678910if(score == 15)&amp;#123;    $.ajax(&amp;#123;        url: &apos;score.php&apos;,">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -180,8 +180,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>没报名比赛，用同学的账号做一下题目</p>
-<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><p>一共4道题目</p>
-<h2 id="1-Game"><a href="#1-Game" class="headerlink" title="1. Game"></a>1. Game</h2><p>题目进去是一个游戏机，只有<code>Shuffle</code>和<code>Stop</code>两个按钮可以点击，没什么作用</p>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="1-Game"><a href="#1-Game" class="headerlink" title="1. Game"></a>1. Game</h2><p>题目进去是一个游戏机，只有<code>Shuffle</code>和<code>Stop</code>两个按钮可以点击，没什么作用</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-1.png" alt="6-1"></p>
 <p>查看源码，其他没什么用，但是发现一个<code>js文件（cqg.js）</code>，点击查看源代码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-2.png" alt="6-2"></p>

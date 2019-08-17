@@ -6,15 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>Archives: 2019/3 | Knlvre</title>
+  <title>DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本） | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Knlvre">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/archives/2019/03/index.html">
+  <meta name="description" content="源码位置1DVWA\vulnerabilities\xss_d\source\ 页面功能通过下拉菜单选择一种语言，但是好像没作用  DOM，全称Document Object Model，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式 1.document 和 windows 对象 document表示的是一个文档对象，window表示的是一个窗口对象，一">
+<meta name="keywords" content="DVWA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/index.html">
 <meta property="og:site_name" content="Knlvre">
+<meta property="og:description" content="源码位置1DVWA\vulnerabilities\xss_d\source\ 页面功能通过下拉菜单选择一种语言，但是好像没作用  DOM，全称Document Object Model，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式 1.document 和 windows 对象 document表示的是一个文档对象，window表示的是一个窗口对象，一">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-6.png">
+<meta property="og:updated_time" content="2019-08-16T15:55:49.860Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Knlvre">
+<meta name="twitter:title" content="DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）">
+<meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\xss_d\source\ 页面功能通过下拉菜单选择一种语言，但是好像没作用  DOM，全称Document Object Model，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式 1.document 和 windows 对象 document表示的是一个文档对象，window表示的是一个窗口对象，一">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -132,405 +144,255 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/" class="archive-article-date">
+  	<time datetime="2019-02-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\xss_d\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>通过下拉菜单选择一种语言，但是好像没作用</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-1.png" alt="9-1"></p>
+<p><code>DOM</code>，全称<code>Document Object Model</code>，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式</p>
+<p>1.document 和 windows 对象</p>
+<p>document表示的是一个文档对象，window表示的是一个窗口对象，一个窗口下可以有多个文档对象。</p>
+<p>所以一个窗口下只有一个<code>window.location.href</code>，但是可能有多个<code>document.URL</code>、<code>document.location.href</code></p>
+<p>window 对象：它是一个顶层对象,而不是另一个对象的属性即浏览器的窗口。</p>
+<p>document 对象：该对象是window和frames对象的一个属性，是显示于窗口或框架内的一个文档。document 只是属于window 的一个子对像。</p>
+<p><code>window.location</code>包含 href 属性，直接取值赋值时相当于 window.location.href</p>
+<p>window.location.href  当前页面完整 URL</p>
+<p><code>document.location</code>包含 href 属性，直接取值赋值时相当于 document.location.href</p>
+<p>document.location.href 当前页面完整 URL</p>
+<p><code>document.href</code>没有这个属性</p>
+<p><code>document.URL</code>取值时等价于 window.location.href 或 document.location.href。在某些浏览器中通过对 document.URL 赋值来实现页面跳转，但某些浏览器中不行</p>
+<p>2.indexOf()方法：方法可返回某个指定的字符串值在字符串中首次出现的位置</p>
+<p>indexOf(searchvalue,fromindex)</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>searchvalue</td>
+<td>必需。规定需检索的字符串值</td>
+</tr>
+<tr>
+<td>fromindex</td>
+<td>可选的整数参数。规定在字符串中开始检索的位置。它的合法取值是 0 到 stringObject.length - 1。如省略该参数，则将从字符串的首字符开始检索</td>
+</tr>
+</tbody>
+</table>
+<p>3.document.write</p>
+<p>document.write是JavaScript中对document.open所开启的文档流(document stream操作的API方法，它能够直接在文档流中写入字符串，一旦文档流已经关闭，那document.write就会重新利用document.open打开新的文档流并写入，此时原来的文档流会被清空，已渲染好的页面就会被清除，浏览器将重新构建DOM并渲染新的页面</p>
+<p>4.decodeURI</p>
+<p>decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码</p>
+<p>5.代码解释</p>
+<p>①判断URL中是否含有<code>default=</code>字符串，如果有进入下一步；②截取URL中<code>default=</code>字段开始的位置，加上<code>8（default=字符串的长度）</code>之后开始，到末尾结束的字符串，赋值给<code>lang</code>；③语句拼接，通过<code>decodeURI()</code>解码<code>lang变量</code>的值</p>
+<h2 id="Low-—-high前端核心代码"><a href="#Low-—-high前端核心代码" class="headerlink" title="Low — high前端核心代码"></a>Low — high前端核心代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"XSS"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.write(<span class="string">"&lt;option value='"</span> + lang + <span class="string">"'&gt;"</span> + <span class="built_in">decodeURI</span>(lang) + <span class="string">"&lt;/option&gt;"</span>);</span></span><br><span class="line"><span class="xml">                document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span> <span class="attr">disabled</span>=<span class="string">'disabled'</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'English'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'French'</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'Spanish'</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'German'</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Select"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Impossible前端核心代码"><a href="#Impossible前端核心代码" class="headerlink" title="Impossible前端核心代码"></a>Impossible前端核心代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"XSS"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.write(<span class="string">"&lt;option value='"</span> + lang + <span class="string">"'&gt;"</span> + (lang) + <span class="string">"&lt;/option&gt;"</span>);</span></span><br><span class="line"><span class="xml">                document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span> <span class="attr">disabled</span>=<span class="string">'disabled'</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'English'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'French'</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'Spanish'</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'German'</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Select"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># No protections, anything goes</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>知道原理之后，就可以构造URL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;script&gt;alert(/xss/);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>拼接后变为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'变量lang 的值'</span>&gt;</span>English<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-2.png" alt="9-2"></p>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">"default"</span>, $_GET ) &amp;&amp; !is_null ($_GET[ <span class="string">'default'</span> ]) ) &#123;</span><br><span class="line">	$default = $_GET[<span class="string">'default'</span>];</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># Do not allow script tags</span></span><br><span class="line">	<span class="keyword">if</span> (stripos ($default, <span class="string">"&lt;script"</span>) !== <span class="keyword">false</span>) &#123;</span><br><span class="line">		header (<span class="string">"location: ?default=English"</span>);</span><br><span class="line">		<span class="keyword">exit</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>简单解释一下三个函数</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">array_key_exists()</td>
+<td style="text-align:center">函数检查某个数组中是否存在指定的键名，如果键名存在则返回 true，如果键名不存在则返回 false</td>
+</tr>
+<tr>
+<td style="text-align:center">stripos()</td>
+<td style="text-align:center">函数查找字符串在另一字符串中第一次出现的位置（不区分大小写）</td>
+</tr>
+<tr>
+<td style="text-align:center">header()</td>
+<td style="text-align:center">函数向客户端发送原始的 HTTP 报头</td>
+</tr>
+</tbody>
+</table>
+<p>①GET到的参数必须为<code>default</code>，并且值必须不为空；②过滤了<code>&lt;script</code></p>
+<p>构造payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;</span><br></pre></td></tr></table></figure>
+<p>拼接后变为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'变量lang 的值'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onerror</span>=<span class="string">alert(/xss/)</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>首先闭合了<code>&lt;option&gt;</code>标签 和<code>&lt;select&gt;</code>标签。利用 img标签的onerror事件，Javascript的img标签支持onerror 事件，在加载图像的过程中如果发生了错误，就会触发onerror事件，执行 JavaScript</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-3.png" alt="9-3"></p>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">"default"</span>, $_GET ) &amp;&amp; !is_null ($_GET[ <span class="string">'default'</span> ]) ) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment"># White list the allowable languages</span></span><br><span class="line">	<span class="keyword">switch</span> ($_GET[<span class="string">'default'</span>]) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"French"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"English"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"German"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"Spanish"</span>:</span><br><span class="line">			<span class="comment"># ok</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			header (<span class="string">"location: ?default=English"</span>);</span><br><span class="line">			<span class="keyword">exit</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>设置了白名单，只允许<code>French</code>、<code>English</code>、<code>German</code>、<code>Spanish</code>四个其中的一个</p>
+<p>构造payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English #&lt;script&gt;alert(/xss/)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>拼接后变为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span>&gt;</span>English #<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>由于form表单提交的数据经过JS过滤，所以注释部分的javascript代码不会被传到服务器端(也就符合了白名单的要求)</p>
+<p>我们写一个html验证一下<code>&lt;option value=&#39;&#39;&gt;English #&lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/option&gt;</code>是否可行</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-4.png" alt="9-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-5.png" alt="9-5"></p>
+<p>可以看到是可行的，现在继续</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-6.png" alt="9-6"></p>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Don't need to do anything, protction handled on the client side</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>翻译：不做任何事，保护措施在客户端完成</p>
+<p>本难度前端代码发生了改变，<code>decodeURI(lang)</code>变为<code>(lang)</code></p>
+<hr>
+<p>参考文章：</p>
+<p><a href="https://www.jianshu.com/p/001daa7cf1f5" target="_blank" rel="noopener">https://www.jianshu.com/p/001daa7cf1f5</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/Knlvre.github-io/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/Knlvre.github-io/2019/02/18/DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          DVWA 9-DOM Based Cross Site Scripting（DOM型跨站脚本）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DVWA 8-Weak Session IDs（弱Session ID）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF加密</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/" class="archive-article-date">
-  	<time datetime="2019-03-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/">BugKuCTF — 分析题(第1-9关)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF分析</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/28/BugKuCTF—Web题 第21-30关/" class="archive-article-date">
-  	<time datetime="2019-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/28/BugKuCTF—Web题 第21-30关/">BugKuCTF — Web题(第21-30关)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">CTFWeb</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/14/MySQL5数据库配置与管理/" class="archive-article-date">
-  	<time datetime="2019-03-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/14/MySQL5数据库配置与管理/">Mysql数据库</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/13/PHP语法/" class="archive-article-date">
-  	<time datetime="2019-03-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/13/PHP语法/">PHP语法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/12/SQL注入详解/" class="archive-article-date">
-  	<time datetime="2019-03-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/12/SQL注入详解/">SQL注入详解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/11/Web-For-Pentester/" class="archive-article-date">
-  	<time datetime="2019-03-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/11/Web-For-Pentester/">Web-For-Pentester</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/" class="archive-article-date">
-  	<time datetime="2019-03-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/">BugKuCTF — Web题(第11-20关)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">CTFWeb</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/Knlvre.github-io/archives/2019/03/page/2/">2</a><a class="extend next" rel="next" href="/Knlvre.github-io/archives/2019/03/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -554,8 +416,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
