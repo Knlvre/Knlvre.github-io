@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>Web渗透学习 — Dedecms v5.7 sp2后台getshell | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下 下载链接：Dedecms v5.7 sp2  【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件   二、网站环境初始化进入到这个本地网站环境： 1htt">
+  <meta name="description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  二、网站环境初始化进入到这个本地网站环境： 1http:">
 <meta name="keywords" content="Web渗透">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Web渗透学习 — Dedecms v5.7 sp2后台getshell">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下 下载链接：Dedecms v5.7 sp2  【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件   二、网站环境初始化进入到这个本地网站环境： 1htt">
+<meta property="og:description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  二、网站环境初始化进入到这个本地网站环境： 1http:">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png">
@@ -27,10 +27,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png">
-<meta property="og:updated_time" content="2019-02-28T08:27:17.384Z">
+<meta property="og:updated_time" content="2019-08-19T14:58:56.105Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web渗透学习 — Dedecms v5.7 sp2后台getshell">
-<meta name="twitter:description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下 下载链接：Dedecms v5.7 sp2  【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件   二、网站环境初始化进入到这个本地网站环境： 1htt">
+<meta name="twitter:description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  二、网站环境初始化进入到这个本地网站环境： 1http:">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -170,19 +170,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="【前言】"><a href="#【前言】" class="headerlink" title="【前言】"></a>【前言】</h2><p>本次学习参考这篇文章：<a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">Dedecms v5.7 sp2后台getshell</a></p>
-<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下</p>
-<p>下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
-<hr>
+<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
 <h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、创建文件"><a href="#一、创建文件" class="headerlink" title="一、创建文件"></a>一、创建文件</h3><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 <p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
-<hr>
 <h3 id="二、网站环境初始化"><a href="#二、网站环境初始化" class="headerlink" title="二、网站环境初始化"></a>二、网站环境初始化</h3><p>进入到这个本地网站环境：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
 <p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
-<hr>
 <h3 id="三、上传文件到指定位置"><a href="#三、上传文件到指定位置" class="headerlink" title="三、上传文件到指定位置"></a>三、上传文件到指定位置</h3><p>进入到后台：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
 <p>默认登录的用户名和密码都是<strong>admin</strong></p>
@@ -190,7 +186,6 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
 <p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
-<hr>
 <h3 id="四、发布刚才上传的文档"><a href="#四、发布刚才上传的文档" class="headerlink" title="四、发布刚才上传的文档"></a>四、发布刚才上传的文档</h3><p>访问这个地址：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
 <p>看到的是 <strong>发布新图集</strong> 的界面</p>
@@ -203,7 +198,6 @@
 <p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
 <p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
-<hr>
 <h3 id="四、结果"><a href="#四、结果" class="headerlink" title="四、结果"></a>四、结果</h3><p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
 <p>点击这个标签，就可以看到结果</p>
@@ -292,18 +286,18 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/28/Web渗透学习—常见PHP知识点/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/03/04/BugKuCTF—杂项题 第11-20关/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Web渗透学习 — 常见的PHP知识点
+          BugKuCTF — 杂项题(第11-20关)
         
       </div>
     </a>
   
   
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">BugKuCTF — 杂项题(第1-10关)</div>
+    <a href="/Knlvre.github-io/2019/02/28/Web渗透学习—常见PHP知识点/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Web渗透学习 — 常见的PHP知识点</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -449,11 +443,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
               </li>
              
               <li class="article-tag-list-item">

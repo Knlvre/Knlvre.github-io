@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>BugKuCTF — Web题(第11-20关) | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前一部分链接：第1-10关Write-up第十一关（web5）链接打开看到提示  查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串  将这串符号放到控制台 — Console里面，直接回车，就得到了flag   第十二关（头等舱）链接打开看到”什么也没有。”，查看源代码也是什么都没有  但是用Burpsuit抓下来，发送GET请求看一下， 在返回的头中就有flag   第十三关（网站被黑">
+  <meta name="description" content="前一部分链接：第1-10关Write-up 第十一关（web5）链接打开看到提示  查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串  将这串符号放到控制台 — Console里面，直接回车，就得到了flag  第十二关（头等舱）链接打开看到”什么也没有。”，查看源代码也是什么都没有  但是用Burpsuit抓下来，发送GET请求看一下， 在返回的头中就有flag  第十三关（网站被黑）">
 <meta name="keywords" content="CTFWeb">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BugKuCTF — Web题(第11-20关)">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前一部分链接：第1-10关Write-up第十一关（web5）链接打开看到提示  查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串  将这串符号放到控制台 — Console里面，直接回车，就得到了flag   第十二关（头等舱）链接打开看到”什么也没有。”，查看源代码也是什么都没有  但是用Burpsuit抓下来，发送GET请求看一下， 在返回的头中就有flag   第十三关（网站被黑">
+<meta property="og:description" content="前一部分链接：第1-10关Write-up 第十一关（web5）链接打开看到提示  查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串  将这串符号放到控制台 — Console里面，直接回车，就得到了flag  第十二关（头等舱）链接打开看到”什么也没有。”，查看源代码也是什么都没有  但是用Burpsuit抓下来，发送GET请求看一下， 在返回的头中就有flag  第十三关（网站被黑）">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-2.png">
@@ -68,10 +68,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-6.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-7.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-8.png">
-<meta property="og:updated_time" content="2019-04-10T02:52:57.224Z">
+<meta property="og:updated_time" content="2019-08-19T13:56:40.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BugKuCTF — Web题(第11-20关)">
-<meta name="twitter:description" content="前一部分链接：第1-10关Write-up第十一关（web5）链接打开看到提示  查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串  将这串符号放到控制台 — Console里面，直接回车，就得到了flag   第十二关（头等舱）链接打开看到”什么也没有。”，查看源代码也是什么都没有  但是用Burpsuit抓下来，发送GET请求看一下， 在返回的头中就有flag   第十三关（网站被黑">
+<meta name="twitter:description" content="前一部分链接：第1-10关Write-up 第十一关（web5）链接打开看到提示  查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串  将这串符号放到控制台 — Console里面，直接回车，就得到了flag  第十二关（头等舱）链接打开看到”什么也没有。”，查看源代码也是什么都没有  但是用Burpsuit抓下来，发送GET请求看一下， 在返回的头中就有flag  第十三关（网站被黑）">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -210,18 +210,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前一部分链接：第1-10关Write-up"><a href="#前一部分链接：第1-10关Write-up" class="headerlink" title="前一部分链接：第1-10关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/06/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></h3><h3 id="第十一关（web5）"><a href="#第十一关（web5）" class="headerlink" title="第十一关（web5）"></a>第十一关（web5）</h3><p>链接打开看到提示</p>
+        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/06/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
+<h3 id="第十一关（web5）"><a href="#第十一关（web5）" class="headerlink" title="第十一关（web5）"></a>第十一关（web5）</h3><p>链接打开看到提示</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-1.png" alt="1-1"></p>
 <p>查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-2.png" alt="1-2"></p>
 <p>将这串符号放到<strong>控制台 — Console</strong>里面，直接回车，就得到了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-3.png" alt="1-3"></p>
-<hr>
 <h3 id="第十二关（头等舱）"><a href="#第十二关（头等舱）" class="headerlink" title="第十二关（头等舱）"></a>第十二关（头等舱）</h3><p>链接打开看到”什么也没有。”，查看源代码也是什么都没有</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/2-1.png" alt="2-1"></p>
 <p>但是用<strong>Burpsuit</strong>抓下来，发送GET请求看一下， 在返回的头中就有flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/2-2.png" alt="2-2"></p>
-<hr>
 <h3 id="第十三关（网站被黑）"><a href="#第十三关（网站被黑）" class="headerlink" title="第十三关（网站被黑）"></a>第十三关（网站被黑）</h3><p>链接进去后，看到被黑的网页</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-1.png" alt="3-1"></p>
 <p>首先选择使用<strong>御剑</strong>扫描一下后台，结果是扫到<strong>shell.php</strong></p>
@@ -234,7 +233,6 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-5.png" alt="3-5"></p>
 <p>将hack输入后，得到了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-6.png" alt="3-6"></p>
-<hr>
 <h3 id="第十四关（系统管理员）"><a href="#第十四关（系统管理员）" class="headerlink" title="第十四关（系统管理员）"></a>第十四关（系统管理员）</h3><p>链接进去后，看到可以输入用户名和密码的输入框</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-1.png" alt="4-1"></p>
 <p>随便输入一个用户名和密码尝试登陆后，出现提示</p>
@@ -248,7 +246,6 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-4.png" alt="4-4"></p>
 <p>最后拿去解密一下，拿到了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-5.png" alt="4-5"></p>
-<hr>
 <h3 id="第十五关（web4）"><a href="#第十五关（web4）" class="headerlink" title="第十五关（web4）"></a>第十五关（web4）</h3><p>链接进去后，提示我们看一下源代码，看看就看看</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-1.png" alt="5-1"></p>
 <p>源代码中看到比较关键的部分，并且有unescape()函数</p>
@@ -259,7 +256,6 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-4.png" alt="5-4"></p>
 <p>将67d709b2b54aa2aa648cf6e87a7114f1复制网页中，提交后，就得到了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-5.png" alt="5-5"></p>
-<hr>
 <h3 id="第十六关（flag在index里）"><a href="#第十六关（flag在index里）" class="headerlink" title="第十六关（flag在index里）"></a>第十六关（flag在index里）</h3><p>链接打开后只有”click me?no”的字样</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-1.png" alt="6-1"></p>
 <p>他说不点就不点吗，那不就很没面子？我们点进去只看到写着test5，但是注意看url，通过GET方式传递file变量</p>
@@ -272,7 +268,6 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-4.png" alt="6-4"></p>
 <p>简单的用Python解密一下，就可以看到index.php的源代码，里面有着flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-5.png" alt="6-5"></p>
-<hr>
 <h3 id="第十七关（输入密码查看flag）"><a href="#第十七关（输入密码查看flag）" class="headerlink" title="第十七关（输入密码查看flag）"></a>第十七关（输入密码查看flag）</h3><p>链接打开有一个可以输入密码的输入框</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-1.png" alt="7-1"></p>
 <p>随意输入一个密码尝试一下会报错</p>
@@ -285,14 +280,12 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-5.png" alt="7-5"></p>
 <p>输入密码后，直接给出了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-6.png" alt="7-6"></p>
-<hr>
 <h3 id="第十八关（点击一百万次）"><a href="#第十八关（点击一百万次）" class="headerlink" title="第十八关（点击一百万次）"></a>第十八关（点击一百万次）</h3><p>链接点进去是一个饼干，鼠标点击一次，就会计数一次</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-1.png" alt="8-1"></p>
 <p>查看网页源代码，其中Javascript的部分有用到POST方法提交clicks的值</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-2.png" alt="8-2"></p>
 <p>那么我们直接用Burpsuit提交clicks=10000000，就得到了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-3.png" alt="8-3"></p>
-<hr>
 <h3 id="第十九关（备份是个好习惯）"><a href="#第十九关（备份是个好习惯）" class="headerlink" title="第十九关（备份是个好习惯）"></a>第十九关（备份是个好习惯）</h3><p>链接打开只看到一串MD5加密的字符串</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-1.png" alt="9-1"></p>
 <p>查看源代码和用Burpsuit测试什么都没有发现</p>
@@ -323,7 +316,6 @@
 <p>后来才知道也就是NULL的意思，为什么是NULL呢，因为key1和key2没有传入或者没有成功传入时，默认值就是NULL</p>
 <p>如下图，没用成功传入key1和key2时，页面也是返回这个值，这样就解释通了</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-7.png" alt="9-7"></p>
-<hr>
 <h3 id="第二十关（成绩单）"><a href="#第二十关（成绩单）" class="headerlink" title="第二十关（成绩单）"></a>第二十关（成绩单）</h3><p>链接进去后有一个提交数值的框，对应输出学生的成绩</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-1.png" alt="10-1"></p>
 <p>想到应该是SQL注入，尝试一下：</p>
@@ -346,7 +338,9 @@
 <p>爆skctf_flag列下的数据，顺利拿到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-8.png" alt="10-8"></p>
 <hr>
-<h3 id="至此，11-20关的Write-up结束"><a href="#至此，11-20关的Write-up结束" class="headerlink" title="至此，11-20关的Write-up结束"></a>至此，11-20关的Write-up结束</h3><h3 id="后一部分链接：第21-30关Write-up"><a href="#后一部分链接：第21-30关Write-up" class="headerlink" title="后一部分链接：第21-30关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></h3>
+<p>至此，11-20关的Write-up结束</p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
+
       
 
       
@@ -586,11 +580,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
               </li>
              
               <li class="article-tag-list-item">

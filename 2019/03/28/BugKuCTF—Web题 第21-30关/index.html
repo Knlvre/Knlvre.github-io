@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>BugKuCTF — Web题(第21-30关) | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前一部分链接：第11-20关Write-up第二十一关（秋名山老司机）题目打开要求我们2秒内快速计算  就想到用Python的Session机制，思想是：自动抓取页面、计算、提交、保存Session、显示flag 那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？ 此时，页面多刷新几次，机会看到提示：value变量  -写代码： 12345678910111213import req">
+  <meta name="description" content="前一部分链接：第11-20关Write-up 第二十一关（秋名山老司机）题目打开要求我们2秒内快速计算  就想到用Python的Session机制，思想是：自动抓取页面、计算、提交、保存Session、显示flag 那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？ 此时，页面多刷新几次，机会看到提示：value变量  -写代码： 12345678910111213import re">
 <meta name="keywords" content="CTFWeb">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BugKuCTF — Web题(第21-30关)">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF—Web题 第21-30关/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前一部分链接：第11-20关Write-up第二十一关（秋名山老司机）题目打开要求我们2秒内快速计算  就想到用Python的Session机制，思想是：自动抓取页面、计算、提交、保存Session、显示flag 那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？ 此时，页面多刷新几次，机会看到提示：value变量  -写代码： 12345678910111213import req">
+<meta property="og:description" content="前一部分链接：第11-20关Write-up 第二十一关（秋名山老司机）题目打开要求我们2秒内快速计算  就想到用Python的Session机制，思想是：自动抓取页面、计算、提交、保存Session、显示flag 那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？ 此时，页面多刷新几次，机会看到提示：value变量  -写代码： 12345678910111213import re">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-2.png">
@@ -52,10 +52,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-3.png">
-<meta property="og:updated_time" content="2019-04-10T02:53:38.886Z">
+<meta property="og:updated_time" content="2019-08-19T14:10:08.197Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BugKuCTF — Web题(第21-30关)">
-<meta name="twitter:description" content="前一部分链接：第11-20关Write-up第二十一关（秋名山老司机）题目打开要求我们2秒内快速计算  就想到用Python的Session机制，思想是：自动抓取页面、计算、提交、保存Session、显示flag 那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？ 此时，页面多刷新几次，机会看到提示：value变量  -写代码： 12345678910111213import req">
+<meta name="twitter:description" content="前一部分链接：第11-20关Write-up 第二十一关（秋名山老司机）题目打开要求我们2秒内快速计算  就想到用Python的Session机制，思想是：自动抓取页面、计算、提交、保存Session、显示flag 那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？ 此时，页面多刷新几次，机会看到提示：value变量  -写代码： 12345678910111213import re">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -194,7 +194,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前一部分链接：第11-20关Write-up"><a href="#前一部分链接：第11-20关Write-up" class="headerlink" title="前一部分链接：第11-20关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3><h3 id="第二十一关（秋名山老司机）"><a href="#第二十一关（秋名山老司机）" class="headerlink" title="第二十一关（秋名山老司机）"></a>第二十一关（秋名山老司机）</h3><p>题目打开要求我们2秒内快速计算</p>
+        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
+<h3 id="第二十一关（秋名山老司机）"><a href="#第二十一关（秋名山老司机）" class="headerlink" title="第二十一关（秋名山老司机）"></a>第二十一关（秋名山老司机）</h3><p>题目打开要求我们2秒内快速计算</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-1.png" alt="2-1"></p>
 <p>就想到用Python的Session机制，思想是：<code>自动抓取页面、计算、提交、保存Session、显示flag</code></p>
 <p>那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？</p>
@@ -205,7 +206,6 @@
 <p>多执行几次，flag就跳出来</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-3.png" alt="1-3"></p>
 <p>为什么要多执行几次呢？看了别人的WP：当计算结果超出一定长度时，服务器就不响应了。在此猜想：可能客户端 Python 脚本计算错误，也可能服务器端 PHP 脚本对大数计算有误差，还可能在 POST 请求过程中令大整数发生改变。至于是哪种，还请高手解答。</p>
-<hr>
 <h3 id="第二十二关（速度要快）"><a href="#第二十二关（速度要快）" class="headerlink" title="第二十二关（速度要快）"></a>第二十二关（速度要快）</h3><p>题目进去提示：<code>我感觉你得快点!!!</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-1.png" alt="2-1"></p>
 <p>查看源代码：<code>margin</code></p>
@@ -219,7 +219,6 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64,requests</span><br><span class="line"></span><br><span class="line">a = requests.Session()</span><br><span class="line">url = <span class="string">"http://123.206.87.240:8002/web6/"</span></span><br><span class="line">b = a.get(url)</span><br><span class="line">b = b.headers[<span class="string">'flag'</span>]</span><br><span class="line">c = str(base64.b64decode(b))[<span class="number">-9</span>:<span class="number">-1</span>]</span><br><span class="line">d = base64.b64decode(c)</span><br><span class="line">result = d.decode()</span><br><span class="line">data = &#123;<span class="string">'margin'</span>:result&#125;</span><br><span class="line"></span><br><span class="line">flag = a.post(url,data=data)</span><br><span class="line">print(flag.text)</span><br></pre></td></tr></table></figure>
 <p>直接拿下flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-5.png" alt="2-5"></p>
-<hr>
 <h3 id="第二十三关（Cookies欺骗）"><a href="#第二十三关（Cookies欺骗）" class="headerlink" title="第二十三关（Cookies欺骗）"></a>第二十三关（Cookies欺骗）</h3><p>链接进去后只看到一串一直重复的文字</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-1.png" alt="3-1"></p>
 <p>但是注意到<code>URL</code>的<code>filename</code>字段后面接的是<code>Base64</code>密文，拿去解密一下是：<code>key.txt</code></p>
@@ -236,7 +235,6 @@
 <p>所以当<code>Cookie</code>中有<code>margin</code>，并且<code>file</code>的值为<code>keys.php的Base64密文</code>时，返回<code>keys.php</code>的值</p>
 <p><code>Burpsuits</code>提交，成功获得<code>flag</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-5.png" alt="3-5"></p>
-<hr>
 <h3 id="第二十四关（Never-give-up）"><a href="#第二十四关（Never-give-up）" class="headerlink" title="第二十四关（Never give up）"></a>第二十四关（Never give up）</h3><p>链接进去没有提示有用的信息，只显示”never never never give up !!!”</p>
 <p>右键”查看网页源代码”，看到提示信息<code>&lt;!--1p.html--&gt;</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-1.png" alt="4-1"></p>
@@ -247,12 +245,15 @@
 <p>对其中几个函数解释一下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stripos()：</span><br><span class="line">函数查找字符串在另一字符串中第一次出现的位置（不区分大小写），返回一个数字</span><br><span class="line"></span><br><span class="line">eregi()：</span><br><span class="line">用指定的模式搜索一个字符串中指定的字符串,如果匹配成功返回true,否则返回false</span><br><span class="line">和 ereg() 完全相同，只除了在匹配字母字符时忽略大小写的区别</span><br></pre></td></tr></table></figure>
 <p>开始对源码中<code>$id</code>、<code>$a</code>、<code>$b</code> 三个变量需要满足的条件进行讲解</p>
-<h4 id="一、-id（弱类型比较）"><a href="#一、-id（弱类型比较）" class="headerlink" title="一、$id（弱类型比较）"></a>一、$id（弱类型比较）</h4><p>变量 $id 若想满足非空非零，且弱等于整型数 0，则 $id 的值只能为非空非零字符串</p>
+<p>一、$id（弱类型比较）</p>
+<p>变量 $id 若想满足非空非零，且弱等于整型数 0，则 $id 的值只能为非空非零字符串</p>
 <p>我们随便设置一个值：$id=bugku，如下图：</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-4.png" alt="4-4"></p>
-<h4 id="二、-a（PHP伪协议）"><a href="#二、-a（PHP伪协议）" class="headerlink" title="二、$a（PHP伪协议）"></a>二、$a（PHP伪协议）</h4><p>源码中变量 $data 是由 file_get_contents() 函数读取变量 $a 的值而得，所以 $a 的值必须为数据流</p>
+<p>二、$a（PHP伪协议）</p>
+<p>源码中变量 $data 是由 file_get_contents() 函数读取变量 $a 的值而得，所以 $a 的值必须为数据流</p>
 <p>在服务器中自定义一个内容为 bugku is a nice plateform! 文件，再把此文件路径赋值给 $a，显然不太现实。因此这里用伪协议 php:// 来访问输入输出的数据流，其中 php://input可以访问原始请求数据中的只读流。这里令 $a = “php://input”，并在请求主体中提交字符串 bugku is a nice plateform!</p>
-<h4 id="三、-b（eregi-截断漏洞）"><a href="#三、-b（eregi-截断漏洞）" class="headerlink" title="三、$b（eregi()截断漏洞）"></a>三、$b（eregi()截断漏洞）</h4><p>CTF 题做多了就知道 ereg() 函数或 eregi() 函数存在空字符截断漏洞，即参数中的正则表达式或待匹配字符串遇到空字符则截断丢弃后面的数据。这个漏洞可以用<code>url中空格的编码</code>：<code>%00</code>来绕过</p>
+<p>三、$b（eregi()截断漏洞）</p>
+<p>CTF 题做多了就知道 ereg() 函数或 eregi() 函数存在空字符截断漏洞，即参数中的正则表达式或待匹配字符串遇到空字符则截断丢弃后面的数据。这个漏洞可以用<code>url中空格的编码</code>：<code>%00</code>来绕过</p>
 <p>源码中待匹配字符串（第二个参数）已确定为 “1114”，正则表达式（第一个参数）由 “111” 连接 $b 的第一个字符组成，若令 substr($b,0,1) = “%00”，即eregi(“111”,”1114”)，满足 “111”去匹配 “1114” 成功。因此，这里假设 $b = “%0012345”，才能满足以上三个条件</p>
 <p>构造<code>payload</code>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=Bugku&amp;&amp;a=php://input&amp;&amp;b=%0012345</span><br><span class="line"></span><br><span class="line">//请求主体中提交字符串：bugku is a nice plateform!</span><br></pre></td></tr></table></figure>
@@ -261,7 +262,6 @@
 <p>不过此题还有一个更简单的做法。。。。</p>
 <p>直接访问<code>f4l2a3g.txt</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-6.png" alt="4-6"></p>
-<hr>
 <h3 id="第二十五关（welcome-to-bugkuctf）"><a href="#第二十五关（welcome-to-bugkuctf）" class="headerlink" title="第二十五关（welcome to bugkuctf）"></a>第二十五关（welcome to bugkuctf）</h3><p>链接进去没有提示有用信息，只是提示：”you are not the number of bugku !”</p>
 <p>查看源代码，看到了提示</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-1.png" alt="5-1"></p>
@@ -289,7 +289,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?txt=php://input&amp;&amp;file=hint.php&amp;&amp;password=O:4:&quot;Flag&quot;:1:&#123;s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;&#125;</span><br></pre></td></tr></table></figure>
 <p>通过Burpsuits提交，得到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-8.png" alt="5-8"></p>
-<hr>
 <h3 id="第二十六关（过狗一句话）"><a href="#第二十六关（过狗一句话）" class="headerlink" title="第二十六关（过狗一句话）"></a>第二十六关（过狗一句话）</h3><p>有提示：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	$poc=<span class="string">"a#s#s#e#r#t"</span>; </span><br><span class="line">	$poc_1=explode(<span class="string">"#"</span>,$poc); </span><br><span class="line">	$poc_2=$poc_1[<span class="number">0</span>].$poc_1[<span class="number">1</span>].$poc_1[<span class="number">2</span>].$poc_1[<span class="number">3</span>].$poc_1[<span class="number">4</span>].$poc_1[<span class="number">5</span>]; </span><br><span class="line">	$poc_2($_GET[<span class="string">'s'</span>]) </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-1.png" alt="6-1"></p>
@@ -305,7 +304,6 @@
 <p>读取上一级目录：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?s=print_r(scandir(&apos;../&apos;))</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-4.png" alt="6-4"></p>
-<hr>
 <h3 id="第二十七关（字符？正则？）"><a href="#第二十七关（字符？正则？）" class="headerlink" title="第二十七关（字符？正则？）"></a>第二十七关（字符？正则？）</h3><p>链接进去直接看到代码，如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">highlight_file(<span class="string">'2.php'</span>);</span><br><span class="line">$key=<span class="string">'KEY&#123;********************************&#125;'</span>;</span><br><span class="line">$IM= preg_match(<span class="string">"/key.*key.&#123;4,7&#125;key:\/.\/(.*key)[a-z][[:punct:]]/i"</span>, trim($_GET[<span class="string">"id"</span>]), $match);</span><br><span class="line"><span class="keyword">if</span>( $IM )&#123; </span><br><span class="line">  <span class="keyword">die</span>(<span class="string">'key is: '</span>.$key);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>分析一下：</p>
@@ -314,9 +312,7 @@
 <p>这样我们就可以的出我们的<code>id</code>的有效值：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=key999key9999key:/9/999keya!</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/7-1.png" alt="7-1"></p>
-<hr>
 <h3 id="第二十八关（前女友-SKCTF-）"><a href="#第二十八关（前女友-SKCTF-）" class="headerlink" title="第二十八关（前女友(SKCTF)）"></a>第二十八关（前女友(SKCTF)）</h3><p>链接打不开，先放着吧</p>
-<hr>
 <h3 id="第二十九关（login1-SKCTF-）"><a href="#第二十九关（login1-SKCTF-）" class="headerlink" title="第二十九关（login1(SKCTF)）"></a>第二十九关（login1(SKCTF)）</h3><p>题目有提示：SQL约束攻击</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-1.png" alt="9-1"></p>
 <p>链接进去后点击”没有账号”，随便注册一个账号。返回登陆时，提示我们”不是管理员还想看flag?!”</p>
@@ -337,7 +333,6 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-4.png" alt="9-4"></p>
 <p>也就是说，<code>注册</code>时使用<code>INSERT语句</code>帮我们插入一个用户名为<code>&#39;admin     &#39;</code>的账户</p>
 <p><code>登陆</code>时，帮我们删掉了用户名后面的空格，即查询了<code>&#39;admin&#39;</code>用户的信息</p>
-<hr>
 <h3 id="第三十关（你从哪里来）"><a href="#第三十关（你从哪里来）" class="headerlink" title="第三十关（你从哪里来）"></a>第三十关（你从哪里来）</h3><p>链接打开看到提示：<code>&quot;are you from google?&quot;</code></p>
 <p>那么这关考察的是<code>Http Referer</code>：</p>
 <ol>
@@ -355,7 +350,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: https://www.google.com</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-3.png" alt="10-3"></p>
 <hr>
-<h3 id="至此，21-30关的Write-up结束"><a href="#至此，21-30关的Write-up结束" class="headerlink" title="至此，21-30关的Write-up结束"></a>至此，21-30关的Write-up结束</h3><h3 id="后一部分链接：第31-40关Write-up"><a href="#后一部分链接：第31-40关Write-up" class="headerlink" title="后一部分链接：第31-40关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/04/10/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></h3>
+<p>至此，21-30关的Write-up结束</p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/04/10/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
+
       
 
       
@@ -595,11 +592,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-15.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-16.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-17.png">
-<meta property="og:updated_time" content="2019-08-05T06:16:30.714Z">
+<meta property="og:updated_time" content="2019-08-19T02:36:07.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DVWA 5-File Upload（文件上传）">
 <meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\upload\source\ 页面功能上传本地文件到服务器  Security Level — Low核心代码 12345678910111213141516171819&amp;lt;?phpif( isset( $_POST[ &apos;Upload&apos; ] ) ) &amp;#123;	// Where are we going to be writing to?">
@@ -201,7 +201,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址：http://192.168.0.105/dvwa/hackable/uploads/muma.png</span><br><span class="line">参数：muma</span><br></pre></td></tr></table></figure>
 <p>无论进行什么操作都会出现如下的提示</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-6.png" alt="5-6"></p>
-<p>中国菜刀的原理是向上传文件发送包含apple参数的post请求，通过控制apple参数来执行不同的命令，而这里服务器将木马文件解析成了图片文件，因此向其发送post请求时，服务器只会返回这个“图片”文件，并不会执行相应命令。</p>
+<p>中国菜刀的原理是向上传文件发送包含<code>muma</code>参数的post请求，通过控制muma参数来执行不同的命令，而这里服务器将木马文件解析成了图片文件，因此向其发送post请求时，服务器只会返回这个“图片”文件，并不会执行相应命令。</p>
 <p>那么如何让服务器将其解析为php文件呢？我们想到文件包含漏洞（详见<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/13/DVWA%204-File%20Inclusion%EF%BC%88%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%EF%BC%89/">文件包含漏洞教程</a>）。这里可以借助Medium级别的文件包含漏洞来获取webshell权限，将菜刀的地址更改一下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址：http://192.168.0.105/dvwa/vulnerabilities/fi/?page=http://tp://192.168.0.105/dvwa/hackable/uploads/muma.png</span><br><span class="line">参数：muma</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-7.png" alt="5-7"></p>
@@ -486,11 +486,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
               </li>
              
               <li class="article-tag-list-item">
