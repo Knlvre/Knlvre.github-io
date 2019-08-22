@@ -365,19 +365,19 @@
 
 
   
-    <article id="post-Linux命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Kali学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/15/Linux命令/">Kali学习笔记</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/03/15/Kali学习笔记/">Kali学习笔记</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/03/15/Linux命令/" class="archive-article-date">
+        <a href="/Knlvre.github-io/2019/03/15/Kali学习笔记/" class="archive-article-date">
   	<time datetime="2019-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-15</time>
 </a>
         
@@ -390,44 +390,44 @@
 <p><strong>awk</strong>：筛选第X行的内容</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | awk ["X"]</span><br></pre></td></tr></table></figure>
 <p><strong>cut</strong>：裁剪内容，-d 表示分割的标志，-f 接第几部分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | cut -d [&quot;X&quot;] -f [X]</span><br></pre></td></tr></table></figure>
-<p><img src alt="1-3"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | cut -d ["X"] -f [X]</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1-3.png" alt="1-3"></p>
 <p><strong>ls</strong>：列出当前目录下内容（Window下是：dir）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls [-l/-a/-h...]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls [-l/-a/-h...]</span><br></pre></td></tr></table></figure>
 <p><strong>cd</strong>：切换位置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd [/etc/passwd]</span><br><span class="line">cd ..	（切换至上一级目录）</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd [/etc/passwd]</span><br><span class="line">cd ..	（切换至上一级目录）</span><br></pre></td></tr></table></figure>
 <p><strong>pwd</strong>：查看当前工作目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br></pre></td></tr></table></figure>
 <p><strong>cat</strong>：查看文件全部内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [/etc/passwd]</span><br></pre></td></tr></table></figure>
 <p><strong>less、more</strong>：一页页查看文件内容（回车翻行、空格翻页）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">less [/etc/passwd]	（按Q退出）</span><br><span class="line">more [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">less [/etc/passwd]	（按Q退出）</span><br><span class="line">more [/etc/passwd]</span><br></pre></td></tr></table></figure>
 <p><strong>tail</strong>：查看文件最后几行（默认10行）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail [-20] [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail [-20] [/etc/passwd]</span><br></pre></td></tr></table></figure>
 <p><strong>watch</strong>：隔几秒地刷新所查看文件（结合tail命令）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n [2] tail [-20] [/var/log/messages]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n [2] tail [-20] [/var/log/messages]</span><br></pre></td></tr></table></figure>
 <p><strong>rm</strong>：删除（删除目录需要加 -r 参数）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm [file_name]</span><br><span class="line">rm -r [directory_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm [file_name]</span><br><span class="line">rm -r [directory_name]</span><br></pre></td></tr></table></figure>
 <p>cp：拷贝（删除目录需要加 -r 参数）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp [target_file_name] [new_file_name]	(在本目录下复制)</span><br><span class="line">cp -r [target_directory_name] [new_directory_name]</span><br><span class="line"></span><br><span class="line">cp [target_file_name] [destination_directory_name]	（复制到执行目录）</span><br><span class="line">cp -r [target_file_name] [destination_directory_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp [target_file_name] [new_file_name]	(在本目录下复制)</span><br><span class="line">cp -r [target_directory_name] [new_directory_name]</span><br><span class="line"></span><br><span class="line">cp [target_file_name] [destination_directory_name]	（复制到执行目录）</span><br><span class="line">cp -r [target_file_name] [destination_directory_name]</span><br></pre></td></tr></table></figure>
 <p>top：监视系统性能参数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
 <p>ps：显示进程信息（通常使用ps -ef或ps auf显示更详细的）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -[ef]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -[ef]</span><br></pre></td></tr></table></figure>
 <p>ifconfig：查看网卡信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
 <p>netstat：查看简历网络连接的详细信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -[nao]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -[nao]</span><br></pre></td></tr></table></figure>
 <p>dpkg：软件的安装、更新和移除。具体用法请百度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dppkg -[i/L]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dppkg -[i/L]</span><br></pre></td></tr></table></figure>
 <p>find：查找文件或者目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name [file_name/directory_name]</span><br><span class="line">find / -iname [file_name/directory_name]	(加i不区分大小写)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name [file_name/directory_name]</span><br><span class="line">find / -iname [file_name/directory_name]	(加i不区分大小写)</span><br></pre></td></tr></table></figure>
 <p>whereis：功能与find相同，但是范围小速度快</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis [file_name/directory_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis [file_name/directory_name]</span><br></pre></td></tr></table></figure>
 <p>touch：创建一个文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch [file_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch [file_name]</span><br></pre></td></tr></table></figure>
 <p>vi：编辑一个文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi [file_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi [file_name]</span><br></pre></td></tr></table></figure>
 <p>如果想让文本显示行号.就在命令行 模式下,在文本最后输入”:set nu”命令.就可以了 </p>
 <p>如果要想编辑文本文件.必须要转换到插入模式下,也就是按一下键盘上的”i”就可以了.这样你就可以编辑文本,删除文本中的内容</p>
 <p>输入你要输入的内容.如果你想退出文本编辑模式.并且保存刚刚编辑的文本.首先点击一下键盘上的”ESC”,然后输入”:wq!”这样就将文本保存了.然后推出了vi编辑器.如果不想保存就按一下键盘上的”ESC”,输入”:q!”.如果你不确定是否成功.可以通过”cat filename” 命令来查看.</p>
@@ -443,78 +443,80 @@
 <h2 id="2-脚本格式"><a href="#2-脚本格式" class="headerlink" title="2. 脚本格式"></a>2. 脚本格式</h2><p>if条件语句：使用<code>中括号[]</code>存放判断，以<code>分号;</code>结尾</p>
 <p><code>if -&gt; 条件 -&gt; then -&gt; 执行体 -&gt; fi</code>作为一个完整的条件执行</p>
 <p><code>(seq 1 100)</code>：从1到100逐个打印</p>
-<p><img src alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2-1.png" alt="2-1"></p>
 <h2 id="3-克隆网站"><a href="#3-克隆网站" class="headerlink" title="3. 克隆网站"></a>3. 克隆网站</h2><p>工具：<code>httrack</code></p>
 <p>可以直接复制目标网站，并存放在默认目录<code>/root/website</code>下</p>
 <p>将克隆好的网站文件，复制到<code>/var/www/html</code>下，使用命令<code>/etc/init.d/apache2 start</code>启动apache服务就可以访问了</p>
 <h2 id="4-NetCat"><a href="#4-NetCat" class="headerlink" title="4. NetCat"></a>4. NetCat</h2><p>网络安全工具中的瑞士军刀</p>
-<p><img src alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-1.png" alt="4-1"></p>
 <p><strong>聊天</strong></p>
-<p><img src alt="4-2"></p>
-<p><img src alt="4-3"></p>
-<p><img src alt="4-4"></p>
-<p><img src alt="4-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-3.png" alt="4-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-4.png" alt="4-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-5.png" alt="4-5"></p>
 <p><strong>传输文件</strong></p>
-<p><img src alt="4-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-6.png" alt="4-6"></p>
 <p><strong>播放视频</strong></p>
-<p><img src alt="4-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-7.png" alt="4-7"></p>
 <p><strong>端口扫描</strong></p>
-<p><img src alt="4-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-8.png" alt="4-8"></p>
 <p><strong>远程克隆磁盘</strong></p>
-<p><img src alt="4-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-9.png" alt="4-9"></p>
 <p><strong>远程控制</strong></p>
-<p><img src alt="4-10"></p>
-<p><img src alt="4-11"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-10.png" alt="4-10"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-11.png" alt="4-11"></p>
 <p><strong>NC的安全传输NCAT</strong></p>
-<p><img src alt="4-12"></p>
-<p><img src alt="4-13"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-12.png" alt="4-12"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-13.png" alt="4-13"></p>
 <h2 id="5-Tcpdump"><a href="#5-Tcpdump" class="headerlink" title="5. Tcpdump"></a>5. Tcpdump</h2><p>没有GUI界面的抓包工具</p>
-<p><img src alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-1.png" alt="5-1"></p>
 <p><strong>使用</strong></p>
-<p><img src alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-2.png" alt="5-2"></p>
 <p>-i  选取网卡；-s  选取字节,0表示无限大；-w  表示内容保存为文件的名字</p>
-<p><img src alt="5-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-3.png" alt="5-3"></p>
 <p><strong>筛选</strong></p>
 <p>-n  表示不对IP域名进行解析，直接显示IP；-r  表示读取文件内容，最初的截图有；src host  筛选源IP地址（dst host  筛选目的地址）；-X  以十六进制形式显示</p>
-<p><img src alt="5-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-4.png" alt="5-4"></p>
 <h2 id="6-DNS信息收集"><a href="#6-DNS信息收集" class="headerlink" title="6. DNS信息收集"></a>6. DNS信息收集</h2><p><strong>域名解析</strong></p>
-<p><img src alt="6-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-1.png" alt="6-1"></p>
 <p>FQDN：<a href="http://www.sina.com" target="_blank" rel="noopener">www.sina.com</a></p>
 <p>A类：直接映射出IP地址</p>
 <p>NS类：一对多的关系，如sina.com.对应ns1.sina.com.和ns3.sina.com.等等</p>
 <p>MX类：邮件服务器</p>
 <p>ptr：方向解析域名（用IP地址解析出域名）</p>
 <p><strong>Nslookup（域名解析）</strong></p>
-<p><img src alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-2.png" alt="6-2"></p>
 <p><strong>Dig</strong></p>
 <p>@：后面加自己想要借用的DNS服务器如114.114.114.114</p>
 <p>+noall：并不是全部信息，因为有的没用</p>
 <p>+answer：与+noall一起使用，只显示answer部分</p>
 <p>-x:表示反向查询</p>
 <p>Bind版本查询命令：@后面加的是NS域名服务器</p>
-<p><img src alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-3.png" alt="6-3"></p>
 <p><strong>域名注册留下的信息查询（使用Whois）</strong></p>
 <p>域名注册可能会留下组织，电话什么的（提醒注册域名时，使用代理商的电话信息什么的，不要留下自己的信息）</p>
 <p>例如：whois sina.com</p>
-<p><img src alt="6-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-4.png" alt="6-4"></p>
 <h2 id="7-二层发现"><a href="#7-二层发现" class="headerlink" title="7. 二层发现"></a>7. 二层发现</h2><p><strong>arping</strong></p>
-<p><img src alt="7-1"></p>
-<p><img src alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-1.png" alt="7-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-2.png" alt="7-2"></p>
 <p><strong>Nmap</strong></p>
-<p><img src alt="7-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-3.png" alt="7-3"></p>
 <p><strong>Netdiscover</strong></p>
-<p><img src alt="7-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-4.png" alt="7-4"></p>
 <p><strong>Scapy</strong></p>
-<p><img src alt="7-5"></p>
-<h2 id="8-三层发现"><a href="#8-三层发现" class="headerlink" title="8. 三层发现"></a>8. 三层发现</h2><p><img src alt="8-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-5.png" alt="7-5"></p>
+<h2 id="8-三层发现"><a href="#8-三层发现" class="headerlink" title="8. 三层发现"></a>8. 三层发现</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-1.png" alt="8-1"></p>
 <p><strong>Ping</strong></p>
-<p><img src alt="8-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-2.png" alt="8-2"></p>
 <p><strong>Scapy</strong></p>
-<p><img src alt="8-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-3.png" alt="8-3"></p>
 <p><strong>fping</strong></p>
-<p><img src alt="8-8"></p>
-<h2 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title=". 搜索引擎"></a>. 搜索引擎</h2><p><strong>RECON-NG</strong>（命令行）、<strong>Shodan</strong>（网站）、<strong>Google</strong></p>
-<h2 id="其他工具"><a href="#其他工具" class="headerlink" title=".其他工具"></a>.其他工具</h2><p><strong>CUPP</strong>（生成社工字典）、<strong>exiftool</strong>（图片属性浏览）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-8.png" alt="8-8"></p>
+<p><strong>hping3</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-9.png" alt="8-9"></p>
+<h2 id="9-搜索引擎"><a href="#9-搜索引擎" class="headerlink" title="9. 搜索引擎"></a>9. 搜索引擎</h2><p><strong>RECON-NG</strong>（命令行）、<strong>Shodan</strong>（网站）、<strong>Google</strong></p>
+<h2 id="10-其他工具"><a href="#10-其他工具" class="headerlink" title="10. 其他工具"></a>10. 其他工具</h2><p><strong>CUPP</strong>（生成社工字典）、<strong>exiftool</strong>（图片属性浏览）</p>
 
       
 
@@ -538,7 +540,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/15/Linux命令/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/15/Kali学习笔记/">展开全文 >></a>
         </p>
       
 
@@ -3845,11 +3847,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3858,14 +3860,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3882,6 +3876,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF分析</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
             
             <div class="clearfix"></div>

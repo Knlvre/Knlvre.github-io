@@ -715,127 +715,6 @@
 
 
   
-    <article id="post-Kali系统—工具安装和系统调整" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/">Kali系统 — 工具安装和系统调整</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/" class="archive-article-date">
-  	<time datetime="2018-07-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="VMware-tools的安装"><a href="#VMware-tools的安装" class="headerlink" title="VMware tools的安装"></a>VMware tools的安装</h2><ul>
-<li><p>点击“虚拟机”-&gt;安装VMware tools</p>
-</li>
-<li><p>此时在在文件管理栏会出现一个VMware tools distrib的位置，访问发现一个文件</p>
-</li>
-<li><p>但是此时我们是没有权限tar这个压缩包的，做法是先将它拷贝到我们的用户主目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp VMwareTools-10.2.5.8068393.tar.gz ~/</span><br></pre></td></tr></table></figure>
-<p>-然后再将之解压下来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxf VMwareTools-10.2.5.8068393.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压下来我们可以看到vmware-tools-distrib这个文件夹，进去之后执行这个vmware-install.pl</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls</span><br><span class="line">./vmware-install.pl</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>做到这里的时候，我们的VMware tools已经安装好，此时就可以实现将Window的文字或文件复制到Linux下了</p>
-</li>
-</ul>
-<hr>
-<h2 id="网络配置（临时）"><a href="#网络配置（临时）" class="headerlink" title="网络配置（临时）"></a>网络配置（临时）</h2><p><strong>注意</strong>：以下步骤制定的地址是临时的，重启之后恢复</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dhclient eth0</span><br><span class="line">ifconfig eth0 192.168.1.11/24</span><br><span class="line">route add default gw 192.168.1.1</span><br><span class="line">echo nameserver 192.168.1.1 &gt; /etc/resolv.conf</span><br></pre></td></tr></table></figure>
-<p>更改网卡的地址（记得IP地址加掩码）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 192.168.1.10/24</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-1.png" alt="1-1"></p>
-<p>更改网关地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add default gw 192.168.1.1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-2.png" alt="1-2"></p>
-<p>更改网络后查看网络情况</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nr</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-3.png" alt="1-3"></p>
-<p>更改网络地址后，添加路由信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -net 172.168.1.0/24 gw 192.168.1.100</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/1-4.png" alt="1-4"></p>
-<p><strong>修改网卡的MAC地址</strong></p>
-<p>先关掉网卡，然后执行下面命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/sbin/ifconfig eth0 hw ether (MAC地址)</span><br></pre></td></tr></table></figure>
-<p>再次启动网卡，就可以了，但是下次启动就失效了</p>
-<hr>
-<h2 id="网络配置（永久）"><a href="#网络配置（永久）" class="headerlink" title="网络配置（永久）"></a>网络配置（永久）</h2><p><strong>注意</strong>：以下步骤制定的地址是永久的，需要再次修改配置文件才能恢复</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/network/interface</span><br><span class="line">	auto eth0</span><br><span class="line">	iface eth0 inet static</span><br><span class="line">	address 192.168.20.1</span><br><span class="line">	netmask 255.255.255.0</span><br><span class="line">	network 192.168.20.0</span><br><span class="line">	broadcast 192.168.20.255</span><br><span class="line">	gateway 192.168.20.2</span><br><span class="line">	dns-nameservers 192.168.1.1 192.168.1.2</span><br><span class="line">	up route add -net 172.168.5.0/24 gw 192.168.10.100 eth1</span><br><span class="line">	down route del -net 172.24.0.0/24</span><br></pre></td></tr></table></figure>
-<p>通过修改<strong>/etc/network/interfaces</strong>文件的配置来永久修改网络配置</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/2-1.png" alt="2-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/kali%E7%B3%BB%E7%BB%9F/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E6%95%B4/2-1-2.png" alt="2-2"></p>
-<p>清空ARP表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip neigh flush dev eth0</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="系统的更新"><a href="#系统的更新" class="headerlink" title="系统的更新"></a>系统的更新</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">	科技大学更新源</span><br><span class="line">	deb http://mirrors.ustc.edu.cn/kali kali main non-free conrtib</span><br><span class="line">	deb-src http://mirrors.ustc.edu.cn/kalikali main non-free contrib</span><br><span class="line">	deb http://mirrors.ustc.edu.cn/kali-security kali/updates main contrib non-free</span><br><span class="line">apt-get upgrade</span><br><span class="line">apt-get dis-upgrade</span><br><span class="line">重复执行</span><br></pre></td></tr></table></figure>
-<p>先执行<strong>apt-get update</strong>，再执行<strong>apt-getupgrade</strong></p>
-<p>apt-get update是更新索引文件，apt-get upgrade是更新安装包</p>
-<p>如果在使用apt-get update的过程中出现了问题，加参数–fix-missing</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Kali系统</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2018/08/01/Kali系统—工具安装和系统调整/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/4/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><span class="space">&hellip;</span><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><span class="page-number current">5</span>
@@ -929,11 +808,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -942,14 +821,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -966,6 +837,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF分析</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
             
             <div class="clearfix"></div>
