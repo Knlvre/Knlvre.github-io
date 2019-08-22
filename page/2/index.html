@@ -449,29 +449,66 @@
 <p>将克隆好的网站文件，复制到<code>/var/www/html</code>下，使用命令<code>/etc/init.d/apache2 start</code>启动apache服务就可以访问了</p>
 <h2 id="4-NetCat"><a href="#4-NetCat" class="headerlink" title="4. NetCat"></a>4. NetCat</h2><p>网络安全工具中的瑞士军刀</p>
 <p><img src alt="4-1"></p>
-<p>使用NC进行聊天</p>
+<p><strong>聊天</strong></p>
 <p><img src alt="4-2"></p>
 <p><img src alt="4-3"></p>
 <p><img src alt="4-4"></p>
 <p><img src alt="4-5"></p>
-<p>传输文件</p>
+<p><strong>传输文件</strong></p>
 <p><img src alt="4-6"></p>
-<p>播放视频</p>
+<p><strong>播放视频</strong></p>
 <p><img src alt="4-7"></p>
-<p>端口扫描</p>
+<p><strong>端口扫描</strong></p>
 <p><img src alt="4-8"></p>
-<p>远程克隆磁盘</p>
+<p><strong>远程克隆磁盘</strong></p>
 <p><img src alt="4-9"></p>
-<p>远程控制</p>
+<p><strong>远程控制</strong></p>
 <p><img src alt="4-10"></p>
 <p><img src alt="4-11"></p>
-<p>NC的安全传输NCAT</p>
+<p><strong>NC的安全传输NCAT</strong></p>
 <p><img src alt="4-12"></p>
 <p><img src alt="4-13"></p>
 <h2 id="5-Tcpdump"><a href="#5-Tcpdump" class="headerlink" title="5. Tcpdump"></a>5. Tcpdump</h2><p>没有GUI界面的抓包工具</p>
 <p><img src alt="5-1"></p>
-<p>使用</p>
+<p><strong>使用</strong></p>
 <p><img src alt="5-2"></p>
+<p>-i  选取网卡；-s  选取字节,0表示无限大；-w  表示内容保存为文件的名字</p>
+<p><img src alt="5-3"></p>
+<p><strong>筛选</strong></p>
+<p>-n  表示不对IP域名进行解析，直接显示IP；-r  表示读取文件内容，最初的截图有；src host  筛选源IP地址（dst host  筛选目的地址）；-X  以十六进制形式显示</p>
+<p><img src alt="5-4"></p>
+<h2 id="6-DNS信息收集"><a href="#6-DNS信息收集" class="headerlink" title="6. DNS信息收集"></a>6. DNS信息收集</h2><p><strong>域名解析</strong></p>
+<p><img src alt="6-1"></p>
+<p>FQDN：<a href="http://www.sina.com" target="_blank" rel="noopener">www.sina.com</a></p>
+<p>A类：直接映射出IP地址</p>
+<p>NS类：一对多的关系，如sina.com.对应ns1.sina.com.和ns3.sina.com.等等</p>
+<p>MX类：邮件服务器</p>
+<p>ptr：方向解析域名（用IP地址解析出域名）</p>
+<p><strong>Nslookup（域名解析）</strong></p>
+<p><img src alt="6-2"></p>
+<p><strong>Dig</strong></p>
+<p>@：后面加自己想要借用的DNS服务器如114.114.114.114</p>
+<p>+noall：并不是全部信息，因为有的没用</p>
+<p>+answer：与+noall一起使用，只显示answer部分</p>
+<p>-x:表示反向查询</p>
+<p>Bind版本查询命令：@后面加的是NS域名服务器</p>
+<p><img src alt="6-3"></p>
+<p><strong>域名注册留下的信息查询（使用Whois）</strong></p>
+<p>域名注册可能会留下组织，电话什么的（提醒注册域名时，使用代理商的电话信息什么的，不要留下自己的信息）</p>
+<p>例如：whois sina.com</p>
+<p><img src alt="6-4"></p>
+<h2 id="7-二层发现"><a href="#7-二层发现" class="headerlink" title="7. 二层发现"></a>7. 二层发现</h2><p><strong>arping</strong></p>
+<p><img src alt="7-1"></p>
+<p><img src alt="7-2"></p>
+<p><strong>Nmap</strong></p>
+<p><img src alt="7-3"></p>
+<p><strong>Netdiscover</strong></p>
+<p><img src alt="7-4"></p>
+<p><strong>Scapy</strong></p>
+<p><img src alt="7-5"></p>
+<h2 id="8-三层发现"><a href="#8-三层发现" class="headerlink" title="8. 三层发现"></a>8. 三层发现</h2><p><img src alt="8-1"></p>
+<h2 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title=". 搜索引擎"></a>. 搜索引擎</h2><p><strong>RECON-NG</strong>（命令行）、<strong>Shodan</strong>（网站）、<strong>Google</strong></p>
+<h2 id="其他工具"><a href="#其他工具" class="headerlink" title=".其他工具"></a>.其他工具</h2><p><strong>CUPP</strong>（生成社工字典）、<strong>exiftool</strong>（图片属性浏览）</p>
 
       
 
@@ -3798,10 +3835,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CTFWeb</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
@@ -3810,11 +3843,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">CTFWeb</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3827,14 +3872,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
              
               <li class="article-tag-list-item">
