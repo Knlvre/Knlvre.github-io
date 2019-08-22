@@ -365,6 +365,166 @@
 
 
   
+    <article id="post-Linux命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/15/Linux命令/">Kali学习笔记</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/15/Linux命令/" class="archive-article-date">
+  	<time datetime="2019-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-常用命令"><a href="#1-常用命令" class="headerlink" title="1. 常用命令"></a>1. 常用命令</h2><p><strong>grep</strong>：就前面执行后显示的内容进行筛选（egrep相反）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | grep ["XXX"]</span><br></pre></td></tr></table></figure>
+<p><strong>awk</strong>：筛选第X行的内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | awk ["X"]</span><br></pre></td></tr></table></figure>
+<p><strong>cut</strong>：裁剪内容，-d 表示分割的标志，-f 接第几部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | cut -d [&quot;X&quot;] -f [X]</span><br></pre></td></tr></table></figure>
+<p><img src alt="1-3"></p>
+<p><strong>ls</strong>：列出当前目录下内容（Window下是：dir）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls [-l/-a/-h...]</span><br></pre></td></tr></table></figure>
+<p><strong>cd</strong>：切换位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd [/etc/passwd]</span><br><span class="line">cd ..	（切换至上一级目录）</span><br></pre></td></tr></table></figure>
+<p><strong>pwd</strong>：查看当前工作目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br></pre></td></tr></table></figure>
+<p><strong>cat</strong>：查看文件全部内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<p><strong>less、more</strong>：一页页查看文件内容（回车翻行、空格翻页）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">less [/etc/passwd]	（按Q退出）</span><br><span class="line">more [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<p><strong>tail</strong>：查看文件最后几行（默认10行）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail [-20] [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<p><strong>watch</strong>：隔几秒地刷新所查看文件（结合tail命令）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n [2] tail [-20] [/var/log/messages]</span><br></pre></td></tr></table></figure>
+<p><strong>rm</strong>：删除（删除目录需要加 -r 参数）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm [file_name]</span><br><span class="line">rm -r [directory_name]</span><br></pre></td></tr></table></figure>
+<p>cp：拷贝（删除目录需要加 -r 参数）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp [target_file_name] [new_file_name]	(在本目录下复制)</span><br><span class="line">cp -r [target_directory_name] [new_directory_name]</span><br><span class="line"></span><br><span class="line">cp [target_file_name] [destination_directory_name]	（复制到执行目录）</span><br><span class="line">cp -r [target_file_name] [destination_directory_name]</span><br></pre></td></tr></table></figure>
+<p>top：监视系统性能参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+<p>ps：显示进程信息（通常使用ps -ef或ps auf显示更详细的）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -[ef]</span><br></pre></td></tr></table></figure>
+<p>ifconfig：查看网卡信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p>netstat：查看简历网络连接的详细信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -[nao]</span><br></pre></td></tr></table></figure>
+<p>dpkg：软件的安装、更新和移除。具体用法请百度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dppkg -[i/L]</span><br></pre></td></tr></table></figure>
+<p>find：查找文件或者目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name [file_name/directory_name]</span><br><span class="line">find / -iname [file_name/directory_name]	(加i不区分大小写)</span><br></pre></td></tr></table></figure>
+<p>whereis：功能与find相同，但是范围小速度快</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis [file_name/directory_name]</span><br></pre></td></tr></table></figure>
+<p>touch：创建一个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch [file_name]</span><br></pre></td></tr></table></figure>
+<p>vi：编辑一个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi [file_name]</span><br></pre></td></tr></table></figure>
+<p>如果想让文本显示行号.就在命令行 模式下,在文本最后输入”:set nu”命令.就可以了 </p>
+<p>如果要想编辑文本文件.必须要转换到插入模式下,也就是按一下键盘上的”i”就可以了.这样你就可以编辑文本,删除文本中的内容</p>
+<p>输入你要输入的内容.如果你想退出文本编辑模式.并且保存刚刚编辑的文本.首先点击一下键盘上的”ESC”,然后输入”:wq!”这样就将文本保存了.然后推出了vi编辑器.如果不想保存就按一下键盘上的”ESC”,输入”:q!”.如果你不确定是否成功.可以通过”cat filename” 命令来查看.</p>
+<p>查找：用”/“加上要查找的内容.例如”/hello”或者是”?hello”也是可以的.</p>
+<p>替换：「r」：替换光标所在处的字符。 ,按一下”r”然后输入要即可.　　「R」：替换光标所到之处的字符，直到按下「ESC」键为止。</p>
+<p>恢复上一次操作：「u」：如果您误执行一个命令，可以马上按下「u」，回到上一个操作。按多次”u”可以执行多次恢复.就相当于”CTRL +Z”的操作.</p>
+<p>光标的移动除了键盘上的上下左右键.也可以是小写模式下,按键盘上的”h,j,k,l”,</p>
+<p>“ctrl+b”:屏幕往后移动一页；”ctrl+f”:屏幕往前移动一页；”ctrl+u”:屏幕往后移动半页；”ctrl+d”:屏幕往前移动半页</p>
+<p>输入任何一个整数，然后输入”shift+G” 就可以到这一页的开头了</p>
+<p>按键盘上的大写”G”移动到文章的最后</p>
+<p>按”$”符号将光标移动到行尾</p>
+<p>“^”将光标移到行头；”w”:将光标移到下一行头；”b”:跟”w”相反.移到上一行行头；”e”:将光标移到下一行尾</p>
+<h2 id="2-脚本格式"><a href="#2-脚本格式" class="headerlink" title="2. 脚本格式"></a>2. 脚本格式</h2><p>if条件语句：使用<code>中括号[]</code>存放判断，以<code>分号;</code>结尾</p>
+<p><code>if -&gt; 条件 -&gt; then -&gt; 执行体 -&gt; fi</code>作为一个完整的条件执行</p>
+<p><code>(seq 1 100)</code>：从1到100逐个打印</p>
+<p><img src alt="2-1"></p>
+<h2 id="3-克隆网站"><a href="#3-克隆网站" class="headerlink" title="3. 克隆网站"></a>3. 克隆网站</h2><p>工具：<code>httrack</code></p>
+<p>可以直接复制目标网站，并存放在默认目录<code>/root/website</code>下</p>
+<p>将克隆好的网站文件，复制到<code>/var/www/html</code>下，使用命令<code>/etc/init.d/apache2 start</code>启动apache服务就可以访问了</p>
+<h2 id="4-NetCat"><a href="#4-NetCat" class="headerlink" title="4. NetCat"></a>4. NetCat</h2><p>网络安全工具中的瑞士军刀</p>
+<p><img src alt="4-1"></p>
+<p>使用NC进行聊天</p>
+<p><img src alt="4-2"></p>
+<p><img src alt="4-3"></p>
+<p><img src alt="4-4"></p>
+<p><img src alt="4-5"></p>
+<p>传输文件</p>
+<p><img src alt="4-6"></p>
+<p>播放视频</p>
+<p><img src alt="4-7"></p>
+<p>端口扫描</p>
+<p><img src alt="4-8"></p>
+<p>远程克隆磁盘</p>
+<p><img src alt="4-9"></p>
+<p>远程控制</p>
+<p><img src alt="4-10"></p>
+<p><img src alt="4-11"></p>
+<p>NC的安全传输NCAT</p>
+<p><img src alt="4-12"></p>
+<p><img src alt="4-13"></p>
+<h2 id="5-Tcpdump"><a href="#5-Tcpdump" class="headerlink" title="5. Tcpdump"></a>5. Tcpdump</h2><p>没有GUI界面的抓包工具</p>
+<p><img src alt="5-1"></p>
+<p>使用</p>
+<p><img src alt="5-2"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/15/Linux命令/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MySQL5数据库配置与管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -3549,135 +3709,6 @@
 
 
   
-    <article id="post-Web渗透学习—常见PHP知识点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/28/Web渗透学习—常见PHP知识点/">Web渗透学习 — 常见的PHP知识点</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/28/Web渗透学习—常见PHP知识点/" class="archive-article-date">
-  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="函数-—-str-replace"><a href="#函数-—-str-replace" class="headerlink" title="函数 — str_replace()"></a>函数 — str_replace()</h2><p>在线学习地址：<a href="http://www.w3school.com.cn/php/func_string_str_replace.asp" target="_blank" rel="noopener">str_replace()函数</a></p>
-<h4 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str_replace(find,replace,string,count)</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">参数</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">find</td>
-<td style="text-align:left">必需。规定要查找的值。</td>
-</tr>
-<tr>
-<td style="text-align:left">string</td>
-<td style="text-align:left">必需。规定替换 find 中的值的值。</td>
-</tr>
-<tr>
-<td style="text-align:left">string</td>
-<td style="text-align:left">必需。规定被搜索的字符串。</td>
-</tr>
-<tr>
-<td style="text-align:left">count</td>
-<td style="text-align:left">可选。对替换数进行计数的变量。</td>
-</tr>
-</tbody>
-</table>
-<h4 id="实例："><a href="#实例：" class="headerlink" title="实例："></a>实例：</h4><p>把字符串 “Hello world!” 中的字符 “world” 替换为 “Shanghai”：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo str_replace(&quot;world&quot;,&quot;Shanghai&quot;,&quot;Hello world!&quot;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="函数-—-dir"><a href="#函数-—-dir" class="headerlink" title="函数 — dir()"></a>函数 — dir()</h2><p>在线学习地址：<a href="http://www.w3school.com.cn/php/func_directory_dir.asp" target="_blank" rel="noopener">dir()函数</a></p>
-<h3 id="语法：-1"><a href="#语法：-1" class="headerlink" title="语法："></a>语法：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir(directory,context);</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>directory</td>
-<td>必需。规定要打开的目录。</td>
-</tr>
-<tr>
-<td>context</td>
-<td>可选。</td>
-</tr>
-</tbody>
-</table>
-<p>dir() 函数返回 Directory 类的实例。该函数用于读取一个目录，包含如下：</p>
-<p>给定的要打开的目录 dir() 的 handle 和 path 两个属性是可用的 <strong>handle</strong> 和 <strong>path</strong> 属性有三个方法：<strong>read()、rewind()</strong> 和 <strong>close()</strong></p>
-<h3 id="实例：-1"><a href="#实例：-1" class="headerlink" title="实例："></a>实例：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$d = dir(getcwd());</span><br><span class="line"></span><br><span class="line">echo &quot;Handle: &quot; . $d-&gt;handle . &quot;&lt;br&gt;&quot;;</span><br><span class="line">echo &quot;Path: &quot; . $d-&gt;path . &quot;&lt;br&gt;&quot;;</span><br><span class="line"></span><br><span class="line">while (($file = $d-&gt;read()) !== false)&#123;</span><br><span class="line">  echo &quot;filename: &quot; . $file . &quot;&lt;br&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">$d-&gt;close();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Handle: Resource id #2</span><br><span class="line">Path: /etc/php</span><br><span class="line">filename: .</span><br><span class="line">filename: ..</span><br><span class="line">filename: ajax.gif</span><br><span class="line">filename: books.xml</span><br><span class="line">filename: cdcatalog.xml</span><br><span class="line">filename: cd_catalog.xml</span><br><span class="line">filename: default.asp</span><br><span class="line">filename: demo_array.asp</span><br><span class="line">filename: demo_array.htm</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Web渗透</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/Web渗透学习—常见PHP知识点/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><span class="page-number current">2</span><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/3/">Next &raquo;</a>
@@ -3771,31 +3802,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Web渗透</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3803,11 +3814,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF分析</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Kali系统</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF分析</a>
               </li>
             
             <div class="clearfix"></div>
