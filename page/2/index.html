@@ -134,6 +134,108 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
+<p>在线解密一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
+<p>提交就对了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
+<hr>
+<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
+<p>用Python写个脚本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
+<p>跑一下flag直接出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
+<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
+<hr>
+<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
+<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
+<p>flag直接解出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
+<hr>
+<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
+<p>那就能继续利用上面哪个网站破解</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
+<p>成功解出flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—分析题 第1-9关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -3585,159 +3687,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/03/07/BugKuCTF—杂项题 第21-30关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-BugKuCTF—Web题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/06/BugKuCTF—Web题 第1-10关/">BugKuCTF — Web题(第1-10关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/06/BugKuCTF—Web题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-03-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一关（web2）"><a href="#第一关（web2）" class="headerlink" title="第一关（web2）"></a>第一关（web2）</h3><p>打开链接后是一堆迎面飞来的“滑稽”表情</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/1-1.png" alt="1-1"></p>
-<p>查看网页源代码后就能发现flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/1-2.png" alt="1-2"></p>
-<h3 id="第二关（计算器）"><a href="#第二关（计算器）" class="headerlink" title="第二关（计算器）"></a>第二关（计算器）</h3><p>尝试输入，却发现只能输入1位数，但是答案明显不止一位数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-1.png" alt="2-1"></p>
-<p>查看源代码，将其中的<code>maxlength</code>修改成3（原本是1）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-2.png" alt="2-2"></p>
-<p>再输入正确答案，就得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-3.png" alt="2-3"></p>
-<h3 id="第三关（Web基础-GET）"><a href="#第三关（Web基础-GET）" class="headerlink" title="第三关（Web基础$_GET）"></a>第三关（Web基础$_GET）</h3><p>进入链接后直接看到信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/3-1.png" alt="3-1"></p>
-<p>根据信息直接输入url得到flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?what=flag</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/3-2.png" alt="3-2"></p>
-<h3 id="第四关（Web基础-POST）"><a href="#第四关（Web基础-POST）" class="headerlink" title="第四关（Web基础$_POST）"></a>第四关（Web基础$_POST）</h3><p>同第三关，进入链接后直接看到信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/4-1.png" alt="4-1"></p>
-<p>不同的是，这次要用POST方式。在挂上Burpsuit代理之后，刷新网页就会拦截到请求，发送what参数得到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/4-2.png" alt="4-2"></p>
-<h3 id="第五关（矛盾）"><a href="#第五关（矛盾）" class="headerlink" title="第五关（矛盾）"></a>第五关（矛盾）</h3><p>进入连接后直接看到信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/5-1.png" alt="5-1"></p>
-<p>为什么题目叫矛盾了，因为要求num即不是数字的同时，却要等于1。这是就想到了科学记数法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1e = 1E = 1*10的0次方</span><br><span class="line">2e1 = 2E1 = 2*10的1次方</span><br><span class="line">3e2 = 3E2 = 3*10的2次方</span><br><span class="line">以此类推.......</span><br></pre></td></tr></table></figure>
-<p>那么我们就能这样提交参数，顺利拿到flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?num=1e</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/5-2.png" alt="5-2"></p>
-<h3 id="第六关（web3）"><a href="#第六关（web3）" class="headerlink" title="第六关（web3）"></a>第六关（web3）</h3><p>链接进去后就不断弹出窗口”flag就在这里”，”快来找找吧”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-1.png" alt="6-1"></p>
-<p>谷歌浏览器在多次点击后，弹窗就会消失；火狐浏览器可以直接禁止弹窗跳出。没有弹窗后，直接查看源代码</p>
-<p>在源代码的最后，发现了一串unicode编码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-2.png" alt="6-2"></p>
-<p>拿去在线网站转成ASCII一下就得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-3.png" alt="6-3"></p>
-<h3 id="第七关（域名解析）"><a href="#第七关（域名解析）" class="headerlink" title="第七关（域名解析）"></a>第七关（域名解析）</h3><p>题目提示：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-1.png" alt="7-1"></p>
-<p>那么我们就直接按照他的要求修改hosts文件，hosts文件Windows下的路径：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
-<p>将这条记录添加在下面（注意不要加#号）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-2.png" alt="7-2"></p>
-<p>然后用浏览器访问flag.baidu.com就可以拿到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-3.png" alt="7-3"></p>
-<h3 id="第八关（你必须让他停下）"><a href="#第八关（你必须让他停下）" class="headerlink" title="第八关（你必须让他停下）"></a>第八关（你必须让他停下）</h3><p>链接打开是一个一直刷新跳动的网页，提示我们如果能<code>让它停下来</code>就能拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-1.png" alt="8-1"></p>
-<p>我们用Burpsuit抓包，用<code>Repeater</code>一直去发包。每go一次，网页最下面都会返回不同的<code>数字.jpg</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-2.png" alt="8-2"></p>
-<p>当刷到10.jpg时，flag就跑出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-3.png" alt="8-3"></p>
-<h3 id="第九关（本地包含）"><a href="#第九关（本地包含）" class="headerlink" title="第九关（本地包含）"></a>第九关（本地包含）</h3><p>链接进去可以看到代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-1.png" alt="9-1"></p>
-<p>首先明确几个知识点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$_REQUEST 的意思是获得参数，不论是@$_GET还是@$_POST可以得到的参数@$_REQUEST都能得到</span><br><span class="line"></span><br><span class="line">eval() 函数存在命令执行漏洞，构造出文件包含会把字符串参数当做代码来执行</span><br><span class="line"></span><br><span class="line">file() 函数把整个文件读入一个数组中，并将文件作为一个数组返回</span><br><span class="line"></span><br><span class="line">include()函数和php://input，php://filter结合很好用，php://filter可以用与读取文件源代码，结果是源代码base64编码后的结果</span><br><span class="line">php://filter/convert.base64-encode/resource=文件路径（如index.php）</span><br></pre></td></tr></table></figure>
-<p>方法一：</p>
-<p>把原本的var_dump()函数的括号构造掉，让eval()函数转去执行show_source(‘flag.php’)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8003/?hello=1);show_source(%27flag.php%27);var_dump(1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-2.png" alt="9-2"></p>
-<p>网页直接返回flag.php的内容，里面就有flag</p>
-<p>方法二：</p>
-<p>同样用一个右括号把原本的var_dump()函数闭合掉，然后转去执行include $_POST[‘a’]，后面直接用双斜杠注释掉后面的内容，也可以像方法一那样，随便加一个var_dump(1</p>
-<p>然后POST提交a的值如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://120.24.86.145:8003/index.php?hello=1);include $_POST[&apos;a&apos;];//</span><br><span class="line">POST值：a=php://filter/convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-3.png" alt="9-3"></p>
-<p>得到一串base64密码，拿去解密一下，就可以看到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-4.png" alt="9-4"></p>
-<p>方法三：</p>
-<p>直接将flag.php文件读入变量hello中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?hello=file(&apos;flag.php&apos;)</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-5.png" alt="9-5"></p>
-<h3 id="第十关（变量1）"><a href="#第十关（变量1）" class="headerlink" title="第十关（变量1）"></a>第十关（变量1）</h3><p>链接进入后可以看到代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-1.png" alt="10-1"></p>
-<p>这个代码大概意思就是，需要通过GET方式提交参数<code>args</code>，并且args的内容只能是【0-9a-zA-Z】，才能执行eval()函数，否则提醒你args error!</p>
-<p>知识点一：<code>可变变量</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-2.png" alt="10-2"></p>
-<p>知识点二：<code>$GLOBALS[]</code></p>
-<p>$GLOBALS [一个包含了全部变量的全局组合数组]</p>
-<p>既然只能传入数字、大小写字母，那我们就传入GLOBALS，让var_dump()打印出这个数组的内容</p>
-<p>就可以看到其中一个全局变量，存储着flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-3.png" alt="10-3"></p>
-<hr>
-<p>至此，1-10关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/06/BugKuCTF—Web题 第1-10关/">展开全文 >></a>
         </p>
       
 
