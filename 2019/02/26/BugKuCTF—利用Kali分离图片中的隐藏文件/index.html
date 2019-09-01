@@ -9,7 +9,7 @@
   <title>BugKuCTF — 利用Kali分离图片中的隐藏文件 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件 而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：Binwalk、dd、foremost，于是便去了解 例题：可以借用BUGKU中的这道题，题目地址： 1https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b">
-<meta name="keywords" content="CTF杂项">
+<meta name="keywords" content="CTF-Misc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BugKuCTF — 利用Kali分离图片中的隐藏文件">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/index.html">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png">
-<meta property="og:updated_time" content="2019-03-29T16:45:06.579Z">
+<meta property="og:updated_time" content="2019-09-01T06:25:14.309Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BugKuCTF — 利用Kali分离图片中的隐藏文件">
 <meta name="twitter:description" content="在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件 而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：Binwalk、dd、foremost，于是便去了解 例题：可以借用BUGKU中的这道题，题目地址： 1https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b">
@@ -172,7 +172,6 @@
 <p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
 <p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
-<hr>
 <h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
 <p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
 <p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
@@ -201,7 +200,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF杂项</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
         		</li>
       		
 		</ul>
@@ -271,18 +270,18 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          渗透学习 — Dedecms v5.7漏洞合集
+          BugKuCTF — 杂项题(第1-10关)
         
       </div>
     </a>
   
   
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">BugKuCTF — 杂项题(第1-10关)</div>
+    <a href="/Knlvre.github-io/2019/02/20/DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -400,15 +399,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CTFWeb</a>
+                <a href="javascript:void(0)" class="js-tag color3">CTF-Web</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF加密</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF杂项</a>
+                <a href="javascript:void(0)" class="js-tag color4">CTF-Misc</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -417,6 +412,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -429,14 +428,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF分析</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
             
             <div class="clearfix"></div>
