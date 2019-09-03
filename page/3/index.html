@@ -490,113 +490,6 @@
 
 
   
-    <article id="post-渗透学习—Dedecms v5.7漏洞合集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/">渗透学习 — Dedecms v5.7 sp2后台getshell</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/" class="archive-article-date">
-  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="【前言】"><a href="#【前言】" class="headerlink" title="【前言】"></a>【前言】</h2><p>本次学习参考这篇文章：<a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">Dedecms v5.7 sp2后台getshell</a></p>
-<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、创建文件"><a href="#一、创建文件" class="headerlink" title="一、创建文件"></a>一、创建文件</h3><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
-<h3 id="二、网站环境初始化"><a href="#二、网站环境初始化" class="headerlink" title="二、网站环境初始化"></a>二、网站环境初始化</h3><p>进入到这个本地网站环境：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
-<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
-<h3 id="三、上传文件到指定位置"><a href="#三、上传文件到指定位置" class="headerlink" title="三、上传文件到指定位置"></a>三、上传文件到指定位置</h3><p>进入到后台：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
-<p>默认登录的用户名和密码都是<strong>admin</strong></p>
-<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
-<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
-<h3 id="四、发布刚才上传的文档"><a href="#四、发布刚才上传的文档" class="headerlink" title="四、发布刚才上传的文档"></a>四、发布刚才上传的文档</h3><p>访问这个地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
-<p>看到的是 <strong>发布新图集</strong> 的界面</p>
-<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
-<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
-<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
-<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
-<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
-<h3 id="四、结果"><a href="#四、结果" class="headerlink" title="四、结果"></a>四、结果</h3><p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
-<p>点击这个标签，就可以看到结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Web渗透学习—Dedecms v5.7 sp2后台getshell" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -706,52 +599,60 @@
 
 
   
-    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-渗透学习—Dedecms v5.7漏洞合集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/">渗透学习 — Dedecms v5.7 sp2后台getshell</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
-  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+        <a href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/" class="archive-article-date">
+  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
-<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
-<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
-<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
-<p>像这张图片，发现隐藏着flag.txt</p>
-<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
-<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
-<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
-<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
-<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
-<p><strong>if</strong>：要提取分离的文件</p>
-<p><strong>of</strong>：输出的文件</p>
-<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
-<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
-<hr>
-<p>这篇文章只做简单的介绍</p>
-<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+        <h2 id="【前言】"><a href="#【前言】" class="headerlink" title="【前言】"></a>【前言】</h2><p>本次学习参考这篇文章：<a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">Dedecms v5.7 sp2后台getshell</a></p>
+<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、创建文件"><a href="#一、创建文件" class="headerlink" title="一、创建文件"></a>一、创建文件</h3><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
+<h3 id="二、网站环境初始化"><a href="#二、网站环境初始化" class="headerlink" title="二、网站环境初始化"></a>二、网站环境初始化</h3><p>进入到这个本地网站环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
+<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
+<h3 id="三、上传文件到指定位置"><a href="#三、上传文件到指定位置" class="headerlink" title="三、上传文件到指定位置"></a>三、上传文件到指定位置</h3><p>进入到后台：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
+<p>默认登录的用户名和密码都是<strong>admin</strong></p>
+<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
+<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
+<h3 id="四、发布刚才上传的文档"><a href="#四、发布刚才上传的文档" class="headerlink" title="四、发布刚才上传的文档"></a>四、发布刚才上传的文档</h3><p>访问这个地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
+<p>看到的是 <strong>发布新图集</strong> 的界面</p>
+<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
+<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
+<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
+<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
+<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
+<h3 id="四、结果"><a href="#四、结果" class="headerlink" title="四、结果"></a>四、结果</h3><p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
+<p>点击这个标签，就可以看到结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
 
       
 
@@ -765,7 +666,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
         		</li>
       		
 		</ul>
@@ -775,7 +676,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/">展开全文 >></a>
         </p>
       
 
@@ -987,6 +888,105 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
+  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
+<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
+<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
+<p>像这张图片，发现隐藏着flag.txt</p>
+<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
+<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
+<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
+<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
+<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
+<p><strong>if</strong>：要提取分离的文件</p>
+<p><strong>of</strong>：输出的文件</p>
+<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
+<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+<hr>
+<p>这篇文章只做简单的介绍</p>
+<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
         </p>
       
 
