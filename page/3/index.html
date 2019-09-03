@@ -134,6 +134,209 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-BugKuCTF—Web题 第11-20关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/">BugKuCTF — Web题(第11-20关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/" class="archive-article-date">
+  	<time datetime="2019-03-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/06/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
+<h3 id="第十一关（web5）"><a href="#第十一关（web5）" class="headerlink" title="第十一关（web5）"></a>第十一关（web5）</h3><p>链接打开看到提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-1.png" alt="1-1"></p>
+<p>查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-2.png" alt="1-2"></p>
+<p>将这串符号放到<strong>控制台 — Console</strong>里面，直接回车，就得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-3.png" alt="1-3"></p>
+<h3 id="第十二关（头等舱）"><a href="#第十二关（头等舱）" class="headerlink" title="第十二关（头等舱）"></a>第十二关（头等舱）</h3><p>链接打开看到”什么也没有。”，查看源代码也是什么都没有</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/2-1.png" alt="2-1"></p>
+<p>但是用<strong>Burpsuit</strong>抓下来，发送GET请求看一下， 在返回的头中就有flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/2-2.png" alt="2-2"></p>
+<h3 id="第十三关（网站被黑）"><a href="#第十三关（网站被黑）" class="headerlink" title="第十三关（网站被黑）"></a>第十三关（网站被黑）</h3><p>链接进去后，看到被黑的网页</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-1.png" alt="3-1"></p>
+<p>首先选择使用<strong>御剑</strong>扫描一下后台，结果是扫到<strong>shell.php</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-2.png" alt="3-2"></p>
+<p>访问一下，尝试几个常见的密码不行后，直接放到<strong>Burpsuit</strong>进行爆破</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-3.png" alt="3-3"></p>
+<p>选择Burpsuit自带的密码字典：<strong>Intruder  — Payloads — Add from lists — password</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-4.png" alt="3-4"></p>
+<p>爆破出来密码是<strong>hack</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-5.png" alt="3-5"></p>
+<p>将hack输入后，得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-6.png" alt="3-6"></p>
+<h3 id="第十四关（系统管理员）"><a href="#第十四关（系统管理员）" class="headerlink" title="第十四关（系统管理员）"></a>第十四关（系统管理员）</h3><p>链接进去后，看到可以输入用户名和密码的输入框</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-1.png" alt="4-1"></p>
+<p>随便输入一个用户名和密码尝试登陆后，出现提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-2.png" alt="4-2"></p>
+<p>先用<strong>Burpsuit</strong>抓下来，由于提示的是”请联系本地管理员登陆”，首先想到的是x-forwarded-for</p>
+<p>所以在POST请求头加上x-forwarded-for</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x-forwarded-for: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-3.png" alt="4-3"></p>
+<p>go发送之后，返回的内容多了一行信息，但是就是没有flag</p>
+<p>折腾了好久，最后在返回的信息的最最最最最后，找到了一串base64加密的字符串（以后还是要注意一下细节）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-4.png" alt="4-4"></p>
+<p>最后拿去解密一下，拿到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-5.png" alt="4-5"></p>
+<h3 id="第十五关（web4）"><a href="#第十五关（web4）" class="headerlink" title="第十五关（web4）"></a>第十五关（web4）</h3><p>链接进去后，提示我们看一下源代码，看看就看看</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-1.png" alt="5-1"></p>
+<p>源代码中看到比较关键的部分，并且有unescape()函数</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-2.png" alt="5-2"></p>
+<p>我们就按照他的字符串拼接，去在线网站解密</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-3.png" alt="5-3"></p>
+<p>自己创建文本，将解密后的东西写下来，是Javascrip</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-4.png" alt="5-4"></p>
+<p>将67d709b2b54aa2aa648cf6e87a7114f1复制网页中，提交后，就得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-5.png" alt="5-5"></p>
+<h3 id="第十六关（flag在index里）"><a href="#第十六关（flag在index里）" class="headerlink" title="第十六关（flag在index里）"></a>第十六关（flag在index里）</h3><p>链接打开后只有”click me?no”的字样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-1.png" alt="6-1"></p>
+<p>他说不点就不点吗，那不就很没面子？我们点进去只看到写着test5，但是注意看url，通过GET方式传递file变量</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-2.png" alt="6-2"></p>
+<p>直接试一下文件包含漏洞</p>
+<p>但是使用show_source()和file()函数都返回一片空白</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-3.png" alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-3-2.png" alt="6-3-2"></p>
+<p>第三种文件包含方法就成功了，返回一串经过base64加密的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-4.png" alt="6-4"></p>
+<p>简单的用Python解密一下，就可以看到index.php的源代码，里面有着flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-5.png" alt="6-5"></p>
+<h3 id="第十七关（输入密码查看flag）"><a href="#第十七关（输入密码查看flag）" class="headerlink" title="第十七关（输入密码查看flag）"></a>第十七关（输入密码查看flag）</h3><p>链接打开有一个可以输入密码的输入框</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-1.png" alt="7-1"></p>
+<p>随意输入一个密码尝试一下会报错</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-2.png" alt="7-2"></p>
+<p>既然题目的url提示着baopo，那么我们就用Burpsuit尝试着去爆破一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-3.png" alt="7-3"></p>
+<p>因为题目提示”输入5位数密码”，所以我们设置从10000-99999之间的数，步数是1</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-4.png" alt="7-4"></p>
+<p>可以明显看到结果出来了，是13579</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-5.png" alt="7-5"></p>
+<p>输入密码后，直接给出了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-6.png" alt="7-6"></p>
+<h3 id="第十八关（点击一百万次）"><a href="#第十八关（点击一百万次）" class="headerlink" title="第十八关（点击一百万次）"></a>第十八关（点击一百万次）</h3><p>链接点进去是一个饼干，鼠标点击一次，就会计数一次</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-1.png" alt="8-1"></p>
+<p>查看网页源代码，其中Javascript的部分有用到POST方法提交clicks的值</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-2.png" alt="8-2"></p>
+<p>那么我们直接用Burpsuit提交clicks=10000000，就得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-3.png" alt="8-3"></p>
+<h3 id="第十九关（备份是个好习惯）"><a href="#第十九关（备份是个好习惯）" class="headerlink" title="第十九关（备份是个好习惯）"></a>第十九关（备份是个好习惯）</h3><p>链接打开只看到一串MD5加密的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-1.png" alt="9-1"></p>
+<p>查看源代码和用Burpsuit测试什么都没有发现</p>
+<p>在想会不会有后台什么的，用御剑扫一下， 果然有东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-2.png" alt="9-2"></p>
+<p>访问这个index.php.bak，下载下来一个文件，打开是php写的代码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-3.png" alt="9-3"></p>
+<p>首先简单了解一下strstr()、substr()、str_replace()函数，可以自己本地写个php代码测试一下，如下图</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-4.png" alt="9-4"></p>
+<p>所以这个代码的意思呢，就是会将你POST或GET传入的参数，只提取？以后的内容，再将？去掉，并且将key关键字替换成空格，然后再传入</p>
+<p>既然题目要求key1和key2的md5加密后的值一样，不加密的值要不一样</p>
+<p>那我们就需要将key1和key2成功传入，这就需要绕过str_replace()函数，以为只替换了一次（只用了一str_replace()函数），那我们就可以用双写，如：kekeyy来绕过</p>
+<p>而处理md5()函数有两种方法：</p>
+<p>方法一：</p>
+<p>因为md5()函数无法处理数组，所以返回的值是NULL，所以当key1和key2是数组，加密后就都是NULL，就相同，并且不加密的值不同，就可以成立</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-5-1.png" alt="9-5-1"></p>
+<p>方法二：</p>
+<p>如果md5()加密后的值是0eXXX形式的，那么就会被认为是科学计数法，那0eXXX代表的是0的XXX次方，无论多少都是0，加密后的数组也是相等的</p>
+<p>这里给出一些md5加密后是以0e开头的字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QNKCDZO</span><br><span class="line">240610708</span><br><span class="line">s878926199a</span><br><span class="line">s155964671a</span><br><span class="line">s214587387a</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-5-2.png" alt="9-5-2"></p>
+<p>现在额外谈一下为什么连接刚打开时会出现以下的md5值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d41d8cd98f00b204e9800998ecf8427ed41d8cd98f00b204e9800998ecf8427e</span><br></pre></td></tr></table></figure>
+<p>特别突兀，出现在那个位置好像是我们可以用到的线索，但是其实没用到</p>
+<p>有两段一样的，那么可以确定是我们看的index.php.bak源码里，返回的md5(key1)和md5(key2)</p>
+<p>拿去在线网站破译一下是这样的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-6.png" alt="9-6"></p>
+<p>后来才知道也就是NULL的意思，为什么是NULL呢，因为key1和key2没有传入或者没有成功传入时，默认值就是NULL</p>
+<p>如下图，没用成功传入key1和key2时，页面也是返回这个值，这样就解释通了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-7.png" alt="9-7"></p>
+<h3 id="第二十关（成绩单）"><a href="#第二十关（成绩单）" class="headerlink" title="第二十关（成绩单）"></a>第二十关（成绩单）</h3><p>链接进去后有一个提交数值的框，对应输出学生的成绩</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-1.png" alt="10-1"></p>
+<p>想到应该是SQL注入，尝试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; and 1=2 #</span><br></pre></td></tr></table></figure>
+<p>没有返回数据</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-2.png" alt="10-2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; and 1=1 #</span><br></pre></td></tr></table></figure>
+<p>数据正常返回</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-3.png" alt="10-3"></p>
+<p>那么对数据的处理应该就是简单的单引号了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$_POST[&apos;value&apos;]</span><br></pre></td></tr></table></figure>
+<p>用order by测试一下，4的时候正常，到5的时候就出错了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-4.png" alt="10-4"></p>
+<p>那现在就可以利用union select了，直接拿到了数据库的名字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-5.png" alt="10-5"></p>
+<p>爆表名</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-6.png" alt="10-6"></p>
+<p>爆fl4g表下的列名</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-7.png" alt="10-7"></p>
+<p>爆skctf_flag列下的数据，顺利拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-8.png" alt="10-8"></p>
+<hr>
+<p>至此，11-20关的Write-up结束</p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—杂项题 第21-30关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -774,113 +977,6 @@
 
 
   
-    <article id="post-渗透学习—Dedecms v5.7漏洞合集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/">渗透学习 — Dedecms v5.7 sp2后台getshell</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/" class="archive-article-date">
-  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="【前言】"><a href="#【前言】" class="headerlink" title="【前言】"></a>【前言】</h2><p>本次学习参考这篇文章：<a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">Dedecms v5.7 sp2后台getshell</a></p>
-<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、创建文件"><a href="#一、创建文件" class="headerlink" title="一、创建文件"></a>一、创建文件</h3><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
-<h3 id="二、网站环境初始化"><a href="#二、网站环境初始化" class="headerlink" title="二、网站环境初始化"></a>二、网站环境初始化</h3><p>进入到这个本地网站环境：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
-<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
-<h3 id="三、上传文件到指定位置"><a href="#三、上传文件到指定位置" class="headerlink" title="三、上传文件到指定位置"></a>三、上传文件到指定位置</h3><p>进入到后台：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
-<p>默认登录的用户名和密码都是<strong>admin</strong></p>
-<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
-<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
-<h3 id="四、发布刚才上传的文档"><a href="#四、发布刚才上传的文档" class="headerlink" title="四、发布刚才上传的文档"></a>四、发布刚才上传的文档</h3><p>访问这个地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
-<p>看到的是 <strong>发布新图集</strong> 的界面</p>
-<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
-<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
-<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
-<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
-<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
-<h3 id="四、结果"><a href="#四、结果" class="headerlink" title="四、结果"></a>四、结果</h3><p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
-<p>点击这个标签，就可以看到结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Web渗透学习—Dedecms v5.7 sp2后台getshell" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -961,6 +1057,113 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-渗透学习—Dedecms v5.7漏洞合集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/">渗透学习 — Dedecms v5.7 sp2后台getshell</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/" class="archive-article-date">
+  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="【前言】"><a href="#【前言】" class="headerlink" title="【前言】"></a>【前言】</h2><p>本次学习参考这篇文章：<a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">Dedecms v5.7 sp2后台getshell</a></p>
+<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
+<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、创建文件"><a href="#一、创建文件" class="headerlink" title="一、创建文件"></a>一、创建文件</h3><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
+<h3 id="二、网站环境初始化"><a href="#二、网站环境初始化" class="headerlink" title="二、网站环境初始化"></a>二、网站环境初始化</h3><p>进入到这个本地网站环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
+<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
+<h3 id="三、上传文件到指定位置"><a href="#三、上传文件到指定位置" class="headerlink" title="三、上传文件到指定位置"></a>三、上传文件到指定位置</h3><p>进入到后台：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
+<p>默认登录的用户名和密码都是<strong>admin</strong></p>
+<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
+<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
+<h3 id="四、发布刚才上传的文档"><a href="#四、发布刚才上传的文档" class="headerlink" title="四、发布刚才上传的文档"></a>四、发布刚才上传的文档</h3><p>访问这个地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
+<p>看到的是 <strong>发布新图集</strong> 的界面</p>
+<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
+<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
+<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
+<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
+<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
+<h3 id="四、结果"><a href="#四、结果" class="headerlink" title="四、结果"></a>四、结果</h3><p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
+<p>点击这个标签，就可以看到结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/">展开全文 >></a>
         </p>
       
 
@@ -1649,181 +1852,6 @@
 
 
   
-    <article id="post-DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/">DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/" class="archive-article-date">
-  	<time datetime="2019-02-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\xss_d\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>通过下拉菜单选择一种语言，但是好像没作用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-1.png" alt="9-1"></p>
-<p><code>DOM</code>，全称<code>Document Object Model</code>，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式</p>
-<p>1.document 和 windows 对象</p>
-<p>document表示的是一个文档对象，window表示的是一个窗口对象，一个窗口下可以有多个文档对象。</p>
-<p>所以一个窗口下只有一个<code>window.location.href</code>，但是可能有多个<code>document.URL</code>、<code>document.location.href</code></p>
-<p>window 对象：它是一个顶层对象,而不是另一个对象的属性即浏览器的窗口。</p>
-<p>document 对象：该对象是window和frames对象的一个属性，是显示于窗口或框架内的一个文档。document 只是属于window 的一个子对像。</p>
-<p><code>window.location</code>包含 href 属性，直接取值赋值时相当于 window.location.href</p>
-<p>window.location.href  当前页面完整 URL</p>
-<p><code>document.location</code>包含 href 属性，直接取值赋值时相当于 document.location.href</p>
-<p>document.location.href 当前页面完整 URL</p>
-<p><code>document.href</code>没有这个属性</p>
-<p><code>document.URL</code>取值时等价于 window.location.href 或 document.location.href。在某些浏览器中通过对 document.URL 赋值来实现页面跳转，但某些浏览器中不行</p>
-<p>2.indexOf()方法：方法可返回某个指定的字符串值在字符串中首次出现的位置</p>
-<p>indexOf(searchvalue,fromindex)</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>searchvalue</td>
-<td>必需。规定需检索的字符串值</td>
-</tr>
-<tr>
-<td>fromindex</td>
-<td>可选的整数参数。规定在字符串中开始检索的位置。它的合法取值是 0 到 stringObject.length - 1。如省略该参数，则将从字符串的首字符开始检索</td>
-</tr>
-</tbody>
-</table>
-<p>3.document.write</p>
-<p>document.write是JavaScript中对document.open所开启的文档流(document stream操作的API方法，它能够直接在文档流中写入字符串，一旦文档流已经关闭，那document.write就会重新利用document.open打开新的文档流并写入，此时原来的文档流会被清空，已渲染好的页面就会被清除，浏览器将重新构建DOM并渲染新的页面</p>
-<p>4.decodeURI</p>
-<p>decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码</p>
-<p>5.代码解释</p>
-<p>①判断URL中是否含有<code>default=</code>字符串，如果有进入下一步；②截取URL中<code>default=</code>字段开始的位置，加上<code>8（default=字符串的长度）</code>之后开始，到末尾结束的字符串，赋值给<code>lang</code>；③语句拼接，通过<code>decodeURI()</code>解码<code>lang变量</code>的值</p>
-<h2 id="Low-—-high前端核心代码"><a href="#Low-—-high前端核心代码" class="headerlink" title="Low — high前端核心代码"></a>Low — high前端核心代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"XSS"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.write(<span class="string">"&lt;option value='"</span> + lang + <span class="string">"'&gt;"</span> + <span class="built_in">decodeURI</span>(lang) + <span class="string">"&lt;/option&gt;"</span>);</span></span><br><span class="line"><span class="xml">                document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span> <span class="attr">disabled</span>=<span class="string">'disabled'</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'English'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'French'</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'Spanish'</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'German'</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Select"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="Impossible前端核心代码"><a href="#Impossible前端核心代码" class="headerlink" title="Impossible前端核心代码"></a>Impossible前端核心代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"XSS"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.write(<span class="string">"&lt;option value='"</span> + lang + <span class="string">"'&gt;"</span> + (lang) + <span class="string">"&lt;/option&gt;"</span>);</span></span><br><span class="line"><span class="xml">                document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span> <span class="attr">disabled</span>=<span class="string">'disabled'</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'English'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'French'</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'Spanish'</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'German'</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Select"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># No protections, anything goes</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>知道原理之后，就可以构造URL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;script&gt;alert(/xss/);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'变量lang 的值'</span>&gt;</span>English<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-2.png" alt="9-2"></p>
-<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">"default"</span>, $_GET ) &amp;&amp; !is_null ($_GET[ <span class="string">'default'</span> ]) ) &#123;</span><br><span class="line">	$default = $_GET[<span class="string">'default'</span>];</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># Do not allow script tags</span></span><br><span class="line">	<span class="keyword">if</span> (stripos ($default, <span class="string">"&lt;script"</span>) !== <span class="keyword">false</span>) &#123;</span><br><span class="line">		header (<span class="string">"location: ?default=English"</span>);</span><br><span class="line">		<span class="keyword">exit</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>简单解释一下三个函数</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">array_key_exists()</td>
-<td style="text-align:center">函数检查某个数组中是否存在指定的键名，如果键名存在则返回 true，如果键名不存在则返回 false</td>
-</tr>
-<tr>
-<td style="text-align:center">stripos()</td>
-<td style="text-align:center">函数查找字符串在另一字符串中第一次出现的位置（不区分大小写）</td>
-</tr>
-<tr>
-<td style="text-align:center">header()</td>
-<td style="text-align:center">函数向客户端发送原始的 HTTP 报头</td>
-</tr>
-</tbody>
-</table>
-<p>①GET到的参数必须为<code>default</code>，并且值必须不为空；②过滤了<code>&lt;script</code></p>
-<p>构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'变量lang 的值'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onerror</span>=<span class="string">alert(/xss/)</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>首先闭合了<code>&lt;option&gt;</code>标签 和<code>&lt;select&gt;</code>标签。利用 img标签的onerror事件，Javascript的img标签支持onerror 事件，在加载图像的过程中如果发生了错误，就会触发onerror事件，执行 JavaScript</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-3.png" alt="9-3"></p>
-<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">"default"</span>, $_GET ) &amp;&amp; !is_null ($_GET[ <span class="string">'default'</span> ]) ) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment"># White list the allowable languages</span></span><br><span class="line">	<span class="keyword">switch</span> ($_GET[<span class="string">'default'</span>]) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"French"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"English"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"German"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"Spanish"</span>:</span><br><span class="line">			<span class="comment"># ok</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			header (<span class="string">"location: ?default=English"</span>);</span><br><span class="line">			<span class="keyword">exit</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>设置了白名单，只允许<code>French</code>、<code>English</code>、<code>German</code>、<code>Spanish</code>四个其中的一个</p>
-<p>构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English #&lt;script&gt;alert(/xss/)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span>&gt;</span>English #<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>由于form表单提交的数据经过JS过滤，所以注释部分的javascript代码不会被传到服务器端(也就符合了白名单的要求)</p>
-<p>我们写一个html验证一下<code>&lt;option value=&#39;&#39;&gt;English #&lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/option&gt;</code>是否可行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-4.png" alt="9-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-5.png" alt="9-5"></p>
-<p>可以看到是可行的，现在继续</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-6.png" alt="9-6"></p>
-<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Don't need to do anything, protction handled on the client side</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>翻译：不做任何事，保护措施在客户端完成</p>
-<p>本难度前端代码发生了改变，<code>decodeURI(lang)</code>变为<code>(lang)</code></p>
-<hr>
-<p>参考文章：</p>
-<p><a href="https://www.jianshu.com/p/001daa7cf1f5" target="_blank" rel="noopener">https://www.jianshu.com/p/001daa7cf1f5</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/2/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/4/">Next &raquo;</a>
@@ -1937,11 +1965,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
             
             <div class="clearfix"></div>

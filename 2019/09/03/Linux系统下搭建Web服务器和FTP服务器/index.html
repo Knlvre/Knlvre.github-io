@@ -6,70 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>BugKuCTF — 分析题(第1-9关) | Knlvre</title>
+  <title>Linux系统下搭建Web服务器和FTP服务器 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="第一关（flag被盗）用wireshark打开下载下来的文件，用协议顺序排序  先追踪一下HTTP协议（右击 —&amp;gt; 追踪流 —&amp;gt; HTTP）  搜索一下flag关键字，直接找到flag   第二关（中国菜刀）方法一（全Window环境）：用wireshark打开下载下来的文件。既然题目提示是中国菜刀，那应该是用到HTTP协议 按照协议排序之后，在第四个HTTP协议包里找到了一句话木马">
-<meta name="keywords" content="CTF-Misc">
+  <meta name="description" content="Web服务器安装与配置Apache2组件的安装使用如下命令来安装Apache2的组件 1apt-get install apache2  开启、关闭、重启命令123开启：/etc/init.d/apache2 start关闭：/etc/init.d/apache2 stop重启：/etc/init.d/apache2 restart  网站根目录网站根目录位于： 1/var/www/html 创建">
+<meta name="keywords" content="基础知识点">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BugKuCTF — 分析题(第1-9关)">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/index.html">
+<meta property="og:title" content="Linux系统下搭建Web服务器和FTP服务器">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="第一关（flag被盗）用wireshark打开下载下来的文件，用协议顺序排序  先追踪一下HTTP协议（右击 —&amp;gt; 追踪流 —&amp;gt; HTTP）  搜索一下flag关键字，直接找到flag   第二关（中国菜刀）方法一（全Window环境）：用wireshark打开下载下来的文件。既然题目提示是中国菜刀，那应该是用到HTTP协议 按照协议排序之后，在第四个HTTP协议包里找到了一句话木马">
+<meta property="og:description" content="Web服务器安装与配置Apache2组件的安装使用如下命令来安装Apache2的组件 1apt-get install apache2  开启、关闭、重启命令123开启：/etc/init.d/apache2 start关闭：/etc/init.d/apache2 stop重启：/etc/init.d/apache2 restart  网站根目录网站根目录位于： 1/var/www/html 创建">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-11.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-12.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-13.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-14.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-15.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-11.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-12.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-13.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-14.png">
-<meta property="og:updated_time" content="2019-09-01T06:25:54.423Z">
+<meta property="og:updated_time" content="2019-09-03T13:43:51.524Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BugKuCTF — 分析题(第1-9关)">
-<meta name="twitter:description" content="第一关（flag被盗）用wireshark打开下载下来的文件，用协议顺序排序  先追踪一下HTTP协议（右击 —&amp;gt; 追踪流 —&amp;gt; HTTP）  搜索一下flag关键字，直接找到flag   第二关（中国菜刀）方法一（全Window环境）：用wireshark打开下载下来的文件。既然题目提示是中国菜刀，那应该是用到HTTP协议 按照协议排序之后，在第四个HTTP协议包里找到了一句话木马">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-1.png">
+<meta name="twitter:title" content="Linux系统下搭建Web服务器和FTP服务器">
+<meta name="twitter:description" content="Web服务器安装与配置Apache2组件的安装使用如下命令来安装Apache2的组件 1apt-get install apache2  开启、关闭、重启命令123开启：/etc/init.d/apache2 start关闭：/etc/init.d/apache2 stop重启：/etc/init.d/apache2 restart  网站根目录网站根目录位于： 1/var/www/html 创建">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -187,170 +137,44 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-BugKuCTF—分析题 第1-9关" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Linux系统下搭建Web服务器和FTP服务器" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      BugKuCTF — 分析题(第1-9关)
+      Linux系统下搭建Web服务器和FTP服务器
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/" class="archive-article-date">
-  	<time datetime="2019-03-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
+        <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" class="archive-article-date">
+  	<time datetime="2019-09-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="第一关（flag被盗）"><a href="#第一关（flag被盗）" class="headerlink" title="第一关（flag被盗）"></a>第一关（flag被盗）</h3><p>用wireshark打开下载下来的文件，用协议顺序排序</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-1.png" alt="1-1"></p>
-<p>先追踪一下HTTP协议（右击 —&gt; 追踪流 —&gt; HTTP）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-2.png" alt="1-2"></p>
-<p>搜索一下flag关键字，直接找到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-3.png" alt="1-3"></p>
-<hr>
-<h3 id="第二关（中国菜刀）"><a href="#第二关（中国菜刀）" class="headerlink" title="第二关（中国菜刀）"></a>第二关（中国菜刀）</h3><h4 id="方法一（全Window环境）："><a href="#方法一（全Window环境）：" class="headerlink" title="方法一（全Window环境）："></a>方法一（全Window环境）：</h4><p>用wireshark打开下载下来的文件。既然题目提示是中国菜刀，那应该是用到HTTP协议</p>
-<p>按照协议排序之后，在第四个HTTP协议包里找到了一句话木马</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-1.png" alt="2-1"></p>
-<p>在第四个HTTP协议包里挂马，那关键文件一定是在这之后才获取到的</p>
-<p>在下一个HTTP包里追踪HTTP协议。红色部分是客户端向服务器发起的请求，蓝色部分是服务器回应客户端的内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-2.png" alt="2-2"></p>
-<p>我们可以看到红色部分有一段BASE64的加密内容，拿去解密一下（<strong>注意：%3D解码成=号</strong>）</p>
-<p>可以看到里面有flag.tar.gz关键文件，那应该是客户端向服务器拿走了这个文件</p>
-<p>蓝色部分应该就是服务器将flag.tar.gz这个文件给了客户端的记录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-3.png" alt="2-3"></p>
-<p>第五个HTTP协议包是客户端的请求，第六个HTTP协议包就应该是服务器的回应了，并且里面有flag.tar.gz</p>
-<p>怎么提取这个flag.tar.gz的内容呢，看了大佬写的文章，有两种方法：</p>
-<p>方法1.1：</p>
-<p>点击第六个HTTP协议包，”Line-based” —&gt; “右键” —&gt; “显示分组字节”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-4.png" alt="2-4"></p>
-<p>因为2个X@Y是菜刀特有的标记，我们提取信息时并不能把它们放进去</p>
-<p>所以将开始位设置为3，结束位设置为206（整个数据是0到209）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-5.png" alt="2-5"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-6.png" alt="2-6"></p>
-<p>然后解码为”压缩”，显示为”ASCII”就可以看到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-7.png" alt="2-7"></p>
-<p>方法1.2：</p>
-<p>还是那个地方，右键 —&gt; 导出分组字节（此处导出为1.tar.gz)</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-8.png" alt="2-8"></p>
-<p>我们有讲过，菜刀会留下前后额X@Y，所以要主动删掉，不然是打不开压缩文件的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-9.png" alt="2-9"></p>
-<p>我用winhex，删除掉2个X@Y，并且保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-10.png" alt="2-10"></p>
-<p>再次打开，就可以看到flag.txt，打开直接拿到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-11.png" alt="2-11"></p>
-<p>至此，方法一结束</p>
-<h4 id="方法二（利用Kali）："><a href="#方法二（利用Kali）：" class="headerlink" title="方法二（利用Kali）："></a>方法二（利用Kali）：</h4><p>Kali自带Wireshark，可以用命令打开这个包</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-12.png" alt="2-12"></p>
-<p>也可以用binwalk看里面有什么东西可以提取</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-13.png" alt="2-13"></p>
-<p>然后直接binwalk -e命令提取出来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e caidao.pcapng</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-14.png" alt="2-14"></p>
-<p>提取出来一个压缩包，解压得到flag.txt，查看后拿到flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf 1E43</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-15.png" alt="2-15"></p>
-<p>至此，方法二结束</p>
-<hr>
-<h3 id="第三关（怎么多数据包）"><a href="#第三关（怎么多数据包）" class="headerlink" title="第三关（怎么多数据包）"></a>第三关（怎么多数据包）</h3><p>下载下来一个CTF.pcapng和一个文件夹里面装着文件._CTF.pcapng</p>
-<p>我们先打开CTF.pcapng，前面大部分是一些不需要的协议过程，直接跳过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-1.png" alt="3-1"></p>
-<p>然后发现有大量的TCP包，可以看出来都是192.168.116.138的主机向192.168.116.159发送SYN请求包（题外话：因为之前模拟过DOS攻击，所以着看看上去也有点像DOS攻击）</p>
-<p>159的主机如果端口无法建立连接就会返回一个RST包，将这个连接断掉以避免占用资源</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-2.png" alt="3-2"></p>
-<p>一直往下翻到No.2560条包，159主机的3389端口成功和138主机的端口建立了连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-3.png" alt="3-3"></p>
-<p>我们追踪这个TCP流，内容较多。看一下、搜索flag之类的关键字，却什么都没有发现</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-4.png" alt="3-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-5.png" alt="3-5"></p>
-<p>往下还有135、139、445、1040端口建立连接，但是都没有找到有用的信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-6.png" alt="3-6"></p>
-<p>终于快到结尾No.5542，1234端口和35880端口三次握手建立连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-7.png" alt="3-7"></p>
-<p>追踪TCP流，找到了一串Base64加密的密文</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-8.png" alt="3-8"></p>
-<p>用Python解密一下，直接拿到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-9.png" alt="3-9"></p>
-<p>看了大佬的Writeup，其实这道题还有更简单的做法</p>
-<p>因为题目提示”先找到getshell的流”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-10.png" alt="3-10"></p>
-<p>那说明最后还是拿到了shell，可以直接从后面开始找起</p>
-<p>最后开始的话，先碰到1040端口的连接，没有信息跳过。这就来到了1234端口的连接，就可以较快地拿到flag</p>
-<p>此题一共有2个文件，做完了发现另外一个好像没用，可能是干扰作用</p>
-<hr>
-<h3 id="第四关（手机热点）"><a href="#第四关（手机热点）" class="headerlink" title="第四关（手机热点）"></a>第四关（手机热点）</h3><p>题目提示：没有流量，用手机发送了小秘密到电脑</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-1.png" alt="4-1"></p>
-<p>既然没有流量，还能发送文件的就是蓝牙了</p>
-<p>直接搜索蓝牙协议：obex。果然搜出了内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-2.png" alt="4-2"></p>
-<p>注意到No.19394，有一个secret.rar文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-3.png" alt="4-3"></p>
-<p>点击这条数据，再点击左上角的”文件” —&gt; “导出分组字节流”（快捷键ctrl+H），保存为1.rar</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-4.png" alt="4-4"></p>
-<p>尝试解压失败。拿到winhex下看一下文件，发现文件头有错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-5.png" alt="4-5"></p>
-<p>因为rar文件头是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">52 61 72 21</span><br></pre></td></tr></table></figure>
-<p>将多余的部分删除掉，然后保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-6.png" alt="4-6"></p>
-<p>再次解压1.rar，解压成功，提取出来一张GIF文件，图片上就是flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-7.png" alt="4-7"></p>
-<p>不过这题还有更简单的方法。没错，还是用binwalk，直接提取出来图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-8.png" alt="4-8"></p>
-<hr>
-<h3 id="第五关（抓到一只苍蝇）"><a href="#第五关（抓到一只苍蝇）" class="headerlink" title="第五关（抓到一只苍蝇）"></a>第五关（抓到一只苍蝇）</h3><p>本题参考这位大佬的文章：<a href="https://blog.csdn.net/qq_42357070/article/details/84236689#_51" target="_blank" rel="noopener">抓到一只苍蝇</a></p>
-<p>用Wireshark打开，前2个TCP连接追踪无果，但是第3个连接追踪后发现有东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-1.png" alt="5-1"></p>
-<p>从前面的内容来看，应该是通过QQ邮箱，用POST方法发送文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-2.png" alt="5-2"></p>
-<p>客户端发送的内容末端发现了fly.rar，这不就是苍蝇吗</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-3.png" alt="5-3"></p>
-<p>上图描述的是压缩包的内涵，也就是这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;path&quot;:&quot;fly.rar&quot;,</span><br><span class="line">   &quot;appid&quot;:&quot;&quot;,</span><br><span class="line">   &quot;size&quot;:525701,</span><br><span class="line">   &quot;md5&quot;:&quot;e023afa4f6579db5becda8fe7861c2d3&quot;,</span><br><span class="line">   &quot;sha&quot;:&quot;ecccba7aea1d482684374b22e2e7abad2ba86749&quot;,</span><br><span class="line">   &quot;sha3&quot;:&quot;&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>记录了fly.rar的大小，md5值</p>
-<p>现在添加对数据包的过滤条件，只看http协议，并且只看POST方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http &amp;&amp; http.request.method == POST</span><br></pre></td></tr></table></figure>
-<p>注意到No.2至No.6这5个文件，Media Type都是application/octet-stream的格式</p>
-<p>也就是数据流的格式，现在就猜测这些数据流里有我们要的东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-4.png" alt="5-4"></p>
-<p>这5个文件的Media Type域的大小分别是131436、131436、131436、131436、1777</p>
-<p>之前压缩包内涵中我们知道，fly.rar的大小是525701，那么：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(131436*4 + 1777) - 525701 = 1820</span><br><span class="line">1820 / 4 = 364</span><br></pre></td></tr></table></figure>
-<p>接触过网络数据包的应该知道，数据包如果拆开发送，到目标端是要再组合起来的</p>
-<p>组合起来时就需要靠包头的信息，现在猜测364就是每个包的包头大小</p>
-<p>用Wireshark的Ctrl+H将Media Type的内容提取出来，放到Kali中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-5.png" alt="5-5"></p>
-<p>用dd命令逐个将他们的前364个字节大小的包头剔除掉</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=1 of=10 skip=364 bs=1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-6.png" alt="5-6"></p>
-<p>用cat命令将5个和成1个fly.rar</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat 10 20 30 40 50 &gt; fly.rar</span><br></pre></td></tr></table></figure>
-<p>用md5sum检查一下md5值。没错，和之间压缩包内涵里的md5值一模一样，说明组合成功了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5sum fly.rar</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-8.png" alt="5-8"></p>
-<p>想要解压时却发现要密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-9.png" alt="5-9"></p>
-<p>放到winhex里看一下， 发现是伪加密，只需要将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-10.png" alt="5-10"></p>
-<p>修改完直接可以解压，解压下来flag.txt</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-11.png" alt="5-11"></p>
-<p>直接浏览时，发现又是一大堆十六进制，只能再用winhex打开看一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-12.png" alt="5-12"></p>
-<p>提示我们程序要运行在win32环境下，那就把后缀改成.exe，运行一下</p>
-<p>额。。。好多苍蝇，还好做题时女朋友不在，不然她可能会当场去世</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-13.png" alt="5-13"></p>
-<p>都是骗人的，要粗暴点了，把这个程序binwalk一下，有藏着东西</p>
-<p>foremost分离，分离出来的png文件夹里，有无数只苍蝇</p>
-<p>但是</p>
-<p>最后有一个二维码，手机扫一下，flag出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-14.png" alt="5-14"></p>
-<hr>
-<h3 id="第六关（"><a href="#第六关（" class="headerlink" title="第六关（"></a>第六关（</h3>
+        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2组件的安装"><a href="#Apache2组件的安装" class="headerlink" title="Apache2组件的安装"></a>Apache2组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br></pre></td></tr></table></figure>
+<p><img src alt="1-1"></p>
+<h2 id="开启、关闭、重启命令"><a href="#开启、关闭、重启命令" class="headerlink" title="开启、关闭、重启命令"></a>开启、关闭、重启命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">开启：/etc/init.d/apache2 start</span><br><span class="line">关闭：/etc/init.d/apache2 stop</span><br><span class="line">重启：/etc/init.d/apache2 restart</span><br></pre></td></tr></table></figure>
+<p><img src alt="1-2"></p>
+<h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
+<p>创建文件时，一些文件记得修改文件对应的权限，才能访问</p>
+<h2 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h2><p>Apache2带有登录验证的功能，（1） 在<code>/etc</code>目录下创建<code>.Webpasswd</code>文件，设置登陆使用的用户名和密码。该文件为验证使用的储存用户名密码的文件</p>
+<p><img src alt="1-3"></p>
+<p>修改<code>/etc/apache2/sites-available/000-default.conf</code>文件，修改内容如下图所示。</p>
+<p><img src alt="1-4"></p>
+<p>修改完成后再去访问就会看到弹出身份认证框</p>
+<p><img src alt="1-5"></p>
+<h1 id="FTP服务器安装与配置"><a href="#FTP服务器安装与配置" class="headerlink" title="FTP服务器安装与配置"></a>FTP服务器安装与配置</h1><h2 id="vsftpd组件的安装"><a href="#vsftpd组件的安装" class="headerlink" title="vsftpd组件的安装"></a>vsftpd组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vsftpd</span><br></pre></td></tr></table></figure>
+<p><img src alt="2-1"></p>
+
       
 
       
@@ -363,7 +187,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
         		</li>
       		
 		</ul>
@@ -419,7 +243,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -433,18 +257,18 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          BugKuCTF — 杂项题中常见的文件知识点和操作
+          2019XNUCA — ezphp WriteUp
         
       </div>
     </a>
   
   
-    <a href="/Knlvre.github-io/2019/03/28/BugKuCTF—Web题 第21-30关/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">BugKuCTF — Web题(第21-30关)</div>
+    <a href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python — PyQt5库的初次应用</div>
       <i class="icon-circle-right"></i>
     </a>
   
