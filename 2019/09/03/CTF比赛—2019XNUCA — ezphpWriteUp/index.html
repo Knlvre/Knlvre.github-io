@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>Archives | Knlvre</title>
+  <title>2019XNUCA — ezphp WriteUp | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Knlvre">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/archives/index.html">
+  <meta name="description" content="前言没有参加本次比赛，只记录ezphp这一道题目，看到一篇挺好的Writeup，复现并记录下来 ezphp源代码1234567891011121314151617181920212223242526272829303132&amp;lt;?php 	$files = scandir(&apos;./&apos;)	foreach($files as $file)&amp;#123;		if($file !== &quot;index.php&quot;">
+<meta name="keywords" content="CTF比赛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019XNUCA — ezphp WriteUp">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/index.html">
 <meta property="og:site_name" content="Knlvre">
+<meta property="og:description" content="前言没有参加本次比赛，只记录ezphp这一道题目，看到一篇挺好的Writeup，复现并记录下来 ezphp源代码1234567891011121314151617181920212223242526272829303132&amp;lt;?php 	$files = scandir(&apos;./&apos;)	foreach($files as $file)&amp;#123;		if($file !== &quot;index.php&quot;">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-03T06:24:47.093Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Knlvre">
+<meta name="twitter:title" content="2019XNUCA — ezphp WriteUp">
+<meta name="twitter:description" content="前言没有参加本次比赛，只记录ezphp这一道题目，看到一篇挺好的Writeup，复现并记录下来 ezphp源代码1234567891011121314151617181920212223242526272829303132&amp;lt;?php 	$files = scandir(&apos;./&apos;)	foreach($files as $file)&amp;#123;		if($file !== &quot;index.php&quot;">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -132,36 +137,126 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-CTF比赛—2019XNUCA — ezphpWriteUp" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      2019XNUCA — ezphp WriteUp
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/Knlvre.github-io/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" class="archive-article-date">
+
+        
+        <a href="/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" class="archive-article-date">
   	<time datetime="2019-09-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">2019XNUCA — ezphp WriteUp</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>没有参加本次比赛，只记录<code>ezphp</code>这一道题目，看到一篇挺好的Writeup，复现并记录下来</p>
+<h1 id="ezphp"><a href="#ezphp" class="headerlink" title="ezphp"></a>ezphp</h1><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	$files = scandir(<span class="string">'./'</span>)</span><br><span class="line">	<span class="keyword">foreach</span>($files <span class="keyword">as</span> $file)&#123;</span><br><span class="line">		<span class="keyword">if</span>($file !== <span class="string">"index.php"</span>)&#123;</span><br><span class="line">			unlink($file);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	include_onece(<span class="string">"fl3g.php"</span>);</span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($_GET[<span class="string">'content'</span>]) || !<span class="keyword">isset</span>($_GET[<span class="string">'filename'</span>]))&#123;</span><br><span class="line">		highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">		<span class="keyword">die</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	$content = $_GET[<span class="string">'content'</span>];</span><br><span class="line">	<span class="keyword">if</span>(stristr($content,<span class="string">'on'</span>) || stristr($content,<span class="string">'html'</span>) || stristr($content,<span class="string">'type'</span>) || stristr($content,<span class="string">'flag'</span>) || stristr($content,<span class="string">'upload'</span>) || stristr($content,<span class="string">'file'</span>))&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"Hacker"</span>;</span><br><span class="line">		<span class="keyword">die</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	$filename = $_GET[<span class="string">'filename'</span>];</span><br><span class="line">	<span class="keyword">if</span>(preg_match(<span class="string">"/[^a-z\.]/"</span>,$filename) == <span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"Hacker"</span>;</span><br><span class="line">		<span class="keyword">die</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	$files = scandir(<span class="string">'./'</span>)</span><br><span class="line">	<span class="keyword">foreach</span>($files <span class="keyword">as</span> $file)&#123;</span><br><span class="line">		<span class="keyword">if</span>(is_file($file))&#123;</span><br><span class="line">			<span class="keyword">if</span>($file !== <span class="string">"index.php"</span>)&#123;</span><br><span class="line">				unlink($file);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	file_put_contents($filename,$content . <span class="string">"\nJust one chance"</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>函数解释：</p>
+<p>①unlink()</p>
+<p>删除文件。如果成功，该函数返回 TRUE。如果失败，则返回 FALSE。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlink(filename,context)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">filename</td>
+<td style="text-align:left">必需。规定要删除的文件。</td>
+</tr>
+<tr>
+<td style="text-align:left">context</td>
+<td style="text-align:left">可选。规定文件句柄的环境。context 是一套可以修改流的行为的选项。</td>
+</tr>
+</tbody>
+</table>
+<p>②stristr()</p>
+<p>搜索字符串在另一字符串中的第一次出现。</p>
+<p><strong>注释：</strong>该函数是二进制安全的。</p>
+<p><strong>注释：</strong>该函数是不区分大小写的。如需进行区分大小写的搜索，请使用 <a href="https://www.w3cschool.cn/php/func-string-strstr.html" target="_blank" rel="noopener">strstr()</a> 函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stristr(string,search,before_search)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><em>string</em></td>
+<td style="text-align:left">必需。规定被搜索的字符串。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>search</em></td>
+<td style="text-align:left">必需。规定所搜索的字符串。如果该参数是数字，则搜索匹配该数字对应的 ASCII 值的字符。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>before_search</em></td>
+<td style="text-align:left">可选。一个默认值为 “false” 的布尔值。如果设置为 “true”，它将返回 <em>search</em> 参数第一次出现之前的字符串部分。</td>
+</tr>
+</tbody>
+</table>
+<p>技术细节</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">返回值：</th>
+<th>返回字符串的剩余部分（从匹配点）。如果未找到所搜索的字符串，则返回 FALSE。</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHP 版本：</td>
+<td>4+</td>
+</tr>
+<tr>
+<td style="text-align:left">更新日志：</td>
+<td>在 PHP 5.3 中，新增了 <em>before_search</em> 参数。  在 PHP 4.3 中，该函数变成是二进制安全的。</td>
+</tr>
+</tbody>
+</table>
+<p>题目的大致意思就是要我们通过<strong>fifile_put_contents</strong>函数来写马，但是对我们可以控制的参数<strong>$filename</strong>和<strong>$content</strong>分别进行了<strong>preg_match</strong>函数和<strong>stristr</strong>函数的过滤，<strong>preg_match</strong>的过滤要求是输入的文件名必须只能带有 [a-z\.] 范围的字符，<strong>stristr</strong>函数则是过滤了<strong>on</strong>，<strong>type</strong>，<strong>flflag</strong>，<strong>fifile</strong>等关键字</p>
+<p>一开始应该都能想到直接写一个php文件带有一句话，但是写完访问会发现解析不了php代码，这是因为本题的环境只对<strong>index.php</strong>文件进行解析，而且在题目源码的开头和末尾都对当前目录下的文件进行了检查，删除除了<strong>index.php</strong>外的所有文件</p>
+<p>那么既然只解析<strong>index.php</strong>，不妨写入一个<strong>.user.ini</strong>让<strong>index.php</strong>自动包含上我们写入的马，或者是<strong>.htaccess</strong>让当前目录下的所有文件都能解析为php文件，但是如果是第二种思路，一定需要写多次，前面写的<strong>.htaccess</strong>会被删掉；而如果是写上开头自动包含，并且包含的文件就是<strong>.user.ini</strong>，并且在<strong>.user.ini</strong>中直接写入马，那么理论上 </p>
+<p><strong>index.php</strong>在删除前就可以执行到我们写入的马。这里说明一下，<strong>.user.ini</strong>本题环境好像不支持，所以只能用<strong>.htaccess</strong>，<strong>.htaccess</strong>同样可以设置开头自动包含，首先查阅一下<strong>.htaccess</strong>设置php环境变量的格式，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#format</span><br><span class="line">php_value setting_name setting_value</span><br><span class="line"></span><br><span class="line">#example</span><br><span class="line">php_value auto_prepend_file .htaccess</span><br></pre></td></tr></table></figure>
+<p>那么我们到现在就可以大致的确定我们要写入的文件<strong>.htaccess</strong>，文件内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php_value auto_prepend_file .htaccess</span><br><span class="line">#&lt;?php phpinfo();?&gt;\</span><br></pre></td></tr></table></figure>
+<p>特别要注意一下，这里文件末尾有个符号<code>\</code>是必须写入的，我们注意到源代码中<strong>fifile_put_contents</strong>中的文件内容传入的变量<strong>$content</strong>末尾还连接上了<code>\nJust one chance</code>这个字符串，而<code>\n</code>代表着换行，而我们再一个<code>\</code>，则会拼接成<code>\\n</code> ，即转义掉了<code>n</code>前面的<code>\</code>，构不成换行。换句话来说，如果我们没有加入<code>\</code>，那么写入<strong>.htaccess</strong>的文件内容就为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">php_value auto_prepend_file .htaccess</span><br><span class="line">#&lt;?php phpinfo();?&gt;</span><br><span class="line">Just one chance</span><br></pre></td></tr></table></figure>
+<p>会出现末尾行的字符串不符合htaccess文件的语法标准而报错导致htaccess文件无法执行，那么当前目录下的所有文件就会面临崩溃，所以说，末尾必须写入<code>\</code>但是，我们会发现这里写入的内容带有<strong>fifile</strong>关键字，那么我们接下来就是要绕过<strong>stristr</strong>的过滤，这里总结一下，有三种解题的方法：</p>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>参考p神的一篇文章：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">谈一谈php://fifilter的妙用</a></p>
+<p>文章里面提到了<strong>fifile_put_contents</strong>函数中的第一个参数<strong>$fifilename</strong>，即写入的<strong>文件名</strong>是可以控制协议的，所以我们可以用<strong>php://fifilter</strong>流的<strong>base64-decode</strong>方法将文件内容参数<strong>$content</strong>进行base64解码，那么这样就可以通过将内容进行base64加密来绕过<strong>stristr</strong>函数的检查 </p>
+<p>测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!$_GET[<span class="string">'filename'</span>] &amp;&amp; !$_GET[<span class="string">'content'</span>])&#123;</span><br><span class="line">	highlight_file(<span class="keyword">__file__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">	$filename = $_GET[<span class="string">'filename'</span>]; </span><br><span class="line">	$content = $_GET[<span class="string">'content'</span>]; </span><br><span class="line">	<span class="keyword">if</span>(stristr($content,<span class="string">'&lt;?php'</span>))&#123; </span><br><span class="line">		<span class="keyword">echo</span> <span class="string">'Hacker'</span>; </span><br><span class="line">		<span class="keyword">die</span>(); </span><br><span class="line">	&#125;</span><br><span class="line">	file_put_contents($filename, $content); </span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; base64.b64encode(&apos;&lt;?php phpinfo();?&gt;&apos;)</span><br><span class="line">&apos;PD9waHAgcGhwaW5mbygpOz8+&apos;</span><br></pre></td></tr></table></figure>
+<p><img src alt="1-1"></p>
+<p><img src alt="1-2"></p>
+<p>那么到这里，我们又要面临一个问题，文件名要写入<strong>php://fifilter</strong>的话，又需要绕过<strong>preg_match</strong>的检查了，我们 </p>
+<p>熟悉的<strong>preg_match</strong>是处理数组是会返回NULL，但是这里<strong>fifile_put_contents</strong>函数传入的文件名参数又不支持数组 </p>
+<p>的形式，所以只能另想它法</p>
+<p>思路就是通过正则匹配的递归次数来绕过，由<strong>pcre.backtrack_limit</strong>参数来控制：</p>
+<p><img src alt="1-3"></p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -173,364 +268,105 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/" class="archive-article-date">
-  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python — PyQt5库的初次应用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/">Python — PyQt5库的初次应用</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/" class="archive-article-date">
-  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/" class="archive-article-date">
-  	<time datetime="2019-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/">2019网络与信息安全领域专项赛 — 线上赛WriteUp</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/" class="archive-article-date">
-  	<time datetime="2019-07-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/">2019 ISCC — 线下赛WriteUp</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/05/02/BugKuCTF—杂项题 第31-40关/" class="archive-article-date">
-  	<time datetime="2019-05-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/05/02/BugKuCTF—杂项题 第31-40关/">BugKuCTF — 杂项题(第31-40关)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/04/18/CTF比赛—2019DDCTF线上赛WriteUp/" class="archive-article-date">
-  	<time datetime="2019-04-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/04/18/CTF比赛—2019DDCTF线上赛WriteUp/">2019 DDCTF — 线上赛WriteUp</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/04/13/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛决赛WriteUp/" class="archive-article-date">
-  	<time datetime="2019-04-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/04/13/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛决赛WriteUp/">2019“嘉韦思杯”上海高校网络安全邀请赛 — 决赛WriteUp</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/04/10/BugKuCTF—Web题 第31-40关/" class="archive-article-date">
-  	<time datetime="2019-04-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/04/10/BugKuCTF—Web题 第31-40关/">BugKuCTF — Web题(第31-40关)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/Knlvre.github-io/archives/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/Knlvre.github-io/archives/page/5/">5</a><a class="extend next" rel="next" href="/Knlvre.github-io/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -554,8 +390,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
