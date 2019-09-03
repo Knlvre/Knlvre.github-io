@@ -16,10 +16,20 @@
 <meta property="og:site_name" content="Knlvre">
 <meta property="og:description" content="前言转载文章：https://www.leavesongs.com/PENETRATION/php-filter-magic.html php://filter是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。 XXE中的使用ph">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-01T16:06:43.787Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-9.png">
+<meta property="og:updated_time" content="2019-09-03T01:28:48.729Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="转载 | php:&#x2F;&#x2F;filter的妙用">
 <meta name="twitter:description" content="前言转载文章：https://www.leavesongs.com/PENETRATION/php-filter-magic.html php://filter是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。 XXE中的使用ph">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -162,12 +172,12 @@
 <h2 id="XXE中的使用"><a href="#XXE中的使用" class="headerlink" title="XXE中的使用"></a>XXE中的使用</h2><p>php://filter之前最常出镜的地方是XXE。由于XXE漏洞的特殊性，我们在读取HTML、PHP等文件时可能会抛出此类错误<code>parser error : StartTag: invalid element name</code> 。其原因是，PHP是基于标签的脚本语言，<code>&lt;?php ... ?&gt;</code>这个语法也与XML相符合，所以在解析XML的时候会被误认为是XML，而其中内容（比如特殊字符）又有可能和标准XML冲突，所以导致了出错</p>
 <p>那么，为了读取包含有敏感信息的PHP等源文件，我们就要先将“可能引发冲突的PHP代码”编码一遍，这里就会用到php://filter</p>
 <p>php://filter是PHP语言中特有的协议流，作用是作为一个“中间流”来处理其他流。比如，我们可以用如下一行代码将POST内容转换成base64编码并输出：</p>
-<p><img src alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-1.png" alt="1-1"></p>
 <p>访问并<code>POST</code></p>
-<p><img src alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-2.png" alt="1-2"></p>
 <p>所以，在XXE中，我们也可以将PHP等容易引发冲突的文件流用php://filter协议流处理一遍，这样就能有效规避特殊字符造成混乱</p>
-<p><img src alt="1-3"></p>
-<p><img src alt="1-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-4.png" alt="1-4"></p>
 <h2 id="巧用编码与解码"><a href="#巧用编码与解码" class="headerlink" title="巧用编码与解码"></a>巧用编码与解码</h2><p>使用编码不光可以帮助我们获取文件，也可以帮我们去除一些“不必要的麻烦”。</p>
 <p>记得前段时间三个白帽有个比赛，其中有一部分代码大概类似于以下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -179,20 +189,20 @@
 <p>所以，当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用 php://filter/write=convert.base64-decode 来首先对其解码。在解码的过程中，字符&lt;、?、;、&gt;、空格等一共有7个字符不符合base64编码的字符范围将被忽略，所以最终被解码的字符仅有“phpexit”和我们传入的其他字符。</p>
 <p>“phpexit”一共7个字符，因为base64算法解码时是4个byte一组，所以给他增加1个“a”一共8个字符。这样，”phpexita”被正常解码，而后面我们传入的webshell的base64内容也被正常解码。结果就是<code>&lt;?php exit; ?&gt;</code>没有了。</p>
 <p>最后效果是 ：</p>
-<p><img src alt="1-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-5.png" alt="1-5"></p>
 <h2 id="利用字符串操作方法"><a href="#利用字符串操作方法" class="headerlink" title="利用字符串操作方法"></a>利用字符串操作方法</h2><p>有的同学说，base64的算法我不懂，上面的方法太复杂了。</p>
 <p>其实，除了使用base64特性的方法外，我们还可以利用php://filter字符串处理方法来去除“死亡exit”。我们观察一下，这个<code>&lt;?php exit; ?&gt;</code>实际上是什么？</p>
 <p>实际上是一个XML标签，既然是XML标签，我们就可以利用strip_tags函数去除它，而php://filter刚好是支持这个方法的。</p>
 <p>编写如下测试代码即可查看 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo readfile(&apos;php://filter/read=string.strip_tags/resource=php://input&apos;);</span><br></pre></td></tr></table></figure>
-<p><img src alt="1-6"></p>
-<p><img src alt="1-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-6.png" alt="1-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-7.png" alt="1-7"></p>
 <p>可见，<code>&lt;?php exit; ?&gt;</code>被去除了。但回到上面的题目，我们最终的目的是写入一个webshell，而写入的webshell也是php代码，如果使用strip_tags同样会被去除。</p>
 <p>万幸的是，php://filter允许使用多个过滤器，我们可以先将webshell用base64编码。在调用完成strip_tags后再进行base64-decode。“死亡exit”在第一步被去除，而webshell在第二步被还原。</p>
 <p>最终的数据包如下：</p>
-<p><img src alt="1-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-8.png" alt="1-8"></p>
 <p>除此之外，我们还可以利用rot13编码独立完成任务。原理和上面类似，核心是将“死亡exit”去除。<code>&lt;?php exit; ?&gt;</code>在经过rot13编码后会变成<code>&lt;?cuc rkvg; ?&gt;</code>，在PHP不开启short_open_tag时，php不认识这个字符串，当然也就不会执行了：</p>
-<p><img src alt="1-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-9.png" alt="1-9"></p>
 <p>当然，这个方法的条件就是不开启短标签</p>
 
       
@@ -277,18 +287,9 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python — PyQt5库的初次应用
-        
-      </div>
-    </a>
   
-  
-    <a href="/Knlvre.github-io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">2019网络与信息安全领域专项赛 — 线上赛WriteUp</div>
+    <a href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python — PyQt5库的初次应用</div>
       <i class="icon-circle-right"></i>
     </a>
   

