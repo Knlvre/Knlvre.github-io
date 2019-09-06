@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>Linux系统下搭建Web服务器和FTP服务器 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Web服务器安装与配置Apache2组件的安装使用如下命令来安装Apache2的组件 1apt-get install apache2  命令123开启：/etc/init.d/apache2 start关闭：/etc/init.d/apache2 stop重启：/etc/init.d/apache2 restart  网站根目录网站根目录位于： 1/var/www/html 创建文件时，一些文件">
+  <meta name="description" content="Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件 Ps：如果只安装Apache2，将会导致写的php文件无法被解析 12apt-get install apache2apt-get install php  命令1234状态：/etc/init.d/apache2 status（service apache2 status）开启：/etc/ini">
 <meta name="keywords" content="基础知识点">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux系统下搭建Web服务器和FTP服务器">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="Web服务器安装与配置Apache2组件的安装使用如下命令来安装Apache2的组件 1apt-get install apache2  命令123开启：/etc/init.d/apache2 start关闭：/etc/init.d/apache2 stop重启：/etc/init.d/apache2 restart  网站根目录网站根目录位于： 1/var/www/html 创建文件时，一些文件">
+<meta property="og:description" content="Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件 Ps：如果只安装Apache2，将会导致写的php文件无法被解析 12apt-get install apache2apt-get install php  命令1234状态：/etc/init.d/apache2 status（service apache2 status）开启：/etc/ini">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png">
@@ -47,10 +47,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-23.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-24.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-25.png">
-<meta property="og:updated_time" content="2019-09-04T00:40:36.553Z">
+<meta property="og:updated_time" content="2019-09-04T08:09:06.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系统下搭建Web服务器和FTP服务器">
-<meta name="twitter:description" content="Web服务器安装与配置Apache2组件的安装使用如下命令来安装Apache2的组件 1apt-get install apache2  命令123开启：/etc/init.d/apache2 start关闭：/etc/init.d/apache2 stop重启：/etc/init.d/apache2 restart  网站根目录网站根目录位于： 1/var/www/html 创建文件时，一些文件">
+<meta name="twitter:description" content="Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件 Ps：如果只安装Apache2，将会导致写的php文件无法被解析 12apt-get install apache2apt-get install php  命令1234状态：/etc/init.d/apache2 status（service apache2 status）开启：/etc/ini">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -189,10 +189,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2组件的安装"><a href="#Apache2组件的安装" class="headerlink" title="Apache2组件的安装"></a>Apache2组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br></pre></td></tr></table></figure>
+        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2和php组件的安装"><a href="#Apache2和php组件的安装" class="headerlink" title="Apache2和php组件的安装"></a>Apache2和php组件的安装</h2><p>使用如下命令来安装Apache2和php的组件</p>
+<p>Ps：如果只安装Apache2，将会导致写的php文件无法被解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png" alt="1-1"></p>
-<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">开启：/etc/init.d/apache2 start</span><br><span class="line">关闭：/etc/init.d/apache2 stop</span><br><span class="line">重启：/etc/init.d/apache2 restart</span><br></pre></td></tr></table></figure>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png" alt="1-2"></p>
 <h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
@@ -350,8 +351,8 @@
     </a>
   
   
-    <a href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python — PyQt5库的初次应用</div>
+    <a href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">转载 | php://filter的妙用</div>
       <i class="icon-circle-right"></i>
     </a>
   
