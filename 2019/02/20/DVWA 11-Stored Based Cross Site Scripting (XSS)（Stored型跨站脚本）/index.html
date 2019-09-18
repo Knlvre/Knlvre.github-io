@@ -19,11 +19,12 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-8.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-6.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-7.png">
-<meta property="og:updated_time" content="2019-08-19T14:43:12.366Z">
+<meta property="og:updated_time" content="2019-09-12T02:09:58.077Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）">
 <meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\xss_s\source\ 页面功能模拟评论模块，输入Name和Message并提交后，会存储在后台并返回给用户  1.XSS存储型攻击简单定义 XSS存储型攻击，恶意代码被保存到目标网站的服务器中，这种攻击具有较强的稳定性和持久性，比较常见场景是在博客，论坛、OA、CRM等社交网站上，比如：某CRM系统的客户投诉功能上存在XSS存储型漏洞，黑客">
@@ -308,6 +309,9 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-2.png" alt="11-2"></p>
 <p>可以看一下数据库里插入了什么</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-3.png" alt="11-3"></p>
+<p>反射cookie</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-8.png" alt="11-8"></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'btnSign'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$message = trim( $_POST[ <span class="string">'mtxMessage'</span> ] );</span><br><span class="line">	$name    = trim( $_POST[ <span class="string">'txtName'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Sanitize message input</span></span><br><span class="line">	$message = strip_tags( addslashes( $message ) );</span><br><span class="line">	$message = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $message ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$message = htmlspecialchars( $message );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Sanitize name input</span></span><br><span class="line">	$name = str_replace( <span class="string">'&lt;script&gt;'</span>, <span class="string">''</span>, $name );</span><br><span class="line">	$name = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $name ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Update database</span></span><br><span class="line">	$query  = <span class="string">"INSERT INTO guestbook ( comment, name ) VALUES ( '$message', '$name' );"</span>;</span><br><span class="line">	$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $query ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">//mysql_close();</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>在本难度，对<code>Message</code>字段通过<code>htmlspecialchars</code>、<code>addslashes</code>、<code>strip_tags</code>三个函数进行了处理，所以我们选择用<code>Name</code>参数下手，对于长度的限制，只需要通过浏览器修改一下就行</p>
@@ -409,11 +413,11 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          BugKuCTF — 杂项题(第1-10关)
+          BugKuCTF — 利用Kali分离图片中的隐藏文件
         
       </div>
     </a>
@@ -550,6 +554,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
@@ -563,10 +571,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
             
             <div class="clearfix"></div>

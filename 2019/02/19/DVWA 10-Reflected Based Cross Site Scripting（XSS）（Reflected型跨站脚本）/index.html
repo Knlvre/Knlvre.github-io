@@ -18,6 +18,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-10.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-5.png">
@@ -26,7 +27,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-7.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-8.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-9.png">
-<meta property="og:updated_time" content="2019-08-17T03:30:30.066Z">
+<meta property="og:updated_time" content="2019-09-12T02:09:35.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DVWA 10-Reflected Based Cross Site Scripting（XSS）（Reflected型跨站脚本）">
 <meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\xss_r\source\ 页面功能提供一个输入框，输入后返回  XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这些恶意代码能够被浏览器成功的执行 XSS反射型漏洞 反射型XSS，顾名思义在于“反射”这个一来一回的过程。反射型XSS的触发有后端的参与，而之所以触发XSS是因为后端解析用户在前端输入的带有XSS性质的脚本或者脚本的dat">
@@ -184,6 +185,9 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">pre</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(/xss/)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">pre</span>&gt;</span>;</span><br></pre></td></tr></table></figure>
 <p>原本应该存放文本的位置，变成执行一段代码，这就是XSS</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-2.png" alt="10-2"></p>
+<p>现在就可以试一下反弹cookie（接下来其他难度只要绕过就也可以用）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-10.png" alt="10-10"></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">header (<span class="string">"X-XSS-Protection: 0"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$name = str_replace( <span class="string">'&lt;script&gt;'</span>, <span class="string">''</span>, $_GET[ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;Hello $&#123;name&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>使用<code>str_replace()</code>函数对<code>&lt;script&gt;</code>关键字进行了过滤，我们可以本地测试一下怎么绕过这个函数</p>
@@ -434,6 +438,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
@@ -447,10 +455,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
             
             <div class="clearfix"></div>
