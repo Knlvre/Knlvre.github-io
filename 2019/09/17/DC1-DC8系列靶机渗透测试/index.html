@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Knlvre">
 <meta property="og:description" content="DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用Nmap扫描本网段下的所有主机 先查看Kali所处的网段 1ifconfig">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://knlvre.github.io/https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-4.png">
@@ -42,11 +42,11 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-24.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-25.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-1.png">
-<meta property="og:updated_time" content="2019-09-18T00:26:34.677Z">
+<meta property="og:updated_time" content="2019-09-18T00:31:33.432Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="渗透学习 — DC1-DC8系列靶机渗透测试">
 <meta name="twitter:description" content="DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用Nmap扫描本网段下的所有主机 先查看Kali所处的网段 1ifconfig">
-<meta name="twitter:image" content="https://knlvre.github.io/https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -188,7 +188,7 @@
 <p>攻击机：Kali（IP：192.168.43.84）</p>
 <p>靶机：DC1（IP：192.168.43.27）</p>
 <h2 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道</p>
-<p><img src="\https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png" alt="1-1"></p>
 <p>由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用<code>Nmap</code>扫描本网段下的所有主机</p>
 <p>先查看Kali所处的网段</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
@@ -217,10 +217,16 @@
 <p>使用<code>Python</code>反弹回一个交互式shell</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &quot;import pty;pty.spawn(&apos;/bin/bash&apos;)&quot;</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-10.png" alt="1-10"></p>
-<p>在当前目录下（网页根目录<code>/var/www/</code>）发现<code>flag1.txt</code>，查看后给出提示：<code>Every good CMS needs a config file - and so do you.</code></p>
+<p>在当前目录下（网页根目录<code>/var/www/</code>）发现<code>flag1.txt</code>，查看后给出提示：</p>
+<blockquote>
+<p>Every good CMS needs a config file - and so do you.</p>
+</blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-11.png" alt="1-11"></p>
 <p>既然提示我们<code>网站配置文件</code>，那就到<code>/var/www/sites/default</code>目录下，查看<code>cat settings.php</code>文件，发现了<code>flag2</code></p>
-<p>并且提示：<code>Brute force and dictionary attacks aren&#39;t the only ways to gain access (and you WILL need access).What can you do with these credentials?</code></p>
+<p>并且提示：</p>
+<blockquote>
+<p>Brute force and dictionary attacks aren’t the only ways to gain access (and you WILL need access).What can you do with these credentials?</p>
+</blockquote>
 <p>大意应该就是我们能用当前配置文件下的信息做一些什么呢？注意到提示下面有数据库的账号密码，所以我们可以拿着这个去登录数据库</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-12.png" alt="1-12"></p>
 <p>尝试登录数据库，成功</p>
@@ -236,12 +242,18 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update users set pass=&quot;$S$DpO/2yRe.nB1y8WswwIgYPp/hxooDcHaPXrEW33ERy9o5ox2jLwa&quot; where name=&quot;admin&quot;;</span><br><span class="line">select * from users;</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-16.png" alt="1-16"></p>
 <p>更改完后，现在用户admin的密码就变为123456了，回到网站中尝试登陆，果然成功了</p>
-<p>并且在<code>Dashboard</code>模块找到了<code>flag3</code>，提示：<code>Special PERMS will help FIND the passwd - but you&#39;ll need to -exec that command to work out how to get what&#39;s in the shadow.</code></p>
+<p>并且在<code>Dashboard</code>模块找到了<code>flag3</code>，提示：</p>
+<blockquote>
+<p>Special PERMS will help FIND the passwd - but you’ll need to -exec that command to work out how to get what’s in the shadow.</p>
+</blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-17.png" alt="1-17"></p>
 <p>flag3提示我们<code>提权（PERMS）</code>、<code>FIND命令</code>、<code>-exec</code>。既然涉及到提权，那么下一个flag应该是需要相应的权限才能查看，可以搜索一下flag关键字</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -name &quot;flag*&quot;</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-18.png" alt="1-18"></p>
-<p>找到了<code>/home/flag4</code>目录下的<code>flag4.txt</code>，查看后给出了提示：<code>Can you use this same method to find or access the flag in root? Probably. But perhaps it&#39;s not that easy.  Or maybe it is?</code></p>
+<p>找到了<code>/home/flag4</code>目录下的<code>flag4.txt</code>，查看后给出了提示：</p>
+<blockquote>
+<p>Can you use this same method to find or access the flag in root? Probably. But perhaps it’s not that easy.  Or maybe it is?</p>
+</blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-19.png" alt="1-19"></p>
 <p>提示我们<code>/root</code>下有下一个flag，但是尝试进入时，被拒绝了，只有<code>root</code>能访问</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /root</span><br><span class="line">cd /</span><br><span class="line">ls -l</span><br></pre></td></tr></table></figure>
@@ -277,11 +289,6 @@
 <p>If you can’t find it, log in as another.</p>
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-1.png" alt="2-1"></p>
-<hr>
-<p>参考文章：</p>
-<p><a href="https://blog.csdn.net/auuuuuuuu/article/details/97832336" target="_blank" rel="noopener">https://blog.csdn.net/auuuuuuuu/article/details/97832336</a></p>
-<p><a href="https://blog.51cto.com/5437315/2420079" target="_blank" rel="noopener">https://blog.51cto.com/5437315/2420079</a></p>
-<p><a href="https://www.cnblogs.com/Q--T/p/7864795.html" target="_blank" rel="noopener">https://www.cnblogs.com/Q--T/p/7864795.html</a></p>
 
       
 
@@ -497,6 +504,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
@@ -510,10 +521,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
             
             <div class="clearfix"></div>
