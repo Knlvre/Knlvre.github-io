@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>渗透学习 — DC1-DC8系列靶机渗透测试 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用Nmap扫描本网段下的所有主机 先查看Kali所处的网段 1ifconfig">
+  <meta name="description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机">
 <meta name="keywords" content="渗透测试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="渗透学习 — DC1-DC8系列靶机渗透测试">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/09/17/DC1-DC8系列靶机渗透测试/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用Nmap扫描本网段下的所有主机 先查看Kali所处的网段 1ifconfig">
+<meta property="og:description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-2.png">
@@ -41,11 +41,23 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-23.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-24.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-25.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-13.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-1.png">
-<meta property="og:updated_time" content="2019-09-18T00:31:33.432Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-11.png">
+<meta property="og:updated_time" content="2019-09-22T15:50:07.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="渗透学习 — DC1-DC8系列靶机渗透测试">
-<meta name="twitter:description" content="DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用Nmap扫描本网段下的所有主机 先查看Kali所处的网段 1ifconfig">
+<meta name="twitter:description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -184,7 +196,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="DC1"><a href="#DC1" class="headerlink" title="DC1"></a>DC1</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来</p>
+<h1 id="DC1"><a href="#DC1" class="headerlink" title="DC1"></a>DC1</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84）</p>
 <p>靶机：DC1（IP：192.168.43.27）</p>
 <h2 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道</p>
@@ -277,11 +290,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh flag4@192.168.43.27</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-25.png" alt="1-25"></p>
 <h1 id="DC2"><a href="#DC2" class="headerlink" title="DC2"></a>DC2</h1><h2 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
-<p>攻击机：Kali（IP：192.168.43.84）</p>
-<p>靶机：DC2（IP：192.168.43.10）</p>
+<p>攻击机：Kali（IP：192.168.43.84或192.168.2.107）</p>
+<p>靶机：DC2（IP：192.168.43.10或192.168.2.109）</p>
 <h2 id="渗透测试-1"><a href="#渗透测试-1" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开DC2靶机之后，照样利用<code>Nmap</code>扫描攻击机的网段，找到DC2的IP地址之后，扫描DC2的端口开放情况</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmap -sP 192.168.43.0/24</span><br><span class="line">nmap -sV 192.168.43.10</span><br></pre></td></tr></table></figure>
-<p>扫描结果显示开放80端口，浏览器访问，发现是<code>WordPress</code>的站，并且发现<code>flag1</code>，提示：</p>
+<p>扫描结果显示开放80端口，但是访问时却访问不了，用<code>-A</code>选项扫一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A 192.168.43.10</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-12.png" alt="2-12"></p>
+<p>修改hosts文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hosts</span><br><span class="line">cat /etc/hosts</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-13.png" alt="2-13"></p>
+<p>再次浏览器访问，发现是<code>WordPress</code>的站，并且发现<code>flag1</code>，提示：</p>
 <blockquote>
 <p>Your usual wordlists probably won’t work, so instead, maybe you just need to be cewl.</p>
 <p>More passwords is always better, but sometimes you just can’t win them all.</p>
@@ -289,6 +308,41 @@
 <p>If you can’t find it, log in as another.</p>
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-1.png" alt="2-1"></p>
+<p>根据提示的内容，应该是要我们去获取后台的用户和密码</p>
+<p>首先，用Kali内的工具<code>wpscan（WordPress漏洞扫描器）</code>获取用户名</p>
+<p>Ps：<code>-e u</code>作用是枚举用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://dc-2/ -e u</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-2.png" alt="2-2"></p>
+<p>从扫描结果可以看出来，一共扫描出三个用户：<code>admin</code>、<code>jerry</code>、<code>tom</code>。创建文本<code>dc2_users.txt</code>，将三个用户写入其中</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-3.png" alt="2-3"></p>
+<p>接下来，使用Kali内的工具<code>cewl</code>扫描网站，获取可能的密码</p>
+<p>Ps：<code>-w</code>参数用来将扫描结果输出到文件内</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cewl http://dc-2/ -w dc2_passwords.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-4.png" alt="2-4"></p>
+<p>现在有了用户名和密码，可以利用刚才生成的<code>dc2_users.txt</code>和<code>dc2_passwords.txt</code>去爆破。有两种方法：1.wpscan 2.hydra</p>
+<p>方法一：wpscan</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://dc-2/ -U dc2_users -P dc2_passwords.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-5.png" alt="2-5"></p>
+<p>方法二：hydra</p>
+<p>由于hydra不行wpscan是专门针对WordPress的漏洞扫描工具，所以需要提供登录的页面<code>（wp-login.php）</code>、提交表单的方式<code>（POST）</code>以及表单的数据<code>（log、pwd等等）</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-6.png" alt="2-6"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -L dc2_users.txt -P dc2_passwords.txt dc-2 http-form-post &apos;/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;wp-submit=Log In&amp;testcookie=1:S=Location&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-7.png" alt="2-7"></p>
+<p>现在得到了<code>jerry</code>和<code>tom</code>的用户名和密码，登录<code>jerry</code>账户，拿到了<code>flag2</code>，提示：</p>
+<blockquote>
+<p>If you can’t exploit WordPress and take a shortcut, there is another way.</p>
+<p>Hope you found another entry point.</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-8.png" alt="2-8"></p>
+<p>重新扫描靶机的所有端口，扫到7744端口（raqmon-pdu）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -p1-65535 192.168.43.10</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-9.png" alt="2-9"></p>
+<p>ssh连接，tom的账号</p>
+<p>Ps：由于这里端口不是22号端口，所以需要指定端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh tom@192.168.43.10 -p 7744</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-10.png" alt="2-10"></p>
+<p>连接成功，但是碰到了<code>rbash (restricited Bash)</code>，许多命令都被禁用了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-11.png" alt="2-11"></p>
 
       
 
@@ -500,15 +554,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -516,7 +570,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
