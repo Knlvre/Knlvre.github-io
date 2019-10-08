@@ -134,6 +134,116 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-转载 谈一谈php之filter的妙用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/" class="archive-article-date">
+  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>转载文章：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</a></p>
+<p><code>php://filter</code>是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。</p>
+<h2 id="XXE中的使用"><a href="#XXE中的使用" class="headerlink" title="XXE中的使用"></a>XXE中的使用</h2><p>php://filter之前最常出镜的地方是XXE。由于XXE漏洞的特殊性，我们在读取HTML、PHP等文件时可能会抛出此类错误<code>parser error : StartTag: invalid element name</code> 。其原因是，PHP是基于标签的脚本语言，<code>&lt;?php ... ?&gt;</code>这个语法也与XML相符合，所以在解析XML的时候会被误认为是XML，而其中内容（比如特殊字符）又有可能和标准XML冲突，所以导致了出错</p>
+<p>那么，为了读取包含有敏感信息的PHP等源文件，我们就要先将“可能引发冲突的PHP代码”编码一遍，这里就会用到php://filter</p>
+<p>php://filter是PHP语言中特有的协议流，作用是作为一个“中间流”来处理其他流。比如，我们可以用如下一行代码将POST内容转换成base64编码并输出：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-1.png" alt="1-1"></p>
+<p>访问并<code>POST</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-2.png" alt="1-2"></p>
+<p>所以，在XXE中，我们也可以将PHP等容易引发冲突的文件流用php://filter协议流处理一遍，这样就能有效规避特殊字符造成混乱</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-4.png" alt="1-4"></p>
+<h2 id="巧用编码与解码"><a href="#巧用编码与解码" class="headerlink" title="巧用编码与解码"></a>巧用编码与解码</h2><p>使用编码不光可以帮助我们获取文件，也可以帮我们去除一些“不必要的麻烦”。</p>
+<p>记得前段时间三个白帽有个比赛，其中有一部分代码大概类似于以下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了（这个过程在实战中十分常见，通常出现在缓存、配置文件等等地方，不允许用户直接访问的文件，都会被加上if(!defined(xxx))exit;之类的限制）。那么这种情况下，如何绕过这个“死亡exit”？</p>
+<p>幸运的是，这里的<code>$_POST[&#39;filename&#39;]</code>是可以控制协议的，我们即可使用 php://filter协议来施展魔法：使用php://filter流的base64-decode方法，将<code>$content</code>解码，利用php base64_decode函数特性去除“死亡exit”。</p>
+<p>众所周知，base64编码中只包含64个可打印字符，而PHP在解码base64时，遇到不在其中的字符时，将会跳过这些字符，仅将合法字符组成一个新的字符串进行解码。</p>
+<p>所以，一个正常的base64_decode实际上可以理解为如下两个步骤：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_GET[<span class="string">'txt'</span>] = preg_replace(<span class="string">'|[^a-z0-9A-Z+/]|s'</span>, <span class="string">''</span>, $_GET[<span class="string">'txt'</span>]);</span><br><span class="line">base64_decode($_GET[<span class="string">'txt'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>所以，当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用 php://filter/write=convert.base64-decode 来首先对其解码。在解码的过程中，字符&lt;、?、;、&gt;、空格等一共有7个字符不符合base64编码的字符范围将被忽略，所以最终被解码的字符仅有“phpexit”和我们传入的其他字符。</p>
+<p>“phpexit”一共7个字符，因为base64算法解码时是4个byte一组，所以给他增加1个“a”一共8个字符。这样，”phpexita”被正常解码，而后面我们传入的webshell的base64内容也被正常解码。结果就是<code>&lt;?php exit; ?&gt;</code>没有了。</p>
+<p>最后效果是 ：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-5.png" alt="1-5"></p>
+<h2 id="利用字符串操作方法"><a href="#利用字符串操作方法" class="headerlink" title="利用字符串操作方法"></a>利用字符串操作方法</h2><p>有的同学说，base64的算法我不懂，上面的方法太复杂了。</p>
+<p>其实，除了使用base64特性的方法外，我们还可以利用php://filter字符串处理方法来去除“死亡exit”。我们观察一下，这个<code>&lt;?php exit; ?&gt;</code>实际上是什么？</p>
+<p>实际上是一个XML标签，既然是XML标签，我们就可以利用strip_tags函数去除它，而php://filter刚好是支持这个方法的。</p>
+<p>编写如下测试代码即可查看 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo readfile(&apos;php://filter/read=string.strip_tags/resource=php://input&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-6.png" alt="1-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-7.png" alt="1-7"></p>
+<p>可见，<code>&lt;?php exit; ?&gt;</code>被去除了。但回到上面的题目，我们最终的目的是写入一个webshell，而写入的webshell也是php代码，如果使用strip_tags同样会被去除。</p>
+<p>万幸的是，php://filter允许使用多个过滤器，我们可以先将webshell用base64编码。在调用完成strip_tags后再进行base64-decode。“死亡exit”在第一步被去除，而webshell在第二步被还原。</p>
+<p>最终的数据包如下：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-8.png" alt="1-8"></p>
+<p>除此之外，我们还可以利用rot13编码独立完成任务。原理和上面类似，核心是将“死亡exit”去除。<code>&lt;?php exit; ?&gt;</code>在经过rot13编码后会变成<code>&lt;?cuc rkvg; ?&gt;</code>，在PHP不开启short_open_tag时，php不认识这个字符串，当然也就不会执行了：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-9.png" alt="1-9"></p>
+<p>当然，这个方法的条件就是不开启短标签</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Python — PyQt5库的初次应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1320,108 +1430,6 @@
 
 
   
-    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
-<p>在线解密一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
-<p>提交就对了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
-<hr>
-<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
-<p>用Python写个脚本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
-<p>跑一下flag直接出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
-<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
-<hr>
-<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
-<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
-<p>flag直接解出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
-<hr>
-<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
-<p>那就能继续利用上面哪个网站破解</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
-<p>成功解出flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1645,19 +1653,19 @@
 
 
   
-    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
   	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
 </a>
         
@@ -1665,36 +1673,35 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：57 41 56 45</span><br><span class="line"></span><br><span class="line">AVI (avi)：41 56 49 20</span><br><span class="line"></span><br><span class="line">Real Audio (ram)：2E 72 61 FD</span><br><span class="line"></span><br><span class="line">Real Media (rm)：2E 52 4D 46</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 BA</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 B3</span><br></pre></td></tr></table></figure>
+        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
+<p>在线解密一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
+<p>提交就对了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
 <hr>
-<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
-<p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
-<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FFD8：图片起始标示位</span><br><span class="line">FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位</span><br><span class="line">FFD9：图片结束标识位</span><br></pre></td></tr></table></figure>
-<p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
-<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
-<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
-<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
-<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
-<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
+<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
+<p>用Python写个脚本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
+<p>跑一下flag直接出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
+<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
 <hr>
-<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
-<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.压缩源文件数据区：</span><br><span class="line">开头也就是前面内容提到，ZIP文件开头标识：</span><br><span class="line">50 4B 03 04</span><br><span class="line"></span><br><span class="line">2.压缩源文件目录区：</span><br><span class="line">50 4B 01 02：目录中文件文件头标记</span><br><span class="line">3F 00：压缩使用的 pkware 版本 </span><br><span class="line">14 00：解压文件所需 pkware 版本 </span><br><span class="line">00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</span><br><span class="line"></span><br><span class="line">3.压缩源文件目录结束标志 ：</span><br><span class="line">50 4B 05 06</span><br></pre></td></tr></table></figure>
-<p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
-<p>修改后，再次想要解压时，就提示需要输入密码了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
-<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
-<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
-<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
+<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
+<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
+<p>flag直接解出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
 <hr>
+<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
+<p>那就能继续利用上面哪个网站破解</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
+<p>成功解出flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
 
       
 
@@ -1718,7 +1725,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
         </p>
       
 
@@ -1845,11 +1852,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1861,11 +1868,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
             
             <div class="clearfix"></div>
