@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA13.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA14.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA15.png">
-<meta property="og:updated_time" content="2019-10-09T03:44:26.890Z">
+<meta property="og:updated_time" content="2019-10-09T08:54:15.030Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LazySysAdmin靶机渗透测试">
 <meta name="twitter:description" content="LazySysAdmin环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.199.133） 靶机：LazySysAdmin（IP：192.168.199.136） 渗透测试Netdiscover扫描网段，发现靶机IP地址 1234567891011netdiscover -r 192.168.199.0/24Currently scanning:">
@@ -218,6 +218,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/connect 192.168.199.136</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA10.png" alt="10"></p>
 <p><strong>Sanba</strong></p>
+<p>先简单介绍一款工具：enum4liux</p>
+<blockquote>
+<p><strong>enum4linux</strong>：可以枚举Windows和Samba主机中的数据</p>
+</blockquote>
 <p>尝试连接</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA11.png" alt="11"></p>
 <p>点击<code>connect</code>后进入，发现了两个共享文件夹：<code>print</code>和<code>share</code></p>
@@ -233,6 +237,10 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA15.png" alt="15"></p>
 <p>又想到开放22端口，继续去尝试一下。用<code>用户名：togie，密码：12345</code>登录成功</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# ssh togie@192.168.199.136</span><br><span class="line">##################################################################################################</span><br><span class="line">#                                          Welcome to Web_TR1                                    #</span><br><span class="line">#                             All connections are monitored and recorded                         # </span><br><span class="line">#                    Disconnect IMMEDIATELY if you are not an authorized user!                   # </span><br><span class="line">##################################################################################################</span><br><span class="line"></span><br><span class="line">togie@192.168.199.136&apos;s password: </span><br><span class="line">Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 4.4.0-31-generic i686)</span><br><span class="line">...</span><br><span class="line">togie@LazySysAdmin:~$ whoami</span><br><span class="line">togie</span><br><span class="line">togie@LazySysAdmin:~$ id</span><br><span class="line">uid=1000(togie) gid=1000(togie) groups=1000(togie),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),110(lpadmin),111(sambashare)</span><br><span class="line">togie@LazySysAdmin:~$</span><br></pre></td></tr></table></figure>
+<p>尝试cd时，发现是一个<code>rbash</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">togie@LazySysAdmin:~$ cd ~</span><br><span class="line">-rbash: cd: restricted</span><br></pre></td></tr></table></figure>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://xz.aliyun.com/t/2789" target="_blank" rel="noopener">https://xz.aliyun.com/t/2789</a></p>
+<p><a href="https://www.cnblogs.com/yuzly/p/10800861.html" target="_blank" rel="noopener">https://www.cnblogs.com/yuzly/p/10800861.html</a></p>
 
       
 
@@ -317,8 +325,8 @@
 <nav id="article-nav">
   
   
-    <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">十三种方式下载文件</div>
+    <a href="/Knlvre.github-io/2019/10/04/Linux 提权常用命令集/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux 提权常用命令集</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -448,11 +456,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
