@@ -134,6 +134,209 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-BugKuCTF—Web题 第11-20关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/">BugKuCTF — Web题(第11-20关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/" class="archive-article-date">
+  	<time datetime="2019-03-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/06/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
+<h3 id="第十一关（web5）"><a href="#第十一关（web5）" class="headerlink" title="第十一关（web5）"></a>第十一关（web5）</h3><p>链接打开看到提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-1.png" alt="1-1"></p>
+<p>查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-2.png" alt="1-2"></p>
+<p>将这串符号放到<strong>控制台 — Console</strong>里面，直接回车，就得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-3.png" alt="1-3"></p>
+<h3 id="第十二关（头等舱）"><a href="#第十二关（头等舱）" class="headerlink" title="第十二关（头等舱）"></a>第十二关（头等舱）</h3><p>链接打开看到”什么也没有。”，查看源代码也是什么都没有</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/2-1.png" alt="2-1"></p>
+<p>但是用<strong>Burpsuit</strong>抓下来，发送GET请求看一下， 在返回的头中就有flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/2-2.png" alt="2-2"></p>
+<h3 id="第十三关（网站被黑）"><a href="#第十三关（网站被黑）" class="headerlink" title="第十三关（网站被黑）"></a>第十三关（网站被黑）</h3><p>链接进去后，看到被黑的网页</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-1.png" alt="3-1"></p>
+<p>首先选择使用<strong>御剑</strong>扫描一下后台，结果是扫到<strong>shell.php</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-2.png" alt="3-2"></p>
+<p>访问一下，尝试几个常见的密码不行后，直接放到<strong>Burpsuit</strong>进行爆破</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-3.png" alt="3-3"></p>
+<p>选择Burpsuit自带的密码字典：<strong>Intruder  — Payloads — Add from lists — password</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-4.png" alt="3-4"></p>
+<p>爆破出来密码是<strong>hack</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-5.png" alt="3-5"></p>
+<p>将hack输入后，得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-6.png" alt="3-6"></p>
+<h3 id="第十四关（系统管理员）"><a href="#第十四关（系统管理员）" class="headerlink" title="第十四关（系统管理员）"></a>第十四关（系统管理员）</h3><p>链接进去后，看到可以输入用户名和密码的输入框</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-1.png" alt="4-1"></p>
+<p>随便输入一个用户名和密码尝试登陆后，出现提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-2.png" alt="4-2"></p>
+<p>先用<strong>Burpsuit</strong>抓下来，由于提示的是”请联系本地管理员登陆”，首先想到的是x-forwarded-for</p>
+<p>所以在POST请求头加上x-forwarded-for</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x-forwarded-for: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-3.png" alt="4-3"></p>
+<p>go发送之后，返回的内容多了一行信息，但是就是没有flag</p>
+<p>折腾了好久，最后在返回的信息的最最最最最后，找到了一串base64加密的字符串（以后还是要注意一下细节）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-4.png" alt="4-4"></p>
+<p>最后拿去解密一下，拿到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-5.png" alt="4-5"></p>
+<h3 id="第十五关（web4）"><a href="#第十五关（web4）" class="headerlink" title="第十五关（web4）"></a>第十五关（web4）</h3><p>链接进去后，提示我们看一下源代码，看看就看看</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-1.png" alt="5-1"></p>
+<p>源代码中看到比较关键的部分，并且有unescape()函数</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-2.png" alt="5-2"></p>
+<p>我们就按照他的字符串拼接，去在线网站解密</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-3.png" alt="5-3"></p>
+<p>自己创建文本，将解密后的东西写下来，是Javascrip</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-4.png" alt="5-4"></p>
+<p>将67d709b2b54aa2aa648cf6e87a7114f1复制网页中，提交后，就得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-5.png" alt="5-5"></p>
+<h3 id="第十六关（flag在index里）"><a href="#第十六关（flag在index里）" class="headerlink" title="第十六关（flag在index里）"></a>第十六关（flag在index里）</h3><p>链接打开后只有”click me?no”的字样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-1.png" alt="6-1"></p>
+<p>他说不点就不点吗，那不就很没面子？我们点进去只看到写着test5，但是注意看url，通过GET方式传递file变量</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-2.png" alt="6-2"></p>
+<p>直接试一下文件包含漏洞</p>
+<p>但是使用show_source()和file()函数都返回一片空白</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-3.png" alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-3-2.png" alt="6-3-2"></p>
+<p>第三种文件包含方法就成功了，返回一串经过base64加密的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-4.png" alt="6-4"></p>
+<p>简单的用Python解密一下，就可以看到index.php的源代码，里面有着flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-5.png" alt="6-5"></p>
+<h3 id="第十七关（输入密码查看flag）"><a href="#第十七关（输入密码查看flag）" class="headerlink" title="第十七关（输入密码查看flag）"></a>第十七关（输入密码查看flag）</h3><p>链接打开有一个可以输入密码的输入框</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-1.png" alt="7-1"></p>
+<p>随意输入一个密码尝试一下会报错</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-2.png" alt="7-2"></p>
+<p>既然题目的url提示着baopo，那么我们就用Burpsuit尝试着去爆破一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-3.png" alt="7-3"></p>
+<p>因为题目提示”输入5位数密码”，所以我们设置从10000-99999之间的数，步数是1</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-4.png" alt="7-4"></p>
+<p>可以明显看到结果出来了，是13579</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-5.png" alt="7-5"></p>
+<p>输入密码后，直接给出了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-6.png" alt="7-6"></p>
+<h3 id="第十八关（点击一百万次）"><a href="#第十八关（点击一百万次）" class="headerlink" title="第十八关（点击一百万次）"></a>第十八关（点击一百万次）</h3><p>链接点进去是一个饼干，鼠标点击一次，就会计数一次</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-1.png" alt="8-1"></p>
+<p>查看网页源代码，其中Javascript的部分有用到POST方法提交clicks的值</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-2.png" alt="8-2"></p>
+<p>那么我们直接用Burpsuit提交clicks=10000000，就得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-3.png" alt="8-3"></p>
+<h3 id="第十九关（备份是个好习惯）"><a href="#第十九关（备份是个好习惯）" class="headerlink" title="第十九关（备份是个好习惯）"></a>第十九关（备份是个好习惯）</h3><p>链接打开只看到一串MD5加密的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-1.png" alt="9-1"></p>
+<p>查看源代码和用Burpsuit测试什么都没有发现</p>
+<p>在想会不会有后台什么的，用御剑扫一下， 果然有东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-2.png" alt="9-2"></p>
+<p>访问这个index.php.bak，下载下来一个文件，打开是php写的代码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-3.png" alt="9-3"></p>
+<p>首先简单了解一下strstr()、substr()、str_replace()函数，可以自己本地写个php代码测试一下，如下图</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-4.png" alt="9-4"></p>
+<p>所以这个代码的意思呢，就是会将你POST或GET传入的参数，只提取？以后的内容，再将？去掉，并且将key关键字替换成空格，然后再传入</p>
+<p>既然题目要求key1和key2的md5加密后的值一样，不加密的值要不一样</p>
+<p>那我们就需要将key1和key2成功传入，这就需要绕过str_replace()函数，以为只替换了一次（只用了一str_replace()函数），那我们就可以用双写，如：kekeyy来绕过</p>
+<p>而处理md5()函数有两种方法：</p>
+<p>方法一：</p>
+<p>因为md5()函数无法处理数组，所以返回的值是NULL，所以当key1和key2是数组，加密后就都是NULL，就相同，并且不加密的值不同，就可以成立</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-5-1.png" alt="9-5-1"></p>
+<p>方法二：</p>
+<p>如果md5()加密后的值是0eXXX形式的，那么就会被认为是科学计数法，那0eXXX代表的是0的XXX次方，无论多少都是0，加密后的数组也是相等的</p>
+<p>这里给出一些md5加密后是以0e开头的字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QNKCDZO</span><br><span class="line">240610708</span><br><span class="line">s878926199a</span><br><span class="line">s155964671a</span><br><span class="line">s214587387a</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-5-2.png" alt="9-5-2"></p>
+<p>现在额外谈一下为什么连接刚打开时会出现以下的md5值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d41d8cd98f00b204e9800998ecf8427ed41d8cd98f00b204e9800998ecf8427e</span><br></pre></td></tr></table></figure>
+<p>特别突兀，出现在那个位置好像是我们可以用到的线索，但是其实没用到</p>
+<p>有两段一样的，那么可以确定是我们看的index.php.bak源码里，返回的md5(key1)和md5(key2)</p>
+<p>拿去在线网站破译一下是这样的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-6.png" alt="9-6"></p>
+<p>后来才知道也就是NULL的意思，为什么是NULL呢，因为key1和key2没有传入或者没有成功传入时，默认值就是NULL</p>
+<p>如下图，没用成功传入key1和key2时，页面也是返回这个值，这样就解释通了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-7.png" alt="9-7"></p>
+<h3 id="第二十关（成绩单）"><a href="#第二十关（成绩单）" class="headerlink" title="第二十关（成绩单）"></a>第二十关（成绩单）</h3><p>链接进去后有一个提交数值的框，对应输出学生的成绩</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-1.png" alt="10-1"></p>
+<p>想到应该是SQL注入，尝试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; and 1=2 #</span><br></pre></td></tr></table></figure>
+<p>没有返回数据</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-2.png" alt="10-2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; and 1=1 #</span><br></pre></td></tr></table></figure>
+<p>数据正常返回</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-3.png" alt="10-3"></p>
+<p>那么对数据的处理应该就是简单的单引号了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$_POST[&apos;value&apos;]</span><br></pre></td></tr></table></figure>
+<p>用order by测试一下，4的时候正常，到5的时候就出错了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-4.png" alt="10-4"></p>
+<p>那现在就可以利用union select了，直接拿到了数据库的名字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-5.png" alt="10-5"></p>
+<p>爆表名</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-6.png" alt="10-6"></p>
+<p>爆fl4g表下的列名</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-7.png" alt="10-7"></p>
+<p>爆skctf_flag列下的数据，顺利拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-8.png" alt="10-8"></p>
+<hr>
+<p>至此，11-20关的Write-up结束</p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/08/BugKuCTF—Web题 第11-20关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—杂项题 第21-30关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1695,117 +1898,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-DVWA 8-Weak Session IDs（弱Session ID）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/">DVWA 8-Weak Session IDs（弱Session ID）</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" class="archive-article-date">
-  	<time datetime="2019-02-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\weak_id\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-1.png" alt="8-1"></p>
-<p>密码与证书等认证手段，一般仅仅用于登录(<code>Login</code>)的过程。当登陆完成后，用户访问网站的页面，不可能每次浏览器请求页面时,都再使用密码认证一次。因此，当认证完成后，就需要替换一个对用户透明的凭证。这个凭证就是<code>SessionID</code>。</p>
-<p>当用户登陆完成后，在服务器端就会创建一个新的会话(<code>Session</code>)，会话中会保存用户的状态和相关信息。服务器端维护所有在线用户的<code>Session</code>，此时的认证，只需要知道是哪个用户在浏览当前的页面即可。为了告诉服务器应该使用哪一个<code>Session</code>，浏览器需要把当前用户持有的<code>SessionID</code>告知服务器。最常见的做法就是把<code>SessionID</code>加密后保存在<code>Cookie</code>中，因为<code>Cookie</code>会随着<code>HTTP</code>请求头发送，且受到浏览器同源策略的保护。</p>
-<p><code>SessionID</code>一旦在生命周期内被窃取，就等同于账户失窃。同时由于<code>SessionID</code>是用户登录之后才持有的认证凭证，因此黑客不需要再攻击登陆过程（比如密码）。<code>Session</code>劫持就是一种通过窃取用户<code>SessionID</code>后，使用该<code>SessionID</code>登录进目标账户的攻击方法，此时攻击者实际上是使用了目标账户的有效<code>Session</code>。如果<code>SessionID</code>是保存在<code>Cookie</code>中的，则这种攻击可以称为<code>Cookie</code>劫持。<code>SessionID</code>还可以保存在<code>URL</code>中，作为一个请求的一个参数，但是这种方式的安全性难以经受考验。</p>
-<p>因此，在生成<code>SessionID</code>时，需要保证足够的随机性，比如采用足够强的伪随机数生成算法。</p>
-<p>— 摘自《白帽子讲 web 安全》</p>
-<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id'</span>]++;</span><br><span class="line">	$cookie_value = $_SESSION[<span class="string">'last_session_id'</span>];</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>了解本漏洞，需要用到2个浏览器</p>
-<p>在<code>A浏览器</code>点击Generate并用burpsuit抓包，从抓取的包中可以看到<code>dvwaSession=1</code>，这也验证了源码。在点击<code>go</code>之后，从服务器返回的响应头中可以看到<code>Set-Cookie: dvwaSession=2</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-2.png" alt="8-2"></p>
-<p>在多按几次Generate，发现<code>dvwaSession</code>字段就是会每次加1。现在我们切换到<code>B浏览器</code>，借用<code>Hackbar</code>工具，URL地址从burpsuit中copy下来：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>，Cookie也copy下来：<code>dvwaSession=4; security=low; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>，然后点击<code>Execute</code>后直接跳转到刚才的界面来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-3.png" alt="8-3"></p>
-<p>可以看到，直接实现没有用户名和密码验证的登录</p>
-<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = time();</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>从源代码中可以看出，<code>dvwaSession</code>的值变成了<code>time()</code>函数的返回结果（也就是时间戳），同样的点击<code>Generate</code>并抓包可以看到</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-4.png" alt="8-4"></p>
-<p>先抓一个包，发现<code>dvwaSession=1565621880</code>，过几秒再抓包发现<code>dvwaSession=1565621885</code>，验证了这个值的确是随着时间戳的变化而变化。我们继续用<code>B浏览器</code>发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=1565622945; security=medium; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-5.png" alt="8-5"></p>
-<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id_high'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id_high'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id_high'</span>]++;</span><br><span class="line">	$cookie_value = md5($_SESSION[<span class="string">'last_session_id_high'</span>]);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>setcookie()</code>函数：发送 Cookie</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">setcookie ( string $name [, string $value = &quot;&quot; [, int $expire = 0 [, string $path = &quot;&quot; [, string $domain = &quot;&quot; [, bool $secure = false [, bool $httponly = false ]]]]]] ) : bool</span><br><span class="line"></span><br><span class="line">name：Cookie 名称</span><br><span class="line"></span><br><span class="line">value：Cookie 值。 这个值储存于用户的电脑里，请勿储存敏感信息。 比如 name 是 &apos;cookiename&apos;， 可通过 $_COOKIE[&apos;cookiename&apos;] 获取它的值</span><br><span class="line"></span><br><span class="line">expire：Cookie 的过期时间。 这是个 Unix 时间戳，即 Unix 纪元以来（格林威治时间 1970 年 1 月 1 日 00:00:00）的秒数。 也就是说，基本可以用 time() 函数的结果加上希望过期的秒数。 或者也可以用 mktime()。 time()+60*60*24*30 就是设置 Cookie 30 天后过期。 如果设置成零，或者忽略参数， Cookie 会在会话结束时过期（也就是关掉浏览器时）</span><br><span class="line">Note:你可能注意到了，expire 使用 Unix 时间戳而非 Wdy, DD-Mon-YYYY HH:MM:SS GMT 这样的日期格式，是因为 PHP 内部作了转换</span><br><span class="line"></span><br><span class="line">path：Cookie 有效的服务器路径。 设置成 &apos;/&apos; 时，Cookie 对整个域名 domain 有效。 如果设置成 &apos;/foo/&apos;， Cookie 仅仅对 domain 中 /foo/ 目录及其子目录有效（比如 /foo/bar/）。 默认值是设置 Cookie 时的当前目录</span><br><span class="line"></span><br><span class="line">domain：Cookie 的有效域名/子域名。 设置成子域名（例如 &apos;www.example.com&apos;），会使 Cookie 对这个子域名和它的三级域名有效（例如 w2.www.example.com）。 要让 Cookie 对整个域名有效（包括它的全部子域名），只要设置成域名就可以了（这个例子里是 &apos;example.com&apos;）</span><br><span class="line">旧版浏览器仍然在使用废弃的 » RFC 2109， 需要一个前置的点 . 来匹配所有子域名。</span><br><span class="line"></span><br><span class="line">secure：设置这个 Cookie 是否仅仅通过安全的 HTTPS 连接传给客户端。 设置成 TRUE 时，只有安全连接存在时才会设置 Cookie。 如果是在服务器端处理这个需求，程序员需要仅仅在安全连接上发送此类 Cookie （通过 $_SERVER[&quot;HTTPS&quot;] 判断）</span><br><span class="line"></span><br><span class="line">httponly：设置成 TRUE，Cookie 仅可通过 HTTP 协议访问。 这意思就是 Cookie 无法通过类似 JavaScript 这样的脚本语言访问。 要有效减少 XSS 攻击时的身份窃取行为，可建议用此设置（虽然不是所有浏览器都支持），不过这个说法经常有争议。 PHP 5.2.0 中添加。 TRUE 或 FALSE</span><br></pre></td></tr></table></figure>
-<p>直接将刚才抓到的请求中的<code>security</code>字段改为<code>high</code>然后点击<code>go</code>，就可以看到服务器设置的新的<code>dvwaSession</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-6.png" alt="8-6"></p>
-<p>这个<code>dvwaSession</code>每次请求，经过过<code>加1</code>，<code>md5加密</code>。但是如果这被我们发现了规律（从0开始每次加1），当我们知道下一个dvwaSession的值后，经过md5加密再去提交</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-8.png" alt="8-8"></p>
-<p>然后还是像之前一样直接发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=eccbc87e4b5ce2fe28308fd9f2a7baf3; security=high; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-7.png" alt="8-7"></p>
-<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = sha1(mt_rand() . time() . <span class="string">"Impossible"</span>);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在本难度中，<code>dvwaSession</code>的值采用<code>随机数+时间戳+&quot;Impossible&quot;</code>，这就无法猜测出到底是多少了。并且开启了<code>setcookie</code>函数中的<code>secure</code>和<code>httponly</code>选项。实现了用户安全会话认证</p>
-<hr>
-<p>参考文章：</p>
-<p><a href="http://www.storysec.com/dvwa-weak-session-ids.html" target="_blank" rel="noopener">http://www.storysec.com/dvwa-weak-session-ids.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/">展开全文 >></a>
         </p>
       
 

