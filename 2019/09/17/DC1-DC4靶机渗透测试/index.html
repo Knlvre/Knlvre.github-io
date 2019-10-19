@@ -64,7 +64,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-4.png">
-<meta property="og:updated_time" content="2019-10-10T06:41:31.179Z">
+<meta property="og:updated_time" content="2019-10-19T12:41:17.289Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DC-1至DC-4靶机渗透测试">
 <meta name="twitter:description" content="前言由于网络环境的变化，攻击机和靶机的IP可能发生改变。在每道题目中如果有改变，我会在开头的环境中写出来 DC-1环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.43.84） 靶机：DC-1（IP：192.168.43.27） 渗透测试打开DC1靶机之后，需要输入登录的账号和密码，但是却不知道  由于IP也不知道，所以没有目标下手，所以需要获取">
@@ -466,7 +466,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#如：admin:x:0:0::/home/admin:/bin/bash</span><br><span class="line"></span><br><span class="line">#[用户名]：[密码]：[UID]：[GID]：[身份描述]：[主目录]：[登录shell]</span><br></pre></td></tr></table></figure>
 <p>添加成功之后，由于没有设置密码，所以直接登录，直接是root权限</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">charles@dc-4:~$ su Knlvre_hack</span><br><span class="line">root@dc-4:/home/charles# id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line">root@dc-4:/home/charles# cat /root/flag.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">888       888          888 888      8888888b.                             888 888 888 888 </span><br><span class="line">888   o   888          888 888      888  &quot;Y88b                            888 888 888 888 </span><br><span class="line">888  d8b  888          888 888      888    888                            888 888 888 888 </span><br><span class="line">888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888 </span><br><span class="line">888d88888b888 d8P  Y8b 888 888      888    888 d88&quot;&quot;88b 888 &quot;88b d8P  Y8b 888 888 888 888 </span><br><span class="line">88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P </span><br><span class="line">8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      &quot;   &quot;   &quot;   &quot;  </span><br><span class="line">888P     Y888  &quot;Y8888  888 888      8888888P&quot;   &quot;Y88P&quot;  888  888  &quot;Y8888  888 888 888 888 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Congratulations!!!</span><br><span class="line"></span><br><span class="line">Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those</span><br><span class="line">who have provided feedback, and who have taken time to complete these little</span><br><span class="line">challenges.</span><br><span class="line"></span><br><span class="line">If you enjoyed this CTF, send me a tweet via @DCAU7.</span><br></pre></td></tr></table></figure>
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><hr>
+<hr>
+<p><strong>Reference</strong></p>
 <p><a href="https://blog.csdn.net/auuuuuuuu/article/details/97832336" target="_blank" rel="noopener">https://blog.csdn.net/auuuuuuuu/article/details/97832336</a></p>
 <p><a href="https://blog.51cto.com/5437315/2420079" target="_blank" rel="noopener">https://blog.51cto.com/5437315/2420079</a></p>
 <p><a href="https://www.cnblogs.com/Q--T/p/7864795.html" target="_blank" rel="noopener">https://www.cnblogs.com/Q--T/p/7864795.html</a></p>
@@ -695,11 +696,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">

