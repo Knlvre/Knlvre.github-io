@@ -6,30 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>DVWA 2-Command Injection（命令注入） | Knlvre</title>
+  <title>Upload-labs(第1-10关) | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="源码位置1DVWA\vulnerabilities\exec\source\ 页面功能可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果  Security Level — Low核心代码 123456789101112131415161718192021&amp;lt;?phpif( isset( $_POST[ &apos;Submit&apos; ]  ) ) &amp;#123;	// Get input	$t">
-<meta name="keywords" content="DVWA">
+  <meta name="description" content="Less-1Less-2">
+<meta name="keywords" content="Upload-labs">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DVWA 2-Command Injection（命令注入）">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/02/11/DVWA 2-Command Injection（命令注入）/index.html">
+<meta property="og:title" content="Upload-labs(第1-10关)">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/09/20/Upload-labs 第1-10关/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="源码位置1DVWA\vulnerabilities\exec\source\ 页面功能可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果  Security Level — Low核心代码 123456789101112131415161718192021&amp;lt;?phpif( isset( $_POST[ &apos;Submit&apos; ]  ) ) &amp;#123;	// Get input	$t">
+<meta property="og:description" content="Less-1Less-2">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-0.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-8.png">
-<meta property="og:updated_time" content="2019-08-01T15:52:56.261Z">
+<meta property="og:updated_time" content="2019-10-20T11:43:00.412Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DVWA 2-Command Injection（命令注入）">
-<meta name="twitter:description" content="源码位置1DVWA\vulnerabilities\exec\source\ 页面功能可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果  Security Level — Low核心代码 123456789101112131415161718192021&amp;lt;?phpif( isset( $_POST[ &apos;Submit&apos; ]  ) ) &amp;#123;	// Get input	$t">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-0.png">
+<meta name="twitter:title" content="Upload-labs(第1-10关)">
+<meta name="twitter:description" content="Less-1Less-2">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -147,74 +137,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-DVWA 2-Command Injection（命令注入）" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Upload-labs 第1-10关" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DVWA 2-Command Injection（命令注入）
+      Upload-labs(第1-10关)
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/02/11/DVWA 2-Command Injection（命令注入）/" class="archive-article-date">
-  	<time datetime="2019-02-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-11</time>
+        <a href="/Knlvre.github-io/2019/09/20/Upload-labs 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-09-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\exec\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-0.png" alt="2-0"></p>
-<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = $_REQUEST[ <span class="string">'ip'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">	<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// Windows</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// *nix</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for the end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>stristr()</code>函数：返回 <code>haystack</code> 字符串从 <code>needle</code> 第一次出现的位置开始到结尾的字符串。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">stristr ( string $haystack , mixed $needle [, bool $before_needle = FALSE ] ) : string</span><br><span class="line"></span><br><span class="line">haystack:在该字符串中查找。</span><br><span class="line"></span><br><span class="line">needle:如果 needle 不是一个字符串，那么它将被转换为整型并被视为字符顺序值。</span><br><span class="line"></span><br><span class="line">before_needle:若为 TRUE，strstr() 将返回 needle 在 haystack 中的位置之前的部分(不包括 needle)。</span><br><span class="line"></span><br><span class="line">参数 needle 和 haystack 将以不区分大小写的方式对待。</span><br></pre></td></tr></table></figure>
-<p><code>php_uname()</code>函数：返回了运行 PHP 的操作系统的描述。 这和 <a href="https://www.php.net/manual/zh/function.phpinfo.php" target="_blank" rel="noopener">phpinfo()</a> 最顶端上输出的是同一个字符串。 如果仅仅要获取操作系统的名称。可以考虑使用常量 PHP_OS，不过要注意该常量会包含 PHP 构建（<em>built</em>）时的操作系统名。</p>
-<p>在一些旧的 UNIX 平台，它有可能无法检测到当前系统的信息，然后会还原显示成构建 PHP 时的系统信息。 这仅仅在你的 uname() 函数库不存在或无法运行时发生。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">php_uname ([ string $mode = &quot;a&quot; ] ) : string</span><br><span class="line"></span><br><span class="line">mode：是单个字符，用于定义要返回什么信息：</span><br><span class="line"></span><br><span class="line">&apos;a&apos;：此为默认。包含序列 &quot;s n r v m&quot; 里的所有模式。</span><br><span class="line">&apos;s&apos;：操作系统名称。例如： FreeBSD。</span><br><span class="line">&apos;n&apos;：主机名。例如： localhost.example.com。</span><br><span class="line">&apos;r&apos;：版本名称，例如： 5.1.2-RELEASE。</span><br><span class="line">&apos;v&apos;：版本信息。操作系统之间有很大的不同。</span><br><span class="line">&apos;m&apos;：机器类型。例如：i386。</span><br></pre></td></tr></table></figure>
-<p>可以看到，通过<code>stristr()</code>和<code>php_uname()</code>这两个函数判断操作系统的类型，不同类型执行不同的shell命令</p>
-<p>Window和Linux系统都可以用<code>&amp;&amp;</code>来执行多条命令，比如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 &amp;&amp; net user</span><br></pre></td></tr></table></figure>
-<p>可以看到，返回的信息分为两部分，分别是<code>ping 127.0.0.1</code>和<code>net user</code>的返回</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-1.png" alt="2-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-2.png" alt="2-2"></p>
-<p>Linux下输入<code>127.0.0.1&amp;&amp;cat /etc/shadow</code>甚至可以读取<code>shadow</code>文件，可见危害之大</p>
-<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = $_REQUEST[ <span class="string">'ip'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set blacklist</span></span><br><span class="line">	$substitutions = <span class="keyword">array</span>(</span><br><span class="line">		<span class="string">'&amp;&amp;'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">';'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Remove any of the charactars in the array (blacklist).</span></span><br><span class="line">	$target = str_replace( array_keys( $substitutions ), $substitutions, $target );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">	<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// Windows</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// *nix</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for the end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>从代码中可以看出来，对<code>&amp;&amp;</code>和<code>;</code>进行了过滤。</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-3.png" alt="2-3"></p>
-<p>但是<code>单个&amp;</code>却还可以使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 &amp; net user</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-4.png" alt="2-4"></p>
-<p>这里需要注意的是<code>&amp;&amp;</code>与<code>&amp;</code>的区别：</p>
-<p>Command 1 &amp;&amp; Command 2</p>
-<p>先执行Command 1，执行成功后执行Command 2，否则不执行Command 2</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-5.png" alt="2-5"></p>
-<p>Command 1 &amp; Command 2</p>
-<p>先执行Command 1，不管是否成功，都会执行Command 2</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-6.png" alt="2-6"></p>
-<p>本题还有一种绕过的方法，就是<code>&amp;;&amp;</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 &amp;;&amp; net user</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-7.png" alt="2-7"></p>
-<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = trim($_REQUEST[ <span class="string">'ip'</span> ]);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set blacklist</span></span><br><span class="line">	$substitutions = <span class="keyword">array</span>(</span><br><span class="line">		<span class="string">'&amp;'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">';'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'| '</span> =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'-'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'$'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'('</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">')'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'`'</span>  =&gt; <span class="string">''</span>,</span><br><span class="line">		<span class="string">'||'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Remove any of the charactars in the array (blacklist).</span></span><br><span class="line">	$target = str_replace( array_keys( $substitutions ), $substitutions, $target );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">	<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// Windows</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// *nix</span></span><br><span class="line">		$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for the end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>对比与Medium难度，High难度进一步对黑名单进行了完善</p>
-<p>但是这里注意被过滤的<code>&#39;| &#39;</code>，<code>管道符|</code>后面是有一个空格的，所以这里不加空格的单个<code>|</code>就可以不被过滤</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1|net user</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/2-8.png" alt="2-8"></p>
-<p>Command 1 | Command 2</p>
-<p>| 是管道符，表示将Command 1的输出作为Command 2的输入，并且只打印Command 2执行的结果。</p>
-<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = $_REQUEST[ <span class="string">'ip'</span> ];</span><br><span class="line">	$target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Split the IP into 4 octects</span></span><br><span class="line">	$octet = explode( <span class="string">"."</span>, $target );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check IF each octet is an integer</span></span><br><span class="line">	<span class="keyword">if</span>( ( is_numeric( $octet[<span class="number">0</span>] ) ) &amp;&amp; ( is_numeric( $octet[<span class="number">1</span>] ) ) &amp;&amp; ( is_numeric( $octet[<span class="number">2</span>] ) ) &amp;&amp; ( is_numeric( $octet[<span class="number">3</span>] ) ) &amp;&amp; ( sizeof( $octet ) == <span class="number">4</span> ) ) &#123;</span><br><span class="line">		<span class="comment">// If all 4 octets are int's put the IP back together.</span></span><br><span class="line">		$target = $octet[<span class="number">0</span>] . <span class="string">'.'</span> . $octet[<span class="number">1</span>] . <span class="string">'.'</span> . $octet[<span class="number">2</span>] . <span class="string">'.'</span> . $octet[<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">		<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows NT'</span> ) ) &#123;</span><br><span class="line">			<span class="comment">// Windows</span></span><br><span class="line">			$cmd = shell_exec( <span class="string">'ping  '</span> . $target );</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// *nix</span></span><br><span class="line">			$cmd = shell_exec( <span class="string">'ping  -c 4 '</span> . $target );</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Ops. Let the user name theres a mistake</span></span><br><span class="line">		$html .= <span class="string">'&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>stripslashes()</code>函数：返回一个去除转义反斜线后的字符串（<code>\&#39;</code> 转换为 <code>&#39;</code> 等等）。双反斜线（<code>\\</code>）被转换为单个反斜线（<code>\</code>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stripslashes ( string $str ) : string</span><br></pre></td></tr></table></figure>
-<p>该难度加入了对<code>Anti-CSRF token</code>的检查，并且获取的<code>$target</code>必须为<code>X.X.X.X</code>的格式，<code>X</code>也只能是数字，因此不存在命令注入漏洞</p>
-
+        <h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h2><h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h2>
       
 
       
@@ -227,7 +170,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DVWA</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Upload-labs</a>
         		</li>
       		
 		</ul>
@@ -283,7 +226,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/02/11/DVWA 2-Command Injection（命令注入）/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/09/20/Upload-labs 第1-10关/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -297,18 +240,18 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Knlvre.github-io/2019/09/24/MS17-010（CVE-2017-0143）复现/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）
+          MS17-010（CVE-2017-0143）&amp; CVE-2017-7494 复现
         
       </div>
     </a>
   
   
-    <a href="/Knlvre.github-io/2019/02/10/DVWA 1-Brute Force（暴力破解）/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DVWA 1-Brute Force（暴力破解）</div>
+    <a href="/Knlvre.github-io/2019/09/17/DC1-DC4靶机渗透测试/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DC-1至DC-4靶机渗透测试</div>
       <i class="icon-circle-right"></i>
     </a>
   
