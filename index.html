@@ -1309,7 +1309,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h2><h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h2>
+        <h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h2><p>本关介绍两种解题方法：</p>
+<p><strong>方法一</strong></p>
+<p>直接上传<code>webshell.php</code>时，发现前端弹出警告。按<code>F12</code>查看，在<code>javascript</code>的<code>白名单</code>中添加<code>php</code>这个后缀，然后就可以直接上传成功</p>
+<p><img src alt="1-1"></p>
+<p><strong>方法二</strong></p>
+<p>先将webshell的后缀改为<code>png（或者白名单中任意后缀）</code>，然后上传，<code>Burpsuit</code>将数据包进行修改，重新将文件后缀改为<code>.php</code>，绕过前端验证就可以</p>
+<p><img src alt="1-2"></p>
+<h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h2>
       
 
       
@@ -1459,15 +1466,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
