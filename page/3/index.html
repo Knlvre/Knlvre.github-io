@@ -766,6 +766,211 @@
 
 
   
+    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：57 41 56 45</span><br><span class="line"></span><br><span class="line">AVI (avi)：41 56 49 20</span><br><span class="line"></span><br><span class="line">Real Audio (ram)：2E 72 61 FD</span><br><span class="line"></span><br><span class="line">Real Media (rm)：2E 52 4D 46</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 BA</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 B3</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
+<p>图片格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
+<p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
+<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
+<p>图片格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FFD8：图片起始标示位</span><br><span class="line">FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位</span><br><span class="line">FFD9：图片结束标识位</span><br></pre></td></tr></table></figure>
+<p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
+<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
+<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
+<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
+<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
+<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
+<hr>
+<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
+<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.压缩源文件数据区：</span><br><span class="line">开头也就是前面内容提到，ZIP文件开头标识：</span><br><span class="line">50 4B 03 04</span><br><span class="line"></span><br><span class="line">2.压缩源文件目录区：</span><br><span class="line">50 4B 01 02：目录中文件文件头标记</span><br><span class="line">3F 00：压缩使用的 pkware 版本 </span><br><span class="line">14 00：解压文件所需 pkware 版本 </span><br><span class="line">00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</span><br><span class="line"></span><br><span class="line">3.压缩源文件目录结束标志 ：</span><br><span class="line">50 4B 05 06</span><br></pre></td></tr></table></figure>
+<p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
+<p>修改后，再次想要解压时，就提示需要输入密码了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
+<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
+<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
+<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
+<hr>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
+<p>在线解密一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
+<p>提交就对了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
+<hr>
+<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
+<p>用Python写个脚本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
+<p>跑一下flag直接出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
+<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
+<hr>
+<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
+<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
+<p>flag直接解出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
+<hr>
+<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
+<p>那就能继续利用上面哪个网站破解</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
+<p>成功解出flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -960,211 +1165,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
-<p>在线解密一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
-<p>提交就对了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
-<hr>
-<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
-<p>用Python写个脚本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
-<p>跑一下flag直接出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
-<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
-<hr>
-<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
-<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
-<p>flag直接解出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
-<hr>
-<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
-<p>那就能继续利用上面哪个网站破解</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
-<p>成功解出flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：57 41 56 45</span><br><span class="line"></span><br><span class="line">AVI (avi)：41 56 49 20</span><br><span class="line"></span><br><span class="line">Real Audio (ram)：2E 72 61 FD</span><br><span class="line"></span><br><span class="line">Real Media (rm)：2E 52 4D 46</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 BA</span><br><span class="line"></span><br><span class="line">MPEG (mpg)：00 00 01 B3</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13</span><br><span class="line"></span><br><span class="line">（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，</span><br><span class="line"></span><br><span class="line">（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method</span><br><span class="line"></span><br><span class="line">（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到</span><br></pre></td></tr></table></figure>
-<p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
-<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
-<p>图片格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FFD8：图片起始标示位</span><br><span class="line">FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位</span><br><span class="line">FFD9：图片结束标识位</span><br></pre></td></tr></table></figure>
-<p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
-<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
-<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
-<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
-<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
-<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
-<hr>
-<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
-<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.压缩源文件数据区：</span><br><span class="line">开头也就是前面内容提到，ZIP文件开头标识：</span><br><span class="line">50 4B 03 04</span><br><span class="line"></span><br><span class="line">2.压缩源文件目录区：</span><br><span class="line">50 4B 01 02：目录中文件文件头标记</span><br><span class="line">3F 00：压缩使用的 pkware 版本 </span><br><span class="line">14 00：解压文件所需 pkware 版本 </span><br><span class="line">00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</span><br><span class="line"></span><br><span class="line">3.压缩源文件目录结束标志 ：</span><br><span class="line">50 4B 05 06</span><br></pre></td></tr></table></figure>
-<p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
-<p>修改后，再次想要解压时，就提示需要输入密码了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
-<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
-<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
-<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
-<hr>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
         </p>
       
 
@@ -2664,15 +2664,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2684,11 +2684,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Upload-labs</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color2">Upload-labs</a>
               </li>
             
             <div class="clearfix"></div>
