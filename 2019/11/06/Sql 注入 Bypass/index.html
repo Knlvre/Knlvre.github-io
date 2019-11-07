@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Knlvre">
 <meta property="og:description" content="前言Sql 注入的过程中经常会碰到各种 WAF 过滤掉了多种关键字，在本文中总结一下 本文持续更新 information_schemainnodb_tables_stats 大小写对于大小写敏感的 WAF ，可以用大小写绕过 全大写、大小写混写 12345678910mysql&amp;gt; select 1,2,3 union select * from users;+----+----------">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-11-06T12:13:11.307Z">
+<meta property="og:updated_time" content="2019-11-06T12:25:01.720Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sql 注入 Bypass">
 <meta name="twitter:description" content="前言Sql 注入的过程中经常会碰到各种 WAF 过滤掉了多种关键字，在本文中总结一下 本文持续更新 information_schemainnodb_tables_stats 大小写对于大小写敏感的 WAF ，可以用大小写绕过 全大写、大小写混写 12345678910mysql&amp;gt; select 1,2,3 union select * from users;+----+----------">
@@ -216,6 +216,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select alias_of_3 from (select 1,2,3 as alias_of_3 union select * from users)any_alias;</span><br><span class="line">+------------+</span><br><span class="line">| alias_of_3 |</span><br><span class="line">+------------+</span><br><span class="line">| 3          |</span><br><span class="line">| Dumb       |</span><br><span class="line">| I-kill-you |</span><br><span class="line">| p@ssword   |</span><br><span class="line">+------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 <p>如果返回的结果是多条，可以用<code>limit</code>将他们逐一返回</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select a from (select 1,2,3 as a union select * from users limit 0,1)b;</span><br><span class="line">+---+</span><br><span class="line">| a |</span><br><span class="line">+---+</span><br><span class="line">| 3 |</span><br><span class="line">+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select a from (select 1,2,3 as a union select * from users limit 1,1)b;</span><br><span class="line">+------+</span><br><span class="line">| a    |</span><br><span class="line">+------+</span><br><span class="line">| Dumb |</span><br><span class="line">+------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select a from (select 1,2,3 as a union select * from users limit 2,1)b;</span><br><span class="line">+------------+</span><br><span class="line">| a          |</span><br><span class="line">+------------+</span><br><span class="line">| I-kill-you |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h2 id="布尔判断"><a href="#布尔判断" class="headerlink" title="布尔判断"></a>布尔判断</h2><p>注入中可能会用到布尔类型的判断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1=1) &amp; (2=1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(0&gt;1) &amp; (2&gt;1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1 between 0 and 2) &amp; (3 between 0 and 2)</span><br></pre></td></tr></table></figure>
+
       
 
       
@@ -426,15 +431,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">

