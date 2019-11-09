@@ -134,6 +134,151 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Python — PyQt5库的初次应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/">Python — PyQt5库的初次应用</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/" class="archive-article-date">
+  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文章对大三下学期的一门课程设计做一个简单的记录</p>
+<p>写了4个进程调度算法，并利用Python3的PyQt5库设计了GUI，代码量大概为1000行</p>
+<p>第一次接触GUI，现学现卖，没有做任何优化</p>
+<h1 id="一、Python-3-7环境下安装PyQt5"><a href="#一、Python-3-7环境下安装PyQt5" class="headerlink" title="一、Python 3.7环境下安装PyQt5"></a>一、Python 3.7环境下安装PyQt5</h1><p>2.安装PyQt5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyQt5</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-1.png" alt="1-1"></p>
+<p>2.安装 sip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip  install sip</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-2.png" alt></p>
+<p>3.安装PyQt5-tools</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyQt5-tools</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-3.png" alt></p>
+<p>安装成功之后就可以在路径下看到<code>pyqt5_tools</code>文件夹（我的是：<code>Python37\Lib\site-packages\pyqt5_tools</code>）</p>
+<p>双击文件夹内的<code>designer.exe</code>就可以打开<code>QT Designer</code>应用</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-4.png" alt></p>
+<p>如果可以打开，此时就算安装成功了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-5.png" alt></p>
+<h1 id="二、利用PyQt5编写GUI"><a href="#二、利用PyQt5编写GUI" class="headerlink" title="二、利用PyQt5编写GUI"></a>二、利用PyQt5编写GUI</h1><p>（1）利用QT Designer应用设计</p>
+<p>在QT Designer应用中，可以选择创建窗口的类型（如：Main Window、Dialog、Widget等）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-1.png" alt="2-1"></p>
+<p>选择完窗口类型过后，可以通过左边的工具栏添加各种按钮、文本框、表格等，并且通过右边的工具栏调整位置、大小等</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-2.png" alt="2-2"></p>
+<p>点击保存后，会生成一个.ui的文件，以xml格式记录内容，这个文件是无法直接调用的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-3.png" alt="2-3"></p>
+<p>通过如下命令，将保存下来的<code>ui文件</code>转换为<code>py文件</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyuic5 -o [name].py [name].ui</span><br></pre></td></tr></table></figure>
+<p>通过在这个py文件添加如下图的代码，就可以直接运行。</p>
+<p>MainWindow类型：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-5.png" alt="2-5"></p>
+<p>QDialog类型：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-6.png" alt="2-6"></p>
+<p>添加之后直接编译运行该Python文件就可以看到我们设计的窗口了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-7.png" alt="2-7"></p>
+<p>（2）手动编写代码</p>
+<p>原本的ui格式的文件是以xml标签的形式存储，我们是无法直接在Python代码中使用的。上一种方式讲到可以将ui文件转化为py文件，其内部的代码也可以转换为Python语句，添加代码就可以运行，可以直接添加、改写生成的py文件内的代码，就可以改变窗口的内容。</p>
+<p>如：给窗口添加线条</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-8.png" alt="2-8"></p>
+<p>如：给窗口添加按钮</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-9.png" alt="2-9"></p>
+<h1 id="三、四种调度算法核心代码"><a href="#三、四种调度算法核心代码" class="headerlink" title="三、四种调度算法核心代码"></a>三、四种调度算法核心代码</h1><p>下面直接展示简单完成的调度算法的代码（代码只追求完成任务，没有任何优化嘻嘻）</p>
+<p>1.先来先服务调度算法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-1.png" alt="3-1"></p>
+<p>2.最短作业优先调度算法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-2.png" alt="3-2"></p>
+<p>3.最高响应比优先调度算法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-3.png" alt="3-3"></p>
+<p>4.时间片轮转算法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-4.png" alt="3-4"></p>
+<p>每个算法都放入一个QDialog窗体内，每个窗体都是一个6×7的表格来展示内容。6行分别是四个进程的执行结果、标题和总结（总结包括平均周转总和、带权周转时间总和、平均周转时间、带权平均周转时间）；7列分别是进程号、到达时间、服务时间、开始运行时间、完成运行时间、周转时间、带权周转时间</p>
+<p>由于设计代码较多、较杂，这里只展示比较实用的部分：</p>
+<ul>
+<li><p>表格设置为不可修改，该窗体只是起到结果展示的作用，这样设置就不会因为误操作引起的一系列麻烦</p>
+</li>
+<li><p>设置部分单元格合并，合并的单元格用于显示平均周转时间、带权平均周转时间的结果</p>
+</li>
+<li><p>将设置好的行、列数进行自动拉伸，填充表格区域，使每一行每一列的单元格大小一致，表格看上去更加清晰</p>
+</li>
+<li><p>隐藏行头标签，不隐藏列头标签，使运算结果看起来更加清楚</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-5.png" alt="3-5"></p>
+<p>通过向MainWindow窗口内添加了5个PushButton，来分别对应于4个调度算法和1个查看执行进程参数。那么就需要实现点击不同的PushButton，跳转到分别与之对应的算法，这个功能通过另外一个Python文件来实现。代码如下：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-7.png" alt="3-7"></p>
+<h1 id="四、程序最后运行结果"><a href="#四、程序最后运行结果" class="headerlink" title="四、程序最后运行结果"></a>四、程序最后运行结果</h1><p>MainWindow窗口</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-2.png" alt="3-8"></p>
+<p>窗口的各个部分的简单解释</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-1.png" alt="4-1"></p>
+<p>多个窗口的跳转</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-7.png" alt="4-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-8.png" alt="4-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-9.png" alt="4-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-10.png" alt="4-10"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-CTF比赛—2019网络与信息安全领域专项赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -322,7 +467,7 @@
 <h3 id="1-文件上传getshell"><a href="#1-文件上传getshell" class="headerlink" title="1. 文件上传getshell"></a>1. 文件上传getshell</h3><p>前台没有找到其他漏洞，最后根据提示的<code>isccadmin</code>作为用户名，爆破拿到的密码是<code>passw0rd</code>。从后来的情况来看，所有队伍都做到了这一步，进入后台，修改了密码</p>
 <p>进入后台，有很多上传的点，我们是上传<code>管理员头像</code>处，上传了<code>一句话</code>，拿到了shell</p>
 <p>这个漏洞比较坑的是，前期管理员没有给上传的权限，之后有队伍反应，后来才又开了权限，才能上传</p>
-<h3 id="2-xmlrpc-php中的代码注入"><a href="#2-xmlrpc-php中的代码注入" class="headerlink" title="2. xmlrpc.php中的代码注入"></a>2. xmlrpc.php中的代码注入</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向客户端发送api支持信息</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'rsd'</span>])) &#123;</span><br><span class="line">	$rsd=$_GET[<span class="string">'rsd'</span>];</span><br><span class="line">	<span class="keyword">echo</span> `$rsd`;</span><br><span class="line">	header(<span class="string">'Content-Type: text/xml; charset=utf-8'</span>, <span class="keyword">true</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="string">			&lt;rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd"&gt;</span></span><br><span class="line"><span class="string">				&lt;service&gt;</span></span><br><span class="line"><span class="string">					&lt;engineName&gt;emlog&lt;/engineName&gt;</span></span><br><span class="line"><span class="string">					&lt;engineLink&gt;http://emlog.net/&lt;/engineLink&gt;</span></span><br><span class="line"><span class="string">					&lt;homePageLink&gt;'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'&lt;/homePageLink&gt;</span></span><br><span class="line"><span class="string">					&lt;apis&gt;</span></span><br><span class="line"><span class="string">						&lt;api name="MetaWeblog" blogID="1" preferred="true" apiLink="'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'xmlrpc.php" /&gt;</span></span><br><span class="line"><span class="string">						&lt;api name="Blogger" blogID="1" preferred="false" apiLink="'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'xmlrpc.php" /&gt;</span></span><br><span class="line"><span class="string">					&lt;/apis&gt;</span></span><br><span class="line"><span class="string">				&lt;/service&gt;</span></span><br><span class="line"><span class="string">			&lt;/rsd&gt;</span></span><br><span class="line"><span class="string">		 '</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-xmlrpc-php中的命令注入"><a href="#2-xmlrpc-php中的命令注入" class="headerlink" title="2. xmlrpc.php中的命令注入"></a>2. xmlrpc.php中的命令注入</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向客户端发送api支持信息</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'rsd'</span>])) &#123;</span><br><span class="line">	$rsd=$_GET[<span class="string">'rsd'</span>];</span><br><span class="line">	<span class="keyword">echo</span> `$rsd`;</span><br><span class="line">	header(<span class="string">'Content-Type: text/xml; charset=utf-8'</span>, <span class="keyword">true</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="string">			&lt;rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd"&gt;</span></span><br><span class="line"><span class="string">				&lt;service&gt;</span></span><br><span class="line"><span class="string">					&lt;engineName&gt;emlog&lt;/engineName&gt;</span></span><br><span class="line"><span class="string">					&lt;engineLink&gt;http://emlog.net/&lt;/engineLink&gt;</span></span><br><span class="line"><span class="string">					&lt;homePageLink&gt;'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'&lt;/homePageLink&gt;</span></span><br><span class="line"><span class="string">					&lt;apis&gt;</span></span><br><span class="line"><span class="string">						&lt;api name="MetaWeblog" blogID="1" preferred="true" apiLink="'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'xmlrpc.php" /&gt;</span></span><br><span class="line"><span class="string">						&lt;api name="Blogger" blogID="1" preferred="false" apiLink="'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'xmlrpc.php" /&gt;</span></span><br><span class="line"><span class="string">					&lt;/apis&gt;</span></span><br><span class="line"><span class="string">				&lt;/service&gt;</span></span><br><span class="line"><span class="string">			&lt;/rsd&gt;</span></span><br><span class="line"><span class="string">		 '</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中，注入点在于</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$rsd=$_GET[<span class="string">'rsd'</span>];</span><br><span class="line"><span class="keyword">echo</span> `$rsd`;</span><br></pre></td></tr></table></figure>
 <p>在php中，<code>反斜杠</code>可以用于快速执行cmd的代码</p>
@@ -1175,108 +1320,6 @@
 
 
   
-    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
-<p>在线解密一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
-<p>提交就对了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
-<hr>
-<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
-<p>用Python写个脚本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
-<p>跑一下flag直接出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
-<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
-<hr>
-<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
-<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
-<p>flag直接解出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
-<hr>
-<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
-<p>那就能继续利用上面哪个网站破解</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
-<p>成功解出flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1603,170 +1646,56 @@
 
 
   
-    <article id="post-BugKuCTF—分析题 第1-9关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-BugKuCTF—加密题 第1-10关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/">BugKuCTF — 分析题(第1-9关)</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/" class="archive-article-date">
-  	<time datetime="2019-03-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
+        <a href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="第一关（flag被盗）"><a href="#第一关（flag被盗）" class="headerlink" title="第一关（flag被盗）"></a>第一关（flag被盗）</h3><p>用wireshark打开下载下来的文件，用协议顺序排序</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-1.png" alt="1-1"></p>
-<p>先追踪一下HTTP协议（右击 —&gt; 追踪流 —&gt; HTTP）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-2.png" alt="1-2"></p>
-<p>搜索一下flag关键字，直接找到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-3.png" alt="1-3"></p>
+        <h3 id="第一关（滴答-滴）"><a href="#第一关（滴答-滴）" class="headerlink" title="第一关（滴答~滴）"></a>第一关（滴答~滴）</h3><p>百度一下题目给的数字，发现是摩斯密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-1.png" alt="1-1"></p>
+<p>在线解密一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-2.png" alt="1-2"></p>
+<p>提交就对了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/1-3.png" alt="1-3"></p>
 <hr>
-<h3 id="第二关（中国菜刀）"><a href="#第二关（中国菜刀）" class="headerlink" title="第二关（中国菜刀）"></a>第二关（中国菜刀）</h3><h4 id="方法一（全Window环境）："><a href="#方法一（全Window环境）：" class="headerlink" title="方法一（全Window环境）："></a>方法一（全Window环境）：</h4><p>用wireshark打开下载下来的文件。既然题目提示是中国菜刀，那应该是用到HTTP协议</p>
-<p>按照协议排序之后，在第四个HTTP协议包里找到了一句话木马</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-1.png" alt="2-1"></p>
-<p>在第四个HTTP协议包里挂马，那关键文件一定是在这之后才获取到的</p>
-<p>在下一个HTTP包里追踪HTTP协议。红色部分是客户端向服务器发起的请求，蓝色部分是服务器回应客户端的内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-2.png" alt="2-2"></p>
-<p>我们可以看到红色部分有一段BASE64的加密内容，拿去解密一下（<strong>注意：%3D解码成=号</strong>）</p>
-<p>可以看到里面有flag.tar.gz关键文件，那应该是客户端向服务器拿走了这个文件</p>
-<p>蓝色部分应该就是服务器将flag.tar.gz这个文件给了客户端的记录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-3.png" alt="2-3"></p>
-<p>第五个HTTP协议包是客户端的请求，第六个HTTP协议包就应该是服务器的回应了，并且里面有flag.tar.gz</p>
-<p>怎么提取这个flag.tar.gz的内容呢，看了大佬写的文章，有两种方法：</p>
-<p>方法1.1：</p>
-<p>点击第六个HTTP协议包，”Line-based” —&gt; “右键” —&gt; “显示分组字节”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-4.png" alt="2-4"></p>
-<p>因为2个X@Y是菜刀特有的标记，我们提取信息时并不能把它们放进去</p>
-<p>所以将开始位设置为3，结束位设置为206（整个数据是0到209）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-5.png" alt="2-5"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-6.png" alt="2-6"></p>
-<p>然后解码为”压缩”，显示为”ASCII”就可以看到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-7.png" alt="2-7"></p>
-<p>方法1.2：</p>
-<p>还是那个地方，右键 —&gt; 导出分组字节（此处导出为1.tar.gz)</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-8.png" alt="2-8"></p>
-<p>我们有讲过，菜刀会留下前后额X@Y，所以要主动删掉，不然是打不开压缩文件的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-9.png" alt="2-9"></p>
-<p>我用winhex，删除掉2个X@Y，并且保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-10.png" alt="2-10"></p>
-<p>再次打开，就可以看到flag.txt，打开直接拿到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-11.png" alt="2-11"></p>
-<p>至此，方法一结束</p>
-<h4 id="方法二（利用Kali）："><a href="#方法二（利用Kali）：" class="headerlink" title="方法二（利用Kali）："></a>方法二（利用Kali）：</h4><p>Kali自带Wireshark，可以用命令打开这个包</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-12.png" alt="2-12"></p>
-<p>也可以用binwalk看里面有什么东西可以提取</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-13.png" alt="2-13"></p>
-<p>然后直接binwalk -e命令提取出来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e caidao.pcapng</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-14.png" alt="2-14"></p>
-<p>提取出来一个压缩包，解压得到flag.txt，查看后拿到flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf 1E43</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-15.png" alt="2-15"></p>
-<p>至此，方法二结束</p>
+<h3 id="第二关（聪明的小羊）"><a href="#第二关（聪明的小羊）" class="headerlink" title="第二关（聪明的小羊）"></a>第二关（聪明的小羊）</h3><p>题目提示很明显了：栅栏密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-1.png" alt="2-1"></p>
+<p>用Python写个脚本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-2.png" alt="2-2"></p>
+<p>跑一下flag直接出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/2-3.png" alt="2-3"></p>
+<p>也可以使用网站：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码在线加密解密</a></p>
 <hr>
-<h3 id="第三关（怎么多数据包）"><a href="#第三关（怎么多数据包）" class="headerlink" title="第三关（怎么多数据包）"></a>第三关（怎么多数据包）</h3><p>下载下来一个CTF.pcapng和一个文件夹里面装着文件._CTF.pcapng</p>
-<p>我们先打开CTF.pcapng，前面大部分是一些不需要的协议过程，直接跳过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-1.png" alt="3-1"></p>
-<p>然后发现有大量的TCP包，可以看出来都是192.168.116.138的主机向192.168.116.159发送SYN请求包（题外话：因为之前模拟过DOS攻击，所以着看看上去也有点像DOS攻击）</p>
-<p>159的主机如果端口无法建立连接就会返回一个RST包，将这个连接断掉以避免占用资源</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-2.png" alt="3-2"></p>
-<p>一直往下翻到No.2560条包，159主机的3389端口成功和138主机的端口建立了连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-3.png" alt="3-3"></p>
-<p>我们追踪这个TCP流，内容较多。看一下、搜索flag之类的关键字，却什么都没有发现</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-4.png" alt="3-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-5.png" alt="3-5"></p>
-<p>往下还有135、139、445、1040端口建立连接，但是都没有找到有用的信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-6.png" alt="3-6"></p>
-<p>终于快到结尾No.5542，1234端口和35880端口三次握手建立连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-7.png" alt="3-7"></p>
-<p>追踪TCP流，找到了一串Base64加密的密文</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-8.png" alt="3-8"></p>
-<p>用Python解密一下，直接拿到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-9.png" alt="3-9"></p>
-<p>看了大佬的Writeup，其实这道题还有更简单的做法</p>
-<p>因为题目提示”先找到getshell的流”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-10.png" alt="3-10"></p>
-<p>那说明最后还是拿到了shell，可以直接从后面开始找起</p>
-<p>最后开始的话，先碰到1040端口的连接，没有信息跳过。这就来到了1234端口的连接，就可以较快地拿到flag</p>
-<p>此题一共有2个文件，做完了发现另外一个好像没用，可能是干扰作用</p>
+<h3 id="第三关（ok）"><a href="#第三关（ok）" class="headerlink" title="第三关（ok）"></a>第三关（ok）</h3><p>好多的ok，那么这个就是<strong>Ook!编码</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-1.png" alt="3-1"></p>
+<p>找个在线解码网站：<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">Brainfuck/Ook在线加密解密</a></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-2.png" alt="3-2"></p>
+<p>flag直接解出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
 <hr>
-<h3 id="第四关（手机热点）"><a href="#第四关（手机热点）" class="headerlink" title="第四关（手机热点）"></a>第四关（手机热点）</h3><p>题目提示：没有流量，用手机发送了小秘密到电脑</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-1.png" alt="4-1"></p>
-<p>既然没有流量，还能发送文件的就是蓝牙了</p>
-<p>直接搜索蓝牙协议：obex。果然搜出了内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-2.png" alt="4-2"></p>
-<p>注意到No.19394，有一个secret.rar文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-3.png" alt="4-3"></p>
-<p>点击这条数据，再点击左上角的”文件” —&gt; “导出分组字节流”（快捷键ctrl+H），保存为1.rar</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-4.png" alt="4-4"></p>
-<p>尝试解压失败。拿到winhex下看一下文件，发现文件头有错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-5.png" alt="4-5"></p>
-<p>因为rar文件头是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">52 61 72 21</span><br></pre></td></tr></table></figure>
-<p>将多余的部分删除掉，然后保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-6.png" alt="4-6"></p>
-<p>再次解压1.rar，解压成功，提取出来一张GIF文件，图片上就是flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-7.png" alt="4-7"></p>
-<p>不过这题还有更简单的方法。没错，还是用binwalk，直接提取出来图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-8.png" alt="4-8"></p>
-<hr>
-<h3 id="第五关（抓到一只苍蝇）"><a href="#第五关（抓到一只苍蝇）" class="headerlink" title="第五关（抓到一只苍蝇）"></a>第五关（抓到一只苍蝇）</h3><p>本题参考这位大佬的文章：<a href="https://blog.csdn.net/qq_42357070/article/details/84236689#_51" target="_blank" rel="noopener">抓到一只苍蝇</a></p>
-<p>用Wireshark打开，前2个TCP连接追踪无果，但是第3个连接追踪后发现有东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-1.png" alt="5-1"></p>
-<p>从前面的内容来看，应该是通过QQ邮箱，用POST方法发送文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-2.png" alt="5-2"></p>
-<p>客户端发送的内容末端发现了fly.rar，这不就是苍蝇吗</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-3.png" alt="5-3"></p>
-<p>上图描述的是压缩包的内涵，也就是这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;path&quot;:&quot;fly.rar&quot;,</span><br><span class="line">   &quot;appid&quot;:&quot;&quot;,</span><br><span class="line">   &quot;size&quot;:525701,</span><br><span class="line">   &quot;md5&quot;:&quot;e023afa4f6579db5becda8fe7861c2d3&quot;,</span><br><span class="line">   &quot;sha&quot;:&quot;ecccba7aea1d482684374b22e2e7abad2ba86749&quot;,</span><br><span class="line">   &quot;sha3&quot;:&quot;&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>记录了fly.rar的大小，md5值</p>
-<p>现在添加对数据包的过滤条件，只看http协议，并且只看POST方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http &amp;&amp; http.request.method == POST</span><br></pre></td></tr></table></figure>
-<p>注意到No.2至No.6这5个文件，Media Type都是application/octet-stream的格式</p>
-<p>也就是数据流的格式，现在就猜测这些数据流里有我们要的东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-4.png" alt="5-4"></p>
-<p>这5个文件的Media Type域的大小分别是131436、131436、131436、131436、1777</p>
-<p>之前压缩包内涵中我们知道，fly.rar的大小是525701，那么：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(131436*4 + 1777) - 525701 = 1820</span><br><span class="line">1820 / 4 = 364</span><br></pre></td></tr></table></figure>
-<p>接触过网络数据包的应该知道，数据包如果拆开发送，到目标端是要再组合起来的</p>
-<p>组合起来时就需要靠包头的信息，现在猜测364就是每个包的包头大小</p>
-<p>用Wireshark的Ctrl+H将Media Type的内容提取出来，放到Kali中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-5.png" alt="5-5"></p>
-<p>用dd命令逐个将他们的前364个字节大小的包头剔除掉</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=1 of=10 skip=364 bs=1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-6.png" alt="5-6"></p>
-<p>用cat命令将5个和成1个fly.rar</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat 10 20 30 40 50 &gt; fly.rar</span><br></pre></td></tr></table></figure>
-<p>用md5sum检查一下md5值。没错，和之间压缩包内涵里的md5值一模一样，说明组合成功了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5sum fly.rar</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-8.png" alt="5-8"></p>
-<p>想要解压时却发现要密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-9.png" alt="5-9"></p>
-<p>放到winhex里看一下， 发现是伪加密，只需要将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-10.png" alt="5-10"></p>
-<p>修改完直接可以解压，解压下来flag.txt</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-11.png" alt="5-11"></p>
-<p>直接浏览时，发现又是一大堆十六进制，只能再用winhex打开看一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-12.png" alt="5-12"></p>
-<p>提示我们程序要运行在win32环境下，那就把后缀改成.exe，运行一下</p>
-<p>额。。。好多苍蝇，还好做题时女朋友不在，不然她可能会当场去世</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-13.png" alt="5-13"></p>
-<p>都是骗人的，要粗暴点了，把这个程序binwalk一下，有藏着东西</p>
-<p>foremost分离，分离出来的png文件夹里，有无数只苍蝇</p>
-<p>但是</p>
-<p>最后有一个二维码，手机扫一下，flag出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-14.png" alt="5-14"></p>
-<hr>
-<h3 id="第六关（"><a href="#第六关（" class="headerlink" title="第六关（"></a>第六关（</h3>
+<h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
+<p>那就能继续利用上面哪个网站破解</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
+<p>成功解出flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-3.png" alt="4-3"></p>
+
       
 
       
@@ -1789,7 +1718,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/30/BugKuCTF—加密题 第1-10关/">展开全文 >></a>
         </p>
       
 
@@ -1916,15 +1845,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
