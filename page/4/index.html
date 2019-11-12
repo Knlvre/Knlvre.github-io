@@ -134,222 +134,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-BugKuCTF—分析题 第1-9关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/">BugKuCTF — 分析题(第1-9关)</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/" class="archive-article-date">
-  	<time datetime="2019-03-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一关（flag被盗）"><a href="#第一关（flag被盗）" class="headerlink" title="第一关（flag被盗）"></a>第一关（flag被盗）</h3><p>用wireshark打开下载下来的文件，用协议顺序排序</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-1.png" alt="1-1"></p>
-<p>先追踪一下HTTP协议（右击 —&gt; 追踪流 —&gt; HTTP）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-2.png" alt="1-2"></p>
-<p>搜索一下flag关键字，直接找到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-3.png" alt="1-3"></p>
-<hr>
-<h3 id="第二关（中国菜刀）"><a href="#第二关（中国菜刀）" class="headerlink" title="第二关（中国菜刀）"></a>第二关（中国菜刀）</h3><h4 id="方法一（全Window环境）："><a href="#方法一（全Window环境）：" class="headerlink" title="方法一（全Window环境）："></a>方法一（全Window环境）：</h4><p>用wireshark打开下载下来的文件。既然题目提示是中国菜刀，那应该是用到HTTP协议</p>
-<p>按照协议排序之后，在第四个HTTP协议包里找到了一句话木马</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-1.png" alt="2-1"></p>
-<p>在第四个HTTP协议包里挂马，那关键文件一定是在这之后才获取到的</p>
-<p>在下一个HTTP包里追踪HTTP协议。红色部分是客户端向服务器发起的请求，蓝色部分是服务器回应客户端的内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-2.png" alt="2-2"></p>
-<p>我们可以看到红色部分有一段BASE64的加密内容，拿去解密一下（<strong>注意：%3D解码成=号</strong>）</p>
-<p>可以看到里面有flag.tar.gz关键文件，那应该是客户端向服务器拿走了这个文件</p>
-<p>蓝色部分应该就是服务器将flag.tar.gz这个文件给了客户端的记录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-3.png" alt="2-3"></p>
-<p>第五个HTTP协议包是客户端的请求，第六个HTTP协议包就应该是服务器的回应了，并且里面有flag.tar.gz</p>
-<p>怎么提取这个flag.tar.gz的内容呢，看了大佬写的文章，有两种方法：</p>
-<p>方法1.1：</p>
-<p>点击第六个HTTP协议包，”Line-based” —&gt; “右键” —&gt; “显示分组字节”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-4.png" alt="2-4"></p>
-<p>因为2个X@Y是菜刀特有的标记，我们提取信息时并不能把它们放进去</p>
-<p>所以将开始位设置为3，结束位设置为206（整个数据是0到209）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-5.png" alt="2-5"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-6.png" alt="2-6"></p>
-<p>然后解码为”压缩”，显示为”ASCII”就可以看到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-7.png" alt="2-7"></p>
-<p>方法1.2：</p>
-<p>还是那个地方，右键 —&gt; 导出分组字节（此处导出为1.tar.gz)</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-8.png" alt="2-8"></p>
-<p>我们有讲过，菜刀会留下前后额X@Y，所以要主动删掉，不然是打不开压缩文件的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-9.png" alt="2-9"></p>
-<p>我用winhex，删除掉2个X@Y，并且保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-10.png" alt="2-10"></p>
-<p>再次打开，就可以看到flag.txt，打开直接拿到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-11.png" alt="2-11"></p>
-<p>至此，方法一结束</p>
-<h4 id="方法二（利用Kali）："><a href="#方法二（利用Kali）：" class="headerlink" title="方法二（利用Kali）："></a>方法二（利用Kali）：</h4><p>Kali自带Wireshark，可以用命令打开这个包</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-12.png" alt="2-12"></p>
-<p>也可以用binwalk看里面有什么东西可以提取</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-13.png" alt="2-13"></p>
-<p>然后直接binwalk -e命令提取出来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e caidao.pcapng</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-14.png" alt="2-14"></p>
-<p>提取出来一个压缩包，解压得到flag.txt，查看后拿到flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf 1E43</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-15.png" alt="2-15"></p>
-<p>至此，方法二结束</p>
-<hr>
-<h3 id="第三关（怎么多数据包）"><a href="#第三关（怎么多数据包）" class="headerlink" title="第三关（怎么多数据包）"></a>第三关（怎么多数据包）</h3><p>下载下来一个CTF.pcapng和一个文件夹里面装着文件._CTF.pcapng</p>
-<p>我们先打开CTF.pcapng，前面大部分是一些不需要的协议过程，直接跳过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-1.png" alt="3-1"></p>
-<p>然后发现有大量的TCP包，可以看出来都是192.168.116.138的主机向192.168.116.159发送SYN请求包（题外话：因为之前模拟过DOS攻击，所以着看看上去也有点像DOS攻击）</p>
-<p>159的主机如果端口无法建立连接就会返回一个RST包，将这个连接断掉以避免占用资源</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-2.png" alt="3-2"></p>
-<p>一直往下翻到No.2560条包，159主机的3389端口成功和138主机的端口建立了连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-3.png" alt="3-3"></p>
-<p>我们追踪这个TCP流，内容较多。看一下、搜索flag之类的关键字，却什么都没有发现</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-4.png" alt="3-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-5.png" alt="3-5"></p>
-<p>往下还有135、139、445、1040端口建立连接，但是都没有找到有用的信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-6.png" alt="3-6"></p>
-<p>终于快到结尾No.5542，1234端口和35880端口三次握手建立连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-7.png" alt="3-7"></p>
-<p>追踪TCP流，找到了一串Base64加密的密文</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-8.png" alt="3-8"></p>
-<p>用Python解密一下，直接拿到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-9.png" alt="3-9"></p>
-<p>看了大佬的Writeup，其实这道题还有更简单的做法</p>
-<p>因为题目提示”先找到getshell的流”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-10.png" alt="3-10"></p>
-<p>那说明最后还是拿到了shell，可以直接从后面开始找起</p>
-<p>最后开始的话，先碰到1040端口的连接，没有信息跳过。这就来到了1234端口的连接，就可以较快地拿到flag</p>
-<p>此题一共有2个文件，做完了发现另外一个好像没用，可能是干扰作用</p>
-<hr>
-<h3 id="第四关（手机热点）"><a href="#第四关（手机热点）" class="headerlink" title="第四关（手机热点）"></a>第四关（手机热点）</h3><p>题目提示：没有流量，用手机发送了小秘密到电脑</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-1.png" alt="4-1"></p>
-<p>既然没有流量，还能发送文件的就是蓝牙了</p>
-<p>直接搜索蓝牙协议：obex。果然搜出了内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-2.png" alt="4-2"></p>
-<p>注意到No.19394，有一个secret.rar文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-3.png" alt="4-3"></p>
-<p>点击这条数据，再点击左上角的”文件” —&gt; “导出分组字节流”（快捷键ctrl+H），保存为1.rar</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-4.png" alt="4-4"></p>
-<p>尝试解压失败。拿到winhex下看一下文件，发现文件头有错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-5.png" alt="4-5"></p>
-<p>因为rar文件头是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">52 61 72 21</span><br></pre></td></tr></table></figure>
-<p>将多余的部分删除掉，然后保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-6.png" alt="4-6"></p>
-<p>再次解压1.rar，解压成功，提取出来一张GIF文件，图片上就是flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-7.png" alt="4-7"></p>
-<p>不过这题还有更简单的方法。没错，还是用binwalk，直接提取出来图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-8.png" alt="4-8"></p>
-<hr>
-<h3 id="第五关（抓到一只苍蝇）"><a href="#第五关（抓到一只苍蝇）" class="headerlink" title="第五关（抓到一只苍蝇）"></a>第五关（抓到一只苍蝇）</h3><p>本题参考这位大佬的文章：<a href="https://blog.csdn.net/qq_42357070/article/details/84236689#_51" target="_blank" rel="noopener">抓到一只苍蝇</a></p>
-<p>用Wireshark打开，前2个TCP连接追踪无果，但是第3个连接追踪后发现有东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-1.png" alt="5-1"></p>
-<p>从前面的内容来看，应该是通过QQ邮箱，用POST方法发送文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-2.png" alt="5-2"></p>
-<p>客户端发送的内容末端发现了fly.rar，这不就是苍蝇吗</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-3.png" alt="5-3"></p>
-<p>上图描述的是压缩包的内涵，也就是这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;path&quot;:&quot;fly.rar&quot;,</span><br><span class="line">   &quot;appid&quot;:&quot;&quot;,</span><br><span class="line">   &quot;size&quot;:525701,</span><br><span class="line">   &quot;md5&quot;:&quot;e023afa4f6579db5becda8fe7861c2d3&quot;,</span><br><span class="line">   &quot;sha&quot;:&quot;ecccba7aea1d482684374b22e2e7abad2ba86749&quot;,</span><br><span class="line">   &quot;sha3&quot;:&quot;&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>记录了fly.rar的大小，md5值</p>
-<p>现在添加对数据包的过滤条件，只看http协议，并且只看POST方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http &amp;&amp; http.request.method == POST</span><br></pre></td></tr></table></figure>
-<p>注意到No.2至No.6这5个文件，Media Type都是application/octet-stream的格式</p>
-<p>也就是数据流的格式，现在就猜测这些数据流里有我们要的东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-4.png" alt="5-4"></p>
-<p>这5个文件的Media Type域的大小分别是131436、131436、131436、131436、1777</p>
-<p>之前压缩包内涵中我们知道，fly.rar的大小是525701，那么：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(131436*4 + 1777) - 525701 = 1820</span><br><span class="line">1820 / 4 = 364</span><br></pre></td></tr></table></figure>
-<p>接触过网络数据包的应该知道，数据包如果拆开发送，到目标端是要再组合起来的</p>
-<p>组合起来时就需要靠包头的信息，现在猜测364就是每个包的包头大小</p>
-<p>用Wireshark的Ctrl+H将Media Type的内容提取出来，放到Kali中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-5.png" alt="5-5"></p>
-<p>用dd命令逐个将他们的前364个字节大小的包头剔除掉</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=1 of=10 skip=364 bs=1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-6.png" alt="5-6"></p>
-<p>用cat命令将5个和成1个fly.rar</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat 10 20 30 40 50 &gt; fly.rar</span><br></pre></td></tr></table></figure>
-<p>用md5sum检查一下md5值。没错，和之间压缩包内涵里的md5值一模一样，说明组合成功了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5sum fly.rar</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-8.png" alt="5-8"></p>
-<p>想要解压时却发现要密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-9.png" alt="5-9"></p>
-<p>放到winhex里看一下， 发现是伪加密，只需要将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-10.png" alt="5-10"></p>
-<p>修改完直接可以解压，解压下来flag.txt</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-11.png" alt="5-11"></p>
-<p>直接浏览时，发现又是一大堆十六进制，只能再用winhex打开看一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-12.png" alt="5-12"></p>
-<p>提示我们程序要运行在win32环境下，那就把后缀改成.exe，运行一下</p>
-<p>额。。。好多苍蝇，还好做题时女朋友不在，不然她可能会当场去世</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-13.png" alt="5-13"></p>
-<p>都是骗人的，要粗暴点了，把这个程序binwalk一下，有藏着东西</p>
-<p>foremost分离，分离出来的png文件夹里，有无数只苍蝇</p>
-<p>但是</p>
-<p>最后有一个二维码，手机扫一下，flag出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-14.png" alt="5-14"></p>
-<hr>
-<h3 id="第六关（"><a href="#第六关（" class="headerlink" title="第六关（"></a>第六关（</h3>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/03/29/BugKuCTF—分析题 第1-9关/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-BugKuCTF—Web题 第21-30关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -3738,6 +3522,209 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/03/06/BugKuCTF—Web题 第1-10关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BugKuCTF—杂项题 第11-20关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/03/04/BugKuCTF—杂项题 第11-20关/">BugKuCTF — 杂项题(第11-20关)</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/03/04/BugKuCTF—杂项题 第11-20关/" class="archive-article-date">
+  	<time datetime="2019-03-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前一部分链接：第1-10关Write-up"><a href="#前一部分链接：第1-10关Write-up" class="headerlink" title="前一部分链接：第1-10关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/26/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></h3><h3 id="第十一关（多种方法解决）"><a href="#第十一关（多种方法解决）" class="headerlink" title="第十一关（多种方法解决）"></a>第十一关（多种方法解决）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/3.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来一个zip文件，解压开是一个KEY.exe文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/1-1.png" alt="1-1"></p>
+<p>用UE打开看一下，开头就发现是imgbase64（图片转换成base64进行存储）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/1-2.png" alt="1-2"></p>
+<p>然后百度找在线的<strong>base64转换图片</strong>网站，得出一个二维码，扫描得到flag</p>
+<p>转换网站可以用一下这个：<a href="http://imgbase64.duoshitong.com/" target="_blank" rel="noopener">base64转换图片</a></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/1-3.png" alt="1-3"></p>
+<hr>
+<h3 id="第十二关（闪得好快啊）"><a href="#第十二关（闪得好快啊）" class="headerlink" title="第十二关（闪得好快啊）"></a>第十二关（闪得好快啊）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/6dcac03199e58749725cbcd9cc958a9b/masterGO.gif</span><br></pre></td></tr></table></figure>
+<p>链接进去是一张一直闪动的二维码，我们把它下载下来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/2-1.png" alt="2-1"></p>
+<p>这里想到之前CTF比赛用到的一个图片分析神器<strong>StegSolve</strong>，用这个工具打开这张GIF图片</p>
+<p>然后点击<strong>Analysis-&gt;Frame Browser</strong>，翻译过来就是<strong>帧浏览</strong></p>
+<p>打开后，新窗口上方写着<strong>1 of 18</strong>，那就是有18张图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/2-2.png" alt="2-2"></p>
+<p>然后就是一张一张扫描，一张就是一个字母，拼起来就是flag：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SYC&#123;F1aSh_so_f4sT&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="第十三关（come-game）"><a href="#第十三关（come-game）" class="headerlink" title="第十三关（come_game）"></a>第十三关（come_game）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/1c617f3d9fc3d909766e813ec28ca8c6/game_1.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来一个zip文件，解压后拿到一个exe文件，好像是个游戏，点开看看</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/3-1.png" alt="3-1"></p>
+<p>有3个地方可以存档，每次玩完游戏都会帮你存档，对应生成save1,2,3三个文件</p>
+<p>还有一个叫做DeathTime的文件，用UE打开发现里面的数字刚好是我死亡的次数，并且每次死亡都会更改</p>
+<p>试着自己更改一下，结果进入游戏的死亡次数就是你自己更改的次数</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/3-2.png" alt="3-2"></p>
+<p>由此可以知道游戏配置文件是可以自己更改的，并且影响着游戏</p>
+<p>那我们就打开save1，现更改一下第一个参数试一下（1-&gt;2）。发现报错了，那这个1应该不能动它</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/3-3.png" alt="3-3"></p>
+<p>试着更改一下第2个参数（32-&gt;33），进入游戏后发现地图变了，猜测这个参数能改变挑战哪一关</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/3-4.png" alt="3-4"></p>
+<p>多次尝试，将32改成35后直接通过，顺利拿下了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/3-5.png" alt="3-5"></p>
+<p>但是提交这个flag的时候，提示我错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;6E23F259D98DF153&#125;</span><br></pre></td></tr></table></figure>
+<p>应该不会再藏什么东西了，看题目提示也没有说格式。但是题目和上一题一样，提示着来源于<strong>第七季极客大挑战</strong></p>
+<p>而上一题的flag格式是SYC{}，试一下，果然正确了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SYC&#123;6E23F259D98DF153&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="第十四关（白哥的格子）"><a href="#第十四关（白哥的格子）" class="headerlink" title="第十四关（白哥的格子）"></a>第十四关（白哥的格子）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/57c79d5b04e18a4bf8995d2721d76d5c/jpg</span><br></pre></td></tr></table></figure>
+<p>下载下来一个叫jpg的文件，用binwalk看一下没有发现什么东西。file命令看一下，属于jpeg类型的图片，存储了exif信息</p>
+<p>在windows环境下看一下文件的属性，也没有任何的信息提示</p>
+<p>用<strong>winhex</strong>打开（这里不再用UE是因为，UE打开这张图片时会部分字符没显示出来，并且以后要收费）</p>
+<p>在末尾看到一个好像有点熟悉的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/4-1.png" alt="4-1"></p>
+<p>应该是一个栅栏密码，自己python写一下破解的代码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/4-2.png" alt="4-2"></p>
+<p>在结果中，看到了比较符合flag格式的字符串</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/4-3.png" alt="4-3"></p>
+<p>但是复制粘贴过去提交时，提示错误。后来将大括号外面的2个@@去掉，再次提交就正确了</p>
+<p>栅栏密码的<strong>在线解密</strong>和与之相关的<strong>介绍</strong>都可以到这个网站去：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">在线破解栅栏密码</a></p>
+<hr>
+<h3 id="第十五关（Linux）"><a href="#第十五关（Linux）" class="headerlink" title="第十五关（Linux）"></a>第十五关（Linux）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/1.tar.gz</span><br></pre></td></tr></table></figure>
+<p>下载下来一个名为1.tar.gz的压缩文件，解压后得到一个名为flag的文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/5-1.png" alt="5-1"></p>
+<p>使用<strong>cat</strong>命令查看文件，直接在文件的最后面得到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/5-2.png" alt="5-2"></p>
+<hr>
+<h3 id="第十六关（隐写3）"><a href="#第十六关（隐写3）" class="headerlink" title="第十六关（隐写3）"></a>第十六关（隐写3）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/642a45bae2ceb406812acdd5ec327ce9/58d54bd3e134e.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来一个zip文件，解压得到一个png图片</p>
+<p>用winhex打开看一下，就前16个字节来看，确实是PNG图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/6-1.png" alt="6-1"></p>
+<p>在图片没做任何修改前，打开浏览是这样的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/6-2.png" alt="6-2"></p>
+<p>很明显图片的长度和宽度不一样，在第三关的时候就碰到过这种类型的题目</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/6-3.png" alt="6-3"></p>
+<p>我们将<strong>高度</strong>改成和<strong>宽度</strong>一样试一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/6-4.png" alt="6-4"></p>
+<p>再次查看图片，就看到了flag了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/6-5.png" alt="6-5"></p>
+<hr>
+<h3 id="第十七关（做个游戏）"><a href="#第十七关（做个游戏）" class="headerlink" title="第十七关（做个游戏）"></a>第十七关（做个游戏）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/465585c655e201384823f64342cfd554/heiheihei.jar</span><br></pre></td></tr></table></figure>
+<p>下载下来一个<strong>.jar</strong>的JAVA文件，打开看一下，是一个游戏。需要坚持60秒才能拿到flag，显然我们是不可能去玩的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/7-1.png" alt="7-1"></p>
+<p>因为是JAVA游戏，想到反编译，于是就去网上下载了这款叫做<strong>JAVA Decompiler</strong>的JAVA发编译软件</p>
+<p>用这个软件打开游戏，在<strong>PlaneGameFram.class</strong>里面找到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/7-2.png" alt="7-2"></p>
+<p>可是输入flag的时候提示错误，那应该是还是要解开中间的那个base64加密。解密后再次提交就成功了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/7-3.png" alt="7-3"></p>
+<hr>
+<h3 id="第十八关（想蹭网先解开密码）"><a href="#第十八关（想蹭网先解开密码）" class="headerlink" title="第十八关（想蹭网先解开密码）"></a>第十八关（想蹭网先解开密码）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/77decd384a172b9a2294e6c6acfd48cc/wifi.cap</span><br></pre></td></tr></table></figure>
+<p>下载下来一个<strong>.cap</strong>文件，可以用<strong>wireshark</strong>打开</p>
+<p>WIFI连接认证的重点在<strong>WPA的四次握手包</strong>，也就是<strong>eapol</strong>协议的包，过滤一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-1.png" alt="8-1"></p>
+<p>题目提示密码是以1391040开头的手机号，我们用Kali上的工具<strong>crunch</strong>生成一个暴力破解的字典</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crunch 11 11 -t 1391040%%%% &gt;&gt;&gt; wifipassword.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-2.png" alt="8-2"></p>
+<p>字典生成后，我们就可以用<strong>aircrack-ng</strong>命令来对这个包进行暴力破解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aircrack-ng -w wifipassword.txt wifi.cap</span><br></pre></td></tr></table></figure>
+<p>输入命令后，会提示你选择Index number，这里我们输入<strong>3</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-3.png" alt="8-3"></p>
+<p>然后就可以破解成功，拿到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-4.png" alt="8-4"></p>
+<hr>
+<h3 id="第十九关（Linux2）"><a href="#第十九关（Linux2）" class="headerlink" title="第十九关（Linux2）"></a>第十九关（Linux2）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://pan.baidu.com/s/1skJ6t7R	//密码：s7jy</span><br></pre></td></tr></table></figure>
+<p>刚开始在Linux环境下打开链接，下载下来一个叫1skJ6t7R的html文件，研究了半天没发现什么</p>
+<p>后来在Windows环境下重新打开，才发现是百度云盘链接T T。下载下来一个叫<strong>brave.zip</strong>文件，拉到Linux虚拟机中</p>
+<p>解压出一个名叫<strong>brave</strong>的文件，没有任何的后缀，binwalk看一下，有藏着东西</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/9-1.png" alt="9-1"></p>
+<p>用foremost分离出文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/9-2.png" alt="9-2"></p>
+<p>在<strong>output-jpg</strong>下面有一张图片，打开看一下写着flag，尝试一下发现不对</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/9-3.png" alt="9-3"></p>
+<p>用binwalk再看一下这张图片，什么都没有</p>
+<p>将图片放到Windows环境下，用winhex看一下什么都没发现，属性里面什么也都没有发现，这个图片可能是骗人的</p>
+<p>那好吧，再回到Linux，用cat命令看一下最初的brave文件，提示<strong>匹配到二进制文件</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/9-4.png" alt="9-4"></p>
+<p>是<strong>二进制文件</strong>，就可以用<strong>strings</strong>命令看一下。加上<strong>grep</strong>筛选<strong>KEY</strong>关键字，就找到了flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/9-5.png" alt="9-5"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">关于Strings命令：</span><br><span class="line"></span><br><span class="line">strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印字符的任意序列，以换行符或空字符结束。 strings命令对识别随机对象文件很有用</span><br><span class="line"></span><br><span class="line">可以参考这篇简单的文章：https://blog.csdn.net/qq_42357070/article/details/83055257</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="第二十关（账号被盗了）"><a href="#第二十关（账号被盗了）" class="headerlink" title="第二十关（账号被盗了）"></a>第二十关（账号被盗了）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:9001/</span><br></pre></td></tr></table></figure>
+<p>打开链接是一个网页，点击”get flag”按钮后，显示”You are not admin”</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/10-1.png" alt="10-1"></p>
+<p>但是我们在url中看到cookieflag.php，打开Bursuit，刷新网页，拦截到POST请求</p>
+<p>将其中的isadmin=false，改成isadmin=true。得到的回复是一个链接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/10-2.png" alt="10-2"></p>
+<p>但是这个链接我始终访问不了，感觉是BUGKU服务器出问题了？下次再试试，只能先放着了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/10-3.png" alt="10-3"></p>
+<hr>
+<h3 id="至此，11-20关的Write-up结束"><a href="#至此，11-20关的Write-up结束" class="headerlink" title="至此，11-20关的Write-up结束"></a>至此，11-20关的Write-up结束</h3><h3 id="后一部分链接：第21-30关Write-up"><a href="#后一部分链接：第21-30关Write-up" class="headerlink" title="后一部分链接：第21-30关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/07/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/03/04/BugKuCTF—杂项题 第11-20关/">展开全文 >></a>
         </p>
       
 
