@@ -1722,6 +1722,148 @@
 
 
   
+    <article id="post-Linux系统下搭建Web服务器和FTP服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
+    </h1>
+  
+
+        
+        <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" class="archive-article-date">
+  	<time datetime="2019-09-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2和php组件的安装"><a href="#Apache2和php组件的安装" class="headerlink" title="Apache2和php组件的安装"></a>Apache2和php组件的安装</h2><p>使用如下命令来安装Apache2和php的组件</p>
+<p>Ps：如果只安装Apache2，将会导致写的php文件无法被解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png" alt="1-1"></p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png" alt="1-2"></p>
+<h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
+<p>创建文件时，一些文件记得修改文件对应的权限，才能访问</p>
+<h2 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h2><p>Apache2带有登录验证的功能，（1） 在<code>/etc</code>目录下创建<code>.Webpasswd</code>文件，设置登陆使用的用户名和密码。该文件为验证使用的储存用户名密码的文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-3.png" alt="1-3"></p>
+<p>修改<code>/etc/apache2/sites-available/000-default.conf</code>文件，修改内容如下图所示。</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-4.png" alt="1-4"></p>
+<p>修改完成后再去访问就会看到弹出身份认证框</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-5.png" alt="1-5"></p>
+<h1 id="FTP服务器安装与配置"><a href="#FTP服务器安装与配置" class="headerlink" title="FTP服务器安装与配置"></a>FTP服务器安装与配置</h1><h2 id="vsftpd组件的安装"><a href="#vsftpd组件的安装" class="headerlink" title="vsftpd组件的安装"></a>vsftpd组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install vsftpd</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-1.png" alt="2-1"></p>
+<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看状态：/etc/init.d/vsftpd status</span><br><span class="line">开启：/etc/init.d/vsftpd start</span><br><span class="line">关闭：/etc/init.d/vsftpd stop</span><br><span class="line">重启：/etc/init.d/vsftpd restart</span><br></pre></td></tr></table></figure>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>创建专门用于上传下载的目录（记得设置权限，不然会导致无法创建文件）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-2.png" alt="2-2"></p>
+<p>创建新用户并设置密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-3.png" alt="2-3"></p>
+<p>修改配置文件 <code>etc/vsftp.conf</code> ,在文件头添加如下内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-4.png" alt="2-4"></p>
+<p><code>取消</code>掉 <code>write_enable=YES</code> 的注释，使其生效，不然无法写入文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-5.png" alt="2-5"></p>
+<p>新建 <code>/etc/allowed_users</code> 文件，添加允许访问的用户，我们在文件中添加我们刚才创建的用户 <code>uftp</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-6.png" alt="2-6"></p>
+<p>可以查看 <code>/etc/ftpusers</code> 文件，文件中的列表是禁止访问的用户</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-7.png" alt="2-7"></p>
+<p>重启 <code>vsftpd</code> 服务，并查看状态</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-8.png" alt="2-8"></p>
+<h2 id="安装-ftp-命令"><a href="#安装-ftp-命令" class="headerlink" title="安装 ftp 命令"></a>安装 ftp 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ftp</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-01.png" alt="2-01"></p>
+<p>至此，vsftp 服务器就安装完成了，下面简单演示一下如何用命令传输文件</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>通过 <code>ftp + IP地址</code> 命令访问FTP服务；输入正确的用户名和密码进入服务；通过 <code>put</code> 命令来上传指定的文件。如图所示，本次实验将提前准备好的位于用户根目录下的 <code>FTP_Success.gif</code> 文件上传，<code>（local-file）</code>选项填写我们要上传的文件及其所处位置，<code>（remote-file）</code>选项填写文件上传后的位置</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-9.png" alt="2-9"></p>
+<p>通过 <code>netstat -atunp | grep ftp</code> 命令来查看ftp服务使用的端口号</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-10.png" alt="2-10"></p>
+<p>在我们的客户端（也就是我的Windows 10物理机），利用 <code>LeapFTP</code> 软件来连接服务器（也就是我的Kali Linux虚拟机）提供的FTP服务。在主界面点击左上角的 <code>FTP</code>-&gt;<code>Quick Connect</code> 来建立新连接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-11.png" alt="2-11"></p>
+<p>在弹出来的对话框中输入，服务器的IP地址、端口号（默认21）、Username、Password。这里的用户名密码填写我们刚才创建的那个用户（既 <strong>uftp</strong> 这个用户）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-12.png" alt="2-12"></p>
+<p>确定后，等待一段时间，就可以在主界面的右侧看到成功连接，并且文件夹里有我们刚才上传的文件：<strong>FTP_Success.gif。</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-13.png" alt="2-13"></p>
+<p>可以右击我们想要下载的目标文件，点击 <strong>Download</strong> 来下载。下载目录可以在主界面的左侧选择，如下图，我们成功将 <strong>FTP_Success.gif</strong> 文件下载到了我物理机的桌面上。</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-14.png" alt="2-14"></p>
+<p>前面有提到 <strong>/etc/allowed_users</strong> 文件是允许访问FTP服务器的用户列表，而 <strong>/etc/ftpusers</strong> 是禁止访问FTP服务器的用户列表，现在我们看一下两个列表的名单</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-15.png" alt="2-15"></p>
+<p>可以看到现在允许访问的只有 <strong>uftp</strong> 怎么一个用户，而 root 用户是禁止访问的。现在我们在 <strong>LeapFTP</strong> 上，用 <strong>root</strong> 用户登录验证一下。可以看到，是登录失败的</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-16.png" alt="2-16"></p>
+<p>现在我们将 root 用户添加到允许访问名单中，然后再登录试一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-17.png" alt="2-17"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-18.png" alt="2-18"></p>
+<p>可以看到在我们将 roor 用户添加到允许访问名单，并将之在禁止访问名单中去除后，就可以访问 FTP 服务器了，所以证明允许访问和禁止访问的名单还是有生效的。现在我们用 <strong>Wireshark</strong> 抓包来看一下 FTP 协议从建立连接到下载文件的完整过程</p>
+<p>如下图可见TCP的三次握手建立的过程。FTP分为利用TCP和UDP两类，可以看出来我们本次实验使用的是可靠地TCP</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-19.png" alt="2-19"></p>
+<p>可以看到从第981个包开始，客户端向FTP服务器发起请求，这就是我后来的<strong>下载</strong>操作</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-20.png" alt="2-20"></p>
+<p>我们可以选中Protocol类型为FTP-DATA的数据包，右击-&gt;追踪流-&gt;TCP流，来查看完整的TCP流数据</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-21.png" alt="2-21"></p>
+<p>从本TCP流中可看出，都是服务器向客户端发送数据，并且传输的内容为一张gif图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-22.png" alt="2-22"></p>
+<p>可以将这个数据流以原始数据的方式保存下来，并命名为 <strong>wireshark.gif</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-23.png" alt="2-23"></p>
+<p>借助工具 <strong>winhex</strong> 将抓取下来的图片的十六进制与我们原本用来测试的 <strong>FTP_Success.gif</strong> 对比一下，不仅可以用gif图片的格式打开查看，而且内容没有半点差异</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-24.png" alt="2-24"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-25.png" alt="2-25"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-CTF比赛—2019XNUCA — ezphpWriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1887,148 +2029,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Linux系统下搭建Web服务器和FTP服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
-    </h1>
-  
-
-        
-        <a href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" class="archive-article-date">
-  	<time datetime="2019-09-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2和php组件的安装"><a href="#Apache2和php组件的安装" class="headerlink" title="Apache2和php组件的安装"></a>Apache2和php组件的安装</h2><p>使用如下命令来安装Apache2和php的组件</p>
-<p>Ps：如果只安装Apache2，将会导致写的php文件无法被解析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png" alt="1-1"></p>
-<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png" alt="1-2"></p>
-<h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
-<p>创建文件时，一些文件记得修改文件对应的权限，才能访问</p>
-<h2 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h2><p>Apache2带有登录验证的功能，（1） 在<code>/etc</code>目录下创建<code>.Webpasswd</code>文件，设置登陆使用的用户名和密码。该文件为验证使用的储存用户名密码的文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-3.png" alt="1-3"></p>
-<p>修改<code>/etc/apache2/sites-available/000-default.conf</code>文件，修改内容如下图所示。</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-4.png" alt="1-4"></p>
-<p>修改完成后再去访问就会看到弹出身份认证框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-5.png" alt="1-5"></p>
-<h1 id="FTP服务器安装与配置"><a href="#FTP服务器安装与配置" class="headerlink" title="FTP服务器安装与配置"></a>FTP服务器安装与配置</h1><h2 id="vsftpd组件的安装"><a href="#vsftpd组件的安装" class="headerlink" title="vsftpd组件的安装"></a>vsftpd组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install vsftpd</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-1.png" alt="2-1"></p>
-<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看状态：/etc/init.d/vsftpd status</span><br><span class="line">开启：/etc/init.d/vsftpd start</span><br><span class="line">关闭：/etc/init.d/vsftpd stop</span><br><span class="line">重启：/etc/init.d/vsftpd restart</span><br></pre></td></tr></table></figure>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>创建专门用于上传下载的目录（记得设置权限，不然会导致无法创建文件）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-2.png" alt="2-2"></p>
-<p>创建新用户并设置密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-3.png" alt="2-3"></p>
-<p>修改配置文件 <code>etc/vsftp.conf</code> ,在文件头添加如下内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-4.png" alt="2-4"></p>
-<p><code>取消</code>掉 <code>write_enable=YES</code> 的注释，使其生效，不然无法写入文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-5.png" alt="2-5"></p>
-<p>新建 <code>/etc/allowed_users</code> 文件，添加允许访问的用户，我们在文件中添加我们刚才创建的用户 <code>uftp</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-6.png" alt="2-6"></p>
-<p>可以查看 <code>/etc/ftpusers</code> 文件，文件中的列表是禁止访问的用户</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-7.png" alt="2-7"></p>
-<p>重启 <code>vsftpd</code> 服务，并查看状态</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-8.png" alt="2-8"></p>
-<h2 id="安装-ftp-命令"><a href="#安装-ftp-命令" class="headerlink" title="安装 ftp 命令"></a>安装 ftp 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ftp</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-01.png" alt="2-01"></p>
-<p>至此，vsftp 服务器就安装完成了，下面简单演示一下如何用命令传输文件</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>通过 <code>ftp + IP地址</code> 命令访问FTP服务；输入正确的用户名和密码进入服务；通过 <code>put</code> 命令来上传指定的文件。如图所示，本次实验将提前准备好的位于用户根目录下的 <code>FTP_Success.gif</code> 文件上传，<code>（local-file）</code>选项填写我们要上传的文件及其所处位置，<code>（remote-file）</code>选项填写文件上传后的位置</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-9.png" alt="2-9"></p>
-<p>通过 <code>netstat -atunp | grep ftp</code> 命令来查看ftp服务使用的端口号</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-10.png" alt="2-10"></p>
-<p>在我们的客户端（也就是我的Windows 10物理机），利用 <code>LeapFTP</code> 软件来连接服务器（也就是我的Kali Linux虚拟机）提供的FTP服务。在主界面点击左上角的 <code>FTP</code>-&gt;<code>Quick Connect</code> 来建立新连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-11.png" alt="2-11"></p>
-<p>在弹出来的对话框中输入，服务器的IP地址、端口号（默认21）、Username、Password。这里的用户名密码填写我们刚才创建的那个用户（既 <strong>uftp</strong> 这个用户）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-12.png" alt="2-12"></p>
-<p>确定后，等待一段时间，就可以在主界面的右侧看到成功连接，并且文件夹里有我们刚才上传的文件：<strong>FTP_Success.gif。</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-13.png" alt="2-13"></p>
-<p>可以右击我们想要下载的目标文件，点击 <strong>Download</strong> 来下载。下载目录可以在主界面的左侧选择，如下图，我们成功将 <strong>FTP_Success.gif</strong> 文件下载到了我物理机的桌面上。</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-14.png" alt="2-14"></p>
-<p>前面有提到 <strong>/etc/allowed_users</strong> 文件是允许访问FTP服务器的用户列表，而 <strong>/etc/ftpusers</strong> 是禁止访问FTP服务器的用户列表，现在我们看一下两个列表的名单</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-15.png" alt="2-15"></p>
-<p>可以看到现在允许访问的只有 <strong>uftp</strong> 怎么一个用户，而 root 用户是禁止访问的。现在我们在 <strong>LeapFTP</strong> 上，用 <strong>root</strong> 用户登录验证一下。可以看到，是登录失败的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-16.png" alt="2-16"></p>
-<p>现在我们将 root 用户添加到允许访问名单中，然后再登录试一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-17.png" alt="2-17"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-18.png" alt="2-18"></p>
-<p>可以看到在我们将 roor 用户添加到允许访问名单，并将之在禁止访问名单中去除后，就可以访问 FTP 服务器了，所以证明允许访问和禁止访问的名单还是有生效的。现在我们用 <strong>Wireshark</strong> 抓包来看一下 FTP 协议从建立连接到下载文件的完整过程</p>
-<p>如下图可见TCP的三次握手建立的过程。FTP分为利用TCP和UDP两类，可以看出来我们本次实验使用的是可靠地TCP</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-19.png" alt="2-19"></p>
-<p>可以看到从第981个包开始，客户端向FTP服务器发起请求，这就是我后来的<strong>下载</strong>操作</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-20.png" alt="2-20"></p>
-<p>我们可以选中Protocol类型为FTP-DATA的数据包，右击-&gt;追踪流-&gt;TCP流，来查看完整的TCP流数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-21.png" alt="2-21"></p>
-<p>从本TCP流中可看出，都是服务器向客户端发送数据，并且传输的内容为一张gif图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-22.png" alt="2-22"></p>
-<p>可以将这个数据流以原始数据的方式保存下来，并命名为 <strong>wireshark.gif</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-23.png" alt="2-23"></p>
-<p>借助工具 <strong>winhex</strong> 将抓取下来的图片的十六进制与我们原本用来测试的 <strong>FTP_Success.gif</strong> 对比一下，不仅可以用gif图片的格式打开查看，而且内容没有半点差异</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-24.png" alt="2-24"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-25.png" alt="2-25"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">基础知识点</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Knlvre.github-io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">展开全文 >></a>
         </p>
       
 
@@ -2414,11 +2414,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
+                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">渗透测试</a>
+                <a href="javascript:void(0)" class="js-tag color5">DVWA</a>
               </li>
              
               <li class="article-tag-list-item">
