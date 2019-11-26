@@ -1,8 +1,934 @@
-extends includes/layout.pug
 
-block content
-  #recent-posts.recent-posts
-    include includes/recent-posts.pug  
-    include includes/pagination.pug
-  #aside_content.aside_content
-    include includes/aside.pug
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Knlvre - 信息安全成长过程中的一些学习记录</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    
+    <meta name="author" content="Knlvre"> 
+    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
+    <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="knlvre.github.io/css/obsidian.css">
+    <link rel="stylesheet" href="knlvre.github.io/css/ball-atom.min.css">
+</head>
+</html>
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Knlvre</span>
+    <div id="loader"></div>
+    <div class="nav">
+    <ul id="menu-menu" class="menu">
+        
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="knlvre.github.io/whoami/" title="ABOUT">ABOUT</a>
+        </li>
+        
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="knlvre.github.io/categories/" title="CATEGORIES">CATEGORIES</a>
+        </li>
+        
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="knlvre.github.io/tags/" title="TAGS">TAGS</a>
+        </li>
+        
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="knlvre.github.io/archives/" title="ARCHIVES">ARCHIVES</a>
+        </li>
+        
+    </ul>
+    <p class="copyright" id="copyright">
+        &copy; 2019 Knlvre.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+    </p>
+</div>
+
+<div id="container">
+    
+<div class="search-box">
+    <form class="site-search-form">
+        <span class="iconfont icon-search"></span>
+        <input type="text" id="local-search-input" class="st-search-input" />
+        <div class="iconfont icon-cross search-box-close"></div>
+    </form>
+    <div class="search-scrollable">
+        <div id="local-search-result" class="local-search-result-cls" data-initialise="Initialising search index..."
+            data-start="Please input search keywords." data-empty="No result found, please try other keywords.">
+            <span>Please input search keywords.</span>
+        </div>
+    </div>
+</div>
+<div id="header">
+    <div>
+        <div class="logo animated fadeInDown">
+            <img src="/img/favicon.png" alt="">
+            <a class="image-logo" href="/"></a>
+        </div>
+        <ul id="menu-menu" class="menu text-menu">
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="knlvre.github.io/whoami/" title="ABOUT" class="menu-link">ABOUT</a>
+            </li>
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="knlvre.github.io/categories/" title="CATEGORIES" class="menu-link">CATEGORIES</a>
+            </li>
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="knlvre.github.io/tags/" title="TAGS" class="menu-link">TAGS</a>
+            </li>
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="knlvre.github.io/archives/" title="ARCHIVES" class="menu-link">ARCHIVES</a>
+            </li>
+            
+            
+        </ul>
+        <div class="iconfont icon-menu switchmenu gradient-text animated fadeInDown"></div>
+    </div>
+</div>
+<div id="screen">
+    <div id="mark">
+        <div class="cover animated fadeIn" style="
+            animation-delay: 900ms;
+            animation-duration: 2.8s;
+            background-image:
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.56), #100e17),
+                url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
+        </div>
+    </div>
+    
+    <div id="post0" class="else">
+        <p class="animated fadeInDown">
+            
+            <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 28, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown">
+            <a href="knlvre.github.io/2019/03/28/BugKuCTF—Web题 第21-30关/" title="BugKuCTF — Web题(第21-30关)" class="posttitle">BugKuCTF — Web题(第21-30关)</a></h3>
+        
+        <p class="post-count animated fadeInDown">
+            
+            <span>
+                <b class="iconfont icon-text2"></b> <i>Words count</i>
+                32k
+            </span>
+            
+            
+            <span>
+                <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                29 mins.
+            </span>
+            
+            
+        </p>
+        
+        
+        <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
+        
+        <div class="md-content animated fadeIn">
+            
+            <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
+<h3 id="第二十一关（秋名山老司机）"><a href="#第二十一关（秋名山老司机）" class="headerlink" title="第二十一关（秋名山老司机）"></a>第二十一关（秋名山老司机）</h3><p>题目打开要求我们2秒内快速计算</p>
+<p></p>
+<p>就想到用Python的Session机制，思想是：<code>自动抓取页面、计算、提交、保存Session...</code></p>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/28/BugKuCTF—Web题 第21-30关/" title="Read article" class="posttitle">Read article</a>
+                <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+    
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="typed-text"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="primary">
+        
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 28, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/28/BugKuCTF—Web题 第21-30关/" title="BugKuCTF — Web题(第21-30关)" class="posttitle">BugKuCTF — Web题(第21-30关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        32k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        29 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
+<h3 id="第二十一关（秋名山老司机）"><a href="#第二十一关（秋名山老司机）" class="headerlink" title="第二十一关（秋名山老司机）"></a>第二十一关（秋名山老司机）</h3><p>题目打开要求我们2秒内快速计算</p>
+<p></p>
+<p>就想到用Python的Session机制，思想是：<code>自动抓取页面、计算、提交、保存Session、显示flag</code></p>
+<p>那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？</p>
+<p>此时，页面多刷新几次，机会看到提示：<code>value</code>变量</p>
+<p></p>
+<p>-写代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">a = requests...</span></pre></td></tr></table></figure>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/28/BugKuCTF—Web题 第21-30关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 15, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/15/Kali学习笔记/" title="Kali学习笔记" class="posttitle">Kali学习笔记</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        14k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        13 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/基础知识点/">基础知识点</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p><strong>grep</strong>：就前面执行后显示的内容进行筛选（egrep相反）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | grep ["XXX"]</span><br></pre></td></tr></table></figure>
+<p><strong>awk</strong>：筛选第X行的内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | awk ["X"]</span><br></pre></td></tr></table></figure>
+<p><strong>cut</strong>：裁剪内容，-d 表示分割的标志，-f 接第几部分</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | cut -d ["X"] -f [X]</span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>ls</strong>：列出当前目录下内容（Window下是：dir）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls [-l/-a/-h...]</span><br></pre></td></tr></table></figure>
+<p><strong>cd</strong>：切换位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd [/etc/passwd]</span><br><span class="line">cd ..	（切换至上一级目录）</span><br></pre></td></tr></table></figure>
+<p><strong>pwd</strong>：查看当前工作目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br></pre></td></tr></table></figure>
+<p><strong>cat</strong>：查看文件全部...</p>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/15/Kali学习笔记/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/171206/231312-1512573192ad02.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 14, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/14/MySQL5数据库配置与管理/" title="Mysql数据库" class="posttitle">Mysql数据库</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        170k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        2:35
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/基础知识点/">基础知识点</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Grant：授予</span><br><span class="line">Privilege： 特权</span><br><span class="line">Revoke：废除</span><br><span class="line">Anonymous：匿名的</span><br><span class="line">Recurse：递归</span><br></pre></td></tr></table></figure>
+<p>​    （1）数据库系统分为内部安全性和外部安全性。</p>
+<p>​    （2）<strong>内部安全性</strong>关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主机有账号的人（合法或盗取的）进行攻击。如果数据目录内容的权限过分授予，使得每个人均能简单地替代对应于那些数据库表的文件，那么确保控制客户通过网络访问的授权表设置正确，对此毫无意义。</p>
+<p>​    （3）<strong>外部安全性</strong>关心的是从外部通过网络连接服务...</p>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/14/MySQL5数据库配置与管理/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/190213/211447-15500636875a0e.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 13, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/13/PHP语法/" title="PHP语法" class="posttitle">PHP语法</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        85k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        1:18
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/基础知识点/">基础知识点</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>（1）while循环</p>
+<p>​        while(条件为真){</p>
+<p>​        要执行的代码；</p>
+<p>​        }</p>
+<p>（2）Do…while循环</p>
+<p>​    do{</p>
+<p>​    要执行的代码；</p>
+<p>​    }while(条件为真)</p>
+<p>一、while循环</p>
+<p>1.1 while循环测试</p>
+<p>只要指定条件为真，则一直循环。在浏览器地址栏中输入<strong>“<a href="http://localhost/php/ceshi.html&quot;" target="_blank" rel="noopener">http://localhost/php/ceshi.html&quot;</a></strong>，在文本框中写入程序代码，然后单击”提交”按钮</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$i = 0;</span><br><span class="line">while($i &lt; 10)&#123;</span><br><span class="line">    $i++;</span><br><span class="line">    echo...</span></pre></td></tr></table></figure>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/13/PHP语法/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/171104/153336-15097808163053.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 12, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/12/SQL注入详解/" title="SQL注入详解" class="posttitle">SQL注入详解</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        24k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        21 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/基础知识点/">基础知识点</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>（1）系统函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">version()：mysql版本</span><br><span class="line">user()：数据库用户名</span><br><span class="line">database()：当前数据库名</span><br><span class="line">@@datadir：数据库路径</span><br><span class="line">@@version_compile_os：当前操作系统</span><br></pre></td></tr></table></figure>
+<p>（2）Mysql默认设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">information_schema.schemate：默认数据库</span><br><span class="line">information_schema.tables：默认数据表</span><br><span class="line">information_schema.columns：默认字段</span><br></pre></td></tr></table></figure>
+<p>（3）一般用于尝试的语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">or 1=1 --+</span><br><span class="line">&apos;...</span></pre></td></tr></table></figure>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/12/SQL注入详解/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 11, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/11/Web-For-Pentester/" title="Web-For-Pentester" class="posttitle">Web-For-Pentester</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        79k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        1:12
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/基础知识点/">基础知识点</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>（1）在网页程序中(尤其是那些使用文件系统来决定代码运行的程序)，你可让代码在服务端执行，如果你打算用合法文件名上传文件（通常是取决于扩展），在这里，我们就可以看到基于这种类型的攻击</p>
+<p>（2)首先，我们攻击一个PHF的应用，我们需要一个PHF的webshel1，一个Webshell就是一段简单的脚本或者执行代码的网页应用，比如，在PHP中，下面的代码就是一个简单的web shell:<br>&lt;?php</p>
+<p>system($_GET[‘emd’]):</p>
+<p>?&gt;</p>
+<p>（3)越复杂的webshel1可以执行越高...</p>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/11/Web-For-Pentester/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 08, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/08/BugKuCTF—Web题 第11-20关/" title="BugKuCTF — Web题(第11-20关)" class="posttitle">BugKuCTF — Web题(第11-20关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        12k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        11 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/06/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
+<h3 id="第十一关（web5）"><a href="#第十一关（web5）" class="headerlink" title="第十一关（web5）"></a>第十一关（web5）</h3><p>链接打开看到提示</p>
+<p></p>
+<p>查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串</p>
+<p></p>
+<p>将这串符号放到<strong>控制台 — Console</strong>里面，直接回车，就得到了flag</p>
+<p></p>
+<h3 id="第十二关（头等舱）"><a href="#第十二关（头等舱）" class="headerlink" title="第十二关（头等舱）"></a>第十二关（头等舱）</h3><p>链接打开看到”什么也没有。”，查看源代码也是什么都没有</p>
+<p></p>
+<p>但是用<strong>Burpsuit</strong>抓下来，发送GET请求看一下， 在返回的头中就有flag</p>
+<p></p>
+<h3 id="第十三关（网站被黑）"><a href="#第十三关（网站被黑）" class="headerlink" title="第十三关（网站被黑）"></a>第十三关（网站被黑）</h3><p>链接进去后，看到被黑的网页</p>
+<p></p>
+<p>首先选择使用<strong>御剑</strong>扫描一下后台，结果是扫到<strong>shell.php</strong></p>
+<p></p>
+<p>访问一下...</p>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/08/BugKuCTF—Web题 第11-20关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 07, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/07/BugKuCTF—杂项题 第21-30关/" title="BugKuCTF — 杂项题(第21-30关)" class="posttitle">BugKuCTF — 杂项题(第21-30关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        24k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        22 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Misc/">CTF-Misc</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <h3 id="前一部分链接：第11-20关Write-up"><a href="#前一部分链接：第11-20关Write-up" class="headerlink" title="前一部分链接：第11-20关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/04/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3><h3 id="第二一关（细心的大象）"><a href="#第二一关（细心的大象）" class="headerlink" title="第二一关（细心的大象）"></a>第二一关（细心的大象）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://share.weiyun.com/9287be0a629971ac53d97f39727eee18</span><br></pre></td></tr></table></figure>
+<p>下载下来一个名为<strong>1.jpg.zip</strong>的文件，解压下来一张叫做<strong>1.jpg</strong>的图片，看一下图片属性，看到了好像有用的一串文字</p>
+<p></p>
+<p>看起来有点像base64的加密，先解开后放着MSDS456ASD123zz</p>
+<p></p>
+<p>放到Kali里面，用binwalk看一下，确实藏着东西</p>
+<p></p>
+<p>提取出来看一下，是一个<strong>rar</strong>压缩文件，提取时，需...</p>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/07/BugKuCTF—杂项题 第21-30关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 06, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/06/BugKuCTF—Web题 第1-10关/" title="BugKuCTF — Web题(第1-10关)" class="posttitle">BugKuCTF — Web题(第1-10关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        9k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        8 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <h3 id="第一关（web2）"><a href="#第一关（web2）" class="headerlink" title="第一关（web2）"></a>第一关（web2）</h3><p>打开链接后是一堆迎面飞来的“滑稽”表情</p>
+<p></p>
+<p>查看网页源代码后就能发现flag</p>
+<p></p>
+<h3 id="第二关（计算器）"><a href="#第二关（计算器）" class="headerlink" title="第二关（计算器）"></a>第二关（计算器）</h3><p>尝试输入，却发现只能输入1位数，但是答案明显不止一位数</p>
+<p></p>
+<p>查看源代码，将其中的<code>maxlength</code>修改成3（原本是1）</p>
+<p></p>
+<p>再输入正确答案，就得到了flag</p>
+<p></p>
+<h3 id="第三关（Web基础-GET）"><a href="#第三关（Web基础-GET）" class="headerlink" title="第三关（Web基础$_GET）"></a>第三关（Web基础$_GET）</h3><p>进入链接后直接看到信息</p>
+<p></p>
+<p>根据信息直接输入url得到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?what=flag</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="第四关（Web基础-POST）"><a href="#第四关（Web基础-POST）" class="headerlink" title="第四关（Web基础$_POST）"></a>第四关（Web基础$_POST）</h3><p>同第三关，进入链接后直接看到信息</p>
+<p></p>
+<p>不同的是，这次要用POST方式。在挂上Burpsuit...</p>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/06/BugKuCTF—Web题 第1-10关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 04, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/04/BugKuCTF—杂项题 第11-20关/" title="BugKuCTF — 杂项题(第11-20关)" class="posttitle">BugKuCTF — 杂项题(第11-20关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        14k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        13 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Misc/">CTF-Misc</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <h3 id="前一部分链接：第1-10关Write-up"><a href="#前一部分链接：第1-10关Write-up" class="headerlink" title="前一部分链接：第1-10关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/26/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></h3><h3 id="第十一关（多种方法解决）"><a href="#第十一关（多种方法解决）" class="headerlink" title="第十一关（多种方法解决）"></a>第十一关（多种方法解决）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/3.zip</span><br></pre></td></tr></table></figure>
+<p>下载下来一个zip文件，解压开是一个KEY.exe文件</p>
+<p></p>
+<p>用UE打开看一下，开头就发现是imgbase64（图片转换成base64进行存储）</p>
+<p></p>
+<p>然后百度找在线的<strong>base64转换图片</strong>网站，得出一个二维码，扫描得到flag</p>
+<p>转换网站可以用一下这个：<a href="http://imgbase64.duoshitong.com/" target="_blank" rel="noopener">base64转换图片</a></p>
+<p></p>
+<hr>
+<h3 id="第十二关（闪得好快啊）"><a href="#第十二关（闪得好快啊）" class="headerlink" title="第十二关（闪得好快啊）"></a>第十二关（闪得好快啊）</h3><p>题目链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com...</span></pre></td></tr></table></figure>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/04/BugKuCTF—杂项题 第11-20关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+    </div>
+    
+    <div id="pager"><a href="knlvre.github.io/page/5/" class="more" data-loading="加载中..." data-load-more="Load more">Load more</a></div>
+    
+</div>
+<div id="preview"></div>
+
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2019
+        <span class="gradient-text">
+            Knlvre
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="knlvre.github.io/js/plugin.js"></script>
+<script src="knlvre.github.io/js/obsidian.js"></script>
+<script src="knlvre.github.io/js/jquery.truncate.js"></script>
+<script src="knlvre.github.io/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="knlvre.github.io/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-149874671-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Think like an artist, develop like an artisan", "艺术家思维去思考问题，工匠创造精神去开发"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>

