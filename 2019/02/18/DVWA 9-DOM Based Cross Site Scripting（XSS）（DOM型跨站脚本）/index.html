@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="源码位置1DVWA\vulnerabilities\xss_d\source\
+    <meta name="description" content="源码位置DVWA\vulnerabilities\xss_d\source\
 页面功能通过下拉菜单选择一种语言，但是好像没作用
 
-DOM，全称Document Object Model，是一个平台,"> 
+DOM，全称Document Object Model，是一个平台和,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
@@ -87,13 +87,13 @@ DOM，全称Document Object Model，是一个平台,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    22k
+                    9.3k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    20 mins.
+                    8 mins.
                 </span>
                 
                 
@@ -127,8 +127,8 @@ DOM，全称Document Object Model，是一个平台,">
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\xss_d\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>通过下拉菜单选择一种语言，但是好像没作用</p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\xss_d\source\
+</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>通过下拉菜单选择一种语言，但是好像没作用</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-1.png" alt="9-1"></p>
 <p><code>DOM</code>，全称<code>Document Object Model</code>，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式</p>
 <p>1.document 和 windows 对象</p>
@@ -168,17 +168,71 @@ DOM，全称Document Object Model，是一个平台,">
 <p>decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码</p>
 <p>5.代码解释</p>
 <p>①判断URL中是否含有<code>default=</code>字符串，如果有进入下一步；②截取URL中<code>default=</code>字段开始的位置，加上<code>8（default=字符串的长度）</code>之后开始，到末尾结束的字符串，赋值给<code>lang</code>；③语句拼接，通过<code>decodeURI()</code>解码<code>lang变量</code>的值</p>
-<h2 id="Low-—-high前端核心代码"><a href="#Low-—-high前端核心代码" class="headerlink" title="Low — high前端核心代码"></a>Low — high前端核心代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"XSS"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.write(<span class="string">"&lt;option value='"</span> + lang + <span class="string">"'&gt;"</span> + <span class="built_in">decodeURI</span>(lang) + <span class="string">"&lt;/option&gt;"</span>);</span></span><br><span class="line"><span class="xml">                document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span> <span class="attr">disabled</span>=<span class="string">'disabled'</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'English'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'French'</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'Spanish'</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'German'</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Select"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="Impossible前端核心代码"><a href="#Impossible前端核心代码" class="headerlink" title="Impossible前端核心代码"></a>Impossible前端核心代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"XSS"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"default"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>) &gt;= <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> lang = <span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>);</span></span><br><span class="line"><span class="javascript">                <span class="built_in">document</span>.write(<span class="string">"&lt;option value='"</span> + lang + <span class="string">"'&gt;"</span> + (lang) + <span class="string">"&lt;/option&gt;"</span>);</span></span><br><span class="line"><span class="xml">                document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span> <span class="attr">disabled</span>=<span class="string">'disabled'</span>&gt;</span>----<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'English'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'French'</span>&gt;</span>French<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'Spanish'</span>&gt;</span>Spanish<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="xml">            document.write("<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'German'</span>&gt;</span>German<span class="tag">&lt;/<span class="name">option</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Select"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Low-—-high前端核心代码"><a href="#Low-—-high前端核心代码" class="headerlink" title="Low — high前端核心代码"></a>Low — high前端核心代码</h2><pre><code class="html">&lt;form name=&quot;XSS&quot; method=&quot;GET&quot;&gt;
+    &lt;select name=&quot;default&quot;&gt;
+        &lt;script&gt;
+            if (document.location.href.indexOf(&quot;default=&quot;) &gt;= 0) {
+                var lang = document.location.href.substring(document.location.href.indexOf(&quot;default=&quot;)+8);
+                document.write(&quot;&lt;option value=&#39;&quot; + lang + &quot;&#39;&gt;&quot; + decodeURI(lang) + &quot;&lt;/option&gt;&quot;);
+                document.write(&quot;&lt;option value=&#39;&#39; disabled=&#39;disabled&#39;&gt;----&lt;/option&gt;&quot;);
+            }
+
+            document.write(&quot;&lt;option value=&#39;English&#39;&gt;English&lt;/option&gt;&quot;);
+            document.write(&quot;&lt;option value=&#39;French&#39;&gt;French&lt;/option&gt;&quot;);
+            document.write(&quot;&lt;option value=&#39;Spanish&#39;&gt;Spanish&lt;/option&gt;&quot;);
+            document.write(&quot;&lt;option value=&#39;German&#39;&gt;German&lt;/option&gt;&quot;);
+        &lt;/script&gt;
+    &lt;/select&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Select&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<h2 id="Impossible前端核心代码"><a href="#Impossible前端核心代码" class="headerlink" title="Impossible前端核心代码"></a>Impossible前端核心代码</h2><pre><code class="html">&lt;form name=&quot;XSS&quot; method=&quot;GET&quot;&gt;
+    &lt;select name=&quot;default&quot;&gt;
+        &lt;script&gt;
+            if (document.location.href.indexOf(&quot;default=&quot;) &gt;= 0) {
+                var lang = document.location.href.substring(document.location.href.indexOf(&quot;default=&quot;)+8);
+                document.write(&quot;&lt;option value=&#39;&quot; + lang + &quot;&#39;&gt;&quot; + (lang) + &quot;&lt;/option&gt;&quot;);
+                document.write(&quot;&lt;option value=&#39;&#39; disabled=&#39;disabled&#39;&gt;----&lt;/option&gt;&quot;);
+            }
+
+            document.write(&quot;&lt;option value=&#39;English&#39;&gt;English&lt;/option&gt;&quot;);
+            document.write(&quot;&lt;option value=&#39;French&#39;&gt;French&lt;/option&gt;&quot;);
+            document.write(&quot;&lt;option value=&#39;Spanish&#39;&gt;Spanish&lt;/option&gt;&quot;);
+            document.write(&quot;&lt;option value=&#39;German&#39;&gt;German&lt;/option&gt;&quot;);
+        &lt;/script&gt;
+    &lt;/select&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Select&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># No protections, anything goes</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+# No protections, anything goes
+
+?&gt;
+</code></pre>
 <p>知道原理之后，就可以构造URL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;script&gt;alert(/xss/);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'变量lang 的值'</span>&gt;</span>English<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code> http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;script&gt;alert(/xss/);&lt;/script&gt;
+</code></pre><p>拼接后变为</p>
+<pre><code class="html">&lt;option value=&#39;变量lang 的值&#39;&gt;English&lt;script&gt;alert(/xss/);&lt;/script&gt;&lt;/option&gt;
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-2.png" alt="9-2"></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">"default"</span>, $_GET ) &amp;&amp; !is_null ($_GET[ <span class="string">'default'</span> ]) ) &#123;</span><br><span class="line">	$default = $_GET[<span class="string">'default'</span>];</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># Do not allow script tags</span></span><br><span class="line">	<span class="keyword">if</span> (stripos ($default, <span class="string">"&lt;script"</span>) !== <span class="keyword">false</span>) &#123;</span><br><span class="line">		header (<span class="string">"location: ?default=English"</span>);</span><br><span class="line">		<span class="keyword">exit</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+// Is there any input?
+if ( array_key_exists( &quot;default&quot;, $_GET ) &amp;&amp; !is_null ($_GET[ &#39;default&#39; ]) ) {
+    $default = $_GET[&#39;default&#39;];
+
+    # Do not allow script tags
+    if (stripos ($default, &quot;&lt;script&quot;) !== false) {
+        header (&quot;location: ?default=English&quot;);
+        exit;
+    }
+}
+
+?&gt;
+</code></pre>
 <p>简单解释一下三个函数</p>
 <table>
 <thead>
@@ -204,18 +258,40 @@ DOM，全称Document Object Model，是一个平台,">
 </table>
 <p>①GET到的参数必须为<code>default</code>，并且值必须不为空；②过滤了<code>&lt;script</code></p>
 <p>构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'变量lang 的值'</span>&gt;</span>English<span class="tag">&lt;/<span class="name">option</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onerror</span>=<span class="string">alert(/xss/)</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code>http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;
+</code></pre><p>拼接后变为</p>
+<pre><code class="html">&lt;option value=&#39;变量lang 的值&#39;&gt;English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;&lt;/option&gt;
+</code></pre>
 <p>首先闭合了<code>&lt;option&gt;</code>标签 和<code>&lt;select&gt;</code>标签。利用 img标签的onerror事件，Javascript的img标签支持onerror 事件，在加载图像的过程中如果发生了错误，就会触发onerror事件，执行 JavaScript</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-3.png" alt="9-3"></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span> ( array_key_exists( <span class="string">"default"</span>, $_GET ) &amp;&amp; !is_null ($_GET[ <span class="string">'default'</span> ]) ) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment"># White list the allowable languages</span></span><br><span class="line">	<span class="keyword">switch</span> ($_GET[<span class="string">'default'</span>]) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"French"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"English"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"German"</span>:</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"Spanish"</span>:</span><br><span class="line">			<span class="comment"># ok</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			header (<span class="string">"location: ?default=English"</span>);</span><br><span class="line">			<span class="keyword">exit</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+// Is there any input?
+if ( array_key_exists( &quot;default&quot;, $_GET ) &amp;&amp; !is_null ($_GET[ &#39;default&#39; ]) ) {
+
+    # White list the allowable languages
+    switch ($_GET[&#39;default&#39;]) {
+        case &quot;French&quot;:
+        case &quot;English&quot;:
+        case &quot;German&quot;:
+        case &quot;Spanish&quot;:
+            # ok
+            break;
+        default:
+            header (&quot;location: ?default=English&quot;);
+            exit;
+    }
+}
+
+?&gt;
+</code></pre>
 <p>设置了白名单，只允许<code>French</code>、<code>English</code>、<code>German</code>、<code>Spanish</code>四个其中的一个</p>
 <p>构造payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English #&lt;script&gt;alert(/xss/)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>拼接后变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">''</span>&gt;</span>English #<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="regexp">/xss/</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code>http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English #&lt;script&gt;alert(/xss/)&lt;/script&gt;
+</code></pre><p>拼接后变为</p>
+<pre><code class="html">&lt;option value=&#39;&#39;&gt;English #&lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/option&gt;
+</code></pre>
 <p>由于form表单提交的数据经过JS过滤，所以注释部分的javascript代码不会被传到服务器端(也就符合了白名单的要求)</p>
 <p>我们写一个html验证一下<code>&lt;option value=&#39;&#39;&gt;English #&lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/option&gt;</code>是否可行</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-4.png" alt="9-4"></p>
@@ -223,7 +299,12 @@ DOM，全称Document Object Model，是一个平台,">
 <p>可以看到是可行的，现在继续</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-6.png" alt="9-6"></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Don't need to do anything, protction handled on the client side</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+# Don&#39;t need to do anything, protction handled on the client side
+
+?&gt;
+</code></pre>
 <p>翻译：不做任何事，保护措施在客户端完成</p>
 <p>本难度前端代码发生了改变，<code>decodeURI(lang)</code>变为<code>(lang)</code></p>
 <hr>

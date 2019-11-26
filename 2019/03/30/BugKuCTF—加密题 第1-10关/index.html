@@ -97,7 +97,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    3.7k
+                    3.2k
                 </span>
                 
                 
@@ -160,8 +160,14 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/3-3.png" alt="3-3"></p>
 <hr>
 <h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;</span><br><span class="line">++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;</span><br><span class="line">]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----</span><br><span class="line">-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-</span><br><span class="line">&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++</span><br><span class="line">+[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++</span><br><span class="line">++.&lt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
+<pre><code>+++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;-- -&lt;]&gt;- -.+++ +++.&lt;
+++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++[- &gt;---&lt; ]&gt;--- .---- .&lt;+++ ++++[ -&gt;--- ----&lt;
+]&gt;--- ----- ----- .&lt;+++ ++++[ -&gt;+++ ++++&lt; ]&gt;+++ ++.&lt;+ +++++ +[-&gt;- -----
+-&lt;]&gt;. &lt;++++ ++++[ -&gt;+++ +++++ &lt;]&gt;++ .&lt;+++ [-&gt;-- -&lt;]&gt;- ----. &lt;++++ +++[-
+&gt;---- ---&lt;] &gt;---- ----. +++++ +..++ +++.+ .&lt;+++ [-&gt;-- -&lt;]&gt;- --.&lt;+ +++++
++[-&gt;+ +++++ +&lt;]&gt;+ ++.++ +.+++ +++++ +.--- -.+++ ++.&lt;+ ++[-&gt; +++&lt;] &gt;++++
+++.&lt;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-1.png" alt="4-1"></p>
 <p>那就能继续利用上面哪个网站破解</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%8A%A0%E5%AF%86/1-10/4-2.png" alt="4-2"></p>
 <p>成功解出flag</p>

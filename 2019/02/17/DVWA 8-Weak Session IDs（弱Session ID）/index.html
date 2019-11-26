@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="源码位置1DVWA\vulnerabilities\weak_id\source\
+    <meta name="description" content="源码位置DVWA\vulnerabilities\weak_id\source\
 页面功能点击Generate，向服务器提交当前的dvwaSession值
 
-密码与证书等认证手段，一般仅仅用于登录,"> 
+密码与证书等认证手段，一般仅仅用于登录(,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
@@ -87,13 +87,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    13k
+                    7.5k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    12 mins.
+                    7 mins.
                 </span>
                 
                 
@@ -127,8 +127,8 @@
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\weak_id\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\weak_id\source\
+</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-1.png" alt="8-1"></p>
 <p>密码与证书等认证手段，一般仅仅用于登录(<code>Login</code>)的过程。当登陆完成后，用户访问网站的页面，不可能每次浏览器请求页面时,都再使用密码认证一次。因此，当认证完成后，就需要替换一个对用户透明的凭证。这个凭证就是<code>SessionID</code>。</p>
 <p>当用户登陆完成后，在服务器端就会创建一个新的会话(<code>Session</code>)，会话中会保存用户的状态和相关信息。服务器端维护所有在线用户的<code>Session</code>，此时的认证，只需要知道是哪个用户在浏览当前的页面即可。为了告诉服务器应该使用哪一个<code>Session</code>，浏览器需要把当前用户持有的<code>SessionID</code>告知服务器。最常见的做法就是把<code>SessionID</code>加密后保存在<code>Cookie</code>中，因为<code>Cookie</code>会随着<code>HTTP</code>请求头发送，且受到浏览器同源策略的保护。</p>
@@ -136,7 +136,20 @@
 <p>因此，在生成<code>SessionID</code>时，需要保证足够的随机性，比如采用足够强的伪随机数生成算法。</p>
 <p>— 摘自《白帽子讲 web 安全》</p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id'</span>]++;</span><br><span class="line">	$cookie_value = $_SESSION[<span class="string">'last_session_id'</span>];</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+$html = &quot;&quot;;
+
+if ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;POST&quot;) {
+    if (!isset ($_SESSION[&#39;last_session_id&#39;])) {
+        $_SESSION[&#39;last_session_id&#39;] = 0;
+    }
+    $_SESSION[&#39;last_session_id&#39;]++;
+    $cookie_value = $_SESSION[&#39;last_session_id&#39;];
+    setcookie(&quot;dvwaSession&quot;, $cookie_value);
+}
+?&gt;
+</code></pre>
 <p>了解本漏洞，需要用到2个浏览器</p>
 <p>在<code>A浏览器</code>点击Generate并用burpsuit抓包，从抓取的包中可以看到<code>dvwaSession=1</code>，这也验证了源码。在点击<code>go</code>之后，从服务器返回的响应头中可以看到<code>Set-Cookie: dvwaSession=2</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-2.png" alt="8-2"></p>
@@ -144,23 +157,71 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-3.png" alt="8-3"></p>
 <p>可以看到，直接实现没有用户名和密码验证的登录</p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = time();</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+$html = &quot;&quot;;
+
+if ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;POST&quot;) {
+    $cookie_value = time();
+    setcookie(&quot;dvwaSession&quot;, $cookie_value);
+}
+?&gt;
+</code></pre>
 <p>从源代码中可以看出，<code>dvwaSession</code>的值变成了<code>time()</code>函数的返回结果（也就是时间戳），同样的点击<code>Generate</code>并抓包可以看到</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-4.png" alt="8-4"></p>
 <p>先抓一个包，发现<code>dvwaSession=1565621880</code>，过几秒再抓包发现<code>dvwaSession=1565621885</code>，验证了这个值的确是随着时间戳的变化而变化。我们继续用<code>B浏览器</code>发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=1565622945; security=medium; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-5.png" alt="8-5"></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span> ($_SESSION[<span class="string">'last_session_id_high'</span>])) &#123;</span><br><span class="line">		$_SESSION[<span class="string">'last_session_id_high'</span>] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	$_SESSION[<span class="string">'last_session_id_high'</span>]++;</span><br><span class="line">	$cookie_value = md5($_SESSION[<span class="string">'last_session_id_high'</span>]);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+$html = &quot;&quot;;
+
+if ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;POST&quot;) {
+    if (!isset ($_SESSION[&#39;last_session_id_high&#39;])) {
+        $_SESSION[&#39;last_session_id_high&#39;] = 0;
+    }
+    $_SESSION[&#39;last_session_id_high&#39;]++;
+    $cookie_value = md5($_SESSION[&#39;last_session_id_high&#39;]);
+    setcookie(&quot;dvwaSession&quot;, $cookie_value, time()+3600, &quot;/vulnerabilities/weak_id/&quot;, $_SERVER[&#39;HTTP_HOST&#39;], false, false);
+}
+
+?&gt;
+</code></pre>
 <p><code>setcookie()</code>函数：发送 Cookie</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">setcookie ( string $name [, string $value = &quot;&quot; [, int $expire = 0 [, string $path = &quot;&quot; [, string $domain = &quot;&quot; [, bool $secure = false [, bool $httponly = false ]]]]]] ) : bool</span><br><span class="line"></span><br><span class="line">name：Cookie 名称</span><br><span class="line"></span><br><span class="line">value：Cookie 值。 这个值储存于用户的电脑里，请勿储存敏感信息。 比如 name 是 &apos;cookiename&apos;， 可通过 $_COOKIE[&apos;cookiename&apos;] 获取它的值</span><br><span class="line"></span><br><span class="line">expire：Cookie 的过期时间。 这是个 Unix 时间戳，即 Unix 纪元以来（格林威治时间 1970 年 1 月 1 日 00:00:00）的秒数。 也就是说，基本可以用 time() 函数的结果加上希望过期的秒数。 或者也可以用 mktime()。 time()+60*60*24*30 就是设置 Cookie 30 天后过期。 如果设置成零，或者忽略参数， Cookie 会在会话结束时过期（也就是关掉浏览器时）</span><br><span class="line">Note:你可能注意到了，expire 使用 Unix 时间戳而非 Wdy, DD-Mon-YYYY HH:MM:SS GMT 这样的日期格式，是因为 PHP 内部作了转换</span><br><span class="line"></span><br><span class="line">path：Cookie 有效的服务器路径。 设置成 &apos;/&apos; 时，Cookie 对整个域名 domain 有效。 如果设置成 &apos;/foo/&apos;， Cookie 仅仅对 domain 中 /foo/ 目录及其子目录有效（比如 /foo/bar/）。 默认值是设置 Cookie 时的当前目录</span><br><span class="line"></span><br><span class="line">domain：Cookie 的有效域名/子域名。 设置成子域名（例如 &apos;www.example.com&apos;），会使 Cookie 对这个子域名和它的三级域名有效（例如 w2.www.example.com）。 要让 Cookie 对整个域名有效（包括它的全部子域名），只要设置成域名就可以了（这个例子里是 &apos;example.com&apos;）</span><br><span class="line">旧版浏览器仍然在使用废弃的 » RFC 2109， 需要一个前置的点 . 来匹配所有子域名。</span><br><span class="line"></span><br><span class="line">secure：设置这个 Cookie 是否仅仅通过安全的 HTTPS 连接传给客户端。 设置成 TRUE 时，只有安全连接存在时才会设置 Cookie。 如果是在服务器端处理这个需求，程序员需要仅仅在安全连接上发送此类 Cookie （通过 $_SERVER[&quot;HTTPS&quot;] 判断）</span><br><span class="line"></span><br><span class="line">httponly：设置成 TRUE，Cookie 仅可通过 HTTP 协议访问。 这意思就是 Cookie 无法通过类似 JavaScript 这样的脚本语言访问。 要有效减少 XSS 攻击时的身份窃取行为，可建议用此设置（虽然不是所有浏览器都支持），不过这个说法经常有争议。 PHP 5.2.0 中添加。 TRUE 或 FALSE</span><br></pre></td></tr></table></figure>
-<p>直接将刚才抓到的请求中的<code>security</code>字段改为<code>high</code>然后点击<code>go</code>，就可以看到服务器设置的新的<code>dvwaSession</code></p>
+<pre><code>setcookie ( string $name [, string $value = &quot;&quot; [, int $expire = 0 [, string $path = &quot;&quot; [, string $domain = &quot;&quot; [, bool $secure = false [, bool $httponly = false ]]]]]] ) : bool
+
+name：Cookie 名称
+
+value：Cookie 值。 这个值储存于用户的电脑里，请勿储存敏感信息。 比如 name 是 &#39;cookiename&#39;， 可通过 $_COOKIE[&#39;cookiename&#39;] 获取它的值
+
+expire：Cookie 的过期时间。 这是个 Unix 时间戳，即 Unix 纪元以来（格林威治时间 1970 年 1 月 1 日 00:00:00）的秒数。 也就是说，基本可以用 time() 函数的结果加上希望过期的秒数。 或者也可以用 mktime()。 time()+60*60*24*30 就是设置 Cookie 30 天后过期。 如果设置成零，或者忽略参数， Cookie 会在会话结束时过期（也就是关掉浏览器时）
+Note:你可能注意到了，expire 使用 Unix 时间戳而非 Wdy, DD-Mon-YYYY HH:MM:SS GMT 这样的日期格式，是因为 PHP 内部作了转换
+
+path：Cookie 有效的服务器路径。 设置成 &#39;/&#39; 时，Cookie 对整个域名 domain 有效。 如果设置成 &#39;/foo/&#39;， Cookie 仅仅对 domain 中 /foo/ 目录及其子目录有效（比如 /foo/bar/）。 默认值是设置 Cookie 时的当前目录
+
+domain：Cookie 的有效域名/子域名。 设置成子域名（例如 &#39;www.example.com&#39;），会使 Cookie 对这个子域名和它的三级域名有效（例如 w2.www.example.com）。 要让 Cookie 对整个域名有效（包括它的全部子域名），只要设置成域名就可以了（这个例子里是 &#39;example.com&#39;）
+旧版浏览器仍然在使用废弃的 » RFC 2109， 需要一个前置的点 . 来匹配所有子域名。
+
+secure：设置这个 Cookie 是否仅仅通过安全的 HTTPS 连接传给客户端。 设置成 TRUE 时，只有安全连接存在时才会设置 Cookie。 如果是在服务器端处理这个需求，程序员需要仅仅在安全连接上发送此类 Cookie （通过 $_SERVER[&quot;HTTPS&quot;] 判断）
+
+httponly：设置成 TRUE，Cookie 仅可通过 HTTP 协议访问。 这意思就是 Cookie 无法通过类似 JavaScript 这样的脚本语言访问。 要有效减少 XSS 攻击时的身份窃取行为，可建议用此设置（虽然不是所有浏览器都支持），不过这个说法经常有争议。 PHP 5.2.0 中添加。 TRUE 或 FALSE
+</code></pre><p>直接将刚才抓到的请求中的<code>security</code>字段改为<code>high</code>然后点击<code>go</code>，就可以看到服务器设置的新的<code>dvwaSession</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-6.png" alt="8-6"></p>
 <p>这个<code>dvwaSession</code>每次请求，经过过<code>加1</code>，<code>md5加密</code>。但是如果这被我们发现了规律（从0开始每次加1），当我们知道下一个dvwaSession的值后，经过md5加密再去提交</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-8.png" alt="8-8"></p>
 <p>然后还是像之前一样直接发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=eccbc87e4b5ce2fe28308fd9f2a7baf3; security=high; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-7.png" alt="8-7"></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">"POST"</span>) &#123;</span><br><span class="line">	$cookie_value = sha1(mt_rand() . time() . <span class="string">"Impossible"</span>);</span><br><span class="line">	setcookie(<span class="string">"dvwaSession"</span>, $cookie_value, time()+<span class="number">3600</span>, <span class="string">"/vulnerabilities/weak_id/"</span>, $_SERVER[<span class="string">'HTTP_HOST'</span>], <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+$html = &quot;&quot;;
+
+if ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;POST&quot;) {
+    $cookie_value = sha1(mt_rand() . time() . &quot;Impossible&quot;);
+    setcookie(&quot;dvwaSession&quot;, $cookie_value, time()+3600, &quot;/vulnerabilities/weak_id/&quot;, $_SERVER[&#39;HTTP_HOST&#39;], true, true);
+}
+?&gt;
+</code></pre>
 <p>在本难度中，<code>dvwaSession</code>的值采用<code>随机数+时间戳+&quot;Impossible&quot;</code>，这就无法猜测出到底是多少了。并且开启了<code>setcookie</code>函数中的<code>secure</code>和<code>httponly</code>选项。实现了用户安全会话认证</p>
 <hr>
 <p>参考文章：</p>

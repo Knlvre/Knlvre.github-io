@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="源码位置1DVWA\vulnerabilities\xss_r\source\
+    <meta name="description" content="源码位置DVWA\vulnerabilities\xss_r\source\
 页面功能提供一个输入框，输入后返回
 
-XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这些恶意代码能够被浏览,"> 
+XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这些恶意代码能够被浏览器,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
@@ -87,13 +87,13 @@ XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这�
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    13k
+                    5.8k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    12 mins.
+                    5 mins.
                 </span>
                 
                 
@@ -127,8 +127,8 @@ XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这�
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DVWA\vulnerabilities\xss_r\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>提供一个输入框，输入后返回</p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\xss_r\source\
+</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>提供一个输入框，输入后返回</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-1.png" alt="10-1"></p>
 <p>XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这些恶意代码能够被浏览器成功的执行</p>
 <p>XSS反射型漏洞</p>
@@ -136,34 +136,97 @@ XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这�
 <p>基本原理 就是通过给别人发送带有恶意脚本代码参数的URL，当URL地址被打开时，特定的代码参数会被HTML解析，执行，如此就可以获取用户的COOIKE，进而盗号登陆</p>
 <p>特点是 非持久化 必须用户点击带有特定参数的链接才能引起。<br> XSS反射型攻击，恶意代码并没有保存在目标网站，通过引诱用户点击一个链接到目标网站的恶意链接来实施攻击的</p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">header (<span class="string">"X-XSS-Protection: 0"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">	<span class="comment">// Feedback for end user</span></span><br><span class="line">	$html .= <span class="string">'&lt;pre&gt;Hello '</span> . $_GET[ <span class="string">'name'</span> ] . <span class="string">'&lt;/pre&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+header (&quot;X-XSS-Protection: 0&quot;);
+
+// Is there any input?
+if( array_key_exists( &quot;name&quot;, $_GET ) &amp;&amp; $_GET[ &#39;name&#39; ] != NULL ) {
+    // Feedback for end user
+    $html .= &#39;&lt;pre&gt;Hello &#39; . $_GET[ &#39;name&#39; ] . &#39;&lt;/pre&gt;&#39;;
+}
+
+?&gt;
+</code></pre>
 <p>源码中没有对传入的数据有任何的过滤，此时我们要是构造payload</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(/xss/)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="html">&lt;script&gt;alert(/xss/)&lt;/script&gt;
+</code></pre>
 <p>拼接后HTML页面中变为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">pre</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(/xss/)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">pre</span>&gt;</span>;</span><br></pre></td></tr></table></figure>
+<pre><code class="HTML">&lt;pre&gt;Hello &lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/pre&gt;;
+</code></pre>
 <p>原本应该存放文本的位置，变成执行一段代码，这就是XSS</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-2.png" alt="10-2"></p>
 <p>现在就可以试一下反弹cookie（接下来其他难度只要绕过就也可以用）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-10.png" alt="10-10"></p>
+<pre><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-10.png" alt="10-10"></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">header (<span class="string">"X-XSS-Protection: 0"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$name = str_replace( <span class="string">'&lt;script&gt;'</span>, <span class="string">''</span>, $_GET[ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;Hello $&#123;name&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+header (&quot;X-XSS-Protection: 0&quot;);
+
+// Is there any input?
+if( array_key_exists( &quot;name&quot;, $_GET ) &amp;&amp; $_GET[ &#39;name&#39; ] != NULL ) {
+    // Get input
+    $name = str_replace( &#39;&lt;script&gt;&#39;, &#39;&#39;, $_GET[ &#39;name&#39; ] );
+
+    // Feedback for end user
+    $html .= &quot;&lt;pre&gt;Hello ${name}&lt;/pre&gt;&quot;;
+}
+
+?&gt;
+</code></pre>
 <p>使用<code>str_replace()</code>函数对<code>&lt;script&gt;</code>关键字进行了过滤，我们可以本地测试一下怎么绕过这个函数</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-3.png" alt="10-3"></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-4.png" alt="10-4"></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-5.png" alt="10-5"></p>
 <p>可以发现<code>双写</code>和<code>大小写</code>都可以绕过，那现在就可以构造payload</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;scr&lt;script&gt;ipt&gt;alert(/xss/)&lt;/script&gt;</span><br><span class="line">或</span><br><span class="line"><span class="tag">&lt;<span class="name">Script</span>&gt;</span><span class="undefined">alert(/xss/)</span><span class="tag">&lt;/<span class="name">Script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="html">&lt;scr&lt;script&gt;ipt&gt;alert(/xss/)&lt;/script&gt;
+或
+&lt;Script&gt;alert(/xss/)&lt;/Script&gt;
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-2.png" alt="10-2"></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">header (<span class="string">"X-XSS-Protection: 0"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$name = preg_replace( <span class="string">'/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i'</span>, <span class="string">''</span>, $_GET[ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;Hello $&#123;name&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+header (&quot;X-XSS-Protection: 0&quot;);
+
+// Is there any input?
+if( array_key_exists( &quot;name&quot;, $_GET ) &amp;&amp; $_GET[ &#39;name&#39; ] != NULL ) {
+    // Get input
+    $name = preg_replace( &#39;/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i&#39;, &#39;&#39;, $_GET[ &#39;name&#39; ] );
+
+    // Feedback for end user
+    $html .= &quot;&lt;pre&gt;Hello ${name}&lt;/pre&gt;&quot;;
+}
+
+?&gt;
+</code></pre>
 <p>本难度通过<code>preg_replace()</code>函数做过滤，就没办法绕过了，但是我们可以用<code>img</code>标签的<code>onerror</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-6.png" alt="10-6"></p>
 <p>payload</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onerror</span>=<span class="string">alert(/xss/)</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="html">&lt;img src=1 onerror=alert(/xss/)&gt;
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-7.png" alt="10-7"></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$name = htmlspecialchars( $_GET[ <span class="string">'name'</span> ] );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Feedback for end user</span></span><br><span class="line">	$html .= <span class="string">"&lt;pre&gt;Hello $&#123;name&#125;&lt;/pre&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+// Is there any input?
+if( array_key_exists( &quot;name&quot;, $_GET ) &amp;&amp; $_GET[ &#39;name&#39; ] != NULL ) {
+    // Check Anti-CSRF token
+    checkToken( $_REQUEST[ &#39;user_token&#39; ], $_SESSION[ &#39;session_token&#39; ], &#39;index.php&#39; );
+
+    // Get input
+    $name = htmlspecialchars( $_GET[ &#39;name&#39; ] );
+
+    // Feedback for end user
+    $html .= &quot;&lt;pre&gt;Hello ${name}&lt;/pre&gt;&quot;;
+}
+
+// Generate Anti-CSRF token
+generateSessionToken();
+
+?&gt;
+</code></pre>
 <p>添加了<code>anti-token</code>防御机制，和<code>htmlseecialchars()</code>函数来防御</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-8.png" alt="10-8"></p>
 <p>那么什么是HTML实体？<br> 1、 在 HTML 中，某些字符是预留的。<br> 2、在 HTML 中不能使用小于号（&lt;）和大于号（&gt;），这是因为浏览器会误认为它们是标签，当然在HTML中还有其他实体<br> 3、如果希望正确地显示预留字符，我们必须在HTML源代码中使用字符实体(character entities)。<br> 4、如需显示小于号，我们必须这样写：&lt; 或 &lt;使用实体名而不是数字的好处是，名称易于记忆。不过坏处是，浏览器也许并不支持所有实体名称（对实体数字的支持却很好）。</p>

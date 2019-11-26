@@ -132,13 +132,13 @@
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                14k
+                10k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                13 mins.
+                10 mins.
             </span>
             
             
@@ -196,13 +196,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        14k
+                        10k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        13 mins.
+                        10 mins.
                     </span>
                 
                 
@@ -219,7 +219,13 @@
 <p>查看源码，其他没什么用，但是发现一个<code>js文件（cqg.js）</code>，点击查看源代码</p>
 <p></p>
 <p>在末尾发现了关键代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(score == <span class="number">15</span>)&#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url: <span class="string">'score.php'</span>,</span><br><span class="line">        type: <span class="string">'POST'</span>,</span><br><span class="line">        data: <span class="string">'score='</span>+score,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> data ...</span></pre></td></tr></table></figure>
+<pre><code class="javascript">if(score == 15){
+    $.ajax({
+        url: &#39;score.php&#39;,
+        type: &#39;POST&#39;,
+        data: &#39;score=&#39;+score,
+        success: function(data){
+            var data = ...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -246,13 +252,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        42k
+                        15k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        38 mins.
+                        13 mins.
                     </span>
                 
                 
@@ -264,7 +270,20 @@
         <div class="md-content animated fadeIn">
             
                 <p>本次比赛的赛程安排是上午解题，下午AWD。算是真正意义上第一次参加AWD比赛，记录一下学习的内容</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">dic = string.printable</span><br><span class="line"></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">pair = [</span><br><span class="line">    <span class="number">0x17F5B345</span>,<span class="number">0x17F5B30C</span>,</span><br><span class="line">    <span class="number">0xF16B77E2</span>,<span class="number">0xF16B77B1</span>,</span><br><span class="line">    <span class="number">0xB2B21947</span>,<span class="number">2998016260</span>,</span><br><span class="line">    <span class="number">0x58A9F98B...</span></span></pre></td></tr></table></figure>
+<pre><code class="python">import string
+
+dic = string.printable
+
+flag = &#39;&#39;
+
+pair = [
+    0x17F5B345,0x17F5B30C,
+    0xF16B77E2,0xF16B77B1,
+    0xB2B21947,2998016260,
+    0x58A9F98B,1487534536,
+    0x20A99D0A,547986801,
+    0x96D85B20,2530761537,
+    ...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -291,13 +310,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        10k
+                        5.5k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        9 mins.
+                        5 mins.
                     </span>
                 
                 
@@ -313,7 +332,12 @@
 <p>将一整串二进制<code>转换为十六进制</code>，发现开头是<code>rar文件的开头</code></p>
 <p></p>
 <p>直接保存成一个<code>rar文件</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line">s = <span class="string">"010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可"</span></span><br><span class="line"></span><br><span class="line">s = hex(int(int(s,<span class="number">2</span>)))[<span class="number">2</span>:]</span><br><span class="line">s = s.encode()</span><br><span class="line">hexvalue = binascii.a2b_hex...</span></pre></td></tr></table></figure>
+<pre><code class="python">import binascii
+s = &quot;010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可&quot;
+
+s = hex(int(int(s,2)))[2:]
+s = s.encode()
+hexvalue = binascii...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/05/02/BugKuCTF—杂项题 第31-40关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -340,13 +364,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        78k
+                        35k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        1:11
+                        32 mins.
                     </span>
                 
                 
@@ -389,13 +413,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        6.1k
+                        3.3k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        6 mins.
+                        3 mins.
                     </span>
                 
                 
@@ -448,13 +472,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        38k
+                        18k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        35 mins.
+                        16 mins.
                     </span>
                 
                 
@@ -468,9 +492,125 @@
                 <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
 <h3 id="第三十一关（md5-collision-NUPT-CTF-）"><a href="#第三十一关（md5-collision-NUPT-CTF-）" class="headerlink" title="第三十一关（md5 collision(NUPT_CTF)）"></a>第三十一关（md5 collision(NUPT_CTF)）</h3><p>我打开题目是没有给任何提示的，只有链接进去提示<code>&quot;please input a&quot;</code>，源代码也没有写任何东西</p>
 <p>去找别人的WriteUp，别人做题可以看到提示代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$md51 = md5(<span class="string">'QNKCDZO'</span>);</span><br><span class="line">$a = @$_GET[<span class="string">'a'</span>];</span><br><span class="line">$md52 = @md5($a);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($a))&#123;</span><br><span class="line"><span class="keyword">if</span> ($a !=...</span></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+$md51 = md5(&#39;QNKCDZO&#39;);
+$a = @$_GET[&#39;a&#39;];
+$md52 = @md5($a);
+if(isset($a)){
+if ($a !...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/04/10/BugKuCTF—Web题 第31-40关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 30, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" title="BugKuCTF — 杂项题中常见的文件知识点和操作" class="posttitle">BugKuCTF — 杂项题中常见的文件知识点和操作</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        3.2k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        3 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Misc/">CTF-Misc</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><pre><code>JPEG (jpg)，文件头：FF D8 FF E0
+
+PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82
+
+7z：37 7A BC AF 27 1C
+
+GIF (gif)：47 49 46 38 39 61
+
+ZIP Archive (zip)：50 4B 03 04
+
+RAR Archive (rar)：52 61 72 21
+
+Wave (wav)：57 41 56 45
+
+AVI (avi)：41 56 49 ...</code></pre>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            March 30, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/" title="2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp" class="posttitle">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        24k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        22 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <h3 id="安恒WriteUp"><a href="#安恒WriteUp" class="headerlink" title="安恒WriteUp"></a>安恒WriteUp</h3><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1MzE3Njg2Mw==&amp;mid=2247486458&amp;idx=1&amp;sn=96404a0ab43e7b4970c9404d00ce2fe0&amp;chksm=fbf7918acc80189ce0041525a471987c37047732b0eaafd117a7c52f9d2274bf60aef080a6a6&amp;mpshare=1&amp;scene=23&amp;srcid=#rd" target="_blank" rel="noopener">安恒2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp</a></p>
+<h3 id="官方WriteUp"><a href="#官方WriteUp" class="headerlink" title="官方WriteUp"></a>官方WriteUp</h3><p><a href="https://mp.weixin.qq.com/s?__biz=MzIxNTA4OTI5Mg==&amp;mid=2647708779&amp;idx=1&amp;sn=ac6bc3a3d912fc405d2d5b497ba47d22&amp;chksm=8fb9dd88b8ce549e5f037eb609cc3340c3362bca2678053f1dde0c99ce4108aa50f7d38e523a&amp;mpshare=1&amp;scene=23&amp;srcid=#rd" target="_blank" rel="noopener">官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp</a></p>
+<hr>
+<h3 id="第一题（土肥原贤二）"><a href="#第一题（土肥原贤二）" class="headerlink" title="第一题（土肥原贤二）"></a>第一题（土肥原贤二）</h3><p>SQL注入，gid通过单引号包裹，比较简单就呈现出来</p>
+<p></p>
+<p>联合注入测试成功</p>
+<p></p>
+<p>爆数据库、表、列、flag值</p>
+<pre><code>-1&#39; union select 1,2,3,table_name from information_schema.tables where table_schema=database() #
+-...</code></pre>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
@@ -495,7 +635,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        3.7k
+                        3.2k
                     </span>
                 
                 
@@ -535,105 +675,9 @@
 <p></p>
 <hr>
 <h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+++++ +++++ [-&gt;++ ++++...</span></pre></td></tr></table></figure>
+<pre><code>+++++ +++++ [-&gt;++ +++++ +++&lt...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/03/30/BugKuCTF—加密题 第1-10关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            March 30, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/" title="2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp" class="posttitle">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        36k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        33 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <h3 id="安恒WriteUp"><a href="#安恒WriteUp" class="headerlink" title="安恒WriteUp"></a>安恒WriteUp</h3><p><a href="https://mp.weixin.qq.com/s?__biz=MzU1MzE3Njg2Mw==&amp;mid=2247486458&amp;idx=1&amp;sn=96404a0ab43e7b4970c9404d00ce2fe0&amp;chksm=fbf7918acc80189ce0041525a471987c37047732b0eaafd117a7c52f9d2274bf60aef080a6a6&amp;mpshare=1&amp;scene=23&amp;srcid=#rd" target="_blank" rel="noopener">安恒2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp</a></p>
-<h3 id="官方WriteUp"><a href="#官方WriteUp" class="headerlink" title="官方WriteUp"></a>官方WriteUp</h3><p><a href="https://mp.weixin.qq.com/s?__biz=MzIxNTA4OTI5Mg==&amp;mid=2647708779&amp;idx=1&amp;sn=ac6bc3a3d912fc405d2d5b497ba47d22&amp;chksm=8fb9dd88b8ce549e5f037eb609cc3340c3362bca2678053f1dde0c99ce4108aa50f7d38e523a&amp;mpshare=1&amp;scene=23&amp;srcid=#rd" target="_blank" rel="noopener">官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp</a></p>
-<hr>
-<h3 id="第一题（土肥原贤二）"><a href="#第一题（土肥原贤二）" class="headerlink" title="第一题（土肥原贤二）"></a>第一题（土肥原贤二）</h3><p>SQL注入，gid通过单引号包裹，比较简单就呈现出来</p>
-<p></p>
-<p>联合注入测试成功</p>
-<p></p>
-<p>爆数据库、表、列、flag值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1&apos; union select 1,2,3,table_name from information_schema.tables where table_schema=database()...</span></pre></td></tr></table></figure>
-            
-            <span class="read-more"><a href="knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            March 30, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" title="BugKuCTF — 杂项题中常见的文件知识点和操作" class="posttitle">BugKuCTF — 杂项题中常见的文件知识点和操作</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        6.5k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        6 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Misc/">CTF-Misc</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF E0</span><br><span class="line"></span><br><span class="line">PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82</span><br><span class="line"></span><br><span class="line">7z：37 7A BC AF 27 1C</span><br><span class="line"></span><br><span class="line">GIF (gif)：47 49 46 38 39 61</span><br><span class="line"></span><br><span class="line">ZIP Archive (zip)：50 4B 03 04</span><br><span class="line"></span><br><span class="line">RAR Archive (rar)：52 61 72 21</span><br><span class="line"></span><br><span class="line">Wave (wav)：...</span></pre></td></tr></table></figure>
-            
-            <span class="read-more"><a href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
@@ -658,13 +702,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        14k
+                        12k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        12 mins.
+                        11 mins.
                     </span>
                 
                 
