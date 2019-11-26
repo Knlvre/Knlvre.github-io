@@ -414,13 +414,13 @@
 <p>写了4个进程调度算法，并利用Python3的PyQt5库设计了GUI，代码量大概为1000行</p>
 <p>第一次接触GUI，现学现卖，没有做任何优化</p>
 <h1 id="一、Python-3-7环境下安装PyQt5"><a href="#一、Python-3-7环境下安装PyQt5" class="headerlink" title="一、Python 3.7环境下安装PyQt5"></a>一、Python 3.7环境下安装PyQt5</h1><p>2.安装PyQt5</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyQt5</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install PyQt5</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-1.png" alt="1-1"></p>
 <p>2.安装 sip</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip  install sip</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip  install sip</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-2.png" alt></p>
 <p>3.安装PyQt5-tools</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyQt5-tools</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install PyQt5-tools</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/1-3.png" alt></p>
 <p>安装成功之后就可以在路径下看到<code>pyqt5_tools</code>文件夹（我的是：<code>Python37\Lib\site-packages\pyqt5_tools</code>）</p>
 <p>双击文件夹内的<code>designer.exe</code>就可以打开<code>QT Designer</code>应用</p>
@@ -435,7 +435,7 @@
 <p>点击保存后，会生成一个.ui的文件，以xml格式记录内容，这个文件是无法直接调用的</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-3.png" alt="2-3"></p>
 <p>通过如下命令，将保存下来的<code>ui文件</code>转换为<code>py文件</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyuic5 -o [name].py [name].ui</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pyuic5 -o [name].py [name].ui</span><br></pre></td></tr></table></figure>
 <p>通过在这个py文件添加如下图的代码，就可以直接运行。</p>
 <p>MainWindow类型：</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PyQt5/2-5.png" alt="2-5"></p>

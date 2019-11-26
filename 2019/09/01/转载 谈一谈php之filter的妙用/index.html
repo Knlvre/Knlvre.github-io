@@ -421,12 +421,12 @@ php://filter是PHP中独有的协议，利用这个协议可以创造很多“�
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-4.png" alt="1-4"></p>
 <h2 id="巧用编码与解码"><a href="#巧用编码与解码" class="headerlink" title="巧用编码与解码"></a>巧用编码与解码</h2><p>使用编码不光可以帮助我们获取文件，也可以帮我们去除一些“不必要的麻烦”。</p>
 <p>记得前段时间三个白帽有个比赛，其中有一部分代码大概类似于以下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了（这个过程在实战中十分常见，通常出现在缓存、配置文件等等地方，不允许用户直接访问的文件，都会被加上if(!defined(xxx))exit;之类的限制）。那么这种情况下，如何绕过这个“死亡exit”？</p>
 <p>幸运的是，这里的<code>$_POST[&#39;filename&#39;]</code>是可以控制协议的，我们即可使用 php://filter协议来施展魔法：使用php://filter流的base64-decode方法，将<code>$content</code>解码，利用php base64_decode函数特性去除“死亡exit”。</p>
 <p>众所周知，base64编码中只包含64个可打印字符，而PHP在解码base64时，遇到不在其中的字符时，将会跳过这些字符，仅将合法字符组成一个新的字符串进行解码。</p>
 <p>所以，一个正常的base64_decode实际上可以理解为如下两个步骤：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_GET[<span class="string">'txt'</span>] = preg_replace(<span class="string">'|[^a-z0-9A-Z+/]|s'</span>, <span class="string">''</span>, $_GET[<span class="string">'txt'</span>]);</span><br><span class="line">base64_decode($_GET[<span class="string">'txt'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_GET[<span class="string">'txt'</span>] = preg_replace(<span class="string">'|[^a-z0-9A-Z+/]|s'</span>, <span class="string">''</span>, $_GET[<span class="string">'txt'</span>]);</span><br><span class="line">base64_decode($_GET[<span class="string">'txt'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>所以，当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用 php://filter/write=convert.base64-decode 来首先对其解码。在解码的过程中，字符&lt;、?、;、&gt;、空格等一共有7个字符不符合base64编码的字符范围将被忽略，所以最终被解码的字符仅有“phpexit”和我们传入的其他字符。</p>
 <p>“phpexit”一共7个字符，因为base64算法解码时是4个byte一组，所以给他增加1个“a”一共8个字符。这样，”phpexita”被正常解码，而后面我们传入的webshell的base64内容也被正常解码。结果就是<code>&lt;?php exit; ?&gt;</code>没有了。</p>
 <p>最后效果是 ：</p>
@@ -435,7 +435,7 @@ php://filter是PHP中独有的协议，利用这个协议可以创造很多“�
 <p>其实，除了使用base64特性的方法外，我们还可以利用php://filter字符串处理方法来去除“死亡exit”。我们观察一下，这个<code>&lt;?php exit; ?&gt;</code>实际上是什么？</p>
 <p>实际上是一个XML标签，既然是XML标签，我们就可以利用strip_tags函数去除它，而php://filter刚好是支持这个方法的。</p>
 <p>编写如下测试代码即可查看 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo readfile(&apos;php://filter/read=string.strip_tags/resource=php://input&apos;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo readfile(&apos;php://filter/read=string.strip_tags/resource=php://input&apos;);</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-6.png" alt="1-6"></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/%E8%BD%AC%E8%BD%BD/php%E4%B9%8Bfilter/1-7.png" alt="1-7"></p>
 <p>可见，<code>&lt;?php exit; ?&gt;</code>被去除了。但回到上面的题目，我们最终的目的是写入一个webshell，而写入的webshell也是php代码，如果使用strip_tags同样会被去除。</p>
@@ -622,7 +622,7 @@ php://filter是PHP中独有的协议，利用这个协议可以创造很多“�
                 <div class="card-content article-content">
                     <div class="summary">Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件
 Ps：如果只安装Apache2，将会导致写的php文件无法被解析
-12apt-get install apache2apt-get ins</div>
+apt-get install apache2apt-get insta</div>
                     <div class="publish-info">
                         <span class="publish-date">
                             <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-03

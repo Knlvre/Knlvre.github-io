@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta name="keywords" content="Kali学习笔记, Knlvre">
     <meta name="description" content="1. 常用命令grep：就前面执行后显示的内容进行筛选（egrep相反）
-1命令 | grep [&#34;XXX&#34;]
+命令 | grep [&#34;XXX&#34;]
 awk：筛选第X行的内容
-1命令 | awk [&#34;X&#34;]
+命令 | awk [&#34;X&#34;]
 cut：裁剪内容，-d 表示分割的标志，-f 接第几部分
-1命令 | ">
+命令 | cut">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -413,48 +413,48 @@ cut：裁剪内容，-d 表示分割的标志，-f 接第几部分
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="1-常用命令"><a href="#1-常用命令" class="headerlink" title="1. 常用命令"></a>1. 常用命令</h2><p><strong>grep</strong>：就前面执行后显示的内容进行筛选（egrep相反）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | grep ["XXX"]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">命令 | grep ["XXX"]</span><br></pre></td></tr></table></figure>
 <p><strong>awk</strong>：筛选第X行的内容</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | awk ["X"]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">命令 | awk ["X"]</span><br></pre></td></tr></table></figure>
 <p><strong>cut</strong>：裁剪内容，-d 表示分割的标志，-f 接第几部分</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令 | cut -d ["X"] -f [X]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">命令 | cut -d ["X"] -f [X]</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Kali%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1-3.png" alt="1-3"></p>
 <p><strong>ls</strong>：列出当前目录下内容（Window下是：dir）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls [-l/-a/-h...]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls [-l/-a/-h...]</span><br></pre></td></tr></table></figure>
 <p><strong>cd</strong>：切换位置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd [/etc/passwd]</span><br><span class="line">cd ..	（切换至上一级目录）</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd [/etc/passwd]</span><br><span class="line">cd ..	（切换至上一级目录）</span><br></pre></td></tr></table></figure>
 <p><strong>pwd</strong>：查看当前工作目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pwd</span><br></pre></td></tr></table></figure>
 <p><strong>cat</strong>：查看文件全部内容</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat [/etc/passwd]</span><br></pre></td></tr></table></figure>
 <p><strong>less、more</strong>：一页页查看文件内容（回车翻行、空格翻页）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">less [/etc/passwd]	（按Q退出）</span><br><span class="line">more [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">less [/etc/passwd]	（按Q退出）</span><br><span class="line">more [/etc/passwd]</span><br></pre></td></tr></table></figure>
 <p><strong>tail</strong>：查看文件最后几行（默认10行）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail [-20] [/etc/passwd]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tail [-20] [/etc/passwd]</span><br></pre></td></tr></table></figure>
 <p><strong>watch</strong>：隔几秒地刷新所查看文件（结合tail命令）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n [2] tail [-20] [/var/log/messages]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">watch -n [2] tail [-20] [/var/log/messages]</span><br></pre></td></tr></table></figure>
 <p><strong>rm</strong>：删除（删除目录需要加 -r 参数）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm [file_name]</span><br><span class="line">rm -r [directory_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rm [file_name]</span><br><span class="line">rm -r [directory_name]</span><br></pre></td></tr></table></figure>
 <p>cp：拷贝（删除目录需要加 -r 参数）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp [target_file_name] [new_file_name]	(在本目录下复制)</span><br><span class="line">cp -r [target_directory_name] [new_directory_name]</span><br><span class="line"></span><br><span class="line">cp [target_file_name] [destination_directory_name]	（复制到执行目录）</span><br><span class="line">cp -r [target_file_name] [destination_directory_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cp [target_file_name] [new_file_name]	(在本目录下复制)</span><br><span class="line">cp -r [target_directory_name] [new_directory_name]</span><br><span class="line"></span><br><span class="line">cp [target_file_name] [destination_directory_name]	（复制到执行目录）</span><br><span class="line">cp -r [target_file_name] [destination_directory_name]</span><br></pre></td></tr></table></figure>
 <p>top：监视系统性能参数</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
 <p>ps：显示进程信息（通常使用ps -ef或ps auf显示更详细的）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -[ef]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -[ef]</span><br></pre></td></tr></table></figure>
 <p>ifconfig：查看网卡信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
 <p>netstat：查看简历网络连接的详细信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -[nao]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -[nao]</span><br></pre></td></tr></table></figure>
 <p>dpkg：软件的安装、更新和移除。具体用法请百度</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dppkg -[i/L]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dppkg -[i/L]</span><br></pre></td></tr></table></figure>
 <p>find：查找文件或者目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name [file_name/directory_name]</span><br><span class="line">find / -iname [file_name/directory_name]	(加i不区分大小写)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find / -name [file_name/directory_name]</span><br><span class="line">find / -iname [file_name/directory_name]	(加i不区分大小写)</span><br></pre></td></tr></table></figure>
 <p>whereis：功能与find相同，但是范围小速度快</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis [file_name/directory_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">whereis [file_name/directory_name]</span><br></pre></td></tr></table></figure>
 <p>touch：创建一个文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch [file_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">touch [file_name]</span><br></pre></td></tr></table></figure>
 <p>vi：编辑一个文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi [file_name]</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi [file_name]</span><br></pre></td></tr></table></figure>
 <p>如果想让文本显示行号.就在命令行 模式下,在文本最后输入”:set nu”命令.就可以了 </p>
 <p>如果要想编辑文本文件.必须要转换到插入模式下,也就是按一下键盘上的”i”就可以了.这样你就可以编辑文本,删除文本中的内容</p>
 <p>输入你要输入的内容.如果你想退出文本编辑模式.并且保存刚刚编辑的文本.首先点击一下键盘上的”ESC”,然后输入”:wq!”这样就将文本保存了.然后推出了vi编辑器.如果不想保存就按一下键盘上的”ESC”,输入”:q!”.如果你不确定是否成功.可以通过”cat filename” 命令来查看.</p>
@@ -764,9 +764,9 @@ cut：裁剪内容，-d 表示分割的标志，-f 接第几部分
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">（一）数据库安全【Tip】12345Grant：授予Privilege： 特权Revoke：废除Anonymous：匿名的Recurse：递归
+                    <div class="summary">（一）数据库安全【Tip】Grant：授予Privilege： 特权Revoke：废除Anonymous：匿名的Recurse：递归
 【原理】​    （1）数据库系统分为内部安全性和外部安全性。
-​    （2）内部安全性关心的</div>
+​    （2）内部安全性关心的是文件系统</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-14

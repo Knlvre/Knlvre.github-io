@@ -428,7 +428,7 @@
 <h3 id="第三关（Web基础-GET）"><a href="#第三关（Web基础-GET）" class="headerlink" title="第三关（Web基础$_GET）"></a>第三关（Web基础$_GET）</h3><p>进入链接后直接看到信息</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/3-1.png" alt="3-1"></p>
 <p>根据信息直接输入url得到flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?what=flag</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?what=flag</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/3-2.png" alt="3-2"></p>
 <h3 id="第四关（Web基础-POST）"><a href="#第四关（Web基础-POST）" class="headerlink" title="第四关（Web基础$_POST）"></a>第四关（Web基础$_POST）</h3><p>同第三关，进入链接后直接看到信息</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/4-1.png" alt="4-1"></p>
@@ -437,9 +437,9 @@
 <h3 id="第五关（矛盾）"><a href="#第五关（矛盾）" class="headerlink" title="第五关（矛盾）"></a>第五关（矛盾）</h3><p>进入连接后直接看到信息</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/5-1.png" alt="5-1"></p>
 <p>为什么题目叫矛盾了，因为要求num即不是数字的同时，却要等于1。这是就想到了科学记数法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1e = 1E = 1*10的0次方</span><br><span class="line">2e1 = 2E1 = 2*10的1次方</span><br><span class="line">3e2 = 3E2 = 3*10的2次方</span><br><span class="line">以此类推.......</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1e = 1E = 1*10的0次方</span><br><span class="line">2e1 = 2E1 = 2*10的1次方</span><br><span class="line">3e2 = 3E2 = 3*10的2次方</span><br><span class="line">以此类推.......</span><br></pre></td></tr></table></figure>
 <p>那么我们就能这样提交参数，顺利拿到flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?num=1e</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?num=1e</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/5-2.png" alt="5-2"></p>
 <h3 id="第六关（web3）"><a href="#第六关（web3）" class="headerlink" title="第六关（web3）"></a>第六关（web3）</h3><p>链接进去后就不断弹出窗口”flag就在这里”，”快来找找吧”</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-1.png" alt="6-1"></p>
@@ -451,7 +451,7 @@
 <h3 id="第七关（域名解析）"><a href="#第七关（域名解析）" class="headerlink" title="第七关（域名解析）"></a>第七关（域名解析）</h3><p>题目提示：</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-1.png" alt="7-1"></p>
 <p>那么我们就直接按照他的要求修改hosts文件，hosts文件Windows下的路径：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C:\Windows\System32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
 <p>将这条记录添加在下面（注意不要加#号）</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-2.png" alt="7-2"></p>
 <p>然后用浏览器访问flag.baidu.com就可以拿到flag了</p>
@@ -465,22 +465,22 @@
 <h3 id="第九关（本地包含）"><a href="#第九关（本地包含）" class="headerlink" title="第九关（本地包含）"></a>第九关（本地包含）</h3><p>链接进去可以看到代码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-1.png" alt="9-1"></p>
 <p>首先明确几个知识点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$_REQUEST 的意思是获得参数，不论是@$_GET还是@$_POST可以得到的参数@$_REQUEST都能得到</span><br><span class="line"></span><br><span class="line">eval() 函数存在命令执行漏洞，构造出文件包含会把字符串参数当做代码来执行</span><br><span class="line"></span><br><span class="line">file() 函数把整个文件读入一个数组中，并将文件作为一个数组返回</span><br><span class="line"></span><br><span class="line">include()函数和php://input，php://filter结合很好用，php://filter可以用与读取文件源代码，结果是源代码base64编码后的结果</span><br><span class="line">php://filter/convert.base64-encode/resource=文件路径（如index.php）</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$_REQUEST 的意思是获得参数，不论是@$_GET还是@$_POST可以得到的参数@$_REQUEST都能得到</span><br><span class="line"></span><br><span class="line">eval() 函数存在命令执行漏洞，构造出文件包含会把字符串参数当做代码来执行</span><br><span class="line"></span><br><span class="line">file() 函数把整个文件读入一个数组中，并将文件作为一个数组返回</span><br><span class="line"></span><br><span class="line">include()函数和php://input，php://filter结合很好用，php://filter可以用与读取文件源代码，结果是源代码base64编码后的结果</span><br><span class="line">php://filter/convert.base64-encode/resource=文件路径（如index.php）</span><br></pre></td></tr></table></figure>
 <p>方法一：</p>
 <p>把原本的var_dump()函数的括号构造掉，让eval()函数转去执行show_source(‘flag.php’)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://123.206.87.240:8003/?hello=1);show_source(%27flag.php%27);var_dump(1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://123.206.87.240:8003/?hello=1);show_source(%27flag.php%27);var_dump(1</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-2.png" alt="9-2"></p>
 <p>网页直接返回flag.php的内容，里面就有flag</p>
 <p>方法二：</p>
 <p>同样用一个右括号把原本的var_dump()函数闭合掉，然后转去执行include $_POST[‘a’]，后面直接用双斜杠注释掉后面的内容，也可以像方法一那样，随便加一个var_dump(1</p>
 <p>然后POST提交a的值如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://120.24.86.145:8003/index.php?hello=1);include $_POST[&apos;a&apos;];//</span><br><span class="line">POST值：a=php://filter/convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://120.24.86.145:8003/index.php?hello=1);include $_POST[&apos;a&apos;];//</span><br><span class="line">POST值：a=php://filter/convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-3.png" alt="9-3"></p>
 <p>得到一串base64密码，拿去解密一下，就可以看到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-4.png" alt="9-4"></p>
 <p>方法三：</p>
 <p>直接将flag.php文件读入变量hello中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?hello=file(&apos;flag.php&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?hello=file(&apos;flag.php&apos;)</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-5.png" alt="9-5"></p>
 <h3 id="第十关（变量1）"><a href="#第十关（变量1）" class="headerlink" title="第十关（变量1）"></a>第十关（变量1）</h3><p>链接进入后可以看到代码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-1.png" alt="10-1"></p>
@@ -671,8 +671,8 @@
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">前一部分链接：第11-20关Write-up第二一关（细心的大象）题目链接：
-1https://share.weiyun.com/9287be0a629971ac53d97f39727eee18
-下载下来一个名为1.jpg.zip的文件，解</div>
+https://share.weiyun.com/9287be0a629971ac53d97f39727eee18
+下载下来一个名为1.jpg.zip的文件，解压</div>
                     <div class="publish-info">
                         <span class="publish-date">
                             <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-07
@@ -714,10 +714,10 @@
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">前一部分链接：第1-10关Write-up第十一关（多种方法解决）题目链接：
-1http://123.206.87.240:8002/misc/3.zip
+http://123.206.87.240:8002/misc/3.zip
 下载下来一个zip文件，解压开是一个KEY.exe文件
 
-用UE打开看一下，开头就发</div>
+用UE打开看一下，开头就发现</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-04

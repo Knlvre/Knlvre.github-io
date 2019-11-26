@@ -457,10 +457,10 @@
 <p>也可以用binwalk看里面有什么东西可以提取</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-13.png" alt="2-13"></p>
 <p>然后直接binwalk -e命令提取出来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e caidao.pcapng</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -e caidao.pcapng</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-14.png" alt="2-14"></p>
 <p>提取出来一个压缩包，解压得到flag.txt，查看后拿到flag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf 1E43</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tar -xvf 1E43</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-15.png" alt="2-15"></p>
 <p>至此，方法二结束</p>
 <hr>
@@ -502,7 +502,7 @@
 <p>尝试解压失败。拿到winhex下看一下文件，发现文件头有错</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-5.png" alt="4-5"></p>
 <p>因为rar文件头是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">52 61 72 21</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">52 61 72 21</span><br></pre></td></tr></table></figure>
 <p>将多余的部分删除掉，然后保存</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-6.png" alt="4-6"></p>
 <p>再次解压1.rar，解压成功，提取出来一张GIF文件，图片上就是flag</p>
@@ -518,27 +518,27 @@
 <p>客户端发送的内容末端发现了fly.rar，这不就是苍蝇吗</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-3.png" alt="5-3"></p>
 <p>上图描述的是压缩包的内涵，也就是这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;path&quot;:&quot;fly.rar&quot;,</span><br><span class="line">   &quot;appid&quot;:&quot;&quot;,</span><br><span class="line">   &quot;size&quot;:525701,</span><br><span class="line">   &quot;md5&quot;:&quot;e023afa4f6579db5becda8fe7861c2d3&quot;,</span><br><span class="line">   &quot;sha&quot;:&quot;ecccba7aea1d482684374b22e2e7abad2ba86749&quot;,</span><br><span class="line">   &quot;sha3&quot;:&quot;&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;path&quot;:&quot;fly.rar&quot;,</span><br><span class="line">   &quot;appid&quot;:&quot;&quot;,</span><br><span class="line">   &quot;size&quot;:525701,</span><br><span class="line">   &quot;md5&quot;:&quot;e023afa4f6579db5becda8fe7861c2d3&quot;,</span><br><span class="line">   &quot;sha&quot;:&quot;ecccba7aea1d482684374b22e2e7abad2ba86749&quot;,</span><br><span class="line">   &quot;sha3&quot;:&quot;&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>记录了fly.rar的大小，md5值</p>
 <p>现在添加对数据包的过滤条件，只看http协议，并且只看POST方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http &amp;&amp; http.request.method == POST</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http &amp;&amp; http.request.method == POST</span><br></pre></td></tr></table></figure>
 <p>注意到No.2至No.6这5个文件，Media Type都是application/octet-stream的格式</p>
 <p>也就是数据流的格式，现在就猜测这些数据流里有我们要的东西</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-4.png" alt="5-4"></p>
 <p>这5个文件的Media Type域的大小分别是131436、131436、131436、131436、1777</p>
 <p>之前压缩包内涵中我们知道，fly.rar的大小是525701，那么：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(131436*4 + 1777) - 525701 = 1820</span><br><span class="line">1820 / 4 = 364</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(131436*4 + 1777) - 525701 = 1820</span><br><span class="line">1820 / 4 = 364</span><br></pre></td></tr></table></figure>
 <p>接触过网络数据包的应该知道，数据包如果拆开发送，到目标端是要再组合起来的</p>
 <p>组合起来时就需要靠包头的信息，现在猜测364就是每个包的包头大小</p>
 <p>用Wireshark的Ctrl+H将Media Type的内容提取出来，放到Kali中</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-5.png" alt="5-5"></p>
 <p>用dd命令逐个将他们的前364个字节大小的包头剔除掉</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=1 of=10 skip=364 bs=1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=1 of=10 skip=364 bs=1</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-6.png" alt="5-6"></p>
 <p>用cat命令将5个和成1个fly.rar</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat 10 20 30 40 50 &gt; fly.rar</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat 10 20 30 40 50 &gt; fly.rar</span><br></pre></td></tr></table></figure>
 <p>用md5sum检查一下md5值。没错，和之间压缩包内涵里的md5值一模一样，说明组合成功了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5sum fly.rar</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum fly.rar</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-8.png" alt="5-8"></p>
 <p>想要解压时却发现要密码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-9.png" alt="5-9"></p>
@@ -722,20 +722,32 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">
+                <a href="knlvre.github.io/2019/03/30/BugKuCTF—加密题 第1-10关/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="BugKuCTF — 加密题(第1-10关)">
                         
-                        <span class="card-title">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</span>
+                        <span class="card-title">BugKuCTF — 加密题(第1-10关)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">安恒WriteUp安恒2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
-官方WriteUp官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
+                    <div class="summary">第一关（滴答~滴）百度一下题目给的数字，发现是摩斯密码
 
-第一题（土肥原贤二）SQL注入，gid通过单引号包裹，比较简单就呈现出</div>
+在线解密一下
+
+提交就对了
+
+
+第二关（聪明的小羊）题目提示很明显了：栅栏密码
+
+用Python写个脚本
+
+跑一下flag直接出来
+
+也可以使用网站：栅栏密码在线加密解密
+
+第三关（</div>
                     <div class="publish-info">
                         <span class="publish-date">
                             <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-30
@@ -751,8 +763,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="knlvre.github.io/tags/CTF比赛/" target="_blank">
-                        <span class="chip bg-color">CTF比赛</span>
+                    <a href="knlvre.github.io/tags/CTF-Misc/" target="_blank">
+                        <span class="chip bg-color">CTF-Misc</span>
                     </a>
                     
                 </div>

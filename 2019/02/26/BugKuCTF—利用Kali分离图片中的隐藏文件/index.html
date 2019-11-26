@@ -8,7 +8,7 @@
     <meta name="description" content="在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件
 而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：Binwalk、dd、foremost，于是便去了解
 例题：可以借用BUGKU中的这道题，题目地址：
-1https:/">
+https://">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -413,21 +413,21 @@
                 <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
 <p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
 <h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU中的这道题，题目地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-1b348d44dcf.zip</span><br></pre></td></tr></table></figure>
 <h3 id="一、Binwalk"><a href="#一、Binwalk" class="headerlink" title="一、Binwalk"></a>一、Binwalk</h3><p>Binwalk会分析一张指定的图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk ada.jpg</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-7.png" alt="6-7"></p>
 <p>像这张图片，发现隐藏着flag.txt</p>
 <p>Binwalk也可以做提取工作，加一个 -e 参数就可以了</p>
 <p>不过也会出差错，最好和foremost、dd结合起来提取更完整的内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -e ada.jpg</span><br></pre></td></tr></table></figure>
 <h3 id="二、foremost"><a href="#二、foremost" class="headerlink" title="二、foremost"></a>二、foremost</h3><p>foremost工具是用来分离出图片中隐藏的文件，举上面的栗子</p>
 <p>我们用binwalk确定ada.jpg图片中有隐藏文件后，就可以进行分离</p>
 <p>它会在当前目录下生成一个<strong>output</strong>文件夹，分离出来的文件放在里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">foremost ada.jpg</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/6-3.png" alt="6-3"></p>
 <h3 id="三、dd"><a href="#三、dd" class="headerlink" title="三、dd"></a>三、dd</h3><p>dd工具也是用来分离的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=ada.jpg of=ada.zip skip=218773 bs=1</span><br></pre></td></tr></table></figure>
 <p><strong>if</strong>：要提取分离的文件</p>
 <p><strong>of</strong>：输出的文件</p>
 <p><strong>skip</strong>：跳转到第218773块后再提取，这个参数可以看binwalk分析出来的数据而决定</p>
@@ -601,24 +601,28 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="knlvre.github.io/2019/03/04/BugKuCTF—杂项题 第11-20关/">
+                <a href="knlvre.github.io/2019/02/26/BugKuCTF—杂项题 第1-10关/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="BugKuCTF — 杂项题(第11-20关)">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="BugKuCTF — 杂项题(第1-10关)">
                         
-                        <span class="card-title">BugKuCTF — 杂项题(第11-20关)</span>
+                        <span class="card-title">BugKuCTF — 杂项题(第1-10关)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">前一部分链接：第1-10关Write-up第十一关（多种方法解决）题目链接：
-1http://123.206.87.240:8002/misc/3.zip
-下载下来一个zip文件，解压开是一个KEY.exe文件
+                    <div class="summary">第一关（签到题）关注公众号扫描二维码就能获得flag
 
-用UE打开看一下，开头就发</div>
+第二关（这是一张单纯的图片）题目链接：
+http://123.206.87.240:8002/misc/1.jpg
+打开链接发现是一张jpg图片
+
+
+看了一下图片属性，没发现什么东西
+</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-04
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-26
                         </span>
                         <span class="publish-author">
                             
@@ -646,27 +650,24 @@
                 Next&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="knlvre.github.io/2019/02/26/BugKuCTF—杂项题 第1-10关/">
+                <a href="knlvre.github.io/2019/02/20/DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="BugKuCTF — 杂项题(第1-10关)">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）">
                         
-                        <span class="card-title">BugKuCTF — 杂项题(第1-10关)</span>
+                        <span class="card-title">DVWA 11-Stored Based Cross Site Scripting (XSS)（Stored型跨站脚本）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">第一关（签到题）关注公众号扫描二维码就能获得flag
+                    <div class="summary">源码位置DVWA\vulnerabilities\xss_s\source\
+页面功能模拟评论模块，输入Name和Message并提交后，会存储在后台并返回给用户
 
-第二关（这是一张单纯的图片）题目链接：
-1http://123.206.87.240:8002/misc/1.jpg
-打开链接发现是一张jpg图片
-
-
-看了一下图片属性，没发现什么东西</div>
+1.XSS存储型攻击简单定义
+XSS存储型攻击，恶意代码被保存到目标网站的</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-26
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-20
                             </span>
                         <span class="publish-author">
                             
@@ -679,8 +680,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="knlvre.github.io/tags/CTF-Misc/" target="_blank">
-                        <span class="chip bg-color">CTF-Misc</span>
+                    <a href="knlvre.github.io/tags/DVWA/" target="_blank">
+                        <span class="chip bg-color">DVWA</span>
                     </a>
                     
                 </div>

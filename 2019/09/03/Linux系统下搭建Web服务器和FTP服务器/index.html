@@ -7,7 +7,7 @@
     <meta name="keywords" content="Linux系统下搭建Web服务器和FTP服务器, Knlvre">
     <meta name="description" content="Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件
 Ps：如果只安装Apache2，将会导致写的php文件无法被解析
-12apt-get install apache2apt-get ins">
+apt-get install apache2apt-get insta">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -411,12 +411,12 @@ Ps：如果只安装Apache2，将会导致写的php文件无法被解析
             <div id="articleContent">
                 <h1 id="Web服务器安装与配置"><a href="#Web服务器安装与配置" class="headerlink" title="Web服务器安装与配置"></a>Web服务器安装与配置</h1><h2 id="Apache2和php组件的安装"><a href="#Apache2和php组件的安装" class="headerlink" title="Apache2和php组件的安装"></a>Apache2和php组件的安装</h2><p>使用如下命令来安装Apache2和php的组件</p>
 <p>Ps：如果只安装Apache2，将会导致写的php文件无法被解析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install apache2</span><br><span class="line">apt-get install php</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-1.png" alt="1-1"></p>
-<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">状态：/etc/init.d/apache2 status（service apache2 status）</span><br><span class="line">开启：/etc/init.d/apache2 start（service apache2 start）</span><br><span class="line">关闭：/etc/init.d/apache2 stop（service apache2 stop）</span><br><span class="line">重启：/etc/init.d/apache2 restart（service apache2 restart）</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-2.png" alt="1-2"></p>
 <h2 id="网站根目录"><a href="#网站根目录" class="headerlink" title="网站根目录"></a>网站根目录</h2><p>网站根目录位于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/var/www/html</span><br></pre></td></tr></table></figure>
 <p>创建文件时，一些文件记得修改文件对应的权限，才能访问</p>
 <h2 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h2><p>Apache2带有登录验证的功能，（1） 在<code>/etc</code>目录下创建<code>.Webpasswd</code>文件，设置登陆使用的用户名和密码。该文件为验证使用的储存用户名密码的文件</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-3.png" alt="1-3"></p>
@@ -425,9 +425,9 @@ Ps：如果只安装Apache2，将会导致写的php文件无法被解析
 <p>修改完成后再去访问就会看到弹出身份认证框</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/1-5.png" alt="1-5"></p>
 <h1 id="FTP服务器安装与配置"><a href="#FTP服务器安装与配置" class="headerlink" title="FTP服务器安装与配置"></a>FTP服务器安装与配置</h1><h2 id="vsftpd组件的安装"><a href="#vsftpd组件的安装" class="headerlink" title="vsftpd组件的安装"></a>vsftpd组件的安装</h2><p>使用如下命令来安装Apache2的组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install vsftpd</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install vsftpd</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-1.png" alt="2-1"></p>
-<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看状态：/etc/init.d/vsftpd status</span><br><span class="line">开启：/etc/init.d/vsftpd start</span><br><span class="line">关闭：/etc/init.d/vsftpd stop</span><br><span class="line">重启：/etc/init.d/vsftpd restart</span><br></pre></td></tr></table></figure>
+<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">查看状态：/etc/init.d/vsftpd status</span><br><span class="line">开启：/etc/init.d/vsftpd start</span><br><span class="line">关闭：/etc/init.d/vsftpd stop</span><br><span class="line">重启：/etc/init.d/vsftpd restart</span><br></pre></td></tr></table></figure>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>创建专门用于上传下载的目录（记得设置权限，不然会导致无法创建文件）</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-2.png" alt="2-2"></p>
 <p>创建新用户并设置密码</p>
@@ -442,7 +442,7 @@ Ps：如果只安装Apache2，将会导致写的php文件无法被解析
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-7.png" alt="2-7"></p>
 <p>重启 <code>vsftpd</code> 服务，并查看状态</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-8.png" alt="2-8"></p>
-<h2 id="安装-ftp-命令"><a href="#安装-ftp-命令" class="headerlink" title="安装 ftp 命令"></a>安装 ftp 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ftp</span><br></pre></td></tr></table></figure>
+<h2 id="安装-ftp-命令"><a href="#安装-ftp-命令" class="headerlink" title="安装 ftp 命令"></a>安装 ftp 命令</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install ftp</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8CFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/2-01.png" alt="2-01"></p>
 <p>至此，vsftp 服务器就安装完成了，下面简单演示一下如何用命令传输文件</p>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>通过 <code>ftp + IP地址</code> 命令访问FTP服务；输入正确的用户名和密码进入服务；通过 <code>put</code> 命令来上传指定的文件。如图所示，本次实验将提前准备好的位于用户根目录下的 <code>FTP_Success.gif</code> 文件上传，<code>（local-file）</code>选项填写我们要上传的文件及其所处位置，<code>（remote-file）</code>选项填写文件上传后的位置</p>
@@ -654,7 +654,7 @@ Ps：如果只安装Apache2，将会导致写的php文件无法被解析
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来
-ezphp源代码1234567891011121314151617181920212223242526272829303132&lt;?php 	$fi</div>
+ezphp源代码&lt;?php 	$files = scandir('./');	foreach($files as $file)&#123;		if</div>
                     <div class="publish-info">
                         <span class="publish-date">
                             <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-03
