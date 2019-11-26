@@ -223,11 +223,12 @@ abc
 </code></pre>
 <p><strong>③ Linux 命令换行</strong></p>
 <p>在命令执行的过程中，在URL编码中<code>%0a</code>解释为换行符，而我们可以利用它们来执行多条命令（类似 &amp; 的作用）</p>
-<pre><code>root@Knlvre:/var/www/html# cat index.php 
+<pre><code class="bah">root@Knlvre:/var/www/html# cat index.php 
 &lt;?php
 echo system($_GET[a]);
 ?&gt;
-</code></pre><p>可以看到分别执行了我们给的2个命令，并且都返回了</p>
+</code></pre>
+<p>可以看到分别执行了我们给的2个命令，并且都返回了</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-1.png" alt="1-1"></p>
 <p><strong>④ Linux 命令终止符</strong></p>
 <p><code>空格+#（URL编码为%20%23）</code>在 Linux 命令行中为命令的终止符，类似注释符，我们可以利用这个闭合掉源码中的其他东西</p>
@@ -252,12 +253,15 @@ echo system($_GET[a]);
 ?&gt;
 </code></pre>
 <p>对<code>$a</code>的<code>$b</code>的正则中，反斜杠的匹配都出了问题。而对 $a 的正则中：</p>
-<pre><code>\\|\`
-</code></pre><p>PHP解释器先进行一次解释，变为</p>
-<pre><code>\|`
-</code></pre><p>然后正则再解释一次，变为</p>
-<pre><code>|`
-</code></pre><p>所以会导致实际匹配到的字符串为 <strong>“|`”</strong>。这时候反引号就逃逸出来了，可以直接强制地命令执行（尽管还有拼接到 file 命令后面）</p>
+<pre><code class="bash">\\|\`
+</code></pre>
+<p>PHP解释器先进行一次解释，变为</p>
+<pre><code class="bash">\|`
+</code></pre>
+<p>然后正则再解释一次，变为</p>
+<pre><code class="bash">|`
+</code></pre>
+<p>所以会导致实际匹配到的字符串为 <strong>“|`”</strong>。这时候反引号就逃逸出来了，可以直接强制地命令执行（尽管还有拼接到 file 命令后面）</p>
 <pre><code>?a=`uname`
 </code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-2.png" alt="1-2"></p>
 <p>发现可以命令执行后，查看当前目录（因为<code>ls</code>命令被禁用，这里用<code>dir</code>）</p>
