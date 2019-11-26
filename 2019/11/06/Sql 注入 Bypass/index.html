@@ -129,7 +129,7 @@ information_schemainnodb_tables_stats
         <div class="content markdown animated fadeIn">
             <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Sql 注入的过程中经常会碰到各种 WAF 过滤掉了多种关键字，在本文中总结一下</p>
 <p>本文持续更新</p>
-<h2 id="information-schema"><a href="#information-schema" class="headerlink" title="information_schema"></a>information_schema</h2><p><code>innodb_tables_stats</code></p>
+<h2 id="information-schema"><a href="#information-schema" class="headerlink" title="information_schema"></a>information_schema</h2><p><strong>innodb_tables_stats</strong></p>
 <h2 id="大小写"><a href="#大小写" class="headerlink" title="大小写"></a>大小写</h2><p>对于大小写敏感的 WAF ，可以用大小写绕过</p>
 <p>全大写、大小写混写</p>
 <pre><code>mysql&gt; select 1,2,3 union select * from users;
