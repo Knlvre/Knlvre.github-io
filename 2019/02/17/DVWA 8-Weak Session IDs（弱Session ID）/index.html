@@ -1,512 +1,79 @@
+extends includes/layout.pug
 
-<!DOCTYPE html>
-<html lang class="loading">
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DVWA 8-Weak Session IDs（弱Session ID） - Knlvre</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate">
-    <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="源码位置DVWA\vulnerabilities\weak_id\source\
-页面功能点击Generate，向服务器提交当前的dvwaSession值
-
-密码与证书等认证手段，一般仅仅用于登录(,"> 
-    <meta name="author" content="Knlvre"> 
-    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
-    <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/obsidian.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/ball-atom.min.css">
-</head>
-</html>
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <span id="config-title" style="display:none">Knlvre</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">DVWA 8-Weak Session IDs（弱Session ID）</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="section">
-        <div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(/img/cover.jpg);">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-                
-                February 17, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" title="DVWA 8-Weak Session IDs（弱Session ID）">DVWA 8-Weak Session IDs（弱Session ID）</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    7.5k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    7 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>Read count</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/DVWA/">DVWA</a></li></ul>
-            
-        </div>
-    </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\weak_id\source\
-</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-1.png" alt="8-1"></p>
-<p>密码与证书等认证手段，一般仅仅用于登录(<code>Login</code>)的过程。当登陆完成后，用户访问网站的页面，不可能每次浏览器请求页面时,都再使用密码认证一次。因此，当认证完成后，就需要替换一个对用户透明的凭证。这个凭证就是<code>SessionID</code>。</p>
-<p>当用户登陆完成后，在服务器端就会创建一个新的会话(<code>Session</code>)，会话中会保存用户的状态和相关信息。服务器端维护所有在线用户的<code>Session</code>，此时的认证，只需要知道是哪个用户在浏览当前的页面即可。为了告诉服务器应该使用哪一个<code>Session</code>，浏览器需要把当前用户持有的<code>SessionID</code>告知服务器。最常见的做法就是把<code>SessionID</code>加密后保存在<code>Cookie</code>中，因为<code>Cookie</code>会随着<code>HTTP</code>请求头发送，且受到浏览器同源策略的保护。</p>
-<p><code>SessionID</code>一旦在生命周期内被窃取，就等同于账户失窃。同时由于<code>SessionID</code>是用户登录之后才持有的认证凭证，因此黑客不需要再攻击登陆过程（比如密码）。<code>Session</code>劫持就是一种通过窃取用户<code>SessionID</code>后，使用该<code>SessionID</code>登录进目标账户的攻击方法，此时攻击者实际上是使用了目标账户的有效<code>Session</code>。如果<code>SessionID</code>是保存在<code>Cookie</code>中的，则这种攻击可以称为<code>Cookie</code>劫持。<code>SessionID</code>还可以保存在<code>URL</code>中，作为一个请求的一个参数，但是这种方式的安全性难以经受考验。</p>
-<p>因此，在生成<code>SessionID</code>时，需要保证足够的随机性，比如采用足够强的伪随机数生成算法。</p>
-<p>— 摘自《白帽子讲 web 安全》</p>
-<h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-$html = &quot;&quot;;
-
-if ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;POST&quot;) {
-    if (!isset ($_SESSION[&#39;last_session_id&#39;])) {
-        $_SESSION[&#39;last_session_id&#39;] = 0;
-    }
-    $_SESSION[&#39;last_session_id&#39;]++;
-    $cookie_value = $_SESSION[&#39;last_session_id&#39;];
-    setcookie(&quot;dvwaSession&quot;, $cookie_value);
-}
-?&gt;
-</code></pre>
-<p>了解本漏洞，需要用到2个浏览器</p>
-<p>在<code>A浏览器</code>点击Generate并用burpsuit抓包，从抓取的包中可以看到<code>dvwaSession=1</code>，这也验证了源码。在点击<code>go</code>之后，从服务器返回的响应头中可以看到<code>Set-Cookie: dvwaSession=2</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-2.png" alt="8-2"></p>
-<p>在多按几次Generate，发现<code>dvwaSession</code>字段就是会每次加1。现在我们切换到<code>B浏览器</code>，借用<code>Hackbar</code>工具，URL地址从burpsuit中copy下来：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>，Cookie也copy下来：<code>dvwaSession=4; security=low; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>，然后点击<code>Execute</code>后直接跳转到刚才的界面来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-3.png" alt="8-3"></p>
-<p>可以看到，直接实现没有用户名和密码验证的登录</p>
-<h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-$html = &quot;&quot;;
-
-if ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;POST&quot;) {
-    $cookie_value = time();
-    setcookie(&quot;dvwaSession&quot;, $cookie_value);
-}
-?&gt;
-</code></pre>
-<p>从源代码中可以看出，<code>dvwaSession</code>的值变成了<code>time()</code>函数的返回结果（也就是时间戳），同样的点击<code>Generate</code>并抓包可以看到</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-4.png" alt="8-4"></p>
-<p>先抓一个包，发现<code>dvwaSession=1565621880</code>，过几秒再抓包发现<code>dvwaSession=1565621885</code>，验证了这个值的确是随着时间戳的变化而变化。我们继续用<code>B浏览器</code>发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=1565622945; security=medium; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-5.png" alt="8-5"></p>
-<h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-$html = &quot;&quot;;
-
-if ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;POST&quot;) {
-    if (!isset ($_SESSION[&#39;last_session_id_high&#39;])) {
-        $_SESSION[&#39;last_session_id_high&#39;] = 0;
-    }
-    $_SESSION[&#39;last_session_id_high&#39;]++;
-    $cookie_value = md5($_SESSION[&#39;last_session_id_high&#39;]);
-    setcookie(&quot;dvwaSession&quot;, $cookie_value, time()+3600, &quot;/vulnerabilities/weak_id/&quot;, $_SERVER[&#39;HTTP_HOST&#39;], false, false);
-}
-
-?&gt;
-</code></pre>
-<p><code>setcookie()</code>函数：发送 Cookie</p>
-<pre><code>setcookie ( string $name [, string $value = &quot;&quot; [, int $expire = 0 [, string $path = &quot;&quot; [, string $domain = &quot;&quot; [, bool $secure = false [, bool $httponly = false ]]]]]] ) : bool
-
-name：Cookie 名称
-
-value：Cookie 值。 这个值储存于用户的电脑里，请勿储存敏感信息。 比如 name 是 &#39;cookiename&#39;， 可通过 $_COOKIE[&#39;cookiename&#39;] 获取它的值
-
-expire：Cookie 的过期时间。 这是个 Unix 时间戳，即 Unix 纪元以来（格林威治时间 1970 年 1 月 1 日 00:00:00）的秒数。 也就是说，基本可以用 time() 函数的结果加上希望过期的秒数。 或者也可以用 mktime()。 time()+60*60*24*30 就是设置 Cookie 30 天后过期。 如果设置成零，或者忽略参数， Cookie 会在会话结束时过期（也就是关掉浏览器时）
-Note:你可能注意到了，expire 使用 Unix 时间戳而非 Wdy, DD-Mon-YYYY HH:MM:SS GMT 这样的日期格式，是因为 PHP 内部作了转换
-
-path：Cookie 有效的服务器路径。 设置成 &#39;/&#39; 时，Cookie 对整个域名 domain 有效。 如果设置成 &#39;/foo/&#39;， Cookie 仅仅对 domain 中 /foo/ 目录及其子目录有效（比如 /foo/bar/）。 默认值是设置 Cookie 时的当前目录
-
-domain：Cookie 的有效域名/子域名。 设置成子域名（例如 &#39;www.example.com&#39;），会使 Cookie 对这个子域名和它的三级域名有效（例如 w2.www.example.com）。 要让 Cookie 对整个域名有效（包括它的全部子域名），只要设置成域名就可以了（这个例子里是 &#39;example.com&#39;）
-旧版浏览器仍然在使用废弃的 » RFC 2109， 需要一个前置的点 . 来匹配所有子域名。
-
-secure：设置这个 Cookie 是否仅仅通过安全的 HTTPS 连接传给客户端。 设置成 TRUE 时，只有安全连接存在时才会设置 Cookie。 如果是在服务器端处理这个需求，程序员需要仅仅在安全连接上发送此类 Cookie （通过 $_SERVER[&quot;HTTPS&quot;] 判断）
-
-httponly：设置成 TRUE，Cookie 仅可通过 HTTP 协议访问。 这意思就是 Cookie 无法通过类似 JavaScript 这样的脚本语言访问。 要有效减少 XSS 攻击时的身份窃取行为，可建议用此设置（虽然不是所有浏览器都支持），不过这个说法经常有争议。 PHP 5.2.0 中添加。 TRUE 或 FALSE
-</code></pre><p>直接将刚才抓到的请求中的<code>security</code>字段改为<code>high</code>然后点击<code>go</code>，就可以看到服务器设置的新的<code>dvwaSession</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-6.png" alt="8-6"></p>
-<p>这个<code>dvwaSession</code>每次请求，经过过<code>加1</code>，<code>md5加密</code>。但是如果这被我们发现了规律（从0开始每次加1），当我们知道下一个dvwaSession的值后，经过md5加密再去提交</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-8.png" alt="8-8"></p>
-<p>然后还是像之前一样直接发起请求，URL：<code>192.168.0.108/dvwa/vulnerabilities/weak_id/</code>；Cookie：<code>dvwaSession=eccbc87e4b5ce2fe28308fd9f2a7baf3; security=high; PHPSESSID=vvto3lge8mrfug568nmngbpbt1</code>。登录成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/8-7.png" alt="8-7"></p>
-<h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-$html = &quot;&quot;;
-
-if ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;POST&quot;) {
-    $cookie_value = sha1(mt_rand() . time() . &quot;Impossible&quot;);
-    setcookie(&quot;dvwaSession&quot;, $cookie_value, time()+3600, &quot;/vulnerabilities/weak_id/&quot;, $_SERVER[&#39;HTTP_HOST&#39;], true, true);
-}
-?&gt;
-</code></pre>
-<p>在本难度中，<code>dvwaSession</code>的值采用<code>随机数+时间戳+&quot;Impossible&quot;</code>，这就无法猜测出到底是多少了。并且开启了<code>setcookie</code>函数中的<code>secure</code>和<code>httponly</code>选项。实现了用户安全会话认证</p>
-<hr>
-<p>参考文章：</p>
-<p><a href="http://www.storysec.com/dvwa-weak-session-ids.html" target="_blank" rel="noopener">http://www.storysec.com/dvwa-weak-session-ids.html</a></p>
-
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='knlvre.github.io/statics/chengdu.mp3'></li>
-                
-                    
-            </ul>
-            
-            
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='ec894e2b66f752e8b7fb'
-        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
-        data-r='blog-comments'
-        data-o='TriDiamond'
-        data-a='TriDiamond'
-        data-d=''
-    >Comments</div>
+block top_img
+  - var top_img =  page.top_img || page.cover || theme.post_meta.top_img || theme.default_top_img
+  - var bg_img = top_img !== true ? `background-image: url(${top_img})` : ''
+  div#top-container(style=bg_img)
+    #post-info
+      #post-title
+          .posttitle= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          if (theme.post_meta.date_type === 'both')
+            time.post-meta__date
+              i.fa.fa-calendar(aria-hidden="true")
+              =' '+_p('post.created')+' '+date(page.date, config.date_format)
+              span.post-meta__separator |
+              i.fa.fa-history(aria-hidden="true")
+              =' '+_p('post.updated')+' '+date(page.updated, config.date_format)
+          else
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+                  
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator.mobile_hidden |
+          span.mobile_hidden
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right(aria-hidden="true")
+        .post-meta-wordcount
+          if (theme.wordcount && theme.wordcount.enable)
+            i.fa.fa-file-word-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            i.fa.fa-clock-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+          if (theme.wordcount && theme.wordcount.enable && theme.busuanzi.page_pv)
+            span.post-meta__separator |
+          if theme.busuanzi.page_pv
+            i.fa.fa-eye.post-meta__icon(aria-hidden="true")        
+            span= _p('post.page_pv') + ': '
+            span#busuanzi_value_page_pv
 
 
-            
-            
-        </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
-                    <p>Knlvre</p>
-                    <span>Think like an artist, develop like an artisan</span>
-                    <dl>
-                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
-                                    class=" iconfont icon-twitter"></span></a></dd>
-                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
-                                    class=" iconfont icon-stack-overflow"></span></a></dd>
-                    </dl>
-                </div>
-                <ul>
-                    <li><a href="/">61 <p>Articles</p></a></li>
-                    <li><a href="/categories">0 <p>Categories</p></a></li>
-                    <li><a href="/tags">9 <p>Tags</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>Contents</h4>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码位置"><span class="toc-number">1.</span> <span class="toc-text">源码位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面功能"><span class="toc-number">2.</span> <span class="toc-text">页面功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Security-Level-—-Low"><span class="toc-number">3.</span> <span class="toc-text">Security Level — Low</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Security-Level-—-Medium"><span class="toc-number">4.</span> <span class="toc-text">Security Level — Medium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Security-Level-—-High"><span class="toc-number">5.</span> <span class="toc-text">Security Level — High</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Security-Level-—-Impossible"><span class="toc-number">6.</span> <span class="toc-text">Security Level — Impossible</span></a></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-</div>
-
-    </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
-    </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2019
-        <span class="gradient-text">
-            Knlvre
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
-
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
-
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="knlvre.github.io/js/plugin.js"></script>
-<script src="knlvre.github.io/js/obsidian.js"></script>
-<script src="knlvre.github.io/js/jquery.truncate.js"></script>
-<script src="knlvre.github.io/js/search.js"></script>
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-    <script src="knlvre.github.io/js/busuanzi.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-149874671-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["Think like an artist, develop like an artisan", "艺术家思维去思考问题，工匠创造精神去开发"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
-</html>
+block content
+  article#post(class="")
+    #post-content.article-container!= page.content
+  if (theme.post_copyright && theme.post_copyright.enable && page.copyright != false)
+    .post-copyright
+      .post-copyright__author
+        span.post-copyright-meta= _p('post.copyright.author') + ": "
+        span.post-copyright-info
+          a(href=`mailto:${config.email}`) #[=config.author]
+      .post-copyright__type
+        span.post-copyright-meta= _p('post.copyright.link') + ": "
+        span.post-copyright-info
+          a(href=url_for(page.permalink)) #[=page.permalink]
+      .post-copyright__notice
+        span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+        span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+  
+  .tag_share
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]    
+    include includes/share/index.pug
+        
+  if theme.reward.enable
+    include includes/reward.pug
+  include includes/pagination.pug
+  
+  if theme.related_post && theme.related_post.enable
+    != related_posts(page,site.posts)
+  if page.comments !== false
+    include includes/comments/index.pug

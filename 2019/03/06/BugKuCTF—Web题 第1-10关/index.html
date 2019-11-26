@@ -1,507 +1,79 @@
+extends includes/layout.pug
 
-<!DOCTYPE html>
-<html lang class="loading">
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BugKuCTF — Web题(第1-10关) - Knlvre</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate">
-    <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="第一关（web2）打开链接后是一堆迎面飞来的“滑稽”表情
-
-查看网页源代码后就能发现flag
-
-第二关（计算器）尝试输入，却发现只能输入1位数，但是答案明显不止一位数
-
-查看源代码，将其中的maxl,"> 
-    <meta name="author" content="Knlvre"> 
-    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
-    <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/obsidian.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/ball-atom.min.css">
-</head>
-</html>
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <span id="config-title" style="display:none">Knlvre</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">BugKuCTF — Web题(第1-10关)</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="section">
-        <div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(/img/cover.jpg);">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-                
-                March 06, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/06/BugKuCTF—Web题 第1-10关/" title="BugKuCTF — Web题(第1-10关)">BugKuCTF — Web题(第1-10关)</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    7k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    6 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>Read count</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
-            
-        </div>
-    </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <h3 id="第一关（web2）"><a href="#第一关（web2）" class="headerlink" title="第一关（web2）"></a>第一关（web2）</h3><p>打开链接后是一堆迎面飞来的“滑稽”表情</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/1-1.png" alt="1-1"></p>
-<p>查看网页源代码后就能发现flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/1-2.png" alt="1-2"></p>
-<h3 id="第二关（计算器）"><a href="#第二关（计算器）" class="headerlink" title="第二关（计算器）"></a>第二关（计算器）</h3><p>尝试输入，却发现只能输入1位数，但是答案明显不止一位数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-1.png" alt="2-1"></p>
-<p>查看源代码，将其中的<code>maxlength</code>修改成3（原本是1）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-2.png" alt="2-2"></p>
-<p>再输入正确答案，就得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/2-3.png" alt="2-3"></p>
-<h3 id="第三关（Web基础-GET）"><a href="#第三关（Web基础-GET）" class="headerlink" title="第三关（Web基础$_GET）"></a>第三关（Web基础$_GET）</h3><p>进入链接后直接看到信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/3-1.png" alt="3-1"></p>
-<p>根据信息直接输入url得到flag</p>
-<pre><code>?what=flag
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/3-2.png" alt="3-2"></p>
-<h3 id="第四关（Web基础-POST）"><a href="#第四关（Web基础-POST）" class="headerlink" title="第四关（Web基础$_POST）"></a>第四关（Web基础$_POST）</h3><p>同第三关，进入链接后直接看到信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/4-1.png" alt="4-1"></p>
-<p>不同的是，这次要用POST方式。在挂上Burpsuit代理之后，刷新网页就会拦截到请求，发送what参数得到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/4-2.png" alt="4-2"></p>
-<h3 id="第五关（矛盾）"><a href="#第五关（矛盾）" class="headerlink" title="第五关（矛盾）"></a>第五关（矛盾）</h3><p>进入连接后直接看到信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/5-1.png" alt="5-1"></p>
-<p>为什么题目叫矛盾了，因为要求num即不是数字的同时，却要等于1。这是就想到了科学记数法</p>
-<pre><code>1e = 1E = 1*10的0次方
-2e1 = 2E1 = 2*10的1次方
-3e2 = 3E2 = 3*10的2次方
-以此类推.......
-</code></pre><p>那么我们就能这样提交参数，顺利拿到flag</p>
-<pre><code>?num=1e
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/5-2.png" alt="5-2"></p>
-<h3 id="第六关（web3）"><a href="#第六关（web3）" class="headerlink" title="第六关（web3）"></a>第六关（web3）</h3><p>链接进去后就不断弹出窗口”flag就在这里”，”快来找找吧”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-1.png" alt="6-1"></p>
-<p>谷歌浏览器在多次点击后，弹窗就会消失；火狐浏览器可以直接禁止弹窗跳出。没有弹窗后，直接查看源代码</p>
-<p>在源代码的最后，发现了一串unicode编码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-2.png" alt="6-2"></p>
-<p>拿去在线网站转成ASCII一下就得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/6-3.png" alt="6-3"></p>
-<h3 id="第七关（域名解析）"><a href="#第七关（域名解析）" class="headerlink" title="第七关（域名解析）"></a>第七关（域名解析）</h3><p>题目提示：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-1.png" alt="7-1"></p>
-<p>那么我们就直接按照他的要求修改hosts文件，hosts文件Windows下的路径：</p>
-<pre><code>C:\Windows\System32\drivers\etc\hosts
-</code></pre><p>将这条记录添加在下面（注意不要加#号）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-2.png" alt="7-2"></p>
-<p>然后用浏览器访问flag.baidu.com就可以拿到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/7-3.png" alt="7-3"></p>
-<h3 id="第八关（你必须让他停下）"><a href="#第八关（你必须让他停下）" class="headerlink" title="第八关（你必须让他停下）"></a>第八关（你必须让他停下）</h3><p>链接打开是一个一直刷新跳动的网页，提示我们如果能<code>让它停下来</code>就能拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-1.png" alt="8-1"></p>
-<p>我们用Burpsuit抓包，用<code>Repeater</code>一直去发包。每go一次，网页最下面都会返回不同的<code>数字.jpg</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-2.png" alt="8-2"></p>
-<p>当刷到10.jpg时，flag就跑出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/8-3.png" alt="8-3"></p>
-<h3 id="第九关（本地包含）"><a href="#第九关（本地包含）" class="headerlink" title="第九关（本地包含）"></a>第九关（本地包含）</h3><p>链接进去可以看到代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-1.png" alt="9-1"></p>
-<p>首先明确几个知识点：</p>
-<pre><code>$_REQUEST 的意思是获得参数，不论是@$_GET还是@$_POST可以得到的参数@$_REQUEST都能得到
-
-eval() 函数存在命令执行漏洞，构造出文件包含会把字符串参数当做代码来执行
-
-file() 函数把整个文件读入一个数组中，并将文件作为一个数组返回
-
-include()函数和php://input，php://filter结合很好用，php://filter可以用与读取文件源代码，结果是源代码base64编码后的结果
-php://filter/convert.base64-encode/resource=文件路径（如index.php）
-</code></pre><p>方法一：</p>
-<p>把原本的var_dump()函数的括号构造掉，让eval()函数转去执行show_source(‘flag.php’)</p>
-<pre><code>http://123.206.87.240:8003/?hello=1);show_source(%27flag.php%27);var_dump(1
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-2.png" alt="9-2"></p>
-<p>网页直接返回flag.php的内容，里面就有flag</p>
-<p>方法二：</p>
-<p>同样用一个右括号把原本的var_dump()函数闭合掉，然后转去执行include $_POST[‘a’]，后面直接用双斜杠注释掉后面的内容，也可以像方法一那样，随便加一个var_dump(1</p>
-<p>然后POST提交a的值如下</p>
-<pre><code>http://120.24.86.145:8003/index.php?hello=1);include $_POST[&#39;a&#39;];//
-POST值：a=php://filter/convert.base64-encode/resource=flag.php
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-3.png" alt="9-3"></p>
-<p>得到一串base64密码，拿去解密一下，就可以看到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-4.png" alt="9-4"></p>
-<p>方法三：</p>
-<p>直接将flag.php文件读入变量hello中</p>
-<pre><code>?hello=file(&#39;flag.php&#39;)
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/9-5.png" alt="9-5"></p>
-<h3 id="第十关（变量1）"><a href="#第十关（变量1）" class="headerlink" title="第十关（变量1）"></a>第十关（变量1）</h3><p>链接进入后可以看到代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-1.png" alt="10-1"></p>
-<p>这个代码大概意思就是，需要通过GET方式提交参数<code>args</code>，并且args的内容只能是【0-9a-zA-Z】，才能执行eval()函数，否则提醒你args error!</p>
-<p>知识点一：<code>可变变量</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-2.png" alt="10-2"></p>
-<p>知识点二：<code>$GLOBALS[]</code></p>
-<p>$GLOBALS [一个包含了全部变量的全局组合数组]</p>
-<p>既然只能传入数字、大小写字母，那我们就传入GLOBALS，让var_dump()打印出这个数组的内容</p>
-<p>就可以看到其中一个全局变量，存储着flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/1-10/10-3.png" alt="10-3"></p>
-<hr>
-<p>至此，1-10关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
-
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='knlvre.github.io/statics/chengdu.mp3'></li>
-                
-                    
-            </ul>
-            
-            
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='ec894e2b66f752e8b7fb'
-        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
-        data-r='blog-comments'
-        data-o='TriDiamond'
-        data-a='TriDiamond'
-        data-d=''
-    >Comments</div>
+block top_img
+  - var top_img =  page.top_img || page.cover || theme.post_meta.top_img || theme.default_top_img
+  - var bg_img = top_img !== true ? `background-image: url(${top_img})` : ''
+  div#top-container(style=bg_img)
+    #post-info
+      #post-title
+          .posttitle= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          if (theme.post_meta.date_type === 'both')
+            time.post-meta__date
+              i.fa.fa-calendar(aria-hidden="true")
+              =' '+_p('post.created')+' '+date(page.date, config.date_format)
+              span.post-meta__separator |
+              i.fa.fa-history(aria-hidden="true")
+              =' '+_p('post.updated')+' '+date(page.updated, config.date_format)
+          else
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+                  
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator.mobile_hidden |
+          span.mobile_hidden
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right(aria-hidden="true")
+        .post-meta-wordcount
+          if (theme.wordcount && theme.wordcount.enable)
+            i.fa.fa-file-word-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            i.fa.fa-clock-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+          if (theme.wordcount && theme.wordcount.enable && theme.busuanzi.page_pv)
+            span.post-meta__separator |
+          if theme.busuanzi.page_pv
+            i.fa.fa-eye.post-meta__icon(aria-hidden="true")        
+            span= _p('post.page_pv') + ': '
+            span#busuanzi_value_page_pv
 
 
-            
-            
-        </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
-                    <p>Knlvre</p>
-                    <span>Think like an artist, develop like an artisan</span>
-                    <dl>
-                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
-                                    class=" iconfont icon-twitter"></span></a></dd>
-                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
-                                    class=" iconfont icon-stack-overflow"></span></a></dd>
-                    </dl>
-                </div>
-                <ul>
-                    <li><a href="/">61 <p>Articles</p></a></li>
-                    <li><a href="/categories">0 <p>Categories</p></a></li>
-                    <li><a href="/tags">9 <p>Tags</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>Contents</h4>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一关（web2）"><span class="toc-number">1.</span> <span class="toc-text">第一关（web2）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二关（计算器）"><span class="toc-number">2.</span> <span class="toc-text">第二关（计算器）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三关（Web基础-GET）"><span class="toc-number">3.</span> <span class="toc-text">第三关（Web基础$_GET）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四关（Web基础-POST）"><span class="toc-number">4.</span> <span class="toc-text">第四关（Web基础$_POST）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五关（矛盾）"><span class="toc-number">5.</span> <span class="toc-text">第五关（矛盾）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第六关（web3）"><span class="toc-number">6.</span> <span class="toc-text">第六关（web3）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第七关（域名解析）"><span class="toc-number">7.</span> <span class="toc-text">第七关（域名解析）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第八关（你必须让他停下）"><span class="toc-number">8.</span> <span class="toc-text">第八关（你必须让他停下）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第九关（本地包含）"><span class="toc-number">9.</span> <span class="toc-text">第九关（本地包含）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第十关（变量1）"><span class="toc-number">10.</span> <span class="toc-text">第十关（变量1）</span></a></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-</div>
-
-    </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
-    </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2019
-        <span class="gradient-text">
-            Knlvre
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
-
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
-
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="knlvre.github.io/js/plugin.js"></script>
-<script src="knlvre.github.io/js/obsidian.js"></script>
-<script src="knlvre.github.io/js/jquery.truncate.js"></script>
-<script src="knlvre.github.io/js/search.js"></script>
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-    <script src="knlvre.github.io/js/busuanzi.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-149874671-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["Think like an artist, develop like an artisan", "艺术家思维去思考问题，工匠创造精神去开发"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
-</html>
+block content
+  article#post(class="")
+    #post-content.article-container!= page.content
+  if (theme.post_copyright && theme.post_copyright.enable && page.copyright != false)
+    .post-copyright
+      .post-copyright__author
+        span.post-copyright-meta= _p('post.copyright.author') + ": "
+        span.post-copyright-info
+          a(href=`mailto:${config.email}`) #[=config.author]
+      .post-copyright__type
+        span.post-copyright-meta= _p('post.copyright.link') + ": "
+        span.post-copyright-info
+          a(href=url_for(page.permalink)) #[=page.permalink]
+      .post-copyright__notice
+        span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+        span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+  
+  .tag_share
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]    
+    include includes/share/index.pug
+        
+  if theme.reward.enable
+    include includes/reward.pug
+  include includes/pagination.pug
+  
+  if theme.related_post && theme.related_post.enable
+    != related_posts(page,site.posts)
+  if page.comments !== false
+    include includes/comments/index.pug

@@ -1,566 +1,79 @@
+extends includes/layout.pug
 
-<!DOCTYPE html>
-<html lang class="loading">
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BugKuCTF — 分析题(第1-9关) - Knlvre</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate">
-    <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="第一关（flag被盗）用wireshark打开下载下来的文件，用协议顺序排序
-
-先追踪一下HTTP协议（右击 —&amp;gt; 追踪流 —&amp;gt; HTTP）
-
-搜索一下flag关键字，直接找到flag
-,"> 
-    <meta name="author" content="Knlvre"> 
-    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
-    <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/obsidian.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/ball-atom.min.css">
-</head>
-</html>
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <span id="config-title" style="display:none">Knlvre</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">BugKuCTF — 分析题(第1-9关)</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="section">
-        <div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(/img/cover.jpg);">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-                
-                March 29, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/29/BugKuCTF—分析题 第1-9关/" title="BugKuCTF — 分析题(第1-9关)">BugKuCTF — 分析题(第1-9关)</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    12k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    11 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>Read count</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Misc/">CTF-Misc</a></li></ul>
-            
-        </div>
-    </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <h3 id="第一关（flag被盗）"><a href="#第一关（flag被盗）" class="headerlink" title="第一关（flag被盗）"></a>第一关（flag被盗）</h3><p>用wireshark打开下载下来的文件，用协议顺序排序</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-1.png" alt="1-1"></p>
-<p>先追踪一下HTTP协议（右击 —&gt; 追踪流 —&gt; HTTP）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-2.png" alt="1-2"></p>
-<p>搜索一下flag关键字，直接找到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/1-3.png" alt="1-3"></p>
-<hr>
-<h3 id="第二关（中国菜刀）"><a href="#第二关（中国菜刀）" class="headerlink" title="第二关（中国菜刀）"></a>第二关（中国菜刀）</h3><h4 id="方法一（全Window环境）："><a href="#方法一（全Window环境）：" class="headerlink" title="方法一（全Window环境）："></a>方法一（全Window环境）：</h4><p>用wireshark打开下载下来的文件。既然题目提示是中国菜刀，那应该是用到HTTP协议</p>
-<p>按照协议排序之后，在第四个HTTP协议包里找到了一句话木马</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-1.png" alt="2-1"></p>
-<p>在第四个HTTP协议包里挂马，那关键文件一定是在这之后才获取到的</p>
-<p>在下一个HTTP包里追踪HTTP协议。红色部分是客户端向服务器发起的请求，蓝色部分是服务器回应客户端的内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-2.png" alt="2-2"></p>
-<p>我们可以看到红色部分有一段BASE64的加密内容，拿去解密一下（<strong>注意：%3D解码成=号</strong>）</p>
-<p>可以看到里面有flag.tar.gz关键文件，那应该是客户端向服务器拿走了这个文件</p>
-<p>蓝色部分应该就是服务器将flag.tar.gz这个文件给了客户端的记录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-3.png" alt="2-3"></p>
-<p>第五个HTTP协议包是客户端的请求，第六个HTTP协议包就应该是服务器的回应了，并且里面有flag.tar.gz</p>
-<p>怎么提取这个flag.tar.gz的内容呢，看了大佬写的文章，有两种方法：</p>
-<p>方法1.1：</p>
-<p>点击第六个HTTP协议包，”Line-based” —&gt; “右键” —&gt; “显示分组字节”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-4.png" alt="2-4"></p>
-<p>因为2个X@Y是菜刀特有的标记，我们提取信息时并不能把它们放进去</p>
-<p>所以将开始位设置为3，结束位设置为206（整个数据是0到209）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-5.png" alt="2-5"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-6.png" alt="2-6"></p>
-<p>然后解码为”压缩”，显示为”ASCII”就可以看到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-7.png" alt="2-7"></p>
-<p>方法1.2：</p>
-<p>还是那个地方，右键 —&gt; 导出分组字节（此处导出为1.tar.gz)</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-8.png" alt="2-8"></p>
-<p>我们有讲过，菜刀会留下前后额X@Y，所以要主动删掉，不然是打不开压缩文件的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-9.png" alt="2-9"></p>
-<p>我用winhex，删除掉2个X@Y，并且保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-10.png" alt="2-10"></p>
-<p>再次打开，就可以看到flag.txt，打开直接拿到flag了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-11.png" alt="2-11"></p>
-<p>至此，方法一结束</p>
-<h4 id="方法二（利用Kali）："><a href="#方法二（利用Kali）：" class="headerlink" title="方法二（利用Kali）："></a>方法二（利用Kali）：</h4><p>Kali自带Wireshark，可以用命令打开这个包</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-12.png" alt="2-12"></p>
-<p>也可以用binwalk看里面有什么东西可以提取</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-13.png" alt="2-13"></p>
-<p>然后直接binwalk -e命令提取出来</p>
-<pre><code>binwalk -e caidao.pcapng
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-14.png" alt="2-14"></p>
-<p>提取出来一个压缩包，解压得到flag.txt，查看后拿到flag</p>
-<pre><code>tar -xvf 1E43
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-15.png" alt="2-15"></p>
-<p>至此，方法二结束</p>
-<hr>
-<h3 id="第三关（怎么多数据包）"><a href="#第三关（怎么多数据包）" class="headerlink" title="第三关（怎么多数据包）"></a>第三关（怎么多数据包）</h3><p>下载下来一个CTF.pcapng和一个文件夹里面装着文件._CTF.pcapng</p>
-<p>我们先打开CTF.pcapng，前面大部分是一些不需要的协议过程，直接跳过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-1.png" alt="3-1"></p>
-<p>然后发现有大量的TCP包，可以看出来都是192.168.116.138的主机向192.168.116.159发送SYN请求包（题外话：因为之前模拟过DOS攻击，所以着看看上去也有点像DOS攻击）</p>
-<p>159的主机如果端口无法建立连接就会返回一个RST包，将这个连接断掉以避免占用资源</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-2.png" alt="3-2"></p>
-<p>一直往下翻到No.2560条包，159主机的3389端口成功和138主机的端口建立了连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-3.png" alt="3-3"></p>
-<p>我们追踪这个TCP流，内容较多。看一下、搜索flag之类的关键字，却什么都没有发现</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-4.png" alt="3-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-5.png" alt="3-5"></p>
-<p>往下还有135、139、445、1040端口建立连接，但是都没有找到有用的信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-6.png" alt="3-6"></p>
-<p>终于快到结尾No.5542，1234端口和35880端口三次握手建立连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-7.png" alt="3-7"></p>
-<p>追踪TCP流，找到了一串Base64加密的密文</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-8.png" alt="3-8"></p>
-<p>用Python解密一下，直接拿到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-9.png" alt="3-9"></p>
-<p>看了大佬的Writeup，其实这道题还有更简单的做法</p>
-<p>因为题目提示”先找到getshell的流”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/3-10.png" alt="3-10"></p>
-<p>那说明最后还是拿到了shell，可以直接从后面开始找起</p>
-<p>最后开始的话，先碰到1040端口的连接，没有信息跳过。这就来到了1234端口的连接，就可以较快地拿到flag</p>
-<p>此题一共有2个文件，做完了发现另外一个好像没用，可能是干扰作用</p>
-<hr>
-<h3 id="第四关（手机热点）"><a href="#第四关（手机热点）" class="headerlink" title="第四关（手机热点）"></a>第四关（手机热点）</h3><p>题目提示：没有流量，用手机发送了小秘密到电脑</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-1.png" alt="4-1"></p>
-<p>既然没有流量，还能发送文件的就是蓝牙了</p>
-<p>直接搜索蓝牙协议：obex。果然搜出了内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-2.png" alt="4-2"></p>
-<p>注意到No.19394，有一个secret.rar文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-3.png" alt="4-3"></p>
-<p>点击这条数据，再点击左上角的”文件” —&gt; “导出分组字节流”（快捷键ctrl+H），保存为1.rar</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-4.png" alt="4-4"></p>
-<p>尝试解压失败。拿到winhex下看一下文件，发现文件头有错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-5.png" alt="4-5"></p>
-<p>因为rar文件头是：</p>
-<pre><code>52 61 72 21
-</code></pre><p>将多余的部分删除掉，然后保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-6.png" alt="4-6"></p>
-<p>再次解压1.rar，解压成功，提取出来一张GIF文件，图片上就是flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-7.png" alt="4-7"></p>
-<p>不过这题还有更简单的方法。没错，还是用binwalk，直接提取出来图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-8.png" alt="4-8"></p>
-<hr>
-<h3 id="第五关（抓到一只苍蝇）"><a href="#第五关（抓到一只苍蝇）" class="headerlink" title="第五关（抓到一只苍蝇）"></a>第五关（抓到一只苍蝇）</h3><p>本题参考这位大佬的文章：<a href="https://blog.csdn.net/qq_42357070/article/details/84236689#_51" target="_blank" rel="noopener">抓到一只苍蝇</a></p>
-<p>用Wireshark打开，前2个TCP连接追踪无果，但是第3个连接追踪后发现有东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-1.png" alt="5-1"></p>
-<p>从前面的内容来看，应该是通过QQ邮箱，用POST方法发送文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-2.png" alt="5-2"></p>
-<p>客户端发送的内容末端发现了fly.rar，这不就是苍蝇吗</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-3.png" alt="5-3"></p>
-<p>上图描述的是压缩包的内涵，也就是这样：</p>
-<pre><code>{
-   &quot;path&quot;:&quot;fly.rar&quot;,
-   &quot;appid&quot;:&quot;&quot;,
-   &quot;size&quot;:525701,
-   &quot;md5&quot;:&quot;e023afa4f6579db5becda8fe7861c2d3&quot;,
-   &quot;sha&quot;:&quot;ecccba7aea1d482684374b22e2e7abad2ba86749&quot;,
-   &quot;sha3&quot;:&quot;&quot;
- }
-</code></pre><p>记录了fly.rar的大小，md5值</p>
-<p>现在添加对数据包的过滤条件，只看http协议，并且只看POST方法</p>
-<pre><code>http &amp;&amp; http.request.method == POST
-</code></pre><p>注意到No.2至No.6这5个文件，Media Type都是application/octet-stream的格式</p>
-<p>也就是数据流的格式，现在就猜测这些数据流里有我们要的东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-4.png" alt="5-4"></p>
-<p>这5个文件的Media Type域的大小分别是131436、131436、131436、131436、1777</p>
-<p>之前压缩包内涵中我们知道，fly.rar的大小是525701，那么：</p>
-<pre><code>(131436*4 + 1777) - 525701 = 1820
-1820 / 4 = 364
-</code></pre><p>接触过网络数据包的应该知道，数据包如果拆开发送，到目标端是要再组合起来的</p>
-<p>组合起来时就需要靠包头的信息，现在猜测364就是每个包的包头大小</p>
-<p>用Wireshark的Ctrl+H将Media Type的内容提取出来，放到Kali中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-5.png" alt="5-5"></p>
-<p>用dd命令逐个将他们的前364个字节大小的包头剔除掉</p>
-<pre><code>dd if=1 of=10 skip=364 bs=1
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-6.png" alt="5-6"></p>
-<p>用cat命令将5个和成1个fly.rar</p>
-<pre><code>cat 10 20 30 40 50 &gt; fly.rar
-</code></pre><p>用md5sum检查一下md5值。没错，和之间压缩包内涵里的md5值一模一样，说明组合成功了</p>
-<pre><code>md5sum fly.rar
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-8.png" alt="5-8"></p>
-<p>想要解压时却发现要密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-9.png" alt="5-9"></p>
-<p>放到winhex里看一下， 发现是伪加密，只需要将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-10.png" alt="5-10"></p>
-<p>修改完直接可以解压，解压下来flag.txt</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-11.png" alt="5-11"></p>
-<p>直接浏览时，发现又是一大堆十六进制，只能再用winhex打开看一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-12.png" alt="5-12"></p>
-<p>提示我们程序要运行在win32环境下，那就把后缀改成.exe，运行一下</p>
-<p>额。。。好多苍蝇，还好做题时女朋友不在，不然她可能会当场去世</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-13.png" alt="5-13"></p>
-<p>都是骗人的，要粗暴点了，把这个程序binwalk一下，有藏着东西</p>
-<p>foremost分离，分离出来的png文件夹里，有无数只苍蝇</p>
-<p>但是</p>
-<p>最后有一个二维码，手机扫一下，flag出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-14.png" alt="5-14"></p>
-<hr>
-<h3 id="第六关（"><a href="#第六关（" class="headerlink" title="第六关（"></a>第六关（</h3>
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='knlvre.github.io/statics/chengdu.mp3'></li>
-                
-                    
-            </ul>
-            
-            
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='ec894e2b66f752e8b7fb'
-        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
-        data-r='blog-comments'
-        data-o='TriDiamond'
-        data-a='TriDiamond'
-        data-d=''
-    >Comments</div>
+block top_img
+  - var top_img =  page.top_img || page.cover || theme.post_meta.top_img || theme.default_top_img
+  - var bg_img = top_img !== true ? `background-image: url(${top_img})` : ''
+  div#top-container(style=bg_img)
+    #post-info
+      #post-title
+          .posttitle= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          if (theme.post_meta.date_type === 'both')
+            time.post-meta__date
+              i.fa.fa-calendar(aria-hidden="true")
+              =' '+_p('post.created')+' '+date(page.date, config.date_format)
+              span.post-meta__separator |
+              i.fa.fa-history(aria-hidden="true")
+              =' '+_p('post.updated')+' '+date(page.updated, config.date_format)
+          else
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+                  
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator.mobile_hidden |
+          span.mobile_hidden
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right(aria-hidden="true")
+        .post-meta-wordcount
+          if (theme.wordcount && theme.wordcount.enable)
+            i.fa.fa-file-word-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            i.fa.fa-clock-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+          if (theme.wordcount && theme.wordcount.enable && theme.busuanzi.page_pv)
+            span.post-meta__separator |
+          if theme.busuanzi.page_pv
+            i.fa.fa-eye.post-meta__icon(aria-hidden="true")        
+            span= _p('post.page_pv') + ': '
+            span#busuanzi_value_page_pv
 
 
-            
-            
-        </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
-                    <p>Knlvre</p>
-                    <span>Think like an artist, develop like an artisan</span>
-                    <dl>
-                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
-                                    class=" iconfont icon-twitter"></span></a></dd>
-                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
-                                    class=" iconfont icon-stack-overflow"></span></a></dd>
-                    </dl>
-                </div>
-                <ul>
-                    <li><a href="/">61 <p>Articles</p></a></li>
-                    <li><a href="/categories">0 <p>Categories</p></a></li>
-                    <li><a href="/tags">9 <p>Tags</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>Contents</h4>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一关（flag被盗）"><span class="toc-number">1.</span> <span class="toc-text">第一关（flag被盗）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二关（中国菜刀）"><span class="toc-number">2.</span> <span class="toc-text">第二关（中国菜刀）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三关（怎么多数据包）"><span class="toc-number">3.</span> <span class="toc-text">第三关（怎么多数据包）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四关（手机热点）"><span class="toc-number">4.</span> <span class="toc-text">第四关（手机热点）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五关（抓到一只苍蝇）"><span class="toc-number">5.</span> <span class="toc-text">第五关（抓到一只苍蝇）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第六关（"><span class="toc-number">6.</span> <span class="toc-text">第六关（</span></a></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-</div>
-
-    </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
-    </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2019
-        <span class="gradient-text">
-            Knlvre
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
-
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
-
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="knlvre.github.io/js/plugin.js"></script>
-<script src="knlvre.github.io/js/obsidian.js"></script>
-<script src="knlvre.github.io/js/jquery.truncate.js"></script>
-<script src="knlvre.github.io/js/search.js"></script>
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-    <script src="knlvre.github.io/js/busuanzi.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-149874671-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["Think like an artist, develop like an artisan", "艺术家思维去思考问题，工匠创造精神去开发"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
-</html>
+block content
+  article#post(class="")
+    #post-content.article-container!= page.content
+  if (theme.post_copyright && theme.post_copyright.enable && page.copyright != false)
+    .post-copyright
+      .post-copyright__author
+        span.post-copyright-meta= _p('post.copyright.author') + ": "
+        span.post-copyright-info
+          a(href=`mailto:${config.email}`) #[=config.author]
+      .post-copyright__type
+        span.post-copyright-meta= _p('post.copyright.link') + ": "
+        span.post-copyright-info
+          a(href=url_for(page.permalink)) #[=page.permalink]
+      .post-copyright__notice
+        span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+        span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+  
+  .tag_share
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]    
+    include includes/share/index.pug
+        
+  if theme.reward.enable
+    include includes/reward.pug
+  include includes/pagination.pug
+  
+  if theme.related_post && theme.related_post.enable
+    != related_posts(page,site.posts)
+  if page.comments !== false
+    include includes/comments/index.pug

