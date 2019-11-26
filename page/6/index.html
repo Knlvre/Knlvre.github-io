@@ -132,13 +132,13 @@
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                25k
+                13k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                23 mins.
+                12 mins.
             </span>
             
             
@@ -149,11 +149,13 @@
         
         <div class="md-content animated fadeIn">
             
-            <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DVWA\vulnerabilities\csrf\source\</span><br></pre></td></tr></table></figure>
-<p>更改当前用户的密码</p>
+            <pre><code>DVWA\vulnerabilities\csrf\source\
+</code></pre><p>更改当前用户的密码</p>
 <p></p>
 <p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">//...</span></span></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_GET[ &#39;Change&#39; ] ) ) ...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
@@ -195,13 +197,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        25k
+                        13k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        23 mins.
+                        12 mins.
                     </span>
                 
                 
@@ -212,11 +214,19 @@
         
         <div class="md-content animated fadeIn">
             
-                <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DVWA\vulnerabilities\csrf\source\</span><br></pre></td></tr></table></figure>
-<p>更改当前用户的密码</p>
+                <pre><code>DVWA\vulnerabilities\csrf\source\
+</code></pre><p>更改当前用户的密码</p>
 <p></p>
 <p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Do the passwords match?</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;...</span></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_GET[ &#39;Change&#39; ] ) ) {
+    // Get input
+    $pass_new  = $_GET[ &#39;password_new&#39; ];
+    $pass_conf = $_GET[ &#39;password_conf&#39; ];
+
+    // Do the passwords match?
+    if( $pass_new ==...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -243,13 +253,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        17k
+                        8.4k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        15 mins.
+                        8 mins.
                     </span>
                 
                 
@@ -260,11 +270,18 @@
         
         <div class="md-content animated fadeIn">
             
-                <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DVWA\vulnerabilities\exec\source\</span><br></pre></td></tr></table></figure>
-<p>可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果</p>
+                <pre><code>DVWA\vulnerabilities\exec\source\
+</code></pre><p>可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果</p>
 <p></p>
 <p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Submit'</span> ]  ) ) &#123;</span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$target = $_REQUEST[ <span class="string">'ip'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">	<span class="keyword">if</span>( stristr( php_uname( <span class="string">'s'</span> ), <span class="string">'Windows ...</span></span></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_POST[ &#39;Submit&#39; ]  ) ) {
+    // Get input
+    $target = $_REQUEST[ &#39;ip&#39; ];
+
+    // Determine OS and execute the ping command.
+    if( stristr( php_uname( &#39...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/11/DVWA 2-Command Injection（命令注入）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -291,13 +308,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        33k
+                        19k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        30 mins.
+                        17 mins.
                     </span>
                 
                 
@@ -308,11 +325,21 @@
         
         <div class="md-content animated fadeIn">
             
-                <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DVWA\vulnerabilities\brute\source</span><br></pre></td></tr></table></figure>
-<p>输入用户名密码登录</p>
+                <pre><code>DVWA\vulnerabilities\brute\source
+</code></pre><p>输入用户名密码登录</p>
 <p></p>
 <p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Login'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get username</span></span><br><span class="line">	$user = $_GET[ <span class="string">'username'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get password</span></span><br><span class="line">	$pass = $_GET[ <span class="string">'password'</span> ];</span><br><span class="line">	$pass = md5( $pass );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check the database</span></span><br><span class="line">	$query  = <span class="string">"SELECT * ...</span></span></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_GET[ &#39;Login&#39; ] ) ) {
+    // Get username
+    $user = $_GET[ &#39;username&#39; ];
+
+    // Get password
+    $pass = $_GET[ &#39;password&#39; ];
+    $pass = md5( $pass );
+
+    // Check the database...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/10/DVWA 1-Brute Force（暴力破解）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -339,13 +366,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        7.1k
+                        4.2k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        6 mins.
+                        4 mins.
                     </span>
                 
                 
@@ -358,12 +385,12 @@
             
                 <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
 <p>与前一关相同，单引号包裹，payload</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?sort=1&apos;;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<p>与Less-50相同，只不过没有报错信息回显，payload</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?sort=1;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<p>与Less-51相同，只不过没有报错信息回显，payload</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?sort=1&apos;;create table less51 like users--+</span><br></pre></td></tr></table></figure>
-<p>本关开始，又...</p>
+<pre><code>?sort=1&#39;;create table less51 like users--+
+</code></pre><p>与Less-50相同，只不过没有报错信息回显，payload</p>
+<pre><code>?sort=1;create table less51 like users--+
+</code></pre><p>与Less-51相同，只不过没有报错信息回显，payload</p>
+<pre><code>?sort=1&#39;;create table less51 like users--+
+</code></pre><p>本关开始，又有了...</p>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/03/Sqli-labs 第51-65关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -390,13 +417,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        13k
+                        7.9k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        12 mins.
+                        7 mins.
                     </span>
                 
                 
@@ -409,8 +436,8 @@
             
                 <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
 <p>与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是<code>整形</code>注入，payload</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+</span><br></pre></td></tr></table></figure>
-<p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通...</p>
+<pre><code>?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
+</code></pre><p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通过堆叠注入创...</p>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/02/Sqli-labs 第41-50关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -437,13 +464,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        7.6k
+                        5.1k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        7 mins.
+                        5 mins.
                     </span>
                 
                 
@@ -457,12 +484,12 @@
                 <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/31/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
 <p>本关开始，考查的是<code>宽字节注入</code>的利用，关于宽字节注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 4</code> </p>
 <p>我们提交以下payload时，发现<code>单引号&#39;</code>被转义了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id=1&apos;</span><br></pre></td></tr></table></figure>
-<p></p>
+<pre><code>?id=1&#39;
+</code></pre><p></p>
 <p>查看源码，发现使用了<code>check_addslashes()</code>函数对id进行了处理</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$id=check_addslashes($_GET[&apos;id&apos;]);</span><br></pre></td></tr></table></figure>
-<p>看一下这个函数的功能，就是对<code>反斜杠</code>\、<code>单引号</code>‘、<code>双引号</code>“的过滤</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_addsl...</span></span></span></pre></td></tr></table></figure>
+<pre><code>$id=check_addslashes($_GET[&#39;id&#39;]);
+</code></pre><p>看一下这个函数的功能，就是对<code>反斜杠</code>\、<code>单引号</code>‘、<code>双引号</code>“的过滤</p>
+<pre><code class="php">function check_addslash...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/01/Sqli-labs 第31-40关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -489,13 +516,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        17k
+                        11k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        15 mins.
+                        10 mins.
                     </span>
                 
                 
@@ -516,7 +543,7 @@
 <p>与前面关卡类似，只是对<code>$cookee</code>包括采用了<code>双引号</code></p>
 <p></p>
 <p><code>Base64</code>加密一下<code>payload</code>：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id...</span></pre></td></tr></table></figure>
+<pre><code>&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/01/31/Sqli-labs 第21-30关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -543,13 +570,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        20k
+                        16k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        19 mins.
+                        14 mins.
                     </span>
                 
                 
@@ -563,7 +590,9 @@
                 <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/29/Sqli-labs%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
 <p>之前其他资料学习过程中，学会一个挺好用的学习技巧</p>
 <p>在源码中<code>$sql</code>变量下方加入以下内容</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;</span><br><span class="line">echo $sql;</span><br><span class="line">echo &quot;&lt;br&gt;&quot;.&quot;=========================...</span></pre></td></tr></table></figure>
+<pre><code>echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;
+echo $sql;
+echo &quot;&lt;br&gt;&quot;.&quot;=======================...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/01/30/Sqli-labs 第11-20关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -590,13 +619,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        33k
+                        25k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        30 mins.
+                        23 mins.
                     </span>
                 
                 
@@ -639,13 +668,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        15k
+                        9.7k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        13 mins.
+                        9 mins.
                     </span>
                 
                 
@@ -657,9 +686,26 @@
         <div class="md-content animated fadeIn">
             
                 <p>（1）简单的用于尝试的语句</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">or 1=1--+</span><br><span class="line">&apos;or 1=1--+</span><br><span class="line">&quot;or 1=1--+</span><br><span class="line">)or 1=1--+</span><br><span class="line">&apos;)or 1=1--+</span><br><span class="line">&quot;) or 1=1--+</span><br><span class="line">&quot;))or 1=1--+</span><br><span class="line"></span><br><span class="line">ps:--+和#可以互相替换</span><br></pre></td></tr></table></figure>
-<p>（2）mysql命令行的简单命令</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">查看所有的数据库</span><br><span class="line">show databases;</span><br><span class="line"></span><br><span class="line">使用某个数据库(比如security数据库)</span><br><span class="line">use security;</span><br><span class="line"></span><br><span class="line">查看我们使用的数据库中有哪些表</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line">看一下我们想要查看的表的内容(比如users...</span></pre></td></tr></table></figure>
+<pre><code>or 1=1--+
+&#39;or 1=1--+
+&quot;or 1=1--+
+)or 1=1--+
+&#39;)or 1=1--+
+&quot;) or 1=1--+
+&quot;))or 1=1--+
+
+ps:--+和#可以互相替换
+</code></pre><p>（2）mysql命令行的简单命令</p>
+<pre><code>查看所有的数据库
+show databases;
+
+使用某个数据库(比如security数据库)
+use security;
+
+查看我们使用的数据库中有哪些表
+show tables;
+
+看一下我们想要查看...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/01/28/Sqli-labs Tips/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>

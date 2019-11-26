@@ -90,13 +90,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    5k
+                    3.3k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    5 mins.
+                    3 mins.
                 </span>
                 
                 
@@ -158,9 +158,29 @@
 <h3 id="第四题（自主创新）"><a href="#第四题（自主创新）" class="headerlink" title="第四题（自主创新）"></a>第四题（自主创新）</h3><p><code>题型：Reverse</code></p>
 <h3 id="第五题（高铁提速）"><a href="#第五题（高铁提速）" class="headerlink" title="第五题（高铁提速）"></a>第五题（高铁提速）</h3><p><code>题型：Web</code></p>
 <p>扫描得到地址：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://172.20.3.35:81/3/.svn/text-base/index.php.svn-base.txt</span><br></pre></td></tr></table></figure>
-<p>链接进去后看到源码：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">$user = $_COOKIE[<span class="string">'user'</span>];</span><br><span class="line">$code = $_GET[<span class="string">'code'</span>]?(int)$_GET[<span class="string">'code'</span>]:<span class="string">''</span>;</span><br><span class="line"><span class="keyword">if</span>($user == <span class="string">'admin'</span> &amp;&amp; !<span class="keyword">empty</span>($code)) &#123;</span><br><span class="line">	</span><br><span class="line">	$hex = (int)$code;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(($hex ^ <span class="number">6789</span>) === <span class="number">0xCDEF</span>) &#123;</span><br><span class="line">		<span class="keyword">require</span>(<span class="string">"flag.php"</span>);</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br><span class="line">		<span class="keyword">exit</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"缺少应有的参数,你没有权限查看本内容"</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code>http://172.20.3.35:81/3/.svn/text-base/index.php.svn-base.txt
+</code></pre><p>链接进去后看到源码：</p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+
+$user = $_COOKIE[&#39;user&#39;];
+$code = $_GET[&#39;code&#39;]?(int)$_GET[&#39;code&#39;]:&#39;&#39;;
+if($user == &#39;admin&#39; &amp;&amp; !empty($code)) {
+
+    $hex = (int)$code;
+
+    if(($hex ^ 6789) === 0xCDEF) {
+        require(&quot;flag.php&quot;);
+        echo $flag;
+        exit();
+    }
+
+}
+
+echo &quot;缺少应有的参数,你没有权限查看本内容&quot;;
+
+?&gt;
+</code></pre>
 <p>本地写个<code>PHP</code>，得到<code>code=55146</code></p>
 <p><img src alt="5-1"></p>
 <p>传参：<code>code=55146</code>、<code>user=admin</code>，拿下flag</p>
@@ -172,8 +192,18 @@
 <h3 id="第八题（两屏三带）"><a href="#第八题（两屏三带）" class="headerlink" title="第八题（两屏三带）"></a>第八题（两屏三带）</h3><p><code>题型：Reverse</code></p>
 <h3 id="第九题（发展民生）"><a href="#第九题（发展民生）" class="headerlink" title="第九题（发展民生）"></a>第九题（发展民生）</h3><p><code>题型：Web</code></p>
 <p>链接进去后得到提示：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">This is a secret </span><br><span class="line"></span><br><span class="line">I received a string of ciphertext that it has been encrypted via XOR and AES in CBC mode, if you decrypt it out, you will find a gift </span><br><span class="line">88044a62a6dbc963f0567e00f2934c620a41585b95a3d394690cfbde9f1b3fc76e756d62657220697320612039353237</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">AES secret key： </span><br><span class="line">balabala19731512</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">This file may be helpful to you</span><br></pre></td></tr></table></figure>
-<h3 id="第十题（未来可期）"><a href="#第十题（未来可期）" class="headerlink" title="第十题（未来可期）"></a>第十题（未来可期）</h3><p><code>题型：Reverse</code></p>
+<pre><code>This is a secret 
+
+I received a string of ciphertext that it has been encrypted via XOR and AES in CBC mode, if you decrypt it out, you will find a gift 
+88044a62a6dbc963f0567e00f2934c620a41585b95a3d394690cfbde9f1b3fc76e756d62657220697320612039353237
+
+
+AES secret key： 
+balabala19731512
+
+
+This file may be helpful to you
+</code></pre><h3 id="第十题（未来可期）"><a href="#第十题（未来可期）" class="headerlink" title="第十题（未来可期）"></a>第十题（未来可期）</h3><p><code>题型：Reverse</code></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"

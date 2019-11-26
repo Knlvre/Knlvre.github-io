@@ -86,13 +86,13 @@ http://123.206.87.240:8002/misc/3.zip
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    13k
+                    11k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    12 mins.
+                    10 mins.
                 </span>
                 
                 
@@ -127,8 +127,8 @@ http://123.206.87.240:8002/misc/3.zip
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <h3 id="前一部分链接：第1-10关Write-up"><a href="#前一部分链接：第1-10关Write-up" class="headerlink" title="前一部分链接：第1-10关Write-up"></a>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/26/BugKuCTF%E2%80%94%E6%9D%82%E9%A1%B9%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></h3><h3 id="第十一关（多种方法解决）"><a href="#第十一关（多种方法解决）" class="headerlink" title="第十一关（多种方法解决）"></a>第十一关（多种方法解决）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/3.zip</span><br></pre></td></tr></table></figure>
-<p>下载下来一个zip文件，解压开是一个KEY.exe文件</p>
+<pre><code>http://123.206.87.240:8002/misc/3.zip
+</code></pre><p>下载下来一个zip文件，解压开是一个KEY.exe文件</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/1-1.png" alt="1-1"></p>
 <p>用UE打开看一下，开头就发现是imgbase64（图片转换成base64进行存储）</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/1-2.png" alt="1-2"></p>
@@ -137,19 +137,19 @@ http://123.206.87.240:8002/misc/3.zip
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/1-3.png" alt="1-3"></p>
 <hr>
 <h3 id="第十二关（闪得好快啊）"><a href="#第十二关（闪得好快啊）" class="headerlink" title="第十二关（闪得好快啊）"></a>第十二关（闪得好快啊）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://ctf.bugku.com/files/6dcac03199e58749725cbcd9cc958a9b/masterGO.gif</span><br></pre></td></tr></table></figure>
-<p>链接进去是一张一直闪动的二维码，我们把它下载下来</p>
+<pre><code>https://ctf.bugku.com/files/6dcac03199e58749725cbcd9cc958a9b/masterGO.gif
+</code></pre><p>链接进去是一张一直闪动的二维码，我们把它下载下来</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/2-1.png" alt="2-1"></p>
 <p>这里想到之前CTF比赛用到的一个图片分析神器<strong>StegSolve</strong>，用这个工具打开这张GIF图片</p>
 <p>然后点击<strong>Analysis-&gt;Frame Browser</strong>，翻译过来就是<strong>帧浏览</strong></p>
 <p>打开后，新窗口上方写着<strong>1 of 18</strong>，那就是有18张图片</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/2-2.png" alt="2-2"></p>
 <p>然后就是一张一张扫描，一张就是一个字母，拼起来就是flag：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SYC&#123;F1aSh_so_f4sT&#125;</span><br></pre></td></tr></table></figure>
-<hr>
+<pre><code>SYC{F1aSh_so_f4sT}
+</code></pre><hr>
 <h3 id="第十三关（come-game）"><a href="#第十三关（come-game）" class="headerlink" title="第十三关（come_game）"></a>第十三关（come_game）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://ctf.bugku.com/files/1c617f3d9fc3d909766e813ec28ca8c6/game_1.zip</span><br></pre></td></tr></table></figure>
-<p>下载下来一个zip文件，解压后拿到一个exe文件，好像是个游戏，点开看看</p>
+<pre><code>https://ctf.bugku.com/files/1c617f3d9fc3d909766e813ec28ca8c6/game_1.zip
+</code></pre><p>下载下来一个zip文件，解压后拿到一个exe文件，好像是个游戏，点开看看</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/3-1.png" alt="3-1"></p>
 <p>有3个地方可以存档，每次玩完游戏都会帮你存档，对应生成save1,2,3三个文件</p>
 <p>还有一个叫做DeathTime的文件，用UE打开发现里面的数字刚好是我死亡的次数，并且每次死亡都会更改</p>
@@ -163,14 +163,14 @@ http://123.206.87.240:8002/misc/3.zip
 <p>多次尝试，将32改成35后直接通过，顺利拿下了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/3-5.png" alt="3-5"></p>
 <p>但是提交这个flag的时候，提示我错误</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flag&#123;6E23F259D98DF153&#125;</span><br></pre></td></tr></table></figure>
-<p>应该不会再藏什么东西了，看题目提示也没有说格式。但是题目和上一题一样，提示着来源于<strong>第七季极客大挑战</strong></p>
+<pre><code>flag{6E23F259D98DF153}
+</code></pre><p>应该不会再藏什么东西了，看题目提示也没有说格式。但是题目和上一题一样，提示着来源于<strong>第七季极客大挑战</strong></p>
 <p>而上一题的flag格式是SYC{}，试一下，果然正确了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SYC&#123;6E23F259D98DF153&#125;</span><br></pre></td></tr></table></figure>
-<hr>
+<pre><code>SYC{6E23F259D98DF153}
+</code></pre><hr>
 <h3 id="第十四关（白哥的格子）"><a href="#第十四关（白哥的格子）" class="headerlink" title="第十四关（白哥的格子）"></a>第十四关（白哥的格子）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://ctf.bugku.com/files/57c79d5b04e18a4bf8995d2721d76d5c/jpg</span><br></pre></td></tr></table></figure>
-<p>下载下来一个叫jpg的文件，用binwalk看一下没有发现什么东西。file命令看一下，属于jpeg类型的图片，存储了exif信息</p>
+<pre><code>https://ctf.bugku.com/files/57c79d5b04e18a4bf8995d2721d76d5c/jpg
+</code></pre><p>下载下来一个叫jpg的文件，用binwalk看一下没有发现什么东西。file命令看一下，属于jpeg类型的图片，存储了exif信息</p>
 <p>在windows环境下看一下文件的属性，也没有任何的信息提示</p>
 <p>用<strong>winhex</strong>打开（这里不再用UE是因为，UE打开这张图片时会部分字符没显示出来，并且以后要收费）</p>
 <p>在末尾看到一个好像有点熟悉的字符串</p>
@@ -183,15 +183,15 @@ http://123.206.87.240:8002/misc/3.zip
 <p>栅栏密码的<strong>在线解密</strong>和与之相关的<strong>介绍</strong>都可以到这个网站去：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">在线破解栅栏密码</a></p>
 <hr>
 <h3 id="第十五关（Linux）"><a href="#第十五关（Linux）" class="headerlink" title="第十五关（Linux）"></a>第十五关（Linux）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://123.206.87.240:8002/misc/1.tar.gz</span><br></pre></td></tr></table></figure>
-<p>下载下来一个名为1.tar.gz的压缩文件，解压后得到一个名为flag的文件</p>
+<pre><code>http://123.206.87.240:8002/misc/1.tar.gz
+</code></pre><p>下载下来一个名为1.tar.gz的压缩文件，解压后得到一个名为flag的文件</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/5-1.png" alt="5-1"></p>
 <p>使用<strong>cat</strong>命令查看文件，直接在文件的最后面得到了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/5-2.png" alt="5-2"></p>
 <hr>
 <h3 id="第十六关（隐写3）"><a href="#第十六关（隐写3）" class="headerlink" title="第十六关（隐写3）"></a>第十六关（隐写3）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://ctf.bugku.com/files/642a45bae2ceb406812acdd5ec327ce9/58d54bd3e134e.zip</span><br></pre></td></tr></table></figure>
-<p>下载下来一个zip文件，解压得到一个png图片</p>
+<pre><code>https://ctf.bugku.com/files/642a45bae2ceb406812acdd5ec327ce9/58d54bd3e134e.zip
+</code></pre><p>下载下来一个zip文件，解压得到一个png图片</p>
 <p>用winhex打开看一下，就前16个字节来看，确实是PNG图片</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/6-1.png" alt="6-1"></p>
 <p>在图片没做任何修改前，打开浏览是这样的</p>
@@ -204,8 +204,8 @@ http://123.206.87.240:8002/misc/3.zip
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/6-5.png" alt="6-5"></p>
 <hr>
 <h3 id="第十七关（做个游戏）"><a href="#第十七关（做个游戏）" class="headerlink" title="第十七关（做个游戏）"></a>第十七关（做个游戏）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://ctf.bugku.com/files/465585c655e201384823f64342cfd554/heiheihei.jar</span><br></pre></td></tr></table></figure>
-<p>下载下来一个<strong>.jar</strong>的JAVA文件，打开看一下，是一个游戏。需要坚持60秒才能拿到flag，显然我们是不可能去玩的</p>
+<pre><code>https://ctf.bugku.com/files/465585c655e201384823f64342cfd554/heiheihei.jar
+</code></pre><p>下载下来一个<strong>.jar</strong>的JAVA文件，打开看一下，是一个游戏。需要坚持60秒才能拿到flag，显然我们是不可能去玩的</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/7-1.png" alt="7-1"></p>
 <p>因为是JAVA游戏，想到反编译，于是就去网上下载了这款叫做<strong>JAVA Decompiler</strong>的JAVA发编译软件</p>
 <p>用这个软件打开游戏，在<strong>PlaneGameFram.class</strong>里面找到了flag</p>
@@ -214,23 +214,23 @@ http://123.206.87.240:8002/misc/3.zip
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/7-3.png" alt="7-3"></p>
 <hr>
 <h3 id="第十八关（想蹭网先解开密码）"><a href="#第十八关（想蹭网先解开密码）" class="headerlink" title="第十八关（想蹭网先解开密码）"></a>第十八关（想蹭网先解开密码）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://ctf.bugku.com/files/77decd384a172b9a2294e6c6acfd48cc/wifi.cap</span><br></pre></td></tr></table></figure>
-<p>下载下来一个<strong>.cap</strong>文件，可以用<strong>wireshark</strong>打开</p>
+<pre><code>https://ctf.bugku.com/files/77decd384a172b9a2294e6c6acfd48cc/wifi.cap
+</code></pre><p>下载下来一个<strong>.cap</strong>文件，可以用<strong>wireshark</strong>打开</p>
 <p>WIFI连接认证的重点在<strong>WPA的四次握手包</strong>，也就是<strong>eapol</strong>协议的包，过滤一下</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-1.png" alt="8-1"></p>
 <p>题目提示密码是以1391040开头的手机号，我们用Kali上的工具<strong>crunch</strong>生成一个暴力破解的字典</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">crunch 11 11 -t 1391040%%%% &gt;&gt;&gt; wifipassword.txt</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-2.png" alt="8-2"></p>
+<pre><code>crunch 11 11 -t 1391040%%%% &gt;&gt;&gt; wifipassword.txt
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-2.png" alt="8-2"></p>
 <p>字典生成后，我们就可以用<strong>aircrack-ng</strong>命令来对这个包进行暴力破解</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">aircrack-ng -w wifipassword.txt wifi.cap</span><br></pre></td></tr></table></figure>
-<p>输入命令后，会提示你选择Index number，这里我们输入<strong>3</strong></p>
+<pre><code>aircrack-ng -w wifipassword.txt wifi.cap
+</code></pre><p>输入命令后，会提示你选择Index number，这里我们输入<strong>3</strong></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-3.png" alt="8-3"></p>
 <p>然后就可以破解成功，拿到了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/8-4.png" alt="8-4"></p>
 <hr>
 <h3 id="第十九关（Linux2）"><a href="#第十九关（Linux2）" class="headerlink" title="第十九关（Linux2）"></a>第十九关（Linux2）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://pan.baidu.com/s/1skJ6t7R	//密码：s7jy</span><br></pre></td></tr></table></figure>
-<p>刚开始在Linux环境下打开链接，下载下来一个叫1skJ6t7R的html文件，研究了半天没发现什么</p>
+<pre><code>http://pan.baidu.com/s/1skJ6t7R    //密码：s7jy
+</code></pre><p>刚开始在Linux环境下打开链接，下载下来一个叫1skJ6t7R的html文件，研究了半天没发现什么</p>
 <p>后来在Windows环境下重新打开，才发现是百度云盘链接T T。下载下来一个叫<strong>brave.zip</strong>文件，拉到Linux虚拟机中</p>
 <p>解压出一个名叫<strong>brave</strong>的文件，没有任何的后缀，binwalk看一下，有藏着东西</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/9-1.png" alt="9-1"></p>
@@ -244,11 +244,15 @@ http://123.206.87.240:8002/misc/3.zip
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/9-4.png" alt="9-4"></p>
 <p>是<strong>二进制文件</strong>，就可以用<strong>strings</strong>命令看一下。加上<strong>grep</strong>筛选<strong>KEY</strong>关键字，就找到了flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/9-5.png" alt="9-5"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">关于Strings命令：</span><br><span class="line"></span><br><span class="line">strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印字符的任意序列，以换行符或空字符结束。 strings命令对识别随机对象文件很有用</span><br><span class="line"></span><br><span class="line">可以参考这篇简单的文章：https://blog.csdn.net/qq_42357070/article/details/83055257</span><br></pre></td></tr></table></figure>
-<hr>
+<pre><code>关于Strings命令：
+
+strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印字符的任意序列，以换行符或空字符结束。 strings命令对识别随机对象文件很有用
+
+可以参考这篇简单的文章：https://blog.csdn.net/qq_42357070/article/details/83055257
+</code></pre><hr>
 <h3 id="第二十关（账号被盗了）"><a href="#第二十关（账号被盗了）" class="headerlink" title="第二十关（账号被盗了）"></a>第二十关（账号被盗了）</h3><p>题目链接：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://123.206.87.240:9001/</span><br></pre></td></tr></table></figure>
-<p>打开链接是一个网页，点击”get flag”按钮后，显示”You are not admin”</p>
+<pre><code>http://123.206.87.240:9001/
+</code></pre><p>打开链接是一个网页，点击”get flag”按钮后，显示”You are not admin”</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/11-20/10-1.png" alt="10-1"></p>
 <p>但是我们在url中看到cookieflag.php，打开Bursuit，刷新网页，拦截到POST请求</p>
 <p>将其中的isadmin=false，改成isadmin=true。得到的回复是一个链接</p>

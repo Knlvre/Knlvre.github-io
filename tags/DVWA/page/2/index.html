@@ -132,13 +132,13 @@
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                33k
+                19k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                30 mins.
+                17 mins.
             </span>
             
             
@@ -149,11 +149,13 @@
         
         <div class="md-content animated fadeIn">
             
-            <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DVWA\vulnerabilities\brute\source</span><br></pre></td></tr></table></figure>
-<p>输入用户名密码登录</p>
+            <pre><code>DVWA\vulnerabilities\brute\source
+</code></pre><p>输入用户名密码登录</p>
 <p></p>
 <p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Login'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// ...</span></span></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_GET[ &#39;Login&#39; ] ) ) {...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/10/DVWA 1-Brute Force（暴力破解）/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
@@ -195,13 +197,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        33k
+                        19k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        30 mins.
+                        17 mins.
                     </span>
                 
                 
@@ -212,11 +214,21 @@
         
         <div class="md-content animated fadeIn">
             
-                <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DVWA\vulnerabilities\brute\source</span><br></pre></td></tr></table></figure>
-<p>输入用户名密码登录</p>
+                <pre><code>DVWA\vulnerabilities\brute\source
+</code></pre><p>输入用户名密码登录</p>
 <p></p>
 <p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Login'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Get username</span></span><br><span class="line">	$user = $_GET[ <span class="string">'username'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get password</span></span><br><span class="line">	$pass = $_GET[ <span class="string">'password'</span> ];</span><br><span class="line">	$pass = md5( $pass );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check the database</span></span><br><span class="line">	$query  = <span class="string">"SELECT * ...</span></span></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_GET[ &#39;Login&#39; ] ) ) {
+    // Get username
+    $user = $_GET[ &#39;username&#39; ];
+
+    // Get password
+    $pass = $_GET[ &#39;password&#39; ];
+    $pass = md5( $pass );
+
+    // Check the database...</code></pre>
             
             <span class="read-more"><a href="knlvre.github.io/2019/02/10/DVWA 1-Brute Force（暴力破解）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>

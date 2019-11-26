@@ -89,13 +89,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    13k
+                    12k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    12 mins.
+                    11 mins.
                 </span>
                 
                 
@@ -172,11 +172,11 @@
 <p>也可以用binwalk看里面有什么东西可以提取</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-13.png" alt="2-13"></p>
 <p>然后直接binwalk -e命令提取出来</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -e caidao.pcapng</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-14.png" alt="2-14"></p>
+<pre><code>binwalk -e caidao.pcapng
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-14.png" alt="2-14"></p>
 <p>提取出来一个压缩包，解压得到flag.txt，查看后拿到flag</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tar -xvf 1E43</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-15.png" alt="2-15"></p>
+<pre><code>tar -xvf 1E43
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/2-15.png" alt="2-15"></p>
 <p>至此，方法二结束</p>
 <hr>
 <h3 id="第三关（怎么多数据包）"><a href="#第三关（怎么多数据包）" class="headerlink" title="第三关（怎么多数据包）"></a>第三关（怎么多数据包）</h3><p>下载下来一个CTF.pcapng和一个文件夹里面装着文件._CTF.pcapng</p>
@@ -217,8 +217,8 @@
 <p>尝试解压失败。拿到winhex下看一下文件，发现文件头有错</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-5.png" alt="4-5"></p>
 <p>因为rar文件头是：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">52 61 72 21</span><br></pre></td></tr></table></figure>
-<p>将多余的部分删除掉，然后保存</p>
+<pre><code>52 61 72 21
+</code></pre><p>将多余的部分删除掉，然后保存</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-6.png" alt="4-6"></p>
 <p>再次解压1.rar，解压成功，提取出来一张GIF文件，图片上就是flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/4-7.png" alt="4-7"></p>
@@ -233,28 +233,36 @@
 <p>客户端发送的内容末端发现了fly.rar，这不就是苍蝇吗</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-3.png" alt="5-3"></p>
 <p>上图描述的是压缩包的内涵，也就是这样：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;path&quot;:&quot;fly.rar&quot;,</span><br><span class="line">   &quot;appid&quot;:&quot;&quot;,</span><br><span class="line">   &quot;size&quot;:525701,</span><br><span class="line">   &quot;md5&quot;:&quot;e023afa4f6579db5becda8fe7861c2d3&quot;,</span><br><span class="line">   &quot;sha&quot;:&quot;ecccba7aea1d482684374b22e2e7abad2ba86749&quot;,</span><br><span class="line">   &quot;sha3&quot;:&quot;&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>记录了fly.rar的大小，md5值</p>
+<pre><code>{
+   &quot;path&quot;:&quot;fly.rar&quot;,
+   &quot;appid&quot;:&quot;&quot;,
+   &quot;size&quot;:525701,
+   &quot;md5&quot;:&quot;e023afa4f6579db5becda8fe7861c2d3&quot;,
+   &quot;sha&quot;:&quot;ecccba7aea1d482684374b22e2e7abad2ba86749&quot;,
+   &quot;sha3&quot;:&quot;&quot;
+ }
+</code></pre><p>记录了fly.rar的大小，md5值</p>
 <p>现在添加对数据包的过滤条件，只看http协议，并且只看POST方法</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http &amp;&amp; http.request.method == POST</span><br></pre></td></tr></table></figure>
-<p>注意到No.2至No.6这5个文件，Media Type都是application/octet-stream的格式</p>
+<pre><code>http &amp;&amp; http.request.method == POST
+</code></pre><p>注意到No.2至No.6这5个文件，Media Type都是application/octet-stream的格式</p>
 <p>也就是数据流的格式，现在就猜测这些数据流里有我们要的东西</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-4.png" alt="5-4"></p>
 <p>这5个文件的Media Type域的大小分别是131436、131436、131436、131436、1777</p>
 <p>之前压缩包内涵中我们知道，fly.rar的大小是525701，那么：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(131436*4 + 1777) - 525701 = 1820</span><br><span class="line">1820 / 4 = 364</span><br></pre></td></tr></table></figure>
-<p>接触过网络数据包的应该知道，数据包如果拆开发送，到目标端是要再组合起来的</p>
+<pre><code>(131436*4 + 1777) - 525701 = 1820
+1820 / 4 = 364
+</code></pre><p>接触过网络数据包的应该知道，数据包如果拆开发送，到目标端是要再组合起来的</p>
 <p>组合起来时就需要靠包头的信息，现在猜测364就是每个包的包头大小</p>
 <p>用Wireshark的Ctrl+H将Media Type的内容提取出来，放到Kali中</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-5.png" alt="5-5"></p>
 <p>用dd命令逐个将他们的前364个字节大小的包头剔除掉</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dd if=1 of=10 skip=364 bs=1</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-6.png" alt="5-6"></p>
+<pre><code>dd if=1 of=10 skip=364 bs=1
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-6.png" alt="5-6"></p>
 <p>用cat命令将5个和成1个fly.rar</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat 10 20 30 40 50 &gt; fly.rar</span><br></pre></td></tr></table></figure>
-<p>用md5sum检查一下md5值。没错，和之间压缩包内涵里的md5值一模一样，说明组合成功了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum fly.rar</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-8.png" alt="5-8"></p>
+<pre><code>cat 10 20 30 40 50 &gt; fly.rar
+</code></pre><p>用md5sum检查一下md5值。没错，和之间压缩包内涵里的md5值一模一样，说明组合成功了</p>
+<pre><code>md5sum fly.rar
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-8.png" alt="5-8"></p>
 <p>想要解压时却发现要密码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E5%88%86%E6%9E%90/1-10/5-9.png" alt="5-9"></p>
 <p>放到winhex里看一下， 发现是伪加密，只需要将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>

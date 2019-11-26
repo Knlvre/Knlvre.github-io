@@ -89,13 +89,13 @@ import,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    8.6k
+                    5.5k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    8 mins.
+                    5 mins.
                 </span>
                 
                 
@@ -134,7 +134,16 @@ import,">
 <p>将一整串二进制<code>转换为十六进制</code>，发现开头是<code>rar文件的开头</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/1-1.png" alt="1-1"></p>
 <p>直接保存成一个<code>rar文件</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line">s = <span class="string">"010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可"</span></span><br><span class="line"></span><br><span class="line">s = hex(int(int(s,<span class="number">2</span>)))[<span class="number">2</span>:]</span><br><span class="line">s = s.encode()</span><br><span class="line">hexvalue = binascii.a2b_hex(s)</span><br><span class="line">rar = open(<span class="string">r'1.rar'</span>,<span class="string">'wb+'</span>)</span><br><span class="line">rar.write(hexvalue)</span><br><span class="line">rar.close()</span><br></pre></td></tr></table></figure>
+<pre><code class="python">import binascii
+s = &quot;010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可&quot;
+
+s = hex(int(int(s,2)))[2:]
+s = s.encode()
+hexvalue = binascii.a2b_hex(s)
+rar = open(r&#39;1.rar&#39;,&#39;wb+&#39;)
+rar.write(hexvalue)
+rar.close()
+</code></pre>
 <p>解压得到<code>key.txt</code>，查看属性看到一串<code>Base64密文</code></p>
 <p>解密得到flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/1-2.png" alt="1-2"></p>
@@ -154,7 +163,21 @@ import,">
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/3-3.png" alt="3-3"></p>
 <p>感觉<code>122×503</code>比较靠谱，试一下</p>
 <p>利用Python的图片库，生成一张图片</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">x = <span class="number">503</span> <span class="comment">#x坐标  通过对txt里的行数进行整数分解</span></span><br><span class="line">y = <span class="number">122</span> <span class="comment">#y坐标  x*y = 行数</span></span><br><span class="line"></span><br><span class="line">im = Image.new(<span class="string">"RGB"</span>,(x,y))<span class="comment">#创建图片</span></span><br><span class="line">file = open(<span class="string">'1.txt'</span>) <span class="comment">#打开rbg值文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#通过一个个rgb点生成图片</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,x):</span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,y):</span><br><span class="line">    line = file.readline()<span class="comment">#获取一行</span></span><br><span class="line">    rgb = line.split(<span class="string">","</span>)<span class="comment">#分离rgb</span></span><br><span class="line">    im.putpixel((i,j),(int(rgb[<span class="number">0</span>]),int(rgb[<span class="number">1</span>]),int(rgb[<span class="number">2</span>])))<span class="comment">#rgb转化为像素</span></span><br><span class="line">im.show()</span><br></pre></td></tr></table></figure>
+<pre><code class="python">from PIL import Image
+x = 503 #x坐标  通过对txt里的行数进行整数分解
+y = 122 #y坐标  x*y = 行数
+
+im = Image.new(&quot;RGB&quot;,(x,y))#创建图片
+file = open(&#39;1.txt&#39;) #打开rbg值文件
+
+#通过一个个rgb点生成图片
+for i in range(0,x):
+  for j in range(0,y):
+    line = file.readline()#获取一行
+    rgb = line.split(&quot;,&quot;)#分离rgb
+    im.putpixel((i,j),(int(rgb[0]),int(rgb[1]),int(rgb[2])))#rgb转化为像素
+im.show()
+</code></pre>
 <p>运行完后会自动弹出图片，图片中写着flag</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/3-2.png" alt="3-2"></p>
 <hr>
@@ -165,12 +188,34 @@ import,">
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/31-40/4-2.png" alt="4-2"></p>
 <p>网上看了别人的WriteUp：<a href="http://www.pianshen.com/article/4746320544/" target="_blank" rel="noopener">http://www.pianshen.com/article/4746320544/</a></p>
 <p>把<code>有数字的地方作为1，没数字的地方为0</code>，提取出来</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">111111101010101000101000001111110000101111111</span><br><span class="line">100000101100111101010011101100011001001000001</span><br><span class="line">101110101110011111010011111101000101001011101</span><br><span class="line">101110101101100010001010000011110001101011101</span><br><span class="line">101110100011100100001111101111111011101011101</span><br><span class="line">...太多了不写</span><br></pre></td></tr></table></figure>
-<p>借用python的<code>Image</code>库，生成二维码，好像也是挺累的</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">x = <span class="number">45</span></span><br><span class="line">y = <span class="number">45</span></span><br><span class="line"> </span><br><span class="line">im = Image.new(<span class="string">'RGB'</span>, (x, y))</span><br><span class="line">white = (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>)</span><br><span class="line">black = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'file.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(x):</span><br><span class="line">        ff = f.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(y):</span><br><span class="line">            <span class="keyword">if</span> ff[j] == <span class="string">'1'</span>:</span><br><span class="line">                im.putpixel((i, j), black)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                im.putpixel((i, j), white)</span><br><span class="line">im.save(<span class="string">"1.jpg"</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>111111101010101000101000001111110000101111111
+100000101100111101010011101100011001001000001
+101110101110011111010011111101000101001011101
+101110101101100010001010000011110001101011101
+101110100011100100001111101111111011101011101
+...太多了不写
+</code></pre><p>借用python的<code>Image</code>库，生成二维码，好像也是挺累的</p>
+<pre><code class="python">from PIL import Image
+x = 45
+y = 45
+
+im = Image.new(&#39;RGB&#39;, (x, y))
+white = (255, 255, 255)
+black = (0, 0, 0)
+
+with open(&#39;file.txt&#39;) as f:
+    for i in range(x):
+        ff = f.readline()
+        for j in range(y):
+            if ff[j] == &#39;1&#39;:
+                im.putpixel((i, j), black)
+            else:
+                im.putpixel((i, j), white)
+im.save(&quot;1.jpg&quot;)
+</code></pre>
 <p>扫描二维码得到Base64字符串</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Vm0xd1NtUXlWa1pPVldoVFlUSlNjRlJVVGtOamJGWnlWMjFHVlUxV1ZqTldNakZIWVcxS1IxTnNhRmhoTVZweVdWUkdXbVZHWkhOWGJGcHBWa1paZWxaclpEUmhNVXBYVW14V2FHVnFRVGs9</span><br></pre></td></tr></table></figure>
-<p>多次<code>Base64</code>解码之后，拿到flag</p>
+<pre><code>Vm0xd1NtUXlWa1pPVldoVFlUSlNjRlJVVGtOamJGWnlWMjFHVlUxV1ZqTldNakZIWVcxS1IxTnNhRmhoTVZweVdWUkdXbVZHWkhOWGJGcHBWa1paZWxaclpEUmhNVXBYVW14V2FHVnFRVGs9
+</code></pre><p>多次<code>Base64</code>解码之后，拿到flag</p>
 <p>可能我技术不到位，这道题费时间，比较累</p>
 <hr>
 <h3 id="第三十五关（PEN-AND-APPLE）"><a href="#第三十五关（PEN-AND-APPLE）" class="headerlink" title="第三十五关（PEN_AND_APPLE）"></a>第三十五关（PEN_AND_APPLE）</h3><p>链接打开是一个黑人老哥在跳<code>PEN_AND_APPLE</code>，亮瞎</p>
