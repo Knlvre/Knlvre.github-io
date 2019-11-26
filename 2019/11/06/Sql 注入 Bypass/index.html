@@ -187,7 +187,7 @@ if($_GET[id] == &quot;admin&quot;)
 ?&gt;
 </code></pre>
 <p>因为 php 在 GET 一个参数之前，会先自动<code>urldecode</code> 。当我们传入<code>%2561dmin</code>后，第一次自动 urldecode 结果为 <code>%61dmin</code>，第一个匹配 <code>&quot;admin&quot; === &quot;%61dmin&quot;</code>失败。第二次匹配前又 urldecode 一次，所以第二次匹配<code>&quot;admin&quot; == &quot;admin&quot;</code>成功，拿下 flag</p>
-<pre><code>root@Knlvre:~# curl 127.0.0.1/url.php?id=admin
+<pre><code class="bash">root@Knlvre:~# curl 127.0.0.1/url.php?id=admin
 not allowed!
 id1:admin
 
@@ -195,7 +195,8 @@ root@Knlvre:~# curl 127.0.0.1/url.php?id=%2561dmin
 id2:%61dmin
 id3:admin
 Access granted!Key: xxxxxxx
-</code></pre><p>② 再比如上海CTF的 babyt5</p>
+</code></pre>
+<p>② 再比如上海CTF的 babyt5</p>
 <p>用<code>php%2570</code>绕过<code>strpos</code>的检查，之后的<code>curl</code>相关函数会对URL编码再次进行解析，就可以传入正确的 payload</p>
 <pre><code class="php">&lt;?php
 highlight_file(__FILE__);
