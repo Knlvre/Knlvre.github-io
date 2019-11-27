@@ -157,13 +157,13 @@ Fake XML cookbook
 </blockquote>
 <p>测试发现先对<strong>POST</strong>的值进行<strong>URL解码</strong>然后进行匹配，过滤了<strong>in、-、#、’、or、and、空格</strong></p>
 <p>无法使用任何注释符，只能是通过<strong>反斜杠（\）</strong>将原本接在 username 的后一个单引号给注释掉，然后 username 的前一个单引号与 password 的前一个单引号闭合。最后的单引号用<strong>%00</strong>截断掉 password 的第二个单引号（PHP 会判断 %00 为字符串结束符，所以字符串只到这里，最后的单引号会被当做不在字符串内，也就不传入 sql 语句中）</p>
-<pre><code class="bash">username=123\&amp;passwd=||1;%00
+<pre><code class="code">username=123\&amp;passwd=||1;%00
 </code></pre>
 <p>拼接后的字符串就是</p>
 <pre><code class="php">$string = &quot;select * from users where username=&#39;123\&#39; and passwd=&#39;||1;%00&#39;&quot;
 </code></pre>
 <p>传入数据库部分就是</p>
-<pre><code class="mysql">select * from users where username=&#39;123\&#39; and passwd=&#39;||1;
+<pre><code class="code">select * from users where username=&#39;123\&#39; and passwd=&#39;||1;
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-2.png" alt="3-2"></p>
 <p>出现 302 跳转，跟随跳转后提示</p>
