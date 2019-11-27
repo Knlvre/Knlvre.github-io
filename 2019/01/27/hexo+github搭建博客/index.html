@@ -85,7 +85,7 @@ Tip 2可能Github有更新，仓库的地址格式有些变动，我们,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    2.9k
+                    2.8k
                 </span>
                 
                 
@@ -127,28 +127,29 @@ Tip 2可能Github有更新，仓库的地址格式有些变动，我们,">
         <div class="content markdown animated fadeIn">
             <h2 id="Tip-1"><a href="#Tip-1" class="headerlink" title="Tip 1"></a>Tip 1</h2><p>前面大致的步骤参考这篇文章：<a href="https://mochazz.github.io/2017/07/26/hexo-build/" target="_blank" rel="noopener">https://mochazz.github.io/2017/07/26/hexo-build/</a></p>
 <h2 id="Tip-2"><a href="#Tip-2" class="headerlink" title="Tip 2"></a>Tip 2</h2><p>可能Github有更新，仓库的地址格式有些变动，我们还是直接点击仓库，然后根据浏览器弹出的新的页面的URL，复制粘贴进去比较好</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/1.png" alt="1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/2.png" alt="2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/3.png" alt="3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/1.png" alt="1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/3.png" alt="3"></p>
 <h2 id="Tip-3"><a href="#Tip-3" class="headerlink" title="Tip 3"></a>Tip 3</h2><p>去这个网站下载主题：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a></p>
 <p>挑选好喜欢的博客后，点击链接到他们Github的页面，下载下来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/4.png" alt="4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/4.png" alt="4"></p>
 <p>直接解压到 <strong>themes</strong> 这个文件夹下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/5.png" alt="5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/5.png" alt="5"></p>
 <p>然后在 <strong>_config.yml</strong> 这个配置文件中 <strong>Extensions</strong> 模块的 <strong>theme</strong> 改成刚才那个文件的名字，模板就运用成功了，然后就可以根据自己的喜好修改一些东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/6.png" alt="6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/6.png" alt="6"></p>
 <h2 id="Tip-4"><a href="#Tip-4" class="headerlink" title="Tip 4"></a>Tip 4</h2><p>主题设置完之后，本地测试通过（hexo clean + hexo s + 访问127.0.0.1:4000），经过个人喜好修改的博客可以正常显示，但是上传到Github上就不行（hexo clean + hexo g &amp;&amp; hexo d）。后来发现是 <strong>_config.yml</strong> 中有些参数没设置好：</p>
-<p>在仓库界面中点击 <strong>Setting</strong> 找到 <strong>Repository name</strong> 写到 <strong>_config.yml</strong> 文件中的 <strong>url</strong>   </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/7.png" alt="7"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/8.png" alt="8"></p>
-<p>找到 <strong>GitHub Pages</strong> 中我们获取到的博客地址，同样写到 <strong>_config.yml</strong> 文件中的 <strong>root</strong> </p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/9.png" alt="9"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/10.png" alt="10"></p>
-<h3 id="现在再次访问博客，就可以正常显示了"><a href="#现在再次访问博客，就可以正常显示了" class="headerlink" title="现在再次访问博客，就可以正常显示了"></a>现在再次访问博客，就可以正常显示了</h3><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/hexo%2Bgit/11.png" alt="11"></p>
+<p>在仓库界面中点击 <strong>Setting</strong> 找到 <strong>Repository name</strong> 写到 <strong>_config.yml</strong> 文件中的 <strong>url</strong></p>
+<p><strong>root</strong>参数如图所示写就行了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/1.png" alt="7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/8.png" alt="8"></p>
+<h3 id="现在再次访问博客，就可以正常显示了"><a href="#现在再次访问博客，就可以正常显示了" class="headerlink" title="现在再次访问博客，就可以正常显示了"></a>现在再次访问博客，就可以正常显示了</h3><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/11.png" alt="11"></p>
 <hr>
-<h2 id="安装问题"><a href="#安装问题" class="headerlink" title="安装问题"></a>安装问题</h2><pre><code>git init
-git config --global user.email &quot;240375426@qq.com&quot;
-</code></pre>
+<h2 id="安装问题"><a href="#安装问题" class="headerlink" title="安装问题"></a>安装问题</h2><p><strong>Windwos node 的升级</strong></p>
+<p>到官网： <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
+<p>下载新版的<strong>msi</strong>文件，双击安装，安装过程中选择的路径为原本的路径，比如我的：<strong>G:\Security\Blogs\Node.js</strong></p>
+<p>安装完成就升级成功了，可以用<strong>node -v</strong>查看版本</p>
+<p><strong>hexo 创建新页面</strong></p>
+<p>比如创建一个<strong>whoami</strong>页面，使用命令：<strong>hexo new page whoami</strong></p>
+
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
                 data-autoplay="false">
