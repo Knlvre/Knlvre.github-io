@@ -1905,40 +1905,41 @@ highlight_file(__FILE__);
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/成大玄武杯/8-1.png" alt="8-1"></p>
 <p><code>$f2</code>和<code>$f3</code>全部传入字符串的<code>0</code>就可以了</p>
 <h1 id="NJUPT-CTF-2019"><a href="#NJUPT-CTF-2019" class="headerlink" title="NJUPT CTF 2019"></a>NJUPT CTF 2019</h1><p>一共记录 11 道 Web 题目</p>
-<h2 id="Fake-XML-cookbook"><a href="#Fake-XML-cookbook" class="headerlink" title="Fake XML cookbook"></a>Fake XML cookbook</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-1.png" alt="1-1"></p>
+<h2 id="Fake-XML-cookbook"><a href="#Fake-XML-cookbook" class="headerlink" title="Fake XML cookbook"></a>Fake XML cookbook</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-1.png" alt></p>
 <p>抓到的请求当中，看到疑似<code>XXE</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-2.png" alt></p>
 <p>根据题目提示</p>
 <blockquote>
 <p>flag in /flag</p>
 </blockquote>
 <p>直接拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/1-3.png" alt></p>
 <h2 id="True-XML-cookbook"><a href="#True-XML-cookbook" class="headerlink" title="True XML cookbook"></a>True XML cookbook</h2><p>与上一题同样的界面</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-1.png" alt></p>
 <p>尝试，但是相比之前，没有返回了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-2.png" alt></p>
 <p>但是可以读取其他文件，说明这里是 flag 的位置换了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-3.png" alt="2-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-3.png" alt></p>
 <p>读取源码没看到可以利用的点，只能想到利用<code>xxe</code>进行<code>ssrf</code>打内网，扫描一下储存内网 IP 的几个文件：<code>/etc/hosts</code>，<code>/proc/net/arp</code>，<code>/proc/net/fib_trie</code>。然后在<code>ARP表</code>中发现很多内网 IP</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-4.png" alt="2-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-4.png" alt></p>
 <p>通过<code>http://</code>协议访问<code>192.168.1.8</code>，直接拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-5.png" alt="2-5"></p>
-<h2 id="SQLi"><a href="#SQLi" class="headerlink" title="SQLi"></a>SQLi</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/2-5.png" alt></p>
+<h2 id="SQLi"><a href="#SQLi" class="headerlink" title="SQLi"></a>SQLi</h2><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-1.png" alt></p>
 <p>并且有弹窗提示</p>
 <blockquote>
 <p>try to make the sqlquery have its own results</p>
 </blockquote>
 <p>测试发现先对<code>POST</code>的值进行<code>URL解码</code>然后进行匹配，过滤了<code>in、-、#、&#39;、or、and、空格</code></p>
 <p>无法使用任何注释符，只能是通过<code>反斜杠（\）</code>将原本接在 username 的后一个单引号给注释掉，然后 username 的前一个单引号与 password 的前一个单引号闭合。最后的单引号用<code>%00</code>截断掉 password 的第二个单引号（PHP 会判断 %00 为字符串结束符，所以字符串只到这里，最后的单引号会被当做不在字符串内，也就不传入 sql 语句中）</p>
-<pre><code>username=123\&amp;passwd=||1;%00
-</code></pre><p>拼接后的字符串就是</p>
+<pre><code class="url">username=123\&amp;passwd=||1;%00
+</code></pre>
+<p>拼接后的字符串就是</p>
 <pre><code class="php">$string = &quot;select * from users where username=&#39;123\&#39; and passwd=&#39;||1;%00&#39;&quot;
 </code></pre>
 <p>传入数据库部分就是</p>
 <pre><code class="mysql">select * from users where username=&#39;123\&#39; and passwd=&#39;||1;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/NJUPT/3-2.png" alt></p>
 <p>出现 302 跳转，跟随跳转后提示</p>
 <blockquote>
 <p>hello friend,go back to get the password</p>
