@@ -46,7 +46,7 @@
                 <div class="content animated fadeIn">
                     <div class="set">
                         <h1 style="text-align: center">Archived</h1>
-                        <p style="text-align: center">「 60 」</p>
+                        <p style="text-align: center">「 61 」</p>
                         <ul class="timeline timeline-centered">
                             
                             
@@ -58,6 +58,26 @@
                                         <h2 class="timeline-title">November 2019</h2>
                                     </div>
                                 </li>
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">November 06, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/11/06/Sql 注入 Bypass/">Sql 注入 Bypass</a>
+                                        <p>
+                                            前言Sql 注入的过程中经常会碰到各种 WAF 过滤掉了多种关键字，在本文中总结一下
+本文持续更新
+information_schemainnodb_tables_stats
+大小写对于大小写敏感的 WAF ，可以用大小写绕过
+全大写、大小写混写
+mysql&gt; select 1,2,3 union select * from users;
++----+----------+------...
+                                        </p>
+                                    </div>
+                                </li>
+                            
                                 
                                 <li class="timeline-item">
                                     <div class="timeline-info">
@@ -197,24 +217,6 @@ una...
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
-                                        <p>
-                                            本文转载自原文：13种方式下载文件
-渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
-0x01 Powershell创建如下PSH脚本：
-$p = New-Object System.Net.WebClient
-$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">October 04, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
                                         <p>
                                             # 
@@ -242,6 +244,24 @@ exploit-db的详情：https://www.exploit-db.com/exploits/39574/
 
 ①系统需要拥有至少2个的CPU核心
 ②...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">October 04, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
+                                        <p>
+                                            本文转载自原文：13种方式下载文件
+渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
+0x01 Powershell创建如下PSH脚本：
+$p = New-Object System.Net.WebClient
+$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
                                         </p>
                                     </div>
                                 </li>
@@ -379,15 +399,14 @@ DC-1环境虚拟机平台：VMware Workstation Pro
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">2019XNUCA — ezphp WriteUp</a>
                                         <p>
-                                            Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件
-Ps：如果只安装Apache2，将会导致写的php文件无法被解析
-apt-get install apache2
-apt-get install php
-
-命令状态：/etc/init.d/apache2 status（service apache2 status）
-开启：/etc/init...
+                                            前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来
+ezphp源代码&lt;?php 
+    $files = scandir(&#39;./&#39;);
+    foreach($files as $file){
+        if($file !== &quot;index.php&quot;){
+            unlink($file...
                                         </p>
                                     </div>
                                 </li>
@@ -399,14 +418,15 @@ apt-get install php
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/">2019XNUCA — ezphp WriteUp</a>
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/">Linux系统下搭建Web服务器和FTP服务器</a>
                                         <p>
-                                            前言没有参加本次比赛，只记录ezphp这一道题目，把同学的Writeup复现并记录下来
-ezphp源代码&lt;?php 
-    $files = scandir(&#39;./&#39;);
-    foreach($files as $file){
-        if($file !== &quot;index.php&quot;){
-            unlink($file...
+                                            Web服务器安装与配置Apache2和php组件的安装使用如下命令来安装Apache2和php的组件
+Ps：如果只安装Apache2，将会导致写的php文件无法被解析
+apt-get install apache2
+apt-get install php
+
+命令状态：/etc/init.d/apache2 status（service apache2 status）
+开启：/etc/init...
                                         </p>
                                     </div>
                                 </li>
@@ -655,6 +675,28 @@ RAR Archive (r...
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</a>
+                                        <p>
+                                            安恒WriteUp安恒2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
+官方WriteUp官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
+
+第一题（土肥原贤二）SQL注入，gid通过单引号包裹，比较简单就呈现出来
+
+联合注入测试成功
+
+爆数据库、表、列、flag值
+-1&#39; union select 1,2,3,table_name from inform...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">March 30, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/03/30/BugKuCTF—加密题 第1-10关/">BugKuCTF — 加密题(第1-10关)</a>
                                         <p>
                                             第一关（滴答~滴）百度一下题目给的数字，发现是摩斯密码
@@ -680,28 +722,6 @@ flag直接解出来
 
 
 第四关（这不是摩斯密码）...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">March 30, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/03/30/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp/">2019“嘉韦思杯”上海高校网络安全邀请赛 — 初赛WriteUp</a>
-                                        <p>
-                                            安恒WriteUp安恒2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
-官方WriteUp官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp
-
-第一题（土肥原贤二）SQL注入，gid通过单引号包裹，比较简单就呈现出来
-
-联合注入测试成功
-
-爆数据库、表、列、flag值
--1&#39; union select 1,2,3,table_name from inform...
                                         </p>
                                     </div>
                                 </li>

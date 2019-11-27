@@ -126,19 +126,19 @@
             February 26, 2019
         </p>
         <h3 class="post-title animated fadeInDown">
-            <a href="/knlvre.github.io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" title="BugKuCTF — 利用Kali分离图片中的隐藏文件" class="posttitle">BugKuCTF — 利用Kali分离图片中的隐藏文件</a></h3>
+            <a href="/knlvre.github.io/2019/02/26/BugKuCTF—杂项题 第1-10关/" title="BugKuCTF — 杂项题(第1-10关)" class="posttitle">BugKuCTF — 杂项题(第1-10关)</a></h3>
         
         <p class="post-count animated fadeInDown">
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                1.8k
+                13k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                2 mins.
+                12 mins.
             </span>
             
             
@@ -149,11 +149,13 @@
         
         <div class="md-content animated fadeIn">
             
-            <p>在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件</p>
-<p>而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：<strong>Binwalk、dd、foremost</strong>，于是便去了解</p>
-<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p>可以借用BUGKU...</p>
+            <h3 id="第一关（签到题）"><a href="#第一关（签到题）" class="headerlink" title="第一关（签到题）"></a>第一关（签到题）</h3><p>关注公众号扫描二维码就能获得flag</p>
+<hr>
+<h3 id="第二关（这是一张单纯的图片）"><a href="#第二关（这是一张单纯的图片）" class="headerlink" title="第二关（这是一张单纯的图片）"></a>第二关（这是一张单纯的图片）</h3><p>题目链接：</p>
+<pre><code>http://123.206.87.240:8002/misc/1.jpg
+</code></pre><p>打开链接发现是一张<strong>jpg</strong>图片...</p>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/" title="Read article" class="posttitle">Read article</a>
+            <span class="read-more"><a href="/knlvre.github.io/2019/02/26/BugKuCTF—杂项题 第1-10关/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
@@ -174,6 +176,65 @@
 
     <div id="primary">
         
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            February 26, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/26/BugKuCTF—杂项题 第1-10关/" title="BugKuCTF — 杂项题(第1-10关)" class="posttitle">BugKuCTF — 杂项题(第1-10关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        13k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        12 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF-Misc/">CTF-Misc</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <h3 id="第一关（签到题）"><a href="#第一关（签到题）" class="headerlink" title="第一关（签到题）"></a>第一关（签到题）</h3><p>关注公众号扫描二维码就能获得flag</p>
+<hr>
+<h3 id="第二关（这是一张单纯的图片）"><a href="#第二关（这是一张单纯的图片）" class="headerlink" title="第二关（这是一张单纯的图片）"></a>第二关（这是一张单纯的图片）</h3><p>题目链接：</p>
+<pre><code>http://123.206.87.240:8002/misc/1.jpg
+</code></pre><p>打开链接发现是一张<strong>jpg</strong>图片</p>
+<p></p>
+<p></p>
+<p>看了一下图片属性，没发现什么东西</p>
+<p></p>
+<p>使用UE（UltraEdit）打开图片看看。发现在最后几行有着<strong>Unicode</strong>编码</p>
+<p></p>
+<p>复制这个Unicode编码，通过在线工具转换成<strong>ASCII</strong>编码后，Flag就出来了</p>
+<p></p>
+<hr>
+<h3 id="第三关（隐写）"><a href="#第三关（隐写）" class="headerlink" title="第三关（隐写）"></a>第三关（隐写）</h3><p>题目链接：</p>
+<pre><code>https://ctf.bugku.com/files/f8da9b5979e89...</code></pre>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/02/26/BugKuCTF—杂项题 第1-10关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
 <div class="post" id="post">
     <div class="post-cover animated fadeIn" style="
             background-image:
@@ -628,62 +689,6 @@ if( isset( $_POST[ &#39;Upload&#39; ] ) ) {
 // The page...</code></pre>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/02/13/DVWA 4-File Inclusion（文件包含）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            February 12, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" title="DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）" class="posttitle">DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        13k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        12 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/DVWA/">DVWA</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <pre><code>DVWA\vulnerabilities\csrf\source\
-</code></pre><p>更改当前用户的密码</p>
-<p></p>
-<p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-if( isset( $_GET[ &#39;Change&#39; ] ) ) {
-    // Get input
-    $pass_new  = $_GET[ &#39;password_new&#39; ];
-    $pass_conf = $_GET[ &#39;password_conf&#39; ];
-
-    // Do the passwords match?
-    if( $pass_new ==...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
