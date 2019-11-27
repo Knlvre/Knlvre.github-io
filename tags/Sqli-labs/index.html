@@ -115,22 +115,22 @@
             
             <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
             
-            November 06, 2019
+            February 03, 2019
         </p>
         <h3 class="post-title animated fadeInDown">
-            <a href="/knlvre.github.io/2019/11/06/Sql 注入 Bypass/" title="Sql 注入 Bypass" class="posttitle">Sql 注入 Bypass</a></h3>
+            <a href="/knlvre.github.io/2019/02/03/Sqli-labs 第51-65关/" title="Sqli-labs(第51-65关)" class="posttitle">Sqli-labs(第51-65关)</a></h3>
         
         <p class="post-count animated fadeInDown">
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                12k
+                4.2k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                11 mins.
+                4 mins.
             </span>
             
             
@@ -141,13 +141,12 @@
         
         <div class="md-content animated fadeIn">
             
-            <p>Sql 注入的过程中经常会碰到各种 WAF 过滤掉了多种关键字，在本文中总结一下</p>
-<p>本文持续更新</p>
-<p><strong>innodb_tables_stats</strong></p>
-<p>对于大小写敏感的 WAF ，可以用大小写绕过</p>
-<p>全大写、大小写混写...</p>
+            <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
+<p>与前一关相同，单引号包裹，payload</p>
+<pre><code>?sort=1&#39;;create table less51 like users--+
+</code></pre><p>与Less-50相...</p>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/11/06/Sql 注入 Bypass/" title="Read article" class="posttitle">Read article</a>
+            <span class="read-more"><a href="/knlvre.github.io/2019/02/03/Sqli-labs 第51-65关/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
@@ -168,57 +167,6 @@
 
     <div id="primary">
         
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            February 03, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/03/Sqli-labs 第51-65关/" title="Sqli-labs(第51-65关)" class="posttitle">Sqli-labs(第51-65关)</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        4.2k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        4 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/Sqli-labs/">Sqli-labs</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
-<p>与前一关相同，单引号包裹，payload</p>
-<pre><code>?sort=1&#39;;create table less51 like users--+
-</code></pre><p>与Less-50相同，只不过没有报错信息回显，payload</p>
-<pre><code>?sort=1;create table less51 like users--+
-</code></pre><p>与Less-51相同，只不过没有报错信息回显，payload</p>
-<pre><code>?sort=1&#39;;create table less51 like users--+
-</code></pre><p>本关开始，又有了...</p>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/03/Sqli-labs 第51-65关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
 <div class="post" id="post">
     <div class="post-cover animated fadeIn" style="
             background-image:
