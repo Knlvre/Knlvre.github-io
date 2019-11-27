@@ -504,6 +504,59 @@ Matching Modules
             
             September 03, 2019
         </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" title="2019XNUCA — ezphp WriteUp" class="posttitle">2019XNUCA — ezphp WriteUp</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        11k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        10 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>没有参加本次比赛，只记录<code>ezphp</code>这一道题目，把同学的Writeup复现并记录下来</p>
+<pre><code class="php">&lt;?php 
+    $files = scandir(&#39;./&#39;);
+    foreach($files as $file){
+        if($file !== &quot;index.php&quot;){
+            unlink($file);
+        }
+    }
+    include_onece(&quot;fl3g.php&quot;);
+    if(!isset($_GET[&#39;content&#39;]) || !isset($_GET...</code></pre>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            September 03, 2019
+        </p>
         <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/09/03/Linux系统下搭建Web服务器和FTP服务器/" title="Linux系统下搭建Web服务器和FTP服务器" class="posttitle">Linux系统下搭建Web服务器和FTP服务器</a></h3>
         
             <p class="post-count animated fadeInDown">
@@ -553,43 +606,36 @@ apt-get install php
             
                 <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
             
-            September 03, 2019
+            September 01, 2019
         </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" title="2019XNUCA — ezphp WriteUp" class="posttitle">2019XNUCA — ezphp WriteUp</a></h3>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/09/01/转载 谈一谈php之filter的妙用/" title="转载 | php://filter的妙用" class="posttitle">转载 | php://filter的妙用</a></h3>
         
             <p class="post-count animated fadeInDown">
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        11k
+                        4.6k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        10 mins.
+                        4 mins.
                     </span>
                 
                 
             </p>
             
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
             
         
         <div class="md-content animated fadeIn">
             
-                <p>没有参加本次比赛，只记录<code>ezphp</code>这一道题目，把同学的Writeup复现并记录下来</p>
-<pre><code class="php">&lt;?php 
-    $files = scandir(&#39;./&#39;);
-    foreach($files as $file){
-        if($file !== &quot;index.php&quot;){
-            unlink($file);
-        }
-    }
-    include_onece(&quot;fl3g.php&quot;);
-    if(!isset($_GET[&#39;content&#39;]) || !isset($_GET...</code></pre>
+                <p>转载文章：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</a></p>
+<p><code>php://filter</code>是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。</p>
+<p>php://filter之前最常出镜的地方是XXE。由于XXE漏洞的特殊性，我们在读取HTML、PHP等文件时可能会抛出此...</p>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+            <span class="read-more"><a href="/knlvre.github.io/2019/09/01/转载 谈一谈php之filter的妙用/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
@@ -651,55 +697,9 @@ apt-get install php
 </div>
 
 
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            September 01, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/09/01/转载 谈一谈php之filter的妙用/" title="转载 | php://filter的妙用" class="posttitle">转载 | php://filter的妙用</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        4.6k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        4 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <p>转载文章：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</a></p>
-<p><code>php://filter</code>是PHP中独有的协议，利用这个协议可以创造很多“妙用”，本文说几个有意思的点，剩下的大家自己下去体会。本来本文的思路我上半年就准备拿来做XDCTF2016的题目的，没想到被三个白帽的一题抢先用了，我也就只好提前分享一下。</p>
-<p>php://filter之前最常出镜的地方是XXE。由于XXE漏洞的特殊性，我们在读取HTML、PHP等文件时可能会抛出此...</p>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/09/01/转载 谈一谈php之filter的妙用/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
     </div>
     
-    <div id="pager"><a href="/knlvre.github.io/page/3/" class="more" data-loading="Loading..." data-load-more="Load more">Load more</a></div>
+    <div id="pager"><a href="/knlvre.github.io/page/3/" class="more" data-loading="加载中..." data-load-more="Load more">Load more</a></div>
     
 </div>
 <div id="preview"></div>
