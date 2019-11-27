@@ -46,7 +46,7 @@
                 <div class="content animated fadeIn">
                     <div class="set">
                         <h1 style="text-align: center">Archived</h1>
-                        <p style="text-align: center">「 61 」</p>
+                        <p style="text-align: center">「 65 」</p>
                         <ul class="timeline timeline-centered">
                             
                             
@@ -58,6 +58,127 @@
                                         <h2 class="timeline-title">November 2019</h2>
                                     </div>
                                 </li>
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">November 25, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/11/25/NJUPT CTF Write Up/">NJUPT CTF Write Up</a>
+                                        <p>
+                                            NJUPT CTF大佬同学Somnus把Web给AK了，参考他的WriteUp复现一遍
+一共记录 11 道 Web 题目
+Fake XML cookbook
+抓到的请求当中，看到疑似XXE
+
+根据题目提示
+
+flag in /flag
+
+直接拿到 flag
+
+True XML cookbook与上一题同样的界面
+
+尝试，但是相比之前，没有返回了
+
+但是可以读取其他文件，说明这里是 flag ...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">November 22, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/11/22/成都大学第二届玄武杯 Write Up/">成都大学第二届玄武杯 Write Up</a>
+                                        <p>
+                                            成都大学第二届玄武杯比赛面向他们校的新生，所以都是基础题，做了就蛮写一下
+GET
+POST
+WeekPassword
+弱口令爆破
+
+
+根据题目提示weekpassword，直接top100爆破，拿下 flag
+
+serialization-1
+反序列化
+
+题目源码
+&lt;?php
+error_reporting(0);
+class Test
+{
+    private $a = &#39;...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">November 20, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/11/20/百越杯初赛 Write Up/">百越杯初赛 Write Up</a>
+                                        <p>
+                                            百越杯初赛记录 2 道 web 题，2 道 Misc 题
+babyphp题目源码
+&lt;?php 
+error_reporting(1);
+class Read {
+    private $var;
+    public function file_get($value) {
+        $text = base64_encode(file_get_contents($value))...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">November 09, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/11/09/湖湘杯复赛 Write Up/">湖湘杯复赛 Write Up</a>
+                                        <p>
+                                            湖湘杯复赛时间：2019年11月9号
+记录 2 道 Web 题目，2 道 Misc 题目
+untar参考文章：记一次对ssrf的理解
+源码如下
+ &lt;?php
+    $sandbox = &quot;sandbox/&quot; . md5($_SERVER[&quot;REMOTE_ADDR&quot;]);
+    echo $sandbox.&quot;&lt;/br&gt;&q...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">November 02, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/11/02/第五届上海市大学生网络安全大赛 Write Up/">第五届上海市大学生网络安全大赛 Write Up</a>
+                                        <p>
+                                            第五届上海市大学生网络安全大赛时间：2019年11月2号
+记录 4 道 Web 题目（其中一道为 Bytectf boring_code）
+Bytectf boring_code因为 decade 这道题涉及到 boring_code 的知识点，所以决定在本文章中复现一下这道题目
+题目源码
+&lt;?php
+function is_valid_url($url) {
+    if (filt...
+                                        </p>
+                                    </div>
+                                </li>
+                            
                                 
                                 <li class="timeline-item">
                                     <div class="timeline-info">
@@ -75,26 +196,6 @@ bypass
 开始做题前先清楚几个知识点：
 ① PHP正则匹配反斜杠的特点
 在本题的preg_match()函数中，我们可以发现对反斜杠（\...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">November 01, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/11/01/2019年11月份 CTF Write Up 集合/">2019年11月份 CTF Write Up 集合</a>
-                                        <p>
-                                            第五届上海市大学生网络安全大赛时间：2019年11月2号
-记录 4 道 Web 题目（其中一道为 Bytectf boring_code）
-Bytectf boring_code因为 decade 这道题涉及到 boring_code 的知识点，所以决定在本文章中复现一下这道题目
-题目源码
-&lt;?php
-function is_valid_url($url) {
-    if (filt...
                                         </p>
                                     </div>
                                 </li>

