@@ -582,7 +582,7 @@ class debug{
 </code></pre>
 <p>通读一遍代码，发现是反序列化的漏洞，漏洞点在<code>debug.php</code>的<code>debug类</code>的<code>__tostring()魔术方法</code>中，可以直接<code>include flag</code>而调用它的在<code>debug方法</code>中的<code>echo $this-&gt;forbidden</code>，最后<code>$forbidden</code>必须是<code>debug类</code>的实例</p>
 <p>这里要执行<code>$this-&gt;forbidden</code>需要<code>$this-&gt;choose=2</code>，因为<code>switch()</code>是弱类型比较，所以这里可以用<code>&quot;2&quot;</code>绕过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-6.png" alt="3-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-6.png" alt="screenshot"></p>
 <p>而使用<code>debug-&gt;debug()</code>是在<code>home.php</code>中</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/3-7.png" alt="3-7"></p>
 <p>进入这个<code>else</code>的条件是<code>$mothed</code>不等于<code>login、index、logout</code>，而 $mothed 就是通过<code>GET</code>到的<code>m</code></p>
