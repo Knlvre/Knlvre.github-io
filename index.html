@@ -115,44 +115,41 @@
             
             <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
             
-            November 25, 2019
+            November 28, 2019
         </p>
         <h3 class="post-title animated fadeInDown">
-            <a href="/knlvre.github.io/2019/11/25/NJUPT CTF Write Up/" title="NJUPT CTF Write Up" class="posttitle">NJUPT CTF Write Up</a></h3>
+            <a href="/knlvre.github.io/2019/11/28/XSS Challenges Walkthrough/" title="XSS Challenges Walkthrough" class="posttitle">XSS Challenges Walkthrough</a></h3>
         
         <p class="post-count animated fadeInDown">
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                28k
+                1.3k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                26 mins.
+                1 mins.
             </span>
             
             
         </p>
         
         
-        <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+        <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/XSS-Challenges/">XSS Challenges</a></li></ul>
         
         <div class="md-content animated fadeIn">
             
-            <p>大佬同学<a href="https://foxgrin.github.io/" target="_blank" rel="noopener">Somnus</a>把Web给AK了，参考他的WriteUp复现一遍</p>
-<p>一共记录 11 道 Web 题目</p>
+            <p>平台地址： <a href="https://xss-quiz.int21h.jp/" target="_blank" rel="noopener">https://xss-quiz.int21h.jp/</a></p>
+<p>本平台由日本的一个安全研究员<strong>yamagata21</strong>搭建</p>
 <p></p>
-<p>抓到的请求当中，看到疑似<strong>XXE</strong></p>
+<p>查看源代码中表单部分</p>
 <p></p>
-<p>根据题目提示</p>
-<blockquote>
-<p>flag in /flag</p>
-</blockquote>
-<p>直接拿到 flag...</p>
+<p>闭合<strong>input</strong>标签就行了</p>
+<pre><code class="payload">&quot;&gt;&lt...</code></pre>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/11/25/NJUPT CTF Write Up/" title="Read article" class="posttitle">Read article</a>
+            <span class="read-more"><a href="/knlvre.github.io/2019/11/28/XSS Challenges Walkthrough/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
@@ -173,6 +170,67 @@
 
     <div id="primary">
         
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            November 25, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/11/25/NJUPT CTF Write Up/" title="NJUPT CTF Write Up" class="posttitle">NJUPT CTF Write Up</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        28k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        26 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>大佬同学<a href="https://foxgrin.github.io/" target="_blank" rel="noopener">Somnus</a>把Web给AK了，参考他的WriteUp复现一遍</p>
+<p>一共记录 11 道 Web 题目</p>
+<p></p>
+<p>抓到的请求当中，看到疑似<strong>XXE</strong></p>
+<p></p>
+<p>根据题目提示</p>
+<blockquote>
+<p>flag in /flag</p>
+</blockquote>
+<p>直接拿到 flag</p>
+<p></p>
+<p>与上一题同样的界面</p>
+<p></p>
+<p>尝试，但是相比之前，没有返回了</p>
+<p></p>
+<p>但是可以读取其他文件，说明这里是 flag 的位置换了</p>
+<p></p>
+<p>读取源码没看到可以利用的点，只能想到利用<strong>xxe</strong>进行<strong>ssrf</strong>打内网，扫描一下储存内网 IP 的几个文件：<strong>/etc/hosts</strong>，<strong>/proc/net/arp</strong>，<strong>/proc/net/fib_trie...</strong></p>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/11/25/NJUPT CTF Write Up/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
 <div class="post" id="post">
     <div class="post-cover animated fadeIn" style="
             background-image:
@@ -601,58 +659,6 @@ $_GET[id] = urldecode($_GET[id]);
 <pre><code>http://192.168.199.228/Joomla_3.4.6-Stable-Full_Package/configuratio...</code></pre>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/10/10/Joomla 3.4.6-RCE预警/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            October 08, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/10/08/LazySysAdmin靶机渗透测试/" title="LazySysAdmin靶机渗透测试" class="posttitle">LazySysAdmin靶机渗透测试</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        13k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        12 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/渗透测试/">渗透测试</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <p>虚拟机平台：VMware Workstation Pro</p>
-<p>攻击机：Kali（IP：192.168.199.133）</p>
-<p>靶机：LazySysAdmin（IP：192.168.199.136）</p>
-<p><code>Netdiscover</code>扫描网段，发现靶机IP地址</p>
-<pre><code>netdiscover -r 192.168.199.0/24
-
-Currently scanning: Finished!   |   Screen View: Unique Hosts
-
- 10 Captured ARP Req/Rep packets, from 7 hosts...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/10/08/LazySysAdmin靶机渗透测试/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>

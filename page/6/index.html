@@ -115,16 +115,16 @@
             
             <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
             
-            February 16, 2019
+            February 17, 2019
         </p>
         <h3 class="post-title animated fadeInDown">
-            <a href="/knlvre.github.io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/" title="DVWA 7-SQL Injection（SQL注入）" class="posttitle">DVWA 7-SQL Injection（SQL注入）</a></h3>
+            <a href="/knlvre.github.io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" title="DVWA 8-Weak Session IDs（弱Session ID）" class="posttitle">DVWA 8-Weak Session IDs（弱Session ID）</a></h3>
         
         <p class="post-count animated fadeInDown">
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                8k
+                7.5k
             </span>
             
             
@@ -141,15 +141,12 @@
         
         <div class="md-content animated fadeIn">
             
-            <pre><code>DVWA\vulnerabilities\sqli\source\
-</code></pre><p>输入一个ID，返回该ID的信息</p>
+            <pre><code>DVWA\vulnerabilities\weak_id\source\
+</code></pre><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
 <p></p>
-<p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-if( isset( $_REQUEST[ &#39;Submit&#...</code></pre>
+<p>密码与证书等认证手段，一般仅仅用于登录(<code>Login</code>)的过程...</p>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/" title="Read article" class="posttitle">Read article</a>
+            <span class="read-more"><a href="/knlvre.github.io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
@@ -170,6 +167,54 @@ if( isset( $_REQUEST[ &#39;Submit&#...</code></pre>
 
     <div id="primary">
         
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            February 17, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" title="DVWA 8-Weak Session IDs（弱Session ID）" class="posttitle">DVWA 8-Weak Session IDs（弱Session ID）</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        7.5k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        7 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/DVWA/">DVWA</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <pre><code>DVWA\vulnerabilities\weak_id\source\
+</code></pre><p>点击<code>Generate</code>，向服务器提交当前的<code>dvwaSession</code>值</p>
+<p></p>
+<p>密码与证书等认证手段，一般仅仅用于登录(<code>Login</code>)的过程。当登陆完成后，用户访问网站的页面，不可能每次浏览器请求页面时,都再使用密码认证一次。因此，当认证完成后，就需要替换一个对用户透明的凭证。这个凭证就是<code>SessionID</code>。</p>
+<p>当用户登陆完成后，在服务器端就会创建一个新的会话(<code>Session</code>)，会话中会保存用户的状态和相关信息。服务器端维护所有在线用户的...</p>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/02/17/DVWA 8-Weak Session IDs（弱Session ID）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
 <div class="post" id="post">
     <div class="post-cover animated fadeIn" style="
             background-image:
@@ -647,58 +692,6 @@ if( isset( $_GET[ &#39;Login&#39; ] ) ) {
 </code></pre><p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通过堆叠注入创...</p>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/02/02/Sqli-labs 第41-50关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            February 01, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/01/Sqli-labs 第31-40关/" title="Sqli-labs(第31-40关)" class="posttitle">Sqli-labs(第31-40关)</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        5.1k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        5 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/Sqli-labs/">Sqli-labs</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/31/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
-<p>本关开始，考查的是<code>宽字节注入</code>的利用，关于宽字节注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 4</code> </p>
-<p>我们提交以下payload时，发现<code>单引号&#39;</code>被转义了</p>
-<pre><code>?id=1&#39;
-</code></pre><p></p>
-<p>查看源码，发现使用了<code>check_addslashes()</code>函数对id进行了处理</p>
-<pre><code>$id=check_addslashes($_GET[&#39;id&#39;]);
-</code></pre><p>看一下这个函数的功能，就是对<code>反斜杠</code>\、<code>单引号</code>‘、<code>双引号</code>“的过滤</p>
-<pre><code class="php">function check_addslash...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/01/Sqli-labs 第31-40关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>

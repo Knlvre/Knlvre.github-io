@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>hexo + github搭建博客 - Knlvre</title>
+    <title>XSS Challenges Walkthrough - Knlvre</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="Tip 1前面大致的步骤参考这篇文章：https://mochazz.github.io/2017/07/26/hexo-build/
-Tip 2仓库的名字用your_name.github.io就,"> 
+    <meta name="description" content="前言平台地址： https://xss-quiz.int21h.jp/
+本平台由日本的一个安全研究员yamagata21搭建
+
+ChallengesStage 1查看源代码中表单部分
+
+闭合inpu,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -44,7 +48,7 @@ Tip 2仓库的名字用your_name.github.io就,">
     <div class="navigation animated fadeIn fast delay-1s">
         <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://knlvre.github.io">
         <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">hexo + github搭建博客</h3>
+        <h3 class="subtitle">XSS Challenges Walkthrough</h3>
         <div class="social">
             <!--        <div class="like-icon">-->
             <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -69,29 +73,29 @@ Tip 2仓库的名字用your_name.github.io就,">
             animation-duration: 1.2s;
             background-image: 
                 radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(http://pic.netbian.com/uploads/allimg/180325/192744-1521977264b903.jpg);">
+                url(/img/cover.jpg);">
         </div>
         <div class="else">
             <p class="animated fadeInDown">
                 
                 <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
                 
-                January 27, 2019
+                November 28, 2019
             </p>
-            <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/01/27/hexo+github搭建博客/" title="hexo + github搭建博客">hexo + github搭建博客</a>
+            <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/11/28/XSS Challenges Walkthrough/" title="XSS Challenges Walkthrough">XSS Challenges Walkthrough</a>
             </h3>
             
             <p class="post-count animated fadeInDown">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    2.8k
+                    1.3k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    3 mins.
+                    1 mins.
                 </span>
                 
                 
@@ -104,7 +108,7 @@ Tip 2仓库的名字用your_name.github.io就,">
             </p>
             
             
-            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/博客搭建/">博客搭建</a></li></ul>
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/XSS-Challenges/">XSS Challenges</a></li></ul>
             
         </div>
     </div>
@@ -125,30 +129,30 @@ Tip 2仓库的名字用your_name.github.io就,">
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="Tip-1"><a href="#Tip-1" class="headerlink" title="Tip 1"></a>Tip 1</h2><p>前面大致的步骤参考这篇文章：<a href="https://mochazz.github.io/2017/07/26/hexo-build/" target="_blank" rel="noopener">https://mochazz.github.io/2017/07/26/hexo-build/</a></p>
-<h2 id="Tip-2"><a href="#Tip-2" class="headerlink" title="Tip 2"></a>Tip 2</h2><p>仓库的名字用<strong>your_name.github.io</strong>就可以</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/1.png" alt="1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/3.png" alt="3"></p>
-<h2 id="Tip-3"><a href="#Tip-3" class="headerlink" title="Tip 3"></a>Tip 3</h2><p>去这个网站下载主题：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a></p>
-<p>挑选好喜欢的博客后，点击链接到他们Github的页面，下载下来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/4.png" alt="4"></p>
-<p>直接解压到 <strong>themes</strong> 这个文件夹下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/5.png" alt="5"></p>
-<p>然后在 <strong>_config.yml</strong> 这个配置文件中 <strong>Extensions</strong> 模块的 <strong>theme</strong> 改成刚才那个文件的名字，模板就运用成功了，然后就可以根据自己的喜好修改一些东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/6.png" alt="6"></p>
-<h2 id="Tip-4"><a href="#Tip-4" class="headerlink" title="Tip 4"></a>Tip 4</h2><p>主题设置完之后，本地测试通过（hexo clean + hexo s + 访问127.0.0.1:4000），经过个人喜好修改的博客可以正常显示，但是上传到Github上就不行（hexo clean + hexo g &amp;&amp; hexo d）。后来发现是 <strong>_config.yml</strong> 中有些参数没设置好：</p>
-<p>在仓库界面中点击 <strong>Setting</strong> 找到 <strong>Repository name</strong> 写到 <strong>_config.yml</strong> 文件中的 <strong>url</strong></p>
-<p><strong>root</strong>参数如图所示写就行了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/1.png" alt="7"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/8.png" alt="8"></p>
-<h3 id="现在再次访问博客，就可以正常显示了"><a href="#现在再次访问博客，就可以正常显示了" class="headerlink" title="现在再次访问博客，就可以正常显示了"></a>现在再次访问博客，就可以正常显示了</h3><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/hexo%2Bgit/11.png" alt="11"></p>
-<hr>
-<h2 id="安装问题"><a href="#安装问题" class="headerlink" title="安装问题"></a>安装问题</h2><p><strong>Windwos node 的升级</strong></p>
-<p>到官网： <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
-<p>下载新版的<strong>msi</strong>文件，双击安装，安装过程中选择的路径为原本的路径，比如我的：<strong>G:\Security\Blogs\Node.js</strong></p>
-<p>安装完成就升级成功了，可以用<strong>node -v</strong>查看版本</p>
-<p><strong>hexo 创建新页面</strong></p>
-<p>比如创建一个<strong>whoami</strong>页面，使用命令：<strong>hexo new page whoami</strong></p>
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>平台地址： <a href="https://xss-quiz.int21h.jp/" target="_blank" rel="noopener">https://xss-quiz.int21h.jp/</a></p>
+<p>本平台由日本的一个安全研究员<strong>yamagata21</strong>搭建</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\1-0.png" alt="平台初始界面"></p>
+<h1 id="Challenges"><a href="#Challenges" class="headerlink" title="Challenges"></a>Challenges</h1><h2 id="Stage-1"><a href="#Stage-1" class="headerlink" title="Stage 1"></a>Stage 1</h2><p>查看源代码中表单部分</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\1-1.png" alt="1-1"></p>
+<p>闭合<strong>input</strong>标签就行了</p>
+<pre><code class="payload">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;
+</code></pre>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\1-2.png" alt="1-2"></p>
+<h2 id="Stage-2"><a href="#Stage-2" class="headerlink" title="Stage 2"></a>Stage 2</h2><p>表单有些变化，但是大致上还是一样</p>
+<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\2-1.png" alt="2-1"></p>
+<p>Stage 3</p>
+<p>Stage 4</p>
+<p>Stage 5</p>
+<p>Stage 6</p>
+<p>Stage 7</p>
+<p>Stage 8</p>
+<p>Stage 9</p>
+<p>Stage 10</p>
+<p>Stage 11</p>
+<p>Stage 12</p>
+<p>Stage 13</p>
+<p>Stage 14</p>
+<p>Stage 15</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
@@ -207,7 +211,7 @@ Tip 2仓库的名字用your_name.github.io就,">
             <div class="box sticky animated fadeInRight faster">
                 <div id="toc" class="subbox">
                     <h4>Contents</h4>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tip-1"><span class="toc-number">1.</span> <span class="toc-text">Tip 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tip-2"><span class="toc-number">2.</span> <span class="toc-text">Tip 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tip-3"><span class="toc-number">3.</span> <span class="toc-text">Tip 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tip-4"><span class="toc-number">4.</span> <span class="toc-text">Tip 4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#现在再次访问博客，就可以正常显示了"><span class="toc-number">4.1.</span> <span class="toc-text">现在再次访问博客，就可以正常显示了</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装问题"><span class="toc-number">5.</span> <span class="toc-text">安装问题</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Challenges"><span class="toc-number">2.</span> <span class="toc-text">Challenges</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-1"><span class="toc-number">2.1.</span> <span class="toc-text">Stage 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-2"><span class="toc-number">2.2.</span> <span class="toc-text">Stage 2</span></a></li></ol></li></ol>
                 </div>
             </div>
             

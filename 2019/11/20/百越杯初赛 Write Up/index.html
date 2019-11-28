@@ -250,7 +250,7 @@ echo urlencode(serialize($a)).&quot;\n&quot;;
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/1-2.png" alt="1-2"></p>
 <h2 id="babygame"><a href="#babygame" class="headerlink" title="babygame"></a>babygame</h2><p>打开靶机，有一个登录和注册功能，源代码中有提示：</p>
 <blockquote>
-<p>\<!-- if you need hash tools, location: tools.php --> </p>
+<p>\&lt;!– if you need hash tools, location: tools.php –> </p>
 </blockquote>
 <p>访问tools.php，页面要求提交一个md5值： </p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-1.png" alt="2-1"></p>
@@ -275,21 +275,21 @@ echo urlencode(serialize($a)).&quot;\n&quot;;
 <p>度为：<strong>30</strong> </p>
 <p>逃逸过程如下：</p>
 <p>重点是让传入的 username 有<strong>反斜杠</strong>，但没有<strong>单引号</strong>，下面会说原因</p>
-<pre><code class="bash">注册：admin                        &#39; =&gt; 长度30
+<pre><code class="payload">注册：admin                        &#39; =&gt; 长度30
 经过转义处理：admin                        \&#39; =&gt; 长度31
 经过substr截取前30个字符：admin                        \ =&gt;长度30 =&gt;单引号逃逸
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-8.png" alt="2-8"></p>
 <p>结合之前的<strong>here is your flag</strong>链接中的参数<strong>msgid</strong>，就猜测，注册后执行的查询语句： </p>
-<pre><code class="mysql">select * from users where username=&#39;&#39; and msgid=&#39;1&#39;;
+<pre><code class="payload">select * from users where username=&#39;&#39; and msgid=&#39;1&#39;;
 </code></pre>
 <p>那么既然逃逸了username后面的单引号，就只能在<strong>msgid</strong>中执行注入，payload：</p>
-<pre><code class="bash">?msgid= or 1#
+<pre><code class="payload">?msgid= or 1#
 ?msgid = or 0#
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-9.png" alt="2-9"></p>
 <p>拼接后为</p>
-<pre><code class="mysql">select * from users where username=&#39;admin...\&#39; and msgid=&#39; or 0 #&#39;;
+<pre><code class="payload">select * from users where username=&#39;admin...\&#39; and msgid=&#39; or 0 #&#39;;
 </code></pre>
 <p>因为前面传递了<strong>反斜杠</strong>，将原本的<strong>单引号</strong>注释掉，与后面的 msgid 的单引号闭合，才能用 or 进行盲注。这里如果多传入一个单引号也不行，因为会造成闭合，并且无法注释掉原本语句内的单引号</p>
 <p>条件为真时有返回结果，为假时无返回</p>
@@ -340,7 +340,7 @@ for i in range(1, 50):
 <p>赛后得到的提示是：<strong>xinclude</strong> </p>
 <p>参考：<a href="https://www.anquanke.com/post/id/156227#h3-5" target="_blank" rel="noopener">https://www.anquanke.com/post/id/156227#h3-5</a> </p>
 <p>里面提到：</p>
-<pre><code class="bash">发现我们可控xml文本内容，但是引入外部实体无效或是存在过滤，尝试编码绕过也不行的时候，那么可以尝试使用 xinclude
+<pre><code class="code">发现我们可控xml文本内容，但是引入外部实体无效或是存在过滤，尝试编码绕过也不行的时候，那么可以尝试使用 xinclude
 </code></pre>
 <p>猜测后台的源码应该是这样的：</p>
 <pre><code class="php">&lt;?php
@@ -355,7 +355,7 @@ echo $dom-&gt;saveXML();
 <p>直接用传统引入外部实体的方法读取文件，是因为php的xml库的底层库是libxml2，而在2.6版本之后，改库已默 </p>
 <p>认禁用外部实体引用的解析 </p>
 <p>我们只有加入<strong>LIBXML_NOENT</strong> 选项，才能解析外部实体： </p>
-<pre><code class="bash">$dom-&gt;loadXML($xml,LIBXML_NOENT);
+<pre><code class="code">$dom-&gt;loadXML($xml,LIBXML_NOENT);
 </code></pre>
 <p>而<strong>xinclude</strong>无需使用 LIBXML_NOENT 选项去开启默认关闭的外部实体引用 </p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/2-17.png" alt="2-17"></p>
@@ -369,11 +369,11 @@ echo $dom-&gt;saveXML();
 <h2 id="哈尔的移动城堡"><a href="#哈尔的移动城堡" class="headerlink" title="哈尔的移动城堡"></a>哈尔的移动城堡</h2><p>首先题目解压出来 2 个文件</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-1.png" alt="3-1"></p>
 <p><strong>Winhex</strong>打开这个<strong>102%</strong>发现文件头很熟悉</p>
-<pre><code class="bash">89 47 4E 50
+<pre><code class="code">89 47 4E 50
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-2.png" alt="3-2"></p>
 <p>就是<strong>png图片文件头</strong>的变形，将其修改回来。并且添加后缀就可以看到图片</p>
-<pre><code class="bash">89 50 4E 47
+<pre><code class="code">89 50 4E 47
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/百越杯/3-3.png" alt="3-3"></p>
 <p>将<strong>ori.jpg</strong>做成灰度图（可以用在线网站： <a href="http://grayscale.imageonline.co/cn/" target="_blank" rel="noopener">http://grayscale.imageonline.co/cn/</a> ）</p>
@@ -425,7 +425,6 @@ for i in rgb:
 aircrack-ng -w pass.txt WiFi.pcap
 </code></pre>
 <p>参考:<a href="https://jwt1399.top/2019/07/29/ctf-liu-liang-fen-xi-zong-jie/" target="_blank" rel="noopener">https://jwt1399.top/2019/07/29/ctf-liu-liang-fen-xi-zong-jie/</a></p>
-<p># </p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
@@ -473,9 +472,9 @@ aircrack-ng -w pass.txt WiFi.pcap
                     </dl>
                 </div>
                 <ul>
-                    <li><a href="/">65 <p>Articles</p></a></li>
+                    <li><a href="/">66 <p>Articles</p></a></li>
                     <li><a href="/categories">0 <p>Categories</p></a></li>
-                    <li><a href="/tags">9 <p>Tags</p></a></li>
+                    <li><a href="/tags">10 <p>Tags</p></a></li>
                 </ul>
             </div>
             
