@@ -90,13 +90,13 @@ ChallengesStage 1
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    16k
+                    17k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    14 mins.
+                    15 mins.
                 </span>
                 
                 
@@ -132,21 +132,21 @@ ChallengesStage 1
         <div class="content markdown animated fadeIn">
             <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>平台地址： <a href="https://xss-quiz.int21h.jp/" target="_blank" rel="noopener">https://xss-quiz.int21h.jp/</a></p>
 <p>本平台由日本的一个安全研究员<strong>yamagata21</strong>搭建</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\1-0.png" alt="平台初始界面"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/1-0.png" alt="平台初始界面"></p>
 <h1 id="Challenges"><a href="#Challenges" class="headerlink" title="Challenges"></a>Challenges</h1><h2 id="Stage-1"><a href="#Stage-1" class="headerlink" title="Stage 1"></a>Stage 1</h2><blockquote>
 <p>无任何过滤</p>
 </blockquote>
 <p>查看源代码中表单部分</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\1-1.png" alt="1-1"></p>
-<p>闭合<strong>input</strong>标签就行了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/1-1.png" alt="1-1"></p>
+<p>闭合<strong>\&lt;input>标签</strong>就可以了</p>
 <pre><code class="payload">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;
 </code></pre>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/1-2.png" alt="1-2"></p>
 <h2 id="Stage-2"><a href="#Stage-2" class="headerlink" title="Stage 2"></a>Stage 2</h2><blockquote>
 <p>闭合原本的<strong>input</strong>框</p>
 </blockquote>
 <p>表单有些变化，但是大致上还是一样</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/2-1.png" alt="2-1"></p>
 <p>payload 如下</p>
 <pre><code class="payload">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;
 </code></pre>
@@ -156,40 +156,40 @@ ChallengesStage 1
 <p>输入尝试语句后发现，<strong>&lt;</strong>、<strong>&gt;</strong>被过滤了，变为<strong>\&lt;</strong>和<strong>\&gt;</strong>，也就是被实体编码了，拼接在了一个<strong>\<b></b></strong>标签当中</p>
 <pre><code class="test">&lt;script&gt;alert(document.domain)&lt;/script&gt;
 </code></pre>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/3-1.png" alt="3-1"></p>
 <p>由于<strong>&lt;</strong>、<strong>&gt;</strong>被过滤了，所以也就无法去闭合<strong>\<b></b></strong>标签。但是题目中有另外一个输入的位置（<strong>Choose a country</strong>处），抓包修改该处，看一下结果</p>
 <pre><code class="payload">p1=anything&amp;p2=&lt;script&gt;alert(document.domain)&lt;/script&gt;
 </code></pre>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/3-2.png" alt="3-2"></p>
 <p>将<strong>Response</strong>在浏览器中显示，就可以成功看到弹窗了</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\3-3.png" alt="3-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/3-3.png" alt="3-3"></p>
 <h2 id="Stage-4"><a href="#Stage-4" class="headerlink" title="Stage 4"></a>Stage 4</h2><blockquote>
 <p>利用<strong>hidden</strong>的<strong>input</strong>框</p>
 </blockquote>
 <p>抓包发现一共有3个参数，其中<strong>p1</strong>和<strong>p2</strong>都被实体编码了</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/4-1.png" alt="4-1"></p>
 <p>查看源码</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/4-2.png" alt="4-2"></p>
 <p>但是注意到前面抓包发现，还有第3个参数<strong>p3</strong>，因为type是<strong>hidden</strong>的，所以抓包才看见，用这个参数取尝试（注意要闭合其本身的<strong>input</strong>标签）</p>
 <pre><code class="payload">&quot;&gt;&lt;script&gt;alert(documen.domain)&lt;/script&gt;
 </code></pre>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\4-3.png" alt="4-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/4-3.png" alt="4-3"></p>
 <h2 id="Stage-5"><a href="#Stage-5" class="headerlink" title="Stage 5"></a>Stage 5</h2><blockquote>
 <p>绕过<strong>maxlength</strong>的长度限制</p>
 </blockquote>
 <p>提交测试参数：<strong>\&lt;script></strong></p>
 <p>然后查看源码的表单部分，输入有长度限制，但是<strong>Burpsuit</strong>对这个无压力感，直接绕过，然后闭合标签就可以</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/5-1.png" alt="5-1"></p>
 <pre><code class="payload">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;
 </code></pre>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/5-2.png" alt="5-2"></p>
 <h2 id="Stage-6"><a href="#Stage-6" class="headerlink" title="Stage 6"></a>Stage 6</h2><blockquote>
 <p>on 事件 bypass 尖括号</p>
 <p>题目地址：<a href="https://xss-quiz.int21h.jp/stage-no6.php?sid=650b24bde7f341df5bbb8076ff41cc5fd2693da1" target="_blank" rel="noopener">Stage 6</a></p>
 </blockquote>
 <p>提交测试参数：<strong>\&lt;script></strong></p>
 <p>然后查看源码的表单部分，发现<strong>尖括号</strong>被实体编码了</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\6-1.png" alt="6-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/6-1.png" alt="6-1"></p>
 <p>过滤了尖括号，并且没有其他的参数可以使用，用其它事件绕过去，这时候就要考虑用：<code>on 事件 bypass 尖括号</code></p>
 <p>可利用的<strong>on</strong>事件如下：</p>
 <pre><code class="on">利用input的autofocus属性,无需用户交互即可触发xss：autofocus onfocus=&quot;alert(document.domain)&quot;
@@ -209,32 +209,32 @@ ChallengesStage 1
 
 &quot; onload=&quot;alert(document.domain)
 </code></pre>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/6-2.png" alt="6-2"></p>
 <p>成功反弹</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\6-2.png" alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/6-2.png" alt="6-3"></p>
 <h2 id="Stage-7"><a href="#Stage-7" class="headerlink" title="Stage 7"></a>Stage 7</h2><blockquote>
 <p>不使用引号</p>
 <p>题目地址：<a href="https://xss-quiz.int21h.jp/stage07.php?sid=0c34df10dffed58149b2d0d8835e5d8e1a0955fc" target="_blank" rel="noopener">Stage 7</a></p>
 </blockquote>
 <p>提交测试参数：<strong>\&lt;script></strong></p>
 <p>然后查看源码的表单部分，发现<strong>尖括号</strong>被实体编码了</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\7-1.png" alt="7-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/7-1.png" alt="7-1"></p>
 <p>空格分割属性，然后提交测试参数：<strong>1 onclick=”alert(document.domain)”</strong></p>
 <p>发现引号也被过滤了</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/7-2.png" alt="7-2"></p>
 <p>Stage 6是为了闭合前后的引号才用的引号，然而我们可以不用</p>
 <pre><code class="payload">1 onclick=alert(document.domain)
 </code></pre>
 <p>就可以触发了</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\7-3.png" alt="7-3"></p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\7-4.png" alt="7-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/7-3.png" alt="7-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/7-4.png" alt="7-4"></p>
 <h2 id="Stage-8"><a href="#Stage-8" class="headerlink" title="Stage 8"></a>Stage 8</h2><blockquote>
 <p>javascript伪协议 — javascript:alert(document.domain)</p>
 <p>题目地址：<a href="https://xss-quiz.int21h.jp/stage008.php?sid=f48e488bc86649100d2bd14fabb75de8bb07ca70" target="_blank" rel="noopener">Stage 8</a></p>
 </blockquote>
 <p>提交测试参数：<strong>()&lt;&gt;”‘</strong></p>
 <p>发现除了<strong>括号</strong>，其他都被实体编码了。并且这次被拼接到了<strong>\&lt;a></strong>标签中的<strong>herf</strong>属性当中</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\8-1.png" alt="8-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/8-1.png" alt="8-1"></p>
 <p>那么本关考察的是：<strong>javascript伪协议</strong>在<strong>a</strong>标签的使用</p>
 <p>常见用到伪协议的属性如下:</p>
 <pre><code class="属性">src
@@ -245,15 +245,15 @@ backgroud
 <pre><code class="payload">javascript:alert(document.domain)
 </code></pre>
 <p>点击生成的连接，就会触发</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\8-2.png" alt="8-2"></p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\8-3.png" alt="8-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/8-2.png" alt="8-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/8-3.png" alt="8-3"></p>
 <h2 id="Stage-9"><a href="#Stage-9" class="headerlink" title="Stage 9"></a>Stage 9</h2><blockquote>
 <p>utf-7编码</p>
 <p>题目地址：<a href="https://xss-quiz.int21h.jp/stage_09.php?sid=e4cb9594924511c4cbe025aef860a20234794fec" target="_blank" rel="noopener">Stage 9</a></p>
 </blockquote>
 <p>提交测试参数：<strong>()&lt;&gt;”‘</strong></p>
 <p>发现除了<strong>括号</strong>，其他都被实体编码了。这次位置是在<strong>\&lt;input></strong>标签的中，有<strong>双引号</strong>需要闭合</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\9-1.png" alt="9-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/9-1.png" alt="9-1"></p>
 <p>网上文章说用<strong>utf-7</strong>来编码绕过，但是需要特定浏览器环境支持，我试了一下没成功</p>
 <p>可以参考文章：<a href="https://sakurasec.com/utf-7-xss/" target="_blank" rel="noopener">utf-7编码的xss</a></p>
 <p>payload如下</p>
@@ -267,20 +267,20 @@ backgroud
 </blockquote>
 <p>提交测试参数：<strong>()&lt;&gt;”‘</strong>。源码中发现什么都没有被过滤，位置在<strong>\&lt;input></strong>标签当中</p>
 <p>接下来直接尝试反弹语句：<strong>“ autofocus onfocus=”alert(document.domain)</strong>。查看源码发现字符串<strong>domain</strong>被替换为空了</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\10-1.png" alt="10-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/10-1.png" alt="10-1"></p>
 <p>第一反应是尝试<strong>双写</strong>看能不能绕过，payload如下</p>
 <pre><code class="payload">&quot; autofocus onfocus=&quot;alert(document.domdomainain)
 </code></pre>
 <p>的确成功了</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\10-2.png" alt="10-2"></p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\10-3.png" alt="10-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/10-2.png" alt="10-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/10-3.png" alt="10-3"></p>
 <h2 id="Stage-11"><a href="#Stage-11" class="headerlink" title="Stage 11"></a>Stage 11</h2><blockquote>
 <p>利用<strong>属性内HTML编码</strong>来绕过</p>
 <p>题目地址：<a href="https://xss-quiz.int21h.jp/stage11th.php?sid=4f7513e65d44da2dc4592d59d566eb1ee15953cd" target="_blank" rel="noopener">Stage 11</a></p>
 </blockquote>
 <p>提交测试参数：<strong>()&lt;&gt;”‘</strong>。源码中发现什么都没有被过滤，位置在<strong>\&lt;input></strong>标签当中</p>
 <p>接下来直接尝试反弹语句：<strong>“ onclick=”alert(document.domain)</strong>。查看源码发现字符串<strong>onclick</strong>被替换为<strong>onxxx</strong></p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\11-1.png" alt="11-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/11-1.png" alt="11-1"></p>
 <p>尝试其他属性：<strong>onfocus、onmouseover、onload、script</strong>，结果都和前面一样，被替换掉了。那么本关提示如下：</p>
 <blockquote>
 <p>s/script/xscript/ig;” and “s/on[a-z]+=/onxxx=/ig;” and “s/style=/stxxx=/ig;</p>
@@ -300,9 +300,9 @@ backgroud
 <pre><code class="payload">&quot;&gt;&lt;a href=java&amp;#115;cript:alert(document.domain)&gt;xss&lt;/a&gt;
 </code></pre>
 <p>点击<strong>Search</strong>之后，会生成一个可点的<strong>xss</strong></p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\11-2.png" alt="11-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/11-2.png" alt="11-2"></p>
 <p>点击后反弹窗口</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\11-3.png" alt="11-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/11-3.png" alt="11-3"></p>
 <p>其他骚的姿势如下，也可以用来绕过</p>
 <pre><code class="payload">&quot;&gt;&lt;a href=javascri&amp;#09pt:alert(document.domain)&gt;xss&lt;/a&gt; //&amp;#09 tab制表符html十进制编码
 
@@ -317,7 +317,7 @@ backgroud
 <p>“s/[\x00-\x20\&lt;\&gt;\“\‘]//g;”</p>
 </blockquote>
 <p>所以<strong>\x00、空格、尖括号、单双引号</strong>都被过滤了。表单构造如下</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\12-1.png" alt="12-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/12-1.png" alt="12-1"></p>
 <p>所以要执行语句必须跳出这个<strong>value属性</strong>，但是空格被过滤了，就无法使用<strong>on事件</strong>；尖括号被过滤了，就无法使用<strong>\&lt;script>标签</strong>，也无法跳出<strong>\&lt;input>标签</strong>；单双引号被过滤了，也无法闭合</p>
 <p>然后网上是说使用<strong>反引号（`）</strong>，因为<strong>IE8</strong>会将反引号解释为引号，闭合<strong>value属性</strong>，从而利用<strong>on事件</strong>。这个方法比较局限，没有IE8，所以这里就只给出payload</p>
 <pre><code class="payload">``onmousemove=alert(document.domain)
@@ -329,7 +329,7 @@ backgroud
 <p>题目地址：<a href="https://xss-quiz.int21h.jp/stage__15.php?sid=36259232147cda9c7009b4296488a736ba077422" target="_blank" rel="noopener">Stage 15</a></p>
 </blockquote>
 <p>测试发现<strong>尖括号、单双引号</strong>都被过滤了，并且传入的值在<strong>value属性</strong>当中</p>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\15-1.png" alt="15-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-1.png" alt="15-1"></p>
 <p>本题的输入，会利用<strong>document.write()方法</strong>输出到<strong>value属性</strong>当中，那么什么是document.write方法呢？</p>
 <p>w3c里是这样定义的：write() 方法可向文档写入 HTML 表达式或 JavaScript 代码。可列出多个参数(exp1,exp2,exp3,…) ，它们将按顺序被追加到文档中。也就是说我们在write一下插入的代码就是js范畴了</p>
 <p>所以此时就可以考虑用js的编码来bypass，那么有两种编码方式：分别是<strong>Unicode</strong>和<strong>十六进制</strong>，格式如下</p>
@@ -337,11 +337,11 @@ backgroud
 <pre><code class="unicode">\u003c =&gt; 左尖括号
 \u003e =&gt; 右尖括号
 </code></pre>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\15-2.png" alt="15-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-2.png" alt="15-2"></p>
 <p>② 然后是<strong>十六进制</strong></p>
 <pre><code>\x3c =&gt; 左尖括号
 \x3e =&gt; 右尖括号
-</code></pre><p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\15-3.png" alt="15-3"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-3.png" alt="15-3"></p>
 <p>因为<strong>document.write</strong>在输出的时候会<strong>JavascriptDecode</strong>一下数据，会把数据原有<strong>\</strong>去除，即php里面的stripslashes。所以我们要用<strong>\\</strong>代替<strong>\</strong>，最终payload如下</p>
 <pre><code class="payload">Unicode：
 \\u003cscript\\u003ealert(document.domain);\\u003c/script\\u003e
@@ -349,12 +349,16 @@ backgroud
 十六进制：
 \\x3cscript\\x3ealert(document.domain);\\x3c/script\\x3e
 </code></pre>
-<p><img src="G:\Security\Blogs\Where_put_hexo\source\img\XSS Challenges\15-4.png" alt="15-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-4.png" alt="15-4"></p>
 <h2 id="Stage-16"><a href="#Stage-16" class="headerlink" title="Stage 16"></a>Stage 16</h2><blockquote>
 <p>document.write()、javascript编码绕过（Unicode和十六进制）</p>
-<p>题目地址：<a href="https://xss-quiz.int21h.jp/stage__15.php?sid=36259232147cda9c7009b4296488a736ba077422" target="_blank" rel="noopener">Stage 15</a></p>
+<p>题目地址：<a href="https://xss-quiz.int21h.jp/stage00000016.php?sid=6f7c8374059e987de8d11413e7721442a32d12b2" target="_blank" rel="noopener">Stage 16</a></p>
 </blockquote>
-<p>测试发现**尖括</p>
+<p>本关提示如下</p>
+<blockquote>
+<p>“document.write();” and “s/\\x/\\\\x/ig;”</p>
+</blockquote>
+<p>所以还是利用<strong>document.write()</strong>，但是却对<strong>\x</strong>进行了过滤</p>
 <hr>
 <p><strong>Reference</strong></p>
 <p><a href="https://zhzhdoai.github.io/2019/11/19/用肝刷xss-quiz/" target="_blank" rel="noopener">https://zhzhdoai.github.io/2019/11/19/用肝刷xss-quiz/</a></p>
