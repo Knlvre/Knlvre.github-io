@@ -115,37 +115,38 @@
             
             <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
             
-            September 05, 2019
+            September 03, 2019
         </p>
         <h3 class="post-title animated fadeInDown">
-            <a href="/knlvre.github.io/2019/09/05/攻防世界 — Web进阶题（1-10）/" title="攻防世界 — Web进阶题(第1-10关)" class="posttitle">攻防世界 — Web进阶题(第1-10关)</a></h3>
+            <a href="/knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" title="2019XNUCA — ezphp WriteUp" class="posttitle">2019XNUCA — ezphp WriteUp</a></h3>
         
         <p class="post-count animated fadeInDown">
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                32k
+                11k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                29 mins.
+                10 mins.
             </span>
             
             
         </p>
         
         
-        <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
+        <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
         
         <div class="md-content animated fadeIn">
             
-            <p>进入题目后给出一个输入框，输入<code>IP地址</code>后会返回<code>PING</code>的信息</p>
-<p></p>
-<p>此时想到了<code>命令执行</code>，但是尝试<code>127.0.0.1 &amp; ls</code>、<code>127.0.0.1 &amp;&amp; ls</code>、<code>127.0.0.1 |...</code></p>
+            <p>没有参加本次比赛，只记录<code>ezphp</code>这一道题目，把同学的Writeup复现并记录下来</p>
+<pre><code class="php">&lt;?php 
+    $files = scandir(&#39;./&#39;);
+    foreach($files as...</code></pre>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/09/05/攻防世界 — Web进阶题（1-10）/" title="Read article" class="posttitle">Read article</a>
+            <span class="read-more"><a href="/knlvre.github.io/2019/09/03/CTF比赛—2019XNUCA — ezphpWriteUp/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
@@ -166,56 +167,6 @@
 
     <div id="primary">
         
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            September 05, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/09/05/攻防世界 — Web进阶题（1-10）/" title="攻防世界 — Web进阶题(第1-10关)" class="posttitle">攻防世界 — Web进阶题(第1-10关)</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        32k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        29 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <p>进入题目后给出一个输入框，输入<code>IP地址</code>后会返回<code>PING</code>的信息</p>
-<p></p>
-<p>此时想到了<code>命令执行</code>，但是尝试<code>127.0.0.1 &amp; ls</code>、<code>127.0.0.1 &amp;&amp; ls</code>、<code>127.0.0.1 | ls</code>都会显示<code>Invalid URL</code></p>
-<p></p>
-<p>网站用的是php写的，但是这个Cloud端就不一定是php的了。</p>
-<p>在URL的传参处<code>?url=</code>这里，我们传递个<code>%79</code>发现传递之后变成了<code>?url=y</code>，看来是可以传递url编码，系统会接受并进行解析</p>
-<p>于是我们传递<code>%80</code>会出现报错，url编码使用的是16进制，80也就...</p>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/09/05/攻防世界 — Web进阶题（1-10）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
 <div class="post" id="post">
     <div class="post-cover animated fadeIn" style="
             background-image:
@@ -698,9 +649,61 @@ hexvalue = binascii...</code></pre>
 </div>
 
 
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            April 10, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/04/10/BugKuCTF—Web题 第31-40关/" title="BugKuCTF — Web题(第31-40关)" class="posttitle">BugKuCTF — Web题(第31-40关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        18k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        16 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF-Web/">CTF-Web</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
+<h3 id="第三十一关（md5-collision-NUPT-CTF-）"><a href="#第三十一关（md5-collision-NUPT-CTF-）" class="headerlink" title="第三十一关（md5 collision(NUPT_CTF)）"></a>第三十一关（md5 collision(NUPT_CTF)）</h3><p>我打开题目是没有给任何提示的，只有链接进去提示<code>&quot;please input a&quot;</code>，源代码也没有写任何东西</p>
+<p>去找别人的WriteUp，别人做题可以看到提示代码：</p>
+<pre><code class="php">&lt;?php
+$md51 = md5(&#39;QNKCDZO&#39;);
+$a = @$_GET[&#39;a&#39;];
+$md52 = @md5($a);
+if(isset($a)){
+if ($a !...</code></pre>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/04/10/BugKuCTF—Web题 第31-40关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
     </div>
     
-    <div id="pager"><a href="/knlvre.github.io/page/4/" class="more" data-loading="Loading..." data-load-more="Load more">Load more</a></div>
+    <div id="pager"><a href="/knlvre.github.io/page/4/" class="more" data-loading="加载中..." data-load-more="Load more">Load more</a></div>
     
 </div>
 <div id="preview"></div>
