@@ -91,7 +91,7 @@ WeekPassword
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    6.7k
+                    6.6k
                 </span>
                 
                 
@@ -132,14 +132,14 @@ WeekPassword
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <h1 id="成都大学第二届玄武杯"><a href="#成都大学第二届玄武杯" class="headerlink" title="成都大学第二届玄武杯"></a>成都大学第二届玄武杯</h1><p>比赛面向他们校的新生，所以都是基础题，做了就蛮写一下</p>
-<h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/6-1.png" alt="6-1"></p>
-<h2 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/7-1.png" alt="7-1"></p>
+<h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/6-1.png" alt></p>
+<h2 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/7-1.png" alt></p>
 <h2 id="WeekPassword"><a href="#WeekPassword" class="headerlink" title="WeekPassword"></a>WeekPassword</h2><blockquote>
 <p>弱口令爆破</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/1-1.png" alt></p>
 <p>根据题目提示<strong>weekpassword</strong>，直接<strong>top100</strong>爆破，拿下 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/1-2.png" alt></p>
 <h2 id="serialization-1"><a href="#serialization-1" class="headerlink" title="serialization-1"></a>serialization-1</h2><blockquote>
 <p>反序列化</p>
 </blockquote>
@@ -185,13 +185,13 @@ echo urlencode(serialize($b));
 ?&gt;
 </code></pre>
 <p>将序列化字符串经过<strong>urlencode()</strong>是因为<strong>private</strong>属性会有不可见字符，编码后可用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/2-1.png" alt="2-1"></p>
-<h2 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/2-1.png" alt></p>
+<h2 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-1.png" alt></p>
 <p>没有其他发现，还下载图片查看。最后扫目录，发现<strong>robots.txt</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-2.png" alt></p>
 <p>访问拿到 flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-3.png" alt="3-3"></p>
-<h2 id="SQL-1"><a href="#SQL-1" class="headerlink" title="SQL-1"></a>SQL-1</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/3-3.png" alt></p>
+<h2 id="SQL-1"><a href="#SQL-1" class="headerlink" title="SQL-1"></a>SQL-1</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/4-1.png" alt></p>
 <p>发现<strong>password</strong>处存在盲注，回显<strong>Login Fail!</strong>和<strong>Login Success!</strong></p>
 <p><strong>EXP</strong></p>
 <pre><code class="php">import requests,string
@@ -222,8 +222,8 @@ for i in range(1,30):
             print(flag)
             break
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/4-2.png" alt="4-2"></p>
-<h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/4-2.png" alt></p>
+<h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-1.png" alt></p>
 <p>查看源码，有提示<strong>hint.php</strong>，查看发现如下代码</p>
 <pre><code class="php">function ctt($key)
 {
@@ -259,7 +259,7 @@ if ($auth) {
 }
 </code></pre>
 <p>看一下<strong>cookie</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-2.png" alt></p>
 <p>因为<strong>cookie</strong>会自动<strong>url编码</strong>，所以需要先解码一下。先运行脚本得到<strong>role1</strong>的值为<strong>adminadmin</strong>。然后仔细观察，发现只要<strong>urldecode($_COOKIE[“role”])</strong>等于<strong>ctt(base64_encode($s))</strong>就能通过第二个条件，完整 EXP 如下</p>
 <pre><code class="php">&lt;?php
 
@@ -282,7 +282,7 @@ echo urlencode(ctt(base64_encode($s)));
 ?&gt;
 </code></pre>
 <p>然后把得到的值拿去提交就行了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-3.png" alt="5-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/5-3.png" alt></p>
 <h2 id="矛盾"><a href="#矛盾" class="headerlink" title="矛盾"></a>矛盾</h2><p>题目源码</p>
 <pre><code class="php">no &lt;?php
 include(&#39;flag.php&#39;);
@@ -303,7 +303,7 @@ else {
 }
 highlight_file(__FILE__); 
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/8-1.png" alt="8-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/CTF/成大玄武杯/8-1.png" alt></p>
 <p><strong>$f2</strong>和<strong>$f3</strong>全部传入字符串的<strong>0</strong>就可以了</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
