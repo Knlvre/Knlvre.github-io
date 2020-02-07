@@ -141,12 +141,10 @@
         
         <div class="md-content animated fadeIn">
             
-            <p>本关介绍两种解题方法：</p>
-<p><strong>方法一</strong></p>
-<p>直接上传<code>webshell.php</code>时，发现前端弹出警告。按<code>F12</code>查看，在<code>javascript</code>的<code>白名单</code>中添加<code>php</code>这个后缀，然后就可以直接上传成功</p>
-<p></p>
-<p><strong>方法二</strong></p>
-<p>先将webshell...</p>
+            <p><strong>核心代码</strong></p>
+<pre><code class="php">function checkFile() {
+    var file = document.getElementsByName(&#39;upload_file&#39;)[0].value;
+    if...</code></pre>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/09/20/Upload-labs Write Up/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>

