@@ -404,57 +404,6 @@ function is_valid_url($url) {
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            November 01, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/11/01/UNCTF Write Up/" title="UNCTF Write Up" class="posttitle">UNCTF Write Up</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        37k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        34 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <p>时间：2019年10月22日 — 2019年10月27日</p>
-<p>因为 Write Up 和 复现环境出现得比较晚，所以放到 11 月写</p>
-<blockquote>
-<p>考点：RCE（命令执行），PHP正则匹配反斜杠的特点，文件通配符，Linux 命令换行，Linux 命令终止符</p>
-</blockquote>
-<p>开始做题前先清楚几个知识点：</p>
-<p><strong>① PHP正则匹配反斜杠的特点</strong></p>
-<p>在本题的<strong>preg_match()</strong>函数中，我们可以发现对<strong>反斜杠（\）</strong>的过滤使用的是<strong>\</strong>，但是这样写是不对的，正确写法是<strong>三个反斜杠（\\）</strong>。在 PHP 正则中，三个反斜杠才能匹配到真正意义上的一个<strong>字...</strong></p>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/11/01/UNCTF Write Up/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
             url(/img/welcome-cover.jpg);">
     </div>
     <div class="else">
@@ -662,6 +611,65 @@ pair = [
 <li><a href="https://www.leavesongs.com/PENETRATION/client-session-security.html" target="_blank" rel="noopener">https...</a></li></ol>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/04/18/CTF比赛—2019DDCTF线上赛WriteUp/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/180417/160606-1523952366b027.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            April 13, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/04/13/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛决赛WriteUp/" title="2019“嘉韦思杯”上海高校网络安全邀请赛 — 决赛WriteUp" class="posttitle">2019“嘉韦思杯”上海高校网络安全邀请赛 — 决赛WriteUp</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        3.3k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        3 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/CTF比赛/">CTF比赛</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <h3 id="各种WriteUp"><a href="#各种WriteUp" class="headerlink" title="各种WriteUp"></a>各种WriteUp</h3><hr>
+<h3 id="第一题（小岗村的故事）"><a href="#第一题（小岗村的故事）" class="headerlink" title="第一题（小岗村的故事）"></a>第一题（小岗村的故事）</h3><p><code>题型：misc</code></p>
+<p>题目提示<code>图片</code>有秘密在里面</p>
+<p></p>
+<p>将图片下载下来，用<code>binwalk</code>分析，有东西，用<code>dd命令</code>分离出来</p>
+<p></p>
+<p>解压时发现需要密码，放到<code>winhex</code>里面看一下，文件末尾有提示</p>
+<p></p>
+<p>输入之后，成功解压下来<code>flag.txt</code></p>
+<p></p>
+<p><code>flag{oho_oho_oho}</code></p>
+<hr>
+<h3 id="第二题（三农聚焦）"><a href="#第二题（三农聚焦）" class="headerlink" title="第二题（三农聚焦）"></a>第二题（三农聚焦）</h3><p><code>题型：misc</code></p>
+<p>链接进去后，下载下来<code>flag.zip</code>，尝试解压时发现要密码，用<code>winhex</code>打开，发现是<code>伪加密</code></p>
+<p></p>
+<p>修改完后，解压下载一张图片，拿去<code>binwalk</code>看一下有东西，用<code>foremost...</code></p>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/04/13/CTF比赛—2019“嘉韦思杯”上海高校网络安全邀请赛决赛WriteUp/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
 </div>

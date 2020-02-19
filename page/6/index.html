@@ -115,22 +115,22 @@
             
             <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
             
-            February 16, 2019
+            February 11, 2019
         </p>
         <h3 class="post-title animated fadeInDown">
-            <a href="/knlvre.github.io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/" title="DVWA 7-SQL Injection（SQL注入）" class="posttitle">DVWA 7-SQL Injection（SQL注入）</a></h3>
+            <a href="/knlvre.github.io/2019/02/11/DVWA 2-Command Injection（命令注入）/" title="DVWA 2-Command Injection（命令注入）" class="posttitle">DVWA 2-Command Injection（命令注入）</a></h3>
         
         <p class="post-count animated fadeInDown">
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>Words count</i>
-                8k
+                8.4k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                7 mins.
+                8 mins.
             </span>
             
             
@@ -141,15 +141,15 @@
         
         <div class="md-content animated fadeIn">
             
-            <pre><code>DVWA\vulnerabilities\sqli\source\
-</code></pre><p>输入一个ID，返回该ID的信息</p>
+            <pre><code>DVWA\vulnerabilities\exec\source\
+</code></pre><p>可以在我们输入一个IP地址之后，帮我们Ping这个地址并返回结果</p>
 <p></p>
 <p>核心代码</p>
 <pre><code class="php">&lt;?php
 
-if( isset( $_REQUEST[ &#39;Submit&#...</code></pre>
+if( isset( $_POST[...</code></pre>
             
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/" title="Read article" class="posttitle">Read article</a>
+            <span class="read-more"><a href="/knlvre.github.io/2019/02/11/DVWA 2-Command Injection（命令注入）/" title="Read article" class="posttitle">Read article</a>
                 <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
     </div>
@@ -170,277 +170,6 @@ if( isset( $_REQUEST[ &#39;Submit&#...</code></pre>
 
     <div id="primary">
         
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            February 16, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/" title="DVWA 7-SQL Injection（SQL注入）" class="posttitle">DVWA 7-SQL Injection（SQL注入）</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        8k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        7 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/DVWA/">DVWA</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <pre><code>DVWA\vulnerabilities\sqli\source\
-</code></pre><p>输入一个ID，返回该ID的信息</p>
-<p></p>
-<p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-if( isset( $_REQUEST[ &#39;Submit&#39; ] ) ) {
-    // Get input
-    $id = $_REQUEST[ &#39;id&#39; ];
-
-    // Check database
-    $query  = &quot;SELECT first_name, last_name FROM users WHERE user_id = &#39...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/16/DVWA 7-SQL Injection（SQL注入）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            February 15, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/15/DVWA 6-Insecure CAPTCHA（不安全的验证码）/" title="DVWA 6-Insecure CAPTCHA（不安全的验证码）" class="posttitle">DVWA 6-Insecure CAPTCHA（不安全的验证码）</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        19k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        17 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/DVWA/">DVWA</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <pre><code>DVWA\vulnerabilities\captcha\source\
-</code></pre><p>和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）</p>
-<p></p>
-<p>参考文章：<a href="https://blog.csdn.net/RBPicsdn/article/details/80059132" target="_blank" rel="noopener">https://blog.csdn.net/RBPicsdn/article/details/80059132</a></p>
-<p></p>
-<p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-if( isset( $_POST[ &#39;Change&#39; ] ) &amp;&amp; ( $_POST[ &#39;step&#39; ] == &#...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/15/DVWA 6-Insecure CAPTCHA（不安全的验证码）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            February 14, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/14/DVWA 5-File Upload（文件上传）/" title="DVWA 5-File Upload（文件上传）" class="posttitle">DVWA 5-File Upload（文件上传）</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        13k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        12 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/DVWA/">DVWA</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <pre><code>DVWA\vulnerabilities\upload\source\
-</code></pre><p>上传本地文件到服务器</p>
-<p></p>
-<p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-if( isset( $_POST[ &#39;Upload&#39; ] ) ) {
-    // Where are we going to be writing to?
-    $target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;
-    $target_path .= basename( $_FILES[...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/14/DVWA 5-File Upload（文件上传）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            February 13, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/13/DVWA 4-File Inclusion（文件包含）/" title="DVWA 4-File Inclusion（文件包含）" class="posttitle">DVWA 4-File Inclusion（文件包含）</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        6.7k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        6 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/DVWA/">DVWA</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <pre><code>DVWA\vulnerabilities\fi\source\
-</code></pre><p>直接点击<code>file1.php、file2.php、file3.php</code>可以相应跳转到不同的界面</p>
-<p></p>
-<p>进入之后如果<code>allow_url_include</code>没有开启，会出现如下画面</p>
-<p></p>
-<p>此时只需要进入<code>phpinfo</code>，查看配置文件的路径，比如我的：<code>C:\phpstudy\php\php-5.4.45\php.ini</code></p>
-<p></p>
-<p>修改该配置文件中的<code>allow_url_include = On</code>，然后重启服务就可以了</p>
-<p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-// The page...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/13/DVWA 4-File Inclusion（文件包含）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="post" id="post">
-    <div class="post-cover animated fadeIn" style="
-            background-image:
-            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
-    </div>
-    <div class="else">
-        <p class="animated fadeInDown">
-            
-                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
-            
-            February 12, 2019
-        </p>
-        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" title="DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）" class="posttitle">DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）</a></h3>
-        
-            <p class="post-count animated fadeInDown">
-                
-                    <span>
-                        <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        13k
-                    </span>
-                
-                
-                    <span>
-                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        12 mins.
-                    </span>
-                
-                
-            </p>
-            
-                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/DVWA/">DVWA</a></li></ul>
-            
-        
-        <div class="md-content animated fadeIn">
-            
-                <pre><code>DVWA\vulnerabilities\csrf\source\
-</code></pre><p>更改当前用户的密码</p>
-<p></p>
-<p>核心代码</p>
-<pre><code class="php">&lt;?php
-
-if( isset( $_GET[ &#39;Change&#39; ] ) ) {
-    // Get input
-    $pass_new  = $_GET[ &#39;password_new&#39; ];
-    $pass_conf = $_GET[ &#39;password_conf&#39; ];
-
-    // Do the passwords match?
-    if( $pass_new ==...</code></pre>
-            
-            <span class="read-more"><a href="/knlvre.github.io/2019/02/12/DVWA 3-Cross Site Request Forgery（CSRF跨站脚本伪造）/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
-        </div>
-    </div>
-</div>
-
-
 <div class="post" id="post">
     <div class="post-cover animated fadeIn" style="
             background-image:
@@ -704,9 +433,276 @@ if( isset( $_GET[ &#39;Login&#39; ] ) ) {
 </div>
 
 
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
     </div>
-    
-    <div id="pager"><a href="/knlvre.github.io/page/7/" class="more" data-loading="加载中..." data-load-more="Load more">Load more</a></div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            January 31, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/01/31/Sqli-labs 第21-30关/" title="Sqli-labs(第21-30关)" class="posttitle">Sqli-labs(第21-30关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        11k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        10 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/Sqli-labs/">Sqli-labs</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
+<p>与<code>Less-20</code>类似，只是对变量<code>Cookiee</code>进行了<code>Base64</code>加密，并且使用单引号和括号进行包裹</p>
+<p></p>
+<p>将<code>payload</code>进行加密</p>
+<p></p>
+<p>加入到 <code>Cookie</code>中，注入成功</p>
+<p></p>
+<p>与前面关卡类似，只是对<code>$cookee</code>包括采用了<code>双引号</code></p>
+<p></p>
+<p><code>Base64</code>加密一下<code>payload</code>：</p>
+<pre><code>&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id...</code></pre>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/01/31/Sqli-labs 第21-30关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/181130/224234-154358895470e3.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            January 30, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/01/30/Sqli-labs 第11-20关/" title="Sqli-labs(第11-20关)" class="posttitle">Sqli-labs(第11-20关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        16k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        14 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/Sqli-labs/">Sqli-labs</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/29/Sqli-labs%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
+<p>之前其他资料学习过程中，学会一个挺好用的学习技巧</p>
+<p>在源码中<code>$sql</code>变量下方加入以下内容</p>
+<pre><code>echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;
+echo $sql;
+echo &quot;&lt;br&gt;&quot;.&quot;=======================...</code></pre>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/01/30/Sqli-labs 第11-20关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            January 29, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/01/29/Sqli-labs 第1-10关/" title="Sqli-labs(第1-10关)" class="posttitle">Sqli-labs(第1-10关)</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        25k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        23 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/Sqli-labs/">Sqli-labs</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>之前就有学习过一些关卡，但是由于当时没有搭建博客的想法，所以也就没有写下来属于自己的笔记。现在博客搭建完成了，从第一关开始，重新写下所有关卡的笔记，并且向后学习。</p>
+<p>关于SQL注入的基础知识，可以看我自己整理的文章：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a></p>
+<p>因为是学习用的，所以先告诉大家这个基于<strong>phpstudy</strong>搭建的<strong>sqli-labs</strong>学习过程中，较频繁使用的重要的数据库名、表名、列名：</p>
+<p>数据库名：security</p>
+<p>security下的表名：emails，referers，uagents，users</p>
+<p>users...</p>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/01/29/Sqli-labs 第1-10关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            January 28, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/01/28/Sqli-labs Tips/" title="Sqli-labs Tips" class="posttitle">Sqli-labs Tips</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        9.7k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        9 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/Sqli-labs/">Sqli-labs</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>（1）简单的用于尝试的语句</p>
+<pre><code>or 1=1--+
+&#39;or 1=1--+
+&quot;or 1=1--+
+)or 1=1--+
+&#39;)or 1=1--+
+&quot;) or 1=1--+
+&quot;))or 1=1--+
+
+ps:--+和#可以互相替换
+</code></pre><p>（2）mysql命令行的简单命令</p>
+<pre><code>查看所有的数据库
+show databases;
+
+使用某个数据库(比如security数据库)
+use security;
+
+查看我们使用的数据库中有哪些表
+show tables;
+
+看一下我们想要查看...</code></pre>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/01/28/Sqli-labs Tips/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(http://pic.netbian.com/uploads/allimg/180325/192744-1521977264b903.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>Article<b> 」</b></a>
+            
+            January 27, 2019
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/knlvre.github.io/2019/01/27/hexo+github搭建博客/" title="hexo + github搭建博客" class="posttitle">hexo + github搭建博客</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>Words count</i>
+                        2.8k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                        3 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/knlvre.github.io/tags/博客搭建/">博客搭建</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>前面大致的步骤参考这篇文章：<a href="https://mochazz.github.io/2017/07/26/hexo-build/" target="_blank" rel="noopener">https://mochazz.github.io/2017/07/26/hexo-build/</a></p>
+<p>仓库的名字用<strong>your_name.github.io</strong>就可以</p>
+<p></p>
+<p></p>
+<p>去这个网站下载主题：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a></p>
+<p>挑选好喜欢的博客后，点击链接到他们Github的页面，下载下来</p>
+<p></p>
+<p>直接解压到 <strong>themes</strong> 这个文件夹下</p>
+<p></p>
+<p>然后在 <strong>_config.yml</strong> 这个配置文件中 <strong>Extensions</strong> 模块的 <strong>theme</strong> 改成刚才那个文件的名字，模板就运用成功了，然后...</p>
+            
+            <span class="read-more"><a href="/knlvre.github.io/2019/01/27/hexo+github搭建博客/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+    </div>
     
 </div>
 <div id="preview"></div>
