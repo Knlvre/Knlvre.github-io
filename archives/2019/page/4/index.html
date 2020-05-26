@@ -1292,13 +1292,14 @@ Less-42本关通过P...
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/02/01/Sqli-labs 第31-40关/">Sqli-labs(第31-40关)</a>
                                         <p>
-                                            前一部分链接：第21-30关Write-up
-Less-31Less-32本关开始，考查的是宽字节注入的利用，关于宽字节注入的知识点可以看我的文章Sqli-labs Tips的Tip 4 
+                                            Less-31Less-32本关开始，考查的是宽字节注入的利用，关于宽字节注入的知识点可以看我的文章Sqli-labs Tips的Tip 4 
 我们提交以下payload时，发现单引号&#39;被转义了
 ?id=1&#39;
 
+
 查看源码，发现使用了check_addslashes()函数对id进行了处理
-$id=check_addslashes(...
+$id=check_addslashes($_GET[&#39;id&#39;]);
+...
                                         </p>
                                     </div>
                                 </li>
@@ -1320,8 +1321,7 @@ $id=check_addslashes(...
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/01/31/Sqli-labs 第21-30关/">Sqli-labs(第21-30关)</a>
                                         <p>
-                                            前一部分链接：第11-20关Write-up
-Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且使用单引号和括号进行包裹
+                                            Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且使用单引号和括号进行包裹
 
 将payload进行加密
 
@@ -1330,7 +1330,7 @@ Less-21与Less-20类似，只是对变量Cookiee进行了Base64加密，并且�
 Less-22与前面关卡类似，只是对$cookee包括采用了双引号
 
 Base64加密一下payload：
-&quot; and extractvalue(1,conc...
+&quot; and extractvalue(1,concat(0x7e,(select group_c...
                                         </p>
                                     </div>
                                 </li>
@@ -1389,11 +1389,12 @@ or 1=1--+
 &quot;))or 1=1--+
 
 ps:--+和#可以互相替换
+
 （2）mysql命令行的简单命令
 查看所有的数据库
 show databases;
 
-使用某个数据...
+使用某个数...
                                         </p>
                                     </div>
                                 </li>

