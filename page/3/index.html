@@ -581,15 +581,14 @@ rar = open...</code></pre>
         
         <div class="md-content animated fadeIn">
             
-                <p>前一部分链接：<a href="https://knlvre.github.io/knlvre.github.io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
-<h3 id="第三十一关（md5-collision-NUPT-CTF-）"><a href="#第三十一关（md5-collision-NUPT-CTF-）" class="headerlink" title="第三十一关（md5 collision(NUPT_CTF)）"></a>第三十一关（md5 collision(NUPT_CTF)）</h3><p>我打开题目是没有给任何提示的，只有链接进去提示<code>&quot;please input a&quot;</code>，源代码也没有写任何东西</p>
+                <h3 id="第三十一关（md5-collision-NUPT-CTF-）"><a href="#第三十一关（md5-collision-NUPT-CTF-）" class="headerlink" title="第三十一关（md5 collision(NUPT_CTF)）"></a>第三十一关（md5 collision(NUPT_CTF)）</h3><p>我打开题目是没有给任何提示的，只有链接进去提示<code>&quot;please input a&quot;</code>，源代码也没有写任何东西</p>
 <p>去找别人的WriteUp，别人做题可以看到提示代码：</p>
 <pre><code class="php">&lt;?php
 $md51 = md5(&#39;QNKCDZO&#39;);
 $a = @$_GET[&#39;a&#39;];
 $md52 = @md5($a);
 if(isset($a)){
-if ($a !...</code></pre>
+if ($a != &#39;QNKCDZO&#39; &amp...</code></pre>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/04/10/BugKuCTF—Web题 第31-40关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -616,7 +615,7 @@ if ($a !...</code></pre>
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        3.2k
+                        3.1k
                     </span>
                 
                 
@@ -656,7 +655,7 @@ if ($a !...</code></pre>
 <p></p>
 <hr>
 <h3 id="第四关（这不是摩斯密码）"><a href="#第四关（这不是摩斯密码）" class="headerlink" title="第四关（这不是摩斯密码）"></a>第四关（这不是摩斯密码）</h3><p>打开看一下，发现是<strong>Brainfuck编码</strong></p>
-<pre><code>+++++ +++++ [-&gt;++ +++++ +++&lt...</code></pre>
+<pre><code class="Code">+++++ +++++ [-&gt;++ +++++ +++&lt...</code></pre>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/03/30/BugKuCTF—加密题 第1-10关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
