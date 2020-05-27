@@ -127,13 +127,13 @@
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
+            <p>前一部分链接：<a href="https://knlvre.github.io/knlvre.github.io/2019/03/08/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC11-20%E5%85%B3/">第11-20关Write-up</a></p>
 <h3 id="第二十一关（秋名山老司机）"><a href="#第二十一关（秋名山老司机）" class="headerlink" title="第二十一关（秋名山老司机）"></a>第二十一关（秋名山老司机）</h3><p>题目打开要求我们2秒内快速计算</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/1-1.png" alt="2-1"></p>
 <p>就想到用Python的Session机制，思想是：<code>自动抓取页面、计算、提交、保存Session、显示flag</code></p>
 <p>那此时就会碰到一个问题，我们计算好的值，同哪个变量提交给服务器？</p>
 <p>此时，页面多刷新几次，机会看到提示：<code>value</code>变量</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/1-2.png" alt="2-2"></p>
 <p>-写代码：</p>
 <pre><code class="python">import requests
 import re
@@ -150,16 +150,16 @@ d = a.post(url,data)
 print(d.text)
 </code></pre>
 <p>多执行几次，flag就跳出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/1-3.png" alt="1-3"></p>
 <p>为什么要多执行几次呢？看了别人的WP：当计算结果超出一定长度时，服务器就不响应了。在此猜想：可能客户端 Python 脚本计算错误，也可能服务器端 PHP 脚本对大数计算有误差，还可能在 POST 请求过程中令大整数发生改变。至于是哪种，还请高手解答。</p>
 <h3 id="第二十二关（速度要快）"><a href="#第二十二关（速度要快）" class="headerlink" title="第二十二关（速度要快）"></a>第二十二关（速度要快）</h3><p>题目进去提示：<code>我感觉你得快点!!!</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/2-1.png" alt="2-1"></p>
 <p>查看源代码：<code>margin</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/2-2.png" alt="2-2"></p>
 <p>使用<code>Burpsuits</code>发送GET请求包，返回的内容里有flag字段，是<code>Base64加密</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-3.png" alt="2-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/2-3.png" alt="2-3"></p>
 <p>拿去Notepad++解密一下，还是经过<code>Base64加密</code>，需要再次解密才会变成数字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-4.png" alt="2-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/2-4.png" alt="2-4"></p>
 <p>那么现在这个数字应该就是我们要的值，并且作为变量<code>margin</code>的值提交上去才行</p>
 <p>写代码：</p>
 <pre><code class="python">import base64,requests
@@ -177,13 +177,13 @@ flag = a.post(url,data=data)
 print(flag.text)
 </code></pre>
 <p>直接拿下flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/2-5.png" alt="2-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/2-5.png" alt="2-5"></p>
 <h3 id="第二十三关（Cookies欺骗）"><a href="#第二十三关（Cookies欺骗）" class="headerlink" title="第二十三关（Cookies欺骗）"></a>第二十三关（Cookies欺骗）</h3><p>链接进去后只看到一串一直重复的文字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/3-1.png" alt="3-1"></p>
 <p>但是注意到<code>URL</code>的<code>filename</code>字段后面接的是<code>Base64</code>密文，拿去解密一下是：<code>key.txt</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/3-2.png" alt="3-2"></p>
 <p>我们将<code>index.php</code>也经过<code>Base64</code>加密，放上去，然后将<code>line</code>参数调成1。嗯？有料</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-3.png" alt="3-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/3-3.png" alt="3-3"></p>
 <p>调成2、3试一下，也都有内容</p>
 <p>那就直接写个脚本全部抓下来看</p>
 <pre><code class="python">import requests,base64
@@ -228,14 +228,14 @@ echo $fa[$line];
 <pre><code>[表达式] ? [结果1]:[结果2]        //当表达式为True时，返回结果1;当表达式为False时，返回结果2
 </code></pre><p>所以当<code>Cookie</code>中有<code>margin</code>，并且<code>file</code>的值为<code>keys.php的Base64密文</code>时，返回<code>keys.php</code>的值</p>
 <p><code>Burpsuits</code>提交，成功获得<code>flag</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/3-5.png" alt="3-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/3-5.png" alt="3-5"></p>
 <h3 id="第二十四关（Never-give-up）"><a href="#第二十四关（Never-give-up）" class="headerlink" title="第二十四关（Never give up）"></a>第二十四关（Never give up）</h3><p>链接进去没有提示有用的信息，只显示”never never never give up !!!”</p>
 <p>右键”查看网页源代码”，看到提示信息<code>&lt;!--1p.html--&gt;</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/4-1.png" alt="4-1"></p>
 <p>我们直接在<code>view-source</code>的后面改成<code>1p.html</code>就可以看到内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/4-2.png" alt="4-2"></p>
 <p>内容显然是经过<code>url编码</code>和<code>Base64加密</code>的，那就直接复制到<code>Notepad++</code>里进行转换</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-3.png" alt="4-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/4-3.png" alt="4-3"></p>
 <p>对其中几个函数解释一下：</p>
 <pre><code>stripos()：
 函数查找字符串在另一字符串中第一次出现的位置（不区分大小写），返回一个数字
@@ -247,7 +247,7 @@ eregi()：
 <p>一、$id（弱类型比较）</p>
 <p>变量 $id 若想满足非空非零，且弱等于整型数 0，则 $id 的值只能为非空非零字符串</p>
 <p>我们随便设置一个值：$id=bugku，如下图：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-4.png" alt="4-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/4-4.png" alt="4-4"></p>
 <p>二、$a（PHP伪协议）</p>
 <p>源码中变量 $data 是由 file_get_contents() 函数读取变量 $a 的值而得，所以 $a 的值必须为数据流</p>
 <p>在服务器中自定义一个内容为 bugku is a nice plateform! 文件，再把此文件路径赋值给 $a，显然不太现实。因此这里用伪协议 php:// 来访问输入输出的数据流，其中 php://input可以访问原始请求数据中的只读流。这里令 $a = “php://input”，并在请求主体中提交字符串 bugku is a nice plateform!</p>
@@ -258,20 +258,20 @@ eregi()：
 <pre><code>?id=Bugku&amp;&amp;a=php://input&amp;&amp;b=%0012345
 
 //请求主体中提交字符串：bugku is a nice plateform!
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-5.png" alt="4-5"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/4-5.png" alt="4-5"></p>
 <p>成功拿下flag</p>
 <p>不过此题还有一个更简单的做法。。。。</p>
 <p>直接访问<code>f4l2a3g.txt</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/4-6.png" alt="4-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/4-6.png" alt="4-6"></p>
 <h3 id="第二十五关（welcome-to-bugkuctf）"><a href="#第二十五关（welcome-to-bugkuctf）" class="headerlink" title="第二十五关（welcome to bugkuctf）"></a>第二十五关（welcome to bugkuctf）</h3><p>链接进去没有提示有用信息，只是提示：”you are not the number of bugku !”</p>
 <p>查看源代码，看到了提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/5-1.png" alt="5-1"></p>
 <p>看到<code>file_get_contents()</code>和<code>include()</code>想到之前的知识点，构造<code>payload</code>：</p>
 <pre><code>?txt=php://&amp;&amp;file=php://filter/read=convert.base64-encode//resource=hint.php
 
 //password变量好像暂时用不上，就先不传入了
 //请求主体中提交字符串：welcome to the bugkuctf
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-2.png" alt="5-2"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/5-2.png" alt="5-2"></p>
 <p>将那串<code>Base64</code>拿去解码，得到如下内容</p>
 <pre><code class="php">&lt;?php  
 
@@ -288,12 +288,12 @@ class Flag{//flag.php
 ?&gt;  
 </code></pre>
 <p>现在，直接将<code>$file</code>变量改成<code>flag.php</code>是不行的，会返回一串乱码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-4.png" alt="5-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/5-4.png" alt="5-4"></p>
 <p>没有思路后看别人的WriteUp，我们就按照之前的步骤看<code>index.php</code>的源代码</p>
 <p>为什么是<code>index.php</code>呢</p>
 <p>第一：因为这个页面通常是一个网站的关键页面，有重要信息</p>
 <p>第二：在我们给<code>$file</code>变量添加内容后，返回<code>hello friend!</code>，在其他源代码没见过，所以可以猜测有其他内容</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-5.png" alt="5-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/5-5.png" alt="5-5"></p>
 <p>把获得的<code>Base64密文</code>拿去解密得到代码</p>
 <pre><code class="php">&lt;?php  
 $txt = $_GET[&quot;txt&quot;];  
@@ -329,12 +329,12 @@ $test-&gt;file = &#39;flag.php&#39;;
 echo serialize($test);
 ?&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-7.png" alt="5-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/5-7.png" alt="5-7"></p>
 <p>现在构造<code>payload</code>：</p>
 <p>这里<code>$file</code>要记得填<code>hint.php</code>，要将这个包含进来才可以，改成其他的会失败，因为失去Flag类</p>
 <pre><code>?txt=php://input&amp;&amp;file=hint.php&amp;&amp;password=O:4:&quot;Flag&quot;:1:{s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;}
 </code></pre><p>通过Burpsuits提交，得到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/5-8.png" alt="5-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/5-8.png" alt="5-8"></p>
 <h3 id="第二十六关（过狗一句话）"><a href="#第二十六关（过狗一句话）" class="headerlink" title="第二十六关（过狗一句话）"></a>第二十六关（过狗一句话）</h3><p>有提示：</p>
 <pre><code class="php">&lt;?php 
     $poc=&quot;a#s#s#e#r#t&quot;; 
@@ -343,20 +343,20 @@ echo serialize($test);
     $poc_2($_GET[&#39;s&#39;]) 
 ?&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-1.png" alt="6-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/6-1.png" alt="6-1"></p>
 <p>可以看出<code>$poc_2=assert</code>，也就是<code>$poc_2($_GET[&#39;s&#39;])</code>  = <code>assert($_GET[&#39;s&#39;])</code></p>
 <p>可以利用<code>assert()</code>函数存在<code>代码执行漏洞</code></p>
 <p>数组形式返回当前目录下的文件：</p>
 <pre><code class="php">?s=print_r(scandir(&#39;./&#39;))
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/6-2.png" alt="6-2"></p>
 <p>注意到其中的一个文件：<code>flag_sm1skla1.txt</code></p>
 <p>直接访问，拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-3.png" alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/6-3.png" alt="6-3"></p>
 <h4 id="题外话："><a href="#题外话：" class="headerlink" title="题外话："></a>题外话：</h4><p>可以继续利用这个漏洞，读取其他任意想要读取的文件</p>
 <p>读取上一级目录：</p>
 <pre><code>?s=print_r(scandir(&#39;../&#39;))
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/6-4.png" alt="6-4"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/6-4.png" alt="6-4"></p>
 <h3 id="第二十七关（字符？正则？）"><a href="#第二十七关（字符？正则？）" class="headerlink" title="第二十七关（字符？正则？）"></a>第二十七关（字符？正则？）</h3><p>链接进去直接看到代码，如下：</p>
 <pre><code class="php">&lt;?php 
 highlight_file(&#39;2.php&#39;);
@@ -390,12 +390,12 @@ matches
 8.{4,7}：代表前一个字符，连续出现的次数是4-7次就可以
 </code></pre><p>这样我们就可以的出我们的<code>id</code>的有效值：</p>
 <pre><code>?id=key999key9999key:/9/999keya!
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/7-1.png" alt="7-1"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/7-1.png" alt="7-1"></p>
 <h3 id="第二十八关（前女友-SKCTF-）"><a href="#第二十八关（前女友-SKCTF-）" class="headerlink" title="第二十八关（前女友(SKCTF)）"></a>第二十八关（前女友(SKCTF)）</h3><p>链接打不开，先放着吧</p>
 <h3 id="第二十九关（login1-SKCTF-）"><a href="#第二十九关（login1-SKCTF-）" class="headerlink" title="第二十九关（login1(SKCTF)）"></a>第二十九关（login1(SKCTF)）</h3><p>题目有提示：SQL约束攻击</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-1.png" alt="9-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/9-1.png" alt="9-1"></p>
 <p>链接进去后点击”没有账号”，随便注册一个账号。返回登陆时，提示我们”不是管理员还想看flag?!”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/9-2.png" alt="9-2"></p>
 <p>那也就是提示我们，管理员才能看flag，那怎么通过管理员的身份去查看flag呢？注册一个管理员账号</p>
 <p>参考博客：<a href="https://blog.csdn.net/qq_42777804/article/details/81866940" target="_blank" rel="noopener">第二十九关WriteUp</a></p>
 <p>首先先说一下<code>SQL约束攻击</code>：</p>
@@ -407,9 +407,9 @@ matches
 <li>在所有的<code>INSERT</code>查询中，SQL都会根据varchar(n)来限制字符串的最大长度。也就是说，如果字符串的长度大于“n”个字符的话，那么仅使用字符串的前“n”个字符。比如特定列的长度约束为“5”个字符，那么在插入字符串“abcdefg”时，实际上只能插入字符串的前5个字符，即“abcde”</li>
 </ol>
 <p>知道条件的时候，我们就去注册一个账号，用户名为<code>&#39;admin     &#39;</code>（后面接5个空格，空格数量随意），密码符合条件随意就行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-3.png" alt="9-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/9-3.png" alt="9-3"></p>
 <p>然后直接用这个账号去登陆，拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/9-4.png" alt="9-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/9-4.png" alt="9-4"></p>
 <p>也就是说，<code>注册</code>时使用<code>INSERT语句</code>帮我们插入一个用户名为<code>&#39;admin     &#39;</code>的账户</p>
 <p><code>登陆</code>时，帮我们删掉了用户名后面的空格，即查询了<code>&#39;admin&#39;</code>用户的信息</p>
 <h3 id="第三十关（你从哪里来）"><a href="#第三十关（你从哪里来）" class="headerlink" title="第三十关（你从哪里来）"></a>第三十关（你从哪里来）</h3><p>链接打开看到提示：<code>&quot;are you from google?&quot;</code></p>
@@ -421,16 +421,16 @@ matches
 </li>
 </ol>
 <p>我们可以自己测试一下，打开<code>https://www.baidu.com</code>，挂上<code>Burpsuits</code>的代理，随便点击一个可点链接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-1.png" alt="10-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/10-1.png" alt="10-1"></p>
 <p>看一下Burpsuit中请求头里长什么样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-2.png" alt="10-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/10-2.png" alt="10-2"></p>
 <p>果然是有<code>Referer</code>字段的，并且其内容是<code>https://www.baidu.com</code>，这就验证了我们的说法</p>
 <p>那现在开始做题。将请求头加上<code>Referer</code>字段，内容为<code>https://www.google.com</code>，拿下flag</p>
 <pre><code>Referer: https://www.google.com
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/21-30/10-3.png" alt="10-3"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/21-30/10-3.png" alt="10-3"></p>
 <hr>
 <p>至此，21-30关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/04/10/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
+<p>后一部分链接：<a href="https://knlvre.github.io/knlvre.github.io/2019/04/10/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"

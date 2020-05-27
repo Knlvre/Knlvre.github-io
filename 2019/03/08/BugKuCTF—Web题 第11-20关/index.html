@@ -129,98 +129,98 @@
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/06/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
+            <p>前一部分链接：<a href="https://knlvre.github.io/knlvre.github.io/2019/03/06/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC1-10%E5%85%B3/">第1-10关Write-up</a></p>
 <h3 id="第十一关（web5）"><a href="#第十一关（web5）" class="headerlink" title="第十一关（web5）"></a>第十一关（web5）</h3><p>链接打开看到提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/1-1.png" alt="1-1"></p>
 <p>查看网页的源代码看到一大堆中括号、感叹号、加号组成的字符串</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/1-2.png" alt="1-2"></p>
 <p>将这串符号放到<strong>控制台 — Console</strong>里面，直接回车，就得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/1-3.png" alt="1-3"></p>
 <h3 id="第十二关（头等舱）"><a href="#第十二关（头等舱）" class="headerlink" title="第十二关（头等舱）"></a>第十二关（头等舱）</h3><p>链接打开看到”什么也没有。”，查看源代码也是什么都没有</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/2-1.png" alt="2-1"></p>
 <p>但是用<strong>Burpsuit</strong>抓下来，发送GET请求看一下， 在返回的头中就有flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/2-2.png" alt="2-2"></p>
 <h3 id="第十三关（网站被黑）"><a href="#第十三关（网站被黑）" class="headerlink" title="第十三关（网站被黑）"></a>第十三关（网站被黑）</h3><p>链接进去后，看到被黑的网页</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/3-1.png" alt="3-1"></p>
 <p>首先选择使用<strong>御剑</strong>扫描一下后台，结果是扫到<strong>shell.php</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/3-2.png" alt="3-2"></p>
 <p>访问一下，尝试几个常见的密码不行后，直接放到<strong>Burpsuit</strong>进行爆破</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-3.png" alt="3-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/3-3.png" alt="3-3"></p>
 <p>选择Burpsuit自带的密码字典：<strong>Intruder  — Payloads — Add from lists — password</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-4.png" alt="3-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/3-4.png" alt="3-4"></p>
 <p>爆破出来密码是<strong>hack</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-5.png" alt="3-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/3-5.png" alt="3-5"></p>
 <p>将hack输入后，得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/3-6.png" alt="3-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/3-6.png" alt="3-6"></p>
 <h3 id="第十四关（系统管理员）"><a href="#第十四关（系统管理员）" class="headerlink" title="第十四关（系统管理员）"></a>第十四关（系统管理员）</h3><p>链接进去后，看到可以输入用户名和密码的输入框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/4-1.png" alt="4-1"></p>
 <p>随便输入一个用户名和密码尝试登陆后，出现提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/4-2.png" alt="4-2"></p>
 <p>先用<strong>Burpsuit</strong>抓下来，由于提示的是”请联系本地管理员登陆”，首先想到的是x-forwarded-for</p>
 <p>所以在POST请求头加上x-forwarded-for</p>
 <pre><code>x-forwarded-for: 127.0.0.1
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-3.png" alt="4-3"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/4-3.png" alt="4-3"></p>
 <p>go发送之后，返回的内容多了一行信息，但是就是没有flag</p>
 <p>折腾了好久，最后在返回的信息的最最最最最后，找到了一串base64加密的字符串（以后还是要注意一下细节）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-4.png" alt="4-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/4-4.png" alt="4-4"></p>
 <p>最后拿去解密一下，拿到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/4-5.png" alt="4-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/4-5.png" alt="4-5"></p>
 <h3 id="第十五关（web4）"><a href="#第十五关（web4）" class="headerlink" title="第十五关（web4）"></a>第十五关（web4）</h3><p>链接进去后，提示我们看一下源代码，看看就看看</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/5-1.png" alt="5-1"></p>
 <p>源代码中看到比较关键的部分，并且有unescape()函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/5-2.png" alt="5-2"></p>
 <p>我们就按照他的字符串拼接，去在线网站解密</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-3.png" alt="5-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/5-3.png" alt="5-3"></p>
 <p>自己创建文本，将解密后的东西写下来，是Javascrip</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-4.png" alt="5-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/5-4.png" alt="5-4"></p>
 <p>将67d709b2b54aa2aa648cf6e87a7114f1复制网页中，提交后，就得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/5-5.png" alt="5-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/5-5.png" alt="5-5"></p>
 <h3 id="第十六关（flag在index里）"><a href="#第十六关（flag在index里）" class="headerlink" title="第十六关（flag在index里）"></a>第十六关（flag在index里）</h3><p>链接打开后只有”click me?no”的字样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-1.png" alt="6-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/6-1.png" alt="6-1"></p>
 <p>他说不点就不点吗，那不就很没面子？我们点进去只看到写着test5，但是注意看url，通过GET方式传递file变量</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/6-2.png" alt="6-2"></p>
 <p>直接试一下文件包含漏洞</p>
 <p>但是使用show_source()和file()函数都返回一片空白</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-3.png" alt="6-3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-3-2.png" alt="6-3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/6-3.png" alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/6-3-2.png" alt="6-3-2"></p>
 <p>第三种文件包含方法就成功了，返回一串经过base64加密的字符串</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-4.png" alt="6-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/6-4.png" alt="6-4"></p>
 <p>简单的用Python解密一下，就可以看到index.php的源代码，里面有着flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/6-5.png" alt="6-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/6-5.png" alt="6-5"></p>
 <h3 id="第十七关（输入密码查看flag）"><a href="#第十七关（输入密码查看flag）" class="headerlink" title="第十七关（输入密码查看flag）"></a>第十七关（输入密码查看flag）</h3><p>链接打开有一个可以输入密码的输入框</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-1.png" alt="7-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/7-1.png" alt="7-1"></p>
 <p>随意输入一个密码尝试一下会报错</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/7-2.png" alt="7-2"></p>
 <p>既然题目的url提示着baopo，那么我们就用Burpsuit尝试着去爆破一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-3.png" alt="7-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/7-3.png" alt="7-3"></p>
 <p>因为题目提示”输入5位数密码”，所以我们设置从10000-99999之间的数，步数是1</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-4.png" alt="7-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/7-4.png" alt="7-4"></p>
 <p>可以明显看到结果出来了，是13579</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-5.png" alt="7-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/7-5.png" alt="7-5"></p>
 <p>输入密码后，直接给出了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/7-6.png" alt="7-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/7-6.png" alt="7-6"></p>
 <h3 id="第十八关（点击一百万次）"><a href="#第十八关（点击一百万次）" class="headerlink" title="第十八关（点击一百万次）"></a>第十八关（点击一百万次）</h3><p>链接点进去是一个饼干，鼠标点击一次，就会计数一次</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-1.png" alt="8-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/8-1.png" alt="8-1"></p>
 <p>查看网页源代码，其中Javascript的部分有用到POST方法提交clicks的值</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-2.png" alt="8-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/8-2.png" alt="8-2"></p>
 <p>那么我们直接用Burpsuit提交clicks=10000000，就得到了flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/8-3.png" alt="8-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/8-3.png" alt="8-3"></p>
 <h3 id="第十九关（备份是个好习惯）"><a href="#第十九关（备份是个好习惯）" class="headerlink" title="第十九关（备份是个好习惯）"></a>第十九关（备份是个好习惯）</h3><p>链接打开只看到一串MD5加密的字符串</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-1.png" alt="9-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/9-1.png" alt="9-1"></p>
 <p>查看源代码和用Burpsuit测试什么都没有发现</p>
 <p>在想会不会有后台什么的，用御剑扫一下， 果然有东西</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/9-2.png" alt="9-2"></p>
 <p>访问这个index.php.bak，下载下来一个文件，打开是php写的代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-3.png" alt="9-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/9-3.png" alt="9-3"></p>
 <p>首先简单了解一下strstr()、substr()、str_replace()函数，可以自己本地写个php代码测试一下，如下图</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-4.png" alt="9-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/9-4.png" alt="9-4"></p>
 <p>所以这个代码的意思呢，就是会将你POST或GET传入的参数，只提取？以后的内容，再将？去掉，并且将key关键字替换成空格，然后再传入</p>
 <p>既然题目要求key1和key2的md5加密后的值一样，不加密的值要不一样</p>
 <p>那我们就需要将key1和key2成功传入，这就需要绕过str_replace()函数，以为只替换了一次（只用了一str_replace()函数），那我们就可以用双写，如：kekeyy来绕过</p>
 <p>而处理md5()函数有两种方法：</p>
 <p>方法一：</p>
 <p>因为md5()函数无法处理数组，所以返回的值是NULL，所以当key1和key2是数组，加密后就都是NULL，就相同，并且不加密的值不同，就可以成立</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-5-1.png" alt="9-5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/9-5-1.png" alt="9-5-1"></p>
 <p>方法二：</p>
 <p>如果md5()加密后的值是0eXXX形式的，那么就会被认为是科学计数法，那0eXXX代表的是0的XXX次方，无论多少都是0，加密后的数组也是相等的</p>
 <p>这里给出一些md5加密后是以0e开头的字符串</p>
@@ -229,40 +229,40 @@
 s878926199a
 s155964671a
 s214587387a
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-5-2.png" alt="9-5-2"></p>
+</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/9-5-2.png" alt="9-5-2"></p>
 <p>现在额外谈一下为什么连接刚打开时会出现以下的md5值：</p>
 <pre><code>d41d8cd98f00b204e9800998ecf8427ed41d8cd98f00b204e9800998ecf8427e
 </code></pre><p>特别突兀，出现在那个位置好像是我们可以用到的线索，但是其实没用到</p>
 <p>有两段一样的，那么可以确定是我们看的index.php.bak源码里，返回的md5(key1)和md5(key2)</p>
 <p>拿去在线网站破译一下是这样的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-6.png" alt="9-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/9-6.png" alt="9-6"></p>
 <p>后来才知道也就是NULL的意思，为什么是NULL呢，因为key1和key2没有传入或者没有成功传入时，默认值就是NULL</p>
 <p>如下图，没用成功传入key1和key2时，页面也是返回这个值，这样就解释通了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/9-7.png" alt="9-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/9-7.png" alt="9-7"></p>
 <h3 id="第二十关（成绩单）"><a href="#第二十关（成绩单）" class="headerlink" title="第二十关（成绩单）"></a>第二十关（成绩单）</h3><p>链接进去后有一个提交数值的框，对应输出学生的成绩</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-1.png" alt="10-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/10-1.png" alt="10-1"></p>
 <p>想到应该是SQL注入，尝试一下：</p>
 <pre><code>1&#39; and 1=2 #
 </code></pre><p>没有返回数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-2.png" alt="10-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/10-2.png" alt="10-2"></p>
 <pre><code>1&#39; and 1=1 #
 </code></pre><p>数据正常返回</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-3.png" alt="10-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/10-3.png" alt="10-3"></p>
 <p>那么对数据的处理应该就是简单的单引号了</p>
 <pre><code>$_POST[&#39;value&#39;]
 </code></pre><p>用order by测试一下，4的时候正常，到5的时候就出错了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-4.png" alt="10-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/10-4.png" alt="10-4"></p>
 <p>那现在就可以利用union select了，直接拿到了数据库的名字</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-5.png" alt="10-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/10-5.png" alt="10-5"></p>
 <p>爆表名</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-6.png" alt="10-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/10-6.png" alt="10-6"></p>
 <p>爆fl4g表下的列名</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-7.png" alt="10-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/10-7.png" alt="10-7"></p>
 <p>爆skctf_flag列下的数据，顺利拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/BugkuCTFWeb/11-20/10-8.png" alt="10-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/BugkuCTFWeb/11-20/10-8.png" alt="10-8"></p>
 <hr>
 <p>至此，11-20关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
+<p>后一部分链接：<a href="https://knlvre.github.io/knlvre.github.io/2019/03/28/BugKuCTF%E2%80%94Web%E9%A2%98%20%E7%AC%AC21-30%E5%85%B3/">第21-30关Write-up</a></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
