@@ -141,20 +141,21 @@
 <h2 id="【步骤】"><a href="#【步骤】" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、while循环</p>
 <p>1.1 while循环测试</p>
 <p>只要指定条件为真，则一直循环。在浏览器地址栏中输入<strong>“<a href="http://localhost/php/ceshi.html&quot;" target="_blank" rel="noopener">http://localhost/php/ceshi.html&quot;</a></strong>，在文本框中写入程序代码，然后单击”提交”按钮</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $i = 0;
 while($i &lt; 10){
     $i++;
     echo $i.&quot;&lt;/br&gt;&quot;;
 }
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/while%E8%AF%AD%E6%B3%95/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/while%E8%AF%AD%E6%B3%95/1-1.png" alt></p>
 <p>1.2 查看返回结果</p>
 <p>提交后，浏览器返回结果，可见while循环一直运行，直到条件不再为真</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/while%E8%AF%AD%E6%B3%95/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/while%E8%AF%AD%E6%B3%95/1-2.png" alt></p>
 <p>二、Do…while循环</p>
 <p>2.1 编写代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $i = 0;
 do{
     $i++;
@@ -162,16 +163,17 @@ do{
 }
 while($i &lt; 10);
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/while%E8%AF%AD%E6%B3%95/1-3.png" alt="1-3"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/while%E8%AF%AD%E6%B3%95/1-3.png" alt></p>
 <p>2.2 查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/while%E8%AF%AD%E6%B3%95/1-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/while%E8%AF%AD%E6%B3%95/1-2.png" alt></p>
 <h1 id="（二）结构嵌套"><a href="#（二）结构嵌套" class="headerlink" title="（二）结构嵌套"></a>（二）结构嵌套</h1><h2 id="【原理】-1"><a href="#【原理】-1" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）当处理一些数据，单一性的判断或循环无法完成时，就开始通过嵌套的形式来提高效率。条件里面套条件，循环里面扣循环。<br>（2）Foreach遍历数组中的每个元素并循环代码块，每进行一次循环迭代，当前数组元索的值就会被赋值给$value变量，并且数组指针会逐一地移动，直到到达最后一个数组元素</p>
 <p>foreach (Sarray as Svalue) {</p>
 <p>code to be executed;</p>
 <p>}</p>
 <h2 id="【步骤】-1"><a href="#【步骤】-1" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、结构嵌套</p>
 <p>1.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 //创建一个奥运会数组
 $Olympic = array(
     &#39;2012&#39; =&gt; &quot;英国 伦敦&quot;,
@@ -198,13 +200,14 @@ function Sj($Sj){
 Sj(1996);
 Sj(2008);
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%BB%93%E6%9E%84%E5%B5%8C%E5%A5%97/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%BB%93%E6%9E%84%E5%B5%8C%E5%A5%97/1-1.png" alt></p>
 <p>1.2 查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%BB%93%E6%9E%84%E5%B5%8C%E5%A5%97/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%BB%93%E6%9E%84%E5%B5%8C%E5%A5%97/1-2.png" alt></p>
 <h1 id="（三）数组"><a href="#（三）数组" class="headerlink" title="（三）数组"></a>（三）数组</h1><h2 id="【原理】-2"><a href="#【原理】-2" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）数组，是相同数据类型的元素按一定顺序排列的集合。若将有限个类型相同的变量的集合命名，那么这个名称为数组名。组成数组的各个变量称为数组的分量，也称为数组的元素，有时也称为下标变量。用于区分数组的各个元素的数字编号称为下标。数组是在程序设计中，为了处理方便，把具有相同类型的若干变量按有序的形式组织起来的一种形式。这些按序排列的同类数据元素的集合称为数组。<br>（3）array()函数用于创建数组<br>（3）print_r()函数用于打印数组</p>
 <h2 id="【步骤】-2"><a href="#【步骤】-2" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、索引数组</p>
 <p>1.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 //第一种，自动创建索引
 $a = array(&#39;1&#39;,&#39;2&#39;,&#39;3&#39;);
 
@@ -220,13 +223,14 @@ echo &quot;&lt;/br&gt;&quot;;
 echo &quot;第二种显示为：&lt;/br&gt;&quot;;
 print_r($b).&quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/1-1.png" alt></p>
 <p>1.2 查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/1-2.png" alt></p>
 <p>二、关联数组</p>
 <p>2.1 输入代码</p>
 <p>关联数组的创建与索引数组创建相似</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 //第一种
 $a = array(&quot;A&quot; =&gt; &quot;19&quot;,&quot;B&quot; =&gt; &quot;14&quot;,&quot;C&quot; =&gt; &quot;11&quot;);
 
@@ -242,15 +246,16 @@ echo &quot;&lt;/br&gt;&quot;;
 echo &quot;第二种显示为：&lt;/br&gt;&quot;;
 print_r($b).&quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/2-1.png" alt="2-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/2-1.png" alt></p>
 <p>2.2 查看返回的结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/2-2.png" alt></p>
 <p>三、多维数组</p>
 <p>多维数组：包含一个或多个数组的数组（初级了解）</p>
 <p>四、数组调用</p>
 <p>4.1 编写代码</p>
 <p>数组元素的一般形式为：数组名[下标]，其中的下标只适为整型常量或整型表达式数组元素通常也称为下标变量。必须先定义数组，才能使用下标变量。在文本输入框中写入程序代码，然后单击“提交”按钮</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 //数据创建
 $a = array(&quot;A&quot; =&gt; &quot;19&quot;,&quot;B&quot; =&gt; &quot;14&quot;,&quot;C&quot; =&gt; &quot;11&quot;);
 
@@ -259,9 +264,10 @@ echo $a[&quot;A&quot;].&quot;&lt;/br&gt;&quot;;
 echo $a[&quot;B&quot;].&quot;&lt;/br&gt;&quot;;
 echo $a[&quot;C&quot;].&quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/4-1.png" alt="4-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/4-1.png" alt></p>
 <p>4.2 浏览返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E7%BB%84/4-2.png" alt></p>
 <h1 id="（四）内建函数"><a href="#（四）内建函数" class="headerlink" title="（四）内建函数"></a>（四）内建函数</h1><h2 id="【原理】-3"><a href="#【原理】-3" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）PHP自带函数 例如</p>
 <p>print_r()        //打印数组</p>
 <p>var_dump()        //打印数据类型</p>
@@ -269,7 +275,7 @@ echo $a[&quot;C&quot;].&quot;&lt;/br&gt;&quot;;
 <h2 id="【步骤】-3"><a href="#【步骤】-3" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、内建函数</p>
 <p>1.1 输入代码</p>
 <p><strong>MD5()</strong>是常见的一种加密方式。<strong>strlen()</strong>函数则是用来计算字符串长度</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 //PHP内建函数
 
 //像我们以前用过的
@@ -286,14 +292,15 @@ echo &quot;变量b的字符长度为：&lt;/br&gt;&quot;.strlen($b).&quot;&lt;/b
 
 //内建函数许多，就不一一举例
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%86%85%E5%BB%BA%E5%87%BD%E6%95%B0/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%86%85%E5%BB%BA%E5%87%BD%E6%95%B0/1-1.png" alt></p>
 <p>1.2 查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%86%85%E5%BB%BA%E5%87%BD%E6%95%B0/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%86%85%E5%BB%BA%E5%87%BD%E6%95%B0/1-2.png" alt></p>
 <h1 id="（五）-自定义函数"><a href="#（五）-自定义函数" class="headerlink" title="（五） 自定义函数"></a>（五） 自定义函数</h1><h2 id="【原理】-4"><a href="#【原理】-4" class="headerlink" title="【原理】"></a>【原理】</h2><p>自定义函数以“function”开头：</p>
 <p>function functionName){<br>    被执行的代码；<br>}<br>如果需要函数返回值，使用return语句($value改成你要使用的变量）<br>例：<br>function functionName(){<br>    被执行的代码；<br>    return $value;<br>}<br>可以通过答数向的数传递信息，参数类似变量。参数被定义在函数名之后，括号内部。多参故，只要用适号隔开即可</p>
 <h2 id="【步骤】-4"><a href="#【步骤】-4" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、自定义函数</p>
 <p>1.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 //创建一个名为Student的函数，两个参数分别为name,achievement
 function Student($name,$achievement){
     if ($achievement &gt;= 80){
@@ -308,14 +315,15 @@ Student(&quot;小娟&quot;,50);
 Student(&quot;小杨&quot;,75);
 Student(&quot;小明&quot;,99);
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/1-1.png" alt></p>
 <p>1.2 查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/1-2.png" alt></p>
 <h1 id="（六）日期"><a href="#（六）日期" class="headerlink" title="（六）日期"></a>（六）日期</h1><h2 id="【原理】-5"><a href="#【原理】-5" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）date()函数用于对日期或时间进行格式化</p>
 <p>（2）date_default_timezone_set(“PRC”)设置时间区</p>
 <h2 id="【步骤】-5"><a href="#【步骤】-5" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、日期</p>
 <p>由于PHP获取的时间默认认为格林威治标准时间，可自己设置默认时间区</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 date_default_timeout_set(&#39;PRC&#39;);    //设置中国时区
 echo &quot;今天是&quot;.date(&quot;Y-m-d&quot;).&quot;现在时间是&quot;.date(&quot;h:i:sa&quot;).&quot;&lt;/br&gt;&quot;;
 
@@ -334,13 +342,14 @@ while($startdate &lt; $enddate){
     $startdate = strtotime(&quot;+1 week&quot;,$startdate);
 }
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%97%A5%E6%9C%9F/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%97%A5%E6%9C%9F/1-1.png" alt></p>
 <p>二、查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%97%A5%E6%9C%9F/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%97%A5%E6%9C%9F/1-2.png" alt></p>
 <h1 id="（七）类的属性及定义方法"><a href="#（七）类的属性及定义方法" class="headerlink" title="（七）类的属性及定义方法"></a>（七）类的属性及定义方法</h1><h2 id="【原理】-6"><a href="#【原理】-6" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）类的变量成员叫做“属性”。属性声明是由关键字public / protected / private开头，然后跟一个变量来组成<br>（2）在类的成员方法里面，可以通过$this-&gt;property(property是属性名字）这种方式来访问类的属性、方法，但是要访问类的静态属性或者在静态方法里面却不能使用，而是使用self::Sproperty(初级了解)<br>（2）定界符：<br>PHP定界符的作用就是按照原样，包括换行格式什么的，输出在其内部的东西；在PHP定界符中的任何特殊字符都不需要转义；PHP定界符中的PHP变量会被正常的用其值来替换</p>
 <h2 id="【步骤】-6"><a href="#【步骤】-6" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、类的属性及定义方法（public为例）</p>
 <p>1.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 //创建一个Student类
 class Student{
     //属性声明为共有的
@@ -362,14 +371,15 @@ echo $A -&gt; a.&quot;&lt;/br&gt;&quot;.$A -&gt; c;
 
 //这里只做public访问。private/protected会在后面  访问控制  中说明
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%8F%8A%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%8F%8A%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/1-1.png" alt></p>
 <p>二、查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%8F%8A%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%8F%8A%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/1-2.png" alt></p>
 <h1 id="（八）构造函数及析构函数"><a href="#（八）构造函数及析构函数" class="headerlink" title="（八）构造函数及析构函数"></a>（八）构造函数及析构函数</h1><h2 id="【原理】-7"><a href="#【原理】-7" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）<strong>__construct()</strong>构造函数，用来初始化对象</p>
 <p>（2）<strong>__destruct()</strong>析构函数，释放所暂用的内存</p>
 <h2 id="【步骤】-7"><a href="#【步骤】-7" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、构造函数及析构函数</p>
 <p>1.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 class Car{
     function __construct(){
         print &quot;构造函数被调用 &lt;/br&gt;&quot;;
@@ -386,13 +396,14 @@ unset($car);    //摧毁时会调用析构函数
 echo &quot;----------分割线----------&lt;/br&gt;&quot;;
 $car = new Car();    //实例化的时候会自动调用构造函数__construct，这里会输出一个字符串
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%8A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%8A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/1-1.png" alt></p>
 <p>1.2 查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%8A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%8A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/1-2.png" alt></p>
 <h1 id="（九）访问控制"><a href="#（九）访问控制" class="headerlink" title="（九）访问控制"></a>（九）访问控制</h1><h2 id="【原理】-8"><a href="#【原理】-8" class="headerlink" title="【原理】"></a>【原理】</h2><p>对属性或方法的访问控制，是通过在前面添加关键字public、protected或private来实现的。由public所定义的类成员可以在任何地方被访问；由protected所定义的类成员则可以被其所在类的子类和父类访问（当然，该成员所在的类也可以访问）；而由private定义的类成员则只能被其所在类访问</p>
 <h2 id="【步骤】-8"><a href="#【步骤】-8" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、访问控制</p>
 <p>1.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 class Student{
     //声明私有属性
     private $name;
@@ -428,13 +439,14 @@ $A = new Student(&quot;素白&quot;，22，&quot;男&quot;);    //创建对象
 echo $A -&gt; name.&quot;&lt;/br&gt;&quot;;
 echo $A -&gt; say();
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/1-1.png" alt></p>
 <p>1.2 查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/1-2.png" alt></p>
 <h1 id="（十）继承"><a href="#（十）继承" class="headerlink" title="（十）继承"></a>（十）继承</h1><h2 id="【原理】-9"><a href="#【原理】-9" class="headerlink" title="【原理】"></a>【原理】</h2><p>子类继承父类的所有公有和保护方法。但是子类的方法会覆盖父类的方法</p>
 <h2 id="【步骤】-9"><a href="#【步骤】-9" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、继承</p>
 <p>1.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 //创建父类 Person
 class Person{
     function read($name){
@@ -463,15 +475,16 @@ echo &quot;----------分隔符----------&lt;/br&gt;&quot;;
 $a -&gt; doing(&quot;素白&quot;);    //父类对象调用自己的方法
 $b -&gt; ding(&quot;素白&quot;);    //子类对象调用父类对象的同名方法，与父类自掉形成对比
 ?&gt;
-</code></pre><p>1.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%BB%A7%E6%89%BF/1-2.png" alt="1-2"></p>
+</code></pre>
+<p>1.2 查看结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%BB%A7%E6%89%BF/1-2.png" alt></p>
 <h1 id="（十一）条件结构"><a href="#（十一）条件结构" class="headerlink" title="（十一）条件结构"></a>（十一）条件结构</h1><h2 id="【原理】-10"><a href="#【原理】-10" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）if语句：条件为真，则执行代码</p>
 <p>（2）if….else语句：如果条件为真，则执行代码；否则，则执行另一端代码</p>
 <p>（3）if…elseif…else：多条件判断，符合则执行</p>
 <p>（4）Switch：多个代码块之一执行，如果没有case为真，则使用default语句</p>
 <h2 id="【步骤】-10"><a href="#【步骤】-10" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、If语句</p>
 <p>1.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $a = 1;
 if ($a == 1){
     echo &quot;a=1&quot;;
@@ -481,11 +494,12 @@ if ($a == 2){
     echo &quot;a=2&quot;;
 }
 ?&gt;
-</code></pre><p>1.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/1-2.png" alt="1-2"></p>
+</code></pre>
+<p>1.2 查看结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/1-2.png" alt></p>
 <p>二、If…else语句</p>
 <p>2.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $a = 1;
 if ($a == 1){
     echo &quot;a=1&quot;;
@@ -498,11 +512,12 @@ if ($a == 2){
     echo &quot;a不等于2&quot;;
 }
 ?&gt;
-</code></pre><p>2.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/2-2.png" alt="2-2"></p>
+</code></pre>
+<p>2.2 查看结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/2-2.png" alt></p>
 <p>三、if…elseif…else</p>
 <p>3.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 function Student($name,$achievement){
     if(achievement &gt;= 90){
         echo $name.&quot;成绩为A&lt;/br&gt;&quot;;
@@ -519,11 +534,12 @@ Student(&quot;小磊&quot;,90);
 Student(&quot;小红&quot;,66);
 Student(&quot;小刚&quot;,76);
 ?&gt;
-</code></pre><p>3.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/3-2.png" alt="3-2"></p>
+</code></pre>
+<p>3.2 查看结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/3-2.png" alt></p>
 <p>四、Switch</p>
 <p>4.1 输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 function Student($name,$favcolor){
     switch($favcolor){
         case &quot;red&quot;:
@@ -545,8 +561,9 @@ Student(&quot;小磊&quot;,&quot;blue&quot;);
 Student(&quot;小红&quot;,&quot;yellow&quot;);
 Student(&quot;小刚&quot;,&quot;green&quot;);
 ?&gt;
-</code></pre><p>4.2 查看返回结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/4-2.png" alt="4-2"></p>
+</code></pre>
+<p>4.2 查看返回结果</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%9D%A1%E4%BB%B6%E7%BB%93%E6%9E%84/4-2.png" alt></p>
 <h1 id="（十二）for循环"><a href="#（十二）for循环" class="headerlink" title="（十二）for循环"></a>（十二）for循环</h1><h2 id="【原理】-11"><a href="#【原理】-11" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）For循环</p>
 <p>for(init counter;test counter;increment counter){</p>
 <p>​    code to executed;</p>
@@ -562,126 +579,136 @@ Student(&quot;小刚&quot;,&quot;green&quot;);
 <p>}</p>
 <h2 id="【步骤】-11"><a href="#【步骤】-11" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、For循环</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 for($i=0;$i&lt;10;$i++){
     echo &quot;i的值为：&quot;.$i.&quot;&lt;/br&gt;&quot;;
 }
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/1-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/1-2.png" alt></p>
 <p>二、foreach循环</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $colors = array(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;,&quot;yellow&quot;);
 foreach($colors as $value){
     echo $value.&quot;&lt;/br&gt;&quot;;
 }
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/2-1.png" alt="2-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/2-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/for%E5%BE%AA%E7%8E%AF/2-2.png" alt></p>
 <h1 id="（十三）输出方法"><a href="#（十三）输出方法" class="headerlink" title="（十三）输出方法"></a>（十三）输出方法</h1><h2 id="【原理】-12"><a href="#【原理】-12" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）echo / print 两种输出方法</p>
 <p>（2）echo / print “输出内容”</p>
 <p>​    echo / print (“输出内容”)；</p>
 <p>​    有无括号均可；</p>
 <h2 id="【步骤】-12"><a href="#【步骤】-12" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、echo输出 — 能够输出一个以上的字符串</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 echo &quot;&lt;h1&gt;PHP输出方式&lt;/h1&gt;&quot;;
 echo &quot;echo&lt;/br&gt;&quot;;
 
 echo &quot;可以&quot;,&quot;加入html标签&quot;,&quot;也可以像这样&quot;,&quot;多个字符串&quot;,&quot;隔开&quot;,&quot;同时&quot;,&quot;输出&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/1-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/1-2.png" alt></p>
 <p>二、print输出 — 只能输出一个字符串</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 print &quot;&lt;h1&gt;PHP输出方式&lt;/h1&gt;&quot;;
 
 print (&quot;print&lt;/br&gt;&quot;);
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/2-1.png" alt="2-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/2-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95/2-2.png" alt></p>
 <h1 id="（十四）注释"><a href="#（十四）注释" class="headerlink" title="（十四）注释"></a>（十四）注释</h1><h2 id="【原理】-13"><a href="#【原理】-13" class="headerlink" title="【原理】"></a>【原理】</h2><p>注释掉不想要输出的内容 或 用来解释说明</p>
 <p>比较常见，想必大家都知道，这里就不再具体写例子，简单说一下用法就好了</p>
-<pre><code>//    这是单行注释
+<pre><code class="Code">//    这是单行注释
 #    这也是单行注释
 /*    这是多行注释块，它可以横跨多行注释    */
-</code></pre><h1 id="（十五）大小写敏感"><a href="#（十五）大小写敏感" class="headerlink" title="（十五）大小写敏感"></a>（十五）大小写敏感</h1><h2 id="【原理】-14"><a href="#【原理】-14" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）所有<strong>用户定义的函数、类</strong>和<strong>关键词</strong>（例如if、else、echo、等等）都对大小写不敏感</p>
+</code></pre>
+<h1 id="（十五）大小写敏感"><a href="#（十五）大小写敏感" class="headerlink" title="（十五）大小写敏感"></a>（十五）大小写敏感</h1><h2 id="【原理】-14"><a href="#【原理】-14" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）所有<strong>用户定义的函数、类</strong>和<strong>关键词</strong>（例如if、else、echo、等等）都对大小写不敏感</p>
 <p>（2）所有<strong>变量</strong>都对大小写敏感</p>
 <h2 id="【步骤】-13"><a href="#【步骤】-13" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、函数、类和关键字（这里以echo）为例</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $a = &quot;我是一只鱼&quot;;
 echo $a.&quot;&lt;/br&gt;&quot;;
 ECHO $a.&quot;&lt;/br&gt;&quot;;
 ecHo $a.&quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F/1-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F/1-2.png" alt></p>
 <p>二、变量（对大小写敏感）</p>
 <p>写入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $string = &quot;我是一只鱼&quot;；
 echo $string.&quot;&lt;/br&gt;&quot;;
 echo $STRING.&quot;&lt;/br&gt;&quot;;
 echo $String.&quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F/2-1.png" alt="2-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F/2-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F/2-2.png" alt></p>
 <h1 id="（十六）常量和变量"><a href="#（十六）常量和变量" class="headerlink" title="（十六）常量和变量"></a>（十六）常量和变量</h1><h2 id="【原理】-15"><a href="#【原理】-15" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）常量名以字符或下划线开头（名前无$符号）</p>
 <p>（2）常量类似变量，但是常量一旦被定义就无法更改或撤销定义且常量贯穿整个脚本，是自动全局</p>
 <p>（3）定义常量用<strong>define(name,value,True/False)</strong>函数：其中第一个参数为常量的名称；第二个为常量的值；第三个是大小写敏感，默认为False，对大小写敏感</p>
 <h2 id="【步骤】-14"><a href="#【步骤】-14" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、创建对大小写敏感的常量</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 define(&quot;knvlre&quot;,&quot;我是一条鱼&quot;);
 echo knlvre.&quot;&lt;/br&gt;&quot;;
 echo KNLVRE.&quot;&lt;/br&gt;&quot;;
 echo Knlvre.&quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/1-1.png" alt></p>
 <p>查看结果</p>
 <p>此时没有设置第三个值，所以默认是False，区分大小写的</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/1-2.png" alt></p>
 <p>二、创建对大小写不敏感的常量</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 define(&quot;knvlre&quot;,&quot;我是一条鱼&quot;,True);
 echo knlvre.&quot;&lt;/br&gt;&quot;;
 echo KNLVRE.&quot;&lt;/br&gt;&quot;;
 echo Knlvre.&quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/2-1.png" alt="2-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/2-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/2-2.png" alt></p>
 <h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><h2 id="【原理】-16"><a href="#【原理】-16" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）变量格式：以$符号开头，后面紧跟变量的名称</p>
 <p>（2）变量名称必须以字母或下划线开头，不能以数字开头，且只能包含字母、数字以及下划线。大小写区分（$a与$A为两个不同变量）</p>
 <p>（3）变量作用域：指的是变量能够被引用/使用的那部分脚本，有local（局部）、global（全局）和static（静态）三种不同的作用域</p>
 <hr>
 <h2 id="【步骤】-15"><a href="#【步骤】-15" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、创建变量</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $A_1 = &quot;大写字母&quot;；
 $a_1 = &quot;小写字母&quot;;
 $_a1 = &quot;下划线开头&quot;;
 
 echo $A_1.&quot;&lt;/br&quot;,$a_1.&quot;&lt;/br&gt;&quot;,$_a1.&quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/3-1.png" alt="3-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/3-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/3-2.png" alt></p>
 <p>二、作用域local与global</p>
 <p>函数之外声明的变量拥有<strong>Global</strong>作用域，只能在函数以外进行访问</p>
 <p>函数内部声明的变量拥有<strong>local</strong>作用域，只能在函数内部进行访问</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $x = 5;
 //函数之外定义的变量，拥有global作用域，函数内不可以调用
 
@@ -699,12 +726,13 @@ echo &quot;变量x：&quot;.$x;
 echo &quot;&lt;br&gt;&quot;;
 echo &quot;变量y：&quot;.$y
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/4-1.png" alt="4-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/4-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/4-2.png" alt></p>
 <p>分析解决上述问题</p>
 <p><strong>global</strong>关键词用于访问函数内的全局变量，因此要解决上述问题可用其在函数内部声明某个变量为全局</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $x = 5;
 $y = 10;
 
@@ -716,11 +744,12 @@ function mytest(){
 mytest();
 echo $z;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/5-1.png" alt="5-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/5-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/5-2.png" alt></p>
 <p>$GLOBALS[]数组</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $x = 5;
 $y = 10;
 
@@ -731,13 +760,14 @@ function mytest(){
 mytest();
 echo $z;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/6-1.png" alt="6-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/6-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/5-2.png" alt></p>
 <p>三、作用域</p>
 <p>当函数完成/执行后，会删除所有变量；有时需要不删除某个局部变量，<strong>static</strong>就可以帮助我们</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 function mytest(){
     static $a = 0;
     echo $a;
@@ -749,25 +779,27 @@ mytest();
 mytest();
 mytest();
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/7-1.png" alt="7-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/7-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E5%B8%B8%E9%87%8F%E4%B8%8E%E5%8F%98%E9%87%8F/7-2.png" alt></p>
 <h1 id="（十七）运算符"><a href="#（十七）运算符" class="headerlink" title="（十七）运算符"></a>（十七）运算符</h1><h2 id="【原理】-17"><a href="#【原理】-17" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）算数运算符，赋值运算符，字符串运算符，递增、递减运算符，比较运算符，逻辑运算符，数组运算符</p>
 <h2 id="【步骤】-16"><a href="#【步骤】-16" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、递增与递</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $a=1;
 $b=1;
 echo &quot;初始值均为“1”：&lt;/br&gt;&quot;;
 echo &quot;当“+”号在后面时：&quot;.$a++.&quot;&lt;/br&gt;&quot;;
 echo &quot;当“+”号在前面时：&quot;.++$b;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%B7/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%B7/1-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%B7/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%B7/1-2.png" alt></p>
 <p>二、比较运算、逻辑运算</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $a=1;
 $b=1;
 $c=2;
@@ -787,9 +819,10 @@ if($a != $c || $b != $c){
     echo &quot;a不等于c或b不等于c&quot;;
 }
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%B7/2-1.png" alt="2-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%B7/2-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%B7/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%B7/2-2.png" alt></p>
 <h1 id="（十八）数据类型"><a href="#（十八）数据类型" class="headerlink" title="（十八）数据类型"></a>（十八）数据类型</h1><h2 id="【原理】-18"><a href="#【原理】-18" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）数据类型是为了把数据分成所需内存大小不同的数据，编程的时候需要用大数据的时候，才需要申请大内存，就可以充分利用内存。</p>
 <p>（2）数据类型：</p>
 <p><strong>字符串</strong>：字符串是字符序列，可以是引号内的任何文本</p>
@@ -802,18 +835,19 @@ if($a != $c || $b != $c){
 <p>（3）<strong>var_dump()</strong>函数会返回变量的数据类型</p>
 <h2 id="【步骤】-17"><a href="#【步骤】-17" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、字符串</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 echo &quot;Hello World!&quot;
 echo &#39;Hello World!&#39;;
 echo &quot;&#39;Hello World!&#39;&quot;;
 echo &#39;&quot;Hello World!&quot;&#39;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/1-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/1-2.png" alt></p>
 <p>二、整数</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 var_dump(222);    //正数
 echo &quot;&lt;/br&gt;&quot;;
 
@@ -826,12 +860,13 @@ echo &quot;&lt;/br&gt;&quot;;
 var_dump(021);    //八进制
 echo &quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/2-1.png" alt="2-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/2-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/2-2.png" alt></p>
 <p>三、浮点数</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 var_dump(2.1);
 echo &quot;&lt;/br&gt;&quot;;
 
@@ -841,23 +876,25 @@ echo &quot;&lt;/br&gt;&quot;;
 var_dump(2e-3);
 echo &quot;&lt;/br&gt;&quot;;
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/3-1.png" alt="3-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/3-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/3-2.png" alt></p>
 <p>四、逻辑</p>
 <p>逻辑是<strong>true</strong>或<strong>false</strong>，常用于条件判断。后期将会用到</p>
 <p>五、数组</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $a = array(&quot;字符串&quot;,2.1,100);
 var_dump($a);
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/5-1.png" alt="5-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/5-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/5-2.png" alt></p>
 <p>六、对象</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 header(Content-type: text/html,charset=utf-8);
 //如果出现乱码，输入上面这行，将输出后的编码设置为utf-8
 
@@ -869,12 +906,13 @@ class Student{
 
 $Tom = new Student();
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/6-1.png" alt="6-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/6-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/6-2.png" alt></p>
 <p>七、NULL</p>
 <p>输入代码</p>
-<pre><code>&lt;?php
+<pre><code class="Code">&lt;?php
 $a = 100;
 var_dump($a);
 
@@ -883,43 +921,46 @@ echo &quot;&lt;/br&gt;------------------我是分割线--------------------&lt;/
 $a = NULL;
 var_dump($a);
 ?&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/7-1.png" alt="7-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/7-1.png" alt></p>
 <p>查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/7-2.png" alt></p>
 <h1 id="（十九）实现分页查询"><a href="#（十九）实现分页查询" class="headerlink" title="（十九）实现分页查询"></a>（十九）实现分页查询</h1><h2 id="【原理】-19"><a href="#【原理】-19" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）mysql_connect(‘127.0.0.1’,”root”,”root”);：链接数据库</p>
 <p>（2）mysql_connect(“fy”,$link) or die(“数据库连接失败”);：连接fy数据库，如果存在则进入，不存在执行die()</p>
 <p>（3）limit(m,n)：执行数据库命令，选取m-n之间的数据</p>
 <h2 id="【步骤】-18"><a href="#【步骤】-18" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、分页查询</p>
 <p>1.1 连接数据库，取出数据库中的数据分页</p>
 <p>在Windows命令行环境下，使用命令链接数据库</p>
-<pre><code>mysql -uroot -proot
-</code></pre><p>使用fy数据库，将数据库中的数据分页取出</p>
-<pre><code>use fy;
+<pre><code class="Code">mysql -uroot -proot
+</code></pre>
+<p>使用fy数据库，将数据库中的数据分页取出</p>
+<pre><code class="Code">use fy;
 select * from fy1;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-1.png" alt></p>
 <p>1.2 新建一个Fy.php文件，写入代码，保存在（c:\xampp\htdocs)</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-2.png" alt></p>
 <p>1.3 浏览结果</p>
 <p>打开浏览器，访问127.0.0.0/Fy.php</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-3.png" alt></p>
 <p>1.4 修改$page变量</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-4.png" alt="1-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-4.png" alt></p>
 <p>1.5 再次访问查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-5.png" alt="1-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5/1-5.png" alt></p>
 <h1 id="（二十）连接数据库并操作"><a href="#（二十）连接数据库并操作" class="headerlink" title="（二十）连接数据库并操作"></a>（二十）连接数据库并操作</h1><h2 id="【原理】-20"><a href="#【原理】-20" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）mysql_connect(“databasename”,”username”,”password”);    //连接数据库</p>
 <p>（2）mysql_query(query)    //执行数据库命令</p>
 <h2 id="【步骤】-19"><a href="#【步骤】-19" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、连接数据库</p>
 <p>1.1 创建connect.php文件，写入代码，保存在（c:\xampp\htdocs)</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/1-1.png" alt></p>
 <p>1.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/1-2.png" alt></p>
 <h3 id="二、操作数据库"><a href="#二、操作数据库" class="headerlink" title="二、操作数据库"></a>二、操作数据库</h3><p>2.1 输入代码，选择fy数据库，并输出fy1表中的数据</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/2-1.png" alt></p>
 <p>2.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/2-2.png" alt></p>
 <p>2.3 当选择一个不存咋的库时，会显示连接失败</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/2-3.png" alt="2-3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/2-4.png" alt="2-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/2-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E6%93%8D%E4%BD%9C/2-4.png" alt></p>
 <p>实验只做了连接并没有关闭，mysql_close()函数用于关闭连接</p>
 <h1 id="（二十一）Mysql基础操作"><a href="#（二十一）Mysql基础操作" class="headerlink" title="（二十一）Mysql基础操作"></a>（二十一）Mysql基础操作</h1><h2 id="【原理】-21"><a href="#【原理】-21" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）MySQL字段属性</p>
 <table>
@@ -986,22 +1027,26 @@ select * from fy1;
 <hr>
 <h2 id="【步骤】-20"><a href="#【步骤】-20" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、创建数据库及表</p>
 <p>1.1 创建一个名为Knlvre、编码为UTF-8的数据库</p>
-<pre><code>create database Knlvre charset utf8
+<pre><code class="Code">create database Knlvre charset utf8
 //charset utf8可以使数据库支持中文数据
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Mysql%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/1-1.png" alt="1-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Mysql%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/1-1.png" alt></p>
 <p>1.2 使用Knlvre数据库，并创建如下表</p>
-<pre><code>use Knlvre;
+<pre><code class="Code">use Knlvre;
 create table Knlvre(name varchar(28) null,age int(28));
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Mysql%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/1-2.png" alt="1-2"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Mysql%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/1-2.png" alt></p>
 <p>二、数据库的增删改查</p>
 <p>2.1 添加数据并查看</p>
-<pre><code>insert into Knlvre(name,age) values (&#39;su&#39;,&#39;22&#39;);
+<pre><code class="Code">insert into Knlvre(name,age) values (&#39;su&#39;,&#39;22&#39;);
 select * from Knlvre;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Mysql%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/2-1.png" alt="2-1"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Mysql%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/2-1.png" alt></p>
 <p>2.2 删除数据</p>
-<pre><code>delete from Knlvre where name = &#39;su&#39;;
+<pre><code class="Code">delete from Knlvre where name = &#39;su&#39;;
 select * from Knlvre;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Mysql%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/2-2.png" alt="2-2"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Mysql%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/2-2.png" alt></p>
 <h1 id="（二十二）cookie与session"><a href="#（二十二）cookie与session" class="headerlink" title="（二十二）cookie与session"></a>（二十二）cookie与session</h1><h1 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h1><h2 id="【原理】-22"><a href="#【原理】-22" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）Cookie，有时也用其复数形式Cookies，指某些网站为了辨别用户身份、进行session跟踪而存储在用户本地终端上的数据（通常经过加密）。</p>
 <p>（2）Cookie是在HTTP协议下，服务器或脚本可以维护客户工作站上信息的一种方式。Cookie是由Web服务器保存在用户浏览器（客户端）上的小文本文件，它可以包含有关用户的信息。无论何时用户链接到服务器，Web站点都可以访问Cookie信息。目前有些Cookie是临时的，有些则是持续的。临时的Cookie只在浏览器上保存一段规定的时间，一旦超过规定的时间，该Cookie就会被系统清除，有些用户担心Cookie中的用户信息被一些别有用心的人窃取，而造成一定的损害。其实，网站以外的用户无法跨过网站来获得Cookie信息。如果因为这种担心而屏蔽Cookie，肯定会因此拒绝访问许多站点页面。因为，当年有许多Web站点开发人员使用Cookie技术，例如Session对象的使用就离不开Cookie的支持</p>
 <p>（3）在创建Cookie之前不能有任何输出，空格也不行</p>
@@ -1049,11 +1094,11 @@ select * from Knlvre;
 </tbody>
 </table>
 <p>1.1 输入代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/1-1.png" alt></p>
 <p>1.2 查看结果</p>
 <p>并未找到Cookie，因为Cookie不是立即生效的，需要下次刷新才能找到</p>
 <p>再次刷新试试</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/1-2.png" alt></p>
 <h1 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h1><h2 id="【原理】-23"><a href="#【原理】-23" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）Session的工作原理：</p>
 <p>当一个session第一次被启用时，一个唯一的标识被存储于本地的cookie中</p>
 <p>首先使用session_start()函数，PHP从session仓库中加载已经存储的session变量</p>
@@ -1063,43 +1108,44 @@ select * from Knlvre;
 <p>（3）与cookie相似在调用session_Start()之前不能有任何输出</p>
 <h2 id="【步骤】-21"><a href="#【步骤】-21" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、Session</p>
 <p>1.1 输入代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/2-1.png" alt></p>
 <p>1.2 查看结果</p>
 <p>第一次查看的值为1</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/2-2.png" alt></p>
 <p>每次刷新，值都会加1</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/2-3.png" alt="2-3"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/2-4.png" alt="2-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/2-3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/Cookie/2-4.png" alt></p>
 <h1 id="（二十三）简单的实例"><a href="#（二十三）简单的实例" class="headerlink" title="（二十三）简单的实例"></a>（二十三）简单的实例</h1><h2 id="【原理】-24"><a href="#【原理】-24" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）匹配字符格式</p>
-<pre><code>\：转义字符
+<pre><code class="Code">\：转义字符
 \w：匹配任意一个数字、字母、或下划线，等价于【0-9a-zA-Z】
 +：匹配1次或多次其前的原子
 \d：匹配任意一个十进制数字。等价于【0-9】
 \s：空白，包括空格、换行、tab缩进等所有的空白
 \S：非空白，包括空格、换行、tab缩进等所有的空白
-</code></pre><h2 id="【步骤】-22"><a href="#【步骤】-22" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、匹配并判断</p>
+</code></pre>
+<h2 id="【步骤】-22"><a href="#【步骤】-22" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、匹配并判断</p>
 <p>1.1 输入代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-1.png" alt></p>
 <p>1.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-2.png" alt></p>
 <p>1.3 修改信息使报错</p>
 <p>修改用户名长度</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-3.png" alt></p>
 <p>修改邮箱</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-4.png" alt="1-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-4.png" alt></p>
 <p>修改手机</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-5.png" alt="1-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E4%BE%8B/1-5.png" alt></p>
 <h1 id="（二十四）验证码"><a href="#（二十四）验证码" class="headerlink" title="（二十四）验证码"></a>（二十四）验证码</h1><h2 id="【原理】-25"><a href="#【原理】-25" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）验证码(CAPTCHA)是“Completely Autonated Public Turing test to tell Computers and Humans Apart”(全目动区分计<br>算机和人类的图灵测试）的缩写，是一种区分用户是计算机还是人的公共全自动程序。可以防止：恋意破解密码、刷票、论坛灌水，有效防正某个黑音对某一个特定注册用户用特定程序要力地解方式进行不断的查陆尝试，实际上用金证码是现在很多网站通行的方式，我们利用比较简易的方式实现了这个功能。这个问题可以由计算机生成并评判，但是必领只有人类才能解答。由于计算机无法解答CAPTCHA的问题，所以回答出问题的用户就可以被认为是人类。</p>
 <h2 id="【步骤】-23"><a href="#【步骤】-23" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、生成验证码</p>
 <p>1.1 输入代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E9%AA%8C%E8%AF%81%E7%A0%81/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E9%AA%8C%E8%AF%81%E7%A0%81/1-1.png" alt></p>
 <p>1.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E9%AA%8C%E8%AF%81%E7%A0%81/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E9%AA%8C%E8%AF%81%E7%A0%81/1-2.png" alt></p>
 <h1 id="（二十五）正则表达式"><a href="#（二十五）正则表达式" class="headerlink" title="（二十五）正则表达式"></a>（二十五）正则表达式</h1><h2 id="【原理】-26"><a href="#【原理】-26" class="headerlink" title="【原理】"></a>【原理】</h2><p>（1）preg_match(string $pattern , string $subject , array $matches)</p>
 <p>pattern：要搜索的模式，字符串类型。subject：输入字符串。matches：如果提供了参数matches，它将被填充为搜索结果。 $matches[0]将包含完整模式匹配到的文本， $matches[1] 将包含第一个捕获子组匹配到的文本，以此类推</p>
 <p>（2）preg_replace(正则表达式，替换成，字符串，最大替换次数默认为所有，替换次数)</p>
 <p>匹配字符格式</p>
-<pre><code>\：转义字符
+<pre><code class="Code">\：转义字符
 \w：匹配任意一个数字、字母、或下划线，等价于【0-9a-zA-Z】
 +：匹配1次或多次其前的原子
 \d：匹配任意一个十进制数字。等价于【0-9】
@@ -1108,8 +1154,9 @@ select * from Knlvre;
 .：代表任意字符
 *：前一个字符重复任意次
 [[:punct:]]：代表任意一个字符，包括各种符号
-</code></pre><p>小括号、中括号、大括号的区别</p>
-<pre><code>正则表达式的() [] {}有不同的意思。
+</code></pre>
+<p>小括号、中括号、大括号的区别</p>
+<pre><code class="Code">正则表达式的() [] {}有不同的意思。
 
 () 是为了提取匹配的字符串。表达式中有几个()就有几个相应的匹配字符串。
 
@@ -1122,16 +1169,17 @@ select * from Knlvre;
 (0-9) 匹配 &#39;0-9′ 本身。 [0-9]* 匹配数字（注意后面有 *，可以为空）[0-9]+ 匹配数字（注意后面有 +，不可以为空）{1-9} 写法错误。
 
 [0-9]{0,9} 表示长度为 0 到 9 的数字字符串。
-</code></pre><h2 id="【步骤】-24"><a href="#【步骤】-24" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、正则匹配</p>
+</code></pre>
+<h2 id="【步骤】-24"><a href="#【步骤】-24" class="headerlink" title="【步骤】"></a>【步骤】</h2><p>一、正则匹配</p>
 <p>1.1 输入代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/1-1.png" alt></p>
 <p>1.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/1-2.png" alt></p>
 <p>二、匹配并替换</p>
 <p>2.1 输入代码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/2-1.png" alt></p>
 <p>2.2 查看结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/PHP%E8%AF%AD%E6%B3%95/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/2-2.png" alt></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
