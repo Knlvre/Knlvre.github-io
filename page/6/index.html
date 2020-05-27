@@ -319,14 +319,18 @@ if( isset( $_GET[ &#39;Login&#39; ] ) ) {
         
         <div class="md-content animated fadeIn">
             
-                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/02/Sqli-labs%20%E7%AC%AC41-50%E5%85%B3/">第41-50关Write-up</a></p>
-<p>与前一关相同，单引号包裹，payload</p>
-<pre><code>?sort=1&#39;;create table less51 like users--+
-</code></pre><p>与Less-50相同，只不过没有报错信息回显，payload</p>
-<pre><code>?sort=1;create table less51 like users--+
-</code></pre><p>与Less-51相同，只不过没有报错信息回显，payload</p>
-<pre><code>?sort=1&#39;;create table less51 like users--+
-</code></pre><p>本关开始，又有了...</p>
+                <p>与前一关相同，单引号包裹，payload</p>
+<pre><code class="Code">?sort=1&#39;;create table less51 like users--+
+</code></pre>
+<p>与Less-50相同，只不过没有报错信息回显，payload</p>
+<pre><code class="Code">?sort=1;create table less51 like users--+
+</code></pre>
+<p>与Less-51相同，只不过没有报错信息回显，payload</p>
+<pre><code class="Code">?sort=1&#39;;create table less51 like users--+
+</code></pre>
+<p>本关开始，又有了新类型的题目了</p>
+<p></p>
+<p>题目要求注出<code>secret...</code></p>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/02/03/Sqli-labs 第51-65关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -353,7 +357,7 @@ if( isset( $_GET[ &#39;Login&#39; ] ) ) {
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        7.9k
+                        7.7k
                     </span>
                 
                 
@@ -370,10 +374,10 @@ if( isset( $_GET[ &#39;Login&#39; ] ) ) {
         
         <div class="md-content animated fadeIn">
             
-                <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
-<p>与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是<code>整形</code>注入，payload</p>
-<pre><code>?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
-</code></pre><p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通过堆叠注入创...</p>
+                <p>与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是<code>整形</code>注入，payload</p>
+<pre><code class="Code">?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
+</code></pre>
+<p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通过堆叠注入创建一个账号<code>（admin&#39;#）</code>，然后再...</p>
             
             <span class="read-more"><a href="/knlvre.github.io/2019/02/02/Sqli-labs 第41-50关/" title="Read article" class="posttitle">Read article</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -400,7 +404,7 @@ if( isset( $_GET[ &#39;Login&#39; ] ) ) {
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>Words count</i>
-                        4.9k
+                        4.8k
                     </span>
                 
                 

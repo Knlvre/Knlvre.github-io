@@ -130,25 +130,29 @@ database()：当前数据库名
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <h1 id="（一）基础知识点"><a href="#（一）基础知识点" class="headerlink" title="（一）基础知识点"></a>（一）基础知识点</h1><h2 id="union查询"><a href="#union查询" class="headerlink" title="union查询"></a>union查询</h2><p>（1）系统函数</p>
-<pre><code>version()：mysql版本
+<pre><code class="Code">version()：mysql版本
 user()：数据库用户名
 database()：当前数据库名
 @@datadir：数据库路径
 @@version_compile_os：当前操作系统
-</code></pre><p>（2）Mysql默认设置</p>
-<pre><code>information_schema.schemate：默认数据库
+</code></pre>
+<p>（2）Mysql默认设置</p>
+<pre><code class="Code">information_schema.schemate：默认数据库
 information_schema.tables：默认数据表
 information_schema.columns：默认字段
-</code></pre><p>（3）一般用于尝试的语句：</p>
-<pre><code>or 1=1 --+
+</code></pre>
+<p>（3）一般用于尝试的语句：</p>
+<pre><code class="Code">or 1=1 --+
 &#39; or 1=1 --+
 &quot; or 1=1 --+
 ) or 1=1 --+
 &#39;) or 1=1 --+
-</code></pre><p>（4）一般代码为：</p>
-<pre><code>$id=$_GET[&#39;id&#39;]
+</code></pre>
+<p>（4）一般代码为：</p>
+<pre><code class="Code">$id=$_GET[&#39;id&#39;]
 $sql = &quot;select * from table_name where id = &#39;$id&#39; limit 0,1&quot;;
-</code></pre><p>（5）Union操作符</p>
+</code></pre>
+<p>（5）Union操作符</p>
 <p>Union操作符用于闭合两个或多个select语句的结果集。Ps：union语句前后列的数量相同，数据类型相同</p>
 <p>（6）Order by *</p>
 <p>*为任意数字，用来测试数字段数，页面返回错误则猜测错误，继续猜测知道相邻数字页面返回正确的为字段个数</p>
@@ -183,7 +187,7 @@ left()函数默认从左边第一个开始截取
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%8C%EF%BC%89%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/1-1.png" alt="1-1"></p>
 <p>1.2 选择users数据表，可以见到用户名和密码</p>
 <p>本次修改用户admin的密码，此时密码是admin</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%8C%EF%BC%89%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%8C%EF%BC%89%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/1-2.png" alt></p>
 <p>1.3 进入sqli-labs-master/Less-24</p>
 <p>单击”New User click here?”</p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/sql%E6%B3%A8%E5%85%A5%E8%AF%A6%E8%A7%A3/%EF%BC%88%E4%BA%8C%EF%BC%89%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/1-3.png" alt="1-3"></p>
