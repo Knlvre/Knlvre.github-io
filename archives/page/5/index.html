@@ -606,15 +606,15 @@ pair = [
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/05/02/BugKuCTF—杂项题 第31-40关/">BugKuCTF — 杂项题(第31-40关)</a>
                                         <p>
-                                            前一部分链接：第21-30关Write-up
-第三十一关（convert）打开文本看到是二进制文件
+                                            第三十一关（convert）打开文本看到是二进制文件
 将一整串二进制转换为十六进制，发现开头是rar文件的开头
 
 直接保存成一个rar文件
 import binascii
 s = &quot;010100100110000101110010001000010001101000000111...这里就不全写出来，自行补充即可&quot;
 
-s = ...
+s = hex(int(int(s,2)))[2:]
+...
                                         </p>
                                     </div>
                                 </li>
@@ -952,13 +952,14 @@ information_schema.tables：默认数据表
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/03/07/BugKuCTF—杂项题 第21-30关/">BugKuCTF — 杂项题(第21-30关)</a>
                                         <p>
-                                            前一部分链接：第11-20关Write-up第二一关（细心的大象）题目链接：
+                                            第二一关（细心的大象）题目链接：
 https://share.weiyun.com/9287be0a629971ac53d97f39727eee18
+
 下载下来一个名为1.jpg.zip的文件，解压下来一张叫做1.jpg的图片，看一下图片属性，看到了好像有用的一串文字
 
 看起来有点像base64的加密，先解开后放着MSDS456ASD123zz
 
-放...
+放到Kali里面，用binwalk看一下，确...
                                         </p>
                                     </div>
                                 </li>
@@ -1001,14 +1002,18 @@ https://share.weiyun.com/9287be0a629971ac53d97f39727eee18
                                     <div class="timeline-content">
                                         <a class="timeline-title" target="_self" href="/knlvre.github.io/2019/03/04/BugKuCTF—杂项题 第11-20关/">BugKuCTF — 杂项题(第11-20关)</a>
                                         <p>
-                                            前一部分链接：第1-10关Write-up第十一关（多种方法解决）题目链接：
+                                            第十一关（多种方法解决）题目链接：
 http://123.206.87.240:8002/misc/3.zip
+
 下载下来一个zip文件，解压开是一个KEY.exe文件
 
 用UE打开看一下，开头就发现是imgbase64（图片转换成base64进行存储）
 
 然后百度找在线的base64转换图片网站，得出一个二维码，扫描得到flag
-转换网站可以用一下这...
+转换网站可以用一下这个：base64转换图片
+
+
+第十二关（...
                                         </p>
                                     </div>
                                 </li>
@@ -1051,6 +1056,7 @@ https://ctf.bugku.com/files/37b57dc545752a92fa6b2d571b88667a/1cdf3a75-21ed-4b91-
 
 第二关（这是一张单纯的图片）题目链接：
 http://123.206.87.240:8002/misc/1.jpg
+
 打开链接发现是一张jpg图片
 
 
@@ -1058,7 +1064,7 @@ http://123.206.87.240:8002/misc/1.jpg
 
 使用UE（UltraEdit）打开图片看看。发现在最后几行有着Unicode编码
 
-复制这个Unicode编码，通过在线工具转换成ASCII编码后，Fl...
+复制这个Unicode编码，通过在线工具转换成ASCII编码后，F...
                                         </p>
                                     </div>
                                 </li>
