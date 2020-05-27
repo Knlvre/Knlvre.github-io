@@ -11,12 +11,13 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
     <meta name="description" content="源码位置DVWA\vulnerabilities\csrf\source\
+
 页面功能更改当前用户的密码
 
 Security Level — Low核心代码
 &amp;lt;?php
 
-if( isset( ,"> 
+if( isset(,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -130,9 +131,10 @@ if( isset( ,">
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\csrf\source\
-</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>更改当前用户的密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-1.png" alt="3-1"></p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code class="Code">DVWA\vulnerabilities\csrf\source\
+</code></pre>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>更改当前用户的密码</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-1.png" alt></p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -166,7 +168,7 @@ if( isset( $_GET[ &#39;Change&#39; ] ) ) {
 </code></pre>
 <p>从源码可以看出来，对<code>原密码($pass_conf)</code>和<code>新密码($pass_new)</code>没有任何的过滤，只是简单地判断一下是否相等，如果相等，就更改当前用户的密码</p>
 <p>我们先提交一次，来看一下结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-2.png" alt></p>
 <p>从抓取到的结果来看，修改密码的请求是通过<code>GET</code>方式发出的，那就意味着只要构造一个URL，并且让受害者点击访问，就可以更改受害者的账号密码，但是这种方式很明显，懂一些安全知识的人一眼就看出来了，甚至懂英语的就能看出来，所以是不可行的</p>
 <p>那我们就还可以用一些比较隐蔽的方法，比如写一个<code>HTML页面</code>，代码如下</p>
 <pre><code class="php">&lt;img src=&quot;http://192.168.0.105/dvwa/vulnerabilities/csrf/?password_new=999&amp;password_conf=999&amp;Change=Change#&quot; border=&quot;0&quot; style=&quot;display:none;&quot;/&gt;
@@ -175,9 +177,9 @@ if( isset( $_GET[ &#39;Change&#39; ] ) ) {
 </code></pre>
 <p>Ps：<code>style=&quot;display:none;&quot;</code>是为了不让这个<code>img</code>元素显示出来，让受害者不知不觉地受到攻击；192.168.0.105是我环境的地址</p>
 <p>写完之后访问一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-3.png" alt="3-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-3.png" alt></p>
 <p>再次回到登录平台尝试原本的密码，登录失败，密码换成999才成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-4.png" alt="3-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-4.png" alt></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -217,7 +219,7 @@ if( isset( $_GET[ &#39;Change&#39; ] ) ) {
 ?&gt;
 </code></pre>
 <p><code>stripos()</code>函数：查找字符串首次出现的位置（不区分大小写）</p>
-<pre><code>stripos ( string $haystack , string $needle [, int $offset = 0 ] ) : int
+<pre><code class="Code">stripos ( string $haystack , string $needle [, int $offset = 0 ] ) : int
 
 haystack：在该字符串中查找。
 
@@ -225,15 +227,17 @@ needle：注意 needle 可以是一个单字符或者多字符的字符串。
 如果 needle 不是一个字符串，那么它将被转换为整型并被视为字符顺序值。
 
 offset：可选的 offset 参数，从字符此数量的开始位置进行搜索。 如果是负数，就从字符末尾此数量的字符数开始统计。
-</code></pre><p>要更改密码必须通过<code>stripos()</code>函数限制的条件，也就是<code>$_SERVER[ &#39;HTTP_REFERER&#39; ]</code>字段里面必须有<code>$_SERVER[ &#39;SERVER_NAME&#39; ]</code>，现在根目录下写一个简单的php页面来测试一下SERVER_NAME字段到底是什么，页面代码：</p>
-<pre><code>&lt;?php
+</code></pre>
+<p>要更改密码必须通过<code>stripos()</code>函数限制的条件，也就是<code>$_SERVER[ &#39;HTTP_REFERER&#39; ]</code>字段里面必须有<code>$_SERVER[ &#39;SERVER_NAME&#39; ]</code>，现在根目录下写一个简单的php页面来测试一下SERVER_NAME字段到底是什么，页面代码：</p>
+<pre><code class="Code">&lt;?php
 echo $_SERVER[ &#39;SERVER_NAME&#39; ];
 ?&gt;
-</code></pre><p>我的环境是搭在虚拟机上，现在物理机访问一下这个页面可以看到返回的是<code>192.168.0.105</code>，正是我虚拟机的IP地址</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-5.png" alt="3-5"></p>
+</code></pre>
+<p>我的环境是搭在虚拟机上，现在物理机访问一下这个页面可以看到返回的是<code>192.168.0.105</code>，正是我虚拟机的IP地址</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-5.png" alt></p>
 <p>再用虚拟机访问一下本地，分别用<code>127.0.0.1</code>和<code>localhost</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-6.png" alt="3-6"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-7.png" alt="3-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-6.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/3-7.png" alt></p>
 <p>现在明白这个道理之后，更改一下之前写的<code>file.html</code>的文件名为<code>192.168.0.105.html</code></p>
 <p>现在假设<code>攻击者（10.0.0.1）</code>将这个恶意的html代码放在自己的服务器的<code>attack目录</code>下，所以此时<code>被攻击者（192.168.0.105）</code>点击的链接就是<code>10.0.0.1/attack/192.168.0.105.html</code>，点击之后，<code>$_SERVER[ &#39;HTTP_REFERER&#39; ]=&quot;http://10.0.0.1/attack/192.168.0.105.html&quot;</code>，<code>$_SERVER[ &#39;SERVER_NAME&#39; ]=&quot;192.168.0.105&quot;</code>，满足条件，直接修改密码</p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>

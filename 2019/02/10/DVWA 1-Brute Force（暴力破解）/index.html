@@ -11,12 +11,13 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
     <meta name="description" content="源码位置DVWA\vulnerabilities\brute\source
+
 页面功能输入用户名密码登录
 
 Security Level — Low核心代码
 &amp;lt;?php
 
-if( isset( ,"> 
+if( isset(,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -130,9 +131,10 @@ if( isset( ,">
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\brute\source
-</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>输入用户名密码登录</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-1.png" alt="1-1"></p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code class="Code">DVWA\vulnerabilities\brute\source
+</code></pre>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>输入用户名密码登录</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-1.png" alt></p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -168,7 +170,7 @@ if( isset( $_GET[ &#39;Login&#39; ] ) ) {
 ?&gt;
 </code></pre>
 <p><code>mysqli_query()</code>函数：对数据库执行一次查询</p>
-<pre><code>mysqli_query ( mysqli $link , string $query [, int $resultmode = MYSQLI_STORE_RESULT ] ) : mixed
+<pre><code class="Code">mysqli_query ( mysqli $link , string $query [, int $resultmode = MYSQLI_STORE_RESULT ] ) : mixed
 
 link：仅以过程化样式：由mysqli_connect() 或 mysqli_init() 返回的链接标识。
 
@@ -181,22 +183,25 @@ resultmode：Either the constant MYSQLI_USE_RESULT or MYSQLI_STORE_RESULT depend
 If you use MYSQLI_USE_RESULT all subsequent calls will return error Commands out of sync unless you call mysqli_free_result()
 
 With MYSQLI_ASYNC (available with mysqlnd), it is possible to perform query asynchronously. mysqli_poll() is then used to get results from such queries.
-</code></pre><p><code>mysqli_num_rows()</code>函数：返回结果集中行的数目。此命令仅对 SELECT 语句有效。要取得被 INSERT，UPDATE 或者 DELETE 查询所影响到的行的数目，用 mysql_affected_rows()。</p>
-<pre><code>mysql_num_rows ( resource $result ) : int
-</code></pre><p><code>mysqli_fetch_assoc()</code>函数：从结果集中取得一行作为关联数组</p>
-<pre><code>mysql_fetch_assoc ( resource $result ) : array
+</code></pre>
+<p><code>mysqli_num_rows()</code>函数：返回结果集中行的数目。此命令仅对 SELECT 语句有效。要取得被 INSERT，UPDATE 或者 DELETE 查询所影响到的行的数目，用 mysql_affected_rows()。</p>
+<pre><code class="Code">mysql_num_rows ( resource $result ) : int
+</code></pre>
+<p><code>mysqli_fetch_assoc()</code>函数：从结果集中取得一行作为关联数组</p>
+<pre><code class="Code">mysql_fetch_assoc ( resource $result ) : array
 
 result：resource 型的结果集。此结果集来自对 mysql_query() 的调用。
-</code></pre><p>本关对用户输入的参数没有任何过滤，直接爆破就可以，首先用Burpsuit抓包并将包发送到<code>Intruder</code>模块</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-2.png" alt="1-2"></p>
+</code></pre>
+<p>本关对用户输入的参数没有任何过滤，直接爆破就可以，首先用Burpsuit抓包并将包发送到<code>Intruder</code>模块</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-2.png" alt></p>
 <p>可以通过<code>§</code>符号包裹来标识我们需要爆破的参数。如上图，包发送过来该模块时，Burpsuit自动帮我们选定了几个参数，然而我们并不要怎么多，首先点击一下右边的<code>Clear §</code>清除全部</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-3.png" alt="1-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-3.png" alt></p>
 <p>然后分别选中我们需要参数（即admin和password），点击<code>Add §</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-4.png" alt="1-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-4.png" alt></p>
 <p>点击上面选栏的<code>Payloads</code>，在<code>Payload Options</code>里手动输入，也可以导入字典</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-5.png" alt="1-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-5.png" alt></p>
 <p>现在点击右上角的<code>Start attack</code>就可以开始攻击，在攻击的结果中，可以看到有一个请求<code>Length</code>与其他不同，那么该请求就应该是爆破到了正确的账号密码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-6.png" alt="1-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-6.png" alt></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -282,32 +287,32 @@ generateSessionToken();
 ?&gt;
 </code></pre>
 <p>可以从源码中看出来，本难度通过<code>checkToken()</code>函数对<code>user_token</code>做了一个检查，利用IDEA追踪这个函数，在<code>dvwaPage.inc.php</code>中发现了这个函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-10.png" alt="1-10"></p>
-<p>当<code>user_token</code>不等于<code>session_token</code>时，会跳转回<code>index.php</code>，所以本难度登录爆破过程中，我们还需要保证这2个参数的一致。那么想要爆破就必须掌握<code>user_token</code>参数，知道他从哪里产生的，听说有经验的人都知道是php后端产生的，那么我们就回顾一下index.php的源码，发现其中有一个函数<code>checkToken()</code>，当难度等于high或impossible时调用这个函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-7.png" alt="1-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-10.png" alt></p>
+<p>当<code>user_token</code>不等于<code>session_token</code>时，会跳转回<code>index.php</code>，所以本难度登录爆破过程中，我们还需要保证这2个参数的一致。那么想要爆破就必须掌握<code>user_token</code>参数，知道他从哪里产生的，有经验的人都知道是php后端产生的，那么我们就回顾一下index.php的源码，发现其中有一个函数<code>checkToken()</code>，当难度等于high或impossible时调用这个函数</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-7.png" alt></p>
 <p>同样利用IDEA追踪，在<code>dvwaPage.inc.php</code>中发现了这个函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-8.png" alt="1-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-8.png" alt></p>
 <p>看来是拼接到了<code>HTML</code>页面中去了，去浏览器右键<code>查看网页源代码</code>，发现了<code>user_token</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-9.png" alt="1-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-9.png" alt></p>
 <p>发现之后，有两种方法去爆破：</p>
 <p>方法①：burpsuit</p>
 <p>这次我们需要给<code>user_token</code>也包裹上</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-11.png" alt="1-11"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-11.png" alt></p>
 <p>此时因为多了一个<code>user_token</code>要设置，所以来到<code>Option的Grep-Extract</code>选项，然后点击<code>Add-Fatch response</code>，就能看到响应的源码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-12.png" alt="1-12"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-12.png" alt></p>
 <p>双击选中需要的内容，会自动填充</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-13.png" alt="1-13"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-13.png" alt></p>
 <p>OK后就可以看到，然后要记得设置跟随重定向（<code>Redirections</code>中选择<code>Always</code>）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-14.png" alt="1-14"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-14.png" alt></p>
 <p>现在还不能start attack,因为还没有选择攻击方式，bp一共有四种攻击方式，网上翻就可以翻到，本次攻击选择<code>Cluster bomb</code>方式</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-15.png" alt="1-15"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-15.png" alt></p>
 <p>再次来到<code>Payload</code>选项，可以看到此时<code>Payload set</code>下拉菜单变成了3个（因为我们选中了3个参数）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-16.png" alt="1-16"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-16.png" alt></p>
 <p>3个选项依次对应3个参数，第1跟第2个参数我们直接像之前那样，<code>Payload type选择Simple list</code>，然后填入我们觉得可能的字符</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-17.png" alt="1-17"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-18.png" alt="1-18"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-17.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-18.png" alt></p>
 <p>第3个选项，我们需要将<code>Payload type选择为Recursive grep</code>，然后记得把<code>Option</code>里的<code>Number of threads</code>设置为1，因为无法多线程跑</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-19.png" alt="1-19"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/1-19.png" alt></p>
 <p>这种方式可能跑不出来</p>
 <p>方法②：Python</p>
 <p>获取<code>user_token</code>再去提交</p>

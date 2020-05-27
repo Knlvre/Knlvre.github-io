@@ -11,9 +11,10 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
     <meta name="description" content="源码位置DVWA\vulnerabilities\xss_d\source\
+
 页面功能通过下拉菜单选择一种语言，但是好像没作用
 
-DOM，全称Document Object Model，是一个平台和,"> 
+DOM，全称Document Object Model，是一个平台,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -87,13 +88,13 @@ DOM，全称Document Object Model，是一个平台和,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    9.3k
+                    9.4k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    8 mins.
+                    9 mins.
                 </span>
                 
                 
@@ -127,9 +128,10 @@ DOM，全称Document Object Model，是一个平台和,">
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\xss_d\source\
-</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>通过下拉菜单选择一种语言，但是好像没作用</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-1.png" alt="9-1"></p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code class="Code">DVWA\vulnerabilities\xss_d\source\
+</code></pre>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>通过下拉菜单选择一种语言，但是好像没作用</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-1.png" alt></p>
 <p><code>DOM</code>，全称<code>Document Object Model</code>，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式</p>
 <p>1.document 和 windows 对象</p>
 <p>document表示的是一个文档对象，window表示的是一个窗口对象，一个窗口下可以有多个文档对象。</p>
@@ -212,11 +214,12 @@ DOM，全称Document Object Model，是一个平台和,">
 ?&gt;
 </code></pre>
 <p>知道原理之后，就可以构造URL</p>
-<pre><code> http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;script&gt;alert(/xss/);&lt;/script&gt;
-</code></pre><p>拼接后变为</p>
+<pre><code class="Code"> http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;script&gt;alert(/xss/);&lt;/script&gt;
+</code></pre>
+<p>拼接后变为</p>
 <pre><code class="html">&lt;option value=&#39;变量lang 的值&#39;&gt;English&lt;script&gt;alert(/xss/);&lt;/script&gt;&lt;/option&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-2.png" alt="9-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-2.png" alt></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -258,12 +261,13 @@ if ( array_key_exists( &quot;default&quot;, $_GET ) &amp;&amp; !is_null ($_GET[ 
 </table>
 <p>①GET到的参数必须为<code>default</code>，并且值必须不为空；②过滤了<code>&lt;script</code></p>
 <p>构造payload</p>
-<pre><code>http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;
-</code></pre><p>拼接后变为</p>
+<pre><code class="Code">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;
+</code></pre>
+<p>拼接后变为</p>
 <pre><code class="html">&lt;option value=&#39;变量lang 的值&#39;&gt;English&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(/xss/)&gt;&lt;/option&gt;
 </code></pre>
 <p>首先闭合了<code>&lt;option&gt;</code>标签 和<code>&lt;select&gt;</code>标签。利用 img标签的onerror事件，Javascript的img标签支持onerror 事件，在加载图像的过程中如果发生了错误，就会触发onerror事件，执行 JavaScript</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-3.png" alt="9-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-3.png" alt></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -288,16 +292,17 @@ if ( array_key_exists( &quot;default&quot;, $_GET ) &amp;&amp; !is_null ($_GET[ 
 </code></pre>
 <p>设置了白名单，只允许<code>French</code>、<code>English</code>、<code>German</code>、<code>Spanish</code>四个其中的一个</p>
 <p>构造payload</p>
-<pre><code>http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English #&lt;script&gt;alert(/xss/)&lt;/script&gt;
-</code></pre><p>拼接后变为</p>
+<pre><code class="Code">http://192.168.0.108/dvwa/vulnerabilities/xss_d/?default=English #&lt;script&gt;alert(/xss/)&lt;/script&gt;
+</code></pre>
+<p>拼接后变为</p>
 <pre><code class="html">&lt;option value=&#39;&#39;&gt;English #&lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/option&gt;
 </code></pre>
 <p>由于form表单提交的数据经过JS过滤，所以注释部分的javascript代码不会被传到服务器端(也就符合了白名单的要求)</p>
 <p>我们写一个html验证一下<code>&lt;option value=&#39;&#39;&gt;English #&lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/option&gt;</code>是否可行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-4.png" alt="9-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-5.png" alt="9-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-4.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-5.png" alt></p>
 <p>可以看到是可行的，现在继续</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-6.png" alt="9-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/9-6.png" alt></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 

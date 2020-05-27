@@ -11,8 +11,8 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
     <meta name="description" content="源码位置DVWA\vulnerabilities\captcha\source\
-页面功能和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）
 
+页面功能和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）
 ,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
@@ -127,11 +127,12 @@
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\captcha\source\
-</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-1.png" alt="6-1"></p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code class="Code">DVWA\vulnerabilities\captcha\source\
+</code></pre>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>和CSRF一样的功能：更改密码，但是却要通过验证码（但是由于验证码是由谷歌提供，没有翻墙也就没有验证码）</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-1.png" alt></p>
 <h2 id="解决-reCAPTCHA-API-key-missing-问题"><a href="#解决-reCAPTCHA-API-key-missing-问题" class="headerlink" title="解决 reCAPTCHA API key missing 问题"></a>解决 reCAPTCHA API key missing 问题</h2><p>参考文章：<a href="https://blog.csdn.net/RBPicsdn/article/details/80059132" target="_blank" rel="noopener">https://blog.csdn.net/RBPicsdn/article/details/80059132</a></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-2.png" alt></p>
 <h2 id="Security-Level-—-Low"><a href="#Security-Level-—-Low" class="headerlink" title="Security Level — Low"></a>Security Level — Low</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -212,9 +213,9 @@ if( isset( $_POST[ &#39;Change&#39; ] ) &amp;&amp; ( $_POST[ &#39;step&#39; ] ==
 <p>源代码只是简单地通过<code>setp</code>参数来决定执行哪些步骤：①<code>setp=1</code>时接受用户提交的新密码、新密码确认、验证码，然后对验证码进行验证，验证通过后，如果新密码等于新密码确认，重新构造并提交表单（包含新密码、新密码确认和setp=2）；②<code>setp=2</code>时，直接将密码进行md5加密后修改当前登录用户的密码。很容易看出来这个逻辑漏洞，这个setp参数是通过POST方式提交的并且可控的话，我们可以直接绕过验证码的验证部分，进入修改密码部分</p>
 <p>现在修改密码并抓包看一下请求包的内容</p>
 <p>Ps:因为没有翻墙，所以没能成功显示验证码，发送的请求包中也就没有<code>recaptcha_challenge_field</code>、<code>recaptcha_response_field</code>两个参数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-3.png" alt="6-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-3.png" alt></p>
 <p>将<code>setp=1</code>改为<code>setp=2</code>，然后发送请求后，可以看到提示<code>Password Changed</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-4.png" alt="6-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-4.png" alt></p>
 <p>由于没有防CSRF的机制，所以现在构造攻击页面去攻击，HTML代码如下</p>
 <pre><code class="html">&lt;html&gt;      
 
@@ -241,7 +242,7 @@ if( isset( $_POST[ &#39;Change&#39; ] ) &amp;&amp; ( $_POST[ &#39;step&#39; ] ==
 &lt;/html&gt;
 </code></pre>
 <p>当受害者访问这个页面之后，代码就会自动向服务器提交表单利用刚才分析的漏洞去修改密码。但是有一点不好就是服务器会302重定向，返回修改密码成功的页面，受害者就会马上意识到</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-5.png" alt="6-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-5.png" alt></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -416,7 +417,7 @@ generateSessionToken();
 <pre><code class="php">$resp || ($_POST[ &#39;g-recaptcha-response&#39; ] == &#39;hidd3n_valu3&#39;&amp;&amp; $_SERVER[ &#39;HTTP_USER_AGENT&#39; ] == &#39;reCAPTCHA&#39;)
 </code></pre>
 <p>只有符合以上条件才能进入修改密码的代码，<code>$resp</code>我们已经确定无法控制，所以现在就从<code>$_POST[ &#39;g-recaptcha-response&#39; ]</code>和<code>$_SERVER[ &#39;HTTP_USER_AGENT&#39; ]</code>入手了。修改一下这两个参数也很简单，抓包修改就可以，如下图</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-6.png" alt="6-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/6-6.png" alt></p>
 <p>重新登录验证一下，密码果然修改成功</p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php

@@ -11,10 +11,11 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
     <meta name="description" content="源码位置DVWA\vulnerabilities\xss_s\source\
+
 页面功能模拟评论模块，输入Name和Message并提交后，会存储在后台并返回给用户
 
 1.XSS存储型攻击简单定义
-X,"> 
+,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -94,7 +95,7 @@ X,">
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
-                    13 mins.
+                    14 mins.
                 </span>
                 
                 
@@ -128,16 +129,18 @@ X,">
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\xss_s\source\
-</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>模拟评论模块，输入Name和Message并提交后，会存储在后台并返回给用户</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-1.png" alt="11-1"></p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code class="Code">DVWA\vulnerabilities\xss_s\source\
+</code></pre>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>模拟评论模块，输入Name和Message并提交后，会存储在后台并返回给用户</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-1.png" alt></p>
 <p>1.XSS存储型攻击简单定义</p>
 <p>XSS存储型攻击，恶意代码被保存到目标网站的服务器中，这种攻击具有较强的稳定性和持久性，比较常见场景是在博客，论坛、OA、CRM等社交网站上，比如：某CRM系统的客户投诉功能上存在XSS存储型漏洞，黑客提交了恶意攻击代码，当系统管理员查看投诉信息时恶意代码执行，窃取了客户的资料，然而管理员毫不知情，这就是典型的XSS存储型攻击</p>
 <p>2.函数解释</p>
 <p>①<strong>trim()</strong></p>
 <p>移除字符串两侧的空白字符或其他预定义字符</p>
-<pre><code>trim(string,charlist)
-</code></pre><table>
+<pre><code class="Code">trim(string,charlist)
+</code></pre>
+<table>
 <thead>
 <tr>
 <th style="text-align:left">参数</th>
@@ -165,8 +168,9 @@ X,">
 <li>NULL</li>
 </ul>
 <p><strong>提示：</strong>该函数可用于为存储在数据库中的字符串以及数据库查询语句准备合适的字符串。</p>
-<pre><code>addslashes(string)
-</code></pre><table>
+<pre><code class="Code">addslashes(string)
+</code></pre>
+<table>
 <thead>
 <tr>
 <th style="text-align:left">参数</th>
@@ -183,8 +187,9 @@ X,">
 <p>③<strong>stripslashes()</strong></p>
 <p>删除由addslashes()函数添加的反斜杠</p>
 <p><strong>提示：</strong>该函数可用于清理从数据库中或者从 HTML 表单中取回的数据。</p>
-<pre><code>stripslashes(string) 
-</code></pre><table>
+<pre><code class="Code">stripslashes(string) 
+</code></pre>
+<table>
 <thead>
 <tr>
 <th style="text-align:left">参数</th>
@@ -202,8 +207,9 @@ X,">
 <p>剥去字符串中的 HTML、XML 以及 PHP 的标签</p>
 <p><strong>注释：</strong>该函数始终会剥离 HTML 注释。这点无法通过 allow 参数改变</p>
 <p><strong>注释：</strong>该函数是二进制安全的</p>
-<pre><code>strip_tags(string,allow)
-</code></pre><table>
+<pre><code class="Code">strip_tags(string,allow)
+</code></pre>
+<table>
 <thead>
 <tr>
 <th style="text-align:left">参数</th>
@@ -233,8 +239,9 @@ X,">
 </ul>
 <p><strong>提示：</strong>要把特殊的 HTML 实体转换回字符，请使用 htmlspecialchars_decode()函数。</p>
 <p>mysql_real_escape_string函数，对<code>&quot;</code>,<code>&#39;</code>,<code>\r</code>等特殊符号转义<br>htmlspecialchars，对 html 相关的字符转义</p>
-<pre><code>htmlspecialchars(string,flags,character-set,double_encode)
-</code></pre><table>
+<pre><code class="Code">htmlspecialchars(string,flags,character-set,double_encode)
+</code></pre>
+<table>
 <thead>
 <tr>
 <th style="text-align:left">参数</th>
@@ -313,10 +320,11 @@ if( isset( $_POST[ &#39;btnSign&#39; ] ) ) {
 </code></pre>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-2.png" alt="11-2"></p>
 <p>可以看一下数据库里插入了什么</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-3.png" alt="11-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-3.png" alt></p>
 <p>反射cookie</p>
-<pre><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-8.png" alt="11-8"></p>
+<pre><code class="Code">&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-8.png" alt></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -344,11 +352,12 @@ if( isset( $_POST[ &#39;btnSign&#39; ] ) ) {
 ?&gt;
 </code></pre>
 <p>在本难度，对<code>Message</code>字段通过<code>htmlspecialchars</code>、<code>addslashes</code>、<code>strip_tags</code>三个函数进行了处理，所以我们选择用<code>Name</code>参数下手，对于长度的限制，只需要通过浏览器修改一下就行</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-4.png" alt="11-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-4.png" alt></p>
 <p>双写绕过</p>
-<pre><code>Name填入：&lt;sc&lt;script&gt;ript&gt;alert(/xss/)&lt;/script&gt;
+<pre><code class="Code">Name填入：&lt;sc&lt;script&gt;ript&gt;alert(/xss/)&lt;/script&gt;
 Message随意
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-5.png" alt="11-5"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-5.png" alt="11-5"></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -376,9 +385,10 @@ if( isset( $_POST[ &#39;btnSign&#39; ] ) ) {
 ?&gt;
 </code></pre>
 <p>使用正则函数<code>preg_replace()</code>进行了过滤，那就不用<code>&lt;script&gt;</code>标签，改用<code>&lt;img&gt;</code>标签</p>
-<pre><code>&lt;img src=1 onerror=alert(/xss/)&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-6.png" alt="11-6"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-7.png" alt="11-7"></p>
+<pre><code class="Code">&lt;img src=1 onerror=alert(/xss/)&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-6.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/11-7.png" alt></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 

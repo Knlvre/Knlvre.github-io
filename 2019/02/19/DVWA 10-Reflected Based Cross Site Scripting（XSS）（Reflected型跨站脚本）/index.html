@@ -11,9 +11,10 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="TriDiamond Obsidian,"> 
     <meta name="description" content="源码位置DVWA\vulnerabilities\xss_r\source\
+
 页面功能提供一个输入框，输入后返回
 
-XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这些恶意代码能够被浏览器,"> 
+XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这些恶意代码能够被浏览,"> 
     <meta name="author" content="Knlvre"> 
     <link rel="alternative" href="atom.xml" title="Knlvre" type="application/atom+xml"> 
     <link rel="icon" href="/knlvre.github.io/img/favicon.png"> 
@@ -87,7 +88,7 @@ XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这�
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>Words count</i>
-                    5.8k
+                    5.7k
                 </span>
                 
                 
@@ -127,9 +128,10 @@ XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这�
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code>DVWA\vulnerabilities\xss_r\source\
-</code></pre><h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>提供一个输入框，输入后返回</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-1.png" alt="10-1"></p>
+            <h2 id="源码位置"><a href="#源码位置" class="headerlink" title="源码位置"></a>源码位置</h2><pre><code class="Code">DVWA\vulnerabilities\xss_r\source\
+</code></pre>
+<h2 id="页面功能"><a href="#页面功能" class="headerlink" title="页面功能"></a>页面功能</h2><p>提供一个输入框，输入后返回</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-1.png" alt></p>
 <p>XSS攻击需要具备两个条件：需要向web页面注入恶意代码；这些恶意代码能够被浏览器成功的执行</p>
 <p>XSS反射型漏洞</p>
 <p>反射型XSS，顾名思义在于“反射”这个一来一回的过程。反射型XSS的触发有后端的参与，而之所以触发XSS是因为后端解析用户在前端输入的带有XSS性质的脚本或者脚本的data URI编码，后端解析用户输入处理后返回给前端，由浏览器解析这段XSS脚本，触发XSS漏洞。因此如果要避免反射性XSS，则必须需要后端的协调，在后端解析前端的数据时首先做相关的字串检测和转义处理；同时前端同样也许针对用户的数据做excape转义，保证数据源的可靠性</p>
@@ -155,10 +157,11 @@ if( array_key_exists( &quot;name&quot;, $_GET ) &amp;&amp; $_GET[ &#39;name&#39;
 <pre><code class="HTML">&lt;pre&gt;Hello &lt;script&gt;alert(/xss/)&lt;/script&gt;&lt;/pre&gt;;
 </code></pre>
 <p>原本应该存放文本的位置，变成执行一段代码，这就是XSS</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-2.png" alt="10-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-2.png" alt></p>
 <p>现在就可以试一下反弹cookie（接下来其他难度只要绕过就也可以用）</p>
-<pre><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-10.png" alt="10-10"></p>
+<pre><code class="Code">&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-10.png" alt></p>
 <h2 id="Security-Level-—-Medium"><a href="#Security-Level-—-Medium" class="headerlink" title="Security Level — Medium"></a>Security Level — Medium</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -176,15 +179,15 @@ if( array_key_exists( &quot;name&quot;, $_GET ) &amp;&amp; $_GET[ &#39;name&#39;
 ?&gt;
 </code></pre>
 <p>使用<code>str_replace()</code>函数对<code>&lt;script&gt;</code>关键字进行了过滤，我们可以本地测试一下怎么绕过这个函数</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-3.png" alt="10-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-3.png" alt></p>
 <p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-4.png" alt="10-4"></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-5.png" alt="10-5"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-5.png" alt></p>
 <p>可以发现<code>双写</code>和<code>大小写</code>都可以绕过，那现在就可以构造payload</p>
 <pre><code class="html">&lt;scr&lt;script&gt;ipt&gt;alert(/xss/)&lt;/script&gt;
 或
 &lt;Script&gt;alert(/xss/)&lt;/Script&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-2.png" alt="10-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-2.png" alt></p>
 <h2 id="Security-Level-—-High"><a href="#Security-Level-—-High" class="headerlink" title="Security Level — High"></a>Security Level — High</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -202,11 +205,11 @@ if( array_key_exists( &quot;name&quot;, $_GET ) &amp;&amp; $_GET[ &#39;name&#39;
 ?&gt;
 </code></pre>
 <p>本难度通过<code>preg_replace()</code>函数做过滤，就没办法绕过了，但是我们可以用<code>img</code>标签的<code>onerror</code></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-6.png" alt="10-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-6.png" alt></p>
 <p>payload</p>
 <pre><code class="html">&lt;img src=1 onerror=alert(/xss/)&gt;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-7.png" alt="10-7"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-7.png" alt></p>
 <h2 id="Security-Level-—-Impossible"><a href="#Security-Level-—-Impossible" class="headerlink" title="Security Level — Impossible"></a>Security Level — Impossible</h2><p>核心代码</p>
 <pre><code class="php">&lt;?php
 
@@ -228,10 +231,10 @@ generateSessionToken();
 ?&gt;
 </code></pre>
 <p>添加了<code>anti-token</code>防御机制，和<code>htmlseecialchars()</code>函数来防御</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-8.png" alt="10-8"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-8.png" alt></p>
 <p>那么什么是HTML实体？<br> 1、 在 HTML 中，某些字符是预留的。<br> 2、在 HTML 中不能使用小于号（&lt;）和大于号（&gt;），这是因为浏览器会误认为它们是标签，当然在HTML中还有其他实体<br> 3、如果希望正确地显示预留字符，我们必须在HTML源代码中使用字符实体(character entities)。<br> 4、如需显示小于号，我们必须这样写：&lt; 或 &lt;使用实体名而不是数字的好处是，名称易于记忆。不过坏处是，浏览器也许并不支持所有实体名称（对实体数字的支持却很好）。</p>
 <p><strong>所以输入的语句不会被执行</strong></p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-9.png" alt="10-9"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/DVWA/10-9.png" alt></p>
 <hr>
 <p>参考文章：</p>
 <p><a href="https://www.jianshu.com/p/370551b114f8" target="_blank" rel="noopener">https://www.jianshu.com/p/370551b114f8</a></p>
